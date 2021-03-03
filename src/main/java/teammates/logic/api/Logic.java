@@ -23,6 +23,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -669,7 +670,7 @@ public class Logic {
      * @throws InvalidParametersException if the student is not valid.
      */
     public List<StudentAttributes> createStudents(List<StudentAttributes> students)
-            throws InvalidParametersException, EntityAlreadyExistsException {
+            throws InvalidParametersException {
         for (StudentAttributes student : students) {
             Assumption.assertNotNull(student.getCourse());
             Assumption.assertNotNull(student.getEmail());
@@ -702,6 +703,14 @@ public class Logic {
         Assumption.assertNotNull(updateOptions);
 
         return studentsLogic.updateStudentCascade(updateOptions);
+    }
+
+    public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList)
+            throws CascadingTransactionException {
+
+        Assumption.assertNotNull(updateOptionsList);
+
+        return studentsLogic.updateStudentCascadeBatch(updateOptionsList);
     }
 
     /**

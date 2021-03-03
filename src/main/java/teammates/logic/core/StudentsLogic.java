@@ -3,11 +3,13 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
+import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -16,6 +18,8 @@ import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.api.StudentsDb;
+import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
  * Handles operations related to students.
@@ -189,6 +193,31 @@ public final class StudentsLogic {
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 
         return updatedStudent;
+    }
+
+    public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList)
+            throws CascadingTransactionException {
+        StudentsDb.BatchUpdateStudentsTransaction transaction =
+                new StudentsDb.BatchUpdateStudentsTransaction(studentsDb, updateOptionsList);
+        List<StudentUpdate> studentUpdates = transaction.getUpdatedStudents();
+
+        // TODO: add in update response for changing email/team/section
+        CascadingTransaction responseUpdateForChangingEmailTransaction =
+                frLogic.updateFeedbackResponsesForChangingEmailBatch(studentUpdates);
+        responseUpdateForChangingEmailTransaction.withUpstreamTransaction(transaction);
+
+        // TODO: batch deletion
+        frLogic.updateFeedbackResponsesForChangingTeamBatch(studentUpdates);
+
+        CascadingTransaction responseUpdateForChangingSectionTransaction =
+                frLogic.updateFeedbackResponsesForChangingSectionBatch(studentUpdates);
+        responseUpdateForChangingSectionTransaction.withUpstreamTransaction(transaction);
+
+        transaction.commit();
+
+        // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
+
+        return studentUpdates.stream().map(StudentUpdate::getUpdatedStudent).collect(Collectors.toList());
     }
 
     /**

@@ -7,9 +7,8 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EnrollException;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -74,6 +73,7 @@ class EnrollStudentsAction extends Action {
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
         List<StudentAttributes> studentsToCreate = new ArrayList<>();
+        List<StudentAttributes.UpdateOptions> studentsToUpdate = new ArrayList<>();
 
         studentsToEnroll.forEach(student -> {
             if (existingStudentsEmail.contains(student.email)) {
@@ -85,14 +85,9 @@ class EnrollStudentsAction extends Action {
                                 .withTeamName(student.getTeam())
                                 .withComment(student.getComments())
                                 .build();
-                try {
-                    StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
-                    enrolledStudents.add(updatedStudent);
-                } catch (InvalidParametersException | EntityDoesNotExistException
-                        | EntityAlreadyExistsException exception) {
-                    // Unsuccessfully enrolled students will not be returned.
-                    return;
-                }
+                studentsToUpdate.add(updateOptions);
+                // StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
+                // enrolledStudents.add(updatedStudent);
             } else {
                 // The student is new.
                 studentsToCreate.add(student);
@@ -101,9 +96,10 @@ class EnrollStudentsAction extends Action {
         });
 
         try {
+            enrolledStudents.addAll(logic.updateStudentCascadeBatch(studentsToUpdate));
             enrolledStudents.addAll(logic.createStudents(studentsToCreate));
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            e.printStackTrace();
+        } catch (InvalidParametersException | CascadingTransactionException e) {
+            // Ignore the entire batch of new students as they do not get past param validation.
         }
 
         return new JsonResult(new StudentsData(enrolledStudents));

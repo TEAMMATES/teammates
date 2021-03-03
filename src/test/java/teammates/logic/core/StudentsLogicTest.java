@@ -84,32 +84,6 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
 
-        ______TS("Failure case: invalid section");
-
-        studentList.clear();
-        for (int i = 0; i < 100; i++) {
-            StudentAttributes addedStudent = StudentAttributes
-                    .builder(courseId, "email@com" + i)
-                    .withName("Name " + i)
-                    .withSectionName("Section 1")
-                    .withTeamName("Team " + i)
-                    .withComment("cmt" + i)
-                    .build();
-            studentList.add(addedStudent);
-        }
-        EnrollException ee = assertThrows(EnrollException.class,
-                () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
-
-        String expectedInvalidSectionError =
-                String.format(
-                        StudentsLogic.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
-                        Const.SECTION_SIZE_LIMIT, "Section 1")
-                        + " "
-                        + String.format(StudentsLogic.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
-                        Const.SECTION_SIZE_LIMIT);
-
-        assertEquals(expectedInvalidSectionError, ee.getMessage());
-
         ______TS("Failure case: invalid team");
 
         studentList.clear();
@@ -127,7 +101,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withTeamName("Team 1.1")
                 .withComment("")
                 .build());
-        ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
+        EnrollException ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
 
         String expectedInvalidTeamError =
                 String.format(StudentsLogic.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")

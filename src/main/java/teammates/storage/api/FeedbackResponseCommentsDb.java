@@ -20,6 +20,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,6 +31,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
 import teammates.storage.search.SearchDocument;
+import teammates.storage.transaction.CascadingTransaction;
 
 /**
  * Handles CRUD operations for feedback response comments.
@@ -490,5 +492,108 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(entity);
 
         return FeedbackResponseCommentAttributes.valueOf(entity);
+    }
+
+    /**
+     * Constructs a batch {@link FeedbackResponseComment} transaction that can be committed.
+     */
+    public static class BatchUpdateFeedbackResponseCommentsTransaction extends CascadingTransaction {
+
+        private final FeedbackResponseCommentsDb frcDb;
+
+        private final List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList;
+
+        private final List<FeedbackResponseCommentAttributes> commentsToUpdate;
+        private final List<FeedbackResponseComment> commentEntitiesToUpdate;
+
+        private final List<FeedbackResponseCommentAttributes.UpdateOptions> nonExistentComments;
+        private final List<FeedbackResponseCommentAttributes.UpdateOptions> invalidComments;
+
+        public BatchUpdateFeedbackResponseCommentsTransaction(FeedbackResponseCommentsDb frcDb) {
+            this.frcDb = frcDb;
+
+            updateOptionsList = new ArrayList<>();
+            commentsToUpdate = new ArrayList<>();
+            commentEntitiesToUpdate = new ArrayList<>();
+            nonExistentComments = new ArrayList<>();
+            invalidComments = new ArrayList<>();
+        }
+
+        public BatchUpdateFeedbackResponseCommentsTransaction(
+                FeedbackResponseCommentsDb frcDb,
+                List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
+            this(frcDb);
+            addUpdateOptions(updateOptionsList);
+        }
+
+        /**
+         * Add {@link FeedbackResponseCommentAttributes.UpdateOptions} to the current transaction.
+         */
+        public void addUpdateOptions(List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
+            this.updateOptionsList.addAll(updateOptionsList);
+        }
+
+        private void construct() {
+            this.updateOptionsList.forEach(updateOptions -> {
+                Assumption.assertNotNull(updateOptions);
+
+                FeedbackResponseComment frc = frcDb.getFeedbackResponseCommentEntity(
+                        updateOptions.getFeedbackResponseCommentId());
+                if (frc == null) {
+                    nonExistentComments.add(updateOptions);
+                    return;
+                }
+
+                FeedbackResponseCommentAttributes newAttributes = frcDb.makeAttributes(frc);
+                newAttributes.update(updateOptions);
+
+                newAttributes.sanitizeForSaving();
+                if (!newAttributes.isValid()) {
+                    invalidComments.add(updateOptions);
+                    return;
+                }
+
+                // update only if change
+                boolean hasSameAttributes =
+                        frcDb.hasSameValue(frc.getFeedbackResponseId(), newAttributes.getFeedbackResponseId())
+                                && frcDb.hasSameValue(frc.getCommentText(), newAttributes.getCommentText())
+                                && frcDb.hasSameValue(frc.getShowCommentTo(), newAttributes.getShowCommentTo())
+                                && frcDb.hasSameValue(
+                                frc.getShowGiverNameTo(), newAttributes.getShowGiverNameTo())
+                                && frcDb.hasSameValue(frc.getLastEditorEmail(), newAttributes.getLastEditorEmail())
+                                && frcDb.hasSameValue(frc.getLastEditedAt(), newAttributes.getLastEditedAt())
+                                && frcDb.hasSameValue(frc.getGiverSection(), newAttributes.getGiverSection())
+                                && frcDb.hasSameValue(frc.getReceiverSection(), newAttributes.getReceiverSection());
+                if (hasSameAttributes) {
+                    log.info(String.format(
+                            OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponseComment.class.getSimpleName(), updateOptions));
+                    return;
+                }
+
+                frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
+                frc.setCommentText(newAttributes.commentText);
+                frc.setShowCommentTo(newAttributes.showCommentTo);
+                frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
+                frc.setLastEditorEmail(newAttributes.lastEditorEmail);
+                frc.setLastEditedAt(newAttributes.lastEditedAt);
+                frc.setGiverSection(newAttributes.giverSection);
+                frc.setReceiverSection(newAttributes.receiverSection);
+
+                this.commentsToUpdate.add(newAttributes);
+                this.commentEntitiesToUpdate.add(frc);
+            });
+        }
+
+        @Override
+        public void commit() throws CascadingTransactionException {
+            if (hasUpstreamTransaction()) {
+                getUpstreamTransaction().commit();
+            }
+
+            construct();
+
+            frcDb.saveEntities(commentEntitiesToUpdate);
+            frcDb.putDocuments(commentsToUpdate);
+        }
     }
 }

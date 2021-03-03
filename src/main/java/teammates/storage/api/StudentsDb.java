@@ -17,6 +17,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -29,6 +30,8 @@ import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
+import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
  * Handles CRUD operations for students.
@@ -101,6 +104,15 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      */
     public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
         deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
+    }
+
+    /**
+     * Removes search documents for the given students by using {@code unencryptedRegistrationKey}.
+     *
+     * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
+     */
+    public void deleteDocumentsByStudentKeys(List<String> unencryptedRegistrationKeys) {
+        deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKeys.toArray(new String[] {}));
     }
 
     /**
@@ -428,4 +440,147 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         return StudentAttributes.valueOf(entity);
     }
+
+    /**
+     * Constructs a batch {@link CourseStudent} transaction that can be committed.
+     */
+    public static class BatchUpdateStudentsTransaction extends CascadingTransaction {
+
+        private final StudentsDb studentsDb;
+
+        private final List<StudentAttributes.UpdateOptions> updateOptionsList;
+
+        private final List<StudentAttributes> studentsToCreate;
+        private final List<StudentAttributes> studentsToUpdate;
+        private final List<CourseStudent> studentEntitiesToUpdate;
+        private final List<String> studentIDsToDelete;
+
+        private final List<StudentAttributes.UpdateOptions> nonExistentStudents;
+        private final List<StudentAttributes.UpdateOptions> invalidUpdates;
+
+        private final List<StudentUpdate> updatedStudents;
+
+        public BatchUpdateStudentsTransaction(StudentsDb studentsDb) {
+            super();
+            this.studentsDb = studentsDb;
+
+            updateOptionsList = new ArrayList<>();
+            studentsToCreate = new ArrayList<>();
+            studentsToUpdate = new ArrayList<>();
+            updatedStudents = new ArrayList<>();
+            studentEntitiesToUpdate = new ArrayList<>();
+            studentIDsToDelete = new ArrayList<>();
+            nonExistentStudents = new ArrayList<>();
+            invalidUpdates = new ArrayList<>();
+        }
+
+        public BatchUpdateStudentsTransaction(
+                StudentsDb studentsDb, List<StudentAttributes.UpdateOptions> updateOptionsList) {
+            this(studentsDb);
+            addUpdateOptions(updateOptionsList);
+        }
+
+        public List<StudentUpdate> getUpdatedStudents() {
+            return updatedStudents;
+        }
+
+        public List<StudentAttributes.UpdateOptions> getNonExistentStudents() {
+            return nonExistentStudents;
+        }
+
+        public List<StudentAttributes.UpdateOptions> getInvalidUpdates() {
+            return invalidUpdates;
+        }
+
+        /**
+         * Add {@link StudentAttributes.UpdateOptions} to the current transaction.
+         */
+        public void addUpdateOptions(List<StudentAttributes.UpdateOptions> updateOptionsList) {
+            this.updateOptionsList.addAll(updateOptionsList);
+        }
+
+        private void construct() {
+            this.updateOptionsList.forEach(updateOptions -> {
+                Assumption.assertNotNull(updateOptions);
+
+                CourseStudent student =
+                        studentsDb.getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
+                if (student == null) {
+                    this.nonExistentStudents.add(updateOptions);
+                    return;
+                }
+                StudentUpdate studentUpdate = new StudentUpdate();
+                StudentAttributes newAttributes = studentsDb.makeAttributes(student);
+                studentUpdate.setOriginalStudent(newAttributes);
+                newAttributes.update(updateOptions);
+                newAttributes.sanitizeForSaving();
+                if (!newAttributes.isValid()) {
+                    this.invalidUpdates.add(updateOptions);
+                    return;
+                }
+
+                studentUpdate.setUpdatedStudent(newAttributes);
+                this.updatedStudents.add(studentUpdate);
+
+                boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
+                if (isEmailChanged) {
+                    this.studentsToCreate.add(newAttributes);
+                    this.studentIDsToDelete.add(student.getUniqueId());
+                    return;
+                }
+
+                // update only if change
+                boolean hasSameAttributes =
+                        StudentsDb.hasSameValue(student.getName(), newAttributes.getName())
+                                && StudentsDb.hasSameValue(student.getLastName(), newAttributes.getLastName())
+                                && StudentsDb.hasSameValue(student.getComments(), newAttributes.getComments())
+                                && StudentsDb.hasSameValue(student.getGoogleId(), newAttributes.getGoogleId())
+                                && StudentsDb.hasSameValue(student.getTeamName(), newAttributes.getTeam())
+                                && StudentsDb.hasSameValue(student.getSectionName(), newAttributes.getSection());
+                if (hasSameAttributes) {
+                    log.info(String.format(
+                            OPTIMIZED_SAVING_POLICY_APPLIED,
+                            CourseStudent.class.getSimpleName(),
+                            updateOptions));
+                    return;
+                }
+
+                student.setName(newAttributes.name);
+                student.setLastName(newAttributes.lastName);
+                student.setComments(newAttributes.comments);
+                student.setGoogleId(newAttributes.googleId);
+                student.setTeamName(newAttributes.team);
+                student.setSectionName(newAttributes.section);
+
+                this.studentsToUpdate.add(newAttributes);
+                this.studentEntitiesToUpdate.add(student);
+                newAttributes = studentsDb.makeAttributes(student);
+                this.studentsToUpdate.add(newAttributes);
+            });
+        }
+
+        @Override
+        public void commit() throws CascadingTransactionException {
+            if (hasUpstreamTransaction()) {
+                getUpstreamTransaction().commit();
+            }
+
+            construct();
+
+            try {
+                studentsDb.putEntities(studentsToCreate);
+            } catch (InvalidParametersException e) {
+                throw new CascadingTransactionException("cascading transaction failed", e);
+            }
+
+            studentsDb.deleteEntity(studentIDsToDelete.stream()
+                    .map(sid -> Key.create(CourseStudent.class, sid))
+                    .toArray(Key[]::new));
+            studentsDb.deleteDocumentsByStudentKeys(studentIDsToDelete);
+
+            studentsDb.saveEntities(studentEntitiesToUpdate);
+            studentsDb.putDocuments(studentsToUpdate);
+        }
+    }
+
 }

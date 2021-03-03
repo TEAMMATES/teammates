@@ -16,11 +16,14 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.entity.FeedbackResponse;
+import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.ResponseUpdate;
 
 /**
  * Handles CRUD operations for feedback responses.
@@ -420,4 +423,47 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
         return FeedbackResponseAttributes.valueOf(entity);
     }
+
+    /**
+     * Constructs a batch {@link FeedbackResponse} transaction that can be committed.
+     */
+    public static class BatchUpdateFeedbackResponseTransaction extends CascadingTransaction {
+
+        private final FeedbackResponsesDb feedbackResponsesDb;
+
+        private final List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList;
+        private final List<ResponseUpdate> responseUpdates;
+
+        public BatchUpdateFeedbackResponseTransaction(FeedbackResponsesDb frb) {
+            super();
+            this.feedbackResponsesDb = frb;
+            this.updateOptionsList = new ArrayList<>();
+            this.responseUpdates = new ArrayList<>();
+        }
+
+        public BatchUpdateFeedbackResponseTransaction(
+                FeedbackResponsesDb frb, List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
+            this(frb);
+            addUpdateOptions(updateOptionsList);
+        }
+
+        /**
+         * Add {@link FeedbackResponseAttributes.UpdateOptions} to the current transaction.
+         */
+        public void addUpdateOptions(List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
+            this.updateOptionsList.addAll(updateOptionsList);
+        }
+
+        public List<ResponseUpdate> getResponseUpdates() {
+            return this.responseUpdates;
+        }
+
+        @Override
+        public void commit() throws CascadingTransactionException {
+            if (hasUpstreamTransaction()) {
+                this.getUpstreamTransaction().commit();
+            }
+        }
+    }
+
 }

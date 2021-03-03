@@ -34,7 +34,7 @@ public class StudentsEnrollRequest extends BasicRequest {
     @Override
     public void validate() {
         assertTrue(!studentEnrollRequests.isEmpty(), ERROR_MESSAGE_EMPTY_ENROLLMENT);
-//        assertTrue(studentEnrollRequests.size() <= SIZE_LIMIT_PER_ENROLLMENT, ERROR_MESSAGE_TOO_MANY_ENROLLMENTS);
+        assertTrue(studentEnrollRequests.size() <= SIZE_LIMIT_PER_ENROLLMENT, ERROR_MESSAGE_TOO_MANY_ENROLLMENTS);
         for (StudentEnrollRequest request : studentEnrollRequests) {
             request.validate();
         }

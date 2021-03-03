@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collector;
 
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Results;
@@ -143,7 +142,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     /**
      * Checks whether two values are the same.
      */
-    <T> boolean hasSameValue(T oldValue, T newValue) {
+    static <T> boolean hasSameValue(T oldValue, T newValue) {
         return Objects.equal(oldValue, newValue);
     }
 

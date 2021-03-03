@@ -21,6 +21,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.transaction.CascadingTransaction;
 
 /**
  * Handles operations related to feedback response comments.
@@ -155,6 +156,11 @@ public final class FeedbackResponseCommentsLogic {
             throws InvalidParametersException, EntityDoesNotExistException {
 
         return frcDb.updateFeedbackResponseComment(updateOptions);
+    }
+
+    public CascadingTransaction generateBatchUpdateFeedbackResponseCommentsTransaction(
+            List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
+        return new FeedbackResponseCommentsDb.BatchUpdateFeedbackResponseCommentsTransaction(frcDb, updateOptionsList);
     }
 
     /**

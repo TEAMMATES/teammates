@@ -21,6 +21,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
  * Handles operations related to feedback responses.
@@ -360,6 +362,162 @@ public final class FeedbackResponsesLogic {
         }
 
         return newResponse;
+    }
+
+    public CascadingTransaction updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
+        List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        studentUpdates.forEach(studentUpdate -> {
+            List<FeedbackResponseAttributes> responsesFromUser =
+                    getFeedbackResponsesFromGiverForCourse(
+                            studentUpdate.getOriginalStudent().course,
+                            studentUpdate.getOriginalStudent().email);
+
+            for (FeedbackResponseAttributes response : responsesFromUser) {
+                updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                            .withGiver(studentUpdate.getUpdatedStudent().email)
+                            .build());
+                //    frcLogic.updateFeedbackResponseCommentsEmails(studentUpdate.getOriginalStudent(), oldEmail, newEmail);
+            }
+        });
+
+        studentUpdates.forEach(studentUpdate -> {
+            List<FeedbackResponseAttributes> responsesToUser =
+                    getFeedbackResponsesForReceiverForCourse(
+                            studentUpdate.getOriginalStudent().course,
+                            studentUpdate.getOriginalStudent().email);
+
+            for (FeedbackResponseAttributes response : responsesToUser) {
+                updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                        .withRecipient(studentUpdate.getUpdatedStudent().email)
+                        .build());
+                //    frcLogic.updateFeedbackResponseCommentsEmails(studentUpdate.getOriginalStudent(), oldEmail, newEmail);
+            }
+        });
+
+        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList);
+
+    }
+
+    public void updateFeedbackResponsesForChangingTeamBatch(
+            List<StudentUpdate> studentUpdates) {
+        studentUpdates.forEach(studentUpdate -> {
+            FeedbackQuestionAttributes question;
+            // deletes all responses given by the user to team members or given by the user as a representative of a team.
+            List<FeedbackResponseAttributes> responsesFromUser =
+                    getFeedbackResponsesFromGiverForCourse(
+                            studentUpdate.getUpdatedStudent().getCourse(),
+                            studentUpdate.getUpdatedStudent().getEmail());
+            for (FeedbackResponseAttributes response : responsesFromUser) {
+                question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+                if (question.giverType == FeedbackParticipantType.TEAMS
+                        || isRecipientTypeTeamMembers(question)) {
+                    deleteFeedbackResponseCascade(response.getId());
+                }
+            }
+
+            // Deletes all responses given by other team members to the user.
+            List<FeedbackResponseAttributes> responsesToUser =
+                    getFeedbackResponsesForReceiverForCourse(
+                            studentUpdate.getUpdatedStudent().getCourse(),
+                            studentUpdate.getUpdatedStudent().getEmail());
+            for (FeedbackResponseAttributes response : responsesToUser) {
+                question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+                if (isRecipientTypeTeamMembers(question)) {
+                    deleteFeedbackResponseCascade(response.getId());
+                }
+            }
+
+            boolean isOldTeamEmpty = studentsLogic.getStudentsForTeam(
+                    studentUpdate.getOriginalStudent().getTeam(),
+                    studentUpdate.getOriginalStudent().getCourse())
+                    .isEmpty();
+            if (isOldTeamEmpty) {
+                deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
+                        studentUpdate.getOriginalStudent().getCourse(),
+                        studentUpdate.getOriginalStudent().getTeam());
+            }
+        });
+    }
+
+    /**
+     * Updates responses for a student when his section changes.
+     */
+    public CascadingTransaction updateFeedbackResponsesForChangingSectionBatch(List<StudentUpdate> studentUpdates) {
+        List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        studentUpdates.forEach(studentUpdate -> {
+            List<FeedbackResponseAttributes> responsesToUser =
+                    getFeedbackResponsesForReceiverForCourse(
+                            studentUpdate.getUpdatedStudent().getCourse(),
+                            studentUpdate.getUpdatedStudent().getEmail());
+
+            for (FeedbackResponseAttributes response : responsesToUser) {
+                updateOptionsList.add(
+                        FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                                .withRecipientSection(studentUpdate.getUpdatedStudent().getSection())
+                                .build());
+                //frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            }
+
+            List<FeedbackResponseAttributes> responsesFromUser =
+                    getFeedbackResponsesFromGiverForCourse(
+                            studentUpdate.getUpdatedStudent().getCourse(),
+                            studentUpdate.getUpdatedStudent().getEmail());
+
+            for (FeedbackResponseAttributes response : responsesFromUser) {
+                updateOptionsList.add(
+                        FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                                .withGiverSection(studentUpdate.getUpdatedStudent().getSection())
+                                .build());
+                //frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+            }
+        });
+
+        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList);
+    }
+
+    public CascadingTransaction generateBatchUpdateFeedbackResponsesTransaction(
+            List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
+        FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction transaction =
+                new FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction(frDb, updateOptionsList);
+
+        List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
+        transaction.getResponseUpdates().forEach(responseUpdate -> {
+            FeedbackResponseAttributes oldResponse = responseUpdate.getOldResponse();
+            FeedbackResponseAttributes newResponse = responseUpdate.getNewResponse();
+
+            boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
+            boolean isGiverSectionChanged = !oldResponse.giverSection.equals(newResponse.giverSection);
+            boolean isRecipientSectionChanged = !oldResponse.recipientSection.equals(newResponse.recipientSection);
+
+            if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
+                List<FeedbackResponseCommentAttributes> responseComments =
+                        frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
+                for (FeedbackResponseCommentAttributes responseComment : responseComments) {
+                    FeedbackResponseCommentAttributes.UpdateOptions.Builder updateOptionsBuilder =
+                            FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId());
+
+                    if (isResponseIdChanged) {
+                        updateOptionsBuilder.withFeedbackResponseId(newResponse.getId());
+                    }
+
+                    if (isGiverSectionChanged) {
+                        updateOptionsBuilder.withGiverSection(newResponse.giverSection);
+                    }
+
+                    if (isRecipientSectionChanged) {
+                        updateOptionsBuilder.withReceiverSection(newResponse.recipientSection);
+                    }
+
+                    feedbackResponseCommentUpdatesList.add(updateOptionsBuilder.build());
+                }
+            }
+        });
+
+        CascadingTransaction feedbackResponseCommentsTransaction =
+                frcLogic.generateBatchUpdateFeedbackResponseCommentsTransaction(feedbackResponseCommentUpdatesList);
+        feedbackResponseCommentsTransaction.withUpstreamTransaction(transaction);
+
+        return feedbackResponseCommentsTransaction;
     }
 
     /**
