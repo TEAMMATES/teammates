@@ -3,8 +3,11 @@ package teammates.storage.api;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.google.cloud.datastore.DatastoreOptions;
+import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
+import teammates.common.util.Config;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
@@ -41,6 +44,19 @@ public class OfyHelper implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Invoked by GAE at application startup.
+
+        // PRODUCTION
+        //ObjectifyService.init();
+
+        // TEST
+        ObjectifyService.init(new ObjectifyFactory(
+                DatastoreOptions.newBuilder()
+                        .setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT)
+                        .setProjectId(Config.APP_ID)
+                        .build()
+                        .getService()
+        ));
+
         registerEntityClasses();
     }
 
