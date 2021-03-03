@@ -14,6 +14,13 @@
                 <input id="copy-course-id" type="text" class="form-control" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
+            <div class="form-check" *ngFor="let session of sessionsInCourse">
+                <label class="form-check-label">
+                    <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
+                           [checked]="chosenFeedbackSessions.has(session)" (click)="select(session)">
+                    <span>{{ session.feedbackSessionName }}</span>
+                </label>
+            </div>
         </div>
     </div>
 </div>
