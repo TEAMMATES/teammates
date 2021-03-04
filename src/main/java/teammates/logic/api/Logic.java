@@ -27,6 +27,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.LoggingServiceException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.logic.core.AccountsLogic;
@@ -1367,20 +1368,22 @@ public class Logic {
     /**
      * Creates a feedback session log.
      *
-     * @see LoggingLogic#createFeedbackSessionLog(String, String, boolean)
+     * @see LoggingLogic#createFeedbackSessionLog(String, String, String, String)
      */
-    public void createFeedbackSessionLog(String courseId, String email, boolean isAccess) {
-        loggingLogic.createFeedbackSessionLog(courseId, email, isAccess);
+    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
+            throws LoggingServiceException {
+        loggingLogic.createFeedbackSessionLog(courseId, email, fsName, fslType);
     }
 
     /**
      * Gets the feedback session logs as filtered by the given parameters.
      *
-     * @see LoggingLogic#getFeedbackSessionLogs(String, String, Instant, Instant)
+     * @see LoggingLogic#getFeedbackSessionLogs(String, String, String, Instant, Instant)
      */
     // TODO: return the data format
-    public void getFeedbackSessionLogs(String courseId, String email, Instant startTime, Instant endTime) {
-        loggingLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+    public void getFeedbackSessionLogs(String courseId, String email, String fsName, Instant startTime, Instant endTime)
+            throws LoggingServiceException {
+        loggingLogic.getFeedbackSessionLogs(courseId, email, fsName, startTime, endTime);
     }
 
 }

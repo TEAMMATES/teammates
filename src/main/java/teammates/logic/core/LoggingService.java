@@ -15,6 +15,7 @@ import com.google.cloud.logging.Logging.EntryListOption;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Severity;
 
+import teammates.common.exception.LoggingServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 
@@ -35,7 +36,7 @@ public class LoggingService {
     /**
      * Creates a log entry.
      */
-    public static void createLogEntry(LogEntry entry) {
+    public static void createLogEntry(LogEntry entry) throws LoggingServiceException {
         if (Config.isDevServer()) {
             // Not supported in dev server
             return;
@@ -44,7 +45,8 @@ public class LoggingService {
             logging.write(Collections.singleton(entry));
             logging.close();
         } catch (Exception e) {
-            log.severe("Failed to create feedback session log for log entry: " + entry);
+            log.severe("Failed to create feedback session log for log entry: " + entry.toString());
+            throw new LoggingServiceException(e);
         }
     }
 
@@ -75,7 +77,7 @@ public class LoggingService {
         /**
          * Gets the log entries as filtered by the given parameters.
          */
-        public List<LogEntry> getLogEntries() {
+        public List<LogEntry> getLogEntries() throws LoggingServiceException {
             List<LogEntry> logEntries = new ArrayList<>();
             if (Config.isDevServer()) {
                 // Not supported in dev server
@@ -115,7 +117,7 @@ public class LoggingService {
                 }
                 logging.close();
             } catch (Exception e) {
-                log.severe("Failed to get feedback session logs with log filter: " + logFilter);
+                throw new LoggingServiceException(e);
             }
             return logEntries;
         }
