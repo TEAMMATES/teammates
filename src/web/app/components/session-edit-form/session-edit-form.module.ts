@@ -31,6 +31,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
   ],
   exports: [
     SessionEditFormComponent,
+    TimePickerComponent,
   ],
 })
 export class SessionEditFormModule { }

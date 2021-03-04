@@ -1,0 +1,71 @@
+<h1>Student Activity Logs</h1>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session.</p>
+<hr/>
+
+<div *tmIsLoading="isLoading" class="card">
+  <div class="card-body">
+    <div class="row form-group">
+      <div class="col-6">
+        <div class="col-12 mb-1">
+          <label for="logs-from-datepicker">Logs From</label>
+        </div>
+        <div class="input-group">
+          <div class="col-md-7 input-group">
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-5">
+            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
+          </div>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="col-12 mb-1">
+          <label for="logs-to-datepicker">Logs To</label>
+        </div>
+        <div class="input-group">
+          <div class="col-md-7 input-group">
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-5">
+            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12">
+          <label for="course-id-dropdown">Course ID</label>
+        </div>
+        <div class="col-12">
+          <select id="course-id-dropdown" class="form-control col-6" [(ngModel)]="formModel.courseId">
+            <option *ngFor="let course of courses">
+              {{course.courseId}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="col-12">
+          <label for="student-name-input">Student Name (Optional)</label>
+        </div>
+        <div class="col-12">
+          <input id="student-name-input" class="form-control col-6" type="text" [(ngModel)]="formModel.studentName" placeholder="Student Name"/>
+        </div>
+      </div>
+      <div class="col-1">
+        <button class="btn btn-primary mt-4" (click)="search()">Search</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  Placeholder for Results of Search
+</div>
