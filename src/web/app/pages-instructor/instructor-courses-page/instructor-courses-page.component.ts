@@ -270,13 +270,13 @@ export class InstructorCoursesPageComponent implements OnInit {
         const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
         modalRef.componentInstance.newCourseId = courseId;
         modalRef.componentInstance.sessionsInCourse = feedbackSessions;
+        modalRef.componentInstance.chosenFeedbackSessions = new Set(feedbackSessions);
         modalRef.result.then((result: CopyCourseModalResult) => {
           this.courseService.createCourse({
             courseName: courseName,
             timeZone: timeZone,
             courseId: result.newCourseId,
           }).subscribe(() => {
-            this.courseAdded.emit();
             this.statusMessageService.showSuccessToast('The course has been added.');
             this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
               const one_courses: Course[] = resp.courses.filter((course: Course) => {
@@ -310,7 +310,6 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.statusMessageService.showErrorToast(resp.error.message);
           });
         }).catch(() => {
-          this.statusMessageService.showErrorToast('The copy was canceled.');
         })
       }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);

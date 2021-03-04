@@ -46,4 +46,22 @@ export class CopyCourseModalComponent implements OnInit {
     this.chosenFeedbackSessions.has(session) ? this.chosenFeedbackSessions.delete(session) : this.chosenFeedbackSessions.add(session);
   }
 
+  /**
+   * Clear selected sessions
+   */
+  clearSessions(): void {
+    if (this.chosenFeedbackSessions.size > 0) {
+      this.chosenFeedbackSessions = new Set<FeedbackSession>();
+    }
+  }
+
+  /**
+   * Select all sessions
+   */
+  addAllSessions(): void {
+    if (this.chosenFeedbackSessions.size != this.sessionsInCourse.length) {
+      this.chosenFeedbackSessions = new Set(this.sessionsInCourse);
+    }
+  }
+
 }
