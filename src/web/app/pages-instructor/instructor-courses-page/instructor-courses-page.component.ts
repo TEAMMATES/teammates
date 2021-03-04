@@ -264,57 +264,55 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
-    let feedbackSessions: FeedbackSession[] = [];
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
-          feedbackSessions = response.feedbackSessions;
-        const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
-        modalRef.componentInstance.newCourseId = courseId;
-        modalRef.componentInstance.sessionsInCourse = feedbackSessions;
-        modalRef.componentInstance.chosenFeedbackSessions = new Set(feedbackSessions);
-        modalRef.result.then((result: CopyCourseModalResult) => {
-          this.courseService.createCourse({
-            courseName: courseName,
-            timeZone: timeZone,
-            courseId: result.newCourseId,
-          }).subscribe(() => {
-            this.statusMessageService.showSuccessToast('The course has been added.');
-            this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
-              const one_courses: Course[] = resp.courses.filter((course: Course) => {
-                return course.courseId === result.newCourseId;
-              });
-              if (one_courses.length != 1) {
-                throw new Error('Did not find a course');
-              };
-              const course: Course = one_courses[0];
-              let canModifyCourse: boolean = false;
-              let canModifyStudent: boolean = false;
-              if (course.privileges) {
-                canModifyCourse = course.privileges.canModifyCourse;
-                canModifyStudent = course.privileges.canModifyStudent;
-              }
-              const isLoadingCourseStats: boolean = false;
-              const activeCourse: CourseModel = Object.assign({},
-                  { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
-              this.activeCourses.push(activeCourse);
-              this.activeCoursesDefaultSort();
-              this.isLoading = false;
-            }, (resp: ErrorMessageOutput) => {
-              this.isLoading = false;
-              this.hasLoadingFailed = true;
-              this.statusMessageService.showErrorToast(resp.error.message);
-            });
+      const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+      modalRef.componentInstance.newCourseId = courseId;
+      modalRef.componentInstance.sessionsInCourse = response.feedbackSessions;
+      modalRef.componentInstance.chosenFeedbackSessions = new Set(response.feedbackSessions);
+      modalRef.result.then((result: CopyCourseModalResult) => {
+        this.isLoading = true;
+        this.courseService.createCourse({
+          courseName: courseName,
+          timeZone: timeZone,
+          courseId: result.newCourseId,
+        }).subscribe(() => {
+          this.statusMessageService.showSuccessToast('The course has been added.');
+          this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
+            const course: Course = resp.courses.find(course => course.courseId == result.newCourseId) as Course;
+            this.activeCourses.push(this.getCourseModelFromCourse(course));
+            console.log(this.activeCourses);
+            this.activeCoursesDefaultSort();
             result.chosenFeedbackSessionList.forEach((session: FeedbackSession) => {
-                  this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
+              this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
             })
-          }, (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
+            this.isLoading = false;
           });
-        }).catch(() => {
-        })
-      }, (resp: ErrorMessageOutput) => {
+        }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
-      }, () => {
+          this.isLoading = false;
+          this.hasLoadingFailed = true;
+        });
+      }, () => {});
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
+  }
+
+  /**
+   * Gets a CourseModel from courseID
+   */
+  private getCourseModelFromCourse(course: Course): CourseModel{
+    let canModifyCourse: boolean = false;
+    let canModifyStudent: boolean = false;
+    if (course.privileges) {
+      canModifyCourse = course.privileges.canModifyCourse;
+      canModifyStudent = course.privileges.canModifyStudent;
+    }
+    const isLoadingCourseStats: boolean = false;
+    const courseModel: CourseModel = Object.assign({},
+        { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+    console.log(courseModel);
+    return courseModel;
   }
 
   /**

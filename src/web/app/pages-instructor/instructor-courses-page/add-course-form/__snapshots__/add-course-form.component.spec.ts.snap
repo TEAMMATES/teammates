@@ -52,34 +52,6 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
           </div>
         </div>
       </div>
-      <div
-        class="col-md-6"
-      >
-        <div
-          class="row text-center align-items-center mt-1"
-        >
-          <div
-            class="col-md-3"
-          >
-            <h5
-              class="text-md-right"
-            >
-              Or: 
-            </h5>
-          </div>
-          <div
-            class="col-md-9 text-md-left"
-          >
-            <button
-              class="btn btn-info"
-              id="btn-copy-session"
-              type="button"
-            >
-              Copy from previous course
-            </button>
-          </div>
-        </div>
-      </div>
     </div>
     <div
       class="card-body text-center"
@@ -237,34 +209,6 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             >
               Create new Course
             </h5>
-          </div>
-        </div>
-      </div>
-      <div
-        class="col-md-6"
-      >
-        <div
-          class="row text-center align-items-center mt-1"
-        >
-          <div
-            class="col-md-3"
-          >
-            <h5
-              class="text-md-right"
-            >
-              Or: 
-            </h5>
-          </div>
-          <div
-            class="col-md-9 text-md-left"
-          >
-            <button
-              class="btn btn-info"
-              id="btn-copy-session"
-              type="button"
-            >
-              Copy from previous course
-            </button>
           </div>
         </div>
       </div>

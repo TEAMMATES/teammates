@@ -4,7 +4,9 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
+  chosenFeedbackSessions={[Function Set]}
   newCourseId=""
+  sessionsInCourse={[Function Array]}
 >
   <div
     class="modal-header"
@@ -13,7 +15,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
       class="modal-title"
     >
       <div>
-        Copy this course with sessions
+        Copy course and its sessions
       </div>
     </h5>
     <button
@@ -39,7 +41,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
         >
           <label>
             <b>
-              Id for copied course
+              Choose new Course ID
             </b>
           </label>
           <input
@@ -52,6 +54,23 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             40 characters left
           </span>
         </div>
+        <div
+          class="modal-selection"
+        >
+          <button
+            class="btn btn-info btn-sm"
+            type="button"
+          >
+            Select All
+          </button>
+          <button
+            class="btn btn-light btn-sm"
+            type="button"
+          >
+            Clear All
+          </button>
+        </div>
+        
       </div>
     </div>
   </div><div

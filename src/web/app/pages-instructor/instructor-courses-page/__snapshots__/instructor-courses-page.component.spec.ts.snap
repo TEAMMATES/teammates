@@ -17,11 +17,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded={[Function Boolean]}
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
+  ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -823,6 +826,8 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   courseStats={[Function Object]}
   deletedTableSortBy={[Function Number]}
   deletedTableSortOrder={[Function Number]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded={[Function Boolean]}
   isArchivedCourseExpanded="false"
@@ -870,6 +875,27 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               ×
             </span>
           </button>
+        </div>
+        <div
+          class="row"
+        >
+          <div
+            class="col-md-6"
+          >
+            <div
+              class="row align-items-center"
+            >
+              <div
+                class="col-md-6"
+              >
+                <h5
+                  class="text-center"
+                >
+                  Create new Course
+                </h5>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="card-body text-center"
