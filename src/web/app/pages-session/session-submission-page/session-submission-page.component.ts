@@ -12,11 +12,13 @@ import { FeedbackResponseCommentService } from '../../../services/feedback-respo
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { LogTypes } from '../../../types/api-const';
 import {
   AuthInfo,
   FeedbackParticipantType,
@@ -123,6 +125,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private authService: AuthService,
               private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
+              private logService: LogService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -309,6 +312,16 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             default:
           }
         }
+
+        this.logService.createFeedbackSessionLog({
+          courseId: this.courseId,
+          studentEmail: this.loggedInUser,
+          logType: LogTypes.FEEDBACK_SESSION_ACCESS,
+        }).subscribe(() => {
+
+        }, () => {
+          this.simpleModalService.openInformationModal('Log Error', SimpleModalType.WARNING, '');
+        });
 
         this.loadFeedbackQuestions();
       }, (resp: ErrorMessageOutput) => {
@@ -538,6 +551,16 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const answers: Record<string, FeedbackResponse[]> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
+
+    this.logService.createFeedbackSessionLog({
+      courseId: this.courseId,
+      studentEmail: this.loggedInUser,
+      logType: LogTypes.FEEDBACK_SESSION_SUBMISSION,
+    }).subscribe(() => {
+
+    }, () => {
+      this.simpleModalService.openInformationModal('Log Error', SimpleModalType.WARNING, '');
+    });
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
