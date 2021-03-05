@@ -132,7 +132,7 @@
             <div class="row text-center align-items-center">
               <div class="col-md-7 col-xs-center">
                 <div class="input-group">
-                  <ng-template #footer1>
+                  <ng-template #submissionStartFooter>
                     <button class="footer-button" type="button"
                             (click)="triggerModelChange('submissionStartDate', calendar.getToday())">
                       Today
@@ -140,7 +140,7 @@
                   </ng-template>
                   <input id="submission-start-date" type="text" class="form-control" ngbDatepicker
                          [ngModel]="model.submissionStartDate" (ngModelChange)="triggerModelChange('submissionStartDate', $event)"
-                         #startTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [footerTemplate]="footer1"/>
+                         #startTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [footerTemplate]="submissionStartFooter"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
                     <button class="btn btn-light" (click)="startTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -164,14 +164,14 @@
             <div class="row align-items-center">
               <div class="col-md-7 col-xs-center">
                 <div class="input-group">
-                  <ng-template #footer2>
+                  <ng-template #submissionEndFooter>
                     <button class="footer-button" type="button"
                             (click)="triggerModelChange('submissionEndDate', calendar.getToday())">
                       Today
                     </button>
                   </ng-template>
                   <input id="submission-end-date" type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionEndDate" (ngModelChange)="triggerModelChange('submissionEndDate', $event)"
-                         #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate" [footerTemplate]="footer2"/>
+                         #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate" [footerTemplate]="submissionEndFooter"/>
                   <div class="input-group-append" *ngIf="model.isEditable">
                     <button class="btn btn-light" (click)="endTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -228,7 +228,7 @@
               </div>
               <div class="col-md-6">
                 <div class="input-group">
-                  <ng-template #footer3>
+                  <ng-template #customSessionVisibleFooter>
                     <button class="footer-button" type="button"
                             (click)="triggerModelChange('customSessionVisibleDate', calendar.getToday())">
                       Today
@@ -236,7 +236,7 @@
                   </ng-template>
                   <input id="session-visibility-date" type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="maxDateForSessionVisible"
                          [ngModel]="model.customSessionVisibleDate" (ngModelChange)="triggerModelChange('customSessionVisibleDate', $event)"
-                         [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"  [footerTemplate]="footer3"/>
+                         [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"  [footerTemplate]="customSessionVisibleFooter"/>
                   <div class="input-group-append" *ngIf="model.sessionVisibleSetting === SessionVisibleSetting.CUSTOM && model.isEditable">
                     <button class="btn btn-light" (click)="sessionVisibleTimeDp.toggle()" type="button">
                       <i class="fas fa-calendar-alt"></i>
@@ -274,7 +274,7 @@
                 </div>
                 <div class="col-md-6">
                   <div class="input-group">
-                    <ng-template #footer4>
+                    <ng-template #customResponseVisibleFooter>
                       <button class="footer-button" type="button"
                               (click)="triggerModelChange('customResponseVisibleDate', calendar.getToday())">
                         Today
@@ -283,7 +283,7 @@
                     <input id="response-visibility-date" type="text" class="form-control" ngbDatepicker #responseVisibleTimeDp="ngbDatepicker" [minDate]="minDateForResponseVisible"
                            [ngModel]="model.customResponseVisibleDate" (ngModelChange)="triggerModelChange('customResponseVisibleDate', $event)"
                            [disabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"
-                            [footerTemplate]="footer4"/>
+                            [footerTemplate]="customResponseVisibleFooter"/>
                     <div class="input-group-append" *ngIf="model.responseVisibleSetting === ResponseVisibleSetting.CUSTOM && model.isEditable">
                       <button class="btn btn-light" (click)="responseVisibleTimeDp.toggle()" type="button">
                         <i class="fas fa-calendar-alt"></i>
