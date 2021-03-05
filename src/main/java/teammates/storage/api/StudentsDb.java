@@ -511,7 +511,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 }
                 StudentUpdate studentUpdate = new StudentUpdate();
                 StudentAttributes newAttributes = studentsDb.makeAttributes(student);
-                studentUpdate.setOriginalStudent(newAttributes);
+                studentUpdate.setBefore(newAttributes);
                 newAttributes.update(updateOptions);
                 newAttributes.sanitizeForSaving();
                 if (!newAttributes.isValid()) {
@@ -519,7 +519,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                     return;
                 }
 
-                studentUpdate.setUpdatedStudent(newAttributes);
+                studentUpdate.setAfter(newAttributes);
                 updatedStudents.add(studentUpdate);
 
                 boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);

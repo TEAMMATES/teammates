@@ -7,23 +7,23 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
  */
 public class ResponseUpdate {
 
-    private FeedbackResponseAttributes oldResponse;
-    private FeedbackResponseAttributes newResponse;
+    private FeedbackResponseAttributes before;
+    private FeedbackResponseAttributes after;
 
-    public FeedbackResponseAttributes getNewResponse() {
-        return newResponse;
+    public FeedbackResponseAttributes getAfter() {
+        return after;
     }
 
-    public FeedbackResponseAttributes getOldResponse() {
-        return oldResponse;
+    public FeedbackResponseAttributes getBefore() {
+        return before;
     }
 
-    public void setNewResponse(FeedbackResponseAttributes newResponse) {
-        this.newResponse = newResponse;
+    public void setAfter(FeedbackResponseAttributes after) {
+        this.after = after;
     }
 
-    public void setOldResponse(FeedbackResponseAttributes oldResponse) {
-        this.oldResponse = oldResponse;
+    public void setBefore(FeedbackResponseAttributes before) {
+        this.before = before;
     }
 
 }

@@ -371,12 +371,12 @@ public final class FeedbackResponsesLogic {
         for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseAttributes> responsesFromUser =
                     getFeedbackResponsesFromGiverForCourse(
-                            studentUpdate.getOriginalStudent().course,
-                            studentUpdate.getOriginalStudent().email);
+                            studentUpdate.getBefore().course,
+                            studentUpdate.getBefore().email);
 
             for (FeedbackResponseAttributes response : responsesFromUser) {
                 updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                            .withGiver(studentUpdate.getUpdatedStudent().email)
+                            .withGiver(studentUpdate.getAfter().email)
                             .build());
             }
         }
@@ -384,12 +384,12 @@ public final class FeedbackResponsesLogic {
         for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseAttributes> responsesToUser =
                     getFeedbackResponsesForReceiverForCourse(
-                            studentUpdate.getOriginalStudent().course,
-                            studentUpdate.getOriginalStudent().email);
+                            studentUpdate.getBefore().course,
+                            studentUpdate.getBefore().email);
 
             for (FeedbackResponseAttributes response : responsesToUser) {
                 updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                        .withRecipient(studentUpdate.getUpdatedStudent().email)
+                        .withRecipient(studentUpdate.getAfter().email)
                         .build());
             }
         }
@@ -406,8 +406,8 @@ public final class FeedbackResponsesLogic {
             // deletes all responses given by the user to team members or given by the user as a representative of a team.
             List<FeedbackResponseAttributes> responsesFromUser =
                     getFeedbackResponsesFromGiverForCourse(
-                            studentUpdate.getUpdatedStudent().getCourse(),
-                            studentUpdate.getUpdatedStudent().getEmail());
+                            studentUpdate.getAfter().getCourse(),
+                            studentUpdate.getAfter().getEmail());
             for (FeedbackResponseAttributes response : responsesFromUser) {
                 question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
                 if (question.giverType == FeedbackParticipantType.TEAMS
@@ -419,8 +419,8 @@ public final class FeedbackResponsesLogic {
             // Deletes all responses given by other team members to the user.
             List<FeedbackResponseAttributes> responsesToUser =
                     getFeedbackResponsesForReceiverForCourse(
-                            studentUpdate.getUpdatedStudent().getCourse(),
-                            studentUpdate.getUpdatedStudent().getEmail());
+                            studentUpdate.getAfter().getCourse(),
+                            studentUpdate.getAfter().getEmail());
             for (FeedbackResponseAttributes response : responsesToUser) {
                 question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
                 if (isRecipientTypeTeamMembers(question)) {
@@ -429,13 +429,13 @@ public final class FeedbackResponsesLogic {
             }
 
             boolean isOldTeamEmpty = studentsLogic.getStudentsForTeam(
-                    studentUpdate.getOriginalStudent().getTeam(),
-                    studentUpdate.getOriginalStudent().getCourse())
+                    studentUpdate.getBefore().getTeam(),
+                    studentUpdate.getBefore().getCourse())
                     .isEmpty();
             if (isOldTeamEmpty) {
                 deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
-                        studentUpdate.getOriginalStudent().getCourse(),
-                        studentUpdate.getOriginalStudent().getTeam());
+                        studentUpdate.getBefore().getCourse(),
+                        studentUpdate.getBefore().getTeam());
             }
         }
     }
@@ -450,26 +450,26 @@ public final class FeedbackResponsesLogic {
         for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseAttributes> responsesToUser =
                     getFeedbackResponsesForReceiverForCourse(
-                            studentUpdate.getUpdatedStudent().getCourse(),
-                            studentUpdate.getUpdatedStudent().getEmail());
+                            studentUpdate.getAfter().getCourse(),
+                            studentUpdate.getAfter().getEmail());
 
             for (FeedbackResponseAttributes response : responsesToUser) {
                 updateOptionsList.add(
                         FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                                .withRecipientSection(studentUpdate.getUpdatedStudent().getSection())
+                                .withRecipientSection(studentUpdate.getAfter().getSection())
                                 .build());
                 responseIdsToUpdate.add(response.getId());
             }
 
             List<FeedbackResponseAttributes> responsesFromUser =
                     getFeedbackResponsesFromGiverForCourse(
-                            studentUpdate.getUpdatedStudent().getCourse(),
-                            studentUpdate.getUpdatedStudent().getEmail());
+                            studentUpdate.getAfter().getCourse(),
+                            studentUpdate.getAfter().getEmail());
 
             for (FeedbackResponseAttributes response : responsesFromUser) {
                 updateOptionsList.add(
                         FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                                .withGiverSection(studentUpdate.getUpdatedStudent().getSection())
+                                .withGiverSection(studentUpdate.getAfter().getSection())
                                 .build());
                 responseIdsToUpdate.add(response.getId());
             }
@@ -487,8 +487,8 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
 
         for (ResponseUpdate responseUpdate : transaction.getResponseUpdates()) {
-            FeedbackResponseAttributes oldResponse = responseUpdate.getOldResponse();
-            FeedbackResponseAttributes newResponse = responseUpdate.getNewResponse();
+            FeedbackResponseAttributes oldResponse = responseUpdate.getBefore();
+            FeedbackResponseAttributes newResponse = responseUpdate.getAfter();
 
             boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
             boolean isGiverSectionChanged = !oldResponse.giverSection.equals(newResponse.giverSection);

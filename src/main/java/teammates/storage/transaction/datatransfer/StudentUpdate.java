@@ -6,23 +6,23 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  * A data class to contain old and new {@link StudentAttributes} in an update.
  */
 public class StudentUpdate {
-    private StudentAttributes originalStudent;
-    private StudentAttributes updatedStudent;
+    private StudentAttributes before;
+    private StudentAttributes after;
 
-    public void setOriginalStudent(StudentAttributes originalStudent) {
-        this.originalStudent = originalStudent;
+    public void setBefore(StudentAttributes before) {
+        this.before = before;
     }
 
-    public void setUpdatedStudent(StudentAttributes updatedStudent) {
-        this.updatedStudent = updatedStudent;
+    public void setAfter(StudentAttributes after) {
+        this.after = after;
     }
 
-    public StudentAttributes getOriginalStudent() {
-        return originalStudent;
+    public StudentAttributes getBefore() {
+        return before;
     }
 
-    public StudentAttributes getUpdatedStudent() {
-        return updatedStudent;
+    public StudentAttributes getAfter() {
+        return after;
     }
 }
 

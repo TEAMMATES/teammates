@@ -214,7 +214,7 @@ public final class StudentsLogic {
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 
-        return studentUpdates.stream().map(StudentUpdate::getUpdatedStudent).collect(Collectors.toList());
+        return studentUpdates.stream().map(StudentUpdate::getAfter).collect(Collectors.toList());
     }
 
     /**

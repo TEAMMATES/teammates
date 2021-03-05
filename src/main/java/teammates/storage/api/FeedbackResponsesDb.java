@@ -480,8 +480,11 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     continue;
                 }
 
+                ResponseUpdate update = new ResponseUpdate();
                 FeedbackResponseAttributes newAttributes = frDb.makeAttributes(oldResponse);
+                update.setBefore(newAttributes);
                 newAttributes.update(updateOptions);
+                update.setAfter(newAttributes);
 
                 newAttributes.sanitizeForSaving();
                 if (!newAttributes.isValid()) {
@@ -509,6 +512,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                     oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
 
                     responseEntitiesToUpdate.add(oldResponse);
+                    responseUpdates.add(update);
                 } else {
                     // need to recreate the entity
                     newAttributes = FeedbackResponseAttributes

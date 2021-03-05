@@ -135,23 +135,23 @@ public final class FeedbackResponseCommentsLogic {
         List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
         for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseCommentAttributes> responseCommentsAsGiver = getFeedbackResponseCommentsForGiver(
-                    studentUpdate.getOriginalStudent().getCourse(),
-                    studentUpdate.getOriginalStudent().getEmail());
+                    studentUpdate.getBefore().getCourse(),
+                    studentUpdate.getBefore().getEmail());
             for (FeedbackResponseCommentAttributes responseComment : responseCommentsAsGiver) {
                 updateOptionsList.add(
                         FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
-                        .withCommentGiver(studentUpdate.getUpdatedStudent().getEmail())
+                        .withCommentGiver(studentUpdate.getAfter().getEmail())
                         .build());
             }
 
             List<FeedbackResponseCommentAttributes> responseCommentsAsLastEditor =
                     getFeedbackResponseCommentsForLstEditorInCourse(
-                    studentUpdate.getOriginalStudent().getCourse(),
-                    studentUpdate.getOriginalStudent().getEmail());
+                    studentUpdate.getBefore().getCourse(),
+                    studentUpdate.getBefore().getEmail());
             for (FeedbackResponseCommentAttributes responseComment : responseCommentsAsLastEditor) {
                 updateOptionsList.add(
                         FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
-                                .withLastEditorEmail(studentUpdate.getUpdatedStudent().getEmail())
+                                .withLastEditorEmail(studentUpdate.getAfter().getEmail())
                                 .build());
             }
         }
