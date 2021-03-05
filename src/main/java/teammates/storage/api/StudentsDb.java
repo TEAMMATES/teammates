@@ -552,10 +552,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 student.setTeamName(newAttributes.team);
                 student.setSectionName(newAttributes.section);
 
-                this.studentsToUpdate.add(newAttributes);
-                this.studentEntitiesToUpdate.add(student);
+                studentsToUpdate.add(newAttributes);
+                studentEntitiesToUpdate.add(student);
                 newAttributes = studentsDb.makeAttributes(student);
-                this.studentsToUpdate.add(newAttributes);
+                studentsToUpdate.add(newAttributes);
             });
         }
 

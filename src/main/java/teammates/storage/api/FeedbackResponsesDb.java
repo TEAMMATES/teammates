@@ -429,21 +429,33 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public static class BatchUpdateFeedbackResponseTransaction extends CascadingTransaction {
 
-        private final FeedbackResponsesDb feedbackResponsesDb;
+        private final FeedbackResponsesDb frDb;
 
         private final List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList;
         private final List<ResponseUpdate> responseUpdates;
+        private final List<FeedbackResponseAttributes> responsesToCreate;
+        private final List<FeedbackResponse> responseEntitiesToUpdate;
+        private final List<String> responseIdsToDelete;
 
-        public BatchUpdateFeedbackResponseTransaction(FeedbackResponsesDb frb) {
+        private final List<FeedbackResponseAttributes.UpdateOptions> nonExistentResponse;
+        private final List<FeedbackResponseAttributes.UpdateOptions> inValidResponse;
+
+        public BatchUpdateFeedbackResponseTransaction(FeedbackResponsesDb frDb) {
             super();
-            this.feedbackResponsesDb = frb;
-            this.updateOptionsList = new ArrayList<>();
-            this.responseUpdates = new ArrayList<>();
+            this.frDb = frDb;
+
+            updateOptionsList = new ArrayList<>();
+            responseUpdates = new ArrayList<>();
+            responsesToCreate = new ArrayList<>();
+            responseEntitiesToUpdate = new ArrayList<>();
+            responseIdsToDelete = new ArrayList<>();
+            nonExistentResponse = new ArrayList<>();
+            inValidResponse = new ArrayList<>();
         }
 
         public BatchUpdateFeedbackResponseTransaction(
-                FeedbackResponsesDb frb, List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
-            this(frb);
+                FeedbackResponsesDb frDb, List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
+            this(frDb);
             addUpdateOptions(updateOptionsList);
         }
 
@@ -458,11 +470,80 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             return this.responseUpdates;
         }
 
+        private void construct() {
+            for (FeedbackResponseAttributes.UpdateOptions updateOptions : this.updateOptionsList) {
+                Assumption.assertNotNull(updateOptions);
+
+                FeedbackResponse oldResponse = frDb.getFeedbackResponseEntity(updateOptions.getFeedbackResponseId());
+                if (oldResponse == null) {
+                    nonExistentResponse.add(updateOptions);
+                    continue;
+                }
+
+                FeedbackResponseAttributes newAttributes = frDb.makeAttributes(oldResponse);
+                newAttributes.update(updateOptions);
+
+                newAttributes.sanitizeForSaving();
+                if (!newAttributes.isValid()) {
+                    inValidResponse.add(updateOptions);
+                    continue;
+                }
+
+                if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
+                        && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+
+                    // update only if change
+                    boolean hasSameAttributes =
+                            hasSameValue(oldResponse.getGiverSection(), newAttributes.getGiverSection())
+                                    && hasSameValue(oldResponse.getRecipientSection(), newAttributes.getRecipientSection())
+                                    && hasSameValue(
+                                    oldResponse.getResponseMetaData(), newAttributes.getSerializedFeedbackResponseDetail());
+                    if (hasSameAttributes) {
+                        log.info(String.format(
+                                OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponse.class.getSimpleName(), updateOptions));
+                        continue;
+                    }
+
+                    oldResponse.setGiverSection(newAttributes.giverSection);
+                    oldResponse.setRecipientSection(newAttributes.recipientSection);
+                    oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
+
+                    responseEntitiesToUpdate.add(oldResponse);
+                } else {
+                    // need to recreate the entity
+                    newAttributes = FeedbackResponseAttributes
+                            .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(),
+                                    newAttributes.getRecipient())
+                            .withCourseId(newAttributes.getCourseId())
+                            .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
+                            .withResponseDetails(newAttributes.getResponseDetails())
+                            .withGiverSection(newAttributes.getGiverSection())
+                            .withRecipientSection(newAttributes.getRecipientSection())
+                            .build();
+                    responsesToCreate.add(newAttributes);
+                    responseIdsToDelete.add(oldResponse.getId());
+                }
+            }
+        }
+
         @Override
         public void commit() throws CascadingTransactionException {
             if (hasUpstreamTransaction()) {
                 this.getUpstreamTransaction().commit();
             }
+
+            construct();
+
+            try {
+                frDb.putEntities(responsesToCreate);
+            } catch (InvalidParametersException e) {
+                throw new CascadingTransactionException("cascading transaction failed", e);
+            }
+
+            frDb.deleteEntity(responseIdsToDelete.stream()
+                    .map(rid -> Key.create(FeedbackResponse.class, rid))
+                    .toArray(Key[]::new));
+            frDb.saveEntities(responseEntitiesToUpdate);
         }
     }
 
