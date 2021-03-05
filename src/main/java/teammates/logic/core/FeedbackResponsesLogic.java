@@ -366,6 +366,8 @@ public final class FeedbackResponsesLogic {
 
     public CascadingTransaction updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+
+        List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
         studentUpdates.forEach(studentUpdate -> {
             List<FeedbackResponseAttributes> responsesFromUser =
                     getFeedbackResponsesFromGiverForCourse(
@@ -468,7 +470,7 @@ public final class FeedbackResponsesLogic {
                         FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
                                 .withGiverSection(studentUpdate.getUpdatedStudent().getSection())
                                 .build());
-                //frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+                // frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
             }
         });
 

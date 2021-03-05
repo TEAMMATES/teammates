@@ -86,8 +86,6 @@ class EnrollStudentsAction extends Action {
                                 .withComment(student.getComments())
                                 .build();
                 studentsToUpdate.add(updateOptions);
-                // StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
-                // enrolledStudents.add(updatedStudent);
             } else {
                 // The student is new.
                 studentsToCreate.add(student);

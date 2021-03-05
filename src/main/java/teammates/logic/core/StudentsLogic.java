@@ -197,23 +197,20 @@ public final class StudentsLogic {
 
     public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList)
             throws CascadingTransactionException {
-        StudentsDb.BatchUpdateStudentsTransaction transaction =
+        StudentsDb.BatchUpdateStudentsTransaction studentUpdateTransaction =
                 new StudentsDb.BatchUpdateStudentsTransaction(studentsDb, updateOptionsList);
-        List<StudentUpdate> studentUpdates = transaction.getUpdatedStudents();
+        List<StudentUpdate> studentUpdates = studentUpdateTransaction.getUpdatedStudents();
 
-        // TODO: add in update response for changing email/team/section
         CascadingTransaction responseUpdateForChangingEmailTransaction =
                 frLogic.updateFeedbackResponsesForChangingEmailBatch(studentUpdates);
-        responseUpdateForChangingEmailTransaction.withUpstreamTransaction(transaction);
-
-        // TODO: batch deletion
-        frLogic.updateFeedbackResponsesForChangingTeamBatch(studentUpdates);
-
+        frLogic.updateFeedbackResponsesForChangingTeamBatch(studentUpdates); // TODO: batch deletion
         CascadingTransaction responseUpdateForChangingSectionTransaction =
                 frLogic.updateFeedbackResponsesForChangingSectionBatch(studentUpdates);
-        responseUpdateForChangingSectionTransaction.withUpstreamTransaction(transaction);
 
-        transaction.commit();
+        responseUpdateForChangingEmailTransaction.withUpstreamTransaction(studentUpdateTransaction);
+        responseUpdateForChangingSectionTransaction.withUpstreamTransaction(responseUpdateForChangingEmailTransaction);
+
+        studentUpdateTransaction.commit();
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 
