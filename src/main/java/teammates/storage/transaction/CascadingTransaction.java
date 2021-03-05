@@ -23,6 +23,13 @@ public class CascadingTransaction {
     }
 
     /**
+     * Semantic helper method that returns the downstream instance which should call commit.
+     */
+    public CascadingTransaction withDownstreamTransaction(CascadingTransaction downstreamTransaction) {
+        return downstreamTransaction.withUpstreamTransaction(this);
+    }
+
+    /**
      * Attach the current transaction to an upstream transaction that must be done before this.
      */
     public boolean hasUpstreamTransaction() {

@@ -116,6 +116,17 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
+     * Gets all comments given by a user in a course.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForLastEditorInCourse(
+            String courseId, String commentLastEditor) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(commentLastEditor);
+
+        return makeAttributes(getFeedbackResponseCommentEntitiesForLastEditorInCourse(courseId, commentLastEditor));
+    }
+
+    /**
      * Gets all response comments for a response.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {

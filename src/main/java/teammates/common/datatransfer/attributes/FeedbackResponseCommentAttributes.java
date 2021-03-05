@@ -279,6 +279,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         updateOptions.commentTextOption.ifPresent(s -> commentText = s);
         updateOptions.showCommentToOption.ifPresent(s -> showCommentTo = s);
         updateOptions.showGiverNameToOption.ifPresent(s -> showGiverNameTo = s);
+        updateOptions.commentGiverOption.ifPresent(s -> commentGiver = s);
         updateOptions.lastEditorEmailOption.ifPresent(s -> lastEditorEmail = s);
         updateOptions.lastEditedAtOption.ifPresent(s -> lastEditedAt = s);
         updateOptions.giverSectionOption.ifPresent(s -> giverSection = s);
@@ -368,6 +369,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         private UpdateOption<String> commentTextOption = UpdateOption.empty();
         private UpdateOption<List<FeedbackParticipantType>> showCommentToOption = UpdateOption.empty();
         private UpdateOption<List<FeedbackParticipantType>> showGiverNameToOption = UpdateOption.empty();
+        private UpdateOption<String> commentGiverOption = UpdateOption.empty();
         private UpdateOption<String> lastEditorEmailOption = UpdateOption.empty();
         private UpdateOption<Instant> lastEditedAtOption = UpdateOption.empty();
         private UpdateOption<String> giverSectionOption = UpdateOption.empty();
@@ -390,6 +392,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                     + ", commentText = " + commentTextOption
                     + ", showCommentTo = " + showCommentToOption
                     + ", showGiverNameTo = " + showGiverNameToOption
+                    + ", commentGiver = " + commentGiverOption
                     + ", lastEditorEmail = " + lastEditorEmailOption
                     + ", giverSection = " + giverSectionOption
                     + ", receiverSection = " + receiverSectionOption
@@ -404,6 +407,13 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             private Builder(Long feedbackResponseCommentId) {
                 super(new UpdateOptions(feedbackResponseCommentId));
                 thisBuilder = this;
+            }
+
+            public Builder withCommentGiver(String commentGiver) {
+                Assumption.assertNotNull(commentGiver);
+
+                updateOptions.commentGiverOption = UpdateOption.of(commentGiver);
+                return this;
             }
 
             public Builder withLastEditorEmail(String lastEditorEmail) {

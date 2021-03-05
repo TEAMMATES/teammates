@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
 import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
  * Handles operations related to feedback response comments.
@@ -129,6 +131,34 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
 
+    public CascadingTransaction updateFeedbackResponseCommentsEmailsBatch(List<StudentUpdate> studentUpdates) {
+        List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        studentUpdates.forEach(studentUpdate -> {
+            List<FeedbackResponseCommentAttributes> responseCommentsAsGiver = getFeedbackResponseCommentsForGiver(
+                    studentUpdate.getOriginalStudent().getCourse(),
+                    studentUpdate.getOriginalStudent().getEmail());
+            responseCommentsAsGiver.forEach(responseComment -> {
+                updateOptionsList.add(
+                        FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
+                        .withCommentGiver(studentUpdate.getUpdatedStudent().getEmail())
+                        .build());
+            });
+
+            List<FeedbackResponseCommentAttributes> responseCommentsAsLastEditor =
+                    getFeedbackResponseCommentsForLstEditorInCourse(
+                    studentUpdate.getOriginalStudent().getCourse(),
+                    studentUpdate.getOriginalStudent().getEmail());
+            responseCommentsAsLastEditor.forEach(responseComment -> {
+                updateOptionsList.add(
+                        FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
+                                .withLastEditorEmail(studentUpdate.getUpdatedStudent().getEmail())
+                                .build());
+            });
+        });
+
+        return generateBatchUpdateFeedbackResponseCommentsTransaction(updateOptionsList);
+    }
+
     // right now this method only updates comment's giverSection and receiverSection for a given response
     public void updateFeedbackResponseCommentsForResponse(String feedbackResponseId)
             throws InvalidParametersException, EntityDoesNotExistException {
@@ -142,6 +172,23 @@ public final class FeedbackResponseCommentsLogic {
                             .build()
             );
         }
+    }
+
+    public CascadingTransaction updateFeedbackResponseCommentsForResponseBatch(List<String> feedbackResponseIds) {
+        List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        feedbackResponseIds.forEach(feedbackResponseId -> {
+            List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
+            FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
+
+            comments.forEach(comment -> {
+                updateOptionsList.add(FeedbackResponseCommentAttributes.updateOptionsBuilder(comment.getId())
+                        .withGiverSection(response.giverSection)
+                        .withReceiverSection(response.recipientSection)
+                        .build());
+            });
+        });
+
+        return generateBatchUpdateFeedbackResponseCommentsTransaction(updateOptionsList);
     }
 
     /**
@@ -173,6 +220,11 @@ public final class FeedbackResponseCommentsLogic {
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
                                                                                        String giverEmail) {
         return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
+    }
+
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForLstEditorInCourse(String courseId,
+                                                                                       String editorEmail) {
+        return frcDb.getFeedbackResponseCommentForLastEditorInCourse(courseId, editorEmail);
     }
 
     public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,

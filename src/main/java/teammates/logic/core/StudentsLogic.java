@@ -207,10 +207,10 @@ public final class StudentsLogic {
         CascadingTransaction responseUpdateForChangingSectionTransaction =
                 frLogic.updateFeedbackResponsesForChangingSectionBatch(studentUpdates);
 
-        responseUpdateForChangingEmailTransaction.withUpstreamTransaction(studentUpdateTransaction);
-        responseUpdateForChangingSectionTransaction.withUpstreamTransaction(responseUpdateForChangingEmailTransaction);
-
-        studentUpdateTransaction.commit();
+        studentUpdateTransaction
+                .withDownstreamTransaction(responseUpdateForChangingEmailTransaction)
+                .withDownstreamTransaction(responseUpdateForChangingSectionTransaction)
+                .commit();
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 

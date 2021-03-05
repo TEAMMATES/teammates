@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.test.AssertHelper;
@@ -101,7 +100,8 @@ public class StudentsLogicTest extends BaseLogicTest {
                 .withTeamName("Team 1.1")
                 .withComment("")
                 .build());
-        EnrollException ee = assertThrows(EnrollException.class, () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
+        EnrollException ee = assertThrows(EnrollException.class,
+                () -> studentsLogic.validateSectionsAndTeams(studentList, courseId));
 
         String expectedInvalidTeamError =
                 String.format(StudentsLogic.ERROR_INVALID_TEAM_NAME, "Team 1.1", "Section 2", "Section 3")

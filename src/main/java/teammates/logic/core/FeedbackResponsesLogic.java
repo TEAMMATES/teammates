@@ -367,7 +367,6 @@ public final class FeedbackResponsesLogic {
     public CascadingTransaction updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
 
-        List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
         studentUpdates.forEach(studentUpdate -> {
             List<FeedbackResponseAttributes> responsesFromUser =
                     getFeedbackResponsesFromGiverForCourse(
@@ -378,7 +377,6 @@ public final class FeedbackResponsesLogic {
                 updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
                             .withGiver(studentUpdate.getUpdatedStudent().email)
                             .build());
-                //    frcLogic.updateFeedbackResponseCommentsEmails(studentUpdate.getOriginalStudent(), oldEmail, newEmail);
             }
         });
 
@@ -392,12 +390,12 @@ public final class FeedbackResponsesLogic {
                 updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
                         .withRecipient(studentUpdate.getUpdatedStudent().email)
                         .build());
-                //    frcLogic.updateFeedbackResponseCommentsEmails(studentUpdate.getOriginalStudent(), oldEmail, newEmail);
             }
         });
 
-        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList);
-
+        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList)
+                .withDownstreamTransaction(
+                        frcLogic.updateFeedbackResponseCommentsEmailsBatch(studentUpdates));
     }
 
     public void updateFeedbackResponsesForChangingTeamBatch(
@@ -446,6 +444,8 @@ public final class FeedbackResponsesLogic {
      */
     public CascadingTransaction updateFeedbackResponsesForChangingSectionBatch(List<StudentUpdate> studentUpdates) {
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        List<String> responseIdsToUpdate = new ArrayList<>();
+
         studentUpdates.forEach(studentUpdate -> {
             List<FeedbackResponseAttributes> responsesToUser =
                     getFeedbackResponsesForReceiverForCourse(
@@ -457,7 +457,7 @@ public final class FeedbackResponsesLogic {
                         FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
                                 .withRecipientSection(studentUpdate.getUpdatedStudent().getSection())
                                 .build());
-                //frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+                responseIdsToUpdate.add(response.getId());
             }
 
             List<FeedbackResponseAttributes> responsesFromUser =
@@ -470,19 +470,21 @@ public final class FeedbackResponsesLogic {
                         FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
                                 .withGiverSection(studentUpdate.getUpdatedStudent().getSection())
                                 .build());
-                // frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
+                responseIdsToUpdate.add(response.getId());
             }
         });
 
-        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList);
+        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList)
+                .withDownstreamTransaction(
+                        frcLogic.updateFeedbackResponseCommentsForResponseBatch(responseIdsToUpdate));
     }
 
     public CascadingTransaction generateBatchUpdateFeedbackResponsesTransaction(
             List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
         FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction transaction =
                 new FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction(frDb, updateOptionsList);
-
         List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
+
         transaction.getResponseUpdates().forEach(responseUpdate -> {
             FeedbackResponseAttributes oldResponse = responseUpdate.getOldResponse();
             FeedbackResponseAttributes newResponse = responseUpdate.getNewResponse();
@@ -515,11 +517,9 @@ public final class FeedbackResponsesLogic {
             }
         });
 
-        CascadingTransaction feedbackResponseCommentsTransaction =
-                frcLogic.generateBatchUpdateFeedbackResponseCommentsTransaction(feedbackResponseCommentUpdatesList);
-        feedbackResponseCommentsTransaction.withUpstreamTransaction(transaction);
-
-        return feedbackResponseCommentsTransaction;
+        return transaction.withDownstreamTransaction(
+                frcLogic.generateBatchUpdateFeedbackResponseCommentsTransaction(
+                        feedbackResponseCommentUpdatesList));
     }
 
     /**
