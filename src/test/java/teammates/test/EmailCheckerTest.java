@@ -26,7 +26,7 @@ public class EmailCheckerTest {
     }
 
     private static String getAppUrl() {
-        return Config.isDevServer() ? Config.APP_FRONTENDDEV_URL : Config.APP_URL;
+        return Config.getFrontEndAppUrl("").toAbsoluteString();
     }
 
 }
