@@ -22,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
 import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.ResponseUpdate;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
@@ -367,7 +368,7 @@ public final class FeedbackResponsesLogic {
     public CascadingTransaction updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
 
-        studentUpdates.forEach(studentUpdate -> {
+        for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseAttributes> responsesFromUser =
                     getFeedbackResponsesFromGiverForCourse(
                             studentUpdate.getOriginalStudent().course,
@@ -378,9 +379,9 @@ public final class FeedbackResponsesLogic {
                             .withGiver(studentUpdate.getUpdatedStudent().email)
                             .build());
             }
-        });
+        }
 
-        studentUpdates.forEach(studentUpdate -> {
+        for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseAttributes> responsesToUser =
                     getFeedbackResponsesForReceiverForCourse(
                             studentUpdate.getOriginalStudent().course,
@@ -391,7 +392,7 @@ public final class FeedbackResponsesLogic {
                         .withRecipient(studentUpdate.getUpdatedStudent().email)
                         .build());
             }
-        });
+        }
 
         return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList)
                 .withDownstreamTransaction(
@@ -400,7 +401,7 @@ public final class FeedbackResponsesLogic {
 
     public void updateFeedbackResponsesForChangingTeamBatch(
             List<StudentUpdate> studentUpdates) {
-        studentUpdates.forEach(studentUpdate -> {
+        for (StudentUpdate studentUpdate : studentUpdates) {
             FeedbackQuestionAttributes question;
             // deletes all responses given by the user to team members or given by the user as a representative of a team.
             List<FeedbackResponseAttributes> responsesFromUser =
@@ -436,7 +437,7 @@ public final class FeedbackResponsesLogic {
                         studentUpdate.getOriginalStudent().getCourse(),
                         studentUpdate.getOriginalStudent().getTeam());
             }
-        });
+        }
     }
 
     /**
@@ -446,7 +447,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
         List<String> responseIdsToUpdate = new ArrayList<>();
 
-        studentUpdates.forEach(studentUpdate -> {
+        for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseAttributes> responsesToUser =
                     getFeedbackResponsesForReceiverForCourse(
                             studentUpdate.getUpdatedStudent().getCourse(),
@@ -472,7 +473,7 @@ public final class FeedbackResponsesLogic {
                                 .build());
                 responseIdsToUpdate.add(response.getId());
             }
-        });
+        }
 
         return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList)
                 .withDownstreamTransaction(
@@ -485,7 +486,7 @@ public final class FeedbackResponsesLogic {
                 new FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction(frDb, updateOptionsList);
         List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
 
-        transaction.getResponseUpdates().forEach(responseUpdate -> {
+        for (ResponseUpdate responseUpdate : transaction.getResponseUpdates()) {
             FeedbackResponseAttributes oldResponse = responseUpdate.getOldResponse();
             FeedbackResponseAttributes newResponse = responseUpdate.getNewResponse();
 
@@ -515,7 +516,7 @@ public final class FeedbackResponsesLogic {
                     feedbackResponseCommentUpdatesList.add(updateOptionsBuilder.build());
                 }
             }
-        });
+        }
 
         return transaction.withDownstreamTransaction(
                 frcLogic.generateBatchUpdateFeedbackResponseCommentsTransaction(

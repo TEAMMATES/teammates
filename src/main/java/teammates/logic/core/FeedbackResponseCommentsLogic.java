@@ -133,28 +133,28 @@ public final class FeedbackResponseCommentsLogic {
 
     public CascadingTransaction updateFeedbackResponseCommentsEmailsBatch(List<StudentUpdate> studentUpdates) {
         List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
-        studentUpdates.forEach(studentUpdate -> {
+        for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseCommentAttributes> responseCommentsAsGiver = getFeedbackResponseCommentsForGiver(
                     studentUpdate.getOriginalStudent().getCourse(),
                     studentUpdate.getOriginalStudent().getEmail());
-            responseCommentsAsGiver.forEach(responseComment -> {
+            for (FeedbackResponseCommentAttributes responseComment : responseCommentsAsGiver) {
                 updateOptionsList.add(
                         FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
                         .withCommentGiver(studentUpdate.getUpdatedStudent().getEmail())
                         .build());
-            });
+            }
 
             List<FeedbackResponseCommentAttributes> responseCommentsAsLastEditor =
                     getFeedbackResponseCommentsForLstEditorInCourse(
                     studentUpdate.getOriginalStudent().getCourse(),
                     studentUpdate.getOriginalStudent().getEmail());
-            responseCommentsAsLastEditor.forEach(responseComment -> {
+            for (FeedbackResponseCommentAttributes responseComment : responseCommentsAsLastEditor) {
                 updateOptionsList.add(
                         FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId())
                                 .withLastEditorEmail(studentUpdate.getUpdatedStudent().getEmail())
                                 .build());
-            });
-        });
+            }
+        }
 
         return generateBatchUpdateFeedbackResponseCommentsTransaction(updateOptionsList);
     }
@@ -176,17 +176,17 @@ public final class FeedbackResponseCommentsLogic {
 
     public CascadingTransaction updateFeedbackResponseCommentsForResponseBatch(List<String> feedbackResponseIds) {
         List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
-        feedbackResponseIds.forEach(feedbackResponseId -> {
+        for (String feedbackResponseId : feedbackResponseIds) {
             List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
             FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
 
-            comments.forEach(comment -> {
+            for (FeedbackResponseCommentAttributes comment : comments) {
                 updateOptionsList.add(FeedbackResponseCommentAttributes.updateOptionsBuilder(comment.getId())
                         .withGiverSection(response.giverSection)
                         .withReceiverSection(response.recipientSection)
                         .build());
-            });
-        });
+            }
+        }
 
         return generateBatchUpdateFeedbackResponseCommentsTransaction(updateOptionsList);
     }

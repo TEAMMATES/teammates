@@ -500,13 +500,13 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         }
 
         private void construct() {
-            this.updateOptionsList.forEach(updateOptions -> {
+            for (StudentAttributes.UpdateOptions updateOptions : updateOptionsList) {
                 Assumption.assertNotNull(updateOptions);
 
                 CourseStudent student =
                         studentsDb.getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
                 if (student == null) {
-                    this.nonExistentStudents.add(updateOptions);
+                    nonExistentStudents.add(updateOptions);
                     return;
                 }
                 StudentUpdate studentUpdate = new StudentUpdate();
@@ -515,17 +515,17 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 newAttributes.update(updateOptions);
                 newAttributes.sanitizeForSaving();
                 if (!newAttributes.isValid()) {
-                    this.invalidUpdates.add(updateOptions);
+                    invalidUpdates.add(updateOptions);
                     return;
                 }
 
                 studentUpdate.setUpdatedStudent(newAttributes);
-                this.updatedStudents.add(studentUpdate);
+                updatedStudents.add(studentUpdate);
 
                 boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
                 if (isEmailChanged) {
-                    this.studentsToCreate.add(newAttributes);
-                    this.studentIDsToDelete.add(student.getUniqueId());
+                    studentsToCreate.add(newAttributes);
+                    studentIDsToDelete.add(student.getUniqueId());
                     return;
                 }
 
@@ -556,7 +556,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 studentEntitiesToUpdate.add(student);
                 newAttributes = studentsDb.makeAttributes(student);
                 studentsToUpdate.add(newAttributes);
-            });
+            }
         }
 
         @Override
