@@ -2,7 +2,6 @@ package teammates.ui.request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.testng.annotations.Test;
 

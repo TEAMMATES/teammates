@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.StudentsData;
