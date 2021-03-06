@@ -18,11 +18,13 @@ export class LogService {
    */
   createFeedbackSessionLog(queryParams: {
     courseId: string,
+    feedbackSessionName: string,
     studentEmail: string,
     logType: LogTypes }): Observable<string> {
     const paramMap: Record<string, string> = {
-      courseId: queryParams.courseId,
-      studentEmail: queryParams.studentEmail,
+      courseid: queryParams.courseId,
+      fsname: queryParams.feedbackSessionName,
+      studentemail: queryParams.studentEmail,
       fsltype: queryParams.logType.toString(),
     };
 

@@ -315,12 +315,13 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
         this.logService.createFeedbackSessionLog({
           courseId: this.courseId,
+          feedbackSessionName: this.feedbackSessionName,
           studentEmail: this.loggedInUser,
           logType: LogTypes.FEEDBACK_SESSION_ACCESS,
         }).subscribe(() => {
 
         }, () => {
-          this.simpleModalService.openInformationModal('Log Error', SimpleModalType.WARNING, '');
+          this.statusMessageService.showWarningToast('Failed to log feedback session access');
         });
 
         this.loadFeedbackQuestions();
@@ -554,12 +555,13 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
 
     this.logService.createFeedbackSessionLog({
       courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
       studentEmail: this.loggedInUser,
       logType: LogTypes.FEEDBACK_SESSION_SUBMISSION,
     }).subscribe(() => {
 
     }, () => {
-      this.simpleModalService.openInformationModal('Log Error', SimpleModalType.WARNING, '');
+      this.statusMessageService.showWarningToast('Failed to log feedback session submission');
     });
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
