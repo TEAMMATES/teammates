@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { Observable } from 'rxjs';
+import { concat, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -281,24 +281,35 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionResults({
-      questionId,
-      courseId: this.session.courseId,
-      feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
-    })
-    .subscribe((resp: SessionResults) => {
-      if (resp.questions.length) {
-        const responses: QuestionOutput = resp.questions[0];
-        this.questionsModel[questionId].responses = responses.allResponses;
-        this.questionsModel[questionId].statistics = responses.questionStatistics;
-        this.questionsModel[questionId].hasPopulated = true;
 
-        this.preprocessComments(responses.allResponses);
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    this.courseService.getCourseSectionNames(this.session.courseId)
+      .subscribe((courseSectionNames: CourseSectionNames) => {
+        concat(
+          ...courseSectionNames.sectionNames.map((sectionName: string) => {
+            return this.feedbackSessionsService.getFeedbackSessionResults({
+              questionId,
+              courseId: this.session.courseId,
+              feedbackSessionName: this.session.feedbackSessionName,
+              intent: Intent.INSTRUCTOR_RESULT,
+              groupBySection: sectionName,
+            });
+          }))
+        .subscribe({
+          next: (resp: SessionResults) => {
+            if (resp.questions.length) {
+              const responses: QuestionOutput = resp.questions[0];
+              this.questionsModel[questionId].responses = responses.allResponses;
+              this.questionsModel[questionId].statistics = responses.questionStatistics;
+              this.questionsModel[questionId].hasPopulated = true;
+
+              this.preprocessComments(responses.allResponses);
+            }
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      });
   }
 
   /**
