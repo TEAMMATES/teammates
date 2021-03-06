@@ -175,6 +175,19 @@ If everything goes well, you should see something like this:
 ```
 If you encounter any errors, refer to our [troubleshooting guide](#troubleshoot).
 
+**2. Connecting to the Emulator**  
+To connect the emulator to your application, you need to set the environment variables each time you start the emulator.
+You can set the environment variables as follows:
+
+**Linux/macOS**  
+```
+$(gcloud beta emulators datastore env-init) 
+```
+
+**Windows**
+```
+gcloud beta emulators datastore env-init > set_vars.cmd && set_vars.cmd
+```  
 
 ### Troubleshoot
 
