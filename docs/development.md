@@ -157,11 +157,14 @@ POST http://localhost:8080/_ah/login?action=Log+Out
 
 ## Running the Datastore Emulator
 
-The Datastore Emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features.
+The Datastore Emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the datastore emulator, refer to Google's [official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator). 
 
 ### Steps to local setup
 **1. Installing the Datastore Emulator**    
-Please refer to the official [installation guide](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
+After you have installed the [Google Cloud SDK](https://cloud.google.com/sdk/docs/install) which contains the `gcloud` tool, the datastore emulator can be installed by running the command:
+```
+gcloud components install cloud-datastore-emulator
+```
 
 **2. Running the Emulator**  
 To run the emulator in `port 8484`, enter the command:
