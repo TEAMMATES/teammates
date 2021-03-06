@@ -36,16 +36,6 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
     }
 
     @Test
-    public void testValidate_withEnrollmentExceedQuota_shouldFail() {
-        List<StudentsEnrollRequest.StudentEnrollRequest> requests = new ArrayList<>();
-        for (int i = 0; i <= StudentsEnrollRequest.SIZE_LIMIT_PER_ENROLLMENT; i++) {
-            requests.add(getTypicalStudentEnrollRequest(i));
-        }
-        StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(requests);
-        assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
-    }
-
-    @Test
     public void testValidate_withDuplicateEmail_shouldFail() {
         StudentsEnrollRequest.StudentEnrollRequest requestOne = getTypicalStudentEnrollRequest(0);
         StudentsEnrollRequest.StudentEnrollRequest requestTwo = getTypicalStudentEnrollRequest(0);

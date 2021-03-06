@@ -133,6 +133,20 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
+     * Creates a batch of students silently.
+     *
+     * @return the created students
+     */
+    @Override
+    public List<StudentAttributes> createEntitiesSilent(Collection<StudentAttributes> students) {
+
+        List<StudentAttributes> createdStudents = super.createEntitiesSilent(students);
+        putDocuments(createdStudents);
+
+        return createdStudents;
+    }
+
+    /**
      * Creates a batch of students.
      *
      * @return the created students

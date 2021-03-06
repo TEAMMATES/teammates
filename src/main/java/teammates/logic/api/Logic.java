@@ -667,10 +667,8 @@ public class Logic {
      * Creates a batch of students.
      *
      * @return the created students.
-     * @throws InvalidParametersException if the student is not valid.
      */
-    public List<StudentAttributes> createStudents(List<StudentAttributes> students)
-            throws InvalidParametersException {
+    public List<StudentAttributes> createStudents(List<StudentAttributes> students) {
         for (StudentAttributes student : students) {
             Assumption.assertNotNull(student.getCourse());
             Assumption.assertNotNull(student.getEmail());

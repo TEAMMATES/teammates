@@ -96,7 +96,7 @@ class EnrollStudentsAction extends Action {
         try {
             enrolledStudents.addAll(logic.updateStudentCascadeBatch(studentsToUpdate));
             enrolledStudents.addAll(logic.createStudents(studentsToCreate));
-        } catch (InvalidParametersException | CascadingTransactionException e) {
+        } catch (CascadingTransactionException e) {
             // Ignore the entire batch of new students as they do not get past param validation.
         }
 

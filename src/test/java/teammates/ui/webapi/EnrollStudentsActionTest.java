@@ -154,12 +154,12 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         List<StudentData> enrolledStudents = executeActionAndReturnResults(courseId, req);
 
         assertEquals(2, enrolledStudents.size());
-        verifyStudentInDatabase(validNewStudent, enrolledStudents.get(0).getCourseId(),
-                enrolledStudents.get(0).getEmail());
-        verifyStudentInDatabase(validExistingStudent, enrolledStudents.get(1).getCourseId(),
+        verifyStudentInDatabase(validNewStudent, enrolledStudents.get(1).getCourseId(),
                 enrolledStudents.get(1).getEmail());
-        verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
-        verifyCorrectResponseData(req.getStudentEnrollRequests().get(2), enrolledStudents.get(1));
+        verifyStudentInDatabase(validExistingStudent, enrolledStudents.get(0).getCourseId(),
+                enrolledStudents.get(0).getEmail());
+        verifyCorrectResponseData(req.getStudentEnrollRequests().get(2), enrolledStudents.get(0));
+        verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(1));
     }
 
     @Test
