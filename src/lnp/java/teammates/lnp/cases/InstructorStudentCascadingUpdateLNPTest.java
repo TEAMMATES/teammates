@@ -31,10 +31,11 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_STUDENTS_PER_SECTION = 100;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 20;
 
-    private static final String INSTRUCTOR_NAME = "tmms.test";
-    private static final String INSTRUCTOR_EMAIL = "tmms.test";
-    private static final String COURSE_NAME = "LnPCourse";
-    private static final String COURSE_ID = "TestData.CS101";
+    private static final String INSTRUCTOR_NAME = "LnPInstructor";
+    private static final String INSTRUCTOR_ID = "LnPInstructor_id";
+    private static final String INSTRUCTOR_EMAIL = "tmms.test@gmail.tmt";
+    private static final String COURSE_NAME = "tmms.test.gma-demo";
+    private static final String COURSE_ID = "tmms.test.gma-demo";
 
     private static final String STUDENT_NAME_PREFIX = "LnPStudent";
     private static final String STUDENT_ID_PREFIX = "LnPStudent.tmms";
@@ -58,7 +59,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
 
-                courses.put(COURSE_NAME , CourseAttributes.builder(COURSE_NAME)
+                courses.put(COURSE_ID , CourseAttributes.builder(COURSE_ID)
                         .withName(COURSE_NAME)
                         .withTimezone(ZoneId.of("UTC"))
                         .build()
@@ -138,9 +139,9 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
             protected Map<String, InstructorAttributes> generateInstructors() {
                 Map<String, InstructorAttributes> instructors = new HashMap<>();
 
-                instructors.put(INSTRUCTOR_NAME,
-                        InstructorAttributes.builder(COURSE_NAME, INSTRUCTOR_EMAIL + "@gmail.tmt")
-                                .withGoogleId(INSTRUCTOR_NAME)
+                instructors.put(INSTRUCTOR_ID,
+                        InstructorAttributes.builder(COURSE_ID, INSTRUCTOR_EMAIL)
+                                .withGoogleId(INSTRUCTOR_ID)
                                 .withName(INSTRUCTOR_NAME)
                                 .withRole("Co-owner")
                                 .withIsDisplayedToStudents(true)
