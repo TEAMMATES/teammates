@@ -658,6 +658,9 @@
       <li>
         <b>Overall rank</b>: the recipient's rank relative to other recipients, as computed by TEAMMATES.
       </li>
+      <li>
+        <b>Team rank</b>: the recipient's rank relative to other recipients within their own team only. Applicable only if students rank their teammates.
+      </li>
     </ul>
     <p>
       Technical details about how ranks are calculated are available <a (click)="openRankInfoModal(rankInfoHelp)" [tmRouterLink]="">here</a>.
@@ -671,6 +674,12 @@
         <li>
           The <b>Overall Rank</b> ranks the average rank each recipient receives.
           For example, if recipient A received the ranks <code>(1, 2)</code> and recipient B received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <b>Overall Rank</b> of 1 and 2 respectively.
+        </li>
+        <li>
+          The <b>Team Rank</b> works in a similar way to <b>Overall Rank</b> as it uses the average rank received to calculate the rank within the team. However, the average rank of the members are only compared to their own team members.
+          For example, if recipient A (who is a part of team X) received the ranks <code>(1, 2)</code> and recipient B (who is a part of team X) received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get a <b>Team Rank</b> of 1 and 2 respectively.
+          If recipient C (who is a part of team Y) received the ranks <code>(1, 1)</code> and recipient D (who is a part of team Y) received the ranks <code>(1, 2)</code>, then recipient C and recipient D's average ranks are 1 and 1.5 respectively. By ranking these two averages, recipient C and D will get a <b>Team Rank</b> of 1 and 2 respectively.
+          Note that both recipient A and recipient C get an average of 1.5 but they get different team ranks as they are in different teams.
         </li>
       </ul>
     </ng-template>
