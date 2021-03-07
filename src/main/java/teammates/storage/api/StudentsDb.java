@@ -23,6 +23,7 @@ import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchManager;
+import teammates.storage.search.SearchManagerFactory;
 
 /**
  * Handles CRUD operations for students.
@@ -36,18 +37,22 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
 
+    private SearchManager getSearchManager() {
+        return SearchManagerFactory.getSearchManager();
+    }
+
     /**
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) {
-        SearchManager.putStudentSearchDocuments(student);
+        getSearchManager().putStudentSearchDocuments(student);
     }
 
     /**
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        SearchManager.putStudentSearchDocuments(students.toArray(new StudentAttributes[0]));
+        getSearchManager().putStudentSearchDocuments(students.toArray(new StudentAttributes[0]));
     }
 
     /**
@@ -60,7 +65,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             return new StudentSearchResultBundle();
         }
 
-        return SearchManager.searchStudents(queryString, instructors);
+        return getSearchManager().searchStudents(queryString, instructors);
     }
 
     /**
@@ -75,7 +80,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             return new StudentSearchResultBundle();
         }
 
-        return SearchManager.searchStudents(queryString, null);
+        return getSearchManager().searchStudents(queryString, null);
     }
 
     /**
@@ -84,7 +89,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
      */
     public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
-        SearchManager.deleteStudentSearchDocuments(unencryptedRegistrationKey);
+        getSearchManager().deleteStudentSearchDocuments(unencryptedRegistrationKey);
     }
 
     /**
@@ -316,7 +321,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     public void deleteStudents(AttributesDeletionQuery query) {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
-            SearchManager.deleteStudentSearchDocuments(
+            getSearchManager().deleteStudentSearchDocuments(
                     studentsToDelete.stream().map(CourseStudent::getRegistrationKey).toArray(String[]::new));
 
             deleteEntity(studentsToDelete.stream()

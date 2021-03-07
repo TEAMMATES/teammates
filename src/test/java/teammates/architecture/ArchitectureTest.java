@@ -281,7 +281,9 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !"OfyHelper".equals(input.getSimpleName());
+                                && !"OfyHelper".equals(input.getSimpleName())
+                                && !"SearchManager".equals(input.getSimpleName())
+                                && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))

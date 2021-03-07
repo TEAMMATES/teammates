@@ -45,16 +45,12 @@ public final class SearchManager {
 
     private static final RetryManager RM = new RetryManager(8);
 
-    private SearchManager() {
-        // utility class
-    }
-
     /**
      * Searches for students.
      *
      * @param instructors the constraint that restricts the search result
      */
-    public static StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
         StudentSearchQuery query = instructors == null ? new StudentSearchQuery(queryString)
                 : new StudentSearchQuery(instructors, queryString);
         Results<ScoredDocument> scoredDocuments = searchDocuments(SEARCH_INDEX_STUDENT, query);
@@ -67,7 +63,7 @@ public final class SearchManager {
     /**
      * Batch creates or updates search documents for the given students.
      */
-    public static void putStudentSearchDocuments(StudentAttributes... students) {
+    public void putStudentSearchDocuments(StudentAttributes... students) {
         List<SearchDocument> studentDocuments = new ArrayList<>();
         for (StudentAttributes student : students) {
             studentDocuments.add(new StudentSearchDocument(student));
@@ -78,14 +74,14 @@ public final class SearchManager {
     /**
      * Removes student search documents based on the given keys.
      */
-    public static void deleteStudentSearchDocuments(String... keys) {
+    public void deleteStudentSearchDocuments(String... keys) {
         deleteDocuments(SEARCH_INDEX_STUDENT, keys);
     }
 
     /**
      * Searches for instructors.
      */
-    public static InstructorSearchResultBundle searchInstructors(String queryString) {
+    public InstructorSearchResultBundle searchInstructors(String queryString) {
         InstructorSearchQuery query = new InstructorSearchQuery(queryString);
         Results<ScoredDocument> scoredDocuments = searchDocuments(SEARCH_INDEX_INSTRUCTOR, query);
         return InstructorSearchDocument.fromResults(scoredDocuments);
@@ -94,7 +90,7 @@ public final class SearchManager {
     /**
      * Batch creates or updates search documents for the given instructors.
      */
-    public static void putInstructorSearchDocuments(InstructorAttributes... instructors) {
+    public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
         List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             if (instructor.key != null) {
@@ -107,14 +103,14 @@ public final class SearchManager {
     /**
      * Removes instructor search documents based on the given keys.
      */
-    public static void deleteInstructorSearchDocuments(String... keys) {
+    public void deleteInstructorSearchDocuments(String... keys) {
         deleteDocuments(SEARCH_INDEX_INSTRUCTOR, keys);
     }
 
     /**
      * Puts document(s) into the search engine.
      */
-    private static void putDocuments(String indexName, SearchDocument... documents) {
+    private void putDocuments(String indexName, SearchDocument... documents) {
         List<Document> searchDocuments = new ArrayList<>();
         for (SearchDocument document : documents) {
             try {
@@ -142,7 +138,7 @@ public final class SearchManager {
      * @throws MaximumRetriesExceededException with list of failed {@link Document}s as final data and
      *         final {@link OperationResult}'s message as final message, if operation fails after maximum retries.
      */
-    private static void putDocumentsWithRetry(String indexName, List<Document> documents)
+    private void putDocumentsWithRetry(String indexName, List<Document> documents)
             throws MaximumRetriesExceededException {
         Index index = getIndex(indexName);
 
@@ -211,7 +207,7 @@ public final class SearchManager {
     /**
      * Searches document by the given query.
      */
-    private static Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
+    private Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
         try {
             if (query.getFilterSize() > 0) {
                 return getIndex(indexName).search(query.toQuery());
@@ -226,7 +222,7 @@ public final class SearchManager {
     /**
      * Deletes document by documentId.
      */
-    private static void deleteDocuments(String indexName, String... documentIds) {
+    private void deleteDocuments(String indexName, String... documentIds) {
         try {
             getIndex(indexName).deleteAsync(documentIds);
         } catch (Exception e) {
@@ -235,7 +231,7 @@ public final class SearchManager {
         }
     }
 
-    private static Index getIndex(String indexName) {
+    private Index getIndex(String indexName) {
         Map<String, Index> indicesTable = getIndicesTable();
         Index index = indicesTable.get(indexName);
         if (index == null) {
@@ -246,7 +242,7 @@ public final class SearchManager {
         return index;
     }
 
-    private static Map<String, Index> getIndicesTable() {
+    private Map<String, Index> getIndicesTable() {
         Map<String, Index> indicesTable = PER_THREAD_INDICES_TABLE.get();
         if (indicesTable == null) {
             indicesTable = new HashMap<>();

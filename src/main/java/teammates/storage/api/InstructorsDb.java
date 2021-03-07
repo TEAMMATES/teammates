@@ -18,6 +18,7 @@ import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.SearchManager;
+import teammates.storage.search.SearchManagerFactory;
 
 /**
  * Handles CRUD operations for instructors.
@@ -27,6 +28,10 @@ import teammates.storage.search.SearchManager;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
+    private SearchManager getSearchManager() {
+        return SearchManagerFactory.getSearchManager();
+    }
+
     /**
      * Creates or updates search document for the given instructor.
      */
@@ -35,7 +40,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        SearchManager.putInstructorSearchDocuments(instructor);
+        getSearchManager().putInstructorSearchDocuments(instructor);
     }
 
     /**
@@ -48,7 +53,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                         : instructor)
                 .collect(Collectors.toList());
 
-        SearchManager.putInstructorSearchDocuments(instructors.toArray(new InstructorAttributes[0]));
+        getSearchManager().putInstructorSearchDocuments(instructors.toArray(new InstructorAttributes[0]));
     }
 
     /**
@@ -57,7 +62,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * <p>See {@link InstructorSearchDocument} for more details.</p>
      */
     public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
-        SearchManager.deleteInstructorSearchDocuments(encryptedRegistrationKey);
+        getSearchManager().deleteInstructorSearchDocuments(encryptedRegistrationKey);
     }
 
     /**
@@ -73,7 +78,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return new InstructorSearchResultBundle();
         }
 
-        return SearchManager.searchInstructors(queryString);
+        return getSearchManager().searchInstructors(queryString);
     }
 
     /**
@@ -306,7 +311,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
-            SearchManager.deleteInstructorSearchDocuments(
+            getSearchManager().deleteInstructorSearchDocuments(
                     instructorsToDelete.stream()
                             .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
                             .toArray(String[]::new));

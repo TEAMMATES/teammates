@@ -15,6 +15,9 @@
     <listener>
         <listener-class>teammates.storage.api.OfyHelper</listener-class>
     </listener>
+    <listener>
+        <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
+    </listener>
 
     <!-- Reference: https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi -->
     <servlet>
