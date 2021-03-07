@@ -246,7 +246,9 @@ export class QuestionEditFormComponent implements OnInit {
     if (allowedRecipientTypes.indexOf(recipientType) === -1) {
       newRecipientType = allowedRecipientTypes[0];
     }
-    if (this.model.isUsingOtherFeedbackPath && this.isCustomFeedbackVisibilitySettingAllowed) {
+    // do not reset the visibility settings if reverting feedback path to preset template provided
+    if (this.model.isUsingOtherFeedbackPath && this.isCustomFeedbackVisibilitySettingAllowed &&
+        this.model.giverType === giverType && this.model.recipientType === newRecipientType) {
       this.triggerModelChangeBatch({
         giverType,
         isUsingOtherFeedbackPath: false,
