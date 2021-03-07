@@ -2,7 +2,7 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.google.appengine.api.datastore.Text;
+import com.google.cloud.datastore.StringValue;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -34,7 +34,7 @@ public class FeedbackSession extends BaseEntity {
     private String creatorEmail;
 
     @Unindex
-    private Text instructions;
+    private StringValue instructions;
 
     @Unindex
     @Translate(InstantTranslatorFactory.class)
@@ -142,11 +142,11 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public String getInstructions() {
-        return instructions == null ? null : instructions.getValue();
+        return instructions == null ? null : instructions.get();
     }
 
     public void setInstructions(String instructions) {
-        this.instructions = instructions == null ? null : new Text(instructions);
+        this.instructions = instructions == null ? null : new StringValue(instructions);
     }
 
     public Instant getCreatedTime() {

@@ -4,7 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
+import com.google.cloud.datastore.StringValue;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -39,10 +39,10 @@ public class FeedbackQuestion extends BaseEntity {
      * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetails()
      */
     @Unindex
-    private Text questionText;
+    private StringValue questionText;
 
     @Unindex
-    private Text questionDescription;
+    private StringValue questionDescription;
 
     private int questionNumber;
 
@@ -145,19 +145,19 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public String getQuestionMetaData() {
-        return questionText == null ? null : questionText.getValue();
+        return questionText == null ? null : questionText.get();
     }
 
     public void setQuestionText(String questionText) {
-        this.questionText = questionText == null ? null : new Text(questionText);
+        this.questionText = questionText == null ? null : new StringValue(questionText);
     }
 
     public String getQuestionDescription() {
-        return questionDescription == null ? null : questionDescription.getValue();
+        return questionDescription == null ? null : questionDescription.get();
     }
 
     public void setQuestionDescription(String questionDescription) {
-        this.questionDescription = questionDescription == null ? null : new Text(questionDescription);
+        this.questionDescription = questionDescription == null ? null : new StringValue(questionDescription);
     }
 
     public FeedbackQuestionType getQuestionType() {

@@ -2,7 +2,7 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.google.appengine.api.datastore.Text;
+import com.google.cloud.datastore.StringValue;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -40,7 +40,7 @@ public class StudentProfile extends BaseEntity {
     private String gender;
 
     @Unindex
-    private Text moreInfo;
+    private StringValue moreInfo;
 
     @Index
     @Translate(InstantTranslatorFactory.class)
@@ -147,11 +147,11 @@ public class StudentProfile extends BaseEntity {
     }
 
     public String getMoreInfo() {
-        return this.moreInfo == null ? null : this.moreInfo.getValue();
+        return this.moreInfo == null ? null : this.moreInfo.get();
     }
 
     public void setMoreInfo(String moreInfo) {
-        this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
+        this.moreInfo = moreInfo == null ? null : new StringValue(moreInfo);
     }
 
     public Instant getModifiedDate() {
