@@ -1,8 +1,21 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {StatusMessageService} from '../../../services/status-message.service';
+import { TimezoneService } from '../../../services/timezone.service';
+import { FeedbackSession } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH } from '../../../types/field-validator';
-import {FeedbackSession} from "../../../types/api-output";
 
+interface Timezone {
+  id: string;
+  offset: string;
+}
+
+const formatTwoDigits: Function = (n: number): string => {
+  if (n < 10) {
+    return `0${n}`;
+  }
+  return String(n);
+};
 
 /**
  * Copy current course modal.
@@ -15,26 +28,47 @@ import {FeedbackSession} from "../../../types/api-output";
 export class CopyCourseModalComponent implements OnInit {
 
   // const
-  public COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
+  COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
+  timezones: Timezone[] = [];
+  newTimezone: string = '';
+  newCourseId: string = '';
+  newCourseName: string = '';
+  oldCourseId: string = '';
 
-  public newCourseId : string = '';
-
-  @Input()
-  public sessionsInCourse : FeedbackSession[] = [];
+  @Input() sessionsInCourse : FeedbackSession[] = [];
 
   chosenFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
 
-  constructor(public activeModal: NgbActiveModal) { }
+  constructor(public activeModal: NgbActiveModal,
+              private statusMessageService: StatusMessageService,
+              private timezoneService: TimezoneService) { }
 
   ngOnInit(): void {
+    for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
+      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
+      const minOffset: number = Math.abs(offset) % 60;
+      const sign: string = offset < 0 ? '-' : '+';
+      this.timezones.push({
+        id,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
+      });
+    }
+    this.newTimezone = this.timezoneService.guessTimezone();
   }
 
   /**
    * Fires the copy event.
    */
   copy(): void {
+    if (!this.newCourseId || !this.newCourseName) {
+      this.statusMessageService.showErrorToast(
+          'Please make sure you have filled in both Course ID and Name before adding the course!');
+      return;
+    }
     this.activeModal.close({
       newCourseId: this.newCourseId,
+      newCourseName: this.newCourseName,
+      newTimeZone: this.newTimezone,
       chosenFeedbackSessionList: Array.from(this.chosenFeedbackSessions)
     });
   }
@@ -49,19 +83,19 @@ export class CopyCourseModalComponent implements OnInit {
   /**
    * Clear selected sessions
    */
-  clearSessions(): void {
-    if (this.chosenFeedbackSessions.size > 0) {
+  toggleSelection(): void {
+    if (this.chosenFeedbackSessions.size != this.sessionsInCourse.length) {
+      this.chosenFeedbackSessions = new Set(this.sessionsInCourse);
+    } else {
       this.chosenFeedbackSessions = new Set<FeedbackSession>();
     }
   }
 
   /**
-   * Select all sessions
+   * Auto-detects timezone for instructor.
    */
-  addAllSessions(): void {
-    if (this.chosenFeedbackSessions.size != this.sessionsInCourse.length) {
-      this.chosenFeedbackSessions = new Set(this.sessionsInCourse);
-    }
+  onAutoDetectTimezone(): void {
+    this.newTimezone = this.timezoneService.guessTimezone();
   }
 
 }
