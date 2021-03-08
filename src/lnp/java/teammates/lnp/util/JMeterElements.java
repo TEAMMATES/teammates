@@ -179,7 +179,7 @@ public final class JMeterElements {
      * Overloaded method that returns a HTTP Request Defaults element that listens to the server at "localhost:8080".
      */
     public static ConfigTestElement defaultSampler() {
-        return defaultSampler("localhost", "8080");
+        return defaultSampler("7-0-0-dot-hieuteammates.appspot.com", "");
     }
 
     /**
@@ -192,7 +192,7 @@ public final class JMeterElements {
 
         loginSampler.setName("Login");
         loginSampler.setPath(
-                "_ah/login?action=Log+In&email=${loginId}&isAdmin=${isAdmin}&continue=http://localhost:8080/webapi/auth");
+                "_ah/login?action=Log+In&email=${loginId}&isAdmin=${isAdmin}&continue=https://7-0-0-dot-hieuteammates.appspot.com/webapi/auth");
         loginSampler.setMethod("POST");
         loginSampler.setFollowRedirects(true);
         loginSampler.setUseKeepAlive(true);
