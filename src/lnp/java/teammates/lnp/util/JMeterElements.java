@@ -192,7 +192,7 @@ public final class JMeterElements {
 
         loginSampler.setName("Login");
         loginSampler.setPath(
-                "_ah/login?action=Log+In&email=${loginId}&isAdmin=${isAdmin}&continue=http://localhost:8080/webapi/auth");
+                "devServerLogin?email=${loginId}&isAdmin=${isAdmin}&nextUrl=http://localhost:8080/webapi/auth");
         loginSampler.setMethod("POST");
         loginSampler.setFollowRedirects(true);
         loginSampler.setUseKeepAlive(true);

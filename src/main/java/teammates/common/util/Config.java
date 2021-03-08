@@ -2,6 +2,8 @@ package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import teammates.common.exception.TeammatesException;
@@ -45,8 +47,17 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
+    /** The value of the "app.oauth2.client.id" in build.properties file. */
+    public static final String OAUTH2_CLIENT_ID;
+
+    /** The value of the "app.oauth2.client.secret" in build.properties file. */
+    public static final String OAUTH2_CLIENT_SECRET;
+
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
+
+    /** The value of the "app.admins" in build.properties file. */
+    public static final List<String> APP_ADMINS;
 
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
@@ -105,7 +116,10 @@ public final class Config {
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
         BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
+        OAUTH2_CLIENT_ID = properties.getProperty("app.oauth2.client.id");
+        OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
+        APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
