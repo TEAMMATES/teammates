@@ -43,7 +43,7 @@ public class OriginCheckFilter implements Filter {
     ));
 
     private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
-            Const.CsrfConfig.TOKEN_HEADER_NAME,
+            Const.SecurityConfig.CSRF_HEADER_NAME,
             "Content-Type",
             "ngsw-bypass"
     ));
@@ -144,7 +144,7 @@ public class OriginCheckFilter implements Filter {
     }
 
     private String getCsrfTokenErrorIfAny(HttpServletRequest request) {
-        String csrfToken = request.getHeader(Const.CsrfConfig.TOKEN_HEADER_NAME);
+        String csrfToken = request.getHeader(Const.SecurityConfig.CSRF_HEADER_NAME);
         if (csrfToken == null || csrfToken.isEmpty()) {
             return "Missing CSRF token.";
         }

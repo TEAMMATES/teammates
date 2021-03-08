@@ -169,10 +169,11 @@ public final class Const {
 
     }
 
-    public static class CsrfConfig {
+    public static class SecurityConfig {
 
-        public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
-        public static final String TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
+        public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
     }
 
@@ -198,6 +199,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
+        public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
