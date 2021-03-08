@@ -1,8 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackSession } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH } from '../../../types/field-validator';
-import {FeedbackSession} from "../../../types/api-output";
-
 
 /**
  * Copy current course modal.
@@ -10,17 +9,17 @@ import {FeedbackSession} from "../../../types/api-output";
 @Component({
   selector: 'tm-copy-course-modal',
   templateUrl: './copy-course-modal.component.html',
-  styleUrls: ['./copy-course-modal.component.scss']
+  styleUrls: ['./copy-course-modal.component.scss'],
 })
 export class CopyCourseModalComponent implements OnInit {
 
   // const
-  public COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
+  COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
 
-  public newCourseId : string = '';
+  newCourseId: string = '';
 
   @Input()
-  public sessionsInCourse : FeedbackSession[] = [];
+  sessionsInCourse: FeedbackSession[] = [];
 
   chosenFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
 
@@ -35,7 +34,7 @@ export class CopyCourseModalComponent implements OnInit {
   copy(): void {
     this.activeModal.close({
       newCourseId: this.newCourseId,
-      chosenFeedbackSessionList: Array.from(this.chosenFeedbackSessions)
+      chosenFeedbackSessionList: Array.from(this.chosenFeedbackSessions),
     });
   }
 
@@ -43,7 +42,8 @@ export class CopyCourseModalComponent implements OnInit {
    * Toggles selection of course to copy to in set.
    */
   select(session: FeedbackSession): void {
-    this.chosenFeedbackSessions.has(session) ? this.chosenFeedbackSessions.delete(session) : this.chosenFeedbackSessions.add(session);
+    this.chosenFeedbackSessions.has(session) ? this.chosenFeedbackSessions.delete(session) :
+        this.chosenFeedbackSessions.add(session);
   }
 
   /**
@@ -59,7 +59,7 @@ export class CopyCourseModalComponent implements OnInit {
    * Select all sessions
    */
   addAllSessions(): void {
-    if (this.chosenFeedbackSessions.size != this.sessionsInCourse.length) {
+    if (this.chosenFeedbackSessions.size !== this.sessionsInCourse.length) {
       this.chosenFeedbackSessions = new Set(this.sessionsInCourse);
     }
   }

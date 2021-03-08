@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FormsModule } from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 import { CopyCourseModalComponent } from './copy-course-modal.component';
 
 /**
@@ -8,11 +8,11 @@ import { CopyCourseModalComponent } from './copy-course-modal.component';
  */
 @NgModule({
   declarations: [
-      CopyCourseModalComponent
+    CopyCourseModalComponent,
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
   ],
   entryComponents: [
     CopyCourseModalComponent,

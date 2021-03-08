@@ -1,9 +1,9 @@
-import {FeedbackSession} from "../../../types/api-output";
+import { FeedbackSession } from '../../../types/api-output';
 
 /**
  * Result of {@link CopyCourseModalComponent}
  */
 export interface CopyCourseModalResult {
-    newCourseId: string;
-    chosenFeedbackSessionList: Set<FeedbackSession>;
+  newCourseId: string;
+  chosenFeedbackSessionList: Set<FeedbackSession>;
 }
