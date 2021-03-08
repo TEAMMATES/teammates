@@ -268,13 +268,16 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
       modalRef.componentInstance.newCourseId = courseId;
+      modalRef.componentInstance.oldCourseId = courseId;
+      modalRef.componentInstance.newCourseName = courseName;
+      modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.sessionsInCourse = response.feedbackSessions;
       modalRef.componentInstance.chosenFeedbackSessions = new Set(response.feedbackSessions);
       modalRef.result.then((result: CopyCourseModalResult) => {
         this.isLoading = true;
         this.courseService.createCourse({
-          courseName,
-          timeZone,
+          courseName: result.newCourseName,
+          timeZone: result.newTimeZone,
           courseId: result.newCourseId,
         }).subscribe(() => {
           this.statusMessageService.showSuccessToast('The course has been added.');
