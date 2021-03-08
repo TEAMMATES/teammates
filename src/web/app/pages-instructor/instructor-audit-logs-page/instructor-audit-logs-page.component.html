@@ -39,7 +39,7 @@
       </div>
     </div>
     <div class="row form-group">
-      <div class="col-5">
+      <div class="col-6">
         <div class="col-12">
           <label for="course-id-dropdown">Course ID</label>
         </div>
@@ -52,15 +52,17 @@
         </div>
       </div>
       <div class="col-6">
-        <div class="col-12">
-          <label for="student-name-input">Student Name (Optional)</label>
+        <div class="row col">
+          <div class="col-12">
+            <label for="student-name-input">Student Name (Optional)</label>
+          </div>
+          <div class="col-6">
+            <input id="student-name-input" class="form-control" type="text" [(ngModel)]="formModel.studentName" placeholder="Student Name"/>
+          </div>
+          <div class="col-6">
+            <button class="float-right btn btn-primary" (click)="search()">Search</button>
+          </div>
         </div>
-        <div class="col-12">
-          <input id="student-name-input" class="form-control col-6" type="text" [(ngModel)]="formModel.studentName" placeholder="Student Name"/>
-        </div>
-      </div>
-      <div class="col-1">
-        <button class="btn btn-primary mt-4" (click)="search()">Search</button>
       </div>
     </div>
   </div>
