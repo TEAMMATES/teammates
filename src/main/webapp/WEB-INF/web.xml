@@ -56,6 +56,39 @@
     </servlet-mapping>
 
     <servlet>
+        <description>Servlet that handles login requests in dev server</description>
+        <servlet-name>DevServerLoginServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.DevServerLoginServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DevServerLoginServlet</servlet-name>
+        <url-pattern>/devServerLogin</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>Servlet that handles login requests</description>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.LoginServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>Servlet that handles OAuth2 callback</description>
+        <servlet-name>OAuth2CallbackServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.OAuth2CallbackServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OAuth2CallbackServlet</servlet-name>
+        <url-pattern>/oauth2callback/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <description>Servlet that handles logout requests</description>
         <servlet-name>LogoutServlet</servlet-name>
         <servlet-class>teammates.ui.webapi.LogoutServlet</servlet-class>
@@ -81,33 +114,6 @@
             <web-resource-name>AllResources</web-resource-name>
             <url-pattern>/*</url-pattern>
         </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AutomatedActions</web-resource-name>
-            <description>Servlets that trigger automated actions</description>
-            <url-pattern>/auto/*</url-pattern>
-            <url-pattern>/worker/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AdminResources</web-resource-name>
-            <description>For admin use only</description>
-            <url-pattern>/web/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
         <user-data-constraint>
             <transport-guarantee>CONFIDENTIAL</transport-guarantee>
         </user-data-constraint>

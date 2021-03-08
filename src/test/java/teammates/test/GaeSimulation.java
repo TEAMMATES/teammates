@@ -12,12 +12,9 @@ import javax.servlet.http.Part;
 
 import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
-import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.RecaptchaVerifier;
-import teammates.logic.api.UserProvision;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
 
@@ -32,7 +29,6 @@ public class GaeSimulation {
     // This can be any valid URL; it is not used beyond validation
     private static final String SIMULATION_BASE_URL = "http://localhost:8080";
 
-    private static UserProvision userProvision = new UserProvision();
     private static GaeSimulation instance = new GaeSimulation();
 
     private LocalServiceTestHelper helper;
@@ -51,47 +47,12 @@ public class GaeSimulation {
         synchronized (this) {
             System.out.println("Setting up GAE simulation");
 
-            LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
             LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-            helper = new LocalServiceTestHelper(localUserServices, localModules);
+            helper = new LocalServiceTestHelper(localModules);
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();
         }
-    }
-
-    private UserInfo loginUser(String userId, boolean isAdmin) {
-        helper.setEnvIsLoggedIn(true);
-        helper.setEnvEmail(userId);
-        helper.setEnvAuthDomain("gmail.com");
-        helper.setEnvIsAdmin(isAdmin);
-        return userProvision.getCurrentUser();
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment without admin rights.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginUser(String userId) {
-        return loginUser(userId, false);
-    }
-
-    /**
-     * Logs in the user to the GAE simulation environment as an admin.
-     *
-     * @return The user info after login process
-     */
-    public UserInfo loginAsAdmin(String userId) {
-        return loginUser(userId, true);
-    }
-
-    /**
-     * Logs the current user out of the GAE simulation environment.
-     */
-    public void logoutUser() {
-        helper.setEnvIsLoggedIn(false);
-        helper.setEnvIsAdmin(false);
     }
 
     /**
