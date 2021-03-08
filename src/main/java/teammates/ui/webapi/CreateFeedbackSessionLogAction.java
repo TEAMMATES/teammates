@@ -38,24 +38,10 @@ class CreateFeedbackSessionLogAction extends Action {
             return new JsonResult("Invalid feedback session log type.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        StudentAttributes student;
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        if (studentEmail == null) {
-            student = getUnregisteredStudent().orElseGet(() -> {
-                if (userInfo == null) {
-                    return null;
-                }
-                return logic.getStudentForGoogleId(courseId, userInfo.id);
-            });
-        } else {
-            student = logic.getStudentForEmail(courseId, studentEmail);
-        }
-
+        String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
             return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
-        } else {
-            studentEmail = student.getEmail();
         }
 
         try {

@@ -17,7 +17,6 @@ import com.google.cloud.logging.Severity;
 
 import teammates.common.exception.LoggingServiceException;
 import teammates.common.util.Config;
-import teammates.common.util.Logger;
 
 /**
  * Logging service that leverages on Google Cloud Logging to create and search for logs.
@@ -26,8 +25,6 @@ import teammates.common.util.Logger;
  * @see <a href="https://cloud.google.com/logging/docs">https://cloud.google.com/logging/docs</a>
  */
 public class LoggingService {
-
-    private static final Logger log = Logger.getLogger();
 
     private LoggingService() {
         // prevent initialization
@@ -45,7 +42,6 @@ public class LoggingService {
             logging.write(Collections.singleton(entry));
             logging.close();
         } catch (Exception e) {
-            log.severe("Failed to create feedback session log for log entry: " + entry.toString());
             throw new LoggingServiceException(e);
         }
     }
