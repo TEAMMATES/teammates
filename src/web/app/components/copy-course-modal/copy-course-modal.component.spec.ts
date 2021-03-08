@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -11,7 +12,10 @@ describe('CopyCourseModalComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CopyCourseModalComponent],
-      imports: [FormsModule],
+      imports: [
+        HttpClientTestingModule,
+        FormsModule,
+      ],
       providers: [NgbActiveModal],
     })
     .compileComponents();
@@ -35,20 +39,22 @@ describe('CopyCourseModalComponent', () => {
     component.newCourseId = 'Test02';
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
-
   });
 
   it('should enable copy button after new courseId is provided', () => {
     component.newCourseId = 'Test02';
+    component.newCourseName = 'TestName02';
     fixture.detectChanges();
-    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
+    const copyButton: any = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
     expect(copyButton.nativeElement.disabled).toBeFalsy();
   });
 
   it('should disable copy if courseId is empty', () => {
     component.newCourseId = '';
+    component.newCourseName = 'TestName02';
     fixture.detectChanges();
-    const copyButton: any = fixture.debugElement.query(By.css('button.btn.btn-primary'));
+    const copyButton: any = fixture.debugElement.query(By.css('#btn-confirm-copy-course'));
     expect(copyButton.nativeElement.disabled).toBeTruthy();
   });
+
 });

@@ -54,5 +54,5 @@
 <div class="modal-footer">
     <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
     <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
-            [disabled]="!newCourseId">Copy</button>
+            [disabled]="!newCourseId || !newCourseName">Copy</button>
 </div>

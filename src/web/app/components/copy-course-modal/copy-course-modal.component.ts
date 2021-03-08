@@ -43,7 +43,7 @@ export class CopyCourseModalComponent implements OnInit {
 
   constructor(public activeModal: NgbActiveModal,
               private statusMessageService: StatusMessageService,
-              private timezoneService: TimezoneService) { }
+              private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
     for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
