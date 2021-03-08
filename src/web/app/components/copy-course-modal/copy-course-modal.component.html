@@ -1,6 +1,6 @@
 <div class="modal-header">
     <h5 class="modal-title">
-        <div>Copy course and its sessions</div>
+        <div>Course to copy: <b>{{oldCourseId}}</b></div>
     </h5>
     <button type="button" class="close" (click)="activeModal.dismiss()">
         <i class="fas fa-times"></i>
@@ -10,13 +10,36 @@
     <div class="row">
         <div class="col-12">
             <div class="form-group">
-                <label><b>Choose new Course ID</b></label>
+                <label><b>New Course ID</b></label>
                 <input id="copy-course-id" type="text" class="form-control" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
-            <div class="modal-selection">
-                <button type="button" class="btn btn-info btn-sm" (click)="addAllSessions()">Select All</button>
-                <button type="button" class="btn btn-light btn-sm" (click)="clearSessions()">Clear All</button>
+            <div class="form-group">
+                <label><b>Course Name</b></label>
+                <input id="new-course-name" class="form-control" type="text" [(ngModel)]="newCourseName"
+                       [maxlength]="64"/>
+                <span>{{ 64 - newCourseName.length }} characters left</span>
+            </div>
+            <div class="form-group">
+                <label><span ngbTooltip="You should not
+                        need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+                        to match the current time offset in your area, including clock changes due to daylight saving time.">
+                <b>Time Zone</b></span></label>
+                <div class="input-group">
+                    <select id="new-time-zone" class="form-control" [(ngModel)]="newTimezone">
+                        <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
+                    </select>
+                    <span class="input-group-btn" style="margin-left: 5px;">
+                        <button class="btn btn-primary btn-margin-left" (click)="onAutoDetectTimezone()">Auto Detect</button>
+                    </span>
+                </div>
+            </div>
+            <div> <label><b>Select Feedback Sessions</b></label>
+                <div class="form-check">
+                    <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
+                           [checked]="chosenFeedbackSessions.size == sessionsInCourse.length" (click)="toggleSelection()">
+                    <span>Select all sessions</span>
+                </div>
             </div>
             <div class="form-check" *ngFor="let session of sessionsInCourse">
                 <label class="form-check-label">
