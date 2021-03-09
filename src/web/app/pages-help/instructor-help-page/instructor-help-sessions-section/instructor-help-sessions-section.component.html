@@ -218,7 +218,7 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!-- Question -->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_PREVIEW)"
                             [id]="SessionsSectionQuestions.SESSION_PREVIEW"
                             headerText="How do I preview a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
@@ -254,6 +254,27 @@
       </div>
     </tm-example-box>
   </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VISIBILITY_SETTINGS)"
+                            [id]="SessionsSectionQuestions.VISIBILITY_SETTINGS"
+                            headerText="Can I change visibility settings after session has started?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VISIBILITY_SETTINGS]">
+                          
+    <p>
+      You can change the visibility settings of the session after it has started, but it is highly recommended you don't.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.COMPULSORY)"
+                            [id]="SessionsSectionQuestions.COMPULSORY"
+                            headerText="Can I set a question as compulsory?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.COMPULSORY]">
+                          
+    <p>
+      At the moment there is not a way to set a question as compulsory. However, you can put in the questions optional description that it is 
+      compulsory, but it cannot be enforced this way.
+    </p>
+  </tm-instructor-help-panel>
 
   <!--Section-->
   <h4 *ngIf="displaySubsection(4, 7)">Managing Session Responses</h4>
@@ -283,6 +304,17 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
+  <!-- Question -->
+    <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.NO_LINK_TO_RESPOND"
+                              [id]="SessionsSectionQuestions.NO_LINK_TO_RESPOND"
+                              headerText="A student says they did not recieve a link to submit a response. What do I do?">
+
+      <p>
+        It is recommended that you verify that the email they enrolled with is valid. If it is you can <b>Remind</b> students which will
+        send them another email. If that does not work you can get the student to send them the answers to the questions and you can submit it 
+        for them.
+      </p>
+</tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_VIEW_RESULTS)"
                             [id]="SessionsSectionQuestions.SESSION_VIEW_RESULTS"
@@ -407,6 +439,45 @@
         </div>
       </div>
     </tm-example-box>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENTS_SEE_RESPONSE)"
+                            [id]="SessionsSectionQuestions.STUDENTS_SEE_RESPONSE"
+                            headerText="When do students see responses?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENTS_SEE_RESPONSE]">
+                          
+    <p>
+      Responses are available to view as soon as you hit publish on the session.
+    </p>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_AFTER_SUBMIT"
+                            [id]="SessionsSectionQuestions.EDIT_AFTER_SUBMIT"
+                            headerText="Can students edit responses after they have submitted them?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EDIT_AFTER_SUBMIT]">
+    <p>
+      Students can edit responsed until you have published the responses.
+    </p>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EXTEND_DEADLINE"
+                            [id]="SessionsSectionQuestions.EXTEND_DEADLINE"
+                            headerText="Can I extend a sessions deadline?"
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EXTEND_DEADLINE]">
+
+    <p>
+      It is possible to extend the deadline of a session by editing the end date to when you would like it extended to.
+    </p>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SPECIFIC_STUDENT_EXTENSION)"
+                            [id]="SessionsSectionQuestions.SPECIFIC_STUDENT_EXTENSION"
+                            headerText="Can I extend the deadline for a specific student?">
+
+    <p>
+      At the moment it is not possible to extend the deadline for a specific student, but you can get the student to send their answers to you
+      so you can submit it for them.
+    </p>
   </tm-instructor-help-panel>
   <!--Question-->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_ALL_RESPONSES)"
@@ -601,4 +672,7 @@
       </tm-sessions-recycle-bin-table>
     </tm-example-box>
   </tm-instructor-help-panel>
+
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn"
 </div>

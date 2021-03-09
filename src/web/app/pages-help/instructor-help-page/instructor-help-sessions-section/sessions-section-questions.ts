@@ -71,4 +71,50 @@ export enum SessionsSectionQuestions {
    * How do I restore/delete all sessions from Recycle Bin?
    */
   RESTORE_DEL_ALL = 'restore-del-all',
+
+  /**
+   * When do students see responses?
+   */
+  STUDENTS_SEE_RESPONSE = 'students-see_response',
+
+  /**
+   * Can I change visibility settings after the session has started?
+   */
+  VISIBILITY_SETTINGS = 'visibility-settings',
+
+  /**
+   * Can students edit responses after they have submitted them?
+   */
+  EDIT_AFTER_SUBMITTED = 'edit-after-submitted',
+
+  /**
+   * Can I set a question as compulsory?
+   */
+  COMPULSORY = 'compulsory',
+
+  /**
+   * Can I extend the deadline?
+   */
+  EXTEND_DEADLINE = 'extend-deadline',
+
+  /**
+   * Can I extend the deadline for a specific student?
+   */
+  SPECIFIC_STUDENT_EXTENSION = 'specific-student-extension',
+
+  /**
+   * Can I see when a student tried to access the submission page?
+   */
+  VIEW_SUBMISSION_ACCESS_TIME = 'view-submission-access-time',
+
+  /**
+   * How can I resend links to view the session results?
+   */
+  RESEND_SESSION_RESULTS = 'resend-session-results',
+
+  /**
+   * A student says he/she did not recieve the link to submit responses. What do i do?
+   */
+  NO_LINK_TO_RESPOND = 'no-link-to-respond'
+
 }
