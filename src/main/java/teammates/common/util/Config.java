@@ -15,9 +15,6 @@ import teammates.common.exception.TeammatesException;
  */
 public final class Config {
 
-    /** The value of the application URL, or null if no server instance is running. */
-    public static final String APP_URL;
-
     /** The value of the "app.id" in build.properties file. */
     public static final String APP_ID;
 
@@ -88,7 +85,6 @@ public final class Config {
     public static final boolean MAINTENANCE;
 
     static {
-        APP_URL = readAppUrl();
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
@@ -124,7 +120,7 @@ public final class Config {
         // access static fields directly
     }
 
-    private static String readAppUrl() {
+    static String getBaseAppUrl() {
         ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
         if (serverEnvironment == null) {
             return null;
@@ -179,7 +175,7 @@ public final class Config {
      * {@code relativeUrl} must start with a "/".
      */
     private static AppUrl getBackEndAppUrl(String relativeUrl) {
-        return new AppUrl(APP_URL + relativeUrl);
+        return new AppUrl(getBaseAppUrl() + relativeUrl);
     }
 
     public static boolean isUsingSendgrid() {

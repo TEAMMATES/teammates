@@ -3,17 +3,15 @@ package teammates.client.scripts;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.appengine.tools.cloudstorage.GcsFilename;
-import com.google.appengine.tools.cloudstorage.GcsService;
-import com.google.appengine.tools.cloudstorage.GcsServiceFactory;
-import com.google.appengine.tools.cloudstorage.RetryParams;
+import com.google.cloud.storage.Blob;
+import com.google.cloud.storage.Storage;
+import com.google.cloud.storage.StorageOptions;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.client.util.ClientProperties;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
@@ -100,23 +98,14 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         ofy().delete().type(Account.class).id(oldGoogleId).now();
 
         if (oldStudentProfile != null) {
-            String pictureKey = oldStudentProfile.getPictureKey();
-
             if (!ClientProperties.isTargetUrlDevServer()) {
-                try {
-                    GcsFilename oldGcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, oldGoogleId);
-                    GcsFilename newGcsFilename = new GcsFilename(Config.PRODUCTION_GCS_BUCKETNAME, newGoogleId);
-                    GcsService gcsService = GcsServiceFactory.createGcsService(RetryParams.getDefaultInstance());
-                    gcsService.copy(oldGcsFilename, newGcsFilename);
-                    gcsService.delete(oldGcsFilename);
-                    pictureKey = GoogleCloudStorageHelper.createBlobKey(newGoogleId);
-                } catch (Exception e) {
-                    log("Profile picture not exist or error during copy: " + e.getMessage());
-                }
+                Storage storage = StorageOptions.newBuilder().setProjectId(Config.APP_ID).build().getService();
+                Blob blob = storage.get(Config.PRODUCTION_GCS_BUCKETNAME, oldGoogleId);
+                blob.copyTo(Config.PRODUCTION_GCS_BUCKETNAME, newGoogleId);
+                blob.delete();
             }
 
             oldStudentProfile.setGoogleId(newGoogleId);
-            oldStudentProfile.setPictureKey(pictureKey);
             ofy().save().entity(oldStudentProfile).now();
             ofy().delete().key(oldStudentProfileKey).now();
         }

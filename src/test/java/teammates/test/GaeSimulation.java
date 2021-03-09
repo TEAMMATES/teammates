@@ -138,6 +138,7 @@ public class GaeSimulation {
             Action action = new ActionFactory().getAction(req, method);
             action.setTaskQueuer(new MockTaskQueuer());
             action.setEmailSender(new MockEmailSender());
+            action.setFileStorage(new MockFileStorage());
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             return action;
         } catch (ActionMappingException e) {
