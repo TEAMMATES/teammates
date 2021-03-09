@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.security.SecureRandom;
 
-import com.google.cloud.datastore.StringValue;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -52,7 +51,8 @@ public class Instructor extends BaseEntity {
     @Unindex
     private String displayedName;
 
-    private StringValue instructorPrivilegesAsText;
+    @Unindex
+    private String instructorPrivilegesAsText;
 
     @SuppressWarnings("unused")
     private Instructor() {
@@ -205,10 +205,10 @@ public class Instructor extends BaseEntity {
         if (instructorPrivilegesAsText == null) {
             return null;
         }
-        return instructorPrivilegesAsText.get();
+        return instructorPrivilegesAsText;
     }
 
     public void setInstructorPrivilegeAsText(String instructorPrivilegesAsText) {
-        this.instructorPrivilegesAsText = new StringValue(instructorPrivilegesAsText);
+        this.instructorPrivilegesAsText = instructorPrivilegesAsText;
     }
 }
