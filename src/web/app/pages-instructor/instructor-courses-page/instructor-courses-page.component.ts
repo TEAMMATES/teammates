@@ -270,6 +270,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       modalRef.componentInstance.newCourseId = courseId;
       modalRef.componentInstance.oldCourseId = courseId;
       modalRef.componentInstance.newCourseName = courseName;
+      modalRef.componentInstance.oldCourseName = courseName;
       modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.sessionsInCourse = response.feedbackSessions;
       modalRef.componentInstance.chosenFeedbackSessions = new Set(response.feedbackSessions);

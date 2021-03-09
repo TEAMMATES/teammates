@@ -1,6 +1,7 @@
 <div class="modal-header">
     <h5 class="modal-title">
-        <div>Course to copy: <b>{{oldCourseId}}</b></div>
+        <div>Course to copy: <b>{{oldCourseName}}</b></div>
+        <small>Course ID: <b>{{oldCourseId}}</b></small>
     </h5>
     <button type="button" class="close" (click)="activeModal.dismiss()">
         <i class="fas fa-times"></i>
@@ -34,12 +35,10 @@
                     </span>
                 </div>
             </div>
-            <div> <label><b>Select Feedback Sessions</b></label>
-                <div class="form-check">
-                    <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
-                           [checked]="chosenFeedbackSessions.size == sessionsInCourse.length" (click)="toggleSelection()">
-                    <span>Select all sessions</span>
-                </div>
+            <div class="form-check">
+                <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
+                       [checked]="chosenFeedbackSessions.size == sessionsInCourse.length" (click)="toggleSelection()">
+                <span><b>Sessions to copy:</b></span>
             </div>
             <div class="form-check" *ngFor="let session of sessionsInCourse">
                 <label class="form-check-label">

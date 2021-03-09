@@ -38,6 +38,7 @@ export class CopyCourseModalComponent implements OnInit {
   newCourseId: string = '';
   newCourseName: string = '';
   oldCourseId: string = '';
+  oldCourseName: string = '';
 
   chosenFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
 

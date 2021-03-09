@@ -9,6 +9,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
+  oldCourseName=""
   sessionsInCourse={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -26,6 +27,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           
         </b>
       </div>
+      <small>
+        Course ID: 
+        <b>
+          
+        </b>
+      </small>
     </h5>
     <button
       class="close"
@@ -3056,24 +3063,19 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             </span>
           </div>
         </div>
-        <div>
-          <label>
+        <div
+          class="form-check"
+        >
+          <input
+            class="form-check-input"
+            name="copyCourseChooseSessions"
+            type="checkbox"
+          />
+          <span>
             <b>
-              Select Feedback Sessions
+              Sessions to copy:
             </b>
-          </label>
-          <div
-            class="form-check"
-          >
-            <input
-              class="form-check-input"
-              name="copyCourseChooseSessions"
-              type="checkbox"
-            />
-            <span>
-              Select all sessions
-            </span>
-          </div>
+          </span>
         </div>
         
       </div>
@@ -3108,6 +3110,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
+  oldCourseName=""
   sessionsInCourse={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -3125,6 +3128,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           
         </b>
       </div>
+      <small>
+        Course ID: 
+        <b>
+          
+        </b>
+      </small>
     </h5>
     <button
       class="close"
@@ -6155,24 +6164,19 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             </span>
           </div>
         </div>
-        <div>
-          <label>
+        <div
+          class="form-check"
+        >
+          <input
+            class="form-check-input"
+            name="copyCourseChooseSessions"
+            type="checkbox"
+          />
+          <span>
             <b>
-              Select Feedback Sessions
+              Sessions to copy:
             </b>
-          </label>
-          <div
-            class="form-check"
-          >
-            <input
-              class="form-check-input"
-              name="copyCourseChooseSessions"
-              type="checkbox"
-            />
-            <span>
-              Select all sessions
-            </span>
-          </div>
+          </span>
         </div>
         
       </div>
