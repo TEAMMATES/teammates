@@ -146,11 +146,11 @@ public class StudentProfile extends BaseEntity {
     }
 
     public String getMoreInfo() {
-        return this.moreInfo == null ? null : this.moreInfo;
+        return moreInfo;
     }
 
     public void setMoreInfo(String moreInfo) {
-        this.moreInfo = moreInfo == null ? null : moreInfo;
+        this.moreInfo = moreInfo;
     }
 
     public Instant getModifiedDate() {

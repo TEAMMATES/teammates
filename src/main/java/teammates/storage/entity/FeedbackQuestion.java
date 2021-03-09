@@ -144,19 +144,19 @@ public class FeedbackQuestion extends BaseEntity {
     }
 
     public String getQuestionMetaData() {
-        return questionText == null ? null : questionText;
+        return questionText;
     }
 
     public void setQuestionText(String questionText) {
-        this.questionText = questionText == null ? null : questionText;
+        this.questionText = questionText;
     }
 
     public String getQuestionDescription() {
-        return questionDescription == null ? null : questionDescription;
+        return questionDescription;
     }
 
     public void setQuestionDescription(String questionDescription) {
-        this.questionDescription = questionDescription == null ? null : questionDescription;
+        this.questionDescription = questionDescription;
     }
 
     public FeedbackQuestionType getQuestionType() {

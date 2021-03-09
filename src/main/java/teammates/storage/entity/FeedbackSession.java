@@ -141,11 +141,11 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public String getInstructions() {
-        return instructions == null ? null : instructions;
+        return instructions;
     }
 
     public void setInstructions(String instructions) {
-        this.instructions = instructions == null ? null : instructions;
+        this.instructions = instructions;
     }
 
     public Instant getCreatedTime() {

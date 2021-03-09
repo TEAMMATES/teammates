@@ -202,9 +202,6 @@ public class Instructor extends BaseEntity {
      * Gets the instructor privileges stored in JSON format.
      */
     public String getInstructorPrivilegesAsText() {
-        if (instructorPrivilegesAsText == null) {
-            return null;
-        }
         return instructorPrivilegesAsText;
     }
 

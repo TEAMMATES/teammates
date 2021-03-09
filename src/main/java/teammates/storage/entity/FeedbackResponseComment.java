@@ -226,11 +226,11 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public String getCommentText() {
-        return commentText == null ? null : commentText;
+        return commentText;
     }
 
     public void setCommentText(String commentText) {
-        this.commentText = commentText == null ? null : commentText;
+        this.commentText = commentText;
     }
 
     public String getGiverSection() {
