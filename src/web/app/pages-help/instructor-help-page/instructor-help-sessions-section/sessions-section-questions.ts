@@ -85,7 +85,7 @@ export enum SessionsSectionQuestions {
   /**
    * Can students edit responses after they have submitted them?
    */
-  EDIT_AFTER_SUBMITTED = 'edit-after-submitted',
+  EDIT_AFTER_SUBMIT = 'edit-after-submitted',
 
   /**
    * Can I set a question as compulsory?
