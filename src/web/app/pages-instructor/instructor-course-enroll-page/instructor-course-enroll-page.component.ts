@@ -33,6 +33,13 @@ interface EnrollResultPanel {
   animations: [collapseAnim],
 })
 export class InstructorCourseEnrollPageComponent implements OnInit {
+  generalErrorMessage: string = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
+        and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
+        alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
+        percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
+        more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
+  sectionErrorMessage: string = 'Section cannot be empty if the total number of students is more than 100. ';
+  teamErrorMessage: string = 'Duplicated team detected in different sections. ';
 
   // enum
   EnrollStatus: typeof EnrollStatus = EnrollStatus;
@@ -105,25 +112,44 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
     let currentStudentChunk: StudentEnrollRequest[] = [];
+    let totalStudentCount: number = 0;
+    let mainErrorFlag: boolean = false;
 
     // Parse the user input to be requests.
     // Handsontable contains null value initially,
     // see https://github.com/handsontable/handsontable/issues/3927
     newStudentsHOTInstance.getData()
         .filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
-        .forEach((row: string[]) => {
-          currentStudentChunk.push({
-            section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-            team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-            name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-            email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-            comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-                '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
-          });
+        .forEach((row: string[], index: number) => {
+          const _section: string = row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim();
+          const _team: string = row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim();
+          const _name: string = row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim();
+          const _email: string = row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim();
+          const _comments: string = row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
+              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim();
+
+          const errorFlag: boolean = this.checkCellsValidity(_section, _team, _name, _email, totalStudentCount,
+              index, newStudentsHOTInstance, hotInstanceColHeaders);
+
+          if (row.length > 0) {
+            if (errorFlag) {
+              mainErrorFlag = true;
+              return;
+            }
+
+            currentStudentChunk.push({
+              section: _section,
+              team: _team,
+              name: _name,
+              email: _email,
+              comments: _comments,
+            });
+            totalStudentCount += 1;
+          }
 
           if (currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
             this.allStudentChunks.push(currentStudentChunk);
@@ -133,6 +159,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     if (currentStudentChunk.length > 0) {
       this.allStudentChunks.push(currentStudentChunk);
       currentStudentChunk = [];
+    }
+    if (this.allStudentChunks.length === 0 || mainErrorFlag) {
+      this.enrollErrorMessage += this.generalErrorMessage;
+      this.statusMessageService.showErrorToast('There are some invalid rows');
+      this.isEnrolling = false;
+      return;
     }
 
     const enrolledStudents: Student[] = [];
@@ -177,6 +209,51 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.enrollErrorMessage = resp.error.message;
       },
     });
+  }
+
+  private checkCellsValidity(section: string, team: string, name: string, email: string, totalStudentCount: number,
+                            index: number, newStudentsHOTInstance: Handsontable,
+                             hotInstanceColHeaders: string[]): boolean {
+    let errorFlag: boolean = false;
+    // Section cannot be null/empty if the total number of students is more than 100
+    if ((section === null || section.trim() === '') && totalStudentCount >= 100) {
+      errorFlag = true;
+      if (!this.enrollErrorMessage.includes(this.sectionErrorMessage)) {
+        this.enrollErrorMessage += this.sectionErrorMessage;
+      }
+    }
+    // Team, name and email cannot be null/empty
+    // Team cannot be in different sections
+    const isTeamRepeated: boolean = !!this.allStudentChunks.find((chunk: StudentEnrollRequest[]) =>
+        chunk.find((request: StudentEnrollRequest) => request.team === team && request.section !== section),
+    );
+    if (team === null || team.trim() === '' || isTeamRepeated) {
+      errorFlag = true;
+      if (isTeamRepeated && !this.enrollErrorMessage.includes(this.teamErrorMessage)) {
+        this.enrollErrorMessage += this.teamErrorMessage;
+      }
+      newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(this.colHeaders[1]),
+          'className', 'invalid-row');
+      newStudentsHOTInstance.render();
+    }
+    if (name === null || name.trim() === '') {
+      errorFlag = true;
+      newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(this.colHeaders[2]),
+          'className', 'invalid-row');
+      newStudentsHOTInstance.render();
+    }
+    // Email cannot be repeated
+    const isEmailRepeated: boolean = !!this.allStudentChunks.find((chunk: StudentEnrollRequest[]) =>
+        chunk.find((request: StudentEnrollRequest) => request.email === email),
+    );
+    if (email === null || email.trim() === '' || isEmailRepeated) {
+      errorFlag = true;
+      newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(this.colHeaders[3]),
+          'className', 'invalid-row');
+      newStudentsHOTInstance.render();
+    }
+
+    return errorFlag;
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
@@ -235,6 +312,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           joinState: JoinState.NOT_JOINED,
           lastName: '',
         });
+
       }
     }
 
@@ -255,11 +333,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     if (studentLists[EnrollStatus.ERROR].length > 0) {
-      this.enrollErrorMessage = `You may check that: "Section" and "Comment" are optional while "Team", "Name",
-        and "Email" must be filled. "Section", "Team", "Name", and "Comment" should start with an
-        alphabetical character, unless wrapped by curly brackets "{}", and should not contain vertical bar "|" and
-        percentage sign "%". "Email" should contain some text followed by one "@" sign followed by some
-        more text. "Team" should not have the same format as email to avoid mis-interpretation.`;
+      this.enrollErrorMessage = this.generalErrorMessage;
       this.statusMessageService.showErrorToast('Some students failed to be enrolled, see the summary below.');
     }
     return panels;
