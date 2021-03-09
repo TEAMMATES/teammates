@@ -3,6 +3,7 @@ package teammates.logic.api;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -21,7 +22,6 @@ public class UserProvisionTest extends BaseLogicTest {
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes course = dataBundle.courses.get("typicalCourse2");
-        gaeSimulation.loginAsAdmin(instructor.googleId);
         // also make this user a student of another course
         StudentAttributes instructorAsStudent = StudentAttributes
                 .builder(course.getId(), "instructorasstudent@yahoo.com")
@@ -33,7 +33,7 @@ public class UserProvisionTest extends BaseLogicTest {
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 
-        UserInfo user = userProvision.getCurrentUser();
+        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.googleId, true));
         assertEquals(instructor.googleId, user.id);
         assertTrue(user.isAdmin);
         assertTrue(user.isInstructor);
@@ -41,9 +41,7 @@ public class UserProvisionTest extends BaseLogicTest {
 
         ______TS("unregistered");
 
-        gaeSimulation.loginUser("unknown");
-
-        user = userProvision.getCurrentUser();
+        user = userProvision.getCurrentUser(new UserInfoCookie("unknown", false));
         assertEquals("unknown", user.id);
         assertFalse(user.isAdmin);
         assertFalse(user.isInstructor);
@@ -52,8 +50,7 @@ public class UserProvisionTest extends BaseLogicTest {
         ______TS("not logged in");
 
         // check for user not logged in
-        gaeSimulation.logoutUser();
-        assertNull(userProvision.getCurrentUser());
+        assertNull(userProvision.getCurrentUser(null));
     }
 
 }

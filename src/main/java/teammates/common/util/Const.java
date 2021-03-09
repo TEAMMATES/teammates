@@ -172,6 +172,12 @@ public final class Const {
 
     }
 
+    public static class AuthConfig {
+
+        public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
+
+    }
+
     @Deprecated
     public static class LegacyURIs {
 
