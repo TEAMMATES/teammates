@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.FileHelper;
 
 /**
  * Servlet that handles dev server login.
@@ -25,7 +27,10 @@ public class DevServerLoginServlet extends HttpServlet {
             return;
         }
 
-        // TODO
+        String html = FileHelper.readResourceFile("devServerLoginPage.html");
+        resp.setContentType("text/html");
+        PrintWriter pw = resp.getWriter();
+        pw.print(html);
     }
 
     @Override
@@ -35,7 +40,19 @@ public class DevServerLoginServlet extends HttpServlet {
             return;
         }
 
-        // TODO
+        String email = req.getParameter("email");
+        if (email == null) {
+            return;
+        }
+        boolean isAdmin = "on".equalsIgnoreCase(req.getParameter("isAdmin"));
+
+        // TODO persist login information within cookie
+
+        String nextUrl = req.getParameter("nextUrl");
+        if (nextUrl == null) {
+            nextUrl = "/";
+        }
+        resp.sendRedirect(nextUrl);
     }
 
 }
