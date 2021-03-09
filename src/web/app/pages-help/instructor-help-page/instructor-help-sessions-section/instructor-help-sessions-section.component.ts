@@ -91,6 +91,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     SessionsSectionQuestions.SESSION_NEW_FEEDBACK,
     SessionsSectionQuestions.SESSION_QUESTIONS,
     SessionsSectionQuestions.SESSION_PREVIEW,
+    SessionsSectionQuestions.STUDENTS_SEE_RESPONSE,
     SessionsSectionQuestions.SESSION_CANNOT_SUBMIT,
     SessionsSectionQuestions.SESSION_VIEW_RESULTS,
     SessionsSectionQuestions.VIEW_ALL_RESPONSES,
