@@ -15,18 +15,6 @@ public class UserProvisionTest extends BaseLogicTest {
     private static UserProvision userProvision = new UserProvision();
 
     @Test
-    public void testGetLoginUrl() {
-        gaeSimulation.logoutUser();
-        assertEquals("/_ah/login?continue=www.abc.com", userProvision.getLoginUrl("www.abc.com"));
-    }
-
-    @Test
-    public void testGetLogoutUrl() {
-        gaeSimulation.loginUser("any.user");
-        assertEquals("/_ah/logout?continue=www.def.com", userProvision.getLogoutUrl("www.def.com"));
-    }
-
-    @Test
     public void testGetCurrentUser() throws Exception {
 
         ______TS("admin+instructor+student");

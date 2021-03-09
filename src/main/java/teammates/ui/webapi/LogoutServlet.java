@@ -6,8 +6,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.logic.api.UserProvision;
-
 /**
  * Servlet that handles logout.
  */
@@ -16,12 +14,13 @@ public class LogoutServlet extends HttpServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        // TODO process logging out
+
         String frontendUrl = req.getParameter("frontendUrl");
         if (frontendUrl == null) {
             frontendUrl = "";
         }
-        String logoutUrl = new UserProvision().getLogoutUrl(frontendUrl + "/web");
-        resp.sendRedirect(logoutUrl);
+        resp.sendRedirect(frontendUrl + "/web");
     }
 
 }

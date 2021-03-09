@@ -34,25 +34,6 @@ public class UserProvision {
         return user;
     }
 
-    /**
-     * Gets the login URL with the specified page as the redirect after logging in (if successful).
-     */
-    public String getLoginUrl(String redirectPage) {
-        UserInfo user = getCurrentLoggedInUser();
-
-        if (user == null) {
-            return userService.createLoginURL(redirectPage);
-        }
-        return redirectPage;
-    }
-
-    /**
-     * Gets the logout URL with the specified page as the redirect after logging out.
-     */
-    public String getLogoutUrl(String redirectPage) {
-        return userService.createLogoutURL(redirectPage);
-    }
-
     protected UserInfo getCurrentLoggedInUser() {
         User user = userService.getCurrentUser();
         if (user == null) {

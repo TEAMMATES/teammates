@@ -188,6 +188,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
+        public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
