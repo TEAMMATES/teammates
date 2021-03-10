@@ -1,7 +1,7 @@
 <div class="modal-header">
     <h5 class="modal-title">
-        <div>Course to copy: <b>{{oldCourseName}}</b></div>
-        <small>Course ID: <b>{{oldCourseId}}</b></small>
+        <div>Copy course</div>
+        <small>Copy from: [{{oldCourseId}}] <b>{{oldCourseName}}</b></small>
     </h5>
     <button type="button" class="close" (click)="activeModal.dismiss()">
         <i class="fas fa-times"></i>
@@ -10,13 +10,16 @@
 <div id="copy-course-modal" class="modal-body">
     <div class="row">
         <div class="col-12">
+            <div>
+                <label><b>New Course</b></label>
+            </div>
             <div class="form-group">
-                <label><b>New Course ID</b></label>
+                <label>Course ID:</label>
                 <input id="copy-course-id" type="text" class="form-control" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
             <div class="form-group">
-                <label><b>Course Name</b></label>
+                <label>Course Name:</label>
                 <input id="new-course-name" class="form-control" type="text" [(ngModel)]="newCourseName"
                        [maxlength]="64"/>
                 <span>{{ 64 - newCourseName.length }} characters left</span>
@@ -25,7 +28,7 @@
                 <label><span ngbTooltip="You should not
                         need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                         to match the current time offset in your area, including clock changes due to daylight saving time.">
-                <b>Time Zone</b></span></label>
+                        Time Zone:</span></label>
                 <div class="input-group">
                     <select id="new-time-zone" class="form-control" [(ngModel)]="newTimezone">
                         <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
