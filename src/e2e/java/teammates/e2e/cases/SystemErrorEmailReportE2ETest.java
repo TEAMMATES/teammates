@@ -2,8 +2,8 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
+import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -31,7 +31,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         testAssertionError();
         testNullPointerException();
         testDeadlineExceededException();
-        testDatastoreTimeoutException();
+        testDatastoreException();
         testUnauthorizedAccessException();
         testInvalidHttpParameterException();
         testEntityNotFoundException();
@@ -79,17 +79,17 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     }
 
-    private void testDatastoreTimeoutException() {
+    private void testDatastoreException() {
 
-        ______TS("DatastoreTimeoutException testing");
+        ______TS("DatastoreException testing");
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName())
+                .withParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName())
                 .toString();
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("DatastoreTimeoutException triggered, verify that you have received error logs via email");
+        print("DatastoreException triggered, verify that you have received error logs via email");
 
     }
 

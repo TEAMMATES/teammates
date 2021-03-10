@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
 import com.google.apphosting.api.DeadlineExceededException;
+import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityNotFoundException;
@@ -105,7 +105,7 @@ public class WebApiServlet extends HttpServlet {
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(enfe));
             throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
-        } catch (DeadlineExceededException | DatastoreTimeoutException e) {
+        } catch (DeadlineExceededException | DatastoreException e) {
 
             // This exception may not be caught because GAE kills the request soon after throwing it
             // In that case, the error message in the log will be emailed to the admin by a separate cron job
