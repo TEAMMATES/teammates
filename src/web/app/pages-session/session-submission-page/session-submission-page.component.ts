@@ -217,7 +217,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Loads the name of the person invovled in the submission.
+   * Loads the name of the person involved in the submission.
    */
   loadPersonName(): void {
     switch (this.intent) {
@@ -229,6 +229,18 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         ).subscribe((student: Student) => {
           this.personName = student.name;
           this.personEmail = student.email;
+
+          this.logService.createFeedbackSessionLog({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            studentEmail: this.personEmail,
+            logType: LogTypes.FEEDBACK_SESSION_ACCESS,
+          }).subscribe(() => {
+
+          }, () => {
+            this.statusMessageService.showWarningToast('Failed to log feedback session access');
+          });
+
         });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
@@ -312,17 +324,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             default:
           }
         }
-
-        this.logService.createFeedbackSessionLog({
-          courseId: this.courseId,
-          feedbackSessionName: this.feedbackSessionName,
-          studentEmail: this.loggedInUser,
-          logType: LogTypes.FEEDBACK_SESSION_ACCESS,
-        }).subscribe(() => {
-
-        }, () => {
-          this.statusMessageService.showWarningToast('Failed to log feedback session access');
-        });
 
         this.loadFeedbackQuestions();
       }, (resp: ErrorMessageOutput) => {
