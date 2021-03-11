@@ -15,10 +15,24 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 * **ERROR**: After downloading and installing Google Cloud SDK, running any `gcloud` command results in `gcloud: command not found` or alike.
 
-  **REASON**: You did not choose to update the `PATH` variable when installing the SDK.
+  **REASON**: Not update the `PATH` variable when installing the SDK.
 
-  **SOLUTION**: You can re-run the install command again without any side effect. Make sure to choose to update the `PATH` variable this time. Alternatively, you can use other appropriate methods to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder.<br>
-  To verify this, try running any `gcloud` command and it should now give you access to the SDK.
+  **SOLUTION**: Make sure to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder. Then re-run the install command again.
+  Alternatively, you can always navigate into the `/bin` folder and execute using `./gcloud`.
+  To verify, run `gcloud info` should give you `Google Cloud SDK [version]`.
+
+* **ERROR**: The recommended emulator setup in [wiki](https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6) gives `Exiting due to exception: java.io.IOException: Failed to bind`.
+
+  **REASON**: Emulator fails to shut down, leaving a dangling process in the connected port.
+
+  **SOLUTION**: Identify the process id and kill it manually before running the emulator again.
+  On macOS for example, you can run the following command in the terminal: `lsof -i tcp:<port-number>`.
+  To kill the process, simply run: `kill -9 <PID>`.
+  Finally, run `gcloud beta emulators datastore start --host-port=localhost:<port-number>` to restart the emulator.
+
+* **ERROR**: Get `java.lang.IllegalStateException: Must use project ID as app ID if project ID is provided` when trying to connect the backend with the emulator.
+
+  **SOLUTION**: Before running `./gradlew appengineRun` in the session, run the following command: `export DATASTORE_USE_PROJECT_ID_AS_APP_ID=true`.
 
 ## Troubleshooting test failures
 
