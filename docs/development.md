@@ -6,6 +6,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 * [Managing the dev server: back-end](#managing-the-dev-server-back-end)
 * [Building front-end files](#building-front-end-files)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
+* [Running the Datastore Emulator](#running-the-datastore-emulator)
 * [Testing](#testing)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
@@ -167,30 +168,18 @@ gcloud components install cloud-datastore-emulator
 ```
 
 **2. Running the Emulator**  
-To run the emulator in `port 8484`, enter the command:
+To run the emulator in a free localhost port, for example:
 ```
-gcloud beta emulators datastore start --host-port=localhost:8484
+gcloud beta emulators datastore start --host-port=localhost:8484 --consistency=1.0
 ```
+(setting immediate consistency is desired for unit testing)
+
 If everything goes well, you should see something like this:
 ```
 ...
 [datastore] Dev App Server is now running.
 ```
 If you encounter any errors, refer to our [troubleshooting guide](#troubleshoot).
-
-**2. Connecting to the Emulator**  
-To connect the emulator to your application, you need to set the environment variables each time you start the emulator.
-You can set the environment variables as follows:
-
-**Linux/macOS**  
-```
-$(gcloud beta emulators datastore env-init) 
-```
-
-**Windows**
-```
-gcloud beta emulators datastore env-init > set_vars.cmd && set_vars.cmd
-```  
 
 ### Troubleshoot
 
