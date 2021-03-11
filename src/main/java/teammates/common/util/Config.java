@@ -45,6 +45,12 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
+    /** The value of the "app.oauth2.client.id" in build.properties file. */
+    public static final String OAUTH2_CLIENT_ID;
+
+    /** The value of the "app.oauth2.client.secret" in build.properties file. */
+    public static final String OAUTH2_CLIENT_SECRET;
+
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
 
@@ -105,6 +111,8 @@ public final class Config {
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
         BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
+        OAUTH2_CLIENT_ID = properties.getProperty("app.oauth2.client.id");
+        OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
