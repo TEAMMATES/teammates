@@ -11,6 +11,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -24,6 +25,8 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
@@ -124,10 +127,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      */
     protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
         // When not using dev server, Google blocks log in by automation.
-        // To log in, log in manually to teammates in your browser before running e2e tests.
-        // Refer to teammates.e2e.pageobjects.Browser for more information.
+        // To work around that, we inject the user cookie directly into the browser session.
         if (!TestProperties.isDevServer()) {
-            // skip login and navigate to the desired page.
+            // In order for the cookie injection to work, we need to be in the domain.
+            // Use the home page to minimize the page load time.
+            browser.goToUrl(TestProperties.TEAMMATES_URL);
+
+            UserInfoCookie uic = new UserInfoCookie("devserver.admin.account", true);
+            browser.addCookie(Const.AuthConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
+                    true, true);
+
             return getNewPageInstance(url, typeOfPage);
         }
 
