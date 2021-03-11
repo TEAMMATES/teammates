@@ -204,6 +204,14 @@ h6,
   }
 }
 
+.modal-window-class {
+  text-decoration: underline dashed #808080;
+
+  &:hover {
+    text-decoration: underline dashed #000;
+  }
+}
+
 @media print {
   .no-print {
     display: none;
