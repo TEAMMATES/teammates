@@ -15,11 +15,11 @@ Note that some of the screenshots might be outdated, but the instructions will r
 
 * **ERROR**: After downloading and installing Google Cloud SDK, running any `gcloud` command results in `gcloud: command not found` or alike.
 
-  **REASON**: Not update the `PATH` variable when installing the SDK.
+  **REASON**: The `PATH` variable was not updated when installing the SDK.
 
-  **SOLUTION**: Make sure to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder. Then re-run the install command again.
+  **SOLUTION**: Make sure to update your `PATH` variable to include the `/bin` sub-folder in the SDK folder. Then re-run the install command again.
   Alternatively, you can always navigate into the `/bin` folder and execute using `./gcloud`.
-  To verify, run `gcloud info` should give you `Google Cloud SDK [version]`.
+  To verify, run `gcloud info` command should give you `Google Cloud SDK [version]`.
 
 * **ERROR**: The recommended emulator setup in [wiki](https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6) gives `Exiting due to exception: java.io.IOException: Failed to bind`.
 
