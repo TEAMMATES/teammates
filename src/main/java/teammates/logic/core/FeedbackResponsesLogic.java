@@ -2,9 +2,12 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -20,8 +23,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.transaction.datatransfer.ResponseUpdate;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 
@@ -40,6 +44,8 @@ public final class FeedbackResponsesLogic {
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+
+    static final Logger log = Logger.getLogger();
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -169,12 +175,22 @@ public final class FeedbackResponsesLogic {
         return frDb.getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiversForCourse(
+            String courseId, List<String> userEmails) {
+        return frDb.getFeedbackResponsesForReceiversForCourse(courseId, userEmails);
+    }
+
     /**
      * Gets all responses given by an user for a course.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
             String courseId, String userEmail) {
         return frDb.getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiversForCourse(
+            String courseId, List<String> userEmails) {
+        return frDb.getFeedbackResponsesFromGiversForCourse(courseId, userEmails);
     }
 
     /**
@@ -365,38 +381,50 @@ public final class FeedbackResponsesLogic {
         return newResponse;
     }
 
-    public CascadingTransaction updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
+    public void updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
+        if (studentUpdates.size() == 0)
+            return;
+        String courseId = studentUpdates.get(0).getBefore().getCourse();
+
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        log.info("to update response" + studentUpdates.size());
 
+        Map<String, String> studentUpdateProjection = new HashMap<>();
+        List<String> oldStudentEmails = new ArrayList<>();
         for (StudentUpdate studentUpdate : studentUpdates) {
-            List<FeedbackResponseAttributes> responsesFromUser =
-                    getFeedbackResponsesFromGiverForCourse(
-                            studentUpdate.getBefore().course,
-                            studentUpdate.getBefore().email);
-
-            for (FeedbackResponseAttributes response : responsesFromUser) {
-                updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                            .withGiver(studentUpdate.getAfter().email)
-                            .build());
-            }
+            studentUpdateProjection.put(
+                    studentUpdate.getBefore().getEmail(),
+                    studentUpdate.getAfter().getEmail());
+            oldStudentEmails.add(studentUpdate.getBefore().getEmail());
         }
 
-        for (StudentUpdate studentUpdate : studentUpdates) {
-            List<FeedbackResponseAttributes> responsesToUser =
-                    getFeedbackResponsesForReceiverForCourse(
-                            studentUpdate.getBefore().course,
-                            studentUpdate.getBefore().email);
-
-            for (FeedbackResponseAttributes response : responsesToUser) {
-                updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                        .withRecipient(studentUpdate.getAfter().email)
-                        .build());
-            }
+        List<FeedbackResponseAttributes> responsesFromUsers =
+                getFeedbackResponsesFromGiversForCourse(courseId, oldStudentEmails);
+        for (FeedbackResponseAttributes response : responsesFromUsers) {
+            log.info("getting responses");
+            updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                    .withGiver(studentUpdateProjection.get(response.getGiver()))
+                    .build());
         }
 
-        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList)
-                .withDownstreamTransaction(
-                        frcLogic.updateFeedbackResponseCommentsEmailsBatch(studentUpdates));
+        log.info("to update response");
+        List<FeedbackResponseAttributes> responsesToUsers =
+                getFeedbackResponsesForReceiversForCourse(courseId, oldStudentEmails);
+
+        for (FeedbackResponseAttributes response : responsesToUsers) {
+            log.info("getting responses");
+            updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                    .withRecipient(studentUpdateProjection.get(response.getRecipient()))
+                    .build());
+        }
+
+        log.info("to update response");
+        List<ResponseUpdate> responseUpdates = frDb.updateFeedbackResponsesSilent(updateOptionsList);
+        log.info("done updating response");
+        frcLogic.updateFeedbackResponseCommentsForResponseBatch(responseUpdates);
+        log.info("done updating comment");
+        frcLogic.updateFeedbackResponseCommentsEmailsBatch(studentUpdates);
+        log.info("done updating email");
     }
 
     public void updateFeedbackResponsesForChangingTeamBatch(
@@ -443,84 +471,50 @@ public final class FeedbackResponsesLogic {
     /**
      * Updates responses for a student when his section changes.
      */
-    public CascadingTransaction updateFeedbackResponsesForChangingSectionBatch(List<StudentUpdate> studentUpdates) {
+    public void updateFeedbackResponsesForChangingSectionBatch(List<StudentUpdate> studentUpdates) {
+        if (studentUpdates.size() == 0)
+            return;
+        String courseId = studentUpdates.get(0).getBefore().getCourse();
+
         List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
-        List<String> responseIdsToUpdate = new ArrayList<>();
+        log.info("to update response" + studentUpdates.size());
+
+        Map<String, String> newStudentSections = new HashMap<>();
+        List<String> newStudentEmails = new ArrayList<>();
 
         for (StudentUpdate studentUpdate : studentUpdates) {
-            List<FeedbackResponseAttributes> responsesToUser =
-                    getFeedbackResponsesForReceiverForCourse(
-                            studentUpdate.getAfter().getCourse(),
-                            studentUpdate.getAfter().getEmail());
-
-            for (FeedbackResponseAttributes response : responsesToUser) {
-                updateOptionsList.add(
-                        FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                                .withRecipientSection(studentUpdate.getAfter().getSection())
-                                .build());
-                responseIdsToUpdate.add(response.getId());
-            }
-
-            List<FeedbackResponseAttributes> responsesFromUser =
-                    getFeedbackResponsesFromGiverForCourse(
-                            studentUpdate.getAfter().getCourse(),
-                            studentUpdate.getAfter().getEmail());
-
-            for (FeedbackResponseAttributes response : responsesFromUser) {
-                updateOptionsList.add(
-                        FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                                .withGiverSection(studentUpdate.getAfter().getSection())
-                                .build());
-                responseIdsToUpdate.add(response.getId());
-            }
+            newStudentSections.put(
+                    studentUpdate.getAfter().getEmail(),
+                    studentUpdate.getAfter().getSection());
+            newStudentEmails.add(studentUpdate.getAfter().getEmail());
         }
 
-        return generateBatchUpdateFeedbackResponsesTransaction(updateOptionsList)
-                .withDownstreamTransaction(
-                        frcLogic.updateFeedbackResponseCommentsForResponseBatch(responseIdsToUpdate));
-    }
+        log.info("query responses");
+        List<FeedbackResponseAttributes> responsesToUsers =
+                getFeedbackResponsesForReceiversForCourse(courseId, newStudentEmails);
+        log.info("got responses");
 
-    public CascadingTransaction generateBatchUpdateFeedbackResponsesTransaction(
-            List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
-        FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction transaction =
-                new FeedbackResponsesDb.BatchUpdateFeedbackResponseTransaction(frDb, updateOptionsList);
-        List<FeedbackResponseCommentAttributes.UpdateOptions> feedbackResponseCommentUpdatesList = new ArrayList<>();
-
-        for (ResponseUpdate responseUpdate : transaction.getResponseUpdates()) {
-            FeedbackResponseAttributes oldResponse = responseUpdate.getBefore();
-            FeedbackResponseAttributes newResponse = responseUpdate.getAfter();
-
-            boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
-            boolean isGiverSectionChanged = !oldResponse.giverSection.equals(newResponse.giverSection);
-            boolean isRecipientSectionChanged = !oldResponse.recipientSection.equals(newResponse.recipientSection);
-
-            if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
-                List<FeedbackResponseCommentAttributes> responseComments =
-                        frcLogic.getFeedbackResponseCommentForResponse(oldResponse.getId());
-                for (FeedbackResponseCommentAttributes responseComment : responseComments) {
-                    FeedbackResponseCommentAttributes.UpdateOptions.Builder updateOptionsBuilder =
-                            FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId());
-
-                    if (isResponseIdChanged) {
-                        updateOptionsBuilder.withFeedbackResponseId(newResponse.getId());
-                    }
-
-                    if (isGiverSectionChanged) {
-                        updateOptionsBuilder.withGiverSection(newResponse.giverSection);
-                    }
-
-                    if (isRecipientSectionChanged) {
-                        updateOptionsBuilder.withReceiverSection(newResponse.recipientSection);
-                    }
-
-                    feedbackResponseCommentUpdatesList.add(updateOptionsBuilder.build());
-                }
-            }
+        for (FeedbackResponseAttributes response : responsesToUsers) {
+            updateOptionsList.add(
+                    FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                            .withRecipientSection(newStudentSections.get(response.getRecipient()))
+                            .build());
         }
 
-        return transaction.withDownstreamTransaction(
-                frcLogic.generateBatchUpdateFeedbackResponseCommentsTransaction(
-                        feedbackResponseCommentUpdatesList));
+        log.info("query responses");
+        List<FeedbackResponseAttributes> responsesFromUsers =
+                getFeedbackResponsesFromGiversForCourse(courseId, newStudentEmails);
+        log.info("got responses");
+
+        for (FeedbackResponseAttributes response : responsesFromUsers) {
+            updateOptionsList.add(
+                    FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
+                            .withGiverSection(newStudentSections.get(response.getGiver()))
+                            .build());
+        }
+
+        List<ResponseUpdate> responseUpdates = frDb.updateFeedbackResponsesSilent(updateOptionsList);
+        frcLogic.updateFeedbackResponseCommentsForResponseBatch(responseUpdates);
     }
 
     /**

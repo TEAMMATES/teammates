@@ -16,6 +16,8 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -193,6 +195,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         return makeAttributes(getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver));
     }
 
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiversForCourse(
+            String courseId, List<String> receivers) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(receivers);
+
+        return makeAttributes(getFeedbackResponseEntitiesForReceiversForCourse(courseId, receivers));
+    }
+
     /**
      * Gets all responses given by a user in a course.
      */
@@ -202,6 +212,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(giverEmail);
 
         return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail));
+    }
+
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiversForCourse(
+            String courseId, List<String> giverEmails) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverEmails);
+
+        return makeAttributes(getFeedbackResponseEntitiesFromGiversForCourse(courseId, giverEmails));
     }
 
     /**
@@ -274,12 +292,111 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     /**
+     * Updates a feedback response with {@link FeedbackResponseAttributes.UpdateOptions}.
+     *
+     * <p>If the giver/recipient field is changed, the response is updated by recreating the response
+     * as question-giver-recipient is the primary key.
+     *
+     * @return updated feedback response
+     */
+    public List<ResponseUpdate> updateFeedbackResponsesSilent(
+            List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
+        Assumption.assertNotNull(updateOptionsList);
+
+        List<ResponseUpdate> responseUpdates = new ArrayList<>();
+        List<FeedbackResponseAttributes> newResponses = new ArrayList<>();
+        List<FeedbackResponse> updatedResponseEntities = new ArrayList<>();
+        Map<String, List<String>> deletedResponses = new HashMap<>();
+
+        log.info("to create responses silent");
+        for (FeedbackResponseAttributes.UpdateOptions updateOptions : updateOptionsList) {
+            FeedbackResponse oldResponse = getFeedbackResponseEntity(updateOptions.getFeedbackResponseId());
+            if (oldResponse == null) {
+                continue;
+            }
+
+            ResponseUpdate responseUpdate = new ResponseUpdate();
+            FeedbackResponseAttributes newAttributes = makeAttributes(oldResponse);
+            responseUpdate.setBefore(newAttributes);
+            newAttributes.update(updateOptions);
+            responseUpdate.setAfter(newAttributes);
+
+            newAttributes.sanitizeForSaving();
+            if (!newAttributes.isValid()) {
+                continue;
+            }
+
+            if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
+                    && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+
+                // update only if change
+                boolean hasSameAttributes =
+                        hasSameValue(oldResponse.getGiverSection(), newAttributes.getGiverSection())
+                                && hasSameValue(oldResponse.getRecipientSection(), newAttributes.getRecipientSection())
+                                && hasSameValue(
+                                oldResponse.getResponseMetaData(), newAttributes.getSerializedFeedbackResponseDetail());
+                if (hasSameAttributes) {
+                    log.info(String.format(
+                            OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponse.class.getSimpleName(), updateOptions));
+                    continue;
+                }
+
+                oldResponse.setGiverSection(newAttributes.giverSection);
+                oldResponse.setRecipientSection(newAttributes.recipientSection);
+                oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
+
+                updatedResponseEntities.add(oldResponse);
+            } else {
+                // need to recreate the entity
+                newAttributes = FeedbackResponseAttributes
+                        .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(),
+                                newAttributes.getRecipient())
+                        .withCourseId(newAttributes.getCourseId())
+                        .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
+                        .withResponseDetails(newAttributes.getResponseDetails())
+                        .withGiverSection(newAttributes.getGiverSection())
+                        .withRecipientSection(newAttributes.getRecipientSection())
+                        .build();
+                newResponses.add(newAttributes);
+                deletedResponses.computeIfAbsent(oldResponse.getCourseId(), (id) -> new ArrayList<>())
+                        .add(oldResponse.getId());
+            }
+
+            log.info("to create responses silent");
+            responseUpdates.add(responseUpdate);
+        }
+
+        log.info("to create responses silent");
+        createEntitiesSilent(newResponses);
+        log.info("done creating responses silent");
+        for (Map.Entry<String, List<String>> responseIdsToDelete : deletedResponses.entrySet()) {
+            deleteFeedbackResponsesByIds(responseIdsToDelete.getValue());
+        }
+        log.info("to save responses");
+        saveEntities(updatedResponseEntities);
+        log.info("done save responses");
+
+        return responseUpdates;
+    }
+
+    /**
      * Deletes a feedback response.
      */
     public void deleteFeedbackResponse(String responseId) {
         Assumption.assertNotNull(responseId);
 
         deleteEntity(Key.create(FeedbackResponse.class, responseId));
+    }
+
+    public void deleteFeedbackResponsesByIds(List<String> responseIds) {
+        Assumption.assertNotNull(responseIds);
+
+        List<Key<FeedbackResponse>> responsesToDelete = new ArrayList<>();
+        for (String responseId : responseIds) {
+            responsesToDelete.add(Key.create(FeedbackResponse.class, responseId));
+        }
+
+        deleteEntity(responsesToDelete.toArray(new Key<?>[0]));
     }
 
     /**
@@ -394,11 +511,27 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .list();
     }
 
+    private List<FeedbackResponse> getFeedbackResponseEntitiesForReceiversForCourse(
+            String courseId, List<String> receivers) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("receiver IN", receivers)
+                .list();
+    }
+
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForCourse(
             String courseId, String giverEmail) {
         return load()
                 .filter("courseId =", courseId)
                 .filter("giverEmail =", giverEmail)
+                .list();
+    }
+
+    private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiversForCourse(
+            String courseId, List<String> giverEmails) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("giverEmail IN", giverEmails)
                 .list();
     }
 
@@ -423,132 +556,4 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
         return FeedbackResponseAttributes.valueOf(entity);
     }
-
-    /**
-     * Constructs a batch {@link FeedbackResponse} transaction that can be committed.
-     */
-    public static class BatchUpdateFeedbackResponseTransaction extends CascadingTransaction {
-
-        private final FeedbackResponsesDb frDb;
-
-        private final List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList;
-        private final List<ResponseUpdate> responseUpdates;
-        private final List<FeedbackResponseAttributes> responsesToCreate;
-        private final List<FeedbackResponse> responseEntitiesToUpdate;
-        private final List<String> responseIdsToDelete;
-
-        private final List<FeedbackResponseAttributes.UpdateOptions> nonExistentResponse;
-        private final List<FeedbackResponseAttributes.UpdateOptions> inValidResponse;
-
-        public BatchUpdateFeedbackResponseTransaction(FeedbackResponsesDb frDb) {
-            super();
-            this.frDb = frDb;
-
-            updateOptionsList = new ArrayList<>();
-            responseUpdates = new ArrayList<>();
-            responsesToCreate = new ArrayList<>();
-            responseEntitiesToUpdate = new ArrayList<>();
-            responseIdsToDelete = new ArrayList<>();
-            nonExistentResponse = new ArrayList<>();
-            inValidResponse = new ArrayList<>();
-        }
-
-        public BatchUpdateFeedbackResponseTransaction(
-                FeedbackResponsesDb frDb, List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
-            this(frDb);
-            addUpdateOptions(updateOptionsList);
-        }
-
-        /**
-         * Add {@link FeedbackResponseAttributes.UpdateOptions} to the current transaction.
-         */
-        public void addUpdateOptions(List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList) {
-            this.updateOptionsList.addAll(updateOptionsList);
-        }
-
-        public List<ResponseUpdate> getResponseUpdates() {
-            return this.responseUpdates;
-        }
-
-        private void construct() {
-            for (FeedbackResponseAttributes.UpdateOptions updateOptions : this.updateOptionsList) {
-                Assumption.assertNotNull(updateOptions);
-
-                FeedbackResponse oldResponse = frDb.getFeedbackResponseEntity(updateOptions.getFeedbackResponseId());
-                if (oldResponse == null) {
-                    nonExistentResponse.add(updateOptions);
-                    continue;
-                }
-
-                ResponseUpdate update = new ResponseUpdate();
-                FeedbackResponseAttributes newAttributes = frDb.makeAttributes(oldResponse);
-                update.setBefore(newAttributes);
-                newAttributes.update(updateOptions);
-                update.setAfter(newAttributes);
-
-                newAttributes.sanitizeForSaving();
-                if (!newAttributes.isValid()) {
-                    inValidResponse.add(updateOptions);
-                    continue;
-                }
-
-                if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
-                        && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
-
-                    // update only if change
-                    boolean hasSameAttributes =
-                            hasSameValue(oldResponse.getGiverSection(), newAttributes.getGiverSection())
-                                    && hasSameValue(oldResponse.getRecipientSection(), newAttributes.getRecipientSection())
-                                    && hasSameValue(
-                                    oldResponse.getResponseMetaData(), newAttributes.getSerializedFeedbackResponseDetail());
-                    if (hasSameAttributes) {
-                        log.info(String.format(
-                                OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponse.class.getSimpleName(), updateOptions));
-                        continue;
-                    }
-
-                    oldResponse.setGiverSection(newAttributes.giverSection);
-                    oldResponse.setRecipientSection(newAttributes.recipientSection);
-                    oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
-
-                    responseEntitiesToUpdate.add(oldResponse);
-                    responseUpdates.add(update);
-                } else {
-                    // need to recreate the entity
-                    newAttributes = FeedbackResponseAttributes
-                            .builder(newAttributes.getFeedbackQuestionId(), newAttributes.getGiver(),
-                                    newAttributes.getRecipient())
-                            .withCourseId(newAttributes.getCourseId())
-                            .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
-                            .withResponseDetails(newAttributes.getResponseDetails())
-                            .withGiverSection(newAttributes.getGiverSection())
-                            .withRecipientSection(newAttributes.getRecipientSection())
-                            .build();
-                    responsesToCreate.add(newAttributes);
-                    responseIdsToDelete.add(oldResponse.getId());
-                }
-            }
-        }
-
-        @Override
-        public void commit() throws CascadingTransactionException {
-            if (hasUpstreamTransaction()) {
-                this.getUpstreamTransaction().commit();
-            }
-
-            construct();
-
-            try {
-                frDb.putEntities(responsesToCreate);
-            } catch (InvalidParametersException e) {
-                throw new CascadingTransactionException("cascading transaction failed", e);
-            }
-
-            frDb.deleteEntity(responseIdsToDelete.stream()
-                    .map(rid -> Key.create(FeedbackResponse.class, rid))
-                    .toArray(Key[]::new));
-            frDb.saveEntities(responseEntitiesToUpdate);
-        }
-    }
-
 }

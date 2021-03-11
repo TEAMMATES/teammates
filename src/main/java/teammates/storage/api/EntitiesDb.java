@@ -51,6 +51,11 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     static final String OPTIMIZED_SAVING_POLICY_APPLIED =
             "Saving request is not issued because entity %s does not change by the update (%s)";
 
+    /**
+     * Maximum number of documents allowed per operation.
+     */
+    static final int PUT_DOCUMENT_MAXIMUM_NUMBER = 200;
+
     static final Logger log = Logger.getLogger();
 
     /**

@@ -703,8 +703,7 @@ public class Logic {
         return studentsLogic.updateStudentCascade(updateOptions);
     }
 
-    public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList)
-            throws CascadingTransactionException {
+    public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList) {
 
         Assumption.assertNotNull(updateOptionsList);
 

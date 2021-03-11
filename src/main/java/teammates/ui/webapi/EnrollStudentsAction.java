@@ -12,6 +12,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 
@@ -92,12 +93,13 @@ class EnrollStudentsAction extends Action {
 
         });
 
-        try {
+        if (studentsToUpdate.size() > 0)
             enrolledStudents.addAll(logic.updateStudentCascadeBatch(studentsToUpdate));
+        Logger.getLogger().info("done updating students");
+        if (studentsToCreate.size() > 0)
             enrolledStudents.addAll(logic.createStudents(studentsToCreate));
-        } catch (CascadingTransactionException e) {
-            // Ignore the entire batch of new students as they do not get past param validation.
-        }
+
+       Logger.getLogger().info("done creating students");
 
         return new JsonResult(new StudentsData(enrolledStudents));
     }

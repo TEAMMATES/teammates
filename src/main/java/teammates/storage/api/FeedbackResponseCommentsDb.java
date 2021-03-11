@@ -250,6 +250,69 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
+     * Updates a batch of feedback response comment by a list of {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     *
+     * @return updated comment
+     */
+    public List<FeedbackResponseCommentAttributes> updateFeedbackResponseCommentsSilent(
+            List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
+        Assumption.assertNotNull(updateOptionsList);
+
+        List<FeedbackResponseCommentAttributes> updatedComments = new ArrayList<>();
+        List<FeedbackResponseComment> updatedCommentEntities = new ArrayList<>();
+
+        for (FeedbackResponseCommentAttributes.UpdateOptions updateOptions : updateOptionsList) {
+            FeedbackResponseComment frc = getFeedbackResponseCommentEntity(updateOptions.getFeedbackResponseCommentId());
+            if (frc == null) {
+                continue;
+            }
+
+            FeedbackResponseCommentAttributes newAttributes = makeAttributes(frc);
+            newAttributes.update(updateOptions);
+
+            newAttributes.sanitizeForSaving();
+            if (!newAttributes.isValid()) {
+                continue;
+            }
+
+            // update only if change
+            boolean hasSameAttributes =
+                    hasSameValue(frc.getFeedbackResponseId(), newAttributes.getFeedbackResponseId())
+                            && hasSameValue(frc.getCommentText(), newAttributes.getCommentText())
+                            && hasSameValue(frc.getShowCommentTo(), newAttributes.getShowCommentTo())
+                            && hasSameValue(
+                            frc.getShowGiverNameTo(), newAttributes.getShowGiverNameTo())
+                            && hasSameValue(frc.getLastEditorEmail(), newAttributes.getLastEditorEmail())
+                            && hasSameValue(frc.getLastEditedAt(), newAttributes.getLastEditedAt())
+                            && hasSameValue(frc.getGiverSection(), newAttributes.getGiverSection())
+                            && hasSameValue(frc.getReceiverSection(), newAttributes.getReceiverSection());
+            if (hasSameAttributes) {
+                log.info(String.format(
+                        OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponseComment.class.getSimpleName(), updateOptions));
+                continue;
+            }
+
+            frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
+            frc.setCommentText(newAttributes.commentText);
+            frc.setShowCommentTo(newAttributes.showCommentTo);
+            frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
+            frc.setLastEditorEmail(newAttributes.lastEditorEmail);
+            frc.setLastEditedAt(newAttributes.lastEditedAt);
+            frc.setGiverSection(newAttributes.giverSection);
+            frc.setReceiverSection(newAttributes.receiverSection);
+
+            updatedCommentEntities.add(frc);
+            newAttributes = makeAttributes(frc);
+            updatedComments.add(newAttributes);
+        }
+
+        saveEntities(updatedCommentEntities);
+        putDocuments(updatedComments);
+
+        return updatedComments;
+    }
+
+    /**
      * Updates the giver email to a new one for all comments in a course.
      */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
@@ -309,8 +372,13 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         List<SearchDocument> frcSearchDocuments = new ArrayList<>();
         for (FeedbackResponseCommentAttributes comment : comments) {
             frcSearchDocuments.add(new FeedbackResponseCommentSearchDocument(comment));
+            if (frcSearchDocuments.size() > EntitiesDb.PUT_DOCUMENT_MAXIMUM_NUMBER) {
+                putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
+                frcSearchDocuments.clear();
+            }
         }
-        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
+        if (frcSearchDocuments.size() > 0)
+            putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
     }
 
     /**
@@ -502,108 +570,5 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         Assumption.assertNotNull(entity);
 
         return FeedbackResponseCommentAttributes.valueOf(entity);
-    }
-
-    /**
-     * Constructs a batch {@link FeedbackResponseComment} transaction that can be committed.
-     */
-    public static class BatchUpdateFeedbackResponseCommentsTransaction extends CascadingTransaction {
-
-        private final FeedbackResponseCommentsDb frcDb;
-
-        private final List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList;
-
-        private final List<FeedbackResponseCommentAttributes> commentsToUpdate;
-        private final List<FeedbackResponseComment> commentEntitiesToUpdate;
-
-        private final List<FeedbackResponseCommentAttributes.UpdateOptions> nonExistentComments;
-        private final List<FeedbackResponseCommentAttributes.UpdateOptions> invalidComments;
-
-        public BatchUpdateFeedbackResponseCommentsTransaction(FeedbackResponseCommentsDb frcDb) {
-            this.frcDb = frcDb;
-
-            updateOptionsList = new ArrayList<>();
-            commentsToUpdate = new ArrayList<>();
-            commentEntitiesToUpdate = new ArrayList<>();
-            nonExistentComments = new ArrayList<>();
-            invalidComments = new ArrayList<>();
-        }
-
-        public BatchUpdateFeedbackResponseCommentsTransaction(
-                FeedbackResponseCommentsDb frcDb,
-                List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
-            this(frcDb);
-            addUpdateOptions(updateOptionsList);
-        }
-
-        /**
-         * Add {@link FeedbackResponseCommentAttributes.UpdateOptions} to the current transaction.
-         */
-        public void addUpdateOptions(List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
-            this.updateOptionsList.addAll(updateOptionsList);
-        }
-
-        private void construct() {
-            this.updateOptionsList.forEach(updateOptions -> {
-                Assumption.assertNotNull(updateOptions);
-
-                FeedbackResponseComment frc = frcDb.getFeedbackResponseCommentEntity(
-                        updateOptions.getFeedbackResponseCommentId());
-                if (frc == null) {
-                    nonExistentComments.add(updateOptions);
-                    return;
-                }
-
-                FeedbackResponseCommentAttributes newAttributes = frcDb.makeAttributes(frc);
-                newAttributes.update(updateOptions);
-
-                newAttributes.sanitizeForSaving();
-                if (!newAttributes.isValid()) {
-                    invalidComments.add(updateOptions);
-                    return;
-                }
-
-                // update only if change
-                boolean hasSameAttributes =
-                        frcDb.hasSameValue(frc.getFeedbackResponseId(), newAttributes.getFeedbackResponseId())
-                                && frcDb.hasSameValue(frc.getCommentText(), newAttributes.getCommentText())
-                                && frcDb.hasSameValue(frc.getShowCommentTo(), newAttributes.getShowCommentTo())
-                                && frcDb.hasSameValue(
-                                frc.getShowGiverNameTo(), newAttributes.getShowGiverNameTo())
-                                && frcDb.hasSameValue(frc.getLastEditorEmail(), newAttributes.getLastEditorEmail())
-                                && frcDb.hasSameValue(frc.getLastEditedAt(), newAttributes.getLastEditedAt())
-                                && frcDb.hasSameValue(frc.getGiverSection(), newAttributes.getGiverSection())
-                                && frcDb.hasSameValue(frc.getReceiverSection(), newAttributes.getReceiverSection());
-                if (hasSameAttributes) {
-                    log.info(String.format(
-                            OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponseComment.class.getSimpleName(), updateOptions));
-                    return;
-                }
-
-                frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
-                frc.setCommentText(newAttributes.commentText);
-                frc.setShowCommentTo(newAttributes.showCommentTo);
-                frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-                frc.setLastEditorEmail(newAttributes.lastEditorEmail);
-                frc.setLastEditedAt(newAttributes.lastEditedAt);
-                frc.setGiverSection(newAttributes.giverSection);
-                frc.setReceiverSection(newAttributes.receiverSection);
-
-                this.commentsToUpdate.add(newAttributes);
-                this.commentEntitiesToUpdate.add(frc);
-            });
-        }
-
-        @Override
-        public void commit() throws CascadingTransactionException {
-            if (hasUpstreamTransaction()) {
-                getUpstreamTransaction().commit();
-            }
-
-            construct();
-
-            frcDb.saveEntities(commentEntitiesToUpdate);
-            frcDb.putDocuments(commentsToUpdate);
-        }
     }
 }

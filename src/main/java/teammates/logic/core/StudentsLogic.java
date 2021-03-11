@@ -17,8 +17,8 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.transaction.CascadingTransaction;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
@@ -41,6 +41,8 @@ public final class StudentsLogic {
     private static StudentsLogic instance = new StudentsLogic();
 
     private static final StudentsDb studentsDb = new StudentsDb();
+
+    static final Logger log = Logger.getLogger();
 
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
@@ -193,22 +195,16 @@ public final class StudentsLogic {
         return updatedStudent;
     }
 
-    public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList)
-            throws CascadingTransactionException {
-        StudentsDb.BatchUpdateStudentsTransaction studentUpdateTransaction =
-                new StudentsDb.BatchUpdateStudentsTransaction(studentsDb, updateOptionsList);
-        List<StudentUpdate> studentUpdates = studentUpdateTransaction.getUpdatedStudents();
+    public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList) {
+        List<StudentUpdate> studentUpdates = studentsDb.updateStudentSilent(updateOptionsList);
+        log.info("done updating students");
 
-        CascadingTransaction responseUpdateForChangingEmailTransaction =
-                frLogic.updateFeedbackResponsesForChangingEmailBatch(studentUpdates);
+        frLogic.updateFeedbackResponsesForChangingEmailBatch(studentUpdates);
+        log.info("done updating resp email DELETE");
         frLogic.updateFeedbackResponsesForChangingTeamBatch(studentUpdates); // TODO: batch deletion
-        CascadingTransaction responseUpdateForChangingSectionTransaction =
-                frLogic.updateFeedbackResponsesForChangingSectionBatch(studentUpdates);
-
-        studentUpdateTransaction
-                .withDownstreamTransaction(responseUpdateForChangingEmailTransaction)
-                .withDownstreamTransaction(responseUpdateForChangingSectionTransaction)
-                .commit();
+        log.info("done updating resp team DELETE");
+        frLogic.updateFeedbackResponsesForChangingSectionBatch(studentUpdates);
+        log.info("done updating resp section");
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 

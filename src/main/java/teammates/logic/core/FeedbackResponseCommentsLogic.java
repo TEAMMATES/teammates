@@ -22,7 +22,9 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.transaction.CascadingTransaction;
+import teammates.storage.transaction.datatransfer.ResponseUpdate;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
@@ -131,7 +133,7 @@ public final class FeedbackResponseCommentsLogic {
         frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
 
-    public CascadingTransaction updateFeedbackResponseCommentsEmailsBatch(List<StudentUpdate> studentUpdates) {
+    public void updateFeedbackResponseCommentsEmailsBatch(List<StudentUpdate> studentUpdates) {
         List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
         for (StudentUpdate studentUpdate : studentUpdates) {
             List<FeedbackResponseCommentAttributes> responseCommentsAsGiver = getFeedbackResponseCommentsForGiver(
@@ -156,7 +158,7 @@ public final class FeedbackResponseCommentsLogic {
             }
         }
 
-        return generateBatchUpdateFeedbackResponseCommentsTransaction(updateOptionsList);
+        frcDb.updateFeedbackResponseCommentsSilent(updateOptionsList);
     }
 
     // right now this method only updates comment's giverSection and receiverSection for a given response
@@ -174,21 +176,41 @@ public final class FeedbackResponseCommentsLogic {
         }
     }
 
-    public CascadingTransaction updateFeedbackResponseCommentsForResponseBatch(List<String> feedbackResponseIds) {
+    public void updateFeedbackResponseCommentsForResponseBatch(List<ResponseUpdate> responseUpdates) {
         List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
-        for (String feedbackResponseId : feedbackResponseIds) {
-            List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
-            FeedbackResponseAttributes response = frLogic.getFeedbackResponse(feedbackResponseId);
+        for (ResponseUpdate responseUpdate : responseUpdates) {
+            FeedbackResponseAttributes oldResponse = responseUpdate.getBefore();
+            FeedbackResponseAttributes newResponse = responseUpdate.getAfter();
 
-            for (FeedbackResponseCommentAttributes comment : comments) {
-                updateOptionsList.add(FeedbackResponseCommentAttributes.updateOptionsBuilder(comment.getId())
-                        .withGiverSection(response.giverSection)
-                        .withReceiverSection(response.recipientSection)
-                        .build());
+            boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
+            boolean isGiverSectionChanged = !oldResponse.giverSection.equals(newResponse.giverSection);
+            boolean isRecipientSectionChanged = !oldResponse.recipientSection.equals(newResponse.recipientSection);
+
+            if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
+                List<FeedbackResponseCommentAttributes> responseComments =
+                        getFeedbackResponseCommentForResponse(oldResponse.getId());
+                for (FeedbackResponseCommentAttributes responseComment : responseComments) {
+                    FeedbackResponseCommentAttributes.UpdateOptions.Builder updateOptionsBuilder =
+                            FeedbackResponseCommentAttributes.updateOptionsBuilder(responseComment.getId());
+
+                    if (isResponseIdChanged) {
+                        updateOptionsBuilder.withFeedbackResponseId(newResponse.getId());
+                    }
+
+                    if (isGiverSectionChanged) {
+                        updateOptionsBuilder.withGiverSection(newResponse.giverSection);
+                    }
+
+                    if (isRecipientSectionChanged) {
+                        updateOptionsBuilder.withReceiverSection(newResponse.recipientSection);
+                    }
+
+                    updateOptionsList.add(updateOptionsBuilder.build());
+                }
             }
         }
 
-        return generateBatchUpdateFeedbackResponseCommentsTransaction(updateOptionsList);
+        frcDb.updateFeedbackResponseCommentsSilent(updateOptionsList);
     }
 
     /**
@@ -205,9 +227,15 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.updateFeedbackResponseComment(updateOptions);
     }
 
-    public CascadingTransaction generateBatchUpdateFeedbackResponseCommentsTransaction(
-            List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptionsList) {
-        return new FeedbackResponseCommentsDb.BatchUpdateFeedbackResponseCommentsTransaction(frcDb, updateOptionsList);
+    /**
+     * Updates a batch of feedback response comment by a list of {@link FeedbackResponseCommentAttributes.UpdateOptions}.
+     *
+     * @return updated comment
+     */
+    public List<FeedbackResponseCommentAttributes> updateFeedbackResponsesComment(
+            List<FeedbackResponseCommentAttributes.UpdateOptions> updateOptions) {
+
+        return frcDb.updateFeedbackResponseCommentsSilent(updateOptions);
     }
 
     /**
