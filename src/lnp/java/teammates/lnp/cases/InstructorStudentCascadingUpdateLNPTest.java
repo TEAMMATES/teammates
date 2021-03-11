@@ -1,6 +1,9 @@
 package teammates.lnp.cases;
 
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,11 +26,14 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.HttpRequestFailedException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
 import teammates.lnp.util.LNPSpecification;
 import teammates.lnp.util.LNPTestData;
+import teammates.lnp.util.TestProperties;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**
@@ -37,8 +43,8 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUM_STUDENTS = 800;
-    private static final int NUM_STUDENTS_PER_SECTION = 100;
+    private static final int NUM_STUDENTS = 1000;
+    private static final int NUM_STUDENTS_PER_SECTION = 50;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 20;
 
     private static final String INSTRUCTOR_NAME = "LnPInstructor";
@@ -55,11 +61,18 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private static final String FEEDBACK_SESSION_NAME = "LnPSession";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 10;
+    private static final double MEAN_RESP_TIME_LIMIT = 60;
+
+    // To generate multiple csv files for multiple sections
+    private static int csvTestDataIndex;
+    private static LNPTestData testData;
 
     @Override
     protected LNPTestData getTestData() {
-        return new LNPTestData() {
+        if (testData != null) {
+            return testData;
+        }
+        testData = new LNPTestData() {
             @Override
             protected Map<String, AccountAttributes> generateAccounts() {
                 return new HashMap<>();
@@ -102,7 +115,8 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
 
                 for (int i = 1; i <= NUMBER_OF_FEEDBACK_QUESTIONS; i++) {
                     for (int j = 0; j <= NUM_STUDENTS; j++) {
-                        String responseText = FEEDBACK_RESPONSE_PREFIX + " " + j;
+                        String responseText = FEEDBACK_RESPONSE_PREFIX
+                                + " some random text to make the response has a reasonable length " + j;
                         FeedbackTextResponseDetails details =
                                 new FeedbackTextResponseDetails(responseText);
 
@@ -190,8 +204,9 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
 
                     // Create and add student enrollment data with a team number corresponding to each section number
                     List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
+                    int startIndex = csvTestDataIndex * NUM_STUDENTS_PER_SECTION;
 
-                    for (int i = 0; i < NUM_STUDENTS; i++) {
+                    for (int i = startIndex; i < startIndex + NUM_STUDENTS_PER_SECTION; i++) {
                         String name = instructor.name + ".Student" + (NUM_STUDENTS - i);
                         String email = STUDENT_NAME_PREFIX + i + STUDENT_EMAIL_SUBFIX;
                         String team = String.valueOf((NUM_STUDENTS - i) / NUM_STUDENTS_PER_SECTION);
@@ -199,7 +214,8 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
                         String comment = "no comment";
 
                         enrollRequests.add(
-                                new StudentsEnrollRequest.StudentEnrollRequest(name, email, team, section, comment));
+                                new StudentsEnrollRequest.StudentEnrollRequest(name, email, team, section, comment)
+                        );
                     }
                     String enrollData = sanitizeForCsv(JsonUtils.toJson(new StudentsEnrollRequest(enrollRequests)));
                     csvRow.add(enrollData);
@@ -210,6 +226,8 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
                 return csvData;
             }
         };
+
+        return testData;
     }
 
     private Map<String, String> getRequestHeaders() {
@@ -226,12 +244,47 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @Override
+    protected void createTestData() {
+        LNPTestData testData = getTestData();
+        try {
+            createJsonDataFile(testData);
+            persistTestData();
+        } catch (IOException | HttpRequestFailedException ex) {
+            log.severe(TeammatesException.toStringWithStackTrace(ex));
+        }
+    }
+
+    @Override
+    protected String getCsvConfigPath() {
+        return "/" + getClass().getSimpleName() + "Config_" + csvTestDataIndex + timeStamp + ".csv";
+    }
+
+    /**
+     * Generates csv data for each request, distinguished by csvTestDataIndex.
+     */
+    protected void createCsvConfigDataFile() throws IOException {
+        List<String> headers = testData.generateCsvHeaders();
+        List<List<String>> valuesList = testData.generateCsvData();
+
+        String pathToCsvFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getCsvConfigPath());
+        try (BufferedWriter bw = Files.newBufferedWriter(Paths.get(pathToCsvFile))) {
+            // Write headers and data to the CSV file
+            bw.write(convertToCsv(headers));
+
+            for (List<String> values : valuesList) {
+                bw.write(convertToCsv(values));
+            }
+
+            bw.flush();
+        }
+    }
+
+    @Override
     protected ListedHashTree getLnpTestPlan() {
         ListedHashTree testPlan = new ListedHashTree(JMeterElements.testPlan());
         HashTree threadGroup = testPlan.add(
                 JMeterElements.threadGroup(NUM_INSTRUCTORS, RAMP_UP_PERIOD, 1));
 
-        threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
         threadGroup.add(JMeterElements.cookieManager());
         threadGroup.add(JMeterElements.defaultSampler());
 
@@ -241,8 +294,19 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
 
         // Add HTTP sampler for test endpoint
         HeaderManager headerManager = JMeterElements.headerManager(getRequestHeaders());
-        threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${enrollData}"))
-                .add(headerManager);
+        // Mocks paginated calls from FE
+        for (int i = 0; i < NUM_STUDENTS / NUM_STUDENTS_PER_SECTION; i++) {
+            try {
+                createCsvConfigDataFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+                break;
+            }
+            threadGroup.add(JMeterElements.csvDataSet(getPathToTestDataFile(getCsvConfigPath())));
+            threadGroup.add(JMeterElements.httpSampler(getTestEndpoint(), PUT, "${enrollData}"))
+                    .add(headerManager);
+            csvTestDataIndex++;
+        }
 
         return testPlan;
     }
@@ -266,6 +330,20 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     public void runLnpTest() throws IOException {
         runJmeter(false);
         displayLnpResults();
+    }
+
+    @Override
+    protected void deleteDataFiles() throws IOException {
+        String pathToJsonFile = getPathToTestDataFile(getJsonDataPath());
+
+        csvTestDataIndex = 0;
+        for (int i = 0; i < NUM_STUDENTS / NUM_STUDENTS_PER_SECTION; i++) {
+            String pathToCsvFile = getPathToTestDataFile(getCsvConfigPath());
+            Files.delete(Paths.get(pathToCsvFile));
+            csvTestDataIndex++;
+        }
+
+        Files.delete(Paths.get(pathToJsonFile));
     }
 
     /**
