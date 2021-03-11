@@ -1,24 +1,41 @@
 package teammates.ui.webapi;
 
-import javax.servlet.http.HttpServlet;
+import java.io.IOException;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.HttpRequestHelper;
 
 /**
  * Servlet that handles login.
  */
 @SuppressWarnings("serial")
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends AuthServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if (Config.isDevServer()) {
             resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", "/devServerLogin");
+            return;
+        }
+
+        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.AuthConfig.AUTH_COOKIE_NAME);
+        UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
+        boolean isLoginNeeded = uic == null || !uic.isValid();
+        String nextUrl = req.getParameter("nextUrl");
+        if (nextUrl == null) {
+            nextUrl = "/";
+        }
+        if (!isLoginNeeded) {
+            resp.sendRedirect(nextUrl);
             return;
         }
 
