@@ -91,6 +91,6 @@ public class DeleteCourseActionTest
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE, submissionParams);
+                Const.InstructorPermissions.CAN_DELETE_COURSE, submissionParams);
     }
 }

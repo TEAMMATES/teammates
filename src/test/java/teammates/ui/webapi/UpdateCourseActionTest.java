@@ -195,7 +195,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE, submissionParams);
+                Const.InstructorPermissions.CAN_EDIT_COURSE, submissionParams);
     }
 
 }

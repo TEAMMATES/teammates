@@ -178,9 +178,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(courseIdParam);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -207,9 +207,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(sectionParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -238,9 +238,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(sessionParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -267,9 +267,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(sessionParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -298,9 +298,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(invalidSessionParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -326,9 +326,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(invalidSectionParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -355,9 +355,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(invalidSectionAndCourseIdParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
         assertFalse(response.isCanModifySession());
@@ -385,9 +385,9 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         GetInstructorPrivilegeAction a = getAction(courseAndSessionParams);
         InstructorPrivilegeData response = (InstructorPrivilegeData) getJsonResult(a).getOutput();
 
-        assertFalse(response.isCanEditCourse());
-        assertFalse(response.isCanDeleteCourse());
-        assertFalse(response.isCanRestoreCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifyStudent());
         assertTrue(response.isCanModifyInstructor());
         assertTrue(response.isCanModifySession());

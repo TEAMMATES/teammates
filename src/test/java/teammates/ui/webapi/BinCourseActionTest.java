@@ -141,6 +141,6 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
                 Const.ParamsNames.COURSE_ID, "idOfTypicalCourse1",
         };
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE, submissionParams);
+                Const.InstructorPermissions.CAN_DELETE_COURSE, submissionParams);
     }
 }

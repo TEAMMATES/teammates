@@ -4,7 +4,9 @@ import { InstructorPrivilege } from './api-output';
  * The default instructor privilege.
  */
 export const DEFAULT_INSTRUCTOR_PRIVILEGE: InstructorPrivilege = {
-  canModifyCourse: false,
+  canEditCourse: false,
+  canDeleteCourse: false,
+  canRestoreCourse: false,
   canModifySession: false,
   canModifyStudent: false,
   canSubmitSessionInSections: false,

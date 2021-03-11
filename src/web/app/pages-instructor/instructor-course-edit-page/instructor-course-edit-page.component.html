@@ -4,7 +4,7 @@
       <strong>Course</strong>
       <div class="card-header-btn-toolbar">
         <button id="btn-edit-course" class="btn btn-primary btn-sm"
-                [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
+                [disabled]="!currInstructorCoursePrivilege.canEditCourse"
                 *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
           <i class="fa fa-pen" aria-hidden="true"></i>
           Edit
@@ -17,7 +17,7 @@
           Cancel
         </button>
         <button id="btn-delete-course" class="btn btn-primary btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions"
-                [disabled]="!currInstructorCoursePrivilege.canModifyCourse || isSavingCourseEdit" (click)="deleteCourse()">
+                [disabled]="!currInstructorCoursePrivilege.canDeleteCourse || isSavingCourseEdit" (click)="deleteCourse()">
           <i class="fa fa-trash" aria-hidden="true"></i>
           Delete
         </button>

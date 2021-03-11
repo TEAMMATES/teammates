@@ -207,7 +207,9 @@ describe('InstructorSearchPageComponent', () => {
     spyHttpRequestService.get.mockImplementation((endpoint: string) => {
       expect(endpoint).toEqual(ResourceEndpoints.INSTRUCTOR_PRIVILEGE);
       return of<InstructorPrivilege>({
-        canModifyCourse: true,
+        canEditCourse: true,
+        canDeleteCourse: true,
+        canRestoreCourse: true,
         canModifySession: true,
         canModifyStudent: true,
         canModifyInstructor: true,
@@ -234,7 +236,9 @@ describe('InstructorSearchPageComponent', () => {
 
   it('should combine privileges and course data correctly', () => {
     const basePrivilege: InstructorPrivilege = {
-      canModifyCourse: true,
+      canEditCourse: true,
+      canDeleteCourse: true,
+      canRestoreCourse: true,
       canModifySession: true,
       canModifyStudent: true,
       canModifyInstructor: true,

@@ -301,9 +301,13 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .withPrivileges(privileges)
                 .build();
 
-        assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         instructor.privileges = null;
-        assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE));
 
         String sectionId = "sectionId";
         String sessionId = "sessionId";

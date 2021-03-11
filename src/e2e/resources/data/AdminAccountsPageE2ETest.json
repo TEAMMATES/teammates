@@ -36,7 +36,9 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canmodifycourse": true,
+          "caneditcourse": true,
+          "candeletecourse": true,
+          "canrestorecourse": true,
           "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,
@@ -59,7 +61,9 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canmodifycourse": true,
+          "caneditcourse": true,
+          "candeletecourse": true,
+          "canrestorecourse": true,
           "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,
@@ -82,7 +86,9 @@
       "displayedName": "Co-owner",
       "privileges": {
         "courseLevel": {
-          "canmodifycourse": true,
+          "caneditcourse": true,
+          "candeletecourse": true,
+          "canrestorecourse": true,
           "canmodifyinstructor": true,
           "canmodifysession": true,
           "canmodifystudent": true,

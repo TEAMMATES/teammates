@@ -76,7 +76,9 @@ describe('SessionsTableComponent', () => {
   };
 
   const instructorCanEverything: InstructorPrivilege = {
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,
@@ -87,7 +89,9 @@ describe('SessionsTableComponent', () => {
   };
 
   const instructorCannotEverything: InstructorPrivilege = {
-    canModifyCourse: false,
+    canEditCourse: false,
+    canDeleteCourse: false,
+    canRestoreCourse: false,
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,

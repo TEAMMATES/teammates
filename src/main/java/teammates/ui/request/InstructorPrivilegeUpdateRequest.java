@@ -119,9 +119,11 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     public Boolean isCanEditCourse() {
         return canEditCourse;
     }
+
     public Boolean isCanDeleteCourse() {
         return canDeleteCourse;
     }
+
     public Boolean isCanRestoreCourse() {
         return canRestoreCourse;
     }
@@ -211,9 +213,11 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     public void setCanEditCourse(@Nullable Boolean canEditCourse) {
         this.canEditCourse = canEditCourse;
     }
+
     public void setCanDeleteCourse(@Nullable Boolean canDeleteCourse) {
         this.canDeleteCourse = canDeleteCourse;
     }
+
     public void setCanRestoreCourse(@Nullable Boolean canRestoreCourse) {
         this.canRestoreCourse = canRestoreCourse;
     }

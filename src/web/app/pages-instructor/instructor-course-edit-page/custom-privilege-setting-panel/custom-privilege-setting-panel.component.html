@@ -11,20 +11,20 @@
           <div class="col-12">
             <label>
               <input type="checkbox"
-                     [ngModel]="permission.privilege.canModifyCourse"
-                     (ngModelChange)="triggerOverallPermissionChange('canModifyCourse', $event)">
+                     [ngModel]="permission.privilege.canEditCourse"
+                     (ngModelChange)="triggerOverallPermissionChange('canEditCourse', $event)">
               Edit Course
             </label>
             <label>
               <input type="checkbox"
-                     [ngModel]="permission.privilege.canModifyCourse"
-                     (ngModelChange)="triggerOverallPermissionChange('canModifyCourse', $event)">
+                     [ngModel]="permission.privilege.canDeleteCourse"
+                     (ngModelChange)="triggerOverallPermissionChange('canDeleteCourse', $event)">
               Delete Course
             </label>
             <label>
               <input type="checkbox"
-                     [ngModel]="permission.privilege.canModifyCourse"
-                     (ngModelChange)="triggerOverallPermissionChange('canModifyCourse', $event)">
+                     [ngModel]="permission.privilege.canRestoreCourse"
+                     (ngModelChange)="triggerOverallPermissionChange('canRestoreCourse', $event)">
               Restore Course
             </label>
           </div>

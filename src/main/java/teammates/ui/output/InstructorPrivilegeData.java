@@ -24,9 +24,11 @@ public class InstructorPrivilegeData extends ApiOutput {
     public void setCanEditCourse(boolean canEditCourse) {
         this.canEditCourse = canEditCourse;
     }
+
     public void setCanDeleteCourse(boolean canDeleteCourse) {
         this.canDeleteCourse = canDeleteCourse;
     }
+
     public void setCanRestoreCourse(boolean canRestoreCourse) {
         this.canRestoreCourse = canRestoreCourse;
     }
@@ -62,9 +64,11 @@ public class InstructorPrivilegeData extends ApiOutput {
     public boolean isCanEditCourse() {
         return canEditCourse;
     }
+
     public boolean isCanDeleteCourse() {
         return canDeleteCourse;
     }
+
     public boolean isCanRestoreCourse() {
         return canRestoreCourse;
     }

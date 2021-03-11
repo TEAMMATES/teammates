@@ -17,7 +17,9 @@ export class ViewRolePrivilegesModalComponent implements OnInit {
 
   @Input()
   instructorPrivilege: InstructorPrivilege = {
-    canModifyCourse: false,
+    canEditCourse: false,
+    canDeleteCourse: false,
+    canRestoreCourse: false,
     canModifySession: false,
     canModifyStudent: false,
     canModifyInstructor: false,

@@ -72,7 +72,9 @@ export class InstructorEditPanelComponent implements OnInit {
 
     permission: {
       privilege: {
-        canModifyCourse: false,
+        canEditCourse: false,
+        canDeleteCourse: false,
+        canRestoreCourse: false,
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: false,
@@ -92,7 +94,9 @@ export class InstructorEditPanelComponent implements OnInit {
 
   @Input()
   currInstructorCoursePrivilege: InstructorPrivilege = {
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,

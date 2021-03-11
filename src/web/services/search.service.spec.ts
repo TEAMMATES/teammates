@@ -82,7 +82,9 @@ describe('SearchService', () => {
   ];
 
   const mockPrivileges: InstructorPrivilege[] = [{
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,

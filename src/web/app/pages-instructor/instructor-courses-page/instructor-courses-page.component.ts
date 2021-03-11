@@ -24,7 +24,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
 
 interface CourseModel {
   course: Course;
-  canModifyCourse: boolean;
+  canEditCourse: boolean;
+  canDeleteCourse: boolean;
+  canRestoreCourse: boolean;
   canModifyStudent: boolean;
   isLoadingCourseStats: boolean;
 }
@@ -91,15 +93,19 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.softDeletedCourses = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
       resp.courses.forEach((course: Course) => {
-        let canModifyCourse: boolean = false;
+        let canEditCourse: boolean = false;
+        let canDeleteCourse: boolean = false;
+        let canRestoreCourse: boolean = false;
         let canModifyStudent: boolean = false;
         if (course.privileges) {
-          canModifyCourse = course.privileges.canModifyCourse;
+          canEditCourse = course.privileges.canEditCourse;
+          canDeleteCourse = course.privileges.canDeleteCourse;
+          canRestoreCourse = course.privileges.canRestoreCourse;
           canModifyStudent = course.privileges.canModifyStudent;
         }
         const isLoadingCourseStats: boolean = false;
         const activeCourse: CourseModel = Object.assign({},
-            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+            { course, canEditCourse, canDeleteCourse, canRestoreCourse, canModifyStudent, isLoadingCourseStats });
         this.activeCourses.push(activeCourse);
       });
       this.activeCoursesDefaultSort();
@@ -112,15 +118,19 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        let canModifyCourse: boolean = false;
+        let canEditCourse: boolean = false;
+        let canDeleteCourse: boolean = false;
+        let canRestoreCourse: boolean = false;
         let canModifyStudent: boolean = false;
         if (course.privileges) {
-          canModifyCourse = course.privileges.canModifyCourse;
+          canEditCourse = course.privileges.canEditCourse;
+          canDeleteCourse = course.privileges.canDeleteCourse;
+          canRestoreCourse = course.privileges.canRestoreCourse;
           canModifyStudent = course.privileges.canModifyStudent;
         }
         const isLoadingCourseStats: boolean = false;
         const archivedCourse: CourseModel = Object.assign({},
-            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+            { course, canEditCourse, canDeleteCourse, canRestoreCourse, canModifyStudent, isLoadingCourseStats });
         this.archivedCourses.push(archivedCourse);
         this.archivedCoursesDefaultSort();
       }
@@ -131,19 +141,25 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
-        let canModifyCourse: boolean = false;
+        let canEditCourse: boolean = false;
+        let canDeleteCourse: boolean = false;
+        let canRestoreCourse: boolean = false;
         let canModifyStudent: boolean = false;
         if (course.privileges) {
-          canModifyCourse = course.privileges.canModifyCourse;
+          canEditCourse = course.privileges.canEditCourse;
+          canDeleteCourse = course.privileges.canDeleteCourse;
+          canRestoreCourse = course.privileges.canRestoreCourse;
           canModifyStudent = course.privileges.canModifyStudent;
         }
         const isLoadingCourseStats: boolean = false;
         const softDeletedCourse: CourseModel = Object.assign({},
-            { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+            { course, canEditCourse, canDeleteCourse, canRestoreCourse, canModifyStudent, isLoadingCourseStats });
         this.softDeletedCourses.push(softDeletedCourse);
         this.deletedCoursesDefaultSort();
-        if (!softDeletedCourse.canModifyCourse) {
+        if (!softDeletedCourse.canDeleteCourse) {
           this.canDeleteAll = false;
+        }
+        if (!softDeletedCourse.canRestoreCourse) {
           this.canRestoreAll = false;
         }
       }

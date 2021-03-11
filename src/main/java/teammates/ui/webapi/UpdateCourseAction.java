@@ -34,7 +34,7 @@ class UpdateCourseAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         CourseAttributes course = logic.getCourse(courseId);
-        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_MODIFY_COURSE);
+        gateKeeper.verifyAccessible(instructor, course, Const.InstructorPermissions.CAN_EDIT_COURSE);
     }
 
     @Override

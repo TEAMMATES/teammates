@@ -20,7 +20,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // co-owner: all true
         privileges.setDefaultPrivilegesForCoowner();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -35,7 +37,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // manager: only one false
         privileges.setDefaultPrivilegesForManager();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -47,7 +51,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // observer: view only
         privileges.setDefaultPrivilegesForObserver();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -59,7 +65,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // tutor
         privileges.setDefaultPrivilegesForTutor();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -71,7 +79,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // helper
         privileges.setDefaultPrivilegesForCustom();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -112,7 +122,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
 
     @Test
     public void testIsPrivilegeNameValid() {
-        assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(InstructorPrivileges.isPrivilegeNameValid(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -128,7 +140,11 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(InstructorPrivileges.isPrivilegeNameValid(invalidPrivileName));
 
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
+                Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
+                Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(
@@ -146,7 +162,11 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSectionLevel(invalidPrivileName));
 
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
+                Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
+                Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(InstructorPrivileges.isPrivilegeNameValidForSessionLevel(
@@ -169,9 +189,13 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        privileges.updatePrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         Map<String, Boolean> courseLevelPrivileges = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -184,7 +208,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         privileges.updatePrivilege(invalidPrivilegeName, false);
         courseLevelPrivileges = privileges.getCourseLevelPrivileges();
         assertFalse(courseLevelPrivileges.containsKey(invalidPrivilegeName));
-        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(courseLevelPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
@@ -204,11 +230,15 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
 
-        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        privileges.updatePrivilege(sectionId, Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         Map<String, Boolean> sectionPrivileges = privileges.getSectionLevelPrivileges().get(sectionId);
         assertEquals(1, privileges.getSectionLevelPrivileges().size());
         assertTrue(privileges.getSectionLevelPrivileges().containsKey(sectionId));
-        assertNull(sectionPrivileges.get(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertNull(sectionPrivileges.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertNull(sectionPrivileges.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertNull(sectionPrivileges.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertTrue(sectionPrivileges.get(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
@@ -276,7 +306,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
 
-        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE));
 
         String sectionId = "sectionId";
         assertTrue(privileges.isAllowedForPrivilege(
@@ -356,7 +388,9 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         InstructorPrivileges nonDefaultPrivileges = new InstructorPrivileges();
         nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
-        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         nonDefaultPrivileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
 
         assertFalse(nonDefaultPrivileges.hasCoownerPrivileges());
