@@ -2,16 +2,19 @@ package teammates.ui.webapi;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
+import com.google.api.client.auth.oauth2.AuthorizationCodeRequestUrl;
+
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 
 /**
  * Servlet that handles login.
@@ -20,7 +23,7 @@ import teammates.common.util.HttpRequestHelper;
 public class LoginServlet extends AuthServlet {
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         if (Config.isDevServer()) {
             resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", "/devServerLogin");
@@ -39,7 +42,11 @@ public class LoginServlet extends AuthServlet {
             return;
         }
 
-        // TODO
+        AuthState state = new AuthState(nextUrl, req.getSession().getId());
+        AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
+        authorizationUrl.setRedirectUri(getRedirectUri(req));
+        authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
+        resp.sendRedirect(authorizationUrl.build());
     }
 
 }
