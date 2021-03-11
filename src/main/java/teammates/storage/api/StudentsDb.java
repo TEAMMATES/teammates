@@ -18,6 +18,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -60,7 +61,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
+    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
         }
@@ -75,7 +77,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
             return new StudentSearchResultBundle();
         }

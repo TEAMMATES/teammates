@@ -14,6 +14,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
@@ -72,7 +73,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
 
         if (queryString.trim().isEmpty()) {
             return new InstructorSearchResultBundle();

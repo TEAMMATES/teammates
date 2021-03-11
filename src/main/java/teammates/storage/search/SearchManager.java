@@ -21,8 +21,10 @@ import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
+import teammates.common.util.StringHelper;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTaskThrows;
@@ -45,12 +47,26 @@ public final class SearchManager {
 
     private static final RetryManager RM = new RetryManager(8);
 
+    private String searchServiceHost;
+
+    public SearchManager(String searchServiceHost) {
+        this.searchServiceHost = searchServiceHost;
+    }
+
+    private boolean isSearchServiceActive() {
+        return !StringHelper.isEmpty(searchServiceHost);
+    }
+
     /**
      * Searches for students.
      *
      * @param instructors the constraint that restricts the search result
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
+        if (!isSearchServiceActive()) {
+            throw new SearchNotImplementedException();
+        }
         StudentSearchQuery query = instructors == null ? new StudentSearchQuery(queryString)
                 : new StudentSearchQuery(instructors, queryString);
         Results<ScoredDocument> scoredDocuments = searchDocuments(SEARCH_INDEX_STUDENT, query);
@@ -64,6 +80,10 @@ public final class SearchManager {
      * Batch creates or updates search documents for the given students.
      */
     public void putStudentSearchDocuments(StudentAttributes... students) {
+        if (!isSearchServiceActive()) {
+            log.severe("Search service is not implemented");
+            return;
+        }
         List<SearchDocument> studentDocuments = new ArrayList<>();
         for (StudentAttributes student : students) {
             studentDocuments.add(new StudentSearchDocument(student));
@@ -75,13 +95,20 @@ public final class SearchManager {
      * Removes student search documents based on the given keys.
      */
     public void deleteStudentSearchDocuments(String... keys) {
+        if (!isSearchServiceActive()) {
+            log.severe("Search service is not implemented");
+            return;
+        }
         deleteDocuments(SEARCH_INDEX_STUDENT, keys);
     }
 
     /**
      * Searches for instructors.
      */
-    public InstructorSearchResultBundle searchInstructors(String queryString) {
+    public InstructorSearchResultBundle searchInstructors(String queryString) throws SearchNotImplementedException {
+        if (!isSearchServiceActive()) {
+            throw new SearchNotImplementedException();
+        }
         InstructorSearchQuery query = new InstructorSearchQuery(queryString);
         Results<ScoredDocument> scoredDocuments = searchDocuments(SEARCH_INDEX_INSTRUCTOR, query);
         return InstructorSearchDocument.fromResults(scoredDocuments);
@@ -91,6 +118,10 @@ public final class SearchManager {
      * Batch creates or updates search documents for the given instructors.
      */
     public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
+        if (!isSearchServiceActive()) {
+            log.severe("Search service is not implemented");
+            return;
+        }
         List<SearchDocument> instructorDocuments = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {
             if (instructor.key != null) {
@@ -104,6 +135,10 @@ public final class SearchManager {
      * Removes instructor search documents based on the given keys.
      */
     public void deleteInstructorSearchDocuments(String... keys) {
+        if (!isSearchServiceActive()) {
+            log.severe("Search service is not implemented");
+            return;
+        }
         deleteDocuments(SEARCH_INDEX_INSTRUCTOR, keys);
     }
 

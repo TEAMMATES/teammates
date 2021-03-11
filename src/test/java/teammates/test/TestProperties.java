@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+import teammates.common.util.StringHelper;
+
 /**
  * Settings for component tests.
  */
@@ -23,6 +25,9 @@ public final class TestProperties {
     /** Indicates whether auto-update snapshot mode is activated. */
     public static final boolean IS_SNAPSHOT_UPDATE;
 
+    /** The value of "test.search.service.host" in test.search.service.host file. */
+    public static final String SEARCH_SERVICE_HOST;
+
     private TestProperties() {
         // access static fields directly
     }
@@ -35,12 +40,16 @@ public final class TestProperties {
             }
 
             IS_SNAPSHOT_UPDATE = Boolean.parseBoolean(prop.getProperty("test.snapshot.update", "false"));
-
+            SEARCH_SERVICE_HOST = prop.getProperty("test.search.service.host");
             PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static boolean isSearchServiceActive() {
+        return !StringHelper.isEmpty(SEARCH_SERVICE_HOST);
     }
 
 }

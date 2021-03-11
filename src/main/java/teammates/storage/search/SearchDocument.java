@@ -19,8 +19,8 @@ import teammates.storage.api.StudentsDb;
  */
 abstract class SearchDocument {
 
-    public static final String FIELD_SEARCHABLE_TEXT = "searchableText";
-    public static final String FIELD_COURSE_ID = "courseId";
+    static final String FIELD_SEARCHABLE_TEXT = "searchableText";
+    static final String FIELD_COURSE_ID = "courseId";
 
     static final CoursesDb coursesDb = new CoursesDb();
     static final InstructorsDb instructorsDb = new InstructorsDb();

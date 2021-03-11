@@ -23,7 +23,7 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
         // It works now because we are still using GAE's Search API, but it will no longer work
         // when we move to third-party service with local setup.
 
-        SearchManagerFactory.registerSearchManager(new SearchManager());
+        SearchManagerFactory.registerSearchManager(new SearchManager(TestProperties.SEARCH_SERVICE_HOST));
     }
 
     @BeforeClass

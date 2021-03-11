@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
+import teammates.test.TestProperties;
 import teammates.ui.output.StudentsData;
 
 /**
@@ -68,6 +69,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_adminSearchName_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         StudentAttributes acc = typicalBundle.students.get("student1InCourse1");
         loginAsAdmin();
         String[] accNameParams = new String[] {
@@ -82,6 +87,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_adminSearchCourseId_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         StudentAttributes acc = typicalBundle.students.get("student1InCourse1");
         loginAsAdmin();
         String[] accCourseIdParams = new String[] {
@@ -96,6 +105,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_adminSearchAccountsGeneral_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] accNameParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "Course2",
@@ -110,6 +123,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_adminSearchEmail_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         StudentAttributes acc = typicalBundle.students.get("student1InCourse1");
         String[] emailParams = new String[] {
@@ -126,6 +143,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_adminSearchNoMatch_noMatch() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] accNameParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "minuscoronavirus",
@@ -140,6 +161,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_adminSearchGoogleId_success() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] googleIdParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "Course",
@@ -154,6 +179,10 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
 
     @Test
     public void execute_instructorSearchGoogleId_matchOnlyStudentsInCourse() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsInstructor("idOfInstructor1OfCourse1");
         String[] googleIdParams = new String[] {
                 Const.ParamsNames.SEARCH_KEY, "Course",
