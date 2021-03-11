@@ -25,7 +25,9 @@ class GetInstructorPrivilegeAction extends Action {
         InstructorPrivilegeData tutorPrivilegeData = new InstructorPrivilegeData();
         InstructorPrivilegeData customPrivilegeData = new InstructorPrivilegeData();
 
-        coOwnerPrivilegeData.setCanModifyCourse(true);
+        coOwnerPrivilegeData.setCanEditCourse(true);
+        coOwnerPrivilegeData.setCanDeleteCourse(true);
+        coOwnerPrivilegeData.setCanRestoreCourse(true);
         coOwnerPrivilegeData.setCanModifyInstructor(true);
         coOwnerPrivilegeData.setCanModifySession(true);
         coOwnerPrivilegeData.setCanModifyStudent(true);
@@ -34,7 +36,9 @@ class GetInstructorPrivilegeAction extends Action {
         coOwnerPrivilegeData.setCanSubmitSessionInSections(true);
         coOwnerPrivilegeData.setCanModifySessionCommentsInSections(true);
 
-        managerPrivilegeData.setCanModifyCourse(false);
+        managerPrivilegeData.setCanEditCourse(false);
+        managerPrivilegeData.setCanDeleteCourse(false);
+        managerPrivilegeData.setCanRestoreCourse(false);
         managerPrivilegeData.setCanModifyInstructor(true);
         managerPrivilegeData.setCanModifySession(true);
         managerPrivilegeData.setCanModifyStudent(true);
@@ -43,7 +47,9 @@ class GetInstructorPrivilegeAction extends Action {
         managerPrivilegeData.setCanSubmitSessionInSections(true);
         managerPrivilegeData.setCanModifySessionCommentsInSections(true);
 
-        observerPrivilegeData.setCanModifyCourse(false);
+        observerPrivilegeData.setCanEditCourse(false);
+        observerPrivilegeData.setCanDeleteCourse(false);
+        observerPrivilegeData.setCanRestoreCourse(false);
         observerPrivilegeData.setCanModifyInstructor(false);
         observerPrivilegeData.setCanModifySession(false);
         observerPrivilegeData.setCanModifyStudent(false);
@@ -52,7 +58,9 @@ class GetInstructorPrivilegeAction extends Action {
         observerPrivilegeData.setCanSubmitSessionInSections(false);
         observerPrivilegeData.setCanModifySessionCommentsInSections(false);
 
-        tutorPrivilegeData.setCanModifyCourse(false);
+        tutorPrivilegeData.setCanEditCourse(false);
+        tutorPrivilegeData.setCanDeleteCourse(false);
+        tutorPrivilegeData.setCanRestoreCourse(false);
         tutorPrivilegeData.setCanModifyInstructor(false);
         tutorPrivilegeData.setCanModifySession(false);
         tutorPrivilegeData.setCanModifyStudent(false);
@@ -61,7 +69,9 @@ class GetInstructorPrivilegeAction extends Action {
         tutorPrivilegeData.setCanSubmitSessionInSections(true);
         tutorPrivilegeData.setCanModifySessionCommentsInSections(false);
 
-        customPrivilegeData.setCanModifyCourse(false);
+        customPrivilegeData.setCanEditCourse(false);
+        customPrivilegeData.setCanDeleteCourse(false);
+        customPrivilegeData.setCanRestoreCourse(false);
         customPrivilegeData.setCanModifyInstructor(false);
         customPrivilegeData.setCanModifySession(false);
         customPrivilegeData.setCanModifyStudent(false);

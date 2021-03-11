@@ -79,7 +79,9 @@ public final class Const {
     }
 
     public static class InstructorPermissions {
-        public static final String CAN_MODIFY_COURSE = "canmodifycourse";
+        public static final String CAN_EDIT_COURSE = "caneditcourse";
+        public static final String CAN_DELETE_COURSE = "candeletecourse";
+        public static final String CAN_RESTORE_COURSE = "canrestorecourse";
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
         public static final String CAN_MODIFY_SESSION = "canmodifysession";
         public static final String CAN_MODIFY_STUDENT = "canmodifystudent";

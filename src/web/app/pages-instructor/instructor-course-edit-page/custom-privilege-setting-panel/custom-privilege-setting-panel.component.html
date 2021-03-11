@@ -13,7 +13,19 @@
               <input type="checkbox"
                      [ngModel]="permission.privilege.canModifyCourse"
                      (ngModelChange)="triggerOverallPermissionChange('canModifyCourse', $event)">
-              Edit/Delete/Restore Course
+              Edit Course
+            </label>
+            <label>
+              <input type="checkbox"
+                     [ngModel]="permission.privilege.canModifyCourse"
+                     (ngModelChange)="triggerOverallPermissionChange('canModifyCourse', $event)">
+              Delete Course
+            </label>
+            <label>
+              <input type="checkbox"
+                     [ngModel]="permission.privilege.canModifyCourse"
+                     (ngModelChange)="triggerOverallPermissionChange('canModifyCourse', $event)">
+              Restore Course
             </label>
           </div>
           <div class="col-12">

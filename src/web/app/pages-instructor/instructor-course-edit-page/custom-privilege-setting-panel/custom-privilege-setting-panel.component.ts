@@ -40,7 +40,9 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   @Input()
   permission: InstructorOverallPermission = {
     privilege: {
-      canModifyCourse: false,
+      canEditCourse: false,
+      canDeleteCourse: false,
+      canRestoreCourse: false,
       canModifySession: false,
       canModifyStudent: false,
       canModifyInstructor: false,

@@ -18,7 +18,11 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     private String feedbackSessionName;
 
     @Nullable
-    private Boolean canModifyCourse;
+    private Boolean canEditCourse;
+    @Nullable
+    private Boolean canDeleteCourse;
+    @Nullable
+    private Boolean canRestoreCourse;
     @Nullable
     private Boolean canModifySession;
     @Nullable
@@ -44,7 +48,9 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
 
         if (sectionName != null) {
             // course level privileges should not be present.
-            boolean isNoneCourseLevelPrivilegesPresent = this.canModifyCourse == null
+            boolean isNoneCourseLevelPrivilegesPresent = this.canEditCourse == null
+                    && this.canDeleteCourse == null
+                    && this.canRestoreCourse == null
                     && this.canModifySession == null
                     && this.canModifyStudent == null
                     && this.canModifyInstructor == null;
@@ -58,7 +64,9 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
             }
         }
 
-        boolean isAnyPrivilegesToUpdate = this.canModifyCourse != null
+        boolean isAnyPrivilegesToUpdate = this.canEditCourse != null
+                || this.canDeleteCourse != null
+                || this.canRestoreCourse != null
                 || this.canModifyStudent != null
                 || this.canModifyInstructor != null
                 || this.canModifySession != null
@@ -108,8 +116,14 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
         return canModifyInstructor;
     }
 
-    public Boolean isCanModifyCourse() {
-        return canModifyCourse;
+    public Boolean isCanEditCourse() {
+        return canEditCourse;
+    }
+    public Boolean isCanDeleteCourse() {
+        return canDeleteCourse;
+    }
+    public Boolean isCanRestoreCourse() {
+        return canRestoreCourse;
     }
 
     /**
@@ -117,8 +131,14 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
      */
     public Map<String, Boolean> getAllPresentCourseLevelPrivileges() {
         Map<String, Boolean> privilegesMap = new HashMap<>();
-        if (this.canModifyCourse != null) {
-            privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, this.canModifyCourse);
+        if (this.canEditCourse != null) {
+            privilegesMap.put(Const.InstructorPermissions.CAN_EDIT_COURSE, this.canEditCourse);
+        }
+        if (this.canDeleteCourse != null) {
+            privilegesMap.put(Const.InstructorPermissions.CAN_DELETE_COURSE, this.canDeleteCourse);
+        }
+        if (this.canRestoreCourse != null) {
+            privilegesMap.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, this.canRestoreCourse);
         }
         if (this.canModifySession != null) {
             privilegesMap.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, this.canModifySession);
@@ -188,8 +208,14 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
         this.canModifyInstructor = canModifyInstructor;
     }
 
-    public void setCanModifyCourse(@Nullable Boolean canModifyCourse) {
-        this.canModifyCourse = canModifyCourse;
+    public void setCanEditCourse(@Nullable Boolean canEditCourse) {
+        this.canEditCourse = canEditCourse;
+    }
+    public void setCanDeleteCourse(@Nullable Boolean canDeleteCourse) {
+        this.canDeleteCourse = canDeleteCourse;
+    }
+    public void setCanRestoreCourse(@Nullable Boolean canRestoreCourse) {
+        this.canRestoreCourse = canRestoreCourse;
     }
 
     public void setCanModifySession(@Nullable Boolean canModifySession) {

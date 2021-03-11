@@ -7,7 +7,10 @@ import teammates.common.util.Const;
  * The output format for privilege of an instructor.
  */
 public class InstructorPrivilegeData extends ApiOutput {
-    private boolean canModifyCourse;
+    private boolean canEditCourse;
+    private boolean canDeleteCourse;
+    private boolean canRestoreCourse;
+
     private boolean canModifySession;
     private boolean canModifyStudent;
     private boolean canModifyInstructor;
@@ -18,8 +21,14 @@ public class InstructorPrivilegeData extends ApiOutput {
     private boolean canViewSessionInSections;
     private boolean canSubmitSessionInSections;
 
-    public void setCanModifyCourse(boolean canModifyCourse) {
-        this.canModifyCourse = canModifyCourse;
+    public void setCanEditCourse(boolean canEditCourse) {
+        this.canEditCourse = canEditCourse;
+    }
+    public void setCanDeleteCourse(boolean canDeleteCourse) {
+        this.canDeleteCourse = canDeleteCourse;
+    }
+    public void setCanRestoreCourse(boolean canRestoreCourse) {
+        this.canRestoreCourse = canRestoreCourse;
     }
 
     public void setCanModifySession(boolean canModifySession) {
@@ -50,8 +59,14 @@ public class InstructorPrivilegeData extends ApiOutput {
         this.canSubmitSessionInSections = canSubmitSessionInSections;
     }
 
-    public boolean isCanModifyCourse() {
-        return canModifyCourse;
+    public boolean isCanEditCourse() {
+        return canEditCourse;
+    }
+    public boolean isCanDeleteCourse() {
+        return canDeleteCourse;
+    }
+    public boolean isCanRestoreCourse() {
+        return canRestoreCourse;
     }
 
     public boolean isCanModifyInstructor() {
@@ -92,8 +107,12 @@ public class InstructorPrivilegeData extends ApiOutput {
                 Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         setCanModifySession(privileges.isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        setCanModifyCourse(privileges.isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        setCanEditCourse(privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_EDIT_COURSE));
+        setCanDeleteCourse(privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_DELETE_COURSE));
+        setCanRestoreCourse(privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_RESTORE_COURSE));
         setCanViewStudentInSections(privileges.isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         setCanViewSessionInSections(privileges.isAllowedForPrivilege(

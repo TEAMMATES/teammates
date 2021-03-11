@@ -21,7 +21,9 @@ public final class InstructorPrivileges {
     private static final Map<String, Boolean> PRIVILEGES_CUSTOM = new LinkedHashMap<>();
 
     static {
-        PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, true);
+        PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_EDIT_COURSE, true);
+        PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_DELETE_COURSE, true);
+        PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, true);
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
@@ -30,7 +32,9 @@ public final class InstructorPrivileges {
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, true);
@@ -39,7 +43,9 @@ public final class InstructorPrivileges {
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
         PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
@@ -48,7 +54,9 @@ public final class InstructorPrivileges {
         PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, false);
         PRIVILEGES_OBSERVER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
 
-        PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
         PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
@@ -57,7 +65,9 @@ public final class InstructorPrivileges {
         PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
         PRIVILEGES_TUTOR.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
 
-        PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_MODIFY_COURSE, false);
+        PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
+        PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_MODIFY_SESSION, false);
         PRIVILEGES_CUSTOM.put(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
@@ -68,7 +78,9 @@ public final class InstructorPrivileges {
     }
 
     private static final String[] COURSE_LEVEL_ONLY_LIST = new String[] {
-            Const.InstructorPermissions.CAN_MODIFY_COURSE,
+            Const.InstructorPermissions.CAN_EDIT_COURSE,
+            Const.InstructorPermissions.CAN_DELETE_COURSE,
+            Const.InstructorPermissions.CAN_RESTORE_COURSE,
             Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR,
             Const.InstructorPermissions.CAN_MODIFY_SESSION,
             Const.InstructorPermissions.CAN_MODIFY_STUDENT,
