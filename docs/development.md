@@ -101,7 +101,7 @@ This instruction set applies for both dev server and production server, with sli
 
 1. Go to any administrator page, e.g `/web/admin/home`.
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
-1. On the production server, you will be granted the access only if your account has administrator permission to the application.
+1. On the production server, you will be granted the access only if your account has admin permission as defined in `build.properties`.
 1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
  e.g `http://localhost:8080/web/student/home?user=johnKent`.
 
