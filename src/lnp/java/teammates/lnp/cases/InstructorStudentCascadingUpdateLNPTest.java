@@ -37,7 +37,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private static final int NUM_INSTRUCTORS = 1;
     private static final int RAMP_UP_PERIOD = NUM_INSTRUCTORS * 2;
 
-    private static final int NUM_STUDENTS = 1600;
+    private static final int NUM_STUDENTS = 800;
     private static final int NUM_STUDENTS_PER_SECTION = 100;
     private static final int NUMBER_OF_FEEDBACK_QUESTIONS = 20;
 
@@ -55,7 +55,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private static final String FEEDBACK_SESSION_NAME = "LnPSession";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 50000;
+    private static final double MEAN_RESP_TIME_LIMIT = 10;
 
     @Override
     protected LNPTestData getTestData() {
