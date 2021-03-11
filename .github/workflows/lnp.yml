@@ -26,6 +26,10 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Create Config Files
         run: ./gradlew createConfigs
+      - name: Set up gcloud Cloud SDK environment
+        uses: google-github-actions/setup-gcloud@v0.2.0
+      - name: Set up local datastore emulator
+        run: gcloud beta emulators datastore start --host-port=localhost:8484 --consistency=1.0
       - name: Start App Engine
         run: ./gradlew appengineStart
       - name: Start Tests
