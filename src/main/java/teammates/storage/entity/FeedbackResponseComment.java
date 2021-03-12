@@ -4,7 +4,6 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -73,7 +72,7 @@ public class FeedbackResponseComment extends BaseEntity {
 
     /** The comment from giver about the feedback response. */
     @Unindex
-    private Text commentText;
+    private String commentText;
 
     /** The e-mail of the account that last edited the comment. */
     private String lastEditorEmail;
@@ -227,11 +226,11 @@ public class FeedbackResponseComment extends BaseEntity {
     }
 
     public String getCommentText() {
-        return commentText == null ? null : commentText.getValue();
+        return commentText;
     }
 
     public void setCommentText(String commentText) {
-        this.commentText = commentText == null ? null : new Text(commentText);
+        this.commentText = commentText;
     }
 
     public String getGiverSection() {
