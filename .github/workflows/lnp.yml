@@ -24,14 +24,12 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - name: Install cloud datastore emulator
+        run: sudo apt-get install google-cloud-sdk-datastore-emulator
+      - name: Set up local datastore emulator
+        run: gcloud beta emulators datastore start --project=tm-obj-v6-test --host-port=localhost:8484 --consistency=1.0 &
       - name: Create Config Files
         run: ./gradlew createConfigs
-      - name: Set up gcloud Cloud SDK environment
-        uses: google-github-actions/setup-gcloud@v0.2.0
-      - name: Install beta command group
-        run: yes | gcloud components install beta cloud-datastore-emulator
-      - name: Set up local datastore emulator
-        run: gcloud beta emulators datastore start --project=tm-obj-v6-test --host-port=localhost:8484 --consistency=1.0
       - name: Start App Engine
         run: ./gradlew appengineStart
       - name: Start Tests
