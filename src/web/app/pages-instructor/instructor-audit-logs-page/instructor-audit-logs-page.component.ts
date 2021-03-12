@@ -58,7 +58,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.courseService
         .getAllCoursesAsInstructor('active')
         .pipe(finalize(() => this.isLoading = false))
-        .subscribe((courses: Courses) => this.courses = courses.courses,
+        .subscribe(
+            (courses: Courses) =>
+                this.courses = courses.courses.sort((a: Course, b: Course) => a.courseId.localeCompare(b.courseId)),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }
