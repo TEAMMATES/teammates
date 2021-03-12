@@ -71,4 +71,11 @@ export class StringHelper {
     }
     return result;
   }
+
+  /**
+   * Removes the hash from the name of an anonymous student, instructor, or team.
+   */
+  static removeAnonymousHash(str: string): string {
+    return str.replace(/Anonymous (student|instructor|team) [0-9]{1,10}/, 'Anonymous $1');
+  }
 }
