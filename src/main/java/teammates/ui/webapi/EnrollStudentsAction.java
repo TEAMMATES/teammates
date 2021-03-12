@@ -7,12 +7,10 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 
@@ -93,13 +91,12 @@ class EnrollStudentsAction extends Action {
 
         });
 
-        if (studentsToUpdate.size() > 0)
+        if (!studentsToUpdate.isEmpty()) {
             enrolledStudents.addAll(logic.updateStudentCascadeBatch(studentsToUpdate));
-        Logger.getLogger().info("done updating students");
-        if (studentsToCreate.size() > 0)
+        }
+        if (!studentsToCreate.isEmpty()) {
             enrolledStudents.addAll(logic.createStudents(studentsToCreate));
-
-       Logger.getLogger().info("done creating students");
+        }
 
         return new JsonResult(new StudentsData(enrolledStudents));
     }

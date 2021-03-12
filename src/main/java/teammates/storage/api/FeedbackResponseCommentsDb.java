@@ -19,7 +19,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -30,7 +29,6 @@ import teammates.storage.entity.FeedbackResponseComment;
 import teammates.storage.search.FeedbackResponseCommentSearchDocument;
 import teammates.storage.search.FeedbackResponseCommentSearchQuery;
 import teammates.storage.search.SearchDocument;
-import teammates.storage.transaction.CascadingTransaction;
 
 /**
  * Handles CRUD operations for feedback response comments.
@@ -377,8 +375,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
                 frcSearchDocuments.clear();
             }
         }
-        if (frcSearchDocuments.size() > 0)
+        if (!frcSearchDocuments.isEmpty()) {
             putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
+        }
     }
 
     /**

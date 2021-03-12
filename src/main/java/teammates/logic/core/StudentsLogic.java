@@ -9,7 +9,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -17,7 +16,6 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
-import teammates.common.util.Logger;
 import teammates.storage.api.StudentsDb;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 
@@ -41,8 +39,6 @@ public final class StudentsLogic {
     private static StudentsLogic instance = new StudentsLogic();
 
     private static final StudentsDb studentsDb = new StudentsDb();
-
-    static final Logger log = Logger.getLogger();
 
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
@@ -197,14 +193,10 @@ public final class StudentsLogic {
 
     public List<StudentAttributes> updateStudentCascadeBatch(List<StudentAttributes.UpdateOptions> updateOptionsList) {
         List<StudentUpdate> studentUpdates = studentsDb.updateStudentSilent(updateOptionsList);
-        log.info("done updating students");
 
         frLogic.updateFeedbackResponsesForChangingEmailBatch(studentUpdates);
-        log.info("done updating resp email DELETE");
         frLogic.updateFeedbackResponsesForChangingTeamBatch(studentUpdates); // TODO: batch deletion
-        log.info("done updating resp team DELETE");
         frLogic.updateFeedbackResponsesForChangingSectionBatch(studentUpdates);
-        log.info("done updating resp section");
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
 
@@ -449,12 +441,12 @@ public final class StudentsLogic {
         return false;
     }
 
-    private boolean isTeamChanged(String originalTeam, String newTeam) {
+    boolean isTeamChanged(String originalTeam, String newTeam) {
         return newTeam != null && originalTeam != null
                 && !originalTeam.equals(newTeam);
     }
 
-    private boolean isSectionChanged(String originalSection, String newSection) {
+    boolean isSectionChanged(String originalSection, String newSection) {
         return newSection != null && originalSection != null
                 && !originalSection.equals(newSection);
     }

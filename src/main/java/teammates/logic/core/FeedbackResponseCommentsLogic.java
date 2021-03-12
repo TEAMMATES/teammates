@@ -22,8 +22,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.transaction.CascadingTransaction;
 import teammates.storage.transaction.datatransfer.ResponseUpdate;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 

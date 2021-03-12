@@ -64,8 +64,9 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 studentDocuments.clear();
             }
         }
-        if (studentDocuments.size() > 0)
+        if (!studentDocuments.isEmpty()) {
             putDocument(Const.SearchIndex.STUDENT, studentDocuments.toArray(new SearchDocument[0]));
+        }
     }
 
     /**
@@ -396,7 +397,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             if (isEmailChanged) {
                 newStudents.add(newAttributes);
                 // delete the old student
-                deletedStudents.computeIfAbsent(student.getCourseId(), (id) -> new ArrayList<>())
+                deletedStudents.computeIfAbsent(student.getCourseId(), id -> new ArrayList<>())
                         .add(student.getEmail());
             } else {
                 // update only if change
@@ -408,7 +409,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                                 && hasSameValue(student.getTeamName(), newAttributes.getTeam())
                                 && hasSameValue(student.getSectionName(), newAttributes.getSection());
                 if (hasSameAttributes) {
-                    log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, CourseStudent.class.getSimpleName(), updateOptions));
+                    log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, CourseStudent.class.getSimpleName(),
+                            updateOptions));
                     continue;
                 }
 

@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.annotation.Nullable;
 
@@ -23,9 +22,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.entity.FeedbackResponse;
 import teammates.storage.transaction.datatransfer.ResponseUpdate;
 import teammates.storage.transaction.datatransfer.StudentUpdate;
 
@@ -44,8 +41,6 @@ public final class FeedbackResponsesLogic {
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-
-    static final Logger log = Logger.getLogger();
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -382,54 +377,59 @@ public final class FeedbackResponsesLogic {
     }
 
     public void updateFeedbackResponsesForChangingEmailBatch(List<StudentUpdate> studentUpdates) {
-        if (studentUpdates.size() == 0)
+        if (studentUpdates.isEmpty()) {
             return;
-        String courseId = studentUpdates.get(0).getBefore().getCourse();
-
-        List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
-        log.info("to update response" + studentUpdates.size());
-
-        Map<String, String> studentUpdateProjection = new HashMap<>();
-        List<String> oldStudentEmails = new ArrayList<>();
-        for (StudentUpdate studentUpdate : studentUpdates) {
-            studentUpdateProjection.put(
-                    studentUpdate.getBefore().getEmail(),
-                    studentUpdate.getAfter().getEmail());
-            oldStudentEmails.add(studentUpdate.getBefore().getEmail());
         }
 
+        Map<String, String> emailUpdateProjection = new HashMap<>();
+        List<String> oldStudentEmails = new ArrayList<>();
+        for (StudentUpdate studentUpdate : studentUpdates) {
+            String oldEmail = studentUpdate.getBefore().getEmail();
+            String newEmail = studentUpdate.getAfter().getEmail();
+            if (oldEmail.equals(newEmail)) {
+                continue;
+            }
+
+            emailUpdateProjection.put(oldEmail, newEmail);
+            oldStudentEmails.add(oldEmail);
+        }
+
+        if (emailUpdateProjection.isEmpty()) {
+            return;
+        }
+
+        List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
+        String courseId = studentUpdates.get(0).getBefore().getCourse();
         List<FeedbackResponseAttributes> responsesFromUsers =
                 getFeedbackResponsesFromGiversForCourse(courseId, oldStudentEmails);
         for (FeedbackResponseAttributes response : responsesFromUsers) {
-            log.info("getting responses");
             updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                    .withGiver(studentUpdateProjection.get(response.getGiver()))
+                    .withGiver(emailUpdateProjection.get(response.getGiver()))
                     .build());
         }
 
-        log.info("to update response");
         List<FeedbackResponseAttributes> responsesToUsers =
                 getFeedbackResponsesForReceiversForCourse(courseId, oldStudentEmails);
 
         for (FeedbackResponseAttributes response : responsesToUsers) {
-            log.info("getting responses");
             updateOptionsList.add(FeedbackResponseAttributes.updateOptionsBuilder(response.getId())
-                    .withRecipient(studentUpdateProjection.get(response.getRecipient()))
+                    .withRecipient(emailUpdateProjection.get(response.getRecipient()))
                     .build());
         }
 
-        log.info("to update response");
         List<ResponseUpdate> responseUpdates = frDb.updateFeedbackResponsesSilent(updateOptionsList);
-        log.info("done updating response");
         frcLogic.updateFeedbackResponseCommentsForResponseBatch(responseUpdates);
-        log.info("done updating comment");
         frcLogic.updateFeedbackResponseCommentsEmailsBatch(studentUpdates);
-        log.info("done updating email");
     }
 
     public void updateFeedbackResponsesForChangingTeamBatch(
             List<StudentUpdate> studentUpdates) {
         for (StudentUpdate studentUpdate : studentUpdates) {
+            if (!studentsLogic.isTeamChanged(studentUpdate.getBefore().getTeam(),
+                                             studentUpdate.getAfter().getTeam())) {
+                continue;
+            }
+
             FeedbackQuestionAttributes question;
             // deletes all responses given by the user to team members or given by the user as a representative of a team.
             List<FeedbackResponseAttributes> responsesFromUser =
@@ -472,27 +472,33 @@ public final class FeedbackResponsesLogic {
      * Updates responses for a student when his section changes.
      */
     public void updateFeedbackResponsesForChangingSectionBatch(List<StudentUpdate> studentUpdates) {
-        if (studentUpdates.size() == 0)
+        if (studentUpdates.isEmpty()) {
             return;
-        String courseId = studentUpdates.get(0).getBefore().getCourse();
-
-        List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
-        log.info("to update response" + studentUpdates.size());
+        }
 
         Map<String, String> newStudentSections = new HashMap<>();
         List<String> newStudentEmails = new ArrayList<>();
 
         for (StudentUpdate studentUpdate : studentUpdates) {
-            newStudentSections.put(
-                    studentUpdate.getAfter().getEmail(),
-                    studentUpdate.getAfter().getSection());
-            newStudentEmails.add(studentUpdate.getAfter().getEmail());
+            String oldSection = studentUpdate.getBefore().getSection();
+            String newSection = studentUpdate.getAfter().getSection();
+            String newEmail = studentUpdate.getAfter().getEmail();
+            if (!studentsLogic.isSectionChanged(oldSection, newSection)) {
+                continue;
+            }
+
+            newStudentSections.put(newEmail, newSection);
+            newStudentEmails.add(newEmail);
         }
 
-        log.info("query responses");
+        if (newStudentEmails.isEmpty()) {
+            return;
+        }
+
+        String courseId = studentUpdates.get(0).getBefore().getCourse();
+        List<FeedbackResponseAttributes.UpdateOptions> updateOptionsList = new ArrayList<>();
         List<FeedbackResponseAttributes> responsesToUsers =
                 getFeedbackResponsesForReceiversForCourse(courseId, newStudentEmails);
-        log.info("got responses");
 
         for (FeedbackResponseAttributes response : responsesToUsers) {
             updateOptionsList.add(
@@ -501,10 +507,8 @@ public final class FeedbackResponsesLogic {
                             .build());
         }
 
-        log.info("query responses");
         List<FeedbackResponseAttributes> responsesFromUsers =
                 getFeedbackResponsesFromGiversForCourse(courseId, newStudentEmails);
-        log.info("got responses");
 
         for (FeedbackResponseAttributes response : responsesFromUsers) {
             updateOptionsList.add(

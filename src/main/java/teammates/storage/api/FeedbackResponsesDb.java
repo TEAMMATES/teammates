@@ -16,15 +16,11 @@ import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.CascadingTransactionException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.transaction.CascadingTransaction;
 import teammates.storage.transaction.datatransfer.ResponseUpdate;
 
 /**
@@ -195,6 +191,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         return makeAttributes(getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver));
     }
 
+    /**
+     * Gets all responses given to a list of users in a course.
+     */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiversForCourse(
             String courseId, List<String> receivers) {
         Assumption.assertNotNull(courseId);
@@ -214,6 +213,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail));
     }
 
+    /**
+     * Gets all responses given by a list of users in a course.
+     */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiversForCourse(
             String courseId, List<String> giverEmails) {
         Assumption.assertNotNull(courseId);
@@ -306,7 +308,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         List<ResponseUpdate> responseUpdates = new ArrayList<>();
         List<FeedbackResponseAttributes> newResponses = new ArrayList<>();
         List<FeedbackResponse> updatedResponseEntities = new ArrayList<>();
-        Map<String, List<String>> deletedResponses = new HashMap<>();
+        Map<String, List<String>> courseTodeletedResponses = new HashMap<>();
 
         log.info("to create responses silent");
         for (FeedbackResponseAttributes.UpdateOptions updateOptions : updateOptionsList) {
@@ -358,23 +360,18 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                         .withRecipientSection(newAttributes.getRecipientSection())
                         .build();
                 newResponses.add(newAttributes);
-                deletedResponses.computeIfAbsent(oldResponse.getCourseId(), (id) -> new ArrayList<>())
+                courseTodeletedResponses.computeIfAbsent(oldResponse.getCourseId(), id -> new ArrayList<>())
                         .add(oldResponse.getId());
             }
 
-            log.info("to create responses silent");
             responseUpdates.add(responseUpdate);
         }
 
-        log.info("to create responses silent");
         createEntitiesSilent(newResponses);
-        log.info("done creating responses silent");
-        for (Map.Entry<String, List<String>> responseIdsToDelete : deletedResponses.entrySet()) {
-            deleteFeedbackResponsesByIds(responseIdsToDelete.getValue());
+        for (Map.Entry<String, List<String>> respIdsInSameCourse : courseTodeletedResponses.entrySet()) {
+            deleteFeedbackResponsesByIds(respIdsInSameCourse.getValue());
         }
-        log.info("to save responses");
         saveEntities(updatedResponseEntities);
-        log.info("done save responses");
 
         return responseUpdates;
     }
@@ -388,6 +385,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         deleteEntity(Key.create(FeedbackResponse.class, responseId));
     }
 
+    /**
+     * Deletes a list of feedback responses.
+     */
     public void deleteFeedbackResponsesByIds(List<String> responseIds) {
         Assumption.assertNotNull(responseIds);
 
