@@ -447,7 +447,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   deleteExistingSessionHandler(): void {
     this.sessionEditFormModel.isDeleting = true;
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName).pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+     .pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
      .subscribe(() => {
        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
       'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
