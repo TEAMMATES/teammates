@@ -301,7 +301,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .withPrivileges(privileges)
                 .build();
 
-        assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE));
         assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE));
         assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         instructor.privileges = null;

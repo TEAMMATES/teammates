@@ -36,7 +36,7 @@ class GetInstructorPrivilegeAction extends Action {
         coOwnerPrivilegeData.setCanSubmitSessionInSections(true);
         coOwnerPrivilegeData.setCanModifySessionCommentsInSections(true);
 
-        managerPrivilegeData.setCanEditCourse(false);
+        managerPrivilegeData.setCanEditCourse(true);
         managerPrivilegeData.setCanDeleteCourse(false);
         managerPrivilegeData.setCanRestoreCourse(false);
         managerPrivilegeData.setCanModifyInstructor(true);

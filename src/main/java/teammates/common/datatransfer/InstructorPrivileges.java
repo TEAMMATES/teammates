@@ -32,7 +32,7 @@ public final class InstructorPrivileges {
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
         PRIVILEGES_COOWNER.put(Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_EDIT_COURSE, false);
+        PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_EDIT_COURSE, true);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_DELETE_COURSE, false);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_RESTORE_COURSE, false);
         PRIVILEGES_MANAGER.put(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);

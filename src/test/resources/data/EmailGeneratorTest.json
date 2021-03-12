@@ -158,7 +158,7 @@
           "canviewstudentinsection": true,
           "cansubmitsessioninsection": true,
           "canmodifysessioncommentinsection": true,
-          "caneditcourse": false,
+          "caneditcourse": true,
           "candeletecourse": false,
           "canrestorecourse": false,
           "canviewsessioninsection": true,

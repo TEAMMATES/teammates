@@ -37,7 +37,7 @@ public class InstructorPrivilegesTest extends BaseTestCase {
         // manager: only one false
         privileges.setDefaultPrivilegesForManager();
         courseLevelMap = privileges.getCourseLevelPrivileges();
-        assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_EDIT_COURSE));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_DELETE_COURSE));
         assertFalse(courseLevelMap.get(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(courseLevelMap.get(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
