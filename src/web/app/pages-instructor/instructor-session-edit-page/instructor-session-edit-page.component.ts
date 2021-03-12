@@ -262,7 +262,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.copySingleSession(requestList[0]);
         }
         if (requestList.length > 1) {
-          forkJoin(requestList).pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+          forkJoin(requestList)
+           .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
            .subscribe(() => {
              this.showCopyStatusMessage();
            });
