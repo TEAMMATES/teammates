@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { CommentVisibilityStateMachine } from '../../../../services/comment-visibility-state-machine';
 import { FeedbackResponseCommentService } from '../../../../services/feedback-response-comment.service';
+import { StringHelper } from '../../../../services/string-helper';
 import {
   CommentVisibilityType,
   FeedbackParticipantType,
@@ -88,6 +89,10 @@ export class CommentEditFormComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    if (this.response) {
+      this.response.giver = StringHelper.removeAnonymousHash(this.response.giver);
+      this.response.recipient = StringHelper.removeAnonymousHash(this.response.recipient);
+    }
   }
 
   ngOnChanges(): void {
