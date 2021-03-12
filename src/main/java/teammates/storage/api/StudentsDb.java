@@ -27,11 +27,11 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
+import teammates.storage.datatransfer.StudentUpdate;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.search.SearchDocument;
 import teammates.storage.search.StudentSearchDocument;
 import teammates.storage.search.StudentSearchQuery;
-import teammates.storage.transaction.datatransfer.StudentUpdate;
 
 /**
  * Handles CRUD operations for students.

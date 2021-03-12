@@ -20,8 +20,8 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
+import teammates.storage.datatransfer.ResponseUpdate;
 import teammates.storage.entity.FeedbackResponse;
-import teammates.storage.transaction.datatransfer.ResponseUpdate;
 
 /**
  * Handles CRUD operations for feedback responses.

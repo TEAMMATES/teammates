@@ -1,4 +1,4 @@
-package teammates.storage.transaction.datatransfer;
+package teammates.storage.datatransfer;
 
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 

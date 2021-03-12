@@ -17,7 +17,7 @@ import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.api.StudentsDb;
-import teammates.storage.transaction.datatransfer.StudentUpdate;
+import teammates.storage.datatransfer.StudentUpdate;
 
 /**
  * Handles operations related to students.

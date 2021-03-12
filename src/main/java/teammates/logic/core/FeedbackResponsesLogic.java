@@ -23,8 +23,8 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.transaction.datatransfer.ResponseUpdate;
-import teammates.storage.transaction.datatransfer.StudentUpdate;
+import teammates.storage.datatransfer.ResponseUpdate;
+import teammates.storage.datatransfer.StudentUpdate;
 
 /**
  * Handles operations related to feedback responses.
