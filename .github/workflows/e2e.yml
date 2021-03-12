@@ -50,7 +50,7 @@ jobs:
       - name: Install beta command group
         run: yes | gcloud components install beta cloud-datastore-emulator
       - name: Set up local datastore emulator
-        run: gcloud beta emulators datastore start --host-port=localhost:8484 --consistency=1.0
+        run: gcloud beta emulators datastore start --project=tm-obj-v6-test --host-port=localhost:8484 --consistency=1.0
       - name: Start App Engine 
         run: ./gradlew appengineStart 
       - name: Start Tests 
