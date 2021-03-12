@@ -503,13 +503,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_datastoreTypesCanOnlyBeAccessedByEntityClasses() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat().haveFullyQualifiedName("com.google.appengine.api.datastore.Text")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
