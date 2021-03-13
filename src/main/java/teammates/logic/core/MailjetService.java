@@ -23,7 +23,7 @@ import teammates.common.util.EmailWrapper;
  * @see MailjetRequest
  * @see MailjetResponse
  */
-public class MailjetService extends EmailSenderService {
+public class MailjetService implements EmailSenderService {
 
     /**
      * {@inheritDoc}

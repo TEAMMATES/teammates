@@ -85,9 +85,9 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         JoinLinkData output = (JoinLinkData) r.getOutput();
         assertEquals(joinLink, output.getJoinLink());
 
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                 emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
@@ -109,7 +109,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
             assertEquals(expectedError, e.getMessage());
         }
 
-        verifyNoEmailsSent(finalA);
+        verifyNoEmailsSent();
     }
 
     @Override
