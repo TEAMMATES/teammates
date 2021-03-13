@@ -1,3 +1,22 @@
 .sortable-header {
   cursor: pointer;
 }
+
+#copy-question-modal {
+  table-layout: auto;
+  margin-bottom: 50px;
+}
+
+.modal-footer {
+  position: fixed;
+  bottom: 0;
+  height: 50px;
+  width: 69.8%;
+  justify-content: right;
+  background-color: white;
+}
+
+.form-control {
+  height: calc(.5em + 1.5vh);
+  width: calc(.5em + 1.5vw);
+}
