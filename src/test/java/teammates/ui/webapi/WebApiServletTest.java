@@ -95,7 +95,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
         ______TS("Failure case: UnauthorizedAccessException");
 
@@ -183,7 +183,7 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
         ______TS("Failure case: UnauthorizedAccessException");
 
