@@ -3,12 +3,13 @@ import { ActivatedRoute } from '@angular/router';
 import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { concat, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, takeWhile } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackResponseCommentService } from '../../../services/feedback-response-comment.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -142,6 +143,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
               private timezoneService: TimezoneService,
               private simpleModalService: SimpleModalService,
               private commentsToCommentTableModel: CommentsToCommentTableModelPipe,
+              private progressBarService: ProgressBarService,
               statusMessageService: StatusMessageService,
               commentService: FeedbackResponseCommentService,
               commentToCommentRowModel: CommentToCommentRowModelPipe,
@@ -183,24 +185,24 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
       // load section tabs
       this.courseService.getCourseSectionNames(courseId)
-          .subscribe((courseSectionNames: CourseSectionNames) => {
-            this.sectionsModel.None = {
+        .subscribe((courseSectionNames: CourseSectionNames) => {
+          this.sectionsModel.None = {
+            questions: [],
+            hasPopulated: false,
+            isTabExpanded: false,
+          };
+          for (const sectionName of courseSectionNames.sectionNames) {
+            this.sectionsModel[sectionName] = {
               questions: [],
               hasPopulated: false,
               isTabExpanded: false,
             };
-            for (const sectionName of courseSectionNames.sectionNames) {
-              this.sectionsModel[sectionName] = {
-                questions: [],
-                hasPopulated: false,
-                isTabExpanded: false,
-              };
-            }
-            this.isSectionsLoaded = true;
-          }, (resp: ErrorMessageOutput) => {
-            this.hasSectionsLoadingFailed = true;
-            this.statusMessageService.showErrorToast(resp.error.message);
-          });
+          }
+          this.isSectionsLoaded = true;
+        }, (resp: ErrorMessageOutput) => {
+          this.hasSectionsLoadingFailed = true;
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
 
       // load question tabs
       this.feedbackQuestionsService.getFeedbackQuestions({
@@ -256,7 +258,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     }).subscribe((feedbackSessionSubmittedGiverSet: FeedbackSessionSubmittedGiverSet) => {
       // TODO team is missing
       this.noResponseStudents = this.allStudentsInCourse.filter((student: Student) =>
-          !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
+        !feedbackSessionSubmittedGiverSet.giverIdentifiers.includes(student.email));
     }, (resp: ErrorMessageOutput) => {
       this.hasNoResponseLoadingFailed = true;
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -349,7 +351,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
 
       // sort questions by question number
       resp.questions.sort((a: QuestionOutput, b: QuestionOutput) =>
-          a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+        a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
       resp.questions.forEach((question: QuestionOutput) => {
         this.preprocessComments(question.allResponses);
       });
@@ -367,7 +369,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
   preprocessComments(responses: ResponseOutput[]): void {
     responses.forEach((response: ResponseOutput) => {
       this.instructorCommentTableModel[response.responseId] =
-          this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
+         this.commentsToCommentTableModel.transform(response.instructorComments, false, this.session.timeZone);
       this.sortComments(this.instructorCommentTableModel[response.responseId]);
       // clear the original comments for safe as instructorCommentTableModel will become the single point of truth
       response.instructorComments = [];
@@ -384,12 +386,12 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       const modalContent: string = `An email will be sent to students to inform them that the session has been unpublished and the session responses
           will no longer be viewable by students.`;
       modalRef = this.simpleModalService.openConfirmationModal(
-          `Unpublish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
+          `Unpublish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     } else {
       const modalContent: string = 'An email will be sent to students to inform them that the responses are ready for viewing.';
       modalRef = this.simpleModalService.openConfirmationModal(
-          `Publish this session <strong>${ this.session.feedbackSessionName }</strong>?`,
+          `Publish this session <strong>${this.session.feedbackSessionName}</strong>?`,
           SimpleModalType.WARNING, modalContent);
     }
 
@@ -400,8 +402,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           ) :
           this.feedbackSessionsService.publishFeedbackSession(
             this.session.courseId, this.session.feedbackSessionName,
-          )
-      ;
+          );
 
       response.subscribe((res: FeedbackSession) => {
         this.session = res;
@@ -434,22 +435,55 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.isDownloadingResults = true;
     const filename: string = `${this.session.courseId}_${this.session.feedbackSessionName}_result.csv`;
     let blob: any;
+    let downloadAborted: boolean = false;
+    const out: string[] = [];
 
-    this.feedbackSessionsService.downloadSessionResults(
-      this.session.courseId,
-      this.session.feedbackSessionName,
-      Intent.INSTRUCTOR_RESULT,
-      this.indicateMissingResponses,
-      this.showStatistics,
-      undefined,
-      this.section.length === 0 ? undefined : this.section,
-      this.section.length === 0 ? undefined : this.sectionType,
-    ).pipe(finalize(() => this.isDownloadingResults = false)).subscribe((resp: string) => {
-      blob = new Blob([resp], { type: 'text/csv' });
-      saveAs(blob, filename);
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
+    let numberOfQuestionsDownloaded: number = 0;
+    const modalContent: string =
+        'Downloading the results of your feedback session...';
+    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
+        'Download Progress', SimpleModalType.LOAD, modalContent);
+    loadingModal.result.then(() => {
+      this.isDownloadingResults = false;
+      downloadAborted = true;
     });
+
+    concat(
+        ...Object.keys(this.questionsModel).map((k: string) =>
+          this.feedbackSessionsService.downloadSessionResults(
+              this.session.courseId,
+              this.session.feedbackSessionName,
+              Intent.INSTRUCTOR_RESULT,
+              this.indicateMissingResponses,
+              this.showStatistics,
+              this.questionsModel[k].question.feedbackQuestionId,
+              this.section.length === 0 ? undefined : this.section,
+              this.section.length === 0 ? undefined : this.sectionType,
+          ),
+        ),
+    ).pipe(finalize(() => this.isDownloadingResults = false))
+      .pipe(takeWhile(() => this.isDownloadingResults))
+      .subscribe({
+        next: (resp: string) => {
+          out.push(resp);
+          numberOfQuestionsDownloaded += 1;
+          const totalNumberOfQuestions: number = Object.keys(this.questionsModel).length;
+          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
+          this.progressBarService.updateProgress(progressPercentage);
+        },
+        complete: () => {
+          if (downloadAborted) {
+            return;
+          }
+          loadingModal.close();
+          blob = new Blob(out, { type: 'text/csv' });
+          saveAs(blob, filename);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          loadingModal.close();
+        },
+      });
   }
 
   downloadQuestionResultHandler(question: { questionNumber: number, questionId: string }): void {

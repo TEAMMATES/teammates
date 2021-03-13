@@ -23,7 +23,7 @@ import teammates.common.util.EmailWrapper;
  * @see <a href="https://cloud.google.com/appengine/docs/java/mail/">https://cloud.google.com/appengine/docs/java/mail/</a>
  * @see MimeMessage
  */
-public class JavamailService extends EmailSenderService {
+public class JavamailService implements EmailSenderService {
 
     /**
      * {@inheritDoc}
