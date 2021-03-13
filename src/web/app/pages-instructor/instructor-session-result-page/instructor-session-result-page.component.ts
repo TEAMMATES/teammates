@@ -14,6 +14,7 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics'
 import {
   CourseSectionNames,
   FeedbackQuestion,
@@ -298,12 +299,18 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           next: (resp: SessionResults) => {
             if (resp.questions.length) {
               const responses: QuestionOutput = resp.questions[0];
-              this.questionsModel[questionId].responses = responses.allResponses;
-              this.questionsModel[questionId].statistics = responses.questionStatistics;
-              this.questionsModel[questionId].hasPopulated = true;
+              this.questionsModel[questionId].responses.push(...responses.allResponses);
+              this.questionsModel[questionId].statistics =
+                QuestionStatistics.appendStats(
+                  this.questionsModel[questionId].statistics,
+                  responses.questionStatistics);
+              console.log("stats" + responses.questionStatistics);
 
               this.preprocessComments(responses.allResponses);
             }
+          },
+          complete: () => {
+            this.questionsModel[questionId].hasPopulated = true;
           },
           error: (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(resp.error.message);

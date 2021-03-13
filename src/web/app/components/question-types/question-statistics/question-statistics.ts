@@ -1,5 +1,7 @@
 import { Directive, Input, OnInit } from '@angular/core';
 import {
+  ContributionStatistics,
+  ContributionStatisticsEntry,
   FeedbackParticipantType,
   FeedbackQuestionDetails,
   FeedbackResponseDetails,
@@ -42,6 +44,34 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
   }
 
   ngOnInit(): void {
+  }
+
+  public static appendStats = (prevStats: string, newStats: string): string => {
+    if (prevStats === '') {
+      if (newStats === '') {
+        return '';
+      }
+      return newStats;
+    } else if (newStats === '') {
+      return prevStats;
+    }
+
+    // Stats not being empty means it belongs to contribution question
+    const prevStatsJSON: ContributionStatistics = JSON.parse(prevStats);
+    const newStatsJSON: ContributionStatistics = JSON.parse(newStats);
+    for (const email of Object.keys(newStatsJSON.results)) {
+      const newStatsEntryForEmail: ContributionStatisticsEntry = newStatsJSON.results[email];
+      console.log(newStatsEntryForEmail)
+      const {claimed}: { claimed: number } = newStatsEntryForEmail;
+      const {perceived}: { perceived: number } = newStatsEntryForEmail;
+      if (claimed < 0 && perceived < 0) {
+        continue;
+      }
+      // If new entry has submitted stats, overwrite the old data
+      prevStatsJSON.results[email] = newStatsEntryForEmail;
+    }
+
+    return JSON.stringify(prevStatsJSON);
   }
 
 }
