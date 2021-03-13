@@ -4,7 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.LoggingServiceException;
+import teammates.common.exception.LogsServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.Const.FeedbackSessionLogTypes;
 
@@ -46,7 +46,7 @@ class CreateFeedbackSessionLogAction extends Action {
 
         try {
             logic.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
-        } catch (LoggingServiceException e) {
+        } catch (LogsServiceException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 

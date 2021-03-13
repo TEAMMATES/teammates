@@ -7,17 +7,17 @@ import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Payload.StringPayload;
 
-import teammates.common.exception.LoggingServiceException;
+import teammates.common.exception.LogsServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
-import teammates.logic.core.LoggingService.LogSearcher;
+import teammates.logic.core.LogsService.LogSearcher;
 
 /**
  * Handles the logic related to logging.
  */
-public final class LoggingLogic {
+public final class LogsLogic {
 
-    private static LoggingLogic instance = new LoggingLogic();
+    private static LogsLogic instance = new LogsLogic();
 
     private static final Logger log = Logger.getLogger();
 
@@ -27,11 +27,11 @@ public final class LoggingLogic {
     private static final String FEEDBACK_SESSION_LOG_NAME_LABEL = "fsName";
     private static final String FEEDBACK_SESSION_LOG_TYPE_LABEL = "fslType";
 
-    private LoggingLogic() {
+    private LogsLogic() {
         // prevent initialization
     }
 
-    public static LoggingLogic inst() {
+    public static LogsLogic inst() {
         return instance;
     }
 
@@ -39,7 +39,7 @@ public final class LoggingLogic {
      * Creates a feedback session log.
      */
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
-            throws LoggingServiceException {
+            throws LogsServiceException {
         if (Config.isDevServer()) {
             // Not supported in dev server
             return;
@@ -54,7 +54,7 @@ public final class LoggingLogic {
                 .addLabel(FEEDBACK_SESSION_LOG_TYPE_LABEL, fslType)
                 .setResource(MonitoredResource.newBuilder("global").build())
                 .build();
-        LoggingService.createLogEntry(entry);
+        LogsService.createLogEntry(entry);
     }
 
     /**
@@ -62,7 +62,7 @@ public final class LoggingLogic {
      */
     // TODO: decide on a return data format; this will likely be determined by our API
     public void getFeedbackSessionLogs(String courseId, String email, String fsName, Instant startTime, Instant endTime)
-            throws LoggingServiceException {
+            throws LogsServiceException {
         if (Config.isDevServer()) {
             // Not supported in dev server
             return;

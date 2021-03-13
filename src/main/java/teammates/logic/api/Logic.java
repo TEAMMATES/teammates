@@ -27,7 +27,7 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.LoggingServiceException;
+import teammates.common.exception.LogsServiceException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.logic.core.AccountsLogic;
@@ -38,7 +38,7 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.LoggingLogic;
+import teammates.logic.core.LogsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -58,7 +58,7 @@ public class Logic {
     protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    protected static final LoggingLogic loggingLogic = LoggingLogic.inst();
+    protected static final LogsLogic logsLogic = LogsLogic.inst();
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
@@ -1368,22 +1368,22 @@ public class Logic {
     /**
      * Creates a feedback session log.
      *
-     * @see LoggingLogic#createFeedbackSessionLog(String, String, String, String)
+     * @see LogsLogic#createFeedbackSessionLog(String, String, String, String)
      */
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
-            throws LoggingServiceException {
-        loggingLogic.createFeedbackSessionLog(courseId, email, fsName, fslType);
+            throws LogsServiceException {
+        logsLogic.createFeedbackSessionLog(courseId, email, fsName, fslType);
     }
 
     /**
      * Gets the feedback session logs as filtered by the given parameters.
      *
-     * @see LoggingLogic#getFeedbackSessionLogs(String, String, String, Instant, Instant)
+     * @see LogsLogic#getFeedbackSessionLogs(String, String, String, Instant, Instant)
      */
     // TODO: return the data format
     public void getFeedbackSessionLogs(String courseId, String email, String fsName, Instant startTime, Instant endTime)
-            throws LoggingServiceException {
-        loggingLogic.getFeedbackSessionLogs(courseId, email, fsName, startTime, endTime);
+            throws LogsServiceException {
+        logsLogic.getFeedbackSessionLogs(courseId, email, fsName, startTime, endTime);
     }
 
 }
