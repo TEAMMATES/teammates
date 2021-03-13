@@ -411,6 +411,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 if (hasSameAttributes) {
                     log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, CourseStudent.class.getSimpleName(),
                             updateOptions));
+                    studentUpdates.add(studentUpdate);
                     continue;
                 }
 
