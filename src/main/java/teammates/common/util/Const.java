@@ -113,6 +113,8 @@ public final class Const {
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
         public static final String FEEDBACK_SESSION_LOG_TYPE = "fsltype";
+        public static final String FEEDBACK_SESSION_LOG_STARTTIME = "fslstarttime";
+        public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
 
@@ -293,6 +295,7 @@ public final class Const {
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String TRACK_SESSION = URI_PREFIX + "/track/session";
+        public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
