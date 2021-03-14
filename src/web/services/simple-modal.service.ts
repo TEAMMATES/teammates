@@ -66,4 +66,14 @@ export class SimpleModalService {
     };
     return this.open(header, type, content, modalOptions);
   }
+
+  openLoadingModal(header: string, type: SimpleModalType,
+                       content: string | TemplateRef<any>, options?: SimpleModalOptions): NgbModalRef {
+    const modalOptions: SimpleModalOptions = {
+      isInformationOnly: true,
+      confirmMessage: 'Abort',
+      ...options,
+    };
+    return this.open(header, type, content, modalOptions);
+  }
 }

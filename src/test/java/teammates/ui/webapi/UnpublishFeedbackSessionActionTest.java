@@ -59,7 +59,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
                 typicalCourse1.getId()).isPublished());
 
         // sent unpublish email task is added
-        assertEquals(1, a.getTaskQueuer().getTasksAdded().size());
+        assertEquals(1, mockTaskQueuer.getTasksAdded().size());
 
         ______TS("Failed case, session is not published yet");
 

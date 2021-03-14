@@ -74,9 +74,9 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
-        verifyNumberOfEmailsSent(updateAction, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper email = getEmailsSent(updateAction).get(0);
+        EmailWrapper email = getEmailsSent().get(0);
         String courseName = logic.getCourse(instructor1OfCourse1.courseId).getName();
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 instructor1OfCourse1.courseId), email.getSubject());
@@ -100,7 +100,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_OK, outputToBeTrimmed.getStatusCode());
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
-        verifyNoEmailsSent(actionToBeTrimmed);
+        verifyNoEmailsSent();
 
         ______TS("Error case, invalid email parameter (email has too many characters)");
 
@@ -267,7 +267,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_OK, emptySectionActionOutput.getStatusCode());
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
         assertEquals("Student has been updated", emptySectionMsgOutput.getMessage());
-        verifyNoEmailsSent(updateEmptySectionAction);
+        verifyNoEmailsSent();
 
         // verify student in database
         StudentAttributes actualStudent =
