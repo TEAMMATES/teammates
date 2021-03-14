@@ -48,7 +48,7 @@ jobs:
       - name: Install Frontend Dependencies
         run: npm ci 
       - name: Build Frontend Bundle 
-        run: npm run build -- --progress=false --serviceWorker=false
+        run: npm run build -- --progress=false --serviceWorker=false 
       - name: Start App Engine 
         run: ./gradlew appengineStart 
       - name: Start Tests 
