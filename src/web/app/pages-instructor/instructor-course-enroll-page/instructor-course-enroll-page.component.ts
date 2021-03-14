@@ -84,7 +84,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   isEnrolling: boolean = false;
 
   allStudentChunks: StudentEnrollRequest[][] = [];
-  invalidRowsIndex: number[] = [];
+  invalidRowsIndex: Set<number> = new Set();
   numberOfStudentsPerRequest: number = 50; // at most 50 students per chunk
 
   constructor(private route: ActivatedRoute,
@@ -107,52 +107,59 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.isEnrolling = true;
     this.enrollErrorMessage = '';
     this.allStudentChunks = [];
+    this.invalidRowsIndex = new Set();
 
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
-    const studentsEnrollRequest: StudentsEnrollRequest = {
-      studentEnrollRequests: [],
-    };
+    // Remove error highlight on click
+    newStudentsHOTInstance.addHook('afterSelectionEnd', (row: number, column: number,
+                                                         row2: number, column2: number) => {
+      this.resetTableStyleOnClick(newStudentsHOTInstance, row, row2, column, column2);
+    });
+
+    // Record the row with its index on the table
+    const studentEnrollRequests: Map<number, StudentEnrollRequest> = new Map();
 
     // Parse the user input to be requests.
     // Handsontable contains null value initially,
     // see https://github.com/handsontable/handsontable/issues/3927
     newStudentsHOTInstance.getData()
-        .filter((row: string[]) => (!row.every((cell: string) => cell === null || cell === '')))
-        .forEach((row: string[]) => (studentsEnrollRequest.studentEnrollRequests.push({
-          section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
-          team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
-          name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
-          email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
-          comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
-              '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
-        })));
+        .forEach((row: string[], index: number) => {
+          if (!row.every((cell: string) => cell === null || cell === '')) {
+            studentEnrollRequests.set(index, {
+              section: row[hotInstanceColHeaders.indexOf(this.colHeaders[0])] === null ?
+                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[0])].trim(),
+              team: row[hotInstanceColHeaders.indexOf(this.colHeaders[1])] === null ?
+                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[1])].trim(),
+              name: row[hotInstanceColHeaders.indexOf(this.colHeaders[2])] === null ?
+                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[2])].trim(),
+              email: row[hotInstanceColHeaders.indexOf(this.colHeaders[3])] === null ?
+                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[3])].trim(),
+              comments: row[hotInstanceColHeaders.indexOf(this.colHeaders[4])] === null ?
+                  '' : row[hotInstanceColHeaders.indexOf(this.colHeaders[4])].trim(),
+            });
+          }
+        });
 
-    this.highLightSectionsNull(studentsEnrollRequest);
-    this.highLightTeamsNull(studentsEnrollRequest);
-    this.highLightTeamsRepeated(studentsEnrollRequest);
-    this.highLightNamesNull(studentsEnrollRequest);
-    this.highLightEmailsNull(studentsEnrollRequest);
-    this.highLightEmailsRepeated(studentsEnrollRequest);
-
-    if (this.invalidRowsIndex.length > 0) {
-      this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
-      this.enrollErrorMessage = this.GENERAL_ERROR_MESSAGE + this.SECTION_ERROR_MESSAGE + this.TEAM_ERROR_MESSAGE;
-      this.invalidRowsIndex = [];
-      return;
-    }
-    if (studentsEnrollRequest.studentEnrollRequests.length === 0) {
+    if (studentEnrollRequests.size === 0) {
       this.enrollErrorMessage = 'Empty table';
+      this.isEnrolling = false;
       return;
     }
 
-    this.partitionStudentEnrollRequests(studentsEnrollRequest);
+    this.checkCompulsoryFields(studentEnrollRequests);
+    this.checkEmailNotRepeated(studentEnrollRequests);
+    this.checkTeamsValid(studentEnrollRequests);
+
+    if (this.invalidRowsIndex.size > 0) {
+      this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
+      this.isEnrolling = false;
+      return;
+    }
+
+    this.partitionStudentEnrollRequests(Array.from(studentEnrollRequests.values()));
     const enrolledStudents: Student[] = [];
 
     // Use concat because we cannot afford to parallelize with forkJoin when there's data dependency
@@ -176,9 +183,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.statusMessage.pop(); // removes any existing error status message
         this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
 
-        this.enrollResultPanelList =
-            this.populateEnrollResultPanelList(this.existingStudents, enrolledStudents,
-                studentsEnrollRequest.studentEnrollRequests);
+        this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
+            enrolledStudents, Array.from(studentEnrollRequests.values()));
 
         this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
           this.existingStudents = resp.students;
@@ -195,9 +201,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     });
   }
 
-  private partitionStudentEnrollRequests(studentsEnrollRequest: StudentsEnrollRequest): void {
+  private partitionStudentEnrollRequests(studentEnrollRequests: StudentEnrollRequest[]): void {
     let currentStudentChunk: StudentEnrollRequest[] = [];
-    for (const request of studentsEnrollRequest.studentEnrollRequests) {
+    for (const request of studentEnrollRequests) {
       currentStudentChunk.push(request);
       if (currentStudentChunk.length >= this.numberOfStudentsPerRequest) {
         this.allStudentChunks.push(currentStudentChunk);
@@ -209,66 +215,87 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
   }
 
-  private highLightSectionsNull(studentsEnrollRequest: StudentsEnrollRequest): void {
-    if (studentsEnrollRequest.studentEnrollRequests.length >= 100) {
-      studentsEnrollRequest.studentEnrollRequests
-          .forEach((request: StudentEnrollRequest, index: number) => {
-            if (request.section === '') {
-              this.invalidRowsIndex.push(index);
-            }
-          });
+  private checkTeamsValid(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+    const teamSectionMap: Map<string, string> = new Map();
+    const teamIndexMap: Map<string, number> = new Map();
+    const noInvalidRowsBefore: number = this.invalidRowsIndex.size;
+
+    Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
+      const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
+      if (request === undefined) {
+        return;
+      }
+
+      if (teamSectionMap.has(request.team)) {
+        if (teamSectionMap.get(request.team) !== request.section) {
+          this.invalidRowsIndex.add(key);
+          const firstIndex: number | undefined = teamIndexMap.get(request.team);
+          if (firstIndex !== undefined) {
+            this.invalidRowsIndex.add(firstIndex);
+          }
+        }
+      } else {
+        teamSectionMap.set(request.team, request.section);
+        teamIndexMap.set(request.team, key);
+      }
+    });
+    if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
+      this.enrollErrorMessage += 'Found duplicated teams in different sections. ';
     }
   }
 
-  private highLightTeamsRepeated(studentsEnrollRequest: StudentsEnrollRequest): void {
-    const teamMap: Map<string, string> = new Map();
-    studentsEnrollRequest.studentEnrollRequests.forEach((request: StudentEnrollRequest, index: number) => {
-      if (teamMap.has(request.team)) {
-        if (teamMap.get(request.team) !== request.section) {
-          this.invalidRowsIndex.push(index);
+  private checkCompulsoryFields(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+    const noInvalidRowsBefore: number = this.invalidRowsIndex.size;
+
+    Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
+      const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
+      if (request === undefined) {
+        return;
+      }
+
+      if ((studentEnrollRequests.size >= 100 && request.section === '')
+          || request.team === '' || request.name === '' || request.email === '') {
+        this.invalidRowsIndex.add(key);
+      }
+    });
+    if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
+      this.enrollErrorMessage += 'Found empty compulsory fields. ';
+    }
+  }
+
+  private checkEmailNotRepeated(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+    const emailMap: Map<string, number> = new Map();
+    const noInvalidRowsBefore: number = this.invalidRowsIndex.size;
+
+    Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
+      const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
+      if (request === undefined) {
+        return;
+      }
+
+      if (emailMap.has(request.email)) {
+        this.invalidRowsIndex.add(key);
+        const firstIndex: number | undefined = emailMap.get(request.email);
+        if (firstIndex !== undefined) {
+          this.invalidRowsIndex.add(firstIndex);
         }
       } else {
-        teamMap.set(request.team, request.section);
+        emailMap.set(request.email, key);
       }
     });
+    if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
+      this.enrollErrorMessage += 'Found duplicated emails. ';
+    }
   }
 
-  private highLightTeamsNull(studentsEnrollRequest: StudentsEnrollRequest): void {
-    studentsEnrollRequest.studentEnrollRequests
-        .forEach((request: StudentEnrollRequest, index: number) => {
-          if (request.team === '') {
-            this.invalidRowsIndex.push(index);
-          }
-        });
-  }
-
-  private highLightNamesNull(studentsEnrollRequest: StudentsEnrollRequest): void {
-    studentsEnrollRequest.studentEnrollRequests
-        .forEach((request: StudentEnrollRequest, index: number) => {
-          if (request.name === '') {
-            this.invalidRowsIndex.push(index);
-          }
-        });
-  }
-
-  private highLightEmailsNull(studentsEnrollRequest: StudentsEnrollRequest): void {
-    studentsEnrollRequest.studentEnrollRequests
-        .forEach((request: StudentEnrollRequest, index: number) => {
-          if (request.email === '') {
-            this.invalidRowsIndex.push(index);
-          }
-        });
-  }
-
-  private highLightEmailsRepeated(studentsEnrollRequest: StudentsEnrollRequest): void {
-    const emailMap: Map<string, string> = new Map();
-    studentsEnrollRequest.studentEnrollRequests.forEach((request: StudentEnrollRequest, index: number) => {
-      if (emailMap.has(request.email)) {
-        this.invalidRowsIndex.push(index);
-      } else {
-        emailMap.set(request.email, '');
+  private resetTableStyleOnClick(newStudentsHOTInstance: Handsontable,
+                                 startRow: number, endRow: number, startCol: number, endCol: number): void {
+    for (let row: number = startRow; row <= endRow; row += 1) {
+      for (let col: number = startCol; col <= endCol; col += 1) {
+        newStudentsHOTInstance.setCellMeta(row, col, 'className', 'valid-row');
       }
-    });
+    }
+    newStudentsHOTInstance.render();
   }
 
   private setTableStyleBasedOnFieldChecks(newStudentsHOTInstance: Handsontable,
@@ -278,8 +305,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(header),
             'className', 'invalid-row');
       }
-      newStudentsHOTInstance.render();
     }
+    newStudentsHOTInstance.render();
   }
 
   private populateEnrollResultPanelList(existingStudents: Student[], enrolledStudents: Student[],
@@ -450,15 +477,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
-        (resp: Students) => {
-          if (resp.students.length !== 0) {
-            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-          } else {
-            // Shows a message if there are no existing students. Panel would not be expanded.
-            this.isExistingStudentsPresent = false;
-            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-          }
-        }, (resp: ErrorMessageOutput) => {
+    (resp: Students) => {
+      if (resp.students.length !== 0) {
+        this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
+      } else {
+        // Shows a message if there are no existing students. Panel would not be expanded.
+        this.isExistingStudentsPresent = false;
+        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+      }
+    }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
