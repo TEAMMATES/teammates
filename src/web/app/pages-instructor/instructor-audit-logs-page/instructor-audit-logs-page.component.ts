@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { concatMap, finalize, mergeAll } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { Course, Courses } from '../../../types/api-output';
+import { StudentService } from '../../../services/student.service';
+import { Course, Courses, Student, Students } from '../../../types/api-output';
 import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -38,13 +39,15 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     studentName: '',
   };
   courses: Course[] = [];
+  courseToStudents: Record<string, Student[]> = {};
   isLoading: boolean = true;
 
   constructor(private courseService: CourseService,
+              private studentService: StudentService,
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
-    this.loadCourses();
+    this.loadData();
   }
 
   /**
@@ -54,13 +57,25 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     // TODO: Call endpoint to retrieve logs
   }
 
-  private loadCourses(): void {
+  /**
+   * Load all courses and students that the instructor have
+   */
+  private loadData(): void {
+    const emptyStudent: Student = {
+      courseId: '', email: '', name: '', sectionName: '', teamName: '',
+    };
     this.courseService
         .getAllCoursesAsInstructor('active')
-        .pipe(finalize(() => this.isLoading = false))
-        .subscribe(
-            (courses: Courses) =>
-                this.courses = courses.courses.sort((a: Course, b: Course) => a.courseId.localeCompare(b.courseId)),
+        .pipe(
+            concatMap((courses: Courses) => courses.courses.map((course: Course) => {
+              this.courses.push(course);
+              return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
+            })),
+            mergeAll(),
+            finalize(() => this.isLoading = false))
+        .subscribe(((student: Students) =>
+                // Student with no name is selectable to search for all students since the field is optional
+                this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students]),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }

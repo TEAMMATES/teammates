@@ -5,61 +5,63 @@
 <div *tmIsLoading="isLoading" class="card">
   <div class="card-body">
     <div class="row form-group">
-      <div class="col-6">
-        <div class="col-12 mb-1">
-          <label for="logs-from-datepicker">Logs From</label>
-        </div>
-        <div class="input-group">
-          <div class="col-md-7 input-group">
-            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
-          <div class="col-md-5">
-            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
-          </div>
-        </div>
-      </div>
-      <div class="col-6">
-        <div class="col-12 mb-1">
-          <label for="logs-to-datepicker">Logs To</label>
-        </div>
-        <div class="input-group">
-          <div class="col-md-7 input-group">
-            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
-            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
-              <i class="fas fa-calendar-alt"></i>
-            </button>
-          </div>
-          <div class="col-md-5">
-            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row form-group">
-      <div class="col-6">
+      <div class="col-4">
         <div class="col-12">
-          <label for="course-id-dropdown">Course ID</label>
+          <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-6" [(ngModel)]="formModel.courseId">
+          <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId">
             <option *ngFor="let course of courses">
               {{course.courseId}}
             </option>
           </select>
         </div>
       </div>
-      <div class="col-6">
-        <div class="row col">
-          <div class="col-12">
-            <label for="student-name-input">Student Name (Optional)</label>
+      <div class="col-8">
+        <div class="col-12 mb-1">
+          <label for="logs-from-datepicker" class="font-weight-bold">Search period from</label>
+        </div>
+        <div class="input-group">
+          <div class="col-md-6 input-group">
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
           </div>
-          <div class="col-6">
-            <input id="student-name-input" class="form-control" type="text" [(ngModel)]="formModel.studentName" placeholder="Student Name"/>
+          <div class="col-md-3">
+            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
           </div>
-          <div class="col-6">
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-4">
+        <div class="col-12">
+          <label for="student-name-dropdown" class="font-weight-bold">Student Name (Optional)</label>
+        </div>
+        <div class="col-12">
+          <select id="student-name-dropdown" class="form-control col-8" [(ngModel)]="formModel.studentName">
+            <option *ngFor="let student of courseToStudents[formModel.courseId]">
+              {{student.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-8">
+        <div class="col-12 mb-1">
+          <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
+        </div>
+        <div class="input-group">
+          <div class="col-md-6 input-group">
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
+            <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+          <div class="col-md-3">
+            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
+          </div>
+          <div class="col-md-2">
             <button class="float-right btn btn-primary" (click)="search()">Search</button>
           </div>
         </div>
