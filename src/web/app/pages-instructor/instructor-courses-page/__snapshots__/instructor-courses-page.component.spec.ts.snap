@@ -1244,13 +1244,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Adak"
                   >
-                    America/Adak (UTC -10:00)
+                    America/Adak (UTC -09:00)
                   </option>
                   <option
                     style=""
                     value="America/Anchorage"
                   >
-                    America/Anchorage (UTC -09:00)
+                    America/Anchorage (UTC -08:00)
                   </option>
                   <option
                     style=""
@@ -1370,7 +1370,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Atka"
                   >
-                    America/Atka (UTC -10:00)
+                    America/Atka (UTC -09:00)
                   </option>
                   <option
                     style=""
@@ -1424,7 +1424,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Boise"
                   >
-                    America/Boise (UTC -07:00)
+                    America/Boise (UTC -06:00)
                   </option>
                   <option
                     style=""
@@ -1436,7 +1436,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Cambridge_Bay"
                   >
-                    America/Cambridge_Bay (UTC -07:00)
+                    America/Cambridge_Bay (UTC -06:00)
                   </option>
                   <option
                     style=""
@@ -1478,7 +1478,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Chicago"
                   >
-                    America/Chicago (UTC -06:00)
+                    America/Chicago (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -1544,13 +1544,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Denver"
                   >
-                    America/Denver (UTC -07:00)
+                    America/Denver (UTC -06:00)
                   </option>
                   <option
                     style=""
                     value="America/Detroit"
                   >
-                    America/Detroit (UTC -05:00)
+                    America/Detroit (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1562,7 +1562,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Edmonton"
                   >
-                    America/Edmonton (UTC -07:00)
+                    America/Edmonton (UTC -06:00)
                   </option>
                   <option
                     style=""
@@ -1580,7 +1580,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Ensenada"
                   >
-                    America/Ensenada (UTC -08:00)
+                    America/Ensenada (UTC -07:00)
                   </option>
                   <option
                     style=""
@@ -1592,7 +1592,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Fort_Wayne"
                   >
-                    America/Fort_Wayne (UTC -05:00)
+                    America/Fort_Wayne (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1604,7 +1604,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Glace_Bay"
                   >
-                    America/Glace_Bay (UTC -04:00)
+                    America/Glace_Bay (UTC -03:00)
                   </option>
                   <option
                     style=""
@@ -1616,13 +1616,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Goose_Bay"
                   >
-                    America/Goose_Bay (UTC -04:00)
+                    America/Goose_Bay (UTC -03:00)
                   </option>
                   <option
                     style=""
                     value="America/Grand_Turk"
                   >
-                    America/Grand_Turk (UTC -05:00)
+                    America/Grand_Turk (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1658,13 +1658,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Halifax"
                   >
-                    America/Halifax (UTC -04:00)
+                    America/Halifax (UTC -03:00)
                   </option>
                   <option
                     style=""
                     value="America/Havana"
                   >
-                    America/Havana (UTC -05:00)
+                    America/Havana (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1676,67 +1676,67 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Indiana/Indianapolis"
                   >
-                    America/Indiana/Indianapolis (UTC -05:00)
+                    America/Indiana/Indianapolis (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Knox"
                   >
-                    America/Indiana/Knox (UTC -06:00)
+                    America/Indiana/Knox (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Marengo"
                   >
-                    America/Indiana/Marengo (UTC -05:00)
+                    America/Indiana/Marengo (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Petersburg"
                   >
-                    America/Indiana/Petersburg (UTC -05:00)
+                    America/Indiana/Petersburg (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Tell_City"
                   >
-                    America/Indiana/Tell_City (UTC -06:00)
+                    America/Indiana/Tell_City (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Vevay"
                   >
-                    America/Indiana/Vevay (UTC -05:00)
+                    America/Indiana/Vevay (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Vincennes"
                   >
-                    America/Indiana/Vincennes (UTC -05:00)
+                    America/Indiana/Vincennes (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Indiana/Winamac"
                   >
-                    America/Indiana/Winamac (UTC -05:00)
+                    America/Indiana/Winamac (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Indianapolis"
                   >
-                    America/Indianapolis (UTC -05:00)
+                    America/Indianapolis (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Inuvik"
                   >
-                    America/Inuvik (UTC -07:00)
+                    America/Inuvik (UTC -06:00)
                   </option>
                   <option
                     style=""
                     value="America/Iqaluit"
                   >
-                    America/Iqaluit (UTC -05:00)
+                    America/Iqaluit (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1754,25 +1754,25 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Juneau"
                   >
-                    America/Juneau (UTC -09:00)
+                    America/Juneau (UTC -08:00)
                   </option>
                   <option
                     style=""
                     value="America/Kentucky/Louisville"
                   >
-                    America/Kentucky/Louisville (UTC -05:00)
+                    America/Kentucky/Louisville (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Kentucky/Monticello"
                   >
-                    America/Kentucky/Monticello (UTC -05:00)
+                    America/Kentucky/Monticello (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Knox_IN"
                   >
-                    America/Knox_IN (UTC -06:00)
+                    America/Knox_IN (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -1796,13 +1796,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Los_Angeles"
                   >
-                    America/Los_Angeles (UTC -08:00)
+                    America/Los_Angeles (UTC -07:00)
                   </option>
                   <option
                     style=""
                     value="America/Louisville"
                   >
-                    America/Louisville (UTC -05:00)
+                    America/Louisville (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1844,7 +1844,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Matamoros"
                   >
-                    America/Matamoros (UTC -06:00)
+                    America/Matamoros (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -1862,7 +1862,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Menominee"
                   >
-                    America/Menominee (UTC -06:00)
+                    America/Menominee (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -1874,7 +1874,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Metlakatla"
                   >
-                    America/Metlakatla (UTC -09:00)
+                    America/Metlakatla (UTC -08:00)
                   </option>
                   <option
                     style=""
@@ -1886,13 +1886,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Miquelon"
                   >
-                    America/Miquelon (UTC -03:00)
+                    America/Miquelon (UTC -02:00)
                   </option>
                   <option
                     style=""
                     value="America/Moncton"
                   >
-                    America/Moncton (UTC -04:00)
+                    America/Moncton (UTC -03:00)
                   </option>
                   <option
                     style=""
@@ -1910,7 +1910,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Montreal"
                   >
-                    America/Montreal (UTC -05:00)
+                    America/Montreal (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1922,25 +1922,25 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Nassau"
                   >
-                    America/Nassau (UTC -05:00)
+                    America/Nassau (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/New_York"
                   >
-                    America/New_York (UTC -05:00)
+                    America/New_York (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Nipigon"
                   >
-                    America/Nipigon (UTC -05:00)
+                    America/Nipigon (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Nome"
                   >
-                    America/Nome (UTC -09:00)
+                    America/Nome (UTC -08:00)
                   </option>
                   <option
                     style=""
@@ -1952,19 +1952,19 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/North_Dakota/Beulah"
                   >
-                    America/North_Dakota/Beulah (UTC -06:00)
+                    America/North_Dakota/Beulah (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="America/North_Dakota/Center"
                   >
-                    America/North_Dakota/Center (UTC -06:00)
+                    America/North_Dakota/Center (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="America/North_Dakota/New_Salem"
                   >
-                    America/North_Dakota/New_Salem (UTC -06:00)
+                    America/North_Dakota/New_Salem (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -1976,7 +1976,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Ojinaga"
                   >
-                    America/Ojinaga (UTC -07:00)
+                    America/Ojinaga (UTC -06:00)
                   </option>
                   <option
                     style=""
@@ -1988,7 +1988,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Pangnirtung"
                   >
-                    America/Pangnirtung (UTC -05:00)
+                    America/Pangnirtung (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -2006,7 +2006,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Port-au-Prince"
                   >
-                    America/Port-au-Prince (UTC -05:00)
+                    America/Port-au-Prince (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -2042,13 +2042,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Rainy_River"
                   >
-                    America/Rainy_River (UTC -06:00)
+                    America/Rainy_River (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="America/Rankin_Inlet"
                   >
-                    America/Rankin_Inlet (UTC -06:00)
+                    America/Rankin_Inlet (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -2066,7 +2066,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Resolute"
                   >
-                    America/Resolute (UTC -06:00)
+                    America/Resolute (UTC -05:00)
                   </option>
                   <option
                     style=""
@@ -2084,7 +2084,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Santa_Isabel"
                   >
-                    America/Santa_Isabel (UTC -08:00)
+                    America/Santa_Isabel (UTC -07:00)
                   </option>
                   <option
                     style=""
@@ -2120,13 +2120,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Shiprock"
                   >
-                    America/Shiprock (UTC -07:00)
+                    America/Shiprock (UTC -06:00)
                   </option>
                   <option
                     style=""
                     value="America/Sitka"
                   >
-                    America/Sitka (UTC -09:00)
+                    America/Sitka (UTC -08:00)
                   </option>
                   <option
                     style=""
@@ -2138,7 +2138,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/St_Johns"
                   >
-                    America/St_Johns (UTC -03:30)
+                    America/St_Johns (UTC -02:30)
                   </option>
                   <option
                     style=""
@@ -2180,25 +2180,25 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Thule"
                   >
-                    America/Thule (UTC -04:00)
+                    America/Thule (UTC -03:00)
                   </option>
                   <option
                     style=""
                     value="America/Thunder_Bay"
                   >
-                    America/Thunder_Bay (UTC -05:00)
+                    America/Thunder_Bay (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="America/Tijuana"
                   >
-                    America/Tijuana (UTC -08:00)
+                    America/Tijuana (UTC -07:00)
                   </option>
                   <option
                     style=""
                     value="America/Toronto"
                   >
-                    America/Toronto (UTC -05:00)
+                    America/Toronto (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -2210,7 +2210,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Vancouver"
                   >
-                    America/Vancouver (UTC -08:00)
+                    America/Vancouver (UTC -07:00)
                   </option>
                   <option
                     style=""
@@ -2228,19 +2228,19 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Winnipeg"
                   >
-                    America/Winnipeg (UTC -06:00)
+                    America/Winnipeg (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="America/Yakutat"
                   >
-                    America/Yakutat (UTC -09:00)
+                    America/Yakutat (UTC -08:00)
                   </option>
                   <option
                     style=""
                     value="America/Yellowknife"
                   >
-                    America/Yellowknife (UTC -07:00)
+                    America/Yellowknife (UTC -06:00)
                   </option>
                   <option
                     style=""
@@ -2924,7 +2924,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Atlantic/Bermuda"
                   >
-                    Atlantic/Bermuda (UTC -04:00)
+                    Atlantic/Bermuda (UTC -03:00)
                   </option>
                   <option
                     style=""
@@ -3158,43 +3158,43 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="CST6CDT"
                   >
-                    CST6CDT (UTC -06:00)
+                    CST6CDT (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="Canada/Atlantic"
                   >
-                    Canada/Atlantic (UTC -04:00)
+                    Canada/Atlantic (UTC -03:00)
                   </option>
                   <option
                     style=""
                     value="Canada/Central"
                   >
-                    Canada/Central (UTC -06:00)
+                    Canada/Central (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="Canada/Eastern"
                   >
-                    Canada/Eastern (UTC -05:00)
+                    Canada/Eastern (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="Canada/Mountain"
                   >
-                    Canada/Mountain (UTC -07:00)
+                    Canada/Mountain (UTC -06:00)
                   </option>
                   <option
                     style=""
                     value="Canada/Newfoundland"
                   >
-                    Canada/Newfoundland (UTC -03:30)
+                    Canada/Newfoundland (UTC -02:30)
                   </option>
                   <option
                     style=""
                     value="Canada/Pacific"
                   >
-                    Canada/Pacific (UTC -08:00)
+                    Canada/Pacific (UTC -07:00)
                   </option>
                   <option
                     style=""
@@ -3224,7 +3224,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Cuba"
                   >
-                    Cuba (UTC -05:00)
+                    Cuba (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -3236,7 +3236,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="EST5EDT"
                   >
-                    EST5EDT (UTC -05:00)
+                    EST5EDT (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -3992,13 +3992,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="MST7MDT"
                   >
-                    MST7MDT (UTC -07:00)
+                    MST7MDT (UTC -06:00)
                   </option>
                   <option
                     style=""
                     value="Mexico/BajaNorte"
                   >
-                    Mexico/BajaNorte (UTC -08:00)
+                    Mexico/BajaNorte (UTC -07:00)
                   </option>
                   <option
                     style=""
@@ -4028,7 +4028,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Navajo"
                   >
-                    Navajo (UTC -07:00)
+                    Navajo (UTC -06:00)
                   </option>
                   <option
                     style=""
@@ -4040,7 +4040,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="PST8PDT"
                   >
-                    PST8PDT (UTC -08:00)
+                    PST8PDT (UTC -07:00)
                   </option>
                   <option
                     style=""
@@ -4340,13 +4340,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="US/Alaska"
                   >
-                    US/Alaska (UTC -09:00)
+                    US/Alaska (UTC -08:00)
                   </option>
                   <option
                     style=""
                     value="US/Aleutian"
                   >
-                    US/Aleutian (UTC -10:00)
+                    US/Aleutian (UTC -09:00)
                   </option>
                   <option
                     style=""
@@ -4358,19 +4358,19 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="US/Central"
                   >
-                    US/Central (UTC -06:00)
+                    US/Central (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="US/East-Indiana"
                   >
-                    US/East-Indiana (UTC -05:00)
+                    US/East-Indiana (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="US/Eastern"
                   >
-                    US/Eastern (UTC -05:00)
+                    US/Eastern (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -4382,31 +4382,31 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="US/Indiana-Starke"
                   >
-                    US/Indiana-Starke (UTC -06:00)
+                    US/Indiana-Starke (UTC -05:00)
                   </option>
                   <option
                     style=""
                     value="US/Michigan"
                   >
-                    US/Michigan (UTC -05:00)
+                    US/Michigan (UTC -04:00)
                   </option>
                   <option
                     style=""
                     value="US/Mountain"
                   >
-                    US/Mountain (UTC -07:00)
+                    US/Mountain (UTC -06:00)
                   </option>
                   <option
                     style=""
                     value="US/Pacific"
                   >
-                    US/Pacific (UTC -08:00)
+                    US/Pacific (UTC -07:00)
                   </option>
                   <option
                     style=""
                     value="US/Pacific-New"
                   >
-                    US/Pacific-New (UTC -08:00)
+                    US/Pacific-New (UTC -07:00)
                   </option>
                   <option
                     style=""
