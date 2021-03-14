@@ -15,7 +15,6 @@ import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics'
 import {
   CourseSectionNames,
   FeedbackQuestion,
@@ -33,6 +32,7 @@ import {
 import { Intent } from '../../../types/api-request';
 import { CommentToCommentRowModelPipe } from '../../components/comment-box/comment-to-comment-row-model.pipe';
 import { CommentsToCommentTableModelPipe } from '../../components/comment-box/comments-to-comment-table-model.pipe';
+import { QuestionStatistics } from '../../components/question-types/question-statistics/question-statistics';
 import { StudentListInfoTableRowModel } from '../../components/sessions-table/respondent-list-info-table/respondent-list-info-table-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -306,7 +306,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
                 QuestionStatistics.appendStats(
                   this.questionsModel[questionId].statistics,
                   responses.questionStatistics);
-              console.log("stats" + responses.questionStatistics);
 
               this.preprocessComments(responses.allResponses);
             }

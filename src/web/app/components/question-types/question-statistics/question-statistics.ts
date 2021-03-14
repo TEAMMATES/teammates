@@ -43,16 +43,14 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
     this.question = question;
   }
 
-  ngOnInit(): void {
-  }
-
-  public static appendStats = (prevStats: string, newStats: string): string => {
+  static appendStats = (prevStats: string, newStats: string): string => {
     if (prevStats === '') {
       if (newStats === '') {
         return '';
       }
       return newStats;
-    } else if (newStats === '') {
+    }
+    if (newStats === '') {
       return prevStats;
     }
 
@@ -61,9 +59,8 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
     const newStatsJSON: ContributionStatistics = JSON.parse(newStats);
     for (const email of Object.keys(newStatsJSON.results)) {
       const newStatsEntryForEmail: ContributionStatisticsEntry = newStatsJSON.results[email];
-      console.log(newStatsEntryForEmail)
-      const {claimed}: { claimed: number } = newStatsEntryForEmail;
-      const {perceived}: { perceived: number } = newStatsEntryForEmail;
+      const { claimed }: { claimed: number } = newStatsEntryForEmail;
+      const { perceived }: { perceived: number } = newStatsEntryForEmail;
       if (claimed < 0 && perceived < 0) {
         continue;
       }
@@ -72,6 +69,9 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
     }
 
     return JSON.stringify(prevStatsJSON);
+  }
+
+  ngOnInit(): void {
   }
 
 }
