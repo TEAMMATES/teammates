@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -130,6 +131,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
+
 
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry
                 : questionToResponses.entrySet()) {
@@ -552,7 +554,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private void organiseResponses(String courseId) {
         List<FeedbackQuestionAttributes> questions = getQuestionsByCourse(courseId);
-        questionToResponses = new HashMap<>();
+        questionToResponses = new LinkedHashMap<>();
         for (FeedbackQuestionAttributes question : questions) {
             List<FeedbackResponseAttributes> responses = getResponsesByQuestion(courseId, question.getQuestionNumber());
             questionToResponses.put(question, responses);

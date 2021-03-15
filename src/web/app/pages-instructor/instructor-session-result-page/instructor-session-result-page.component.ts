@@ -284,6 +284,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // Do not re-fetch data
       return;
     }
+
     // this.feedbackSessionsService.getFeedbackSessionResults({
     //   questionId,
     //   courseId: this.session.courseId,
