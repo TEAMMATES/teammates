@@ -6,6 +6,7 @@ on:
       - master 
       - release
       - teammatesv8
+      - search-api-migration
 jobs:
   LnP-testing:
     runs-on: ubuntu-latest

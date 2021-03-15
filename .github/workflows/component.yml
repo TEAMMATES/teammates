@@ -6,11 +6,13 @@ on:
       - master 
       - release
       - teammatesv8
+      - search-api-migration
   pull_request:
     branches:
       - master 
       - release
       - teammatesv8
+      - search-api-migration
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
