@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +28,7 @@ import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
 import teammates.e2e.util.TestProperties;
+import teammates.storage.entity.FeedbackResponse;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE}.
@@ -133,10 +135,15 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         resultsPage.includeMissingResponses(false);
 
 
-        for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry
-                : questionToResponses.entrySet()) {
-            resultsPage.verifyQnViewResponses(entry.getKey(), entry.getValue(), instructors, students);
-        }
+        Iterator<Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>>> iter =
+                questionToResponses.entrySet().iterator();
+        Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> q1Pair = iter.next();
+        resultsPage.verifyQnViewResponses(q1Pair.getKey(), q1Pair.getValue(), instructors, students);
+        Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> q2Pair = iter.next();
+        resultsPage.verifyQnViewResponses(q2Pair.getKey(), q2Pair.getValue(), instructors, students);
+        Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> q3Pair = iter.next();
+        resultsPage.verifyQnViewResponses(q3Pair.getKey(), q3Pair.getValue(), instructors, students);
+
         resultsPage.verifyQnViewStats(qn2, qn2Responses, instructors, students);
 
         ______TS("Question view: filter by section");
