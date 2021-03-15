@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
+import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -1377,13 +1378,13 @@ public class Logic {
 
     /**
      * Gets the feedback session logs as filtered by the given parameters.
+     * @param email Can be null
      *
-     * @see LogsLogic#getFeedbackSessionLogs(String, String, String, Instant, Instant)
+     * @see LogsLogic#getFeedbackSessionLogs(String, String, Instant, Instant)
      */
-    // TODO: return the data format
-    public void getFeedbackSessionLogs(String courseId, String email, String fsName, Instant startTime, Instant endTime)
-            throws LogsServiceException {
-        logsLogic.getFeedbackSessionLogs(courseId, email, fsName, startTime, endTime);
+    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+            Instant startTime, Instant endTime) throws LogsServiceException {
+        return logsLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime);
     }
 
 }

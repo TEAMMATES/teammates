@@ -7,13 +7,13 @@ import java.util.List;
  */
 public class FeedbackSessionLogsData extends ApiOutput {
 
-    private final List<FeedbackSessionLog> feedbackSessionLogs;
+    private final List<FeedbackSessionLogData> feedbackSessionLogs;
 
-    public FeedbackSessionLogsData(List<FeedbackSessionLog> feedbackSessionLogs) {
+    public FeedbackSessionLogsData(List<FeedbackSessionLogData> feedbackSessionLogs) {
         this.feedbackSessionLogs = feedbackSessionLogs;
     }
 
-    public List<FeedbackSessionLog> getFeedbackResponseLogs() {
+    public List<FeedbackSessionLogData> getFeedbackResponseLogs() {
         return feedbackSessionLogs;
     }
 }

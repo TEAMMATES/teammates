@@ -1,17 +1,19 @@
 package teammates.ui.output;
 
+import teammates.ui.constants.LogType;
+
 /**
  * The session log of a student for a single feedback session.
  */
-public class FeedbackSessionLogEntry {
+public class FeedbackSessionLogEntryData {
     private final StudentData studentData;
 
-    private final String feedbackSessionLogType;
+    private final LogType feedbackSessionLogType;
 
     private final long timestamp;
 
-    public FeedbackSessionLogEntry(StudentData studentData,
-                                   String feedbackSessionLogType,
+    public FeedbackSessionLogEntryData(StudentData studentData,
+                                   LogType feedbackSessionLogType,
                                    long timestamp) {
         this.studentData = studentData;
         this.feedbackSessionLogType = feedbackSessionLogType;
@@ -22,8 +24,7 @@ public class FeedbackSessionLogEntry {
         return studentData;
     }
 
-    public String getFeedbackSessionLogType() {
-        // TODO: change type from String to LogType
+    public LogType getFeedbackSessionLogType() {
         return feedbackSessionLogType;
     }
 

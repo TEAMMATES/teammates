@@ -5,13 +5,13 @@ import java.util.List;
 /**
  * The response log of a single feedback session.
  */
-public class FeedbackSessionLog {
+public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
 
-    private final List<FeedbackSessionLogEntry> feedbackSessionLogEntries;
+    private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    public FeedbackSessionLog(FeedbackSessionData feedbackSessionData,
-                              List<FeedbackSessionLogEntry> feedbackSessionLogEntries) {
+    public FeedbackSessionLogData(FeedbackSessionData feedbackSessionData,
+                              List<FeedbackSessionLogEntryData> feedbackSessionLogEntries) {
         this.feedbackSessionData = feedbackSessionData;
         this.feedbackSessionLogEntries = feedbackSessionLogEntries;
     }
@@ -20,7 +20,7 @@ public class FeedbackSessionLog {
         return feedbackSessionData;
     }
 
-    public List<FeedbackSessionLogEntry> getStudentResponseAccessLogs() {
+    public List<FeedbackSessionLogEntryData> getStudentResponseAccessLogs() {
         return feedbackSessionLogEntries;
     }
 }

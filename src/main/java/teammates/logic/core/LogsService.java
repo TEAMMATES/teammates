@@ -156,7 +156,9 @@ public class LogsService {
             }
 
             public Builder addLabel(String key, String value) {
-                this.labels.put(key, value);
+                if (key != null && value != null) {
+                    this.labels.put(key, value);
+                }
                 return this;
             }
 
