@@ -258,7 +258,7 @@
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VISIBILITY_SETTINGS)"
                             [id]="SessionsSectionQuestions.VISIBILITY_SETTINGS"
                             headerText="Can I change visibility settings after session has started?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VISIBILITY_SETTINGS]">                  
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VISIBILITY_SETTINGS]">
     <p>
       You can change the visibility settings of the session after it has started, but it is highly recommended you don't.
     </p>
@@ -267,9 +267,9 @@
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.COMPULSORY)"
                             [id]="SessionsSectionQuestions.COMPULSORY"
                             headerText="Can I set a question as compulsory?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.COMPULSORY]">                     
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.COMPULSORY]">
     <p>
-      At the moment there is not a way to set a question as compulsory. However, you can put in the questions optional description that it is 
+      At the moment there is not a way to set a question as compulsory. However, you can put in the questions optional description that it is
       compulsory, but it cannot be enforced this way.
     </p>
   </tm-instructor-help-panel>
@@ -307,7 +307,7 @@
                               headerText="A student says they did not recieve a link to submit a response. What do I do?">
       <p>
         It is recommended that you verify that the email they enrolled with is valid. If it is you can <b>Remind</b> students which will
-        send them another email. If that does not work you can get the student to send them the answers to the questions and you can submit it 
+        send them another email. If that does not work you can get the student to send them the answers to the questions and you can submit it
         for them.
       </p>
 </tm-instructor-help-panel>
@@ -440,7 +440,7 @@
   <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.STUDENTS_SEE_RESPONSE)"
                             [id]="SessionsSectionQuestions.STUDENTS_SEE_RESPONSE"
                             headerText="When do students see responses?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENTS_SEE_RESPONSE]">                     
+                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.STUDENTS_SEE_RESPONSE]">
     <p>
       Responses are available to view as soon as you hit publish on the session.
     </p>
