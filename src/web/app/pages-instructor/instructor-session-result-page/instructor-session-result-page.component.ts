@@ -39,6 +39,7 @@ import { InstructorCommentsComponent } from '../instructor-comments.component';
 import { InstructorSessionNoResponsePanelComponent } from './instructor-session-no-response-panel.component';
 import { InstructorSessionResultSectionType } from './instructor-session-result-section-type.enum';
 import { InstructorSessionResultViewType } from './instructor-session-result-view-type.enum';
+import { QuestionStatistics } from "../../components/question-types/question-statistics/question-statistics";
 
 /**
  * Per section view tab model.
@@ -283,24 +284,57 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       // Do not re-fetch data
       return;
     }
-    this.feedbackSessionsService.getFeedbackSessionResults({
-      questionId,
-      courseId: this.session.courseId,
-      feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
-    })
-    .subscribe((resp: SessionResults) => {
-      if (resp.questions.length) {
-        const responses: QuestionOutput = resp.questions[0];
-        this.questionsModel[questionId].responses = responses.allResponses;
-        this.questionsModel[questionId].statistics = responses.questionStatistics;
-        this.questionsModel[questionId].hasPopulated = true;
+    // this.feedbackSessionsService.getFeedbackSessionResults({
+    //   questionId,
+    //   courseId: this.session.courseId,
+    //   feedbackSessionName: this.session.feedbackSessionName,
+    //   intent: Intent.INSTRUCTOR_RESULT,
+    // })
+    // .subscribe((resp: SessionResults) => {
+    //   if (resp.questions.length) {
+    //     const responses: QuestionOutput = resp.questions[0];
+    //     this.questionsModel[questionId].responses = responses.allResponses;
+    //     this.questionsModel[questionId].statistics = responses.questionStatistics;
+    //     this.questionsModel[questionId].hasPopulated = true;
+    //
+    //     this.preprocessComments(responses.allResponses);
+    //   }
+    // }, (resp: ErrorMessageOutput) => {
+    //   this.statusMessageService.showErrorToast(resp.error.message);
+    // });
+    this.courseService.getCourseSectionNames(this.session.courseId)
+      .subscribe((courseSectionNames: CourseSectionNames) => {
+        concat(
+          ...courseSectionNames.sectionNames.map((sectionName: string) => {
+            return this.feedbackSessionsService.getFeedbackSessionResults({
+              questionId,
+              courseId: this.session.courseId,
+              feedbackSessionName: this.session.feedbackSessionName,
+              intent: Intent.INSTRUCTOR_RESULT,
+              groupBySection: sectionName,
+            });
+          }))
+        .subscribe({
+          next: (resp: SessionResults) => {
+            if (resp.questions.length) {
+              const responses: QuestionOutput = resp.questions[0];
+              this.questionsModel[questionId].responses.push(...responses.allResponses);
+              this.questionsModel[questionId].statistics =
+                QuestionStatistics.appendStats(
+                  this.questionsModel[questionId].statistics,
+                  responses.questionStatistics);
 
-        this.preprocessComments(responses.allResponses);
-      }
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+              this.preprocessComments(responses.allResponses);
+            }
+          },
+          complete: () => {
+            this.questionsModel[questionId].hasPopulated = true;
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+          },
+        });
+      });
   }
 
   /**
