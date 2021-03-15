@@ -441,6 +441,8 @@ public abstract class AppPage {
         List<WebElement> cells = row.findElements(By.tagName("td"));
         assertTrue(expectedRowValues.length <= cells.size());
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
+            System.out.println("cell " + cellIndex + ": " + cells.get(cellIndex).getText());
+            System.out.println("expected: " + expectedRowValues[cellIndex]);
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
     }
