@@ -178,6 +178,22 @@ public class InstructorFeedbackResultsPage extends AppPage {
         }
     }
 
+    public void verifyQnViewResponsesSpec(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
+                                      Collection<InstructorAttributes> instructors, Collection<StudentAttributes> students) {
+        selectViewType(QUESTION_VIEW);
+
+        WebElement questionPanel = getQuestionPanel(question.getQuestionNumber());
+        verifyQuestionText(questionPanel, question);
+
+        List<FeedbackResponseAttributes> responsesWithoutMissing = filterMissingResponses(responses);
+        if (responsesWithoutMissing.isEmpty()) {
+            verifyNoResponsesMessage(questionPanel, true, true);
+        } else {
+            String[][] expectedDetails = getExpectedQnViewDetails(question, responses, instructors, students);
+            verifyTableBodyValuesSpec(getResponseTable(questionPanel), expectedDetails);
+        }
+    }
+
     public void verifyGrqViewResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> responses,
                                        boolean isGroupedByTeam, Collection<InstructorAttributes> instructors,
                                        Collection<StudentAttributes> students) {

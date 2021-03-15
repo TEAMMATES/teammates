@@ -140,7 +140,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> q1Pair = iter.next();
         resultsPage.verifyQnViewResponses(q1Pair.getKey(), q1Pair.getValue(), instructors, students);
         Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> q2Pair = iter.next();
-        resultsPage.verifyQnViewResponses(q2Pair.getKey(), q2Pair.getValue(), instructors, students);
+        resultsPage.verifyQnViewResponsesSpec(q2Pair.getKey(), q2Pair.getValue(), instructors, students);
         Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> q3Pair = iter.next();
         resultsPage.verifyQnViewResponses(q3Pair.getKey(), q3Pair.getValue(), instructors, students);
 

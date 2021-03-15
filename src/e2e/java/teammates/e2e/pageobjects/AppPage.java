@@ -435,6 +435,17 @@ public abstract class AppPage {
     }
 
     /**
+     * Asserts that all values in the body of the given table are equal to the expectedTableBodyValues.
+     */
+    protected void verifyTableBodyValuesSpec(WebElement table, String[][] expectedTableBodyValues) {
+        List<WebElement> rows = table.findElement(By.tagName("tbody")).findElements(By.tagName("tr"));
+        assertTrue(expectedTableBodyValues.length <= rows.size());
+        for (int rowIndex = 0; rowIndex < expectedTableBodyValues.length; rowIndex++) {
+            verifyTableRowValuesSpec(rows.get(rowIndex), expectedTableBodyValues[rowIndex]);
+        }
+    }
+
+    /**
      * Asserts that all values in the given table row are equal to the expectedRowValues.
      */
     protected void verifyTableRowValues(WebElement row, String[] expectedRowValues) {
@@ -443,6 +454,18 @@ public abstract class AppPage {
         for (int cellIndex = 0; cellIndex < expectedRowValues.length; cellIndex++) {
             assertEquals(expectedRowValues[cellIndex], cells.get(cellIndex).getText());
         }
+    }
+
+    /**
+     * Asserts that all values in the given table row are equal to the expectedRowValues.
+     */
+    protected void verifyTableRowValuesSpec(WebElement row, String[] expectedRowValues) {
+        List<WebElement> cells = row.findElements(By.tagName("td"));
+        assertTrue(expectedRowValues.length <= cells.size());
+        assertEquals(expectedRowValues[0], cells.get(0).getText());
+        assertEquals(expectedRowValues[1], cells.get(1).getText());
+        assertEquals(expectedRowValues[2], cells.get(2).getText());
+        assertEquals(expectedRowValues[3], cells.get(3).getText());
     }
 
     /**
