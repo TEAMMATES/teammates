@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
@@ -13,17 +12,11 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.LogsServiceException;
+import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
-import teammates.ui.constants.LogType;
-import teammates.ui.output.FeedbackSessionData;
-import teammates.ui.output.FeedbackSessionLogData;
-import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
-import teammates.ui.output.StudentData;
 
 /**
  * Action: gets the feedback session logs of feedback sessions of a course.
@@ -65,26 +58,15 @@ public class GetFeedbackSessionLogsAction extends Action {
         // TODO: we might want to impose limits on the time range from startTime to endTime
 
         try {
-            List<FeedbackSessionLogEntry> fsLogEntries = logic.getFeedbackSessionLogs(courseId, email, startTime, endTime);
-            FeedbackSessionLogsData fslData = createFeedbackSessionLogsData(courseId, fsLogEntries);
+            List<FeedbackSessionLogEntry> fsLogEntries =
+                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+            Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries =
+                    groupFeedbackSessionLogEntries(courseId, fsLogEntries);
+            FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries);
             return new JsonResult(fslData);
-        } catch (LogsServiceException e) {
+        } catch (LogServiceException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    private FeedbackSessionLogsData createFeedbackSessionLogsData(String courseId,
-            List<FeedbackSessionLogEntry> fsLogEntries) {
-        Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries =
-                groupFeedbackSessionLogEntries(courseId, fsLogEntries);
-        List<FeedbackSessionLogData> fsLogDatas = groupedEntries.entrySet().stream()
-                .map(entry -> {
-                    FeedbackSessionAttributes feedbackSession = entry.getKey();
-                    List<FeedbackSessionLogEntry> logEntries = entry.getValue();
-                    return createFeedbackSessionLogData(feedbackSession, logEntries);
-                })
-                .collect(Collectors.toList());
-        return new FeedbackSessionLogsData(fsLogDatas);
     }
 
     private Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupFeedbackSessionLogEntries(
@@ -101,22 +83,5 @@ public class GetFeedbackSessionLogsAction extends Action {
             }
         }
         return groupedEntries;
-    }
-
-    private FeedbackSessionLogData createFeedbackSessionLogData(FeedbackSessionAttributes feedbackSession,
-            List<FeedbackSessionLogEntry> logEntries) {
-        FeedbackSessionData fsData = new FeedbackSessionData(feedbackSession);
-        List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()
-                .map(logEntry -> createFeedbackSessionLogEntryData(logEntry))
-                .collect(Collectors.toList());
-        return new FeedbackSessionLogData(fsData, fsLogEntryDatas);
-    }
-
-    private FeedbackSessionLogEntryData createFeedbackSessionLogEntryData(FeedbackSessionLogEntry logEntry) {
-        StudentAttributes student = logEntry.getStudent();
-        StudentData studentData = new StudentData(student);
-        LogType logType = LogType.valueOfLabel(logEntry.getFeedbackSessionLogType());
-        long timestamp = logEntry.getTimestamp();
-        return new FeedbackSessionLogEntryData(studentData, logType, timestamp);
     }
 }

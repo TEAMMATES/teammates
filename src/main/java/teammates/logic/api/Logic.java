@@ -10,7 +10,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
-import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -28,7 +27,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.LogsServiceException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
 import teammates.logic.core.AccountsLogic;
@@ -39,7 +37,6 @@ import teammates.logic.core.FeedbackResponseCommentsLogic;
 import teammates.logic.core.FeedbackResponsesLogic;
 import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
-import teammates.logic.core.LogsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -59,7 +56,6 @@ public class Logic {
     protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
     protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    protected static final LogsLogic logsLogic = LogsLogic.inst();
     protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
@@ -1364,27 +1360,6 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(generateOptionsFor);
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
-    }
-
-    /**
-     * Creates a feedback session log.
-     *
-     * @see LogsLogic#createFeedbackSessionLog(String, String, String, String)
-     */
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
-            throws LogsServiceException {
-        logsLogic.createFeedbackSessionLog(courseId, email, fsName, fslType);
-    }
-
-    /**
-     * Gets the feedback session logs as filtered by the given parameters.
-     * @param email Can be null
-     *
-     * @see LogsLogic#getFeedbackSessionLogs(String, String, Instant, Instant)
-     */
-    public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) throws LogsServiceException {
-        return logsLogic.getFeedbackSessionLogs(courseId, email, startTime, endTime);
     }
 
 }

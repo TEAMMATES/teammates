@@ -15,7 +15,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
     @Override
     protected String getRequestMethod() {
-        return GET;
+        return POST;
     }
 
     @Test

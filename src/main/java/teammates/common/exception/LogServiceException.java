@@ -4,13 +4,13 @@ package teammates.common.exception;
  * Exception thrown when the logs service fails to create or retrieve logs.
  */
 @SuppressWarnings("serial")
-public class LogsServiceException extends Exception {
+public class LogServiceException extends Exception {
 
-    public LogsServiceException(String message) {
+    public LogServiceException(String message) {
         super(message);
     }
 
-    public LogsServiceException(Throwable cause) {
+    public LogServiceException(Throwable cause) {
         super(cause);
     }
 
