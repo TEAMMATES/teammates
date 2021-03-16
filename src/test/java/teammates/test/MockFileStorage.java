@@ -1,6 +1,7 @@
 package teammates.test;
 
-import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import teammates.logic.api.FileStorage;
 
@@ -9,39 +10,26 @@ import teammates.logic.api.FileStorage;
  */
 public class MockFileStorage extends FileStorage {
 
-    private static final String TEST_FILESTORAGE_DIRECTORY = "src/test/resources/filestorage";
+    private Map<String, byte[]> fileMap = new HashMap<>();
 
     @Override
     public boolean doesFileExist(String fileKey) {
-        try {
-            FileHelper.readFileAsBytes(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);
-            return true;
-        } catch (IOException e) {
-            return false;
-        }
+        return fileMap.containsKey(fileKey);
     }
 
     @Override
     public byte[] getContent(String fileKey) {
-        try {
-            return FileHelper.readFileAsBytes(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return fileMap.getOrDefault(fileKey, new byte[0]);
     }
 
     @Override
     public void delete(String fileKey) {
-        FileHelper.deleteFile(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey);
+        fileMap.remove(fileKey);
     }
 
     @Override
     public void create(String fileKey, byte[] contentBytes, String contentType) {
-        try {
-            FileHelper.saveFile(TEST_FILESTORAGE_DIRECTORY + "/" + fileKey, contentBytes);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        fileMap.put(fileKey, contentBytes);
     }
 
 }
