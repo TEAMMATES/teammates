@@ -99,7 +99,7 @@ public class FeedbackResponseComment extends BaseEntity {
         this.commentGiverType = commentGiverType;
         this.feedbackResponseId = feedbackResponseId;
         this.createdAt = createdAt;
-        setCommentText(SanitizationHelper.sanitizeForRichText(commentText));
+        this.commentText = SanitizationHelper.sanitizeForRichText(commentText);
         this.giverSection = giverSection;
         this.receiverSection = receiverSection;
         this.showCommentTo = showCommentTo == null ? new ArrayList<>() : showCommentTo;

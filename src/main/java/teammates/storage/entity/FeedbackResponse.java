@@ -73,7 +73,7 @@ public class FeedbackResponse extends BaseEntity {
         this.giverSection = giverSection;
         this.receiver = recipient;
         this.receiverSection = recipientSection;
-        setAnswer(answer);
+        this.answer = answer;
 
         this.feedbackResponseId = generateId(feedbackQuestionId, giverEmail, receiver);
 
