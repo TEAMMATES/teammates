@@ -9,16 +9,15 @@ import { Component } from '@angular/core';
   styleUrls: ['./loading-spinner.component.scss'],
 })
 export class LoadingSpinnerComponent {
-  msg: string = "";
+  msg: string = '';
 
-  getMsg() {
-    setTimeout(() => {     
-      this.msg = "Please wait, it is loading";
-    }, 10000);
-  }
-  constructor() { 
-    this.msg  = "";
+  constructor() {
+    this.msg  = '';
+
     this.getMsg();
   }
-  
+
+  getMsg(): void {
+    setTimeout(() => { this.msg = 'Please wait, it is loading'; }, 10000);
+  }
 }

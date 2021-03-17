@@ -42,6 +42,11 @@ exports[`StudentCourseDetailsPageComponent should snap when all data are still l
       >
         Loading...
       </div>
+      <div
+        class="row text-secondary"
+      >
+        {{msg}}
+      </div>
     </div>
   </tm-loading-spinner>
 </tm-student-course-details-page>

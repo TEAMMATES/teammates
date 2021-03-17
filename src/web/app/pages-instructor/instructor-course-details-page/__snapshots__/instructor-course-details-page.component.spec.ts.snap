@@ -35,6 +35,11 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
         >
           Loading...
         </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
+        </div>
       </div>
     </tm-loading-spinner>
     
@@ -656,6 +661,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
         </div>
       </div>
     </tm-loading-spinner>

@@ -1595,6 +1595,11 @@ exports[`SessionResultPageComponent should snap with session results are loading
         >
           Loading...
         </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
+        </div>
       </div>
     </tm-loading-spinner>
     
