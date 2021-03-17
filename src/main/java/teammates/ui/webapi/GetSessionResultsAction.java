@@ -71,6 +71,8 @@ class GetSessionResultsAction extends Action {
         // Allow additional filter by question ID (equivalent to question number) and section name
         String questionId = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
+        String sessionByGiverOrReceiver = getRequestParamValue(
+                Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_OR_RECEIVER);
 
         SessionResultsBundle bundle;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -79,7 +81,7 @@ class GetSessionResultsAction extends Action {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
-                    UserRole.INSTRUCTOR, questionId, selectedSection);
+                    UserRole.INSTRUCTOR, questionId, selectedSection, sessionByGiverOrReceiver);
 
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case STUDENT_RESULT:
@@ -87,7 +89,7 @@ class GetSessionResultsAction extends Action {
             StudentAttributes student = getStudent(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
-                    UserRole.STUDENT, null, null);
+                    UserRole.STUDENT, null, null, null);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case INSTRUCTOR_SUBMISSION:

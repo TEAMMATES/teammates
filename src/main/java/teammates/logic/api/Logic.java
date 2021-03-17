@@ -1114,14 +1114,14 @@ public class Logic {
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, @Nullable String byGiverOrReceiver) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(userEmail);
         Assumption.assertNotNull(role);
 
         return feedbackSessionsLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, role, questionId, section);
+                feedbackSessionName, courseId, userEmail, role, questionId, section, byGiverOrReceiver);
     }
 
     /**

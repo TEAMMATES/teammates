@@ -2,8 +2,10 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -98,11 +100,22 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, @Nullable String section) {
+            String feedbackSessionName, String courseId, @Nullable String section, @Nullable Boolean byGiverOnly) {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
-        return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        if (byGiverOnly == null || byGiverOnly) {
+            responses.addAll(
+                    frDb.getFeedbackResponsesForSessionInGiverSection(feedbackSessionName, courseId, section));
+        }
+        if (byGiverOnly == null || !byGiverOnly) {
+            responses.addAll(
+                    frDb.getFeedbackResponsesForSessionInReceiverSection(feedbackSessionName, courseId, section));
+        }
+
+        return new ArrayList<>(removeDuplicates(responses));
     }
 
     /**
@@ -127,11 +140,20 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, @Nullable String section) {
+            String feedbackQuestionId, @Nullable String section, @Nullable Boolean byGiverOnly) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
-        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
+
+        List<FeedbackResponseAttributes> responses = new ArrayList<>();
+        if (byGiverOnly == null || byGiverOnly) {
+            responses.addAll(frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section));
+        }
+        if (byGiverOnly == null || !byGiverOnly) {
+            responses.addAll(frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section));
+        }
+
+        return responses;
     }
 
     /**
@@ -612,6 +634,15 @@ public final class FeedbackResponsesLogic {
         }
 
         return viewableResponses.getResponses();
+    }
+
+    private Collection<FeedbackResponseAttributes> removeDuplicates(Collection<FeedbackResponseAttributes> responses) {
+        Map<String, FeedbackResponseAttributes> map = new HashMap<>();
+        for (FeedbackResponseAttributes response : responses) {
+            map.put(response.getId(), response);
+        }
+
+        return map.values();
     }
 
     /**

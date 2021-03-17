@@ -131,6 +131,11 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            // continue execution
+        }
         for (Map.Entry<FeedbackQuestionAttributes, List<FeedbackResponseAttributes>> entry
                 : questionToResponses.entrySet()) {
             resultsPage.verifyQnViewResponses(entry.getKey(), entry.getValue(), instructors, students);

@@ -514,10 +514,24 @@ public final class FeedbackSessionsLogic {
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, @Nullable String byGiverOrReceiver) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
+
+        // Translate by giver or receiver to giver only
+        Boolean byGiverOnly = null;
+        if (byGiverOrReceiver != null) {
+            switch (byGiverOrReceiver.toLowerCase()) {
+            case "giver":
+                byGiverOnly = true;
+                break;
+            case "receiver":
+                byGiverOnly = false;
+                break;
+            default:
+            }
+        }
 
         // load question(s)
         List<FeedbackQuestionAttributes> allQuestions;
@@ -542,9 +556,11 @@ public final class FeedbackSessionsLogic {
         if (isInstructor(role)) {
             // load all response for instructors and passively filter them later
             if (questionId == null) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(
+                        feedbackSessionName, courseId, section, byGiverOnly);
             } else {
-                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
+                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(
+                        questionId, section, byGiverOnly);
             }
         } else {
             if (section != null) {
@@ -563,9 +579,11 @@ public final class FeedbackSessionsLogic {
         // load comment(s)
         List<FeedbackResponseCommentAttributes> allComments;
         if (questionId == null) {
-            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
+            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                    courseId, feedbackSessionName, section, byGiverOnly);
         } else {
-            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
+            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(
+                    questionId, section, byGiverOnly);
         }
 
         // related questions, responses, and comment

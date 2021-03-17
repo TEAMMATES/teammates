@@ -58,7 +58,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         instructorAttributes.getEmail(),
-                        UserRole.INSTRUCTOR, null, null));
+                        UserRole.INSTRUCTOR, null, null, null));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
@@ -83,7 +83,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         studentAttributes.getEmail(),
-                        UserRole.STUDENT, null, null),
+                        UserRole.STUDENT, null, null, null),
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));

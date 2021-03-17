@@ -1,7 +1,10 @@
 package teammates.logic.core;
 
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
@@ -95,14 +98,30 @@ public final class FeedbackResponseCommentsLogic {
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the feedback session name
      * @param section if null, will retrieve all comments in the session
+     * @param byGiverOnly if null, will retrieve all comments in the section
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(
-            String courseId, String feedbackSessionName, @Nullable String section) {
+            String courseId, String feedbackSessionName, @Nullable String section, @Nullable Boolean byGiverOnly) {
         if (section == null) {
             return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
         }
-        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
+
+        Map<Long, FeedbackResponseCommentAttributes> comments = new HashMap<>();
+        if (byGiverOnly == null || byGiverOnly) {
+            for (FeedbackResponseCommentAttributes comment : frcDb.getFeedbackResponseCommentsForSessionInGiverSection(
+                    courseId, feedbackSessionName, section)) {
+                comments.put(comment.getId(), comment);
+            }
+        }
+        if (byGiverOnly == null || !byGiverOnly) {
+            for (FeedbackResponseCommentAttributes comment : frcDb.getFeedbackResponseCommentsForSessionInReceiverSection(
+                    courseId, feedbackSessionName, section)) {
+                comments.put(comment.getId(), comment);
+            }
+        }
+
+        return new ArrayList<>(comments.values());
     }
 
     /**
@@ -113,11 +132,26 @@ public final class FeedbackResponseCommentsLogic {
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForQuestionInSection(
-            String questionId, @Nullable String section) {
+            String questionId, @Nullable String section, @Nullable Boolean byGiverOnly) {
         if (section == null) {
             return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
         }
-        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
+
+        Map<Long, FeedbackResponseCommentAttributes> comments = new HashMap<>();
+        if (byGiverOnly == null || byGiverOnly) {
+            for (FeedbackResponseCommentAttributes comment
+                    : frcDb.getFeedbackResponseCommentsForQuestionInGiverSection(questionId, section)) {
+                comments.put(comment.getId(), comment);
+            }
+        }
+        if (byGiverOnly == null || !byGiverOnly) {
+            for (FeedbackResponseCommentAttributes comment
+                    : frcDb.getFeedbackResponseCommentsForQuestionInReceiverSection(questionId, section)) {
+                comments.put(comment.getId(), comment);
+            }
+        }
+
+        return new ArrayList<>(comments.values());
     }
 
     /*
