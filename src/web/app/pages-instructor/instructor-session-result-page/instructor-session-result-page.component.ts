@@ -285,6 +285,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       return;
     }
 
+    const tempMap: Map<string, ResponseOutput> = new Map();
+
     this.courseService.getCourseSectionNames(this.session.courseId)
       .subscribe((courseSectionNames: CourseSectionNames) => {
         concat(
@@ -301,7 +303,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           next: (resp: SessionResults) => {
             if (resp.questions.length) {
               const responses: QuestionOutput = resp.questions[0];
-              this.questionsModel[questionId].responses.push(...responses.allResponses);
+              responses.allResponses
+                .forEach((response: ResponseOutput) => tempMap.set(response.responseId, response));
               this.questionsModel[questionId].statistics =
                 QuestionStatistics.appendStats(
                   this.questionsModel[questionId].statistics,
@@ -311,6 +314,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             }
           },
           complete: () => {
+            tempMap.forEach((response: ResponseOutput) =>
+              this.questionsModel[questionId].responses.push(response));
             this.questionsModel[questionId].hasPopulated = true;
           },
           error: (resp: ErrorMessageOutput) => {
