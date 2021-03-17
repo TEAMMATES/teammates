@@ -150,7 +150,7 @@ public final class FeedbackResponsesLogic {
             responses.addAll(frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section));
         }
         if (byGiverOnly == null || !byGiverOnly) {
-            responses.addAll(frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section));
+            responses.addAll(frDb.getFeedbackResponsesForQuestionInReceiverSection(feedbackQuestionId, section));
         }
 
         return responses;

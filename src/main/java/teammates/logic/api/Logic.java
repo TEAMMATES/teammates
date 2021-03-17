@@ -1110,7 +1110,7 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String)
+     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String, String)
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
