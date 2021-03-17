@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.appengine.api.log.AppLogLine;
-
+import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -447,13 +446,28 @@ public class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeededForStudents
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<>();
-        List<StudentAttributes> students = isEmailNeededForStudents
+        List<StudentAttributes> studentsForCourse = isEmailNeededForStudents
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<>();
+        ArrayList<StudentAttributes> studentsToEmail = new ArrayList<>();
+        for (StudentAttributes student : studentsForCourse) {
+            try {
+                if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
+                        session.getCourseId(), student.email)) {
+                    studentsToEmail.add(student);
+                }
+            } catch (EntityDoesNotExistException e) {
+                log.severe("Course " + session.getCourseId() + " does not exist or "
+                        + "session " + session.getFeedbackSessionName() + " does not exist");
+                // Course or session cannot be found for one student => it will be the case for all students
+                // Do not waste time looping through all students
+                break;
+            }
+        }
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-        return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+        return generateFeedbackSessionEmailBases(course, session, studentsToEmail, instructors, template,
                 EmailType.FEEDBACK_CLOSED.getSubject(), FEEDBACK_ACTION_VIEW, additionalContactInformation);
     }
 
@@ -784,10 +798,10 @@ public class EmailGenerator {
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
-    public EmailWrapper generateCompiledLogsEmail(List<AppLogLine> logs) {
+    public EmailWrapper generateCompiledLogsEmail(List<ErrorLogEntry> logs) {
         StringBuilder emailBody = new StringBuilder();
         for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i)));
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).message, logs.get(i).severity));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
@@ -796,12 +810,12 @@ public class EmailGenerator {
         return email;
     }
 
-    private String generateSevereErrorLogLine(int index, AppLogLine logLine) {
+    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel) {
         return Templates.populateTemplate(
                 EmailTemplates.SEVERE_ERROR_LOG_LINE,
                 "${index}", String.valueOf(index),
-                "${errorType}", logLine.getLogLevel().toString(),
-                "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
+                "${errorType}", logLevel,
+                "${errorMessage}", logMessage);
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {

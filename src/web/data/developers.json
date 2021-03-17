@@ -63,6 +63,7 @@
       "username": "askhubchandani"
     },
     {
+      "multiple": true,
       "name": "Adithya Narayan",
       "username": "AdithyaNarayan"
     },
@@ -138,6 +139,10 @@
     {
       "name": "Alexandr Kolymago",
       "username": "justtimki"
+    },
+    {
+      "name": "Alice",
+      "username": "Alicewillbe"
     },
     {
       "multiple": true,
@@ -376,6 +381,10 @@
     {
       "multiple": true,
       "name": "Chong Kok Wei"
+    },
+    {
+      "name": "Christian Ellwood",
+      "username": "Jellwood"
     },
     {
       "name": "Christopher Kang",
@@ -933,6 +942,10 @@
     {
       "name": "Lim Jia Yee",
       "username": "jia1"
+    },
+    {
+      "name": "Lim Zi Wei",
+      "username": "halfwhole"
     },
     {
       "name": "Liu Jia Hao",
@@ -1874,6 +1887,10 @@
     {
       "name": "Zhu Yilun",
       "username": "yilun-zhu"
+    },
+    {
+      "name": "stapletonce",
+      "username": "stapletonce"
     }
   ],
   "committers": [

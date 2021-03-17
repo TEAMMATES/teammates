@@ -7,7 +7,7 @@
 }
 
 /* stylelint-disable selector-pseudo-element-no-unknown */
-::ng-deep .progress {
+:host ::ng-deep .progress {
   border-radius: 0;
   height: .25rem;
 }
