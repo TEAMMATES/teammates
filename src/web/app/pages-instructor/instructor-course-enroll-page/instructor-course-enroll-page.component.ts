@@ -226,17 +226,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if (teamSectionMap.has(request.team)) {
-        if (teamSectionMap.get(request.team) !== request.section) {
-          this.invalidRowsIndex.add(key);
-          const firstIndex: number | undefined = teamIndexMap.get(request.team);
-          if (firstIndex !== undefined) {
-            this.invalidRowsIndex.add(firstIndex);
-          }
-        }
-      } else {
+      if (!teamSectionMap.has(request.team)) {
         teamSectionMap.set(request.team, request.section);
         teamIndexMap.set(request.team, key);
+        return;
+      }
+
+      if (teamSectionMap.get(request.team) !== request.section) {
+        this.invalidRowsIndex.add(key);
+        const firstIndex: number | undefined = teamIndexMap.get(request.team);
+        if (firstIndex !== undefined) {
+          this.invalidRowsIndex.add(firstIndex);
+        }
       }
     });
     if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
@@ -259,7 +260,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       }
     });
     if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
-      this.enrollErrorMessage += 'Found empty compulsory fields. ';
+      this.enrollErrorMessage += 'Found empty compulsory fields and/or sections with more than 100 students. ';
     }
   }
 
@@ -273,14 +274,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         return;
       }
 
-      if (emailMap.has(request.email)) {
-        this.invalidRowsIndex.add(key);
-        const firstIndex: number | undefined = emailMap.get(request.email);
-        if (firstIndex !== undefined) {
-          this.invalidRowsIndex.add(firstIndex);
-        }
-      } else {
+      if (!emailMap.has(request.email)) {
         emailMap.set(request.email, key);
+        return;
+      }
+
+      this.invalidRowsIndex.add(key);
+      const firstIndex: number | undefined = emailMap.get(request.email);
+      if (firstIndex !== undefined) {
+        this.invalidRowsIndex.add(firstIndex);
       }
     });
     if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
@@ -478,13 +480,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
     (resp: Students) => {
-      if (resp.students.length !== 0) {
-        this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-      } else {
+      if (resp.students.length === 0) {
         // Shows a message if there are no existing students. Panel would not be expanded.
         this.isExistingStudentsPresent = false;
         this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+        return;
       }
+      this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
