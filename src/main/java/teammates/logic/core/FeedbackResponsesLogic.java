@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
+import javax.xml.transform.Result;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
@@ -23,6 +24,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
+import teammates.ui.webapi.ResultFetchType;
 
 /**
  * Handles operations related to feedback responses.
@@ -100,22 +102,21 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, @Nullable String section, @Nullable Boolean byGiverOnly) {
+            String feedbackSessionName, String courseId, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
 
-        List<FeedbackResponseAttributes> responses = new ArrayList<>();
-        if (byGiverOnly == null || byGiverOnly) {
-            responses.addAll(
-                    frDb.getFeedbackResponsesForSessionInGiverSection(feedbackSessionName, courseId, section));
-        }
-        if (byGiverOnly == null || !byGiverOnly) {
-            responses.addAll(
-                    frDb.getFeedbackResponsesForSessionInReceiverSection(feedbackSessionName, courseId, section));
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frDb.getFeedbackResponsesForSessionInGiverSection(feedbackSessionName, courseId, section);
+        case RECEIVER_ONLY:
+            return frDb.getFeedbackResponsesForSessionInReceiverSection(feedbackSessionName, courseId, section);
+        case BOTH:
+        default:
         }
 
-        return new ArrayList<>(removeDuplicates(responses));
+        return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
     }
 
     /**
@@ -140,20 +141,21 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, @Nullable String section, @Nullable Boolean byGiverOnly) {
+            String feedbackQuestionId, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
 
-        List<FeedbackResponseAttributes> responses = new ArrayList<>();
-        if (byGiverOnly == null || byGiverOnly) {
-            responses.addAll(frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section));
-        }
-        if (byGiverOnly == null || !byGiverOnly) {
-            responses.addAll(frDb.getFeedbackResponsesForQuestionInReceiverSection(feedbackQuestionId, section));
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section);
+        case RECEIVER_ONLY:
+            return frDb.getFeedbackResponsesForQuestionInReceiverSection(feedbackQuestionId, section);
+        case BOTH:
+        default:
         }
 
-        return responses;
+        return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
     }
 
     /**

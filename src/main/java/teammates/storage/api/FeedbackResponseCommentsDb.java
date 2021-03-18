@@ -158,6 +158,28 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     /**
      * Gets all comments which have its corresponding response given to/from a section of a feedback session of a course.
      */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(
+            String courseId, String feedbackSessionName, String section) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(section);
+
+        Map<Long, FeedbackResponseComment> uniqueResponseComments = new HashMap<>();
+        for (FeedbackResponseComment comment : getFeedbackResponseCommentEntitiesForSessionInGiverSection(
+                courseId, feedbackSessionName, section)) {
+            uniqueResponseComments.put(comment.getFeedbackResponseCommentId(), comment);
+        }
+        for (FeedbackResponseComment comment : getFeedbackResponseCommentEntitiesForSessionInReceiverSection(
+                courseId, feedbackSessionName, section)) {
+            uniqueResponseComments.put(comment.getFeedbackResponseCommentId(), comment);
+        }
+
+        return makeAttributes(uniqueResponseComments.values());
+    }
+
+    /**
+     * Gets all comments which have its corresponding response given to/from a section of a feedback session of a course.
+     */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInGiverSection(
             String courseId, String feedbackSessionName, String section) {
         Assumption.assertNotNull(courseId);

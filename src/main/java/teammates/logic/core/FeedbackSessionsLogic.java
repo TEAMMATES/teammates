@@ -33,6 +33,7 @@ import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
+import teammates.ui.webapi.ResultFetchType;
 
 /**
  * Handles operations related to feedback sessions.
@@ -514,24 +515,10 @@ public final class FeedbackSessionsLogic {
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
-            @Nullable String questionId, @Nullable String section, @Nullable String byGiverOrReceiver) {
+            @Nullable String questionId, @Nullable String section, ResultFetchType resultFetchType) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
-
-        // Translate by giver or receiver to giver only
-        Boolean byGiverOnly = null;
-        if (byGiverOrReceiver != null) {
-            switch (byGiverOrReceiver.toLowerCase()) {
-            case "giver":
-                byGiverOnly = true;
-                break;
-            case "receiver":
-                byGiverOnly = false;
-                break;
-            default:
-            }
-        }
 
         // load question(s)
         List<FeedbackQuestionAttributes> allQuestions;
@@ -557,10 +544,10 @@ public final class FeedbackSessionsLogic {
             // load all response for instructors and passively filter them later
             if (questionId == null) {
                 allResponses = frLogic.getFeedbackResponsesForSessionInSection(
-                        feedbackSessionName, courseId, section, byGiverOnly);
+                        feedbackSessionName, courseId, section, resultFetchType);
             } else {
                 allResponses = frLogic.getFeedbackResponsesForQuestionInSection(
-                        questionId, section, byGiverOnly);
+                        questionId, section, resultFetchType);
             }
         } else {
             if (section != null) {
@@ -580,10 +567,10 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseCommentAttributes> allComments;
         if (questionId == null) {
             allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                    courseId, feedbackSessionName, section, byGiverOnly);
+                    courseId, feedbackSessionName, section, resultFetchType);
         } else {
             allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(
-                    questionId, section, byGiverOnly);
+                    questionId, section, resultFetchType);
         }
 
         // related questions, responses, and comment

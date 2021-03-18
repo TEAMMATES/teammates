@@ -156,13 +156,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
-        List<FeedbackResponseAttributes> responses = new ArrayList<>();
-        responses.addAll(
-                getFeedbackResponsesForSessionInGiverSection(feedbackSessionName, courseId, section));
-        responses.addAll(
-                getFeedbackResponsesForSessionInReceiverSection(feedbackSessionName, courseId, section));
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(section);
 
-        return new ArrayList<>(removeDuplicates(responses));
+        return makeAttributes(
+                getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
     }
 
     /**
@@ -174,7 +173,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionInGiverSection(feedbackSessionName, courseId, section));
+        return makeAttributes(
+                getFeedbackResponseEntitiesForSessionInGiverSection(feedbackSessionName, courseId, section));
     }
 
     /**
@@ -186,8 +186,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionInReceiverSection(
-                feedbackSessionName, courseId, section));
+        return makeAttributes(
+                getFeedbackResponseEntitiesForSessionInReceiverSection(feedbackSessionName, courseId, section));
     }
 
     /**
@@ -365,33 +365,33 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
             String feedbackQuestionId, String section) {
-        List<FeedbackResponse> allResponses = new ArrayList<>();
-        allResponses.addAll(
-                getFeedbackResponseEntitiesForQuestionInGiverSection(feedbackQuestionId, section));
-        allResponses.addAll(
-                getFeedbackResponseEntitiesForQuestionInReceiverSection(feedbackQuestionId, section));
-        return removeDuplicateEntities(allResponses);
+        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
+
+        for (FeedbackResponse feedbackResponse :
+                getFeedbackResponseEntitiesForQuestionInGiverSection(feedbackQuestionId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+        for (FeedbackResponse feedbackResponse :
+                getFeedbackResponseEntitiesForQuestionInReceiverSection(feedbackQuestionId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+        return uniqueResponses.values();
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInGiverSection(
             String feedbackQuestionId, String section) {
-        List<FeedbackResponse> allResponses = new ArrayList<>(load()
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverSection =", section)
-                .list());
-
-        return removeDuplicateEntities(allResponses);
+                .list();
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInReceiverSection(
             String feedbackQuestionId, String section) {
-        List<FeedbackResponse> allResponses = new ArrayList<>(
-                load()
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("receiverSection =", section)
-                .list());
-
-        return removeDuplicateEntities(allResponses);
+                .list();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(String feedbackQuestionId) {
@@ -407,46 +407,38 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 .list();
     }
 
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
+            String feedbackSessionName, String courseId, String section) {
+        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
+
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForSessionInGiverSection(feedbackSessionName, courseId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForSessionInReceiverSection(feedbackSessionName, courseId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+
+        return uniqueResponses.values();
+    }
+
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInGiverSection(
             String feedbackSessionName, String courseId, String section) {
-        List<FeedbackResponse> allResponse = new ArrayList<>();
-
-        allResponse.addAll(load()
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("giverSection =", section)
-                .list());
-
-        return removeDuplicateEntities(allResponse);
+                .list();
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInReceiverSection(
             String feedbackSessionName, String courseId, String section) {
-        List<FeedbackResponse> allResponse = new ArrayList<>();
-
-        allResponse.addAll(load()
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("receiverSection =", section)
-                .list());
-
-        return removeDuplicateEntities(allResponse);
-    }
-
-    private Collection<FeedbackResponse> removeDuplicateEntities(Collection<FeedbackResponse> responses) {
-        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
-        for (FeedbackResponse response : responses) {
-            uniqueResponses.put(response.getId(), response);
-        }
-        return uniqueResponses.values();
-    }
-
-    private Collection<FeedbackResponseAttributes> removeDuplicates(Collection<FeedbackResponseAttributes> responses) {
-        Map<String, FeedbackResponseAttributes> uniqueResponses = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses) {
-            uniqueResponses.put(response.getId(), response);
-        }
-        return uniqueResponses.values();
+                .list();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(

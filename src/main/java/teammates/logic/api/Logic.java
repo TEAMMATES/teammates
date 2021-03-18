@@ -39,6 +39,7 @@ import teammates.logic.core.FeedbackSessionsLogic;
 import teammates.logic.core.InstructorsLogic;
 import teammates.logic.core.ProfilesLogic;
 import teammates.logic.core.StudentsLogic;
+import teammates.ui.webapi.ResultFetchType;
 
 /**
  * Provides the business logic for production usage of the system.
@@ -1114,14 +1115,15 @@ public class Logic {
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
-            @Nullable String questionId, @Nullable String section, @Nullable String byGiverOrReceiver) {
+            @Nullable String questionId, @Nullable String section, ResultFetchType resultFetchType) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(userEmail);
         Assumption.assertNotNull(role);
+        Assumption.assertNotNull(resultFetchType);
 
         return feedbackSessionsLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, role, questionId, section, byGiverOrReceiver);
+                feedbackSessionName, courseId, userEmail, role, questionId, section, resultFetchType);
     }
 
     /**

@@ -24,6 +24,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.FeedbackResponseCommentsDb;
+import teammates.ui.webapi.ResultFetchType;
 
 /**
  * Handles operations related to feedback response comments.
@@ -98,30 +99,25 @@ public final class FeedbackResponseCommentsLogic {
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the feedback session name
      * @param section if null, will retrieve all comments in the session
-     * @param byGiverOnly if null, will retrieve all comments in the section
+     * @param resultFetchType whether the comments fetched are by the giver's, the receiver's or both section
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(
-            String courseId, String feedbackSessionName, @Nullable String section, @Nullable Boolean byGiverOnly) {
+            String courseId, String feedbackSessionName, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
         }
 
-        Map<Long, FeedbackResponseCommentAttributes> comments = new HashMap<>();
-        if (byGiverOnly == null || byGiverOnly) {
-            for (FeedbackResponseCommentAttributes comment : frcDb.getFeedbackResponseCommentsForSessionInGiverSection(
-                    courseId, feedbackSessionName, section)) {
-                comments.put(comment.getId(), comment);
-            }
-        }
-        if (byGiverOnly == null || !byGiverOnly) {
-            for (FeedbackResponseCommentAttributes comment : frcDb.getFeedbackResponseCommentsForSessionInReceiverSection(
-                    courseId, feedbackSessionName, section)) {
-                comments.put(comment.getId(), comment);
-            }
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForSessionInGiverSection(courseId, feedbackSessionName, section);
+        case RECEIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForSessionInReceiverSection(courseId, feedbackSessionName, section);
+        case BOTH:
+        default:
         }
 
-        return new ArrayList<>(comments.values());
+        return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
 
     /**
@@ -129,29 +125,25 @@ public final class FeedbackResponseCommentsLogic {
      *
      * @param questionId the ID of the question
      * @param section if null, will retrieve all comments for the question
+     * @param resultFetchType whether the comments fetched are by the giver's, the receiver's or both section
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForQuestionInSection(
-            String questionId, @Nullable String section, @Nullable Boolean byGiverOnly) {
+            String questionId, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
         }
 
-        Map<Long, FeedbackResponseCommentAttributes> comments = new HashMap<>();
-        if (byGiverOnly == null || byGiverOnly) {
-            for (FeedbackResponseCommentAttributes comment
-                    : frcDb.getFeedbackResponseCommentsForQuestionInGiverSection(questionId, section)) {
-                comments.put(comment.getId(), comment);
-            }
-        }
-        if (byGiverOnly == null || !byGiverOnly) {
-            for (FeedbackResponseCommentAttributes comment
-                    : frcDb.getFeedbackResponseCommentsForQuestionInReceiverSection(questionId, section)) {
-                comments.put(comment.getId(), comment);
-            }
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForQuestionInGiverSection(questionId, section);
+        case RECEIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForQuestionInReceiverSection(questionId, section);
+        case BOTH:
+        default:
         }
 
-        return new ArrayList<>(comments.values());
+        return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
     }
 
     /*
