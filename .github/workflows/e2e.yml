@@ -37,7 +37,11 @@ jobs:
         run: mv $GITHUB_WORKSPACE/src/e2e/resources/test.ci-$E2E_BROWSER.properties src/e2e/resources/test.properties
         env:
           E2E_BROWSER: ${{ matrix.browser }}
-      - name: Create Config Files 
+      - name: Install cloud datastore emulator
+        run: sudo apt-get install google-cloud-sdk-datastore-emulator
+      - name: Set up local datastore emulator
+        run: gcloud beta emulators datastore start --project=tm-obj-v6-test --host-port=localhost:8484 --consistency=1.0 &
+      - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes 
       - name: Install Frontend Dependencies
         run: npm ci 
