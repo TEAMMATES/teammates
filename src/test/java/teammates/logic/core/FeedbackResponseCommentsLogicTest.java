@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -133,7 +134,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                                 frComment.courseId, frComment.feedbackSessionName, null, null);
+                                 frComment.courseId, frComment.feedbackSessionName, null, ResultFetchType.BOTH);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
 
         assertEquals(frComment.courseId, actualFrComment.courseId);
@@ -204,7 +205,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         verifyPresentInDatastore(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        frComment.courseId, frComment.feedbackSessionName, null, null);
+                        frComment.courseId, frComment.feedbackSessionName, null, ResultFetchType.BOTH);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
         for (FeedbackResponseCommentAttributes comment : actualFrComments) {
@@ -238,7 +239,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        frComment.courseId, frComment.feedbackSessionName, null, null).get(1);
+                        frComment.courseId, frComment.feedbackSessionName, null, ResultFetchType.BOTH).get(1);
 
         ______TS("silent fail nothing to delete");
 
@@ -273,7 +274,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         String courseId = "idOfTypicalCourse1";
 
         List<FeedbackResponseCommentAttributes> frcList =
-                frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session", null, null);
+                frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session",
+                        null, ResultFetchType.BOTH);
         assertFalse(frcList.isEmpty());
 
         frcLogic.deleteFeedbackResponseComments(
@@ -281,7 +283,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                         .withCourseId(courseId)
                         .build());
 
-        frcList = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session", null, null);
+        frcList = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session",
+                null, ResultFetchType.BOTH);
         assertEquals(0, frcList.size());
     }
 
@@ -289,19 +292,19 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testGetFeedbackResponseCommentForSessionInSection_noSectionName_shouldReturnCommentsInSession() {
         List<FeedbackResponseCommentAttributes> comments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        "idOfTypicalCourse1", "First feedback session", null, null);
+                        "idOfTypicalCourse1", "First feedback session", null, ResultFetchType.BOTH);
         assertEquals(3, comments.size());
 
         comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        "not_exist", "First feedback session", null, null);
+                        "not_exist", "First feedback session", null, ResultFetchType.BOTH);
         assertEquals(0, comments.size());
 
         comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                "idOfTypicalCourse1", "not_exist", null, null);
+                "idOfTypicalCourse1", "not_exist", null, ResultFetchType.BOTH);
         assertEquals(0, comments.size());
 
         comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                "not_exist", "not_exist", null, null);
+                "not_exist", "not_exist", null, ResultFetchType.BOTH);
         assertEquals(0, comments.size());
     }
 
@@ -309,15 +312,15 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testGetFeedbackResponseCommentForSessionInSection_withSectionName_shouldReturnCommentsInSection() {
         List<FeedbackResponseCommentAttributes> comments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        "idOfTypicalCourse1", "First feedback session", "Section 1", null);
+                        "idOfTypicalCourse1", "First feedback session", "Section 1", ResultFetchType.BOTH);
         assertEquals(2, comments.size());
 
         comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                "idOfTypicalCourse1", "First feedback session", "Section 2", null);
+                "idOfTypicalCourse1", "First feedback session", "Section 2", ResultFetchType.BOTH);
         assertEquals(1, comments.size());
 
         comments = frcLogic.getFeedbackResponseCommentForSessionInSection(
-                "idOfTypicalCourse1", "First feedback session", "not_exist", null);
+                "idOfTypicalCourse1", "First feedback session", "not_exist", ResultFetchType.BOTH);
         assertEquals(0, comments.size());
     }
 
@@ -325,10 +328,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testGetFeedbackResponseCommentsForQuestionInSection_noSectionName_shouldReturnCommentsForQuestion() {
         String questionId = getQuestionIdInDataBundle("qn1InSession1InCourse1");
         List<FeedbackResponseCommentAttributes> comments =
-                frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, null, null);
+                frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, null, ResultFetchType.BOTH);
         assertEquals(1, comments.size());
 
-        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection("not_exist", null, null);
+        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection("not_exist", null, ResultFetchType.BOTH);
         assertEquals(0, comments.size());
     }
 
@@ -336,20 +339,20 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testGetFeedbackResponseCommentsForQuestionInSection_withSectionName_shouldReturnCommentsForQuestion() {
         String questionId = getQuestionIdInDataBundle("qn2InSession1InCourse1");
         List<FeedbackResponseCommentAttributes> comments =
-                frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "Section 1", null);
+                frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "Section 1", ResultFetchType.BOTH);
         assertEquals(1, comments.size());
 
-        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "Section 2", null);
+        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "Section 2", ResultFetchType.BOTH);
         assertEquals(1, comments.size());
 
-        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "not_exist", null);
+        comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "not_exist", ResultFetchType.BOTH);
         assertEquals(0, comments.size());
     }
 
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
         List<FeedbackResponseCommentAttributes> frCommentsGot =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        frComment.courseId, frComment.feedbackSessionName, null, null);
+                        frComment.courseId, frComment.feedbackSessionName, null, ResultFetchType.BOTH);
         assertEquals(0, frCommentsGot.size());
     }
 
@@ -389,7 +392,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         List<FeedbackResponseCommentAttributes> existingFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
                                  existingFrComment.courseId,
-                                 existingFrComment.feedbackSessionName, null, null);
+                                 existingFrComment.feedbackSessionName, null, ResultFetchType.BOTH);
 
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
         for (FeedbackResponseCommentAttributes c : existingFrComments) {

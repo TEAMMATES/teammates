@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -73,7 +74,10 @@ class GetSessionResultsAction extends Action {
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
         String sessionByGiverOrReceiver = getRequestParamValue(
                 Const.ParamsNames.FEEDBACK_RESULTS_SECTION_BY_GIVER_OR_RECEIVER);
-        ResultFetchType resultFetchType = ResultFetchType.parseFetchType(sessionByGiverOrReceiver);
+        ResultFetchType resultFetchType = ResultFetchType.BOTH;
+        if (sessionByGiverOrReceiver != null) {
+            resultFetchType = ResultFetchType.parseFetchType(sessionByGiverOrReceiver);
+        }
 
         SessionResultsBundle bundle;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));

@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -367,12 +366,12 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             String feedbackQuestionId, String section) {
         Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
 
-        for (FeedbackResponse feedbackResponse :
-                getFeedbackResponseEntitiesForQuestionInGiverSection(feedbackQuestionId, section)) {
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForQuestionInGiverSection(feedbackQuestionId, section)) {
             uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
         }
-        for (FeedbackResponse feedbackResponse :
-                getFeedbackResponseEntitiesForQuestionInReceiverSection(feedbackQuestionId, section)) {
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForQuestionInReceiverSection(feedbackQuestionId, section)) {
             uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
         }
         return uniqueResponses.values();

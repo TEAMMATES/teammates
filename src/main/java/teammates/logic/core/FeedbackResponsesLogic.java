@@ -2,18 +2,16 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.annotation.Nullable;
-import javax.xml.transform.Result;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -24,7 +22,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
-import teammates.ui.webapi.ResultFetchType;
 
 /**
  * Handles operations related to feedback responses.
@@ -636,15 +633,6 @@ public final class FeedbackResponsesLogic {
         }
 
         return viewableResponses.getResponses();
-    }
-
-    private Collection<FeedbackResponseAttributes> removeDuplicates(Collection<FeedbackResponseAttributes> responses) {
-        Map<String, FeedbackResponseAttributes> map = new HashMap<>();
-        for (FeedbackResponseAttributes response : responses) {
-            map.put(response.getId(), response);
-        }
-
-        return map.values();
     }
 
     /**
