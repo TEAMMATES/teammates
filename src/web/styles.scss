@@ -205,11 +205,9 @@ h6,
 }
 
 .modal-window-class {
-  text-decoration: underline dashed #808080;
-
-  &:hover {
-    text-decoration: underline dashed #000;
-  }
+  color: #000;
+  text-decoration: underline dashed #000;
+  cursor: pointer;
 }
 
 @media print {
