@@ -14,7 +14,6 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
-import teammates.common.util.Config;
 import teammates.storage.api.OfyHelper;
 
 /**
@@ -23,7 +22,7 @@ import teammates.storage.api.OfyHelper;
  */
 public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMinimalGaeEnvironment {
     private static final double DB_CONSISTENCY = 1.0;
-    private static final int EMULATOR_PORT = Integer.parseInt(Config.APP_LOCALDATASTORE_PORT);
+    private static final int EMULATOR_PORT = TestProperties.TEST_LOCALDATASTORE_PORT;
     private static LocalDatastoreHelper localDatastoreHelper;
     private Closeable closeable;
 
