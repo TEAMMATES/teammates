@@ -85,8 +85,8 @@ public class FeedbackQuestion extends BaseEntity {
         this.feedbackQuestionId = null; // Allow GAE to generate key.
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
-        setQuestionText(questionText);
-        setQuestionDescription(questionDescription);
+        this.questionText = questionText;
+        this.questionDescription = questionDescription;
         this.questionNumber = questionNumber;
         this.questionType = questionType;
         this.giverType = giverType;

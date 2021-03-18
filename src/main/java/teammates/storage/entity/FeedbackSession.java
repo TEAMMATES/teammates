@@ -89,7 +89,7 @@ public class FeedbackSession extends BaseEntity {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
-        setInstructions(instructions);
+        this.instructions = instructions;
         this.createdTime = createdTime;
         this.deletedTime = deletedTime;
         this.startTime = startTime;
