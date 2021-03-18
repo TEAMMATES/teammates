@@ -232,8 +232,20 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void setupLocalDatastoreHelper() {
+        // Should be prepared separately
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void resetLocalDatastoreHelper() {
         // Local datastore state should persist across e2e test suites
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void tearDownLocalDatastoreHelper() {
+        // Should be prepared separately
     }
 
     @Override
