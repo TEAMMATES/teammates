@@ -128,3 +128,4 @@ public abstract class SearchQuery {
         return queryStringBuilder.toString();
     }
 }
+
