@@ -6,35 +6,31 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.util.GoogleCloudStorageHelper;
-
 /**
  * Action result in form of an image.
  */
 class ImageResult extends ActionResult {
 
-    /** The blob key for the image. */
-    private String blobKey;
+    private byte[] bytes;
 
     ImageResult() {
         super(HttpStatus.SC_NO_CONTENT);
+        this.bytes = new byte[0];
     }
 
-    ImageResult(String blobKey) {
+    ImageResult(byte[] bytes) {
         super(HttpStatus.SC_OK);
-        this.blobKey = blobKey;
+        this.bytes = bytes;
     }
 
-    String getBlobKey() {
-        return blobKey;
+    byte[] getBytes() {
+        return this.bytes;
     }
 
     @Override
     void send(HttpServletResponse resp) throws IOException {
         resp.setContentType("image/png");
-        if (blobKey != null) {
-            GoogleCloudStorageHelper.serve(resp, blobKey);
-        }
+        resp.getOutputStream().write(bytes);
     }
 
 }
