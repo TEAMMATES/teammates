@@ -132,7 +132,6 @@ public class GoogleCloudLoggingService implements LogService {
     private void createLogEntry(LogEntry entry) throws LogServiceException {
         try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
             logging.write(Collections.singleton(entry));
-            logging.close();
         } catch (Exception e) {
             throw new LogServiceException(e);
         }
@@ -197,7 +196,6 @@ public class GoogleCloudLoggingService implements LogService {
             for (LogEntry entry : entries.iterateAll()) {
                 logEntries.add(entry);
             }
-            logging.close();
         } catch (Exception e) {
             throw new LogServiceException(e);
         }
