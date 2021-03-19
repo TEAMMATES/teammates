@@ -19,6 +19,10 @@ export class GeneratedChoicePipe implements PipeTransform {
         return 'teams';
       case FeedbackParticipantType.TEAMS_EXCLUDING_SELF:
         return 'teams (excluding own team)';
+      case FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF:
+        return 'team members';
+      case FeedbackParticipantType.OWN_TEAM_MEMBERS:
+        return 'team members (excluding self)';
       case FeedbackParticipantType.INSTRUCTORS:
         return 'instructors';
       default:
