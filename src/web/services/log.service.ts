@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogType, ResourceEndpoints } from '../types/api-const';
 import { HttpRequestService } from './http-request.service';
+import { FeedbackSessionLogs } from '../types/api-output';
 
 /**
  * Handles logging related logic provision.
@@ -31,4 +32,21 @@ export class LogService {
     return this.httpRequestService.post(ResourceEndpoints.TRACK_SESSION, paramMap);
   }
 
+  /**
+   * Searches for feedback session logs.
+   */
+  searchFeedbackSessionLog(queryParams: {
+    courseId: string,
+    searchFrom: string,
+    searchUntil: string
+    studentEmail?: string,
+  }): Observable<FeedbackSessionLogs> {
+    const paramMap: Record<string, string> = {
+      courseid: queryParams.courseId,
+      fslstarttime: queryParams.searchFrom,
+      fslendtime: queryParams.searchUntil,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.LOGS_SESSION, paramMap);
+  }
 }
