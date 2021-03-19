@@ -479,15 +479,15 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
 
     this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe(
-    (resp: Students) => {
-      if (resp.students.length === 0) {
-        // Shows a message if there are no existing students. Panel would not be expanded.
-        this.isExistingStudentsPresent = false;
-        this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-        return;
-      }
-      this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
-    }, (resp: ErrorMessageOutput) => {
+        (resp: Students) => {
+          if (resp.students.length !== 0) {
+            this.loadExistingStudentsData(existingStudentsHOTInstance, resp.students);
+          } else {
+            // Shows a message if there are no existing students. Panel would not be expanded.
+            this.isExistingStudentsPresent = false;
+            this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+          }
+        }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isAjaxSuccess = false;
       this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
