@@ -627,6 +627,22 @@ public final class FeedbackQuestionsLogic {
                 Assumption.fail("Course disappeared");
             }
             break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            //fallthrough
+        case OWN_TEAM_MEMBERS:
+            List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
+                    feedbackQuestionAttributes.getCourseId());
+
+            if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+            }
+
+            teamMembers.forEach(teamMember -> {
+                optionList.add(teamMember.getName());
+            });
+
+            optionList.sort(null);
+            break;
         case INSTRUCTORS:
             List<InstructorAttributes> instructorList =
                     instructorsLogic.getInstructorsForCourse(feedbackQuestionAttributes.getCourseId());
