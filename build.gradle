@@ -72,7 +72,6 @@ dependencies {
     testAnnotationProcessor(testng)
 
     testImplementation("com.google.appengine:appengine-api-stubs:${appengineVersion}")
-    testImplementation("com.google.appengine:appengine-remote-api:${appengineVersion}")
     testImplementation("com.google.appengine:appengine-testing:${appengineVersion}")
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
