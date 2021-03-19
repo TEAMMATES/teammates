@@ -2,7 +2,7 @@
 <p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course.</p>
 <hr/>
 
-<div *tmIsLoading="isLoading" class="card">
+<div *tmIsLoading="isLoading" class="card bg-form no-border">
   <div class="card-body">
     <div class="row form-group">
       <div class="col-4">
@@ -70,6 +70,23 @@
   </div>
 </div>
 
-<div>
-  Placeholder for Results of Search
+<div *tmIsLoading="isSearching">
+  <div *ngFor="let results of searchResults">
+    <div class="card mb-3 alert-success-border">
+      <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">
+        {{results.feedbackSessionName}}
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
+        </div>
+      </div>
+      <div *ngIf="results.isTabExpanded">
+        <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
+          <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+        </div>
+        <ng-template #noActivityTemplate>
+          <i>No activity for this feedbacks session in selected search period</i>
+        </ng-template>
+      </div>
+    </div>
+  </div>
 </div>

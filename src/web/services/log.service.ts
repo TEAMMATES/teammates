@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogType, ResourceEndpoints } from '../types/api-const';
-import { HttpRequestService } from './http-request.service';
 import { FeedbackSessionLogs } from '../types/api-output';
+import { HttpRequestService } from './http-request.service';
 
 /**
  * Handles logging related logic provision.
@@ -47,6 +47,6 @@ export class LogService {
       fslendtime: queryParams.searchUntil,
     };
 
-    return this.httpRequestService.get(ResourceEndpoints.LOGS_SESSION, paramMap);
+    return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
 }
