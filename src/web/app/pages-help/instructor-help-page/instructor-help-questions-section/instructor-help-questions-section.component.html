@@ -1,0 +1,697 @@
+<div>
+  <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">Questions</h2>
+  <!-- Section -->
+  <h4 *ngIf="displaySubsection(0, 10)">Setting Up Questions</h4>
+  <!-- Question -->
+  <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.ESSAY)"
+                            [id]="QuestionsSectionQuestions.ESSAY"
+                            headerText="Essay Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.ESSAY]">
+    <p>
+      Essay questions are open-ended questions that allow respondents to give text feedback about a question.<br>
+      To set up an essay question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.ESSAY]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleEssayQuestionModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true"
+      ></tm-question-edit-form>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ)"
+                            [id]="QuestionsSectionQuestions.SINGLE_ANSWER_MCQ"
+                            headerText="Multiple Choice (Single Answer) Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]">
+    <p>
+      Multiple-choice (single answer) questions allow respondents to choose one answer from your list of answer options.<br>
+      Other than manually specifying options, TEAMMATES also supports <b>generating options</b> based on the list of students, teams and instructors in the course.
+    </p>
+    <p>
+      To set up a multiple choice (single answer) question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        Specify answer options by writing them manually, or generate options from your course's list of students, instructors or teams.
+      </li>
+      <li>
+        (Optional) Specify 'Other' option, and let the student enter their own answer.
+      </li>
+      <li>
+        (Optional) Assign weights to each option for calculating statistics.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleMCQQuestionWithoutWeightsModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true"
+      ></tm-question-edit-form>
+    </tm-example-box>
+    <p>
+      When you view the results of a multiple-choice (single answer) question, TEAMMATES calculates some statistics about the results collected,
+      such as the number of responses for each option, and the percentage of response in which each option was chosen.
+      If weights are assigned in the question, then additional statistics are calculated such as count and average point for each option.
+      'Per Recipient Statistics' are calculated if weights are assigned, it contains the number of responses each recipient received for each option,
+      and the total and average points for each recipient.
+    </p>
+    <p>
+      <strong>Note: </strong> Weights can be assigned for questions with existing questions too. To do that, edit the question that needs weights,
+      if there are existing responses for that question, the additional statistics will automatically get calculated for the question.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleMCQQuestionWithWeightsModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true"
+      ></tm-question-edit-form>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ)"
+                            [id]="QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ"
+                            headerText="Multiple Choice (Multiple Answer) Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.MULTIPLE_ANSWER_MCQ]">
+    <p>
+      Multiple-choice (multiple answers) question are similar to the single answer version, except that respondents are able to select multiple options as their response.
+      <br> The setup and result statistics is similar to the single answer version. See
+      <a (click)="jumpTo(QuestionsSectionQuestions.SINGLE_ANSWER_MCQ); questionsToCollapsed[QuestionsSectionQuestions.SINGLE_ANSWER_MCQ] = true" [tmRouterLink]="">above</a> for details.
+    </p>
+    <p>
+      <strong>Note:</strong> Multiple-choice (multiple answers) question allow respondents to select 'None of the above' option as an answer,
+      if 'Minimum number of options a respondent is allowed to select' option is not selected. The result statistics do not contain
+      'None of the above' responses, as statistics is not calculated for this option.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.NUMERICAL_SCALE)"
+                            [id]="QuestionsSectionQuestions.NUMERICAL_SCALE"
+                            headerText="Numerical Scale Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]">
+    <p>
+      Numerical scale questions allow numerical responses from respondents.
+    </p>
+    <p>
+      To set up a numerical scale question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        Specify the minimum and maximum valid input values — values outside of the range specified will not be allowed.
+      </li>
+      <li>
+        Specify the precision at which input values should increment — TEAMMATES uses this value to enumerate all possible acceptable responses.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleNumericalScaleQuestionModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true">
+      </tm-question-edit-form>
+    </tm-example-box>
+    <p>
+      Statistics for numerical scale questions are also provided for instructors.<br>
+      TEAMMATES calculates the mean, minimum and maximum values based on all responses given.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.NUMERICAL_SCALE]" @collapseAnim>
+      <tm-instructor-session-result-question-view
+              [questions]="exampleNumericalScaleQuestions"
+              [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+              [session]="exampleFeedbackSession"
+              [showStatistics]="true" [indicateMissingResponses]="true"
+              [isDisplayOnly]="true"
+              [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+      </tm-instructor-session-result-question-view>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.POINTS_OPTIONS)"
+                            [id]="QuestionsSectionQuestions.POINTS_OPTIONS"
+                            headerText="Distribute Points (Among Options) Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]">
+    <p>
+      Distribute points (among options) questions allow respondents to split a fixed number of points among options that you specify.
+    </p>
+    <p>
+      To setup a distribute points (among options) question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        List all the answer options from which students can choose.
+      </li>
+      <li>
+        Choose the number of points students will get to split among the options — you can also choose to specify <b>points to distribute X number of options</b>, which gives students a total of <code>(specified points) x (number of options)</code> points.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleDistributedPointOptionModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true">
+      </tm-question-edit-form>
+    </tm-example-box>
+    <p>
+      In the results view, TEAMMATES provides statistics on the average number of points each option received.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_OPTIONS]" @collapseAnim>
+      <tm-instructor-session-result-question-view
+              [questions]="exampleDistributePointOptionQuestions"
+              [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+              [session]="exampleFeedbackSession"
+              [showStatistics]="true" [indicateMissingResponses]="true"
+              [isDisplayOnly]="true"
+              [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+      </tm-instructor-session-result-question-view>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.POINTS_RECIPIENTS)"
+                            [id]="QuestionsSectionQuestions.POINTS_RECIPIENTS"
+                            headerText="Distribute Points (Among Recipients) Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]">
+    <p>
+      Distribute points (among recipients) questions allow respondents to split points among a list of recipients.<br>
+      For example, if the question recipient is set to the giver's team members, students are required to split points among their team members.
+    </p>
+    <p>
+      To set up a distribute points (among recipients) question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        Choose the number of points students will get to split among the options — you can also choose to specify <b>points to distribute X number of options</b>, which gives students a total of <code>(specified points) x (number of options)</code> points.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.POINTS_RECIPIENTS]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleDistributedPointRecipientModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true">
+      </tm-question-edit-form>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.CONTRIBUTION)"
+                            [id]="QuestionsSectionQuestions.CONTRIBUTION"
+                            headerText="Team Contribution Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]">
+    <p>
+      Team contribution questions are a specialized question type designed to evaluate a student's level of contribution in a team.<br>
+      They estimate the perceived contribution of a student and prevent students from inflating their own scores.
+    </p>
+    <p>
+      If you do not wish to use TEAMMATES's specialized calculation scheme, you may choose to use a distribute points (among recipients) question type.
+      Distribute points (among recipients) questions calculate the mean of all scores given to the recipient.
+    </p>
+    <p>
+      To set up a team contribution question:
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+    </ol>
+    <p>
+      The feedback path for this question type is fixed: the feedback giver must be a student, and the student must give feedback about his/her team members and himself.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleTeamContributionQuestionModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true">
+      </tm-question-edit-form>
+    </tm-example-box>
+    <p>
+      Contribution questions in TEAMMATES are unique because they are targeted at measuring team contributions. <br>
+      Thus, TEAMMATES purposefully prevents students from influencing their own ‘perceived contribution’ value.
+    </p>
+    <p>
+      Perceived contribution is calculated based on what a student's other team members perceive as his/her contribution.
+      The student's own opinion about his own contribution is not considered for the calculation.
+    </p>
+    <p>
+      Students enter contribution estimates for self and team members, using the scale <code>Equal share + x%</code>. e.g. <code>Equal share -10%</code><br>
+      Based on those values, we try to deduce the student's answer to the following two questions:
+    </p>
+    <ol>
+      <li>
+        In your opinion, what proportion of the project did you do?
+      </li>
+      <li>
+        In your opinion, if your teammates were doing the project by themselves without you, how would they compare against each other in terms of contribution?
+      </li>
+    </ol>
+    <p>
+      In the calculation, we do not allow (1) to affect (2). We use (2) to calculate the average perceived contribution for each student. A more detailed version of this calculation can be found
+      <a (click)="openContribInfoModal(contributionTemplateBody)" [tmRouterLink]="">here</a>.
+      <ng-template #contributionTemplateBody>
+        <div class="modal-body">
+          <ul>
+            <li>
+              <strong>General Mechanism</strong>
+              <div>
+                Students enter contribution estimates for themselves and their team members using the contribution scale
+                (see <a href="https://github.com/TEAMMATES/teammates/blob/master/docs/glossary.md#product-related"> glossary</a>).
+                <br>
+                <br>Based on those values, a student's answer to the following two questions are deduced:
+                <br>(a) In your opinion, what portion of the project did you do?
+                <br>(b) In your opinion, if your teammates are doing the project by themselves without you, how do they compare against each other in terms of contribution?
+                <br>
+                <br>In the calculation, we do not allow (a) to affect (b). We use (b) to calculate the average perceived contribution for each student.
+                <br>
+              </div>
+              <br>
+            </li>
+            <li>
+              <strong>Calculation Scheme</strong>
+              <div>
+                <ol type="1">
+                  <li>
+                    <strong>Calculate <code>normalizedClaimed</code> values</strong>
+                    <div>
+                      This is required because the total of points entered might not sum up to <code>100 * (team size)</code>.
+                      <br><br>
+                      <code>(normalized value) = (original value) * (normalization factor)</code>
+                      <br><br>
+                      <div class="bs-example">
+                        entered values: <code>90</code> [self], <code>110</code>, <code>130</code>, <code>N/A</code> (total = <code>330</code>)
+                        <br>normalization factor: <code>(100 * 3) / (90 + 110 + 130) = 300 / 330</code>
+                        <br>normalized: <code>82</code>, <code>100</code>, <code>118</code>, <code>N/A</code>
+                        <br>normalized total = <code>300</code> (i.e. <code>100 * number of inputs</code>)
+                      </div>
+                      This answers the question (a) above. The student thinks he did '<code>Equal share - 18%</code>' (as indicated by <code>82</code>).
+                      <br>
+                      <br>
+                    </div>
+                  </li>
+                  <li>
+                    <strong>Calculate <code>peerContributionRatio</code> values by removing self-rating bias</strong>
+                    <div>
+                      Here, we ignore the self rating and normalize remaining values.
+                      <br><br>
+                      <div class="bs-example">
+                        normalized input (from above): <code>82</code>,<code>100</code>, <code>118</code>, <code>N/A</code>
+                        <br>Calculating unbiased values:
+                        <br>&nbsp;<code>82</code> → ignored.
+                        <br>&nbsp;<code>100</code> → <code>100 * 200 / (100 + 118) = 92</code>
+                        <br>&nbsp;<code>118</code> → <code>118 * 200 / (100 + 118) = 108</code>
+                        <br>Unbiased values: [self (ignored)], <code>92</code>, <code>108</code>, <code>N/A</code>
+                        <br>Unbiased values total = <code>200 (100 * number of ratings)</code>
+                      </div>
+                      This answers the question (b) above. In the example above, the student thinks his teammates contribution ratio is <code>92:108</code> and is unsure of the third teammate.
+                      <br><br>
+                    </div>
+                  </li>
+                  <li>
+                    <strong>Calculate <code>averagePerceivedContributionRatio</code></strong>
+                    <div>
+                      Next, we calculate <code>averagePerceivedContributionRatio</code> among team members, independent of (a). This consists of these steps:
+                      <br><br>
+                      <ol type="i">
+                        <li>
+                          <strong>Calculate <code>averagePerceived</code>:</strong>
+                          <div>
+                            For each student, take the average of <code>peerContributionRatio</code> that others have given him.
+                          </div>
+                          <br>
+                        </li>
+                        <li>
+                          <strong>Calculate <code>normalizedAveragePerceived</code>:</strong>
+                          <div>
+                            Normalize the averages, similar to how input was normalized.
+                            <br><br>
+                            <code>
+                              normalizedAveragePerceived = averagePerceived * normalizationFactor
+                              <br>normalizationFactor = 100 * (number of students with averagePerceived values)/(sum of averagePerceived)
+                            </code>
+                            <br>
+                            <br>This is the relative work distribution among team members based on unbiased opinions of team members.
+                            <br>
+                            <br>
+                          </div>
+                        </li>
+                        <li>
+                          <strong>Calculate <code>normalizedPeerContributionRatio</code></strong>
+                          <div>
+                            Since we normalized the averages (in previous step), we also normalize the value that were averaged in the first place. This is such that average and averaged tallies with each other.
+                            <br>
+                            <code>normalizedPeerContributionRatio = peerContributionRatio * normalizationFactor</code>
+                            <br>
+                          </div>
+                        </li>
+                      </ol>
+                    </div>
+                  </li>
+                  <li>
+                    <strong>Denormalize <code>normalizedAveragePerceived</code></strong>
+                    <div>
+                      For each student, denormalize <code>normalizedAveragePerceived</code>. We scale back to match the total of original
+                      input by student. That way, student can compare his input (i.e., his opinion of the team’s work distribution)
+                      with the team’s opinion. In the example used above, we should use 330/300 as the denormalizing factor for that student.
+                      The result could be something like this:
+                      <br>
+                      <br>
+                      <div class="bs-example">
+                        student’s opinion: <code>90</code> [self], <code>110</code>, <code>130</code>, <code>N/A</code> (total = <code>330</code>)
+                        <br>team’s opinion : <code>95</code>, <code>105</code>, <code>125</code>, <code>115</code> (total = <code>440</code>)
+                      </div>
+                      Value transformation steps: input (i.e. claimed) → <code>normalizedClaimed</code> →
+                      <code>peerContributionRatio</code> → <code>averagePerceived</code> →
+                      <code>normalizedAveragePerceived</code> → <code>denormalizedAveragePerceived</code> →
+                      <code>normalizedPeerContributionRatio</code>
+                      <br>
+                      <br>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+              Student view:
+              <ul>
+                <li>
+                  for claimed contribution, show: same as what the student entered initially (otherwise, the student will be confused as to how the value got changed)
+                </li>
+                <li>
+                  for perceived contribution, show: <code>denormalizedAveragePerceived</code>
+                </li>
+              </ul>
+              <br>Instructor view:
+              <ul>
+                <li>
+                  for claimed contribution, show: <code>normalizedClaimed</code>
+                </li>
+                <li>
+                  for perceived contribution, show: <code>normalizedAveragePerceived</code>
+                </li>
+              </ul>
+              <br>Note:
+              <ul>
+                <li>
+                  Scenario 1: If students give 0 points to each other, then everyone should receive Equal Share and difference should be 0.
+                </li>
+                <li>
+                  Scenario 2: If students are not sure or do not submit the evaluation, then Perceived/Claimed for Instructor should be shown as N/A instead of Equal Share. In this case, difference too should be shown as N/A.
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </ng-template>
+    </p>
+    <p>
+      The results and statistics are presented in the example below. Here is a summary of the terms used:
+    </p>
+    <ul>
+      <li>
+        <b>E (Equal share)</b>: a relative measure of work done. e.g. For a 3-person team, an ‘Equal share’ means ‘a third of the total work done’.
+      </li>
+      <li>
+        <b >CC (Claimed Contribution)</b>: This is what the student claimed he contributed.
+      </li>
+      <li>
+        <b>Ratings Received </b>: These are the peer opinions as to how much the student contributed. These values have been adjusted to neutralize any attempts by students to boost their own standing by rating others low.
+      </li>
+      <li>
+        <b>PC (Perceived Contribution)</b>: This is the average value of the ‘Ratings Received’. This can be considered as the
+        <i>team’s perception of how much the student contributed</i>.
+      </li>
+      <li>
+        <b>Diff</b>: The difference between the claimed contribution (CC) and the perceived contribution (PC). This value can be used to identify those who have over/under-estimated their own contribution.
+      </li>
+    </ul>
+    <p>
+      The ratings in a contribution question can be used to identify relative contribution levels of students in a team.
+      If you use these values for grading, also refer the ‘Interpret contribution numbers with care’ caveat in the
+      <button class="btn btn-link" (click)="collapsePeerEvalTips.emit()">tips for conducting 'team peer evaluation' sessions</button> section.
+    </p>
+    <p>
+      The actual contribution values entered by the student may appear different from the values shown in the results because the system ‘normalizes’ those values so that there is no artificial inflation of contribution.
+      For example, if a student says everyone contributed ‘Equal share + 10%’, the system automatically normalizes it to ‘Equal share’ because in reality that is what the student means.
+      ‘Normalize’ here means scale up/down the values so that the <code>(sum of contributions) = ( n x Equal Share)</code> where <code>n</code> is the number of students being reviewed.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.CONTRIBUTION]" @collapseAnim>
+      <tm-instructor-session-result-question-view
+              [questions]="exampleTeamContributionQuestions"
+              [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+              [session]="exampleFeedbackSession"
+              [showStatistics]="true" [indicateMissingResponses]="true"
+              [isDisplayOnly]="true"
+              [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+      </tm-instructor-session-result-question-view>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RUBRIC)"
+                            [id]="QuestionsSectionQuestions.RUBRIC"
+                            headerText="Rubric Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]">
+    <p>
+      Rubric questions allow instructors to create multiple sub-questions with highly customizable choices and descriptions.
+    </p>
+    <p>
+      To respondents, a rubric question will appear as a table that looks similar to the example below. Respondents can choose one answer per row.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" @collapseAnim>
+      <tm-question-submission-form
+              [formModel]="exampleResponderRubricSubmissionFormModel"
+              [isDisabled]="true"
+      ></tm-question-submission-form>
+    </tm-example-box>
+    <p>
+      To set up a rubric question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        Add choices using the <code>Add Column</code> button, or delete choices using the <code>x</code> button at the bottom of each column.
+      </li>
+      <li>
+        Add subquestions using the <code>Add Row</code> button, or delete subquestions using the <code>x</code> button to the left of each subquestion.
+      </li>
+      <li>
+        (Optional) Add description text to describe each choice for each subquestion.
+      </li>
+      <li>
+        (Optional) Assign weights to each choice of each sub-question for calculating statistics.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleRubricQuestionModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true">
+      </tm-question-edit-form>
+    </tm-example-box>
+    <p>
+      Result statistics for rubric questions show how often a choice is selected for each sub-question.<br>
+      If weights are assigned to the choices, the weights will be used to calculate an average score.
+    </p>
+    <p>
+      <strong>Response Summary Table:</strong> Each choice cell of each sub-question in the Response summary table
+      has three parts <strong>Percentage (Response count) [Weight of the choice]</strong>. Each of the parts are explained below:
+    </p>
+    <ul>
+      <li>
+        Percentage: Shows the percentage of how often this choice is selected out of all responses for this sub-question.
+      </li>
+      <li>
+        Response count: Shows the number of times this choice is selected.
+      </li>
+      <li>
+        Weight of the choice: Shows the weight attached with this choice of this sub-question.
+      </li>
+    </ul>
+    <p>
+      If weights are assigned to the question, then based on the weight of each choice and the response count of that choice,
+      the overall average score of the sub-question is calculated.
+    </p>
+    <p>
+      <strong>Per Recipient Statistics:</strong> This table is only shown to the questions which have weights assigned.
+      Similar to the Response summary table, each choice of each sub-question in this table is divided into two parts,
+      which are <strong>Response Count [Weight of the choice]</strong>. Based on the weight assigned to the choice and
+      the response count of that choice, total and average points for the sub-question is calculated for each recipient.
+    </p>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RUBRIC]" @collapseAnim>
+      <tm-instructor-session-result-question-view
+              [questions]="exampleRubricQuestionQuestions"
+              [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+              [session]="exampleFeedbackSession"
+              [showStatistics]="true" [indicateMissingResponses]="true"
+              [isDisplayOnly]="true"
+              [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+      </tm-instructor-session-result-question-view>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RANK_OPTIONS)"
+                            [id]="QuestionsSectionQuestions.RANK_OPTIONS"
+                            headerText="Rank (Options) Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]">
+    <p>
+      Rank options questions allow respondents to rank the options that you create.
+    </p>
+    <p>
+      To set up a rank options question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        List the options for respondents to rank.
+      </li>
+      <li>
+        (Optional) Allow respondents to give the same rank to multiple options.
+      </li>
+      <li>
+        (Optional) Set the minimum and/or maximum number of options a respondent should rank — setting these values ensures that respondents will rank your desired number of options.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the appropriate feedback recipients.
+      </li>
+    </ol>
+    <tm-question-edit-form *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_OPTIONS]"
+            [formModel]="exampleRankOptionQuestionModel"
+            [formMode]="QuestionEditFormMode.EDIT"
+            [isDisplayOnly]="true"
+    ></tm-question-edit-form>
+  </tm-instructor-help-panel>
+  <!--Question-->
+  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(QuestionsSectionQuestions.RANK_RECIPIENTS)"
+                            [id]="QuestionsSectionQuestions.RANK_RECIPIENTS"
+                            headerText="Rank (Recipients) Questions"
+                            [(isPanelExpanded)]="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]">
+    <p>
+      Rank recipients questions allow respondents to rank themselves, students, teams, or instructors.
+    </p>
+    <p>
+    <p>
+      To set up a rank recipients question:
+    </p>
+    <ol>
+      <li>
+        Specify the question text.
+      </li>
+      <li>
+        (Optional) Add a description for the question.
+      </li>
+      <li>
+        Specify the feedback path that should be used to generate the options respondents get to rank.
+      </li>
+      <li>
+        (Optional) Allow respondents to give the same rank to multiple options.
+      </li>
+    </ol>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" @collapseAnim>
+      <tm-question-edit-form
+              [formModel]="exampleRankRecipientQuestionModel"
+              [formMode]="QuestionEditFormMode.EDIT"
+              [isDisplayOnly]="true"
+      ></tm-question-edit-form>
+    </tm-example-box>
+    <p>
+      When viewing the results of a rank recipients question, you will be able to see the following results for each feedback recipient:
+    </p>
+    <ul>
+      <li>
+        <b>Ranks received</b>: a list of the ranks which a recipient received from respondents.
+      </li>
+      <li>
+        <b>Overall rank</b>: the recipient's rank relative to other recipients, as computed by TEAMMATES.
+      </li>
+      <li>
+        <b>Team rank</b>: the recipient's rank relative to other recipients within their own team only. Applicable only if students rank their teammates.
+      </li>
+    </ul>
+    <p>
+      Technical details about how ranks are calculated are available <a (click)="openRankInfoModal(rankInfoHelp)" [tmRouterLink]="">here</a>.
+    </p>
+    <ng-template #rankInfoHelp>
+      <ul>
+        <li>
+          <b>Ranks Received</b> is a list of the actual ranks each recipient received. TEAMMATES processes the original responses, handling ties and unused ranks.
+          For example, if giver A's original response is <code>(1, 3, 3, 5)</code> and Rank 5 is given to recipient B, after the processing, giver A's response will become <code>(1, 2, 2, 4)</code> and recipient B will have a Rank 4 in his/her <b>Ranks Received</b>, instead of the Rank 5 in the original response by giver A.
+        </li>
+        <li>
+          The <b>Overall Rank</b> ranks the average rank each recipient receives.
+          For example, if recipient A received the ranks <code>(1, 2)</code> and recipient B received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get an <b>Overall Rank</b> of 1 and 2 respectively.
+        </li>
+        <li>
+          The <b>Team Rank</b> works in a similar way to <b>Overall Rank</b> as it uses the average rank received to calculate the rank within the team. However, the average rank of the members are only compared to their own team members.
+          For example, if recipient A (who is a part of team X) received the ranks <code>(1, 2)</code> and recipient B (who is a part of team X) received the ranks <code>(2, 4, 6)</code>, then recipient A and recipient B's average ranks are 1.5 and 4 respectively. By ranking these two averages, recipient A and B will get a <b>Team Rank</b> of 1 and 2 respectively.
+          If recipient C (who is a part of team Y) received the ranks <code>(1, 1)</code> and recipient D (who is a part of team Y) received the ranks <code>(1, 2)</code>, then recipient C and recipient D's average ranks are 1 and 1.5 respectively. By ranking these two averages, recipient C and D will get a <b>Team Rank</b> of 1 and 2 respectively.
+          Note that both recipient A and recipient C get an average of 1.5 but they get different team ranks as they are in different teams.
+        </li>
+      </ul>
+    </ng-template>
+    <tm-example-box *ngIf="questionsToCollapsed[QuestionsSectionQuestions.RANK_RECIPIENTS]" @collapseAnim>
+      <tm-instructor-session-result-question-view
+              [questions]="exampleRankRecipientQuestions"
+              [section]="" [sectionType]="InstructorSessionResultSectionType.EITHER"
+              [session]="exampleFeedbackSession"
+              [showStatistics]="true" [indicateMissingResponses]="true"
+              [isDisplayOnly]="true"
+              [instructorCommentTableModel]="exampleInstructorCommentTableModel">
+      </tm-instructor-session-result-question-view>
+    </tm-example-box>
+  </tm-instructor-help-panel>
+</div>

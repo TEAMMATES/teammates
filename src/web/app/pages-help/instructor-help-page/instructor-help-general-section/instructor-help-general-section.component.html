@@ -1,0 +1,32 @@
+<div>
+    <h2 class="color-blue" *ngIf="!key || showQuestion.length > 0">General Information</h2>
+    <!-- Section -->
+    <h4 *ngIf="displaySubsection(0,10)">General Information</h4>
+    <!-- Question -->
+    <tm-instructor-help-panel class="instr-help-qn-fist" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.RESEARCH)"
+                              [id]="GeneralSectionQuestions.RESEARCH"
+                              headerText="Is data of my courses in TEAMMATES used for research? Are they shared with third parties?"
+                              [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.RESEARCH]">
+      <p>
+        No. If we decide to change this policy, we'll inform users and will provide an opt out.
+      </p>
+    </tm-instructor-help-panel>
+    <!-- Question -->
+    <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.FREE)"
+                              [id]="GeneralSectionQuestions.FREE"
+                              headerText="Is TEAMMATES free? How long is it going to stay free?"
+                              [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.FREE]">
+      <p>
+        Teammates is Free and we intend to keep it Free.
+      </p>
+    </tm-instructor-help-panel>
+    <!-- Question -->
+    <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DATA_LAWS)"
+                              [id]="GeneralSectionQuestions.DATA_LAWS"
+                              headerText="Is TEAMMATES compliant with international data protection laws?"
+                              [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.DATA_LAWS]">
+      <p>
+        Email us at teammates@comp.nus.edu.sg and we'll send you a copy of a document explaining our data protection measures.
+      </p>
+    </tm-instructor-help-panel>
+</div>
