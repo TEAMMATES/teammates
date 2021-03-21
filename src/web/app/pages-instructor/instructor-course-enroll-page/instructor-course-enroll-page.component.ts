@@ -186,12 +186,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
       },
       error: (resp: ErrorMessageOutput) => {
-        this.enrollErrorMessage = resp.error.message;
-
         if (enrolledStudents.length > 0) {
           this.showEnrollResults = true;
           this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
         }
+
+        // Set error message after populating result panels to avoid it being overridden
+        this.enrollErrorMessage = resp.error.message;
       },
     });
   }
