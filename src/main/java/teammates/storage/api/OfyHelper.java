@@ -24,6 +24,14 @@ import teammates.storage.entity.StudentProfile;
  **/
 public class OfyHelper implements ServletContextListener {
 
+    private static void initializeDatastore() {
+        DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
+        if (Config.isDevServer()) {
+            builder.setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT);
+        }
+        ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
+    }
+
     /**
      * Register entity classes in Objectify service.
      */
@@ -44,19 +52,7 @@ public class OfyHelper implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Invoked by GAE at application startup.
-
-        // PRODUCTION
-        //ObjectifyService.init();
-
-        // TEST
-        ObjectifyService.init(new ObjectifyFactory(
-                DatastoreOptions.newBuilder()
-                        .setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT)
-                        .setProjectId(Config.APP_ID)
-                        .build()
-                        .getService()
-        ));
-
+        initializeDatastore();
         registerEntityClasses();
     }
 

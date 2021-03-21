@@ -2,13 +2,14 @@ package teammates.client.remoteapi;
 
 import java.io.IOException;
 
-import com.google.appengine.tools.remoteapi.RemoteApiInstaller;
-import com.google.appengine.tools.remoteapi.RemoteApiOptions;
+import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.Objectify;
+import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
 import teammates.client.util.ClientProperties;
+import teammates.common.util.Config;
 import teammates.storage.api.OfyHelper;
 
 /**
@@ -31,21 +32,11 @@ public abstract class RemoteApiClient {
         System.out.println("--- Starting remote operation ---");
         System.out.println("Going to connect to:" + appDomain + ":" + appPort);
 
-        RemoteApiOptions options = new RemoteApiOptions().server(appDomain, appPort);
-
+        DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
         if (ClientProperties.isTargetUrlDevServer()) {
-            // Dev Server doesn't require credential.
-            options.useDevelopmentServerCredential();
-        } else {
-            // Your Google Cloud SDK needs to be authenticated for Application Default Credentials
-            // in order to run any script in production server.
-            // Refer to https://developers.google.com/identity/protocols/application-default-credentials.
-            options.useApplicationDefaultCredential();
+            builder.setHost(ClientProperties.TARGET_URL);
         }
-
-        RemoteApiInstaller installer = new RemoteApiInstaller();
-        installer.install(options);
-
+        ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
         Closeable objectifySession = ObjectifyService.begin();
 
@@ -53,7 +44,6 @@ public abstract class RemoteApiClient {
             doOperation();
         } finally {
             objectifySession.close();
-            installer.uninstall();
         }
 
         System.out.println("--- Remote operation completed ---");

@@ -485,13 +485,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_remoteApiCanOnlyBeAccessedByRemoteApiClient() {
-        noClasses().that().doNotHaveSimpleName("RemoteApiClient")
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.tools.remoteapi..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
     public void testArchitecture_externalApi_objectifyApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
