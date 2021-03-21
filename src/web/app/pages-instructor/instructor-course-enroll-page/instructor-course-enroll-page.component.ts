@@ -183,21 +183,31 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.statusMessage.pop(); // removes any existing error status message
         this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
 
-        this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
-            enrolledStudents, Array.from(studentEnrollRequests.values()));
-
-        this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
-          this.existingStudents = resp.students;
-          if (!this.isExistingStudentsPanelCollapsed) {
-            const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
-            this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
-          }
-          this.isExistingStudentsPresent = true;
-        });
+        this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
       },
       error: (resp: ErrorMessageOutput) => {
         this.enrollErrorMessage = resp.error.message;
+
+        if (enrolledStudents.length > 0) {
+          this.showEnrollResults = true;
+          this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
+        }
       },
+    });
+  }
+
+  private prepareEnrollmentResults(enrolledStudents: Student[],
+                                   studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
+    this.enrollResultPanelList = this.populateEnrollResultPanelList(this.existingStudents,
+        enrolledStudents, Array.from(studentEnrollRequests.values()));
+
+    this.studentService.getStudentsFromCourse({ courseId: this.courseId }).subscribe((resp: Students) => {
+      this.existingStudents = resp.students;
+      if (!this.isExistingStudentsPanelCollapsed) {
+        const existingStudentTable: Handsontable = this.hotRegisterer.getInstance(this.existingStudentsHOT);
+        this.loadExistingStudentsData(existingStudentTable, this.existingStudents);
+      }
+      this.isExistingStudentsPresent = true;
     });
   }
 
@@ -218,7 +228,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   private checkTeamsValid(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     const teamSectionMap: Map<string, string> = new Map();
     const teamIndexMap: Map<string, number> = new Map();
-    const noInvalidRowsBefore: number = this.invalidRowsIndex.size;
+    const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
 
     Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
       const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
@@ -240,13 +250,13 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }
       }
     });
-    if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
+    if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
       this.enrollErrorMessage += 'Found duplicated teams in different sections. ';
     }
   }
 
   private checkCompulsoryFields(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
-    const noInvalidRowsBefore: number = this.invalidRowsIndex.size;
+    const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
 
     Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
       const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
@@ -259,14 +269,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.invalidRowsIndex.add(key);
       }
     });
-    if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
+    if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
       this.enrollErrorMessage += 'Found empty compulsory fields and/or sections with more than 100 students. ';
     }
   }
 
   private checkEmailNotRepeated(studentEnrollRequests: Map<number, StudentEnrollRequest>): void {
     const emailMap: Map<string, number> = new Map();
-    const noInvalidRowsBefore: number = this.invalidRowsIndex.size;
+    const invalidRowsOriginalSize: number = this.invalidRowsIndex.size;
 
     Array.from(studentEnrollRequests.keys()).forEach((key: number) => {
       const request: StudentEnrollRequest | undefined = studentEnrollRequests.get(key);
@@ -285,7 +295,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.invalidRowsIndex.add(firstIndex);
       }
     });
-    if (this.invalidRowsIndex.size > noInvalidRowsBefore) {
+    if (this.invalidRowsIndex.size > invalidRowsOriginalSize) {
       this.enrollErrorMessage += 'Found duplicated emails. ';
     }
   }
