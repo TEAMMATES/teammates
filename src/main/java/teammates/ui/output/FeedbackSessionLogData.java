@@ -35,7 +35,7 @@ public class FeedbackSessionLogData {
     /**
      * Returns all feedback session log entries.
      */
-    public List<FeedbackSessionLogEntryData> getfeedbackSessionLogEntries() {
+    public List<FeedbackSessionLogEntryData> getFeedbackSessionLogEntries() {
         return feedbackSessionLogEntries;
     }
 }

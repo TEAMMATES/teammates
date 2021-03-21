@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -31,8 +32,11 @@ public class GetFeedbackSessionLogsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        if (!userInfo.isInstructor) {
+            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
+        }
 
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
 
         if (courseAttributes == null) {
