@@ -26,7 +26,7 @@ jobs:
       - name: Install cloud datastore emulator
         run: sudo apt-get install google-cloud-sdk-datastore-emulator
       - name: Set up local datastore emulator
-        run: gcloud beta emulators datastore start --project=tm-obj-v6-test --host-port=localhost:8484 --consistency=1.0 &
+        run: gcloud beta emulators datastore start --project=teammates-john --host-port=localhost:8484 --consistency=1.0 &
       - name: Create Config Files
         run: ./gradlew createConfigs
       - name: Start App Engine
