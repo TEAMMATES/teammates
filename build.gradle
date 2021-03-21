@@ -72,7 +72,6 @@ dependencies {
     testAnnotationProcessor(testng)
 
     testImplementation("com.google.appengine:appengine-api-stubs:${appengineVersion}")
-    testImplementation("com.google.appengine:appengine-remote-api:${appengineVersion}")
     testImplementation("com.google.appengine:appengine-testing:${appengineVersion}")
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
@@ -266,10 +265,7 @@ appengine {
     }
     run {
         port = 8080
-        jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
-                // Absolute paths are not supported, the following is relative to the project directory
-                // These only specify the datastore paths, but search indexes are still generated in WEB-INF/appengine-generated
-                "-Ddatastore.backing_store=../../appengine-generated/local_db.bin"]
+        jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8"]
         automaticRestart = true
     }
     deploy {
