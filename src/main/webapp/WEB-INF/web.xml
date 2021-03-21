@@ -16,18 +16,6 @@
         <listener-class>teammates.storage.api.OfyHelper</listener-class>
     </listener>
 
-    <!-- Reference: https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi -->
-    <servlet>
-        <display-name>Remote API Servlet</display-name>
-        <servlet-name>RemoteApiServlet</servlet-name>
-        <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RemoteApiServlet</servlet-name>
-        <url-pattern>/remote_api</url-pattern>
-    </servlet-mapping>
-
     <filter>
         <filter-name>OriginCheckFilter</filter-name>
         <filter-class>teammates.ui.webapi.OriginCheckFilter</filter-class>
