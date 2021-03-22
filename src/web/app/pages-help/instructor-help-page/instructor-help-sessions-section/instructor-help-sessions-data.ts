@@ -67,6 +67,8 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
 
   isSaving: false,
   isEditable: false,
+  isDeleting: false,
+  isCopying: false,
   hasVisibleSettingsPanelExpanded: true,
   hasEmailSettingsPanelExpanded: true,
 };
