@@ -5,6 +5,7 @@ on:
     branches:
       - master 
       - release
+      - teammatesv8
 jobs:
   LnP-testing:
     runs-on: ubuntu-latest

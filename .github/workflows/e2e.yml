@@ -5,10 +5,12 @@ on:
     branches:
       - master 
       - release
+      - teammatesv8
   pull_request:
     branches:
       - master 
       - release
+      - teammatesv8
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:
