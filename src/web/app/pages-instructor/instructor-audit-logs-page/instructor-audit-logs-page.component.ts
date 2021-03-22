@@ -33,6 +33,7 @@ interface SearchLogsFormModel {
   logsTimeTo: TimeFormat;
   courseId: string;
   studentName: string;
+  isSearchDisabled: boolean;
 }
 
 /**
@@ -66,6 +67,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     logsTimeTo: { hour: 0, minute: 0 },
     courseId: '',
     studentName: '',
+    isSearchDisabled: true,
   };
   courses: Course[] = [];
   courseToStudents: Record<string, Student[]> = {};
@@ -107,6 +109,21 @@ export class InstructorAuditLogsPageComponent implements OnInit {
           logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
               this.searchResults.push(this.toFeedbackSessionLogModel(log)));
         }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  /**
+   * Update search button state
+   */
+  updateSearchButtonDisabled(): void {
+    if (this.formModel.courseId
+        && !this.isDateEmpty(this.formModel.logsDateFrom)
+        && !this.isDateEmpty(this.formModel.logsDateTo)) {
+      this.formModel.isSearchDisabled = false;
+    }
+  }
+
+  private isDateEmpty(date: DateFormat): boolean {
+    return date.day + date.month + date.year === 0;
   }
 
   /**

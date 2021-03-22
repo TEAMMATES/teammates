@@ -11,7 +11,7 @@
         </div>
         <div class="col-12">
           <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId">
-            <option *ngFor="let course of courses">
+            <option *ngFor="let course of courses" (click)="updateSearchButtonDisabled()">
               {{course.courseId}}
             </option>
           </select>
@@ -23,7 +23,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
             <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -53,7 +53,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
             <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -62,7 +62,7 @@
             <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
           </div>
           <div class="col-md-2">
-            <button class="float-right btn btn-primary" (click)="search()">Search</button>
+            <button class="float-right btn btn-primary" (click)="search()" [disabled]="formModel.isSearchDisabled">Search</button>
           </div>
         </div>
       </div>
@@ -84,7 +84,7 @@
           <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
         </div>
         <ng-template #noActivityTemplate>
-          <i>No activity for this feedbacks session in selected search period</i>
+          <i>No activity for this feedback session in selected search period</i>
         </ng-template>
       </div>
     </div>
