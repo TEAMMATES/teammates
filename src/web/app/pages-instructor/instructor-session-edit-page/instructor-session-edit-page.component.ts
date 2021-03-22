@@ -115,6 +115,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isSaving: false,
     isEditable: false,
+    isDeleting: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -244,6 +246,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
+    this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
@@ -259,11 +262,14 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.copySingleSession(requestList[0]);
         }
         if (requestList.length > 1) {
-          forkJoin(requestList).subscribe(() => {
-            this.showCopyStatusMessage();
-          });
+          forkJoin(requestList)
+           .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+           .subscribe(() => {
+             this.showCopyStatusMessage();
+           });
         }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
+      .catch(() => {});
     });
   }
 
@@ -308,6 +314,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
+      isDeleting: false,
+      isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
@@ -439,12 +447,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles deleting current feedback session.
    */
   deleteExistingSessionHandler(): void {
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName).subscribe(() => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
-          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    this.sessionEditFormModel.isDeleting = true;
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+     .pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
+     .subscribe(() => {
+       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+     },
+     (resp: ErrorMessageOutput) => {
+       this.statusMessageService.showErrorToast(resp.error.message);
+     });
   }
 
   /**
@@ -681,7 +693,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles display of template question modal.
    */
   templateQuestionModalHandler(): void {
-    this.ngbModal.open(TemplateQuestionModalComponent).result.then((questions: FeedbackQuestion[]) => {
+    const windowClass: string = 'modal-large';
+    this.ngbModal.open(TemplateQuestionModalComponent, { windowClass }).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
@@ -934,24 +947,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
       });
     });
-  }
-
-  /**
-   * Handles 'Done Editing' click event.
-   */
-  doneEditingHandler(): void {
-    if (this.questionEditFormModels.some((q: QuestionEditFormModel) => q.isEditable)
-        || this.sessionEditFormModel.isEditable) {
-      const modalContent: string = `<p>There exists unsaved field(s), this operation will cause all the changes to be lost.</p>
-          <p>Are you sure you want to continue?</p>`;
-      this.simpleModalService.openConfirmationModal(
-          'Discard unsaved field(s)?', SimpleModalType.WARNING, modalContent).result.then(() => {
-            this.router.navigateByUrl('/web/instructor/sessions');
-          }, () => {});
-    } else {
-      this.router.navigateByUrl('/web/instructor/sessions');
-    }
-    // TODO focus on the row of current feedback session in the sessions page
   }
 
   /**

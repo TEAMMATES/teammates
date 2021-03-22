@@ -38,13 +38,17 @@ class GetFeedbackQuestionsAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()), feedbackSession);
             break;
         case INSTRUCTOR_SUBMISSION:
-        case INSTRUCTOR_RESULT:
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
+            break;
+        case INSTRUCTOR_RESULT:
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    feedbackSession, Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             break;
         case STUDENT_RESULT:
             throw new InvalidHttpParameterException("Invalid intent for this action");

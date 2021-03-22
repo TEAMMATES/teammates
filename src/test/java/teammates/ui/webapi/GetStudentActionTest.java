@@ -69,7 +69,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         ______TS("Failure Case: Unregistered Student with no RegKey");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         StudentAttributes unregStudent =
                 logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
@@ -114,7 +114,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         ______TS("Failure Case: Student - Logged In with no params");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student1InCourse1.googleId);
 
         verifyHttpParameterFailure();
@@ -148,7 +148,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         ______TS("Failure Case: Instructor - Incomplete Params");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
@@ -254,7 +254,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
                 new String[] {"Section 1"});
         verifyCanAccess(submissionParams);
 

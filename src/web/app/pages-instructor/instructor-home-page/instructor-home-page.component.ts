@@ -33,7 +33,10 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
-interface CourseTabModel {
+/**
+ * Data model for the course tab.
+ */
+export interface CourseTabModel {
   course: Course;
   instructorPrivilege: InstructorPrivilege;
   sessionsTableRowModels: SessionsTableRowModel[];
@@ -114,9 +117,8 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Redirect to the search page and query the search
    */
   search(): void {
-    this.router.navigate(['web/instructor/search'], {
-      queryParams: { studentSearchkey: this.studentSearchkey },
-    });
+    this.navigationService.navigateByURL(this.router, '/web/instructor/search',
+        { studentSearchkey: this.studentSearchkey });
   }
 
   /**

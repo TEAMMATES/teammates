@@ -76,7 +76,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         options.set(1, "Edited option.");
         questionDetails.setOptions(options);
         questionDetails.setAreDuplicatesAllowed(true);
-        questionDetails.setMaxOptionsToBeRanked(Integer.MIN_VALUE);
+        questionDetails.setMaxOptionsToBeRanked(Const.POINTS_NO_VALUE);
         questionDetails.setMinOptionsToBeRanked(1);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editRankQuestion(2, questionDetails);

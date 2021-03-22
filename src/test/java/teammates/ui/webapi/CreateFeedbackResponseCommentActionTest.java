@@ -277,7 +277,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         MessageOutput output = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(Const.StatusMessages.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
     }
 
     @Test
@@ -498,7 +498,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     protected void testAccessControl_logOut_shouldFail() {
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
@@ -551,7 +551,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         InstructorAttributes instructor = helperOfCourse1;
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
         loginAsInstructor(instructor.googleId);
@@ -566,14 +566,14 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         InstructorAttributes instructor = helperOfCourse1;
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A"});
 
         loginAsInstructor(instructor.googleId);
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(instructor,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section B"});
 
         verifyCannotAccess(submissionParams);

@@ -62,15 +62,15 @@
         <ul>
           <li>
             Session with your own questions: you'll start with an empty template to which you can add your own
-            questions
+            questions.
           </li>
           <li>
             Session using template: TEAMMATES will provide you with a template of a typical session that you can
-            add to and customize to suit your needs
+            add to and customize to suit your needs.
           </li>
           <li>
             Copy from previous feedback sessions: you can reuse questions and settings from a survey you created
-            in the past
+            in the past.
           </li>
         </ul>
       </li>
@@ -89,29 +89,29 @@
       </li>
       <ul>
         <li>
-          Set a custom time zone
+          Set a custom time zone.
         </li>
         <li>
-          Give students more specific instructions
+          Give students more specific instructions.
         </li>
         <li>
-          Set a grace period during which students can still submit responses if the session closes
+          Set a grace period during which students can still submit responses if the session closes.
         </li>
         <li>
           Choose when you want this session to be visible to students. After this time, students can see the questions,
-          but they cannot submit their responses until the session is <i>open</i>
+          but they cannot submit their responses until the session is <i>open</i>.
         </li>
         <li>
           Choose when you want to make this session's responses visible. At this time, TEAMMATES will automatically
-          publish the results for students to view
+          publish the results for students to view.
         </li>
         <li>
-          Choose whether TEAMMATES should send reminder or announcement emails to students about this session
+          Choose whether TEAMMATES should send reminder or announcement emails to students about this session.
         </li>
         <li>
           Make the session private. A private session is a session that is never visible to others.
           This is for you to record your feedback about students. If you want to create a private session,
-          set "Make session visible" to <code>Never</code>
+          set "Make session visible" to <code>Never</code>.
         </li>
       </ul>
       <li>
@@ -146,14 +146,11 @@
         Scroll to the bottom of the page.
       </li>
       <li>
-        Select between adding a question from our predefined <a (click)="jumpTo('questions')" [routerLink]="">question types</a> or
+        Select between adding a question from our predefined <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a> or
         copying a question from an existing feedback session.
       </li>
       <li>
         Save changes to the question when you have finished creating the question
-      </li>
-      <li>
-        When you are finished adding questions, click <button class="btn btn-primary">Done Editing</button>.
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
@@ -166,14 +163,13 @@
             </div>
           </div>
           <button type="button" class="btn btn-link"><i class="fas fa-info-circle"></i></button>
-          <button class="btn btn-primary">Copy Question</button>&nbsp;
-          <button class="btn btn-primary">Done Editing</button>
+          <button class="btn btn-primary">Copy Question</button>
         </div>
       </div>
     </tm-example-box>
     <p>
       TEAMMATES gives you fine-grained control of each question. In addition to providing a range of different
-      <a (click)="jumpTo('questions')" [routerLink]="">question types</a>,
+      <a (click)="jumpTo('questions')" [tmRouterLink]="">question types</a>,
       you can also customize your desired:
     </p>
     <ul>
@@ -274,7 +270,7 @@
         Ask the student to view the submission page and send you his/her answers to the session questions.
       </li>
       <li>
-        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [routerLink]="">View the results</a> of the session.
+        <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">View the results</a> of the session.
       </li>
       <li>
         Scroll to the panel titled <b>Participants who have not responded to any question</b>. Click on the panel to expand it.
@@ -438,23 +434,23 @@
                             headerText="How do I create a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]">
     <p>
-      While <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [routerLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
+      While <a (click)="jumpTo(SessionsSectionQuestions.SESSION_VIEW_RESULTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS] = true" [tmRouterLink]="">viewing the results</a> of a session, you can add comments to respondents' answers.
     </p>
     <p>
       To create comments on a response in a session:
     </p>
     <ol>
       <li>
-        View the results of a session
+        View the results of a session.
       </li>
       <li>
-        Click <button class="btn btn-light btn-s dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &gt; Recipient &gt; Question</b> or <b>Group by - Recipient &gt; Giver &gt; Question</b>
+        Click <button class="btn btn-light btn-s dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &gt; Recipient &gt; Question</b> or <b>Group by - Recipient &gt; Giver &gt; Question</b>.
       </li>
       <li>
-        Click the <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i></button> icon on the right-hand side of the response you would like to comment on
+        Click the <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i></button> icon on the right-hand side of the response you would like to comment on.
       </li>
       <li>
-        Fill in the form, which will appear similar to the example below
+        Fill in the form, which will appear similar to the example below.
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" @collapseAnim>
@@ -483,7 +479,7 @@
     </p>
     <ol>
       <li>
-        Navigate to the page where you <a (click)="jumpTo(SessionsSectionQuestions.SESSION_ADD_COMMENTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = true" [routerLink]="">added the comment</a> that you want to edit or delete.
+        Navigate to the page where you <a (click)="jumpTo(SessionsSectionQuestions.SESSION_ADD_COMMENTS); questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS] = true" [tmRouterLink]="">added the comment</a> that you want to edit or delete.
       </li>
       <li>
         Hover over the comment which you want to edit or delete.
@@ -547,7 +543,7 @@
     </tm-example-box>
     <p>
       The feedback sessions you have previously deleted are listed here.
-      In order to access information in a deleted session, <a (click)="jumpTo(SessionsSectionQuestions.RESTORE_SESSION); questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true" [routerLink]="">restore the session</a>.
+      In order to access information in a deleted session, <a (click)="jumpTo(SessionsSectionQuestions.RESTORE_SESSION); questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION] = true" [tmRouterLink]="">restore the session</a>.
     </p>
   </tm-instructor-help-panel>
   <!-- Question -->
@@ -556,7 +552,7 @@
                             headerText="How do I restore a deleted session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
     <p>
-      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
@@ -575,7 +571,7 @@
                             headerText="How do I permanently delete a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
     <p>
-      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
       Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
@@ -594,7 +590,7 @@
                             headerText="How do I restore/delete all sessions from Recycle Bin?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_DEL_ALL]">
     <p>
-      First <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [routerLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
+      First <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> and check for sessions in Recycle Bin.<br>
       To restore all sessions, click on the <button href="#" class="btn btn-sm btn-secondary"><i class="fas fa-check"></i><strong> Restore All</strong></button> button in <b>Deleted feedback sessions</b> heading;
       to delete all sessions, click on the <button href="#" class="btn btn-sm btn-danger"><i class="fas fa-times"></i><strong> Delete All</strong></button> button in <b>Deleted feedback sessions</b> heading.
     </p>

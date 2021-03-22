@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.UrlExtension;
-
 /**
  * Represents properties in test.properties file.
  */
@@ -78,7 +76,7 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
+            TEAMMATES_URL = prop.getProperty("test.app.url");
 
             TEST_EMAIL = prop.getProperty("test.email");
             TEST_SENDER_EMAIL = prop.getProperty("test.senderemail");

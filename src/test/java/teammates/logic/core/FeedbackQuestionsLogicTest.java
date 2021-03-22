@@ -148,7 +148,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
-        assertEquals(recipients.get(email), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(email), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
 
     }
@@ -276,10 +276,10 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 instructorsLogic.getInstructorsForCourse(studentGiver.getCourse()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, null);
-        assertEquals(recipients.get(studentGiver.getEmail()), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
         recipients = fqLogic.getRecipientsOfQuestion(question, null, studentGiver, courseRoster);
-        assertEquals(recipients.get(studentGiver.getEmail()), Const.USER_NAME_FOR_SELF);
+        assertEquals(recipients.get(studentGiver.getEmail()), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);
         assertEquals(recipients.size(), 1);
     }
 
@@ -556,8 +556,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                                 .build()));
         assertEquals(
                 String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        questionToUpdate.recipientType.toDisplayRecipientName(),
-                        questionToUpdate.giverType.toDisplayGiverName()),
+                        "Giver's team members",
+                        "Teams in this course"),
                 ipe.getMessage());
     }
 

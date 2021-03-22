@@ -67,7 +67,7 @@
     <div *ngIf="students.length === 0, else studentListTable" class="alert alert-warning">
       <i class="fa fa-exclamation-circle text-muted"></i>
       There are no students in this course. Click
-      <a routerLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
+      <a tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.
     </div>
     <ng-template #studentListTable>
       <div id="student-list" class="card-body p-0 student-table-margin card border">

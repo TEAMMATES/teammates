@@ -10,8 +10,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.StudentProfile;
 
@@ -40,7 +38,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
      */
     public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         StudentProfile studentProfile = getStudentProfileEntityFromDb(updateOptions.getGoogleId());
         boolean shouldCreateEntity = studentProfile == null; // NOPMD
@@ -63,8 +61,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
                 && this.<String>hasSameValue(studentProfile.getInstitute(), newAttributes.getInstitute())
                 && this.<String>hasSameValue(studentProfile.getNationality(), newAttributes.getNationality())
                 && this.<String>hasSameValue(studentProfile.getGender(), newAttributes.getGender().name().toLowerCase())
-                && this.<String>hasSameValue(studentProfile.getMoreInfo(), newAttributes.getMoreInfo())
-                && this.<String>hasSameValue(studentProfile.getPictureKey(), newAttributes.getPictureKey());
+                && this.<String>hasSameValue(studentProfile.getMoreInfo(), newAttributes.getMoreInfo());
         if (!shouldCreateEntity && hasSameAttributes) {
             log.info(String.format(OPTIMIZED_SAVING_POLICY_APPLIED, StudentProfile.class.getSimpleName(), updateOptions));
             return newAttributes;
@@ -76,7 +73,6 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         studentProfile.setNationality(newAttributes.nationality);
         studentProfile.setGender(newAttributes.gender.name().toLowerCase());
         studentProfile.setMoreInfo(newAttributes.moreInfo);
-        studentProfile.setPictureKey(newAttributes.pictureKey);
         studentProfile.setModifiedDate(Instant.now());
 
         saveEntity(studentProfile);
@@ -94,37 +90,9 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
         if (sp == null) {
             return;
         }
-        if (!sp.getPictureKey().equals("")) {
-            deletePicture(sp.getPictureKey());
-        }
         Key<Account> parentKey = Key.create(Account.class, googleId);
         Key<StudentProfile> profileKey = Key.create(parentKey, StudentProfile.class, googleId);
         deleteEntity(profileKey);
-    }
-
-    /**
-     * Deletes picture associated with the {@code key}.
-     *
-     * <p>Fails silently if the {@code key} doesn't exist.</p>
-     */
-    public void deletePicture(String key) {
-        GoogleCloudStorageHelper.deleteFile(key);
-    }
-
-    /**
-     * Deletes the {@code pictureKey} of the profile with given {@code googleId} by setting it to an empty string.
-     *
-     * <p>Fails silently if the {@code studentProfile} doesn't exist.</p>
-     */
-    public void deletePictureKey(String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-        StudentProfile studentProfile = getStudentProfileEntityFromDb(googleId);
-
-        if (studentProfile != null) {
-            studentProfile.setPictureKey("");
-            studentProfile.setModifiedDate(Instant.now());
-            saveEntity(studentProfile);
-        }
     }
 
     /**
@@ -152,7 +120,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
 
     @Override
     StudentProfileAttributes makeAttributes(StudentProfile entity) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+        Assumption.assertNotNull(entity);
 
         return StudentProfileAttributes.valueOf(entity);
     }

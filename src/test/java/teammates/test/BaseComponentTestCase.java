@@ -1,7 +1,5 @@
 package teammates.test;
 
-import java.io.IOException;
-import java.net.URLConnection;
 import java.util.Arrays;
 
 import org.testng.annotations.AfterClass;
@@ -20,8 +18,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
 import teammates.common.util.retry.RetryManager;
 import teammates.logic.api.LogicExtension;
 
@@ -50,16 +46,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     protected RetryManager getPersistenceRetryManager() {
         return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
-    }
-
-    protected static String writeFileToGcs(String googleId, String filename) throws IOException {
-        byte[] image = FileHelper.readFileAsBytes(filename);
-        String contentType = URLConnection.guessContentTypeFromName(filename);
-        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image, contentType);
-    }
-
-    protected static boolean doesFileExistInGcs(String fileKey) {
-        return GoogleCloudStorageHelper.doesFileExistInGcs(fileKey);
     }
 
     @Override
@@ -115,23 +101,25 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
             logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle dataBundle) {
+    protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 

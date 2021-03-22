@@ -69,6 +69,10 @@ public class Logic {
         return accountsLogic.getAccount(googleId);
     }
 
+    public String getCourseInstitute(String courseId) {
+        return accountsLogic.getCourseInstitute(courseId);
+    }
+
     /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
@@ -101,31 +105,6 @@ public class Logic {
         Assumption.assertNotNull(googleId);
 
         accountsLogic.deleteAccountCascade(googleId);
-    }
-
-    /**
-     * Delete the picture associated with the {@code key} in Cloud Storage.
-     *
-     * <br/> Preconditions: <br/>
-     * All parameters are non-null.
-     *
-     * <p>Fails silently if the {@code key} doesn't exist.</p>
-     */
-    public void deletePicture(String key) {
-        Assumption.assertNotNull(key);
-
-        profilesLogic.deletePicture(key);
-    }
-
-    /**
-     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
-     *
-     * <p>If the associated profile doesn't exist, create a new one.</p>
-     */
-    public void deletePictureKey(String googleId) {
-        Assumption.assertNotNull(googleId);
-
-        profilesLogic.deletePictureKey(googleId);
     }
 
     /**
@@ -1381,6 +1360,13 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(generateOptionsFor);
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
+    }
+
+    public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(student1Email);
+        Assumption.assertNotNull(student2Email);
+        return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
 
 }

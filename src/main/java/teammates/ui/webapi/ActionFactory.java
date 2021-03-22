@@ -105,7 +105,6 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
-        map(ResourceURIs.SUBMISSION_CONFIRMATION, POST, ConfirmFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.SESSION_LINKS_RECOVERY, POST, SessionLinksRecoveryAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
@@ -158,9 +157,7 @@ public class ActionFactory {
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
-        Action action = getAction(uri, method);
-        action.init(req);
-        return action;
+        return getAction(uri, method);
     }
 
     private Action getAction(String uri, String method) throws ActionMappingException {

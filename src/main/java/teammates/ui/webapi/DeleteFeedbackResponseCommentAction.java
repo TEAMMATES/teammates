@@ -60,7 +60,7 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             gateKeeper.verifyOwnership(frc, instructorAsFeedbackParticipant.getEmail());
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
             if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
@@ -69,9 +69,9 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
             FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.getFeedbackResponseId());
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
