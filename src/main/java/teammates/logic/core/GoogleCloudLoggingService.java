@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -39,6 +38,11 @@ public class GoogleCloudLoggingService implements LogService {
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
+    private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
+    private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
+    private static final String REQUEST_LOG_MODULE_ID_LABEL = "module_id";
+    private static final String REQUEST_LOG_MODULE_ID_LABEL_VALUE = "default";
+
     private static final String FEEDBACK_SESSION_LOG_NAME = "feedback-session-logs";
     private static final String FEEDBACK_SESSION_LOG_COURSE_ID_LABEL = "courseId";
     private static final String FEEDBACK_SESSION_LOG_EMAIL_LABEL = "email";
@@ -47,38 +51,29 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
-        LoggingOptions options = LoggingOptions.getDefaultInstance();
-
         Instant endTime = Instant.now();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         long queryRange = 1000 * 60 * 6;
         Instant startTime = endTime.minusMillis(queryRange);
 
-        List<String> logOptions = Arrays.asList(
-                "resource.type=\"gae_app\"",
-                "resource.labels.module_id=\"default\"",
-                "logName=\"projects/" + options.getProjectId() + "/logs/appengine.googleapis.com%2Frequest_log\"",
-                "severity>=ERROR",
-                "timestamp>\"" + startTime.toString() + "\"",
-                "timestamp<=\"" + endTime.toString() + "\""
-        );
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setLogName(REQUEST_LOG_NAME)
+                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
+                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
+                .setMinSeverity(LogSeverity.ERROR)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
 
-        List<LogEntry> logs = new ArrayList<>();
+        List<LogEntry> logEntries = new ArrayList<>();
+        List<ErrorLogEntry> errorLogs = new ArrayList<>();
 
-        try (Logging logging = options.getService()) {
-            Page<LogEntry> entries = logging.listLogEntries(
-                    Logging.EntryListOption.filter(logOptions.stream().collect(Collectors.joining("\n")))
-            );
-            for (LogEntry logEntry : entries.iterateAll()) {
-                logs.add(logEntry);
-            }
-        } catch (Exception e) {
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
             // TODO
         }
 
-        List<ErrorLogEntry> errorLogs = new ArrayList<>();
-
-        for (LogEntry logEntry : logs) {
+        for (LogEntry logEntry : logEntries) {
             Any entry = (Any) logEntry.getPayload().getData();
 
             JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
@@ -180,14 +175,23 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.logName != null) {
             logFilters.add("logName=\"projects/" + options.getProjectId() + "/logs/" + s.logName + "\"");
         }
+        if (s.resourceType != null) {
+            logFilters.add("resource.type=\"" + s.resourceType + "\"");
+        }
         if (s.startTime != null) {
             logFilters.add("timestamp>\"" + s.startTime.toString() + "\"");
         }
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
+        if (s.minSeverity != null) {
+            logFilters.add("severity>=" + s.minSeverity.toString());
+        }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+        for (Map.Entry<String, String> entry : s.resourceLabels.entrySet()) {
+            logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
 
@@ -207,12 +211,20 @@ public class GoogleCloudLoggingService implements LogService {
      */
     private static class LogSearchParams {
         private String logName;
+        private String resourceType;
         private Instant startTime;
         private Instant endTime;
+        private LogSeverity minSeverity;
         private Map<String, String> labels = new HashMap<>();
+        private Map<String, String> resourceLabels = new HashMap<>();
 
         public LogSearchParams setLogName(String logName) {
             this.logName = logName;
+            return this;
+        }
+
+        public LogSearchParams setResourceType(String resourceType) {
+            this.resourceType = resourceType;
             return this;
         }
 
@@ -226,9 +238,21 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
+        public LogSearchParams setMinSeverity(LogSeverity minSeverity) {
+            this.minSeverity = minSeverity;
+            return this;
+        }
+
         public LogSearchParams addLabel(String key, String value) {
             if (key != null && value != null) {
                 this.labels.put(key, value);
+            }
+            return this;
+        }
+
+        public LogSearchParams addResourceLabel(String key, String value) {
+            if (key != null && value != null) {
+                this.resourceLabels.put(key, value);
             }
             return this;
         }
