@@ -2816,7 +2816,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Tehran"
                   >
-                    Asia/Tehran (UTC +03:30)
+                    Asia/Tehran (UTC +04:30)
                   </option>
                   <option
                     style=""
@@ -3950,7 +3950,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Iran"
                   >
-                    Iran (UTC +03:30)
+                    Iran (UTC +04:30)
                   </option>
                   <option
                     style=""
