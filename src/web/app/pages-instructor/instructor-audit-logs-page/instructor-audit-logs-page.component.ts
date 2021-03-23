@@ -111,6 +111,17 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
+
+    let email: string = '';
+    if (this.formModel.studentName) {
+      const students: Student[] = this.courseToStudents[this.formModel.courseId];
+      const selectedStudent: Student | undefined =
+          students.find((student: Student) => student.name === this.formModel.studentName);
+      if (selectedStudent) {
+        email = selectedStudent.email;
+      }
+    }
+
     forkJoin(localDateTime)
         .pipe(
             concatMap((timestamp: number[]) => {
@@ -118,6 +129,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
                 courseId: this.formModel.courseId,
                 searchFrom: timestamp[0].toString(),
                 searchUntil: timestamp[1].toString(),
+                studentEmail: email,
               });
             }),
             finalize(() => this.isSearching = false))
