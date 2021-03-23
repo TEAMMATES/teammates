@@ -157,9 +157,7 @@ public class ActionFactory {
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
-        Action action = getAction(uri, method);
-        action.init(req);
-        return action;
+        return getAction(uri, method);
     }
 
     private Action getAction(String uri, String method) throws ActionMappingException {

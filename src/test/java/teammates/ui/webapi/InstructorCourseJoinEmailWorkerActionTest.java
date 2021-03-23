@@ -52,9 +52,9 @@ public class InstructorCourseJoinEmailWorkerActionTest
         InstructorCourseJoinEmailWorkerAction action = getAction(submissionParams);
         action.execute();
 
-        verifyNumberOfEmailsSent(action, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper email = action.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
 
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course1.getName(),
                                    course1.getId()),
@@ -73,9 +73,9 @@ public class InstructorCourseJoinEmailWorkerActionTest
         action = getAction(submissionParams);
         action.execute();
 
-        verifyNumberOfEmailsSent(action, 1);
+        verifyNumberOfEmailsSent(1);
 
-        email = action.getEmailSender().getEmailsSent().get(0);
+        email = mockEmailSender.getEmailsSent().get(0);
 
         assertEquals(String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(), course1.getName(),
                 course1.getId()),

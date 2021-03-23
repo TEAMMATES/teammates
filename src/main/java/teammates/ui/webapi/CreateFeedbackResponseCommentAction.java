@@ -81,7 +81,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
