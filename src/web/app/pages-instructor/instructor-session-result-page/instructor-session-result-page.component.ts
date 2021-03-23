@@ -291,13 +291,24 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       .subscribe((courseSectionNames: CourseSectionNames) => {
         concat(
           ...courseSectionNames.sectionNames.map((sectionName: string) => {
-            return this.feedbackSessionsService.getFeedbackSessionResults({
-              questionId,
-              courseId: this.session.courseId,
-              feedbackSessionName: this.session.feedbackSessionName,
-              intent: Intent.INSTRUCTOR_RESULT,
-              groupBySection: sectionName,
-            });
+            return concat(
+              this.feedbackSessionsService.getFeedbackSessionResults({
+                questionId,
+                courseId: this.session.courseId,
+                feedbackSessionName: this.session.feedbackSessionName,
+                intent: Intent.INSTRUCTOR_RESULT,
+                groupBySection: sectionName,
+                sectionByGiverOrReceiver: 'giver',
+              }),
+              this.feedbackSessionsService.getFeedbackSessionResults({
+                questionId,
+                courseId: this.session.courseId,
+                feedbackSessionName: this.session.feedbackSessionName,
+                intent: Intent.INSTRUCTOR_RESULT,
+                groupBySection: sectionName,
+                sectionByGiverOrReceiver: 'receiver',
+              }),
+            );
           }))
         .subscribe({
           next: (resp: SessionResults) => {
