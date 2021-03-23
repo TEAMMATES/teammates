@@ -14,12 +14,7 @@ export enum GeneralSectionQuestions {
     DATA_LAWS = 'data-laws',
 
     /**
-     * Teammates Free
+     * Teammates Free?
      */
-    FREE = 'free',
-
-    /**
-     * Daylight savings
-     */
-    DAYLIGHT = 'daylight',
+    FREE = 'free'
 }

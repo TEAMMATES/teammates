@@ -21,15 +21,6 @@
       </p>
     </tm-instructor-help-panel>
     <!-- Question -->
-    <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DAYLIGHT)"
-                              [id]="GeneralSectionQuestions.DAYLIGHT"
-                              headerText="Does TEAMMATES cater for daylight saving time adjustments?"
-                              [(isPanelExpanded)]="questionsToCollapsed[GeneralSectionQuestions.DAYLIGHT]">
-      <p>
-        We do cater for daylight savings time adjustments.
-      </p>
-    </tm-instructor-help-panel>
-    <!-- Question -->
     <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(GeneralSectionQuestions.DATA_LAWS)"
                               [id]="GeneralSectionQuestions.DATA_LAWS"
                               headerText="Is TEAMMATES compliant with international data protection laws?"
