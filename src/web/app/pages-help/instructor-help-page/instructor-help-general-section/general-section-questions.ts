@@ -16,5 +16,10 @@ export enum GeneralSectionQuestions {
     /**
      * Teammates Free?
      */
-    FREE = 'free'
+    FREE = 'free',
+
+    /**
+     * Daylight savings
+     */
+    DAYLIGHT = 'daylight',
 }
