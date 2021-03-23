@@ -48,10 +48,10 @@ public class FeedbackSessionPublishedEmailWorkerActionTest
         action.execute();
 
         // 5 students and 5 instructors in course1
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
-        List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();

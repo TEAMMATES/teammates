@@ -60,7 +60,7 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             gateKeeper.verifyOwnership(frc, instructorAsFeedbackParticipant.getEmail());
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
             if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default

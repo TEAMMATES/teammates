@@ -8,25 +8,23 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
- * SUT: {@link GateKeeper}.
+ * SUT: {@link UserProvision}.
  */
-public class GateKeeperTest extends BaseLogicTest {
+public class UserProvisionTest extends BaseLogicTest {
 
-    private static GateKeeper gateKeeper = new GateKeeper();
+    private static UserProvision userProvision = new UserProvision();
 
     @Test
     public void testGetLoginUrl() {
         gaeSimulation.logoutUser();
-        assertEquals("/_ah/login?continue=www.abc.com", gateKeeper.getLoginUrl("www.abc.com"));
+        assertEquals("/_ah/login?continue=www.abc.com", userProvision.getLoginUrl("www.abc.com"));
     }
 
     @Test
     public void testGetLogoutUrl() {
         gaeSimulation.loginUser("any.user");
-        assertEquals("/_ah/logout?continue=www.def.com", gateKeeper.getLogoutUrl("www.def.com"));
+        assertEquals("/_ah/logout?continue=www.def.com", userProvision.getLogoutUrl("www.def.com"));
     }
-
-    //TODO: test isUserLoggedIn method
 
     @Test
     public void testGetCurrentUser() throws Exception {
@@ -47,7 +45,7 @@ public class GateKeeperTest extends BaseLogicTest {
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 
-        UserInfo user = gateKeeper.getCurrentUser();
+        UserInfo user = userProvision.getCurrentUser();
         assertEquals(instructor.googleId, user.id);
         assertTrue(user.isAdmin);
         assertTrue(user.isInstructor);
@@ -57,7 +55,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
         gaeSimulation.loginUser("unknown");
 
-        user = gateKeeper.getCurrentUser();
+        user = userProvision.getCurrentUser();
         assertEquals("unknown", user.id);
         assertFalse(user.isAdmin);
         assertFalse(user.isInstructor);
@@ -67,7 +65,7 @@ public class GateKeeperTest extends BaseLogicTest {
 
         // check for user not logged in
         gaeSimulation.logoutUser();
-        assertNull(gateKeeper.getCurrentUser());
+        assertNull(userProvision.getCurrentUser());
     }
 
 }

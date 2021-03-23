@@ -1362,4 +1362,11 @@ public class Logic {
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
+    public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(student1Email);
+        Assumption.assertNotNull(student2Email);
+        return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
+    }
+
 }
