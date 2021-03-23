@@ -593,7 +593,6 @@ public final class FeedbackQuestionsLogic {
         case NONE:
             break;
         case STUDENTS:
-            //fallthrough
         case STUDENTS_EXCLUDING_SELF:
             List<StudentAttributes> studentList =
                     studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -609,7 +608,6 @@ public final class FeedbackQuestionsLogic {
             optionList.sort(null);
             break;
         case TEAMS:
-            //fallthrough
         case TEAMS_EXCLUDING_SELF:
             try {
                 List<String> teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -628,20 +626,21 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
-            //fallthrough
         case OWN_TEAM_MEMBERS:
-            List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
-                    feedbackQuestionAttributes.getCourseId());
+            if (teamOfEntityDoingQuestion != null) {
+                List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
+                        feedbackQuestionAttributes.getCourseId());
 
-            if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
-                teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                }
+
+                teamMembers.forEach(teamMember -> {
+                    optionList.add(teamMember.getName());
+                });
+
+                optionList.sort(null);
             }
-
-            teamMembers.forEach(teamMember -> {
-                optionList.add(teamMember.getName());
-            });
-
-            optionList.sort(null);
             break;
         case INSTRUCTORS:
             List<InstructorAttributes> instructorList =
