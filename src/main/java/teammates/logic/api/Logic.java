@@ -638,6 +638,22 @@ public class Logic {
     }
 
     /**
+     * Creates a batch of students.
+     *
+     * @return the created students.
+     * @throws InvalidParametersException if the student is not valid.
+     */
+    public List<StudentAttributes> createStudents(List<StudentAttributes> students)
+            throws InvalidParametersException, EntityAlreadyExistsException {
+        for (StudentAttributes student : students) {
+            Assumption.assertNotNull(student.getCourse());
+            Assumption.assertNotNull(student.getEmail());
+        }
+
+        return studentsLogic.createStudents(students);
+    }
+
+    /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *
      * <p>If email changed, update by recreating the student and cascade update all responses the student gives/receives.
@@ -749,6 +765,44 @@ public class Logic {
         Assumption.assertNotNull(courseId);
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
+    }
+
+    /**
+     * Merge all the students expected to be enrolled with the students currently in the course from input.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @param studentsToEnroll the students to be enrolled or updated
+     * @param studentsAlreadyInCourse the students already in the course
+     * @return list of students expected in a course after enrolment
+     */
+    public List<StudentAttributes> getEnrolmentTargetList(
+            List<StudentAttributes> studentsToEnroll, List<StudentAttributes> studentsAlreadyInCourse) {
+
+        Assumption.assertNotNull(studentsToEnroll);
+        Assumption.assertNotNull(studentsAlreadyInCourse);
+
+        return studentsLogic.getEnrollmentTargetList(studentsToEnroll, studentsAlreadyInCourse);
+
+    }
+
+    /**
+     * Validates merged list of students of their sections for any limit violations and teams for any team name
+     * violations.
+     *
+     * <p>Built as a way to reduce the datastore access when the data is readily available.
+     *
+     * <p>Preconditions: <br>
+     * * All parameters are non-null.
+     *
+     * @see StudentsLogic#validateSectionsAndTeamsFromMergedList(List)
+     */
+    public void validateSectionsAndTeamsFromMergedList(List<StudentAttributes> mergedList) throws EnrollException {
+
+        Assumption.assertNotNull(mergedList);
+
+        studentsLogic.validateSectionsAndTeamsFromMergedList(mergedList);
     }
 
     /**

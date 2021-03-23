@@ -60,17 +60,19 @@ class EnrollStudentsAction extends Action {
                     .build());
         });
 
+        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
+        List<StudentAttributes> enrolmentTargetList = logic.getEnrolmentTargetList(studentsToEnroll, existingStudents);
+
         try {
-            logic.validateSectionsAndTeams(studentsToEnroll, courseId);
+            logic.validateSectionsAndTeamsFromMergedList(enrolmentTargetList);
         } catch (EnrollException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 
-        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
-
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
+        List<StudentAttributes> studentsToCreateInBatch = new ArrayList<>();
         studentsToEnroll.forEach(student -> {
             if (existingStudentsEmail.contains(student.email)) {
                 // The student has been enrolled in the course.
@@ -91,15 +93,16 @@ class EnrollStudentsAction extends Action {
                 }
             } else {
                 // The student is new.
-                try {
-                    StudentAttributes newStudent = logic.createStudent(student);
-                    enrolledStudents.add(newStudent);
-                } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
-                    // Unsuccessfully enrolled students will not be returned.
-                    return;
-                }
+                studentsToCreateInBatch.add(student);
             }
         });
+
+        try {
+            enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
+        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
+            // Unsuccessfully created students will not be returned
+        }
+
         return new JsonResult(new StudentsData(enrolledStudents));
     }
 }

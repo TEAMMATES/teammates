@@ -142,6 +142,52 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     }
 
     /**
+     * Creates a collection of entities in the datastore without existence checking.
+     * The call is silent about invalid/existing entities.
+     *
+     * <p>The documents of the associated entities (if applicable) WILL NOT be updated.
+     *
+     * @return created entities
+     */
+    public List<A> createEntitiesSilent(Collection<A> entitiesToAdd) {
+        return createEntitiesSilent(entitiesToAdd, true);
+    }
+
+    /**
+     * Creates a collection of entities in the datastore without existence checking.
+     * The call is silent about invalid/existing entities.
+     *
+     * <p>The documents of the associated entities (if applicable) WILL NOT be updated.
+     *
+     * @return created entities
+     */
+    public List<A> createEntitiesSilent(Collection<A> entitiesToAdd, boolean shouldCheckExistence) {
+        Assumption.assertNotNull(entitiesToAdd);
+
+        List<E> entities = new ArrayList<>();
+
+        for (A entityToAdd : entitiesToAdd) {
+            entityToAdd.sanitizeForSaving();
+
+            if (!entityToAdd.isValid()) {
+                continue;
+            }
+
+            if (shouldCheckExistence && hasExistingEntities(entityToAdd)) {
+                continue;
+            }
+
+            E entity = entityToAdd.toEntity();
+            entities.add(entity);
+        }
+
+        log.info("Entity created in batch: " + JsonUtils.toJson(entities));
+        ofy().save().entities(entities).now();
+
+        return makeAttributes(entities);
+    }
+
+    /**
      * Checks whether two values are the same.
      */
     <T> boolean hasSameValue(T oldValue, T newValue) {

@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -117,6 +118,23 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         putDocument(createdStudent);
 
         return createdStudent;
+    }
+
+    /**
+     * Creates a batch of students.
+     *
+     * @return the created students
+     * @throws InvalidParametersException if the student is not valid
+     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     */
+    @Override
+    public List<StudentAttributes> putEntities(Collection<StudentAttributes> students)
+            throws InvalidParametersException {
+
+        List<StudentAttributes> createdStudents = super.createEntitiesSilent(students);
+        putDocuments(createdStudents);
+
+        return createdStudents;
     }
 
     /**
