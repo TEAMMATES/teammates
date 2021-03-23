@@ -56,6 +56,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {
+  LOG_RETENTION_DAYS: number = 30;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -69,6 +70,8 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     studentName: '',
     isSearchDisabled: true,
   };
+  dateToday: DateFormat = { year: 0, month: 0, day: 0 };
+  earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   courses: Course[] = [];
   courseToStudents: Record<string, Student[]> = {};
   searchResults: FeedbackSessionLogModel[] = [];
@@ -82,6 +85,18 @@ export class InstructorAuditLogsPageComponent implements OnInit {
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
+    const today: Date = new Date();
+    this.dateToday.year = today.getFullYear();
+    this.dateToday.month = today.getMonth() + 1;
+    this.dateToday.day = today.getDate();
+
+    const earliestSearchDate: Date = new Date(Date.now() - this.LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+    this.earliestSearchDate.year = earliestSearchDate.getFullYear();
+    this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
+    this.earliestSearchDate.day = earliestSearchDate.getDate();
+
+    this.formModel.logsDateFrom = { ...this.dateToday };
+    this.formModel.logsDateTo = { ...this.dateToday };
     this.loadData();
   }
 

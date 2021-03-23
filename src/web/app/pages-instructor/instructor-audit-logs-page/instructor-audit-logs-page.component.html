@@ -1,5 +1,5 @@
 <h1>Student Activity Logs</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course.</p>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Please note that the earliest date you can search for is 30 days before today.</p>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -23,7 +23,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
             <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -53,7 +53,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
             <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
