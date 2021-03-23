@@ -38,6 +38,7 @@ import teammates.test.MockFileStorage;
 import teammates.test.MockLogsProcessor;
 import teammates.test.MockPart;
 import teammates.test.MockTaskQueuer;
+import teammates.test.MockUserProvision;
 import teammates.ui.request.BasicRequest;
 
 /**
@@ -57,6 +58,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected MockEmailSender mockEmailSender = new MockEmailSender();
     protected MockFileStorage mockFileStorage = new MockFileStorage();
     protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
+    protected MockUserProvision mockUserProvision = new MockUserProvision();
 
     protected abstract String getActionUri();
 
@@ -91,7 +93,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
         return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies,
-                mockTaskQueuer, mockEmailSender, mockFileStorage, mockLogsProcessor, params);
+                mockTaskQueuer, mockEmailSender, mockFileStorage, mockLogsProcessor, mockUserProvision, params);
     }
 
     /**
@@ -142,7 +144,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Logs in the user to the GAE simulation environment as an admin.
      */
     protected void loginAsAdmin() {
-        UserInfo user = gaeSimulation.loginAsAdmin("admin.user");
+        UserInfo user = mockUserProvision.loginAsAdmin("admin.user");
         assertTrue(user.isAdmin);
     }
 
@@ -151,7 +153,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertFalse(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -162,7 +164,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertFalse(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -173,7 +175,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -184,10 +186,17 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
+    }
+
+    /**
+     * Logs the current user out of the GAE simulation environment.
+     */
+    protected void logoutUser() {
+        mockUserProvision.logoutUser();
     }
 
     protected void grantInstructorWithSectionPrivilege(
@@ -263,7 +272,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("Non-logged-in users can access");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCanAccess(params);
 
     }
@@ -272,7 +281,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("Non-logged-in users cannot access");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCannotAccess(params);
 
     }
