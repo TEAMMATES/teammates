@@ -1,7 +1,7 @@
 package teammates.common.datatransfer;
 
 /**
- * The result fetching type to indicate whether the fetch is for giver only, receiver only or both.
+ * The FeedbackResponse result fetching type to indicate whether the fetch is for giver only, receiver only or both.
  */
 public enum ResultFetchType {
     /**
