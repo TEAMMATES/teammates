@@ -285,6 +285,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       return;
     }
 
+    const missingRespMap: Map<string, ResponseOutput> = new Map();
     const tempMap: Map<string, ResponseOutput> = new Map();
 
     this.courseService.getCourseSectionNames(this.session.courseId)
@@ -315,7 +316,10 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
             if (resp.questions.length) {
               const responses: QuestionOutput = resp.questions[0];
               responses.allResponses
-                .forEach((response: ResponseOutput) => tempMap.set(response.responseId, response));
+                .forEach((response: ResponseOutput) =>
+                  !response.isMissingResponse
+                    ? tempMap.set(response.responseId, response)
+                    : missingRespMap.set(response.responseId, response));
               this.questionsModel[questionId].statistics =
                 QuestionStatistics.appendStats(
                   this.questionsModel[questionId].statistics,
@@ -326,6 +330,8 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           },
           complete: () => {
             tempMap.forEach((response: ResponseOutput) =>
+              this.questionsModel[questionId].responses.push(response));
+            missingRespMap.forEach((response: ResponseOutput) =>
               this.questionsModel[questionId].responses.push(response));
             this.questionsModel[questionId].hasPopulated = true;
           },
