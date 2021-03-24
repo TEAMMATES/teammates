@@ -69,7 +69,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
         );
 
-        ______TS("Failure case: invalid parameters");
+        ______TS("Failure case: invalid course id");
         String[] paramsInvalid1 = {
                 Const.ParamsNames.COURSE_ID, "fake-course-id",
                 Const.ParamsNames.STUDENT_EMAIL, student1Email,
@@ -79,6 +79,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         actionOutput = getJsonResult(getAction(paramsInvalid1));
         assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
 
+        ______TS("Failure case: invalid student email");
         String[] paramsInvalid2 = {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.STUDENT_EMAIL, "fake-student-email@gmail.com",
@@ -87,6 +88,23 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         };
         actionOutput = getJsonResult(getAction(paramsInvalid2));
         assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+
+        ______TS("Failure case: invalid start or end times");
+        String[] paramsInvalid3 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
+        };
+        actionOutput = getJsonResult(getAction(paramsInvalid3));
+        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+
+        String[] paramsInvalid4 = {
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
+        };
+        actionOutput = getJsonResult(getAction(paramsInvalid4));
+        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
         ______TS("Success case: should group by feedback session");
         String[] paramsSuccessful1 = {

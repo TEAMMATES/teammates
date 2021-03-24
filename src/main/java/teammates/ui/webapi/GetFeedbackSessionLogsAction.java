@@ -59,8 +59,14 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
-        Instant startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
-        Instant endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+        Instant startTime;
+        Instant endTime;
+        try {
+            startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
+            endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+        } catch (NumberFormatException e) {
+            return new JsonResult("Invalid start or end time", HttpStatus.SC_BAD_REQUEST);
+        }
         // TODO: we might want to impose limits on the time range from startTime to endTime
 
         if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
