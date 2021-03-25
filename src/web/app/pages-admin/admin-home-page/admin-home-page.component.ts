@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -85,29 +85,36 @@ export class AdminHomePageComponent {
    * Adds the instructor at the i-th index.
    */
   addInstructor(i: number): void {
+    this.asyncAddInstructor(i).then();
+  }
+
+  /**
+   * Adds the instructor at the i-th index.
+   */
+  async asyncAddInstructor(i: number): Promise<JoinLink | null> {
     const instructor: InstructorData = this.instructorsConsolidated[i];
     if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
-      return;
+      return null;
     }
     this.activeRequests += 1;
     instructor.status = 'ADDING';
 
     this.isAddingInstructors = true;
-    this.accountService.createAccount({
+    return this.accountService.createAccount({
       instructorEmail: instructor.email,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
-    })
-        .pipe(finalize(() => this.isAddingInstructors = false))
-        .subscribe((resp: JoinLink) => {
-          instructor.status = 'SUCCESS';
-          instructor.joinLink = resp.joinLink;
-          this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput) => {
-          instructor.status = 'FAIL';
-          instructor.message = resp.error.message;
-          this.activeRequests -= 1;
-        });
+    }).pipe(finalize(() => this.isAddingInstructors = false))
+      .pipe(tap((resp: JoinLink) => {
+        instructor.status = 'SUCCESS';
+        instructor.joinLink = resp.joinLink;
+        this.activeRequests -= 1;
+      }, (resp: ErrorMessageOutput) => {
+        instructor.status = 'FAIL';
+        instructor.message = resp.error.message;
+        this.activeRequests -= 1;
+      }),
+      ).toPromise();
   }
 
   /**
@@ -120,9 +127,9 @@ export class AdminHomePageComponent {
   /**
    * Adds all the pending and failed-to-add instructors.
    */
-  addAllInstructors(): void {
+  async addAllInstructors(): Promise<void> {
     for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      this.addInstructor(i);
+      await this.asyncAddInstructor(i);
     }
   }
 
