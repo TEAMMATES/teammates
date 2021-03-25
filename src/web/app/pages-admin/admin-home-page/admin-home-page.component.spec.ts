@@ -195,7 +195,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.activeRequests).toEqual(0);
   });
 
-  it('should add all instructors when prompted', () => {
+  it('should add all instructors one by one when prompted', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
@@ -231,8 +231,8 @@ describe('AdminHomePageComponent', () => {
 
     expect(component.instructorsConsolidated[0].status).toEqual('ADDING');
     expect(component.instructorsConsolidated[1].status).toEqual('SUCCESS');
-    expect(component.instructorsConsolidated[2].status).toEqual('ADDING');
-    expect(component.activeRequests).toEqual(2);
+    expect(component.instructorsConsolidated[2].status).toEqual('FAIL');
+    expect(component.activeRequests).toEqual(1);
   });
 
   it('should snap with default view', () => {
