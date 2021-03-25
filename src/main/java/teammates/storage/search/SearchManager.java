@@ -15,6 +15,8 @@ import teammates.common.util.StringHelper;
  */
 public final class SearchManager {
 
+    private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
+            "Search service is not implemented";
     private static final Logger log = Logger.getLogger();
 
     private String searchServiceHost;
@@ -46,7 +48,7 @@ public final class SearchManager {
      */
     public void putStudentSearchDocuments(StudentAttributes... students) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
         // TODO
@@ -57,7 +59,7 @@ public final class SearchManager {
      */
     public void deleteStudentSearchDocuments(String... keys) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
         // TODO
@@ -79,7 +81,7 @@ public final class SearchManager {
      */
     public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
         // TODO
@@ -90,7 +92,7 @@ public final class SearchManager {
      */
     public void deleteInstructorSearchDocuments(String... keys) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
         // TODO
