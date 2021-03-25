@@ -204,6 +204,12 @@ h6,
   }
 }
 
+.modal-window-class {
+  color: #000;
+  text-decoration: underline dashed #000;
+  cursor: pointer;
+}
+
 @media print {
   .no-print {
     display: none;

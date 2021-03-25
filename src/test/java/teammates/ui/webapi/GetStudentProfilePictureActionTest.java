@@ -66,7 +66,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success case: student gets his teammate's image");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student2InCourse1.googleId);
 
         submissionParams = new String[] {
@@ -81,7 +81,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: instructor with privilege views image of his student");
-        gaeSimulation.logoutUser();
+        logoutUser();
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
 
@@ -152,7 +152,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Failure case: student can only view his own team in the course");
 
         //student from another team
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student5InCourse1.googleId);
 
         String[] submissionParams = new String[] {
@@ -163,7 +163,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         verifyCannotAccess(submissionParams);
 
         //student from another course
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student1InCourse3.googleId);
 
         submissionParams = new String[] {
@@ -175,7 +175,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success case: student can only view his own team in the course");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student2InCourse1.googleId);
 
         submissionParams = new String[] {
@@ -187,7 +187,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success case: student can view his own photo but instructor or admin cannot");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student1InCourse1.googleId);
 
         verifyCanAccess();
@@ -196,7 +196,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success/Failure case: only instructors with privilege can view photo");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 

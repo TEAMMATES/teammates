@@ -39,7 +39,7 @@ class GetStudentProfileAction extends Action {
             if (student == null) {
                 throw new UnauthorizedAccessException(MESSAGE_STUDENT_NOT_FOUND);
             }
-            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(userInfo.id, courseId,
+            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(userInfo.id, courseId,
                     student.section, studentEmail);
         }
     }

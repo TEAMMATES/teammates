@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -44,15 +43,6 @@ public final class FileHelper {
     public static void saveFile(String filePath, String content) throws IOException {
         try (BufferedWriter fw = Files.newBufferedWriter(Paths.get(filePath))) {
             fw.write(content);
-        }
-    }
-
-    /**
-     * Saves the supplied content to the specified file path.
-     */
-    public static void saveFile(String filePath, byte[] content) throws IOException {
-        try (OutputStream os = Files.newOutputStream(Paths.get(filePath))) {
-            os.write(content);
         }
     }
 

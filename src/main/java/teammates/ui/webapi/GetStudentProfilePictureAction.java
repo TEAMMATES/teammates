@@ -38,7 +38,7 @@ class GetStudentProfilePictureAction extends Action {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(userInfo.id,
+            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(userInfo.id,
                     courseId, student.getSection(), student.getEmail());
         }
     }

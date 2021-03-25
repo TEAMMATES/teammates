@@ -115,6 +115,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isSaving: false,
     isEditable: false,
+    isDeleting: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -244,6 +246,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
+    this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
@@ -259,9 +262,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.copySingleSession(requestList[0]);
         }
         if (requestList.length > 1) {
-          forkJoin(requestList).subscribe(() => {
-            this.showCopyStatusMessage();
-          });
+          forkJoin(requestList)
+           .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+           .subscribe(() => {
+             this.showCopyStatusMessage();
+           });
         }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
@@ -309,6 +314,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
+      isDeleting: false,
+      isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
@@ -440,12 +447,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles deleting current feedback session.
    */
   deleteExistingSessionHandler(): void {
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName).subscribe(() => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
-          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    this.sessionEditFormModel.isDeleting = true;
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+     .pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
+     .subscribe(() => {
+       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+     },
+     (resp: ErrorMessageOutput) => {
+       this.statusMessageService.showErrorToast(resp.error.message);
+     });
   }
 
   /**
