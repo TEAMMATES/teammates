@@ -154,7 +154,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     }
 
     /**
-     * Creates a collection of entities in the datastore without existence checking.
+     * Creates a collection of entities in the datastore.
      * The call is silent about invalid/existing entities.
      *
      * <p>The documents of the associated entities (if applicable) WILL NOT be updated.

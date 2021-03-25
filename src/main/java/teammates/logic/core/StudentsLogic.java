@@ -64,11 +64,9 @@ public final class StudentsLogic {
      * Creates a batch of students.
      *
      * @return the created students.
-     * @throws InvalidParametersException if the student is not valid.
      */
-    public List<StudentAttributes> createStudents(List<StudentAttributes> students)
-            throws InvalidParametersException {
-        return studentsDb.putEntities(students);
+    public List<StudentAttributes> createStudents(List<StudentAttributes> students) {
+        return studentsDb.createEntitiesSilent(students);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {

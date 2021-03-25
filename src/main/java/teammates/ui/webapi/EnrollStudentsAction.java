@@ -97,11 +97,7 @@ class EnrollStudentsAction extends Action {
             }
         });
 
-        try {
-            enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
-        } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            // Unsuccessfully created students will not be returned
-        }
+        enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
 
         return new JsonResult(new StudentsData(enrolledStudents));
     }

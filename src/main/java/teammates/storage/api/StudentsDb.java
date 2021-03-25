@@ -124,12 +124,9 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Creates a batch of students.
      *
      * @return the created students
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
      */
     @Override
-    public List<StudentAttributes> putEntities(Collection<StudentAttributes> students)
-            throws InvalidParametersException {
+    public List<StudentAttributes> createEntitiesSilent(Collection<StudentAttributes> students) {
 
         List<StudentAttributes> createdStudents = super.createEntitiesSilent(students);
         putDocuments(createdStudents);
