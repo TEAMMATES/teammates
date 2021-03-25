@@ -125,7 +125,8 @@ export class AdminHomePageComponent {
   }
 
   /**
-   * Adds all the pending and failed-to-add instructors.
+   * Adds all the pending and failed-to-add instructors one by one.
+   * Refer to https://github.com/TEAMMATES/teammates/issues/11039
    */
   async addAllInstructors(): Promise<void> {
     for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
