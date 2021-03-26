@@ -36,11 +36,6 @@ public class InstructorSearchPage extends AppPage {
         return getPageTitle().contains("Search");
     }
 
-    public void verifyNumCoursesInStudentResults(int expectedNum) {
-        List<WebElement> studentCoursesResult = getStudentCoursesResult();
-        assertEquals(expectedNum, studentCoursesResult.size());
-    }
-
     public void search(String searchTerm) {
         searchKeyword.clear();
         searchKeyword.sendKeys(searchTerm);
