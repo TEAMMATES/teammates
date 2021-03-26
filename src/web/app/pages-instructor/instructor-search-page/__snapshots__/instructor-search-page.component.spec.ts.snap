@@ -19,6 +19,11 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
         <div
           class="text-muted"
         >
+           You can search for students from all your courses here. 
+        </div>
+        <div
+          class="text-muted"
+        >
            Search Tips:
           <br />
           <ul>
@@ -82,6 +87,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
       <div
         class="card-body"
       >
+        <div
+          class="text-muted"
+        >
+           You can search for students from all your courses here. 
+        </div>
         <div
           class="text-muted"
         >
@@ -606,6 +616,11 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
       <div
         class="card-body"
       >
+        <div
+          class="text-muted"
+        >
+           You can search for students from all your courses here. 
+        </div>
         <div
           class="text-muted"
         >
