@@ -31,6 +31,7 @@ class CreateFeedbackSessionLogAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String fsName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 
         try {
             logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);
