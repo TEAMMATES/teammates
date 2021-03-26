@@ -1,12 +1,20 @@
 package teammates.storage.search;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
@@ -17,6 +25,9 @@ public final class SearchManager {
 
     private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
             "Search service is not implemented";
+    private static final String ERROR_PUT_DOCUMENT =
+            "Failed to put document(s) %s into Solr. Root cause: %s ";
+    private static final String STUDENT_COLLECTION_NAME = "students";
     private static final Logger log = Logger.getLogger();
 
     private String searchServiceHost;
@@ -27,6 +38,10 @@ public final class SearchManager {
 
     private boolean isSearchServiceActive() {
         return !StringHelper.isEmpty(searchServiceHost);
+    }
+
+    private HttpSolrClient getSolrClient() {
+        return new HttpSolrClient.Builder(searchServiceHost).build();
     }
 
     /**
@@ -51,7 +66,17 @@ public final class SearchManager {
             log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
-        // TODO
+
+        SolrClient client = getSolrClient();
+
+        List<SolrInputDocument> studentDocs = new ArrayList<>();
+
+        for (StudentAttributes student : students) {
+            SolrInputDocument studentDoc = new StudentSearchDocument(student).build();
+            studentDocs.add(studentDoc);
+        }
+
+        addDocumentsToCollection(client, studentDocs, STUDENT_COLLECTION_NAME);
     }
 
     /**
@@ -96,6 +121,20 @@ public final class SearchManager {
             return;
         }
         // TODO
+    }
+
+    private void addDocumentsToCollection(SolrClient client, List<SolrInputDocument> docs,
+                                          String collectionName) {
+        try {
+            client.add(collectionName, docs);
+            client.commit(collectionName);
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_PUT_DOCUMENT, docs, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_PUT_DOCUMENT, docs, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
 }
