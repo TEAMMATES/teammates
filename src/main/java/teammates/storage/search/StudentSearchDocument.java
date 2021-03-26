@@ -52,23 +52,6 @@ public class StudentSearchDocument extends SearchDocument {
     /**
      * Produces a {@link StudentSearchResultBundle} from the {@code QueryResponse} collection.
      *
-     * <p>This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID.</p>
-     */
-    public static StudentSearchResultBundle fromResponse(QueryResponse response) {
-        if (response == null) {
-            return new StudentSearchResultBundle();
-        }
-
-        StudentSearchResultBundle bundle = constructBaseBundle(response.getResults());
-        sortStudentResultList(bundle.studentList);
-
-        return bundle;
-    }
-
-    /**
-     * Produces a {@link StudentSearchResultBundle} from the {@code QueryResponse} collection.
-     *
      * <p>The list of {@link InstructorAttributes} is used to filter out the search result.</p>
      *
      * <p>This method should be used by admin only since the searching does not restrict the
