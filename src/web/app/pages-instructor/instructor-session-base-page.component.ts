@@ -287,7 +287,6 @@ export abstract class InstructorSessionBasePageComponent {
     const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
-
     let downloadAborted: boolean = false;
     const out: string[] = [];
 
