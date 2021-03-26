@@ -30,6 +30,7 @@ public final class Const {
     public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
+    public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
     /*
      * These constants are used as variable values to mean that the variable
