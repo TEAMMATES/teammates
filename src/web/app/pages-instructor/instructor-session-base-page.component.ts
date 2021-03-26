@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { from, Observable, of } from 'rxjs';
-import { catchError, concatMap, finalize, last, switchMap } from 'rxjs/operators';
+import { concat, from, Observable, of, } from 'rxjs';
+import { catchError, concatMap, finalize, last, switchMap, takeWhile } from 'rxjs/operators';
 import { ProgressBarService } from 'src/web/services/progress-bar.service';
 import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
@@ -287,6 +287,7 @@ export abstract class InstructorSessionBasePageComponent {
     const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
+
     let downloadAborted: boolean = false;
     const out: string[] = [];
 
@@ -300,19 +301,47 @@ export abstract class InstructorSessionBasePageComponent {
       downloadAborted = true;
     });
 
-    this.feedbackSessionsService.downloadSessionResults(
-      model.feedbackSession.courseId,
-      model.feedbackSession.feedbackSessionName,
-      Intent.INSTRUCTOR_RESULT,
-      true,
-      true,
-    ) .pipe(finalize(() => this.isResultActionLoading = false))
-      .subscribe((resp: string) => {
-        blob = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
-      });
+    this.feedbackQuestionsService.getFeedbackQuestions({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      intent: Intent.INSTRUCTOR_RESULT
+    }).subscribe((feedbackQuestions: FeedbackQuestions) => {
+      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
+      concat(
+        ...questions.map((question: FeedbackQuestion) => 
+          this.feedbackSessionsService.downloadSessionResults(
+              model.feedbackSession.courseId,
+              model.feedbackSession.feedbackSessionName,
+              Intent.INSTRUCTOR_RESULT,
+              true,
+              true,
+              question.feedbackQuestionId,
+          ),
+        ),
+      ).pipe(finalize(() => this.isResultActionLoading = false))
+        .pipe(takeWhile(() => this.isResultActionLoading))
+        .subscribe({
+          next: (resp: string) => {
+            out.push(resp);
+            numberOfQuestionsDownloaded += 1;
+            const totalNumberOfQuestions: number = questions.length;
+            const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
+            this.progressBarService.updateProgress(progressPercentage);
+          },
+          complete: () => {
+            if (downloadAborted) {
+              return;
+            }
+            loadingModal.close();
+            blob = new Blob(out, { type: 'text/csv' });
+            saveAs(blob, filename);
+          },
+          error: (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(resp.error.message);
+            loadingModal.close();
+          },
+        });
+    });
   }
 
   /**
