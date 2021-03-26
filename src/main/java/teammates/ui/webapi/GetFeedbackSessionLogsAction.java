@@ -51,6 +51,10 @@ public class GetFeedbackSessionLogsAction extends Action {
         if (email != null && logic.getStudentForEmail(courseId, email) == null) {
             return new JsonResult("Student not found", HttpStatus.SC_NOT_FOUND);
         }
+        String feedbackSessionName  = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            return new JsonResult("Feedback Session not found", HttpStatus.SC_NOT_FOUND);
+        }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
         Instant startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
@@ -59,7 +63,7 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         try {
             List<FeedbackSessionLogEntry> fsLogEntries =
-                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+                    logsProcessor.getFeedbackSessionLogs(courseId, email, feedbackSessionName, startTime, endTime);
             Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries =
                     groupFeedbackSessionLogEntries(courseId, fsLogEntries);
             FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries);

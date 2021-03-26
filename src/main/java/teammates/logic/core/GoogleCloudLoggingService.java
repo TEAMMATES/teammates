@@ -134,11 +134,12 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) throws LogServiceException {
+            String feedbackSessionName, Instant startTime, Instant endTime) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .setLogName(FEEDBACK_SESSION_LOG_NAME)
                 .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
                 .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
+                .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, feedbackSessionName)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
         List<LogEntry> logEntries = getLogEntries(logSearchParams);
