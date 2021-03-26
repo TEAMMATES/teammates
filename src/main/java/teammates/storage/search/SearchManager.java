@@ -28,6 +28,7 @@ public final class SearchManager {
     private static final String ERROR_PUT_DOCUMENT =
             "Failed to put document(s) %s into Solr. Root cause: %s ";
     private static final String STUDENT_COLLECTION_NAME = "students";
+    private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
     private static final Logger log = Logger.getLogger();
 
     private String searchServiceHost;
@@ -109,7 +110,17 @@ public final class SearchManager {
             log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
-        // TODO
+
+        SolrClient client = getSolrClient();
+
+        List<SolrInputDocument> instructorDocs = new ArrayList<>();
+
+        for (InstructorAttributes instructor : instructors) {
+            SolrInputDocument instructorDoc = new InstructorSearchDocument(instructor).build();
+            instructorDocs.add(instructorDoc);
+        }
+
+        addDocumentsToCollection(client, instructorDocs, INSTRUCTOR_COLLECTION_NAME);
     }
 
     /**
