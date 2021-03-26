@@ -2,12 +2,12 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin } from 'rxjs';
 import { finalize } from 'rxjs/operators';
-import { ProgressBarService } from 'src/web/services/progress-bar.service';
-import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
+import { ProgressBarService } from '../../services/progress-bar.service';
+import { SimpleModalService } from '../../services/simple-modal.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
@@ -53,7 +53,7 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         progressBarService: ProgressBarService,
                         protected studentService: StudentService) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, 
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
         ngbModal, simpleModalService, progressBarService);
   }
 

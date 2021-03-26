@@ -4,13 +4,13 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
-import { ProgressBarService } from 'src/web/services/progress-bar.service';
-import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -160,7 +160,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, ngbModalService, 
+        feedbackQuestionsService, tableComparatorService, ngbModalService,
         simpleModalService, progressBarService, studentService);
   }
 

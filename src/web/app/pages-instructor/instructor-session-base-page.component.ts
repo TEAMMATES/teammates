@@ -1,14 +1,14 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { concat, from, Observable, of, } from 'rxjs';
+import { concat, from, Observable, of } from 'rxjs';
 import { catchError, concatMap, finalize, last, switchMap, takeWhile } from 'rxjs/operators';
-import { ProgressBarService } from 'src/web/services/progress-bar.service';
-import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
+import { ProgressBarService } from '../../services/progress-bar.service';
+import { SimpleModalService } from '../../services/simple-modal.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
 import {
@@ -46,7 +46,7 @@ export abstract class InstructorSessionBasePageComponent {
                         protected tableComparatorService: TableComparatorService,
                         protected ngbModal: NgbModal,
                         protected simpleModalService: SimpleModalService,
-                        protected progressBarService: ProgressBarService,) { }
+                        protected progressBarService: ProgressBarService) { }
 
   /**
    * Copies a feedback session.
@@ -304,11 +304,11 @@ export abstract class InstructorSessionBasePageComponent {
     this.feedbackQuestionsService.getFeedbackQuestions({
       courseId: model.feedbackSession.courseId,
       feedbackSessionName: model.feedbackSession.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT
+      intent: Intent.INSTRUCTOR_RESULT,
     }).subscribe((feedbackQuestions: FeedbackQuestions) => {
       const questions: FeedbackQuestion[] = feedbackQuestions.questions;
       concat(
-        ...questions.map((question: FeedbackQuestion) => 
+        ...questions.map((question: FeedbackQuestion) =>
           this.feedbackSessionsService.downloadSessionResults(
               model.feedbackSession.courseId,
               model.feedbackSession.feedbackSessionName,
