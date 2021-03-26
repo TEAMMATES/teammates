@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { forkJoin, Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
+import { ProgressBarService } from 'src/web/services/progress-bar.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -85,10 +86,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
-              private simpleModalService: SimpleModalService,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private courseService: CourseService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, ngbModal, studentService);
+        feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService, 
+        progressBarService, studentService);
   }
 
   ngOnInit(): void {

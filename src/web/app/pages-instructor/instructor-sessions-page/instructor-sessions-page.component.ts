@@ -4,6 +4,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, map, switchMap, tap } from 'rxjs/operators';
+import { ProgressBarService } from 'src/web/services/progress-bar.service';
+import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
@@ -152,11 +154,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, ngbModalService, studentService);
+        feedbackQuestionsService, tableComparatorService, ngbModalService, 
+        simpleModalService, progressBarService, studentService);
   }
 
   ngOnInit(): void {

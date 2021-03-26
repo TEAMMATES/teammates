@@ -4,6 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, flatMap, map, switchMap, tap } from 'rxjs/operators';
+import { ProgressBarService } from 'src/web/services/progress-bar.service';
 import { CourseService } from '../../../services/course.service';
 import {
   CommonVisibilitySetting,
@@ -189,14 +190,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               feedbackQuestionsService: FeedbackQuestionsService,
               tableComparatorService: TableComparatorService,
               ngbModal: NgbModal,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private simpleModalService: SimpleModalService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, 
+        ngbModal, simpleModalService, progressBarService);
   }
 
   ngOnInit(): void {

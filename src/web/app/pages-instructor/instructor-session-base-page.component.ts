@@ -3,6 +3,8 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { from, Observable, of } from 'rxjs';
 import { catchError, concatMap, finalize, last, switchMap } from 'rxjs/operators';
+import { ProgressBarService } from 'src/web/services/progress-bar.service';
+import { SimpleModalService } from 'src/web/services/simple-modal.service';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -21,6 +23,7 @@ import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -41,7 +44,9 @@ export abstract class InstructorSessionBasePageComponent {
                         protected feedbackSessionsService: FeedbackSessionsService,
                         protected feedbackQuestionsService: FeedbackQuestionsService,
                         protected tableComparatorService: TableComparatorService,
-                        protected ngbModal: NgbModal) { }
+                        protected ngbModal: NgbModal,
+                        protected simpleModalService: SimpleModalService,
+                        protected progressBarService: ProgressBarService,) { }
 
   /**
    * Copies a feedback session.
@@ -282,6 +287,18 @@ export abstract class InstructorSessionBasePageComponent {
     const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
+    let downloadAborted: boolean = false;
+    const out: string[] = [];
+
+    let numberOfQuestionsDownloaded: number = 0;
+    const modalContent: string =
+    'Downloading the results of your feedback session...';
+    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
+        'Download Progress', SimpleModalType.LOAD, modalContent);
+    loadingModal.result.then(() => {
+      this.isResultActionLoading = false;
+      downloadAborted = true;
+    });
 
     this.feedbackSessionsService.downloadSessionResults(
       model.feedbackSession.courseId,
