@@ -46,7 +46,7 @@ public final class SearchManager {
      */
     public void putStudentSearchDocuments(StudentAttributes... students) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.warning("Search service is not implemented");
             return;
         }
         // TODO
@@ -57,7 +57,7 @@ public final class SearchManager {
      */
     public void deleteStudentSearchDocuments(String... keys) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.warning("Search service is not implemented");
             return;
         }
         // TODO
@@ -79,7 +79,7 @@ public final class SearchManager {
      */
     public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.warning("Search service is not implemented");
             return;
         }
         // TODO
@@ -90,7 +90,7 @@ public final class SearchManager {
      */
     public void deleteInstructorSearchDocuments(String... keys) {
         if (!isSearchServiceActive()) {
-            log.severe("Search service is not implemented");
+            log.warning("Search service is not implemented");
             return;
         }
         // TODO
