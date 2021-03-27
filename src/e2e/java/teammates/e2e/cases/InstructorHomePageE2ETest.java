@@ -17,7 +17,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.InstructorHomePage;
-import teammates.e2e.pageobjects.InstructorSearchPage;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -69,26 +68,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(instructor.googleId);
         InstructorHomePage homePage = loginAdminToPage(url, InstructorHomePage.class);
-
-        if (TestProperties.INCLUDE_SEARCH_TESTS) {
-            ______TS("search for valid student");
-            InstructorSearchPage searchPage = homePage.searchKeyword(studentToEmail.getName());
-            searchPage.waitForPageToLoad();
-
-            // Here, it is sufficient to ensure that the number of search results matches
-            // A more thorough testing of this page will be done in its own E2E test
-
-            searchPage.verifyNumCoursesInStudentResults(2);
-            homePage = getNewPageInstance(url, InstructorHomePage.class);
-
-            ______TS("search for invalid student");
-            searchPage = homePage.searchKeyword("INVALID");
-            searchPage.waitForPageToLoad(true);
-
-            searchPage.verifyStatusMessage("No results found.");
-            searchPage.verifyNumCoursesInStudentResults(0);
-            homePage = getNewPageInstance(url, InstructorHomePage.class);
-        }
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();

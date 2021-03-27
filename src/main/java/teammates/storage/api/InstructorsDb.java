@@ -365,7 +365,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (omitArchived) {
             return load()
                     .filter("googleId =", googleId)
-                    .filter("isArchived !=", true)
+                    .filter("isArchived =", false)
                     .list();
         }
         return getInstructorEntitiesForGoogleId(googleId);

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -31,25 +30,16 @@ export class InstructorSearchPageComponent implements OnInit {
   isSearching: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private statusMessageService: StatusMessageService,
     private searchService: SearchService,
     private courseService: CourseService,
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      if (queryParams.studentSearchkey) {
-        this.searchParams.searchKey = queryParams.studentSearchkey;
-      }
-      if (this.searchParams.searchKey) {
-        this.search();
-      }
-    });
   }
 
   /**
-   * Searches for students and questions/responses/comments matching the search query.
+   * Searches for students matching the search query.
    */
   search(): void {
     if (this.searchParams.searchKey === '') {

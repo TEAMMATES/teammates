@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.retry.RetryManager;
 import teammates.logic.api.LogicExtension;
 
 /**
@@ -38,11 +37,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @AfterClass
     public void tearDownGae() {
         gaeSimulation.tearDown();
-    }
-
-    @Override
-    protected RetryManager getPersistenceRetryManager() {
-        return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
     }
 
     @Override
