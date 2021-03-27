@@ -283,16 +283,26 @@ export abstract class InstructorSessionBasePageComponent {
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
+    this.feedbackQuestionsService.getFeedbackQuestions({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      intent: Intent.INSTRUCTOR_RESULT,
+    }).subscribe((feedbackQuestions: FeedbackQuestions) => {
+      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
+      this.downloadSessionResultHelper(questions, model);
+    });
+  }
+  
+  downloadSessionResultHelper(questions: FeedbackQuestion[], model: SessionsTableRowModel) {
     this.isResultActionLoading = true;
-    const filename: string =
+    const filename: string = 
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
     let downloadAborted: boolean = false;
-    const out: string[] = [];
+    const outputData: string[] = [];
 
     let numberOfQuestionsDownloaded: number = 0;
-    const modalContent: string =
-    'Downloading the results of your feedback session...';
+    const modalContent: string = 'Downloading the results of your feedback session...';
     const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
         'Download Progress', SimpleModalType.LOAD, modalContent);
     loadingModal.result.then(() => {
@@ -300,49 +310,41 @@ export abstract class InstructorSessionBasePageComponent {
       downloadAborted = true;
     });
 
-    this.feedbackQuestionsService.getFeedbackQuestions({
-      courseId: model.feedbackSession.courseId,
-      feedbackSessionName: model.feedbackSession.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
-    }).subscribe((feedbackQuestions: FeedbackQuestions) => {
-      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
-      concat(
-        ...questions.map((question: FeedbackQuestion) =>
-          this.feedbackSessionsService.downloadSessionResults(
-              model.feedbackSession.courseId,
-              model.feedbackSession.feedbackSessionName,
-              Intent.INSTRUCTOR_RESULT,
-              true,
-              true,
-              question.feedbackQuestionId,
-          ),
+    concat(
+      ...questions.map((question: FeedbackQuestion) =>
+        this.feedbackSessionsService.downloadSessionResults(
+            model.feedbackSession.courseId,
+            model.feedbackSession.feedbackSessionName,
+            Intent.INSTRUCTOR_RESULT,
+            true,
+            true,
+            question.feedbackQuestionId,
         ),
-      ).pipe(finalize(() => this.isResultActionLoading = false))
-        .pipe(takeWhile(() => this.isResultActionLoading))
-        .subscribe({
-          next: (resp: string) => {
-            out.push(resp);
-            numberOfQuestionsDownloaded += 1;
-            const totalNumberOfQuestions: number = questions.length;
-            const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
-            this.progressBarService.updateProgress(progressPercentage);
-          },
-          complete: () => {
-            if (downloadAborted) {
-              return;
-            }
-            loadingModal.close();
-            blob = new Blob(out, { type: 'text/csv' });
-            saveAs(blob, filename);
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-            loadingModal.close();
-          },
-        });
-    });
+      ),
+    ).pipe(finalize(() => this.isResultActionLoading = false))
+      .pipe(takeWhile(() => this.isResultActionLoading && !downloadAborted))
+      .subscribe({
+        next: (resp: string) => {
+          outputData.push(resp);
+          numberOfQuestionsDownloaded += 1;
+          const totalNumberOfQuestions: number = questions.length;
+          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
+          this.progressBarService.updateProgress(progressPercentage);
+        },
+        complete: () => {
+          if (downloadAborted) {
+            return;
+          }
+          loadingModal.close();
+          blob = new Blob(outputData, { type: 'text/csv' });
+          saveAs(blob, filename);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          loadingModal.close();
+        },
+      });
   }
-
   /**
    * Publishes a feedback session.
    */
