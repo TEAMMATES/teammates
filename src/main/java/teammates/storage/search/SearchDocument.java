@@ -42,8 +42,10 @@ public abstract class SearchDocument {
     static List<SolrDocument> filterOutCourseId(QueryResponse response,
                                                   List<InstructorAttributes> instructors) {
         Set<String> courseIdSet = new HashSet<>();
-        for (InstructorAttributes ins : instructors) {
-            courseIdSet.add(ins.courseId);
+        if (instructors != null) {
+            for (InstructorAttributes ins : instructors) {
+                courseIdSet.add(ins.courseId);
+            }
         }
 
         List<SolrDocument> filteredResults = new ArrayList<>();

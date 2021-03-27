@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.InstructorSearchResultBundle;
@@ -23,15 +25,23 @@ import teammates.common.util.StringHelper;
  */
 public final class SearchManager {
 
+    private static final Logger log = Logger.getLogger();
+
+    private static final String ERROR_DELETE_DOCUMENT =
+            "Failed to delete document(s) %s in Solr. Root cause: %s ";
+    private static final String ERROR_SEARCH_DOCUMENT =
+            "Failed to search for document(s) %s from Solr. Root cause: %s ";
     private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
             "Search service is not implemented";
     private static final String ERROR_PUT_DOCUMENT =
             "Failed to put document(s) %s into Solr. Root cause: %s ";
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
-    private static final Logger log = Logger.getLogger();
+
+    private static final String ID = "id";
 
     private String searchServiceHost;
+    private HttpSolrClient client;
 
     public SearchManager(String searchServiceHost) {
         this.searchServiceHost = searchServiceHost;
@@ -42,7 +52,10 @@ public final class SearchManager {
     }
 
     private HttpSolrClient getSolrClient() {
-        return new HttpSolrClient.Builder(searchServiceHost).build();
+        if (client == null) {
+            client = new HttpSolrClient.Builder(searchServiceHost).build();
+        }
+        return client;
     }
 
     /**
@@ -55,8 +68,23 @@ public final class SearchManager {
         if (!isSearchServiceActive()) {
             throw new SearchNotImplementedException();
         }
-        // TODO
-        throw new SearchNotImplementedException();
+
+        SolrClient client = getSolrClient();
+        QueryResponse response = null;
+        SolrQuery studentQuery = new SolrQuery();
+        studentQuery.setQuery(queryString);
+
+        try {
+            response = client.query(STUDENT_COLLECTION_NAME, studentQuery);
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+
+        return StudentSearchDocument.fromResponse(response, instructors);
     }
 
     /**
@@ -69,7 +97,6 @@ public final class SearchManager {
         }
 
         SolrClient client = getSolrClient();
-
         List<SolrInputDocument> studentDocs = new ArrayList<>();
 
         for (StudentAttributes student : students) {
@@ -88,7 +115,19 @@ public final class SearchManager {
             log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
-        // TODO
+
+        SolrClient client = getSolrClient();
+        String batchQueryString = ID + ":" + prepareBatchQueryString(keys);
+
+        try {
+            client.deleteByQuery(STUDENT_COLLECTION_NAME, batchQueryString);
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
     /**
@@ -98,8 +137,23 @@ public final class SearchManager {
         if (!isSearchServiceActive()) {
             throw new SearchNotImplementedException();
         }
-        // TODO
-        throw new SearchNotImplementedException();
+
+        SolrClient client = getSolrClient();
+        QueryResponse response = null;
+        SolrQuery instructorQuery = new SolrQuery();
+        instructorQuery.setQuery(queryString);
+
+        try {
+            response = client.query(INSTRUCTOR_COLLECTION_NAME, instructorQuery);
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+
+        return InstructorSearchDocument.fromResponse(response);
     }
 
     /**
@@ -112,7 +166,6 @@ public final class SearchManager {
         }
 
         SolrClient client = getSolrClient();
-
         List<SolrInputDocument> instructorDocs = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructors) {
@@ -131,7 +184,19 @@ public final class SearchManager {
             log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
-        // TODO
+
+        SolrClient client = getSolrClient();
+        String batchQueryString = ID + ":" + prepareBatchQueryString(keys);
+
+        try {
+            client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, batchQueryString);
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
     private void addDocumentsToCollection(SolrClient client, List<SolrInputDocument> docs,
@@ -148,4 +213,14 @@ public final class SearchManager {
         }
     }
 
+    private String prepareBatchQueryString(String... keys) {
+        String or = " OR ";
+        StringBuilder sb = new StringBuilder("(" + keys[0]);
+
+        for (int i = 1; i < keys.length; i++) {
+            sb.append(or).append(keys[i]);
+        }
+
+        return sb.toString() + ")";
+    }
 }
