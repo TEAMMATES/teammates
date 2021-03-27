@@ -25,7 +25,6 @@ import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.retry.RetryManager;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -232,6 +231,24 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void setupLocalDatastoreHelper() {
+        // Should be prepared separately
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void resetLocalDatastoreHelper() {
+        // Local datastore state should persist across e2e test suites
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void tearDownLocalDatastoreHelper() {
+        // Should be prepared separately
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void setupObjectify() {
         // Not necessary as BackDoor API is used instead
     }
@@ -252,11 +269,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void tearDownGae() {
         // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    protected RetryManager getPersistenceRetryManager() {
-        return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
     }
 
     protected AccountAttributes getAccount(String googleId) {
