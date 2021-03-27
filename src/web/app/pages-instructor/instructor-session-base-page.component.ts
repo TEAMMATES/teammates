@@ -292,10 +292,10 @@ export abstract class InstructorSessionBasePageComponent {
       this.downloadSessionResultHelper(questions, model);
     });
   }
-  
-  downloadSessionResultHelper(questions: FeedbackQuestion[], model: SessionsTableRowModel) {
+
+  downloadSessionResultHelper(questions: FeedbackQuestion[], model: SessionsTableRowModel): void {
     this.isResultActionLoading = true;
-    const filename: string = 
+    const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
     let downloadAborted: boolean = false;
