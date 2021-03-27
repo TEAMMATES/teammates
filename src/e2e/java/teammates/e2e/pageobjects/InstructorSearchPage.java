@@ -3,7 +3,6 @@ package teammates.e2e.pageobjects;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -12,15 +11,9 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Const;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 
 /**
@@ -34,12 +27,6 @@ public class InstructorSearchPage extends AppPage {
     @FindBy(id = "btn-search")
     private WebElement searchButton;
 
-    @FindBy(id = "students-checkbox")
-    private WebElement studentsCheckbox;
-
-    @FindBy(id = "comment-checkbox")
-    private WebElement commentCheckbox;
-
     public InstructorSearchPage(Browser browser) {
         super(browser);
     }
@@ -49,37 +36,22 @@ public class InstructorSearchPage extends AppPage {
         return getPageTitle().contains("Search");
     }
 
-    public void verifyNumCoursesInStudentResults(int expectedNum) {
-        List<WebElement> studentCoursesResult = getStudentCoursesResult();
-        assertEquals(expectedNum, studentCoursesResult.size());
-    }
-
-    public void search(boolean searchForStudents, boolean searchForComments, String searchTerm) {
-        if (searchForStudents && !studentsCheckbox.isSelected()
-                || !searchForStudents && studentsCheckbox.isSelected()) {
-            click(studentsCheckbox);
-        }
-
-        if (searchForComments && !commentCheckbox.isSelected()
-                || !searchForComments && commentCheckbox.isSelected()) {
-            click(commentCheckbox);
-        }
-
-        if (searchForStudents || searchForComments) {
-            searchKeyword.clear();
-            searchKeyword.sendKeys(searchTerm);
-            click(searchButton);
-            WebElement loadingContainer = null;
-            try {
-                loadingContainer = waitForElementPresence(By.className("loading-container"));
-            } catch (TimeoutException e) {
-                // loading has finished before this block is reached
-            }
-            if (loadingContainer != null) {
-                waitForElementStaleness(loadingContainer);
-            }
-        } else {
+    public void search(String searchTerm) {
+        searchKeyword.clear();
+        searchKeyword.sendKeys(searchTerm);
+        if (StringHelper.isEmpty(searchTerm)) {
             verifyUnclickable(searchButton);
+            return;
+        }
+        click(searchButton);
+        WebElement loadingContainer = null;
+        try {
+            loadingContainer = waitForElementPresence(By.className("loading-container"));
+        } catch (TimeoutException e) {
+            // loading has finished before this block is reached
+        }
+        if (loadingContainer != null) {
+            waitForElementStaleness(loadingContainer);
         }
     }
 
@@ -184,166 +156,6 @@ public class InstructorSearchPage extends AppPage {
         ThreadHelper.waitFor(2000);
         switchToNewWindow();
         return changePageType(InstructorStudentRecordsPage.class);
-    }
-
-    public void verifyCommentSearchResults(CommentSearchSessionResult[] commentSearchSessionResults,
-            Collection<StudentAttributes> students, Collection<InstructorAttributes> instructors) {
-        List<WebElement> sessionRows = browser.driver.findElements(By.className("comment-search-session"));
-        assertEquals(commentSearchSessionResults.length, sessionRows.size());
-
-        for (WebElement sessionRow : sessionRows) {
-            String sessionAndCourse = sessionRow.findElement(By.id("comment-search-session-name")).getText();
-
-            // Iterate as the result order may not be guaranteed
-            CommentSearchSessionResult matchedSession = null;
-            for (CommentSearchSessionResult sessionResult : commentSearchSessionResults) {
-                String expectedSessionAndCourse = String.format("Session: %s (%s)",
-                        sessionResult.session.getFeedbackSessionName(), sessionResult.session.getCourseId());
-                if (expectedSessionAndCourse.equals(sessionAndCourse)) {
-                    matchedSession = sessionResult;
-                    break;
-                }
-            }
-            if (matchedSession == null) {
-                fail("Session of comment is not found");
-            }
-
-            verifyResponsesAndComments(sessionRow, matchedSession, students, instructors);
-        }
-    }
-
-    private void verifyResponsesAndComments(WebElement sessionRow, CommentSearchSessionResult expectedSession,
-            Collection<StudentAttributes> students, Collection<InstructorAttributes> instructors) {
-        List<WebElement> responses = sessionRow.findElements(By.className("comment-search-response"));
-        assertEquals(expectedSession.responses.length, responses.size());
-
-        for (WebElement response : responses) {
-            String questionText = response.findElement(By.id("comment-search-question-text")).getText();
-            String responseGiverRecipient =
-                    response.findElement(By.id("comment-search-response-giver-recipient")).getText();
-
-            // Iterate as the result order may not be guaranteed
-            CommentSearchResponseResult matchedResponse = null;
-            for (CommentSearchResponseResult responseResult : expectedSession.responses) {
-                String expectedQuestionText = String.format("Question %d:%s%s",
-                        responseResult.question.questionNumber, System.lineSeparator(),
-                        responseResult.question.questionDetails.getQuestionText());
-
-                String giverName = getGiverName(responseResult.question.giverType,
-                        responseResult.response.giver, students, instructors);
-                String giverTeam = getGiverTeam(responseResult.question.giverType,
-                        responseResult.response.giver, students);
-
-                String expectedResponseGiverRecipient = String.format("From: %s (%s) To: %s",
-                        giverName, giverTeam, responseResult.response.recipient);
-
-                if (expectedQuestionText.equals(questionText)
-                        && expectedResponseGiverRecipient.equals(responseGiverRecipient)) {
-                    matchedResponse = responseResult;
-                    break;
-                }
-            }
-            if (matchedResponse == null) {
-                fail("Response of comment is not found");
-            }
-
-            verifyComments(response, matchedResponse, students, instructors);
-        }
-    }
-
-    private void verifyComments(WebElement response, CommentSearchResponseResult matchedResponse,
-            Collection<StudentAttributes> students, Collection<InstructorAttributes> instructors) {
-        List<WebElement> comments = response.findElements(By.className("comment-row"));
-        assertEquals(matchedResponse.comments.length, comments.size());
-
-        for (WebElement comment : comments) {
-            String commentGiverName = comment.findElement(By.id("comment-giver-name")).getText();
-            String commentText = comment.findElement(By.id("comment-text")).getText();
-
-            // Iterate as the result order may not be guaranteed
-            boolean hasMatch = false;
-            for (FeedbackResponseCommentAttributes frc : matchedResponse.comments) {
-                String expectedCommentGiverName = String.format("%s %s commented at",
-                        frc.isCommentFromFeedbackParticipant ? "Student" : "Instructor",
-                        getGiverName(frc.commentGiverType, frc.commentGiver, students, instructors));
-
-                // Normally, the comment text needs to be parsed for HTML and sanitized first.
-                // For E2E testing purpose, we will keep the comment simple and skip that step unless absolutely needed.
-                String expectedCommentText = frc.commentText;
-
-                if (expectedCommentGiverName.equals(commentGiverName)
-                        && expectedCommentText.equals(commentText)) {
-                    hasMatch = true;
-                    break;
-                }
-            }
-            if (!hasMatch) {
-                fail("Comment is not found");
-            }
-        }
-    }
-
-    private String getGiverName(FeedbackParticipantType giverType, String giverEmail,
-             Collection<StudentAttributes> students, Collection<InstructorAttributes> instructors) {
-        switch (giverType) {
-        case SELF:
-        case INSTRUCTORS:
-            InstructorAttributes matchedInstructor = instructors.stream()
-                    .filter(instructor -> instructor.email.equals(giverEmail))
-                    .findFirst()
-                    .orElse(null);
-            return matchedInstructor == null ? null : matchedInstructor.name;
-        case STUDENTS:
-            StudentAttributes matchedStudent = students.stream()
-                    .filter(student -> student.email.equals(giverEmail))
-                    .findFirst()
-                    .orElse(null);
-            return matchedStudent == null ? null : matchedStudent.name;
-        case TEAMS:
-            return giverEmail;
-        default:
-            throw new RuntimeException("Invalid giver type");
-        }
-    }
-
-    private String getGiverTeam(FeedbackParticipantType giverType, String giverEmail,
-            Collection<StudentAttributes> students) {
-        switch (giverType) {
-        case SELF:
-        case INSTRUCTORS:
-            return Const.USER_TEAM_FOR_INSTRUCTOR;
-        case STUDENTS:
-            StudentAttributes matchedStudent = students.stream()
-                    .filter(student -> student.email.equals(giverEmail))
-                    .findFirst()
-                    .orElse(null);
-            return matchedStudent == null ? null : matchedStudent.team;
-        case TEAMS:
-            return giverEmail;
-        default:
-            throw new RuntimeException("Invalid giver type");
-        }
-    }
-
-    /**
-     * Represents a session row (session + responses + comments) in the comment search result table.
-     */
-    public static class CommentSearchSessionResult {
-
-        public FeedbackSessionAttributes session;
-        public CommentSearchResponseResult[] responses;
-
-    }
-
-    /**
-     * Represents a response row (response + comments) in the comment search result table.
-     */
-    public static class CommentSearchResponseResult {
-
-        public FeedbackQuestionAttributes question;
-        public FeedbackResponseAttributes response;
-        public FeedbackResponseCommentAttributes[] comments;
-
     }
 
 }
