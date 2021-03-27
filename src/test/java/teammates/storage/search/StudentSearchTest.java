@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.storage.api.StudentsDb;
 import teammates.test.AssertHelper;
 import teammates.test.TestProperties;
@@ -164,6 +166,18 @@ public class StudentSearchTest extends BaseSearchTest {
         AssertHelper.assertSameContentIgnoreOrder(
                 Arrays.asList(stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
                 bundle.studentList);
+    }
+
+    @Test
+    public void testSearchStudents_noSearchService_shouldThrowException() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        assertThrows(SearchNotImplementedException.class,
+                () -> studentsDb.search("anything", new ArrayList<>()));
+        assertThrows(SearchNotImplementedException.class,
+                () -> studentsDb.searchStudentsInWholeSystem("anything"));
     }
 
 }

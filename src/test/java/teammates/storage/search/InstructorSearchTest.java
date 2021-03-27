@@ -8,6 +8,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
@@ -196,6 +197,16 @@ public class InstructorSearchTest extends BaseSearchTest {
         // there should be no search result
         results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
         verifySearchResults(results);
+    }
+
+    @Test
+    public void testSearchInstructor_noSearchService_shouldThrowException() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        assertThrows(SearchNotImplementedException.class,
+                () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
     }
 
     /*
