@@ -20,9 +20,6 @@ public final class TestProperties {
     /** The value of "test.localdatastore.port" in test.properties file. */
     public static final int TEST_LOCALDATASTORE_PORT;
 
-    /** The value of "test.persistence.timeout" in test.properties file. */
-    public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
-
     /** Indicates whether auto-update snapshot mode is activated. */
     public static final boolean IS_SNAPSHOT_UPDATE;
 
@@ -38,9 +35,6 @@ public final class TestProperties {
             }
 
             IS_SNAPSHOT_UPDATE = Boolean.parseBoolean(prop.getProperty("test.snapshot.update", "false"));
-
-            PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
-
             TEST_LOCALDATASTORE_PORT = Integer.parseInt(prop.getProperty("test.localdatastore.port"));
 
         } catch (IOException | NumberFormatException e) {
