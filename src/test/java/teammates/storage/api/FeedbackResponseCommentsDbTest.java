@@ -416,8 +416,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         assertNull(frcDb.getFeedbackResponseComment(-123L));
 
-        frcDb.deleteDocumentByCommentId(-123L);
-
         ______TS("typical success case");
 
         assertNotNull(frcDb.getFeedbackResponseComment(frcaData.getId()));

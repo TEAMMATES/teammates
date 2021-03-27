@@ -148,15 +148,11 @@ public final class Const {
     }
 
     public static class SearchIndex {
-        public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
     }
 
     public static class SearchDocumentField {
-        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
-        public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
-        public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
         public static final String SEARCHABLE_TEXT = "searchableText";
         public static final String COURSE_ID = "courseId";
     }
@@ -275,7 +271,6 @@ public final class Const {
         public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
-        public static final String SEARCH_COMMENTS = URI_PREFIX + "/search/comments";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
