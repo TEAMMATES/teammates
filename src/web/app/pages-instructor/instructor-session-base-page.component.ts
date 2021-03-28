@@ -325,7 +325,7 @@ export abstract class InstructorSessionBasePageComponent {
       .subscribe({
         next: (resp: string) => {
           outputData.push(resp);
-          const numberOfQuestionsDownloaded = outputData.length;
+          const numberOfQuestionsDownloaded: number = outputData.length;
           const totalNumberOfQuestions: number = questions.length;
           const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
           this.progressBarService.updateProgress(progressPercentage);
