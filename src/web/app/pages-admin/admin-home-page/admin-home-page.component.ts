@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { concat, Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { JoinLink } from '../../../types/api-output';
@@ -85,13 +86,14 @@ export class AdminHomePageComponent {
    * Adds the instructor at the i-th index.
    */
   addInstructor(i: number): void {
-    this.asyncAddInstructor(i).then();
+    this.asyncAddInstructor(i)
+      ?.subscribe({ complete: () => this.isAddingInstructors = false });
   }
 
   /**
    * Adds the instructor at the i-th index.
    */
-  async asyncAddInstructor(i: number): Promise<JoinLink | null> {
+  asyncAddInstructor(i: number): Observable<JoinLink> | null {
     const instructor: InstructorData = this.instructorsConsolidated[i];
     if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
       return null;
@@ -104,8 +106,9 @@ export class AdminHomePageComponent {
       instructorEmail: instructor.email,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
-    }).pipe(finalize(() => this.isAddingInstructors = false))
-      .pipe(tap((resp: JoinLink) => {
+    }).pipe(
+      finalize(() => this.isAddingInstructors = false),
+      tap((resp: JoinLink) => {
         instructor.status = 'SUCCESS';
         instructor.joinLink = resp.joinLink;
         this.activeRequests -= 1;
@@ -113,8 +116,8 @@ export class AdminHomePageComponent {
         instructor.status = 'FAIL';
         instructor.message = resp.error.message;
         this.activeRequests -= 1;
-      }),
-      ).toPromise();
+      },
+    ));
   }
 
   /**
@@ -128,10 +131,13 @@ export class AdminHomePageComponent {
    * Adds all the pending and failed-to-add instructors one by one.
    * Refer to https://github.com/TEAMMATES/teammates/issues/11039
    */
-  async addAllInstructors(): Promise<void> {
-    for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      await this.asyncAddInstructor(i);
-    }
+  addAllInstructors(): void {
+    concat(
+      ...this.instructorsConsolidated
+        .map((_instr: InstructorData, index: number): Observable<JoinLink> | null => this.asyncAddInstructor(index))
+        .filter((req: Observable<JoinLink> | null): boolean => req !== null)
+        .map((req: Observable<JoinLink> | null): Observable<JoinLink> => req as Observable<JoinLink>),
+    ).subscribe({ complete: () => this.isAddingInstructors = false });
   }
 
 }

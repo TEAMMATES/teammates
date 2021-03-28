@@ -231,8 +231,8 @@ describe('AdminHomePageComponent', () => {
 
     expect(component.instructorsConsolidated[0].status).toEqual('ADDING');
     expect(component.instructorsConsolidated[1].status).toEqual('SUCCESS');
-    expect(component.instructorsConsolidated[2].status).toEqual('FAIL');
-    expect(component.activeRequests).toEqual(1);
+    expect(component.instructorsConsolidated[2].status).toEqual('ADDING');
+    expect(component.activeRequests).toEqual(2);
   });
 
   it('should snap with default view', () => {
