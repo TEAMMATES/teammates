@@ -32,7 +32,7 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) throws LogServiceException {
+            String feedbackSessionName, Instant startTime, Instant endTime) throws LogServiceException {
         // Not supported in dev server
         return new ArrayList<>();
     }

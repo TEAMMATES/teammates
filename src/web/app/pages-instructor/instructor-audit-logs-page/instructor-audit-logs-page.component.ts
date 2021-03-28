@@ -1,9 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { zip } from 'rxjs';
 import { concatMap, finalize, mergeAll } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Course, Courses, Student, Students } from '../../../types/api-output';
+import {
+  Course,
+  Courses,
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessions,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+  Student,
+  Students,
+} from '../../../types/api-output';
 import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -18,6 +31,7 @@ interface SearchLogsFormModel {
   logsTimeTo: TimeFormat;
   courseId: string;
   studentName: string;
+  sessionName: string;
 }
 
 /**
@@ -37,13 +51,16 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     logsTimeTo: { hour: 0, minute: 0 },
     courseId: '',
     studentName: '',
+    sessionName: '',
   };
   courses: Course[] = [];
   courseToStudents: Record<string, Student[]> = {};
+  courseToFeedbackSessions: Record<string, FeedbackSession[]> = {};
   isLoading: boolean = true;
 
   constructor(private courseService: CourseService,
               private studentService: StudentService,
+              private feedbackSessionsService: FeedbackSessionsService,
               private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
@@ -64,18 +81,40 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     const emptyStudent: Student = {
       courseId: '', email: '', name: '', sectionName: '', teamName: '',
     };
+    const emptyFeedbackSession: FeedbackSession = {
+      courseId: '',
+      createdAtTimestamp: 0,
+      feedbackSessionName: '',
+      gracePeriod: 0,
+      instructions: '',
+      isClosingEmailEnabled: false,
+      isPublishedEmailEnabled: false,
+      publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+      responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+      sessionVisibleSetting: SessionVisibleSetting.CUSTOM,
+      submissionEndTimestamp: 0,
+      submissionStartTimestamp: 0,
+      submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
+      timeZone: '',
+    };
+
     this.courseService
         .getAllCoursesAsInstructor('active')
         .pipe(
             concatMap((courses: Courses) => courses.courses.map((course: Course) => {
               this.courses.push(course);
-              return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
+              return zip(
+                  this.studentService.getStudentsFromCourse({ courseId: course.courseId }),
+                  this.feedbackSessionsService.getFeedbackSessionsForInstructor(course.courseId));
             })),
             mergeAll(),
             finalize(() => this.isLoading = false))
-        .subscribe(((student: Students) =>
-                // Student with no name is selectable to search for all students since the field is optional
-                this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students]),
-            (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        .subscribe(([students, feedbackSessions]: [Students, FeedbackSessions]) => {
+          const courseId: string = students.students[0].courseId;
+
+          // Entry with no name is selectable to search for all entries since the field is optional
+          this.courseToStudents[courseId] = [emptyStudent, ...students.students];
+          this.courseToFeedbackSessions[courseId] = [emptyFeedbackSession, ...feedbackSessions.feedbackSessions];
+        }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }

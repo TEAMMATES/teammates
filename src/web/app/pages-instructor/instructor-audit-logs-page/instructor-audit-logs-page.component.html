@@ -5,7 +5,7 @@
 <div *tmIsLoading="isLoading" class="card">
   <div class="card-body">
     <div class="row form-group">
-      <div class="col-4">
+      <div class="col-6">
         <div class="col-12">
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
@@ -17,7 +17,7 @@
           </select>
         </div>
       </div>
-      <div class="col-8">
+      <div class="col-6">
         <div class="col-12 mb-1">
           <label for="logs-from-datepicker" class="font-weight-bold">Search period from</label>
         </div>
@@ -35,7 +35,7 @@
       </div>
     </div>
     <div class="row form-group">
-      <div class="col-4">
+      <div class="col-3">
         <div class="col-12">
           <label for="student-name-dropdown" class="font-weight-bold">Student Name (Optional)</label>
         </div>
@@ -47,7 +47,19 @@
           </select>
         </div>
       </div>
-      <div class="col-8">
+      <div class="col-3">
+        <div class="col-12">
+          <label for="session-name-dropdown" class="font-weight-bold">Session Name (Optional)</label>
+        </div>
+        <div class="col-12">
+          <select id="session-name-dropdown" class="form-control col-8" [(ngModel)]="formModel.sessionName">
+            <option *ngFor="let feedbackSession of courseToFeedbackSessions[formModel.courseId]">
+              {{feedbackSession.feedbackSessionName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-6">
         <div class="col-12 mb-1">
           <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
         </div>
