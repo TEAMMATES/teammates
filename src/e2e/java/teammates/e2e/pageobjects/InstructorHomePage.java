@@ -10,7 +10,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -21,12 +20,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class InstructorHomePage extends AppPage {
 
-    @FindBy(id = "search-input")
-    private WebElement searchBar;
-
-    @FindBy(id = "btn-search")
-    private WebElement searchButton;
-
     public InstructorHomePage(Browser browser) {
         super(browser);
     }
@@ -34,13 +27,6 @@ public class InstructorHomePage extends AppPage {
     @Override
     protected boolean containsExpectedPageContents() {
         return getPageTitle().contains("Home");
-    }
-
-    public InstructorSearchPage searchKeyword(String keyword) {
-        fillTextBox(searchBar, keyword);
-        click(searchButton);
-        waitUntilAnimationFinish();
-        return changePageType(InstructorSearchPage.class);
     }
 
     public void verifyCourseTabDetails(int courseTabIndex, CourseAttributes course, FeedbackSessionAttributes[] sessions) {

@@ -23,44 +23,12 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
-  </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><tm-loading-spinner>
+  </h1><tm-loading-spinner>
     <div
       class="loading-container"
     >
@@ -121,44 +89,12 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
-  </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><tm-loading-spinner>
+  </h1><tm-loading-spinner>
     <div
       class="loading-container"
     >
@@ -219,44 +155,12 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
   </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
     class="row mb-3"
   >
     <div
@@ -405,44 +309,12 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
   </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
     class="row mb-3"
   >
     <div
@@ -961,44 +833,12 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
   </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
     class="row mb-3"
   >
     <div
@@ -1646,44 +1486,12 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
   </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
     class="row mb-3"
   >
     <div
@@ -1939,44 +1747,12 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
   </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
     class="row mb-3"
   >
     <div
@@ -2260,44 +2036,12 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  studentSearchkey=""
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
 >
   <h1>
     Home
   </h1><div
-    class="card no-border bg-light mb-4"
-  >
-    <div
-      class="card-body"
-    >
-      <div
-        class="form-row"
-      >
-        <div
-          class="input-group"
-        >
-          <input
-            class="form-control ng-untouched ng-pristine ng-valid"
-            id="search-input"
-            placeholder="e.g. Charles Shultz, charles@gmail.com"
-            type="text"
-          />
-          <div
-            class="input-group-append"
-          >
-            <button
-              class="btn btn-primary"
-              id="btn-search"
-            >
-              Search
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
     class="row mb-3"
   >
     <div
