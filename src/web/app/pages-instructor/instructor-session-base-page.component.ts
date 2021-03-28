@@ -344,6 +344,7 @@ export abstract class InstructorSessionBasePageComponent {
         },
       });
   }
+
   /**
    * Publishes a feedback session.
    */
