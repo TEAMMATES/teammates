@@ -10,7 +10,6 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
-import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
@@ -54,11 +53,10 @@ public class GaeSimulation {
             System.out.println("Setting up GAE simulation");
 
             LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
-            LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
             LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
             localSearch.setPersistent(false);
             LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-            helper = new LocalServiceTestHelper(localMail, localUserServices, localSearch, localModules);
+            helper = new LocalServiceTestHelper(localUserServices, localSearch, localModules);
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();
