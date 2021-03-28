@@ -301,7 +301,6 @@ export abstract class InstructorSessionBasePageComponent {
     let downloadAborted: boolean = false;
     const outputData: string[] = [];
 
-    let numberOfQuestionsDownloaded: number = 0;
     const modalContent: string = 'Downloading the results of your feedback session...';
     const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
         'Download Progress', SimpleModalType.LOAD, modalContent);
@@ -326,7 +325,7 @@ export abstract class InstructorSessionBasePageComponent {
       .subscribe({
         next: (resp: string) => {
           outputData.push(resp);
-          numberOfQuestionsDownloaded += 1;
+          const numberOfQuestionsDownloaded = outputData.length;
           const totalNumberOfQuestions: number = questions.length;
           const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
           this.progressBarService.updateProgress(progressPercentage);
