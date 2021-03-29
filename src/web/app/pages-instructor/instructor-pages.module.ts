@@ -115,7 +115,7 @@ const routes: Routes = [
     loadChildren: () => import('./instructor-search-page/instructor-search-page.module')
         .then((m: any) => m.InstructorSearchPageModule),
     data: {
-      pageTitle: 'Search',
+      pageTitle: 'Search Students',
     },
   },
   {

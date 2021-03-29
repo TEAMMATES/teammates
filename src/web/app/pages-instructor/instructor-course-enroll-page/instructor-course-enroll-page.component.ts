@@ -9,7 +9,7 @@ import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { HasResponses, JoinState, Student, Students } from '../../../types/api-output';
+import { EnrollStudents, HasResponses, JoinState, Student, Students } from '../../../types/api-output';
 import { StudentEnrollRequest, StudentsEnrollRequest } from '../../../types/api-request';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { StatusMessage } from '../../components/status-message/status-message';
@@ -49,6 +49,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
   showEnrollResults?: boolean = false;
   enrollErrorMessage: string = '';
   statusMessage: StatusMessage[] = [];
+  unsuccessfulEnrolls: { [email: string]: string } = {};
 
   @ViewChild('moreInfo') moreInfo?: ElementRef;
 
@@ -57,18 +58,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   colHeaders: string[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   contextMenuOptions: String[] | Object[] =
-    ['row_above',
-      'row_below',
-      'remove_row',
-      'undo',
-      'redo',
-      {
-        key: 'paste',
-        name: 'Paste',
-        callback: this.pasteClick,
-      },
-      'make_read_only',
-      'alignment'];
+      ['row_above',
+        'row_below',
+        'remove_row',
+        'undo',
+        'redo',
+        {
+          key: 'paste',
+          name: 'Paste',
+          callback: this.pasteClick,
+        },
+        'make_read_only',
+        'alignment'];
 
   hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
   newStudentsHOT: string = 'newStudentsHOT';
@@ -163,7 +164,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     const enrolledStudents: Student[] = [];
 
     // Use concat because we cannot afford to parallelize with forkJoin when there's data dependency
-    const enrollRequests: Observable<Students> = concat(
+    const enrollRequests: Observable<EnrollStudents> = concat(
         ...this.allStudentChunks.map((studentChunk: StudentEnrollRequest[]) => {
           const request: StudentsEnrollRequest = {
             studentEnrollRequests: studentChunk,
@@ -175,13 +176,30 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     );
 
     enrollRequests.pipe(finalize(() => this.isEnrolling = false)).subscribe({
-      next: (resp: Students) => {
-        enrolledStudents.push(...resp.students);
+      next: (resp: EnrollStudents) => {
+        enrolledStudents.push(...resp.studentsData.students);
+
+        if (resp.unsuccessfulEnrolls != null) {
+          for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
+            this.unsuccessfulEnrolls[unsuccessfulEnroll.studentEmail] = unsuccessfulEnroll.errorMessage;
+
+            for (const index of studentEnrollRequests.keys()) {
+              if (studentEnrollRequests.get(index)?.email === unsuccessfulEnroll.studentEmail) {
+                this.invalidRowsIndex.add(index);
+                break;
+              }
+            }
+          }
+        }
       },
       complete: () => {
         this.showEnrollResults = true;
         this.statusMessage.pop(); // removes any existing error status message
         this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
+
+        if (this.invalidRowsIndex.size > 0) {
+          this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
+        }
 
         this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
       },
@@ -499,12 +517,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
           }
         }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-      this.isAjaxSuccess = false;
-      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-    }, () => {
-      this.isLoadingExistingStudents = false;
-    });
+          this.statusMessageService.showErrorToast(resp.error.message);
+          this.isAjaxSuccess = false;
+          this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+        }, () => {
+          this.isLoadingExistingStudents = false;
+        });
   }
 
   /**
