@@ -51,7 +51,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
     private static final String FEEDBACK_SESSION_NAME = "Test Feedback Session";
 
     private static final double ERROR_RATE_LIMIT = 0.01;
-    private static final double MEAN_RESP_TIME_LIMIT = 1;
+    private static final double MEAN_RESP_TIME_LIMIT = 7;
 
     @Override
     protected LNPTestData getTestData() {

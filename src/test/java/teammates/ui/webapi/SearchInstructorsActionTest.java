@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -7,6 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.test.TestProperties;
 import teammates.ui.output.InstructorsData;
+import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link SearchInstructorsAction}.
@@ -146,6 +148,24 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertEquals(0, response.getInstructors().size());
+    }
+
+    @Test
+    public void testExecute_noSearchService_shouldReturn501() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        loginAsAdmin();
+        String[] params = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "anything",
+        };
+        SearchInstructorsAction a = getAction(params);
+        JsonResult result = getJsonResult(a);
+        MessageOutput output = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
+        assertEquals("Search service is not implemented.", output.getMessage());
     }
 
     @Override

@@ -1,10 +1,11 @@
 package teammates.storage.entity;
 
-// CHECKSTYLE.OFF:IllegalImport can be removed after upgrading to Objectify V6
 import java.time.Instant;
-import java.util.Date;
-// CHECKSTYLE.ON:IllegalImport
 
+import com.google.cloud.Timestamp;
+import com.google.cloud.datastore.TimestampValue;
+import com.google.cloud.datastore.Value;
+import com.google.cloud.datastore.ValueType;
 import com.googlecode.objectify.impl.Path;
 import com.googlecode.objectify.impl.translate.CreateContext;
 import com.googlecode.objectify.impl.translate.LoadContext;
@@ -23,28 +24,30 @@ public class BaseEntity {
     }
 
     /**
-     * Translates between `java.time.Instant` in entity class and `java.util.Date` in Google Cloud Datastore.
+     * Translates between `java.time.Instant` in entity class and `ValueType.TIMESTAMP` in Google Cloud Datastore.
      *
-     * <p>See <a href="https://github.com/objectify/objectify/blob/v5.2/src/main/java/com/googlecode/objectify/annotation/Translate.java">@Translate annotation</a>
-     * and <a href="https://github.com/objectify/objectify/blob/v5.2/src/main/java/com/googlecode/objectify/impl/translate/TranslatorFactory.java">TranslatorFactory</a></p>
+     * <p>See <a href="https://github.com/objectify/objectify/blob/v6/src/main/java/com/googlecode/objectify/annotation/Translate.java">@Translate annotation</a>,
+     * <a href="https://github.com/objectify/objectify/blob/v6/src/main/java/com/googlecode/objectify/impl/translate/ValueTranslator.java">ValueTranslator</a>
+     * and <a href="https://github.com/objectify/objectify/blob/v6/src/main/java/com/googlecode/objectify/impl/translate/ValueTranslatorFactory.java">ValueTranslatorFactory</a></p>
      */
-    public static class InstantTranslatorFactory extends ValueTranslatorFactory<Instant, Date> {
+    public static class InstantTranslatorFactory extends ValueTranslatorFactory<Instant, Timestamp> {
 
         public InstantTranslatorFactory() {
             super(Instant.class);
         }
 
         @Override
-        protected ValueTranslator<Instant, Date> createValueTranslator(TypeKey<Instant> tk, CreateContext ctx, Path path) {
-            return new ValueTranslator<Instant, Date>(Date.class) {
+        protected ValueTranslator<Instant, Timestamp> createValueTranslator(TypeKey<Instant> tk,
+                                                                            CreateContext ctx, Path path) {
+            return new ValueTranslator<Instant, Timestamp>(ValueType.TIMESTAMP) {
                 @Override
-                protected Instant loadValue(Date value, LoadContext ctx, Path path) {
-                    return value == null ? null : value.toInstant();
+                protected Instant loadValue(Value<Timestamp> value, LoadContext ctx, Path path) {
+                    return value == null ? null : value.get().toDate().toInstant();
                 }
 
                 @Override
-                protected Date saveValue(Instant value, boolean index, SaveContext ctx, Path path) {
-                    return value == null ? null : Date.from(value);
+                protected Value<Timestamp> saveValue(Instant value, SaveContext ctx, Path path) {
+                    return value == null ? null : TimestampValue.of(Timestamp.of(java.util.Date.from(value)));
                 }
             };
         }

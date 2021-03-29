@@ -66,7 +66,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
-  studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // data
@@ -111,14 +110,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       return !courseTabModel.isTabExpanded;
     }
     return courseTabModel.isTabExpanded;
-  }
-
-  /**
-   * Redirect to the search page and query the search
-   */
-  search(): void {
-    this.navigationService.navigateByURL(this.router, '/web/instructor/search',
-        { studentSearchkey: this.studentSearchkey });
   }
 
   /**

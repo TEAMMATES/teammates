@@ -172,7 +172,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
         for (Key<?> key : keys) {
             log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
-                    key.getKind(), key.getId(), key.getName()));
+                    key.getKind(), key.getRaw().getId(), key.getName()));
         }
         ofy().delete().keys(keys).now();
     }
