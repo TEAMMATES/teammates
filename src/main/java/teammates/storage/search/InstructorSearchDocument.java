@@ -74,16 +74,16 @@ public class InstructorSearchDocument extends SearchDocument {
             String instructorId = (String) document.getFirstValue("id");
             InstructorAttributes instructor = instructorsDb.getInstructorForRegistrationKey(instructorId);
             if (instructor == null) {
-                // search engine out of sync as SearchManager may fail to delete documents due to GAE error
+                // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
                 instructorsDb.deleteDocumentByEncryptedInstructorKey(instructorId);
                 continue;
             }
 
             bundle.instructorList.add(instructor);
-            bundle.numberOfResults++;
         }
 
+        bundle.numberOfResults = bundle.instructorList.size();
         return bundle;
     }
 

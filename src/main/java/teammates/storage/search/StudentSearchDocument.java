@@ -53,9 +53,6 @@ public class StudentSearchDocument extends SearchDocument {
      * Produces a {@link StudentSearchResultBundle} from the {@code QueryResponse} collection.
      *
      * <p>The list of {@link InstructorAttributes} is used to filter out the search result.</p>
-     *
-     * <p>This method should be used by admin only since the searching does not restrict the
-     * visibility according to the logged-in user's google ID.</p>
      */
     public static StudentSearchResultBundle fromResponse(QueryResponse response,
                                                         List<InstructorAttributes> instructors) {
@@ -77,16 +74,16 @@ public class StudentSearchDocument extends SearchDocument {
             String studentId = (String) document.getFirstValue("id");
             StudentAttributes student = studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(studentId));
             if (student == null) {
-                // search engine out of sync as SearchManager may fail to delete documents due to GAE error
+                // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
                 studentsDb.deleteDocumentByStudentKey(studentId);
                 continue;
             }
 
             bundle.studentList.add(student);
-            bundle.numberOfResults++;
         }
 
+        bundle.numberOfResults = bundle.studentList.size();
         return bundle;
     }
 
