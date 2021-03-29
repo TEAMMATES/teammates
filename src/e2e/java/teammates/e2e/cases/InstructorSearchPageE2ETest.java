@@ -6,15 +6,12 @@ import java.util.Map;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsEditPage;
 import teammates.e2e.pageobjects.InstructorCourseStudentDetailsViewPage;
 import teammates.e2e.pageobjects.InstructorSearchPage;
-import teammates.e2e.pageobjects.InstructorSearchPage.CommentSearchResponseResult;
-import teammates.e2e.pageobjects.InstructorSearchPage.CommentSearchSessionResult;
 import teammates.e2e.pageobjects.InstructorStudentRecordsPage;
 
 /**
@@ -38,18 +35,18 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         InstructorSearchPage searchPage = loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
 
-        ______TS("cannot click search button if no checkbox is selected");
+        ______TS("cannot click search button if no search term is entered");
 
-        searchPage.search(false, false, "anykeyword");
+        searchPage.search("");
 
         ______TS("search with no result");
 
-        searchPage.search(true, true, "thiswillnothitanything");
+        searchPage.search("thiswillnothitanything");
         searchPage.verifyStatusMessage("No results found.");
 
         ______TS("search for students");
 
-        searchPage.search(true, false, "student2");
+        searchPage.search("student2");
 
         CourseAttributes course1 = testData.courses.get("typicalCourse1");
         CourseAttributes course2 = testData.courses.get("typicalCourse2");
@@ -109,34 +106,6 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         searchPage.verifyStudentDetails(course2, studentsAfterDelete);
         verifyAbsentInDatastore(studentToDelete);
-
-        ______TS("search for response comments");
-
-        searchPage.search(false, true, "comment");
-
-        CommentSearchSessionResult firstResult = new CommentSearchSessionResult();
-        firstResult.session = testData.feedbackSessions.get("First Session");
-
-        CommentSearchResponseResult firstResponse = new CommentSearchResponseResult();
-        firstResponse.question = testData.feedbackQuestions.get("qn1");
-        firstResponse.response = testData.feedbackResponses.get("qn1response1");
-        firstResponse.comments = new FeedbackResponseCommentAttributes[] {
-                testData.feedbackResponseComments.get("qn1Comment1"),
-                testData.feedbackResponseComments.get("qn1Comment2"),
-        };
-
-        CommentSearchResponseResult secondResponse = new CommentSearchResponseResult();
-        secondResponse.question = testData.feedbackQuestions.get("qn1");
-        secondResponse.response = testData.feedbackResponses.get("qn1response3");
-        secondResponse.comments = new FeedbackResponseCommentAttributes[] {
-                testData.feedbackResponseComments.get("qn1Comment3"),
-        };
-
-        firstResult.responses = new CommentSearchResponseResult[] { firstResponse, secondResponse };
-
-        CommentSearchSessionResult[] commentSearchSessionResults = { firstResult };
-        searchPage.verifyCommentSearchResults(commentSearchSessionResults, testData.students.values(),
-                testData.instructors.values());
 
     }
 

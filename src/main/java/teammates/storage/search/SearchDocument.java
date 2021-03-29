@@ -12,10 +12,6 @@ import com.google.appengine.api.search.ScoredDocument;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
-import teammates.storage.api.FeedbackQuestionsDb;
-import teammates.storage.api.FeedbackResponseCommentsDb;
-import teammates.storage.api.FeedbackResponsesDb;
-import teammates.storage.api.FeedbackSessionsDb;
 import teammates.storage.api.InstructorsDb;
 import teammates.storage.api.StudentsDb;
 
@@ -25,10 +21,6 @@ import teammates.storage.api.StudentsDb;
 public abstract class SearchDocument {
 
     static final CoursesDb coursesDb = new CoursesDb();
-    static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
-    static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
     static final InstructorsDb instructorsDb = new InstructorsDb();
     static final StudentsDb studentsDb = new StudentsDb();
 

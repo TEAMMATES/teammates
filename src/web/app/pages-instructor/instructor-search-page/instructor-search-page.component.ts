@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import {
-  CommentSearchResult,
   InstructorPrivilege,
   Student,
 } from '../../../types/api-output';
 import { StudentListRowModel } from '../../components/student-list/student-list.component';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { SearchCommentsTable } from './comment-result-table/comment-result-table.component';
 import { SearchParams } from './instructor-search-bar/instructor-search-bar.component';
 import { SearchStudentsListRowTable } from './student-result-table/student-result-table.component';
 
@@ -28,73 +25,41 @@ export class InstructorSearchPageComponent implements OnInit {
 
   searchParams: SearchParams = {
     searchKey: '',
-    isSearchForStudents: true,
-    isSearchForComments: false,
   };
   studentsListRowTables: SearchStudentsListRowTable[] = [];
-  commentTables: SearchCommentsTable[] = [];
   isSearching: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private statusMessageService: StatusMessageService,
     private searchService: SearchService,
     private courseService: CourseService,
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
-      if (queryParams.studentSearchkey) {
-        this.searchParams.searchKey = queryParams.studentSearchkey;
-      }
-      if (this.searchParams.searchKey) {
-        this.search();
-      }
-    });
   }
 
   /**
-   * Searches for students and questions/responses/comments matching the search query.
+   * Searches for students matching the search query.
    */
   search(): void {
-    if (!(this.searchParams.isSearchForComments || this.searchParams.isSearchForStudents)
-        || this.searchParams.searchKey === '') {
+    if (this.searchParams.searchKey === '') {
       return;
     }
     this.isSearching = true;
-    forkJoin([
-      this.searchParams.isSearchForComments
-          ? this.searchService.searchComment(this.searchParams.searchKey).pipe(
-              map((resp: InstructorSearchResult) => {
-                return {
-                  searchCommentTables: this.getSearchCommentsTable(resp.comments),
-                  searchStudentTables: [],
-                };
-              }),
-          )
-          : of({}) as Observable<TransformedInstructorSearchResult>,
-      this.searchParams.isSearchForStudents
-          ? this.searchService.searchInstructor(this.searchParams.searchKey).pipe(
-            map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
-            mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
-                forkJoin([
-                  of(coursesWithStudents),
-                  this.getPrivileges(coursesWithStudents),
-                ]),
-            ),
-            map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
-          )
-          : of({}) as Observable<TransformedInstructorSearchResult>,
-    ]).pipe(
+    this.searchService.searchInstructor(this.searchParams.searchKey).pipe(
+        map((res: InstructorSearchResult) => this.getCoursesWithStudents(res.students)),
+        mergeMap((coursesWithStudents: SearchStudentsListRowTable[]) =>
+            forkJoin([
+              of(coursesWithStudents),
+              this.getPrivileges(coursesWithStudents),
+            ]),
+        ),
+        map((res: [SearchStudentsListRowTable[], InstructorPrivilege[]]) => this.combinePrivileges(res)),
         finalize(() => this.isSearching = false),
-    ).subscribe((resp: TransformedInstructorSearchResult[]) => {
-      const searchStudentsTable: SearchStudentsListRowTable[] = resp[1].searchStudentTables;
+    ).subscribe((resp: TransformedInstructorSearchResult) => {
+      const searchStudentsTable: SearchStudentsListRowTable[] = resp.searchStudentTables;
       const hasStudents: boolean = !!(
           searchStudentsTable && searchStudentsTable.length
-      );
-      const commentsTable: SearchCommentsTable[] = resp[0].searchCommentTables;
-      const hasComments: boolean = !!(
-          commentsTable && commentsTable.length
       );
 
       if (hasStudents) {
@@ -102,24 +67,12 @@ export class InstructorSearchPageComponent implements OnInit {
       } else {
         this.studentsListRowTables = [];
       }
-      if (hasComments) {
-        this.commentTables = commentsTable;
-      } else {
-        this.commentTables = [];
-      }
-      if (!hasStudents && !hasComments) {
+      if (!hasStudents) {
         this.statusMessageService.showWarningToast('No results found.');
       }
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  private getSearchCommentsTable(searchResults: CommentSearchResult[]): SearchCommentsTable[] {
-    return searchResults.map((res: CommentSearchResult) => ({
-      feedbackSession: res.feedbackSession,
-      questions: res.questions,
-    }));
   }
 
   getCoursesWithStudents(students: Student[]): SearchStudentsListRowTable[] {
@@ -186,7 +139,6 @@ export class InstructorSearchPageComponent implements OnInit {
 
     return {
       searchStudentTables: coursesWithStudents,
-      searchCommentTables: [],
     };
   }
 
@@ -215,6 +167,5 @@ export class InstructorSearchPageComponent implements OnInit {
 }
 
 interface TransformedInstructorSearchResult {
-  searchCommentTables: SearchCommentsTable[];
   searchStudentTables: SearchStudentsListRowTable[];
 }
