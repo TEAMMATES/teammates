@@ -57,6 +57,11 @@ public final class SearchManager {
      * Reset the data for all collections in search server.
      */
     public void resetCollections() {
+        if (!isSearchServiceActive()) {
+            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
+            return;
+        }
+
         try {
             client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, "*:*");
             client.deleteByQuery(STUDENT_COLLECTION_NAME, "*:*");
