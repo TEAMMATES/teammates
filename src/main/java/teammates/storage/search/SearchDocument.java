@@ -41,16 +41,21 @@ public abstract class SearchDocument {
      */
     static List<SolrDocument> filterOutCourseId(QueryResponse response,
                                                   List<InstructorAttributes> instructors) {
-        Set<String> courseIdSet = new HashSet<>();
-        if (instructors != null) {
-            for (InstructorAttributes ins : instructors) {
-                courseIdSet.add(ins.courseId);
-            }
-        }
-
+        SolrDocumentList documents = response.getResults();
         List<SolrDocument> filteredResults = new ArrayList<>();
 
-        SolrDocumentList documents = response.getResults();
+        // unfiltered case
+        if (instructors == null) {
+            filteredResults.addAll(documents);
+            return filteredResults;
+        }
+
+        // filtered case
+        Set<String> courseIdSet = new HashSet<>();
+        for (InstructorAttributes ins : instructors) {
+            courseIdSet.add(ins.courseId);
+        }
+
         for (SolrDocument document : documents) {
             String courseId = (String) document.getFirstValue("courseId");
             if (courseIdSet.contains(courseId)) {
