@@ -81,6 +81,9 @@ public final class Config {
     /** The value of the "app.mailjet.secretkey" in build.properties file. */
     public static final String MAILJET_SECRETKEY;
 
+    /** The value of the "app.search.service.host" in build.properties file. */
+    public static final String SEARCH_SERVICE_HOST;
+
     /** The value of the "app.enable.datastore.backup" in build.properties file. */
     public static final boolean ENABLE_DATASTORE_BACKUP;
 
@@ -116,6 +119,7 @@ public final class Config {
         MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
+        SEARCH_SERVICE_HOST = properties.getProperty("app.search.service.host");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
     }

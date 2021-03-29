@@ -27,6 +27,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
@@ -129,7 +130,8 @@ public class Logic {
      * search instructors in the whole system.
      * @return Null if no match found.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         Assumption.assertNotNull(queryString);
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
@@ -457,7 +459,8 @@ public class Logic {
      *                      used for filtering of search result
      * @return Null if no match found
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(instructors);
         return studentsLogic.searchStudents(queryString, instructors);
@@ -469,7 +472,8 @@ public class Logic {
      * search students in the whole system.
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         Assumption.assertNotNull(queryString);
 
         return studentsLogic.searchStudentsInWholeSystem(queryString);

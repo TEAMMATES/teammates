@@ -147,16 +147,6 @@ public final class Const {
         public static final String INTENT = "intent";
     }
 
-    public static class SearchIndex {
-        public static final String STUDENT = "student";
-        public static final String INSTRUCTOR = "instructor";
-    }
-
-    public static class SearchDocumentField {
-        public static final String SEARCHABLE_TEXT = "searchableText";
-        public static final String COURSE_ID = "courseId";
-    }
-
     /**
      * The course status respect to the instructor's point of view.
      * This parameter is used to get a course list for instructor.

@@ -281,7 +281,9 @@ public class ArchitectureTest {
                     @Override
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
-                                && !"OfyHelper".equals(input.getSimpleName());
+                                && !"OfyHelper".equals(input.getSimpleName())
+                                && !"SearchManager".equals(input.getSimpleName())
+                                && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
@@ -442,15 +444,6 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_loggingApiCanOnlyBeAccessedByLogger() {
         noClasses().that().doNotHaveSimpleName("Logger")
                 .should().accessClassesThat().resideInAPackage("java.util.logging..")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
-    public void testArchitecture_externalApi_searchApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_SEARCH_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.search..")
                 .check(ALL_CLASSES);
     }
 

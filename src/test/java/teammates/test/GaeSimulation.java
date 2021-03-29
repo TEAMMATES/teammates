@@ -12,7 +12,6 @@ import javax.servlet.http.Part;
 
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
@@ -55,10 +54,8 @@ public class GaeSimulation {
 
             LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
             LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
-            LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
-            localSearch.setPersistent(false);
             LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-            helper = new LocalServiceTestHelper(localMail, localUserServices, localSearch, localModules);
+            helper = new LocalServiceTestHelper(localMail, localUserServices, localModules);
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();
