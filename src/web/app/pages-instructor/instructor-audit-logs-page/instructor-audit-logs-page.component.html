@@ -10,7 +10,7 @@
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId" (click)="updateSearchButtonDisabled()">
+          <select id="course-id-dropdown" class="form-control col-8" [ngModel]="formModel.courseId" (ngModelChange)="updateSearchButtonDisabled($event)">
             <option *ngFor="let course of courses">
               {{course.courseId}}
             </option>
@@ -23,7 +23,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
             <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -53,7 +53,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker" (closed)="updateSearchButtonDisabled()"/>
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
             <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>

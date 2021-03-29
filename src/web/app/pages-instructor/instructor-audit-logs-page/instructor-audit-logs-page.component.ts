@@ -131,16 +131,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   /**
    * Update search button state
    */
-  updateSearchButtonDisabled(): void {
-    if (this.formModel.courseId
-        && !this.isDateEmpty(this.formModel.logsDateFrom)
-        && !this.isDateEmpty(this.formModel.logsDateTo)) {
+  updateSearchButtonDisabled(event: string): void {
+    this.formModel.courseId = event;
+    if (this.formModel.courseId) {
       this.formModel.isSearchDisabled = false;
     }
-  }
-
-  private isDateEmpty(date: DateFormat): boolean {
-    return date.day + date.month + date.year === 0;
   }
 
   /**
