@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { concat, Observable } from 'rxjs';
-import { finalize, tap } from 'rxjs/operators';
+import { concat, Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -44,7 +44,7 @@ export class AdminHomePageComponent {
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
-        // TODO handle error
+        // TODO handle should add all instructors when promptederror
         invalidLines.push(instructorDetail);
         continue;
       }
@@ -107,7 +107,6 @@ export class AdminHomePageComponent {
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
     }).pipe(
-      finalize(() => this.isAddingInstructors = false),
       tap((resp: JoinLink) => {
         instructor.status = 'SUCCESS';
         instructor.joinLink = resp.joinLink;
@@ -116,8 +115,10 @@ export class AdminHomePageComponent {
         instructor.status = 'FAIL';
         instructor.message = resp.error.message;
         this.activeRequests -= 1;
-      },
-    ));
+      }),
+      // Lift error handling to tap operator and catch the final error
+      catchError((_err: ErrorMessageOutput, _caught: Observable<JoinLink>) => of({ joinLink: '' })),
+    );
   }
 
   /**
@@ -135,7 +136,7 @@ export class AdminHomePageComponent {
     concat(
       ...this.instructorsConsolidated
         .map((_instr: InstructorData, index: number): Observable<JoinLink> | null => this.asyncAddInstructor(index))
-        .filter((req: Observable<JoinLink> | null): boolean => req !== null)
+        .filter((req: Observable<JoinLink> | null): boolean => !!req)
         .map((req: Observable<JoinLink> | null): Observable<JoinLink> => req as Observable<JoinLink>),
     ).subscribe({ complete: () => this.isAddingInstructors = false });
   }

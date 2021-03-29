@@ -195,7 +195,7 @@ describe('AdminHomePageComponent', () => {
     expect(component.activeRequests).toEqual(0);
   });
 
-  it('should add all instructors one by one when prompted', () => {
+  it('should add all instructors when prompted', () => {
     component.instructorsConsolidated = [
       {
         name: 'Instructor A',
