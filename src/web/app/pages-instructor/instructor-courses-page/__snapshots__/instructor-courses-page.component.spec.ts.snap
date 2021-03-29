@@ -1010,7 +1010,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Africa/Ceuta"
                   >
-                    Africa/Ceuta (UTC +01:00)
+                    Africa/Ceuta (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -1358,7 +1358,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Asuncion"
                   >
-                    America/Asuncion (UTC -03:00)
+                    America/Asuncion (UTC -04:00)
                   </option>
                   <option
                     style=""
@@ -1610,7 +1610,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Godthab"
                   >
-                    America/Godthab (UTC -03:00)
+                    America/Godthab (UTC -02:00)
                   </option>
                   <option
                     style=""
@@ -1970,7 +1970,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Nuuk"
                   >
-                    America/Nuuk (UTC -03:00)
+                    America/Nuuk (UTC -02:00)
                   </option>
                   <option
                     style=""
@@ -2114,7 +2114,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="America/Scoresbysund"
                   >
-                    America/Scoresbysund (UTC -01:00)
+                    America/Scoresbysund (UTC)
                   </option>
                   <option
                     style=""
@@ -2306,7 +2306,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Antarctica/Troll"
                   >
-                    Antarctica/Troll (UTC)
+                    Antarctica/Troll (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -2318,7 +2318,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Arctic/Longyearbyen"
                   >
-                    Arctic/Longyearbyen (UTC +01:00)
+                    Arctic/Longyearbyen (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -2336,7 +2336,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Amman"
                   >
-                    Asia/Amman (UTC +02:00)
+                    Asia/Amman (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2408,7 +2408,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Beirut"
                   >
-                    Asia/Beirut (UTC +02:00)
+                    Asia/Beirut (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2468,7 +2468,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Damascus"
                   >
-                    Asia/Damascus (UTC +02:00)
+                    Asia/Damascus (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2498,13 +2498,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Famagusta"
                   >
-                    Asia/Famagusta (UTC +02:00)
+                    Asia/Famagusta (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Asia/Gaza"
                   >
-                    Asia/Gaza (UTC +02:00)
+                    Asia/Gaza (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2516,7 +2516,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Hebron"
                   >
-                    Asia/Hebron (UTC +02:00)
+                    Asia/Hebron (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2564,7 +2564,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Jerusalem"
                   >
-                    Asia/Jerusalem (UTC +02:00)
+                    Asia/Jerusalem (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2678,7 +2678,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Nicosia"
                   >
-                    Asia/Nicosia (UTC +02:00)
+                    Asia/Nicosia (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2822,7 +2822,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Asia/Tel_Aviv"
                   >
-                    Asia/Tel_Aviv (UTC +02:00)
+                    Asia/Tel_Aviv (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -2918,7 +2918,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Atlantic/Azores"
                   >
-                    Atlantic/Azores (UTC -01:00)
+                    Atlantic/Azores (UTC)
                   </option>
                   <option
                     style=""
@@ -2930,7 +2930,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Atlantic/Canary"
                   >
-                    Atlantic/Canary (UTC)
+                    Atlantic/Canary (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -2942,25 +2942,25 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Atlantic/Faeroe"
                   >
-                    Atlantic/Faeroe (UTC)
+                    Atlantic/Faeroe (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Atlantic/Faroe"
                   >
-                    Atlantic/Faroe (UTC)
+                    Atlantic/Faroe (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Atlantic/Jan_Mayen"
                   >
-                    Atlantic/Jan_Mayen (UTC +01:00)
+                    Atlantic/Jan_Mayen (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Atlantic/Madeira"
                   >
-                    Atlantic/Madeira (UTC)
+                    Atlantic/Madeira (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -3152,7 +3152,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="CET"
                   >
-                    CET (UTC +01:00)
+                    CET (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -3230,7 +3230,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="EET"
                   >
-                    EET (UTC +02:00)
+                    EET (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -3248,7 +3248,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Eire"
                   >
-                    Eire (UTC)
+                    Eire (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -3464,13 +3464,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Amsterdam"
                   >
-                    Europe/Amsterdam (UTC +01:00)
+                    Europe/Amsterdam (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Andorra"
                   >
-                    Europe/Andorra (UTC +01:00)
+                    Europe/Andorra (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -3482,97 +3482,97 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Athens"
                   >
-                    Europe/Athens (UTC +02:00)
+                    Europe/Athens (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Belfast"
                   >
-                    Europe/Belfast (UTC)
+                    Europe/Belfast (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Belgrade"
                   >
-                    Europe/Belgrade (UTC +01:00)
+                    Europe/Belgrade (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Berlin"
                   >
-                    Europe/Berlin (UTC +01:00)
+                    Europe/Berlin (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Bratislava"
                   >
-                    Europe/Bratislava (UTC +01:00)
+                    Europe/Bratislava (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Brussels"
                   >
-                    Europe/Brussels (UTC +01:00)
+                    Europe/Brussels (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Bucharest"
                   >
-                    Europe/Bucharest (UTC +02:00)
+                    Europe/Bucharest (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Budapest"
                   >
-                    Europe/Budapest (UTC +01:00)
+                    Europe/Budapest (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Busingen"
                   >
-                    Europe/Busingen (UTC +01:00)
+                    Europe/Busingen (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Chisinau"
                   >
-                    Europe/Chisinau (UTC +02:00)
+                    Europe/Chisinau (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Copenhagen"
                   >
-                    Europe/Copenhagen (UTC +01:00)
+                    Europe/Copenhagen (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Dublin"
                   >
-                    Europe/Dublin (UTC)
+                    Europe/Dublin (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Gibraltar"
                   >
-                    Europe/Gibraltar (UTC +01:00)
+                    Europe/Gibraltar (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Guernsey"
                   >
-                    Europe/Guernsey (UTC)
+                    Europe/Guernsey (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Helsinki"
                   >
-                    Europe/Helsinki (UTC +02:00)
+                    Europe/Helsinki (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Isle_of_Man"
                   >
-                    Europe/Isle_of_Man (UTC)
+                    Europe/Isle_of_Man (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -3584,7 +3584,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Jersey"
                   >
-                    Europe/Jersey (UTC)
+                    Europe/Jersey (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -3596,7 +3596,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Kiev"
                   >
-                    Europe/Kiev (UTC +02:00)
+                    Europe/Kiev (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -3608,43 +3608,43 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Lisbon"
                   >
-                    Europe/Lisbon (UTC)
+                    Europe/Lisbon (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Ljubljana"
                   >
-                    Europe/Ljubljana (UTC +01:00)
+                    Europe/Ljubljana (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/London"
                   >
-                    Europe/London (UTC)
+                    Europe/London (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Luxembourg"
                   >
-                    Europe/Luxembourg (UTC +01:00)
+                    Europe/Luxembourg (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Madrid"
                   >
-                    Europe/Madrid (UTC +01:00)
+                    Europe/Madrid (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Malta"
                   >
-                    Europe/Malta (UTC +01:00)
+                    Europe/Malta (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Mariehamn"
                   >
-                    Europe/Mariehamn (UTC +02:00)
+                    Europe/Mariehamn (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -3656,7 +3656,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Monaco"
                   >
-                    Europe/Monaco (UTC +01:00)
+                    Europe/Monaco (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -3668,43 +3668,43 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Nicosia"
                   >
-                    Europe/Nicosia (UTC +02:00)
+                    Europe/Nicosia (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Oslo"
                   >
-                    Europe/Oslo (UTC +01:00)
+                    Europe/Oslo (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Paris"
                   >
-                    Europe/Paris (UTC +01:00)
+                    Europe/Paris (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Podgorica"
                   >
-                    Europe/Podgorica (UTC +01:00)
+                    Europe/Podgorica (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Prague"
                   >
-                    Europe/Prague (UTC +01:00)
+                    Europe/Prague (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Riga"
                   >
-                    Europe/Riga (UTC +02:00)
+                    Europe/Riga (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Rome"
                   >
-                    Europe/Rome (UTC +01:00)
+                    Europe/Rome (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -3716,13 +3716,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/San_Marino"
                   >
-                    Europe/San_Marino (UTC +01:00)
+                    Europe/San_Marino (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Sarajevo"
                   >
-                    Europe/Sarajevo (UTC +01:00)
+                    Europe/Sarajevo (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -3740,37 +3740,37 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Skopje"
                   >
-                    Europe/Skopje (UTC +01:00)
+                    Europe/Skopje (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Sofia"
                   >
-                    Europe/Sofia (UTC +02:00)
+                    Europe/Sofia (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Stockholm"
                   >
-                    Europe/Stockholm (UTC +01:00)
+                    Europe/Stockholm (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Tallinn"
                   >
-                    Europe/Tallinn (UTC +02:00)
+                    Europe/Tallinn (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Tirane"
                   >
-                    Europe/Tirane (UTC +01:00)
+                    Europe/Tirane (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Tiraspol"
                   >
-                    Europe/Tiraspol (UTC +02:00)
+                    Europe/Tiraspol (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -3782,31 +3782,31 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Uzhgorod"
                   >
-                    Europe/Uzhgorod (UTC +02:00)
+                    Europe/Uzhgorod (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Vaduz"
                   >
-                    Europe/Vaduz (UTC +01:00)
+                    Europe/Vaduz (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Vatican"
                   >
-                    Europe/Vatican (UTC +01:00)
+                    Europe/Vatican (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Vienna"
                   >
-                    Europe/Vienna (UTC +01:00)
+                    Europe/Vienna (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Vilnius"
                   >
-                    Europe/Vilnius (UTC +02:00)
+                    Europe/Vilnius (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -3818,37 +3818,37 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Europe/Warsaw"
                   >
-                    Europe/Warsaw (UTC +01:00)
+                    Europe/Warsaw (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Zagreb"
                   >
-                    Europe/Zagreb (UTC +01:00)
+                    Europe/Zagreb (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Zaporozhye"
                   >
-                    Europe/Zaporozhye (UTC +02:00)
+                    Europe/Zaporozhye (UTC +03:00)
                   </option>
                   <option
                     style=""
                     value="Europe/Zurich"
                   >
-                    Europe/Zurich (UTC +01:00)
+                    Europe/Zurich (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="GB"
                   >
-                    GB (UTC)
+                    GB (UTC +01:00)
                   </option>
                   <option
                     style=""
                     value="GB-Eire"
                   >
-                    GB-Eire (UTC)
+                    GB-Eire (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -3956,7 +3956,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Israel"
                   >
-                    Israel (UTC +02:00)
+                    Israel (UTC +03:00)
                   </option>
                   <option
                     style=""
@@ -3986,7 +3986,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="MET"
                   >
-                    MET (UTC +01:00)
+                    MET (UTC +02:00)
                   </option>
                   <option
                     style=""
@@ -4304,13 +4304,13 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="Poland"
                   >
-                    Poland (UTC +01:00)
+                    Poland (UTC +02:00)
                   </option>
                   <option
                     style=""
                     value="Portugal"
                   >
-                    Portugal (UTC)
+                    Portugal (UTC +01:00)
                   </option>
                   <option
                     style=""
@@ -4436,7 +4436,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                     style=""
                     value="WET"
                   >
-                    WET (UTC)
+                    WET (UTC +01:00)
                   </option>
                   <option
                     style=""
