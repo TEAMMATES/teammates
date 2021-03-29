@@ -14,8 +14,10 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
+import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionLogsData;
 
 /**
@@ -56,6 +58,17 @@ public class GetFeedbackSessionLogsAction extends Action {
         Instant startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
         Instant endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
         // TODO: we might want to impose limits on the time range from startTime to endTime
+
+        if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
+            throw new InvalidHttpParameterException("The end time should be after the start time.");
+        }
+
+        Instant earliestSearchTime = TimeHelper.getInstantDaysOffsetBeforeNow(Const.LOGS_RETENTION_PERIOD.toDays());
+        if (startTime.isBefore(earliestSearchTime) || endTime.isBefore(earliestSearchTime)) {
+            throw new InvalidHttpParameterException(
+                    "The earliest date you can search for is " + Const.LOGS_RETENTION_PERIOD.toDays() + " days before today."
+            );
+        }
 
         try {
             List<FeedbackSessionLogEntry> fsLogEntries =
