@@ -58,18 +58,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   colHeaders: string[] = ['Section', 'Team', 'Name', 'Email', 'Comments'];
   contextMenuOptions: String[] | Object[] =
-      ['row_above',
-        'row_below',
-        'remove_row',
-        'undo',
-        'redo',
-        {
-          key: 'paste',
-          name: 'Paste',
-          callback: this.pasteClick,
-        },
-        'make_read_only',
-        'alignment'];
+    ['row_above',
+      'row_below',
+      'remove_row',
+      'undo',
+      'redo',
+      {
+        key: 'paste',
+        name: 'Paste',
+        callback: this.pasteClick,
+      },
+      'make_read_only',
+      'alignment'];
 
   hotRegisterer: HotTableRegisterer = new HotTableRegisterer();
   newStudentsHOT: string = 'newStudentsHOT';
@@ -517,12 +517,12 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
           }
         }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.isAjaxSuccess = false;
-          this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
-        }, () => {
-          this.isLoadingExistingStudents = false;
-        });
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.isAjaxSuccess = false;
+      this.isExistingStudentsPanelCollapsed = !this.isExistingStudentsPanelCollapsed; // Collapse the panel again
+    }, () => {
+      this.isLoadingExistingStudents = false;
+    });
   }
 
   /**
