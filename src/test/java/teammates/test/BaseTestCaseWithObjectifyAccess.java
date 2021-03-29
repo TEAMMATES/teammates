@@ -39,11 +39,6 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
         SearchManagerFactory.registerSearchManager(new SearchManager(TestProperties.SEARCH_SERVICE_HOST));
     }
 
-    @BeforeClass
-    public void setupSearch() {
-        SearchManagerFactory.registerSearchManager(new SearchManager(TestProperties.SEARCH_SERVICE_HOST));
-    }
-
     @AfterClass
     public void resetSearch() {
         SearchManagerFactory.resetSearchManager();

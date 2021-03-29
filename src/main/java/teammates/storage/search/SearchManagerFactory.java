@@ -29,7 +29,8 @@ public final class SearchManagerFactory {
      * Reset the data in search manager instance.
      */
     public static void resetSearchManager() {
-        instance.resetCollections();
+        if (instance != null) {
+            instance.resetCollections();
+        }
     }
-
 }
