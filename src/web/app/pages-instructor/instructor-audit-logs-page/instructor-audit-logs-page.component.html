@@ -1,8 +1,8 @@
 <h1>Student Activity Logs</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course.</p>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is <b>30 days</b> before today.</p>
 <hr/>
 
-<div *tmIsLoading="isLoading" class="card">
+<div *tmIsLoading="isLoading" class="card bg-form no-border">
   <div class="card-body">
     <div class="row form-group">
       <div class="col-4">
@@ -10,7 +10,7 @@
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId">
+          <select id="course-id-dropdown" class="form-control col-8" [ngModel]="formModel.courseId" (ngModelChange)="updateSearchButtonDisabled($event)">
             <option *ngFor="let course of courses">
               {{course.courseId}}
             </option>
@@ -23,7 +23,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
+            <input id="logs-from-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateFrom" #logsFromDp="ngbDatepicker"/>
             <button class="btn btn-light" (click)="logsFromDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -53,7 +53,7 @@
         </div>
         <div class="input-group">
           <div class="col-md-6 input-group">
-            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
+            <input id="logs-to-datepicker" type="text" class="form-control" ngbDatepicker [minDate]="earliestSearchDate" [maxDate]="dateToday" [(ngModel)]="formModel.logsDateTo" #logsToDp="ngbDatepicker"/>
             <button class="btn btn-light" (click)="logsToDp.toggle()" type="button">
               <i class="fas fa-calendar-alt"></i>
             </button>
@@ -62,7 +62,7 @@
             <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
           </div>
           <div class="col-md-2">
-            <button class="float-right btn btn-primary" (click)="search()">Search</button>
+            <button class="float-right btn btn-primary" (click)="search()" [disabled]="formModel.isSearchDisabled">Search</button>
           </div>
         </div>
       </div>
@@ -70,6 +70,23 @@
   </div>
 </div>
 
-<div>
-  Placeholder for Results of Search
+<div *tmIsLoading="isSearching">
+  <div *ngFor="let results of searchResults">
+    <div class="card mb-3 alert-success-border">
+      <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">
+        {{results.feedbackSessionName}}
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
+        </div>
+      </div>
+      <div *ngIf="results.isTabExpanded">
+        <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
+          <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+        </div>
+        <ng-template #noActivityTemplate>
+          <i>No activity for this feedback session in selected search period</i>
+        </ng-template>
+      </div>
+    </div>
+  </div>
 </div>
