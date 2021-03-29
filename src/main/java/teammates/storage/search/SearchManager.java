@@ -54,6 +54,22 @@ public final class SearchManager {
     }
 
     /**
+     * Reset the data for all collections in search server.
+     */
+    public void resetCollections() {
+        try {
+            client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, "*:*");
+            client.deleteByQuery(STUDENT_COLLECTION_NAME, "*:*");
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, "resetCollections", e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, "resetCollections", e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+    }
+
+    /**
      * Searches for students.
      *
      * @param instructors the constraint that restricts the search result
