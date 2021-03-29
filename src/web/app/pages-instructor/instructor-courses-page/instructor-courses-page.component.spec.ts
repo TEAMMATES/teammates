@@ -7,6 +7,7 @@ import { Observable, of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StudentService } from '../../../services/student.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { Course, CourseArchive, Courses, JoinState, Students } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -22,6 +23,7 @@ describe('InstructorCoursesPageComponent', () => {
   let fixture: ComponentFixture<InstructorCoursesPageComponent>;
   let courseService: CourseService;
   let studentService: StudentService;
+  let timezoneService: TimezoneService;
   let simpleModalService: SimpleModalService;
 
   const date1: Date = new Date('2018-11-05T08:15:30');
@@ -308,6 +310,7 @@ describe('InstructorCoursesPageComponent', () => {
     component = fixture.componentInstance;
     courseService = TestBed.inject(CourseService);
     studentService = TestBed.inject(StudentService);
+    timezoneService = TestBed.inject(TimezoneService);
     simpleModalService = TestBed.inject(SimpleModalService);
     fixture.detectChanges();
   });
@@ -572,6 +575,14 @@ describe('InstructorCoursesPageComponent', () => {
 
   it('should snap when new course form is expanded', () => {
     component.isAddNewCourseFormExpanded = true;
+    // Mock the timezone service to prevent unexpected changes in time zones over time, such as daylight savings time
+    const timezones: Record<string, number> = {
+      Jamaica: -5 * 60,
+      Portugal: 0,
+      Singapore: 8 * 60,
+      Turkey: 3 * 60,
+    };
+    spyOn(timezoneService, 'getTzOffsets').and.returnValue(timezones);
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

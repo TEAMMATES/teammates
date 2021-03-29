@@ -132,7 +132,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
     private void testActionInMasqueradeMode(AccountAttributes student) {
 
         ______TS("Typical case: masquerade mode");
-        gaeSimulation.loginAsAdmin("admin.user");
+        loginAsAdmin();
 
         String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
         StudentProfileUpdateRequest req = createValidRequestForProfile();

@@ -24,7 +24,7 @@ import teammates.common.util.Logger;
  * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailgun">https://cloud.google.com/appengine/docs/java/mail/mailgun</a>
  * @see FormDataMultiPart
  */
-public class MailgunService extends EmailSenderService {
+public class MailgunService implements EmailSenderService {
 
     private static final Logger log = Logger.getLogger();
 

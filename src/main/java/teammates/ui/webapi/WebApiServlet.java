@@ -88,6 +88,7 @@ public class WebApiServlet extends HttpServlet {
 
         try {
             Action action = new ActionFactory().getAction(req, req.getMethod());
+            action.init(req);
             action.checkAccessControl();
 
             ActionResult result = action.execute();
