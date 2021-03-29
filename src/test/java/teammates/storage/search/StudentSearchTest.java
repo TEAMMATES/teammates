@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -10,8 +11,10 @@ import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.storage.api.StudentsDb;
 import teammates.test.AssertHelper;
+import teammates.test.TestProperties;
 
 /**
  * SUT: {@link StudentsDb},
@@ -23,7 +26,11 @@ public class StudentSearchTest extends BaseSearchTest {
     private StudentsDb studentsDb = new StudentsDb();
 
     @Test
-    public void allTests() {
+    public void allTests() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         StudentAttributes stu1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes stu2InCourse1 = dataBundle.students.get("student2InCourse1");
         StudentAttributes stu1InCourse2 = dataBundle.students.get("student1InCourse2");
@@ -90,6 +97,10 @@ public class StudentSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchStudent_createNewStudent_studentShouldBeSearchable() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
 
         StudentSearchResultBundle bundle =
@@ -113,7 +124,11 @@ public class StudentSearchTest extends BaseSearchTest {
     }
 
     @Test
-    public void testSearchStudent_deleteAfterSearch_shouldNotBeSearchable() {
+    public void testSearchStudent_deleteAfterSearch_shouldNotBeSearchable() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         StudentAttributes stu1InCourse1 = dataBundle.students.get("student1InCourse1");
         StudentAttributes stu1InCourse2 = dataBundle.students.get("student1InCourse2");
         StudentAttributes stu1InCourse3 = dataBundle.students.get("student1InCourse3");
@@ -151,6 +166,18 @@ public class StudentSearchTest extends BaseSearchTest {
         AssertHelper.assertSameContentIgnoreOrder(
                 Arrays.asList(stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
                 bundle.studentList);
+    }
+
+    @Test
+    public void testSearchStudents_noSearchService_shouldThrowException() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        assertThrows(SearchNotImplementedException.class,
+                () -> studentsDb.search("anything", new ArrayList<>()));
+        assertThrows(SearchNotImplementedException.class,
+                () -> studentsDb.searchStudentsInWholeSystem("anything"));
     }
 
 }
