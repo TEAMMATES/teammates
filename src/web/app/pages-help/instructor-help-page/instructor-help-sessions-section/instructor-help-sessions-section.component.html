@@ -264,6 +264,15 @@
     </p>
   </tm-instructor-help-panel>
   <!-- Question -->
+  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.incluces(SessionsSectionQuestions.ACCESS_SUBMISSION)"
+                            [id]="SessionsSectionQuestions.ACCESS_SUBMISSION"
+                            headerText="Can I see when a student tried to access the submission page?"
+                            [(isPanelExpaned)]="questionsToCollapsed[SessionsSectionQuestions.ACCESS_SUBMISSION)">
+    <p>
+      Not at the moment. If there is such a need, contact us and we'll try to find that information for you.
+    </p>
+  </tm-instructor-help-panel>
+  <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.COMPULSORY)"
                             [id]="SessionsSectionQuestions.COMPULSORY"
                             headerText="Can I set a question as compulsory?"
