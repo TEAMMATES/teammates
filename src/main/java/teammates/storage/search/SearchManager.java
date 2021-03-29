@@ -2,6 +2,7 @@ package teammates.storage.search;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrClient;
@@ -38,24 +39,18 @@ public final class SearchManager {
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
-    private static final String ID = "id";
-
     private String searchServiceHost;
     private HttpSolrClient client;
 
     public SearchManager(String searchServiceHost) {
         this.searchServiceHost = searchServiceHost;
+        if (isSearchServiceActive()) {
+            this.client = new HttpSolrClient.Builder(this.searchServiceHost).build();
+        }
     }
 
     private boolean isSearchServiceActive() {
         return !StringHelper.isEmpty(searchServiceHost);
-    }
-
-    private HttpSolrClient getSolrClient() {
-        if (client == null) {
-            client = new HttpSolrClient.Builder(searchServiceHost).build();
-        }
-        return client;
     }
 
     /**
@@ -69,7 +64,6 @@ public final class SearchManager {
             throw new SearchNotImplementedException();
         }
 
-        SolrClient client = getSolrClient();
         QueryResponse response = null;
         SolrQuery studentQuery = new SolrQuery();
         studentQuery.setQuery(queryString);
@@ -96,7 +90,6 @@ public final class SearchManager {
             return;
         }
 
-        SolrClient client = getSolrClient();
         List<SolrInputDocument> studentDocs = new ArrayList<>();
 
         for (StudentAttributes student : students) {
@@ -116,11 +109,13 @@ public final class SearchManager {
             return;
         }
 
-        SolrClient client = getSolrClient();
-        String batchQueryString = ID + ":" + prepareBatchQueryString(keys);
+        List<String> batchQueryString = Arrays.asList(keys);
+        if (batchQueryString.isEmpty()) {
+            return;
+        }
 
         try {
-            client.deleteByQuery(STUDENT_COLLECTION_NAME, batchQueryString);
+            client.deleteById(STUDENT_COLLECTION_NAME, batchQueryString);
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
@@ -138,7 +133,6 @@ public final class SearchManager {
             throw new SearchNotImplementedException();
         }
 
-        SolrClient client = getSolrClient();
         QueryResponse response = null;
         SolrQuery instructorQuery = new SolrQuery();
         instructorQuery.setQuery(queryString);
@@ -165,7 +159,6 @@ public final class SearchManager {
             return;
         }
 
-        SolrClient client = getSolrClient();
         List<SolrInputDocument> instructorDocs = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructors) {
@@ -185,11 +178,13 @@ public final class SearchManager {
             return;
         }
 
-        SolrClient client = getSolrClient();
-        String batchQueryString = ID + ":" + prepareBatchQueryString(keys);
+        List<String> batchQueryString = Arrays.asList(keys);
+        if (batchQueryString.isEmpty()) {
+            return;
+        }
 
         try {
-            client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, batchQueryString);
+            client.deleteById(INSTRUCTOR_COLLECTION_NAME, batchQueryString);
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
@@ -211,16 +206,5 @@ public final class SearchManager {
             log.severe(String.format(ERROR_PUT_DOCUMENT, docs, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
-    }
-
-    private String prepareBatchQueryString(String... keys) {
-        String or = " OR ";
-        StringBuilder sb = new StringBuilder("(" + keys[0]);
-
-        for (int i = 1; i < keys.length; i++) {
-            sb.append(or).append(keys[i]);
-        }
-
-        return sb.toString() + ")";
     }
 }
