@@ -635,9 +635,7 @@ public final class FeedbackQuestionsLogic {
                     teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
                 }
 
-                teamMembers.forEach(teamMember -> {
-                    optionList.add(teamMember.getName());
-                });
+                teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
 
                 optionList.sort(null);
             }
