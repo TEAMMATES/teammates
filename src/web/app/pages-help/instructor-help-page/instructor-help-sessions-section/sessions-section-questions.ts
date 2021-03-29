@@ -120,5 +120,5 @@ export enum SessionsSectionQuestions {
   /**
    * Can I see when a student tried to access the submission page?
    */
-  ACCESS_SUBMISSION = 'access-submission'
+  ACCESS_SUBMISSION = 'access-submission',
 }
