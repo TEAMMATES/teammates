@@ -8,9 +8,11 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
+import teammates.test.TestProperties;
 
 /**
  * SUT: {@link InstructorsDb},
@@ -23,6 +25,10 @@ public class InstructorSearchTest extends BaseSearchTest {
 
     @Test
     public void allTests() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes ins2InCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes helperInCourse1 = dataBundle.instructors.get("helperOfCourse1");
@@ -136,6 +142,10 @@ public class InstructorSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchInstructor_createNewInstructor_instructorShouldBeSearchable() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
 
         InstructorSearchResultBundle bundle =
@@ -158,7 +168,11 @@ public class InstructorSearchTest extends BaseSearchTest {
     }
 
     @Test
-    public void testSearchInstructor_deleteAfterSearch_shouldNotBeSearchable() {
+    public void testSearchInstructor_deleteAfterSearch_shouldNotBeSearchable() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
@@ -183,6 +197,16 @@ public class InstructorSearchTest extends BaseSearchTest {
         // there should be no search result
         results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
         verifySearchResults(results);
+    }
+
+    @Test
+    public void testSearchInstructor_noSearchService_shouldThrowException() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        assertThrows(SearchNotImplementedException.class,
+                () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
     }
 
     /*

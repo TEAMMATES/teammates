@@ -8,10 +8,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
 import com.google.common.base.Objects;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -23,9 +19,6 @@ import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
-import teammates.storage.search.SearchDocument;
-import teammates.storage.search.SearchManager;
-import teammates.storage.search.SearchQuery;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
@@ -225,52 +218,6 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
             return Optional.of(Key.create(webSafeString));
         } catch (IllegalArgumentException e) {
             return Optional.empty();
-        }
-    }
-
-    /**
-     * Puts document(s) into the search engine.
-     */
-    void putDocument(String indexName, SearchDocument... documents) {
-        List<Document> searchDocuments = new ArrayList<>();
-        for (SearchDocument document : documents) {
-            try {
-                searchDocuments.add(document.build());
-            } catch (Exception e) {
-                log.severe("Fail to build search document in " + indexName + " for " + document);
-            }
-        }
-        try {
-            SearchManager.putDocuments(indexName, searchDocuments);
-        } catch (Exception e) {
-            log.severe("Failed to batch put searchable documents in " + indexName + " for " + searchDocuments);
-        }
-    }
-
-    /**
-     * Searches documents with query.
-     */
-    Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
-        try {
-            if (query.getFilterSize() > 0) {
-                return SearchManager.searchDocuments(indexName, query.toQuery());
-            }
-            return null;
-        } catch (SearchQueryException e) {
-            log.info("Unsupported query for this query string: " + query.toString());
-            return null;
-        }
-    }
-
-    /**
-     * Deletes document by documentId(s).
-     */
-    void deleteDocument(String indexName, String... documentIds) {
-        try {
-            SearchManager.deleteDocument(indexName, documentIds);
-        } catch (Exception e) {
-            log.info("Unable to delete document in the index: " + indexName
-                    + " with document Ids " + String.join(", ", documentIds));
         }
     }
 

@@ -13,6 +13,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.api.StudentsDb;
@@ -95,7 +96,8 @@ public final class StudentsLogic {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
         return studentsDb.search(queryString, instructors);
     }
 
@@ -105,7 +107,8 @@ public final class StudentsLogic {
      * search students in the whole system.
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         return studentsDb.searchStudentsInWholeSystem(queryString);
     }
 
