@@ -5,7 +5,6 @@ import { PageScrollService } from 'ngx-page-scroll-core';
 import { environment } from '../../../environments/environment';
 import { InstructorHelpCoursesSectionComponent } from './instructor-help-courses-section/instructor-help-courses-section.component';
 import { InstructorHelpGeneralSectionComponent } from './instructor-help-general-section/instructor-help-general-section.component';
-// General import
 import { InstructorHelpQuestionsSectionComponent } from './instructor-help-questions-section/instructor-help-questions-section.component';
 import { InstructorHelpSessionsSectionComponent } from './instructor-help-sessions-section/instructor-help-sessions-section.component';
 import { SessionsSectionQuestions } from './instructor-help-sessions-section/sessions-section-questions';

@@ -29,3 +29,4 @@ describe('InstructorHelpGeneralSectionComponent', () => {
       expect(component).toBeTruthy();
     });
   });
+  
