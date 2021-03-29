@@ -19,24 +19,16 @@ import teammates.common.util.StringHelper;
 public class StudentSearchDocument extends SearchDocument {
 
     private StudentAttributes student;
-    private CourseAttributes course;
 
     public StudentSearchDocument(StudentAttributes student) {
         this.student = student;
     }
 
     @Override
-    void prepareData() {
-        if (student == null) {
-            return;
-        }
-
-        course = coursesDb.getCourse(student.course);
-    }
-
-    @Override
     SolrInputDocument toDocument() {
         SolrInputDocument document = new SolrInputDocument();
+
+        CourseAttributes course = coursesDb.getCourse(student.course);
 
         document.addField("id", student.key);
         document.addField("name", student.getName());

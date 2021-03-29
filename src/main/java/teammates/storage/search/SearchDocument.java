@@ -28,11 +28,8 @@ public abstract class SearchDocument {
      * Builds the search document.
      */
     public SolrInputDocument build() {
-        prepareData();
         return toDocument();
     }
-
-    abstract void prepareData();
 
     abstract SolrInputDocument toDocument();
 
