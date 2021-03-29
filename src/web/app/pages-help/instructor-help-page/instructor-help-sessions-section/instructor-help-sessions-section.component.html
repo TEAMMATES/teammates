@@ -543,7 +543,7 @@
     </tm-example-box>
   </tm-instructor-help-panel>
   <!--Question-->
-  <tm-instructor-help-panel #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_DEL_COMMENT)"
+  <tm-instructor-help-panel class='instr-help-qn-last' #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.EDIT_DEL_COMMENT)"
                             [id]="SessionsSectionQuestions.EDIT_DEL_COMMENT"
                             headerText="How do I edit or delete a comment on a response?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.EDIT_DEL_COMMENT]">
@@ -568,33 +568,6 @@
         If you are deleting the comment, click <b>OK</b> to confirm that you want to delete the comment.
       </li>
     </ol>
-  </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_SEARCH)"
-                            [id]="SessionsSectionQuestions.SESSION_SEARCH"
-                            headerText="How do I search for a feedback session question, response or comment on a response?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]">
-    You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
-    <ol>
-      <li>
-        Go to the <b>Search</b> page using the top navigation bar.
-      </li>
-      <li>
-        Tick the option <b>Questions, responses, comments on responses</b> below the search bar.
-      </li>
-      <li>
-        Type in the keywords of your search.
-      </li>
-      <li>
-        Click <button class="btn btn-primary btn-sm">Search</button>.
-      </li>
-    </ol>
-    <p>
-      Assuming the relevant data exists, the results for a search with the keyword <code>good</code> would look something similar to this:
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" @collapseAnim>
-      <tm-comment-result-table [commentTables]="exampleCommentSearchResult"></tm-comment-result-table>
-    </tm-example-box>
   </tm-instructor-help-panel>
   <!--Section-->
   <h4 *ngIf="displaySubsection(9, 13)">Restoring Deleted Sessions</h4>

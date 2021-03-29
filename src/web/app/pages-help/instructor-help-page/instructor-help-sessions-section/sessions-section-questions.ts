@@ -33,11 +33,6 @@ export enum SessionsSectionQuestions {
   SESSION_ADD_COMMENTS = 'session-add-comments',
 
   /**
-   * How do I search for a feedback session question, response or comment on a response?
-   */
-  SESSION_SEARCH = 'session-search',
-
-  /**
    * How do I view sessions I have deleted?
    */
   VIEW_DELETED_SESSION = 'view-deleted-session',
