@@ -2,11 +2,9 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
@@ -16,13 +14,12 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
-import teammates.storage.search.InstructorSearchDocument;
-import teammates.storage.search.InstructorSearchQuery;
-import teammates.storage.search.SearchDocument;
+import teammates.storage.search.SearchManager;
+import teammates.storage.search.SearchManagerFactory;
 
 /**
  * Handles CRUD operations for instructors.
@@ -32,6 +29,10 @@ import teammates.storage.search.SearchDocument;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
+    private SearchManager getSearchManager() {
+        return SearchManagerFactory.getSearchManager();
+    }
+
     /**
      * Creates or updates search document for the given instructor.
      */
@@ -40,27 +41,20 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        // defensive coding for legacy data
-        if (instructor.key != null) {
-            putDocument(Const.SearchIndex.INSTRUCTOR, new InstructorSearchDocument(instructor));
-        }
+        getSearchManager().putInstructorSearchDocuments(instructor);
     }
 
     /**
      * Batch creates or updates search documents for the given instructors.
      */
     public void putDocuments(List<InstructorAttributes> instructorParams) {
-        List<SearchDocument> instructorDocuments = new ArrayList<>();
-        for (InstructorAttributes instructor : instructorParams) {
-            InstructorAttributes inst = instructor.key == null
-                    ? getInstructorForEmail(instructor.courseId, instructor.email)
-                    : instructor;
-            // defensive coding for legacy data
-            if (inst.key != null) {
-                instructorDocuments.add(new InstructorSearchDocument(inst));
-            }
-        }
-        putDocument(Const.SearchIndex.INSTRUCTOR, instructorDocuments.toArray(new SearchDocument[0]));
+        List<InstructorAttributes> instructors = instructorParams.stream()
+                .map(instructor -> instructor.key == null
+                        ? getInstructorForEmail(instructor.courseId, instructor.email)
+                        : instructor)
+                .collect(Collectors.toList());
+
+        getSearchManager().putInstructorSearchDocuments(instructors.toArray(new InstructorAttributes[0]));
     }
 
     /**
@@ -69,7 +63,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * <p>See {@link InstructorSearchDocument} for more details.</p>
      */
     public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
-        deleteDocument(Const.SearchIndex.INSTRUCTOR, encryptedRegistrationKey);
+        getSearchManager().deleteInstructorSearchDocuments(encryptedRegistrationKey);
     }
 
     /**
@@ -79,16 +73,14 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
 
         if (queryString.trim().isEmpty()) {
             return new InstructorSearchResultBundle();
         }
 
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.INSTRUCTOR,
-                                                          new InstructorSearchQuery(queryString));
-
-        return InstructorSearchDocument.fromResults(results);
+        return getSearchManager().searchInstructors(queryString);
     }
 
     /**
@@ -321,7 +313,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
-            deleteDocument(Const.SearchIndex.INSTRUCTOR,
+            getSearchManager().deleteInstructorSearchDocuments(
                     instructorsToDelete.stream()
                             .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
                             .toArray(String[]::new));
