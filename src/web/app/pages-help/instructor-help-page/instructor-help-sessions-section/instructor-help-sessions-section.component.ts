@@ -102,6 +102,7 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     SessionsSectionQuestions.RESTORE_SESSION,
     SessionsSectionQuestions.PERMANENT_DEL_SESSION,
     SessionsSectionQuestions.RESTORE_DEL_ALL,
+    SessionsSectionQuestions.ACCESS_SUBMISSION,
   ];
 
   getQuestionsOrder(): string[] {
