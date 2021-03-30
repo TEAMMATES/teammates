@@ -114,16 +114,6 @@ export class SessionEditFormComponent implements OnInit {
   }
 
   /**
-   * Triggers the change of the model for the form.
-   */
-  triggerModelChange(field: string, data: any): void {
-    this.modelChange.emit({
-      ...this.model,
-      [field]: data,
-    });
-  }
-
-  /**
    * Handles course Id change event.
    *
    * <p>Used in ADD mode.
@@ -182,6 +172,16 @@ export class SessionEditFormComponent implements OnInit {
           day: 0,
         };
     }
+  }
+
+  /**
+   * Triggers the change of the model for the form.
+   */
+  triggerModelChange(field: string, data: any): void {
+    this.modelChange.emit({
+      ...this.model,
+      [field]: data,
+    });
   }
 
   /**
