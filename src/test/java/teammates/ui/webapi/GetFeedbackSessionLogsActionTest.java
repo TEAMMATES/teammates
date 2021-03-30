@@ -1,5 +1,6 @@
 package teammates.ui.webapi;
 
+import java.time.Instant;
 import java.util.List;
 
 import org.apache.http.HttpStatus;
@@ -42,8 +43,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         StudentAttributes student2 = typicalBundle.students.get("student2InCourse1");
         String student1Email = student1.getEmail();
         String student2Email = student2.getEmail();
-        long startTime = 1600000000000L;
-        long endTime = 1600000000000L + 100000;
+        long endTime = Instant.now().toEpochMilli();
+        long startTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() - 1) * 24 * 60 * 60 * 1000;
+        long invalidStartTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() + 1) * 24 * 60 * 60 * 1000;
 
         mockLogsProcessor.insertFeedbackSessionLog(student1, fsa1,
                 Const.FeedbackSessionLogTypes.ACCESS, startTime);
@@ -105,6 +107,13 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         };
         actionOutput = getJsonResult(getAction(paramsInvalid4));
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+
+        ______TS("Failure case: start time is before earliest search time");
+        verifyHttpParameterFailure(
+                Const.ParamsNames.COURSE_ID, courseId,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(invalidStartTime),
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime)
+        );
 
         ______TS("Success case: should group by feedback session");
         String[] paramsSuccessful1 = {
