@@ -64,7 +64,11 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Run Backend Tests    
+      - name: Run Solr search service
+        run: |
+          docker run --name=tm_solr -d -p 8983:8983 solr:8.8.1
+          docker exec $(docker ps -qf "name=tm_solr") /bin/sh -c "$(cat ./solr.sh)"
+      - name: Run Backend Tests
         run: |
           ./gradlew createConfigs componentTests 
           ./gradlew jacocoReport
