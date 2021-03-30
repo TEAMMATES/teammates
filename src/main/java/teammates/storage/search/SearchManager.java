@@ -58,7 +58,7 @@ public final class SearchManager {
      */
     void resetCollections() {
         if (!isSearchServiceActive()) {
-            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
@@ -107,7 +107,7 @@ public final class SearchManager {
      */
     public void putStudentSearchDocuments(StudentAttributes... students) {
         if (!isSearchServiceActive()) {
-            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
@@ -126,7 +126,7 @@ public final class SearchManager {
      */
     public void deleteStudentSearchDocuments(String... keys) {
         if (!isSearchServiceActive()) {
-            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
@@ -176,7 +176,7 @@ public final class SearchManager {
      */
     public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
         if (!isSearchServiceActive()) {
-            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
@@ -195,7 +195,7 @@ public final class SearchManager {
      */
     public void deleteInstructorSearchDocuments(String... keys) {
         if (!isSearchServiceActive()) {
-            log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
