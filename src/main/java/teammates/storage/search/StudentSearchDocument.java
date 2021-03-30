@@ -18,7 +18,7 @@ import teammates.common.util.StringHelper;
  */
 class StudentSearchDocument extends SearchDocument {
 
-    private StudentAttributes student;
+    private final StudentAttributes student;
 
     StudentSearchDocument(StudentAttributes student) {
         this.student = student;

@@ -24,13 +24,6 @@ abstract class SearchDocument {
     static final InstructorsDb instructorsDb = new InstructorsDb();
     static final StudentsDb studentsDb = new StudentsDb();
 
-    /**
-     * Builds the search document.
-     */
-    SolrInputDocument build() {
-        return toDocument();
-    }
-
     abstract SolrInputDocument toDocument();
 
     /**

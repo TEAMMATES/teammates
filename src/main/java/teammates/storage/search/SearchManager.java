@@ -114,7 +114,7 @@ public final class SearchManager {
         List<SolrInputDocument> studentDocs = new ArrayList<>();
 
         for (StudentAttributes student : students) {
-            SolrInputDocument studentDoc = new StudentSearchDocument(student).build();
+            SolrInputDocument studentDoc = new StudentSearchDocument(student).toDocument();
             studentDocs.add(studentDoc);
         }
 
@@ -183,7 +183,7 @@ public final class SearchManager {
         List<SolrInputDocument> instructorDocs = new ArrayList<>();
 
         for (InstructorAttributes instructor : instructors) {
-            SolrInputDocument instructorDoc = new InstructorSearchDocument(instructor).build();
+            SolrInputDocument instructorDoc = new InstructorSearchDocument(instructor).toDocument();
             instructorDocs.add(instructorDoc);
         }
 
