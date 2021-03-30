@@ -16,7 +16,7 @@ import teammates.common.util.StringHelper;
 /**
  * The {@link SearchDocument} object that defines how we store {@link SolrInputDocument} for instructors.
  */
-public class InstructorSearchDocument extends SearchDocument {
+class InstructorSearchDocument extends SearchDocument {
 
     private InstructorAttributes instructor;
 
@@ -48,7 +48,7 @@ public class InstructorSearchDocument extends SearchDocument {
      * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.</p>
      */
-    public static InstructorSearchResultBundle fromResponse(QueryResponse response) {
+    static InstructorSearchResultBundle fromResponse(QueryResponse response) {
         if (response == null) {
             return new InstructorSearchResultBundle();
         }

@@ -16,7 +16,7 @@ import teammates.common.util.StringHelper;
 /**
  * The {@link SearchDocument} object that defines how we store {@link SolrInputDocument} for students.
  */
-public class StudentSearchDocument extends SearchDocument {
+class StudentSearchDocument extends SearchDocument {
 
     private StudentAttributes student;
 
@@ -46,7 +46,7 @@ public class StudentSearchDocument extends SearchDocument {
      *
      * <p>The list of {@link InstructorAttributes} is used to filter out the search result.</p>
      */
-    public static StudentSearchResultBundle fromResponse(QueryResponse response,
+    static StudentSearchResultBundle fromResponse(QueryResponse response,
                                                         List<InstructorAttributes> instructors) {
         if (response == null) {
             return new StudentSearchResultBundle();

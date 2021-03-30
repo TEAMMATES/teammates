@@ -56,7 +56,7 @@ public final class SearchManager {
     /**
      * Reset the data for all collections in search server.
      */
-    public void resetCollections() {
+    void resetCollections() {
         if (!isSearchServiceActive()) {
             log.severe(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;

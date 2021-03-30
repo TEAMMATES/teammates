@@ -18,7 +18,7 @@ import teammates.storage.api.StudentsDb;
 /**
  * Defines how we store {@link SolrInputDocument} for indexing/searching.
  */
-public abstract class SearchDocument {
+abstract class SearchDocument {
 
     static final CoursesDb coursesDb = new CoursesDb();
     static final InstructorsDb instructorsDb = new InstructorsDb();
@@ -27,7 +27,7 @@ public abstract class SearchDocument {
     /**
      * Builds the search document.
      */
-    public SolrInputDocument build() {
+    SolrInputDocument build() {
         return toDocument();
     }
 
