@@ -20,7 +20,7 @@ class StudentSearchDocument extends SearchDocument {
 
     private StudentAttributes student;
 
-    public StudentSearchDocument(StudentAttributes student) {
+    StudentSearchDocument(StudentAttributes student) {
         this.student = student;
     }
 
