@@ -22,10 +22,16 @@ class CreateFeedbackSessionLogAction extends Action {
 
     @Override
     JsonResult execute() {
+        String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
+        if (!fslType.equals(Const.FeedbackSessionLogTypes.ACCESS)
+                && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)) {
+            return new JsonResult("Invalid log type", HttpStatus.SC_BAD_REQUEST);
+        }
+
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String fsName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-        String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+        // Skip rigorous validations to avoid incurring extra db reads and to keep the endpoint light
 
         try {
             logsProcessor.createFeedbackSessionLog(courseId, studentEmail, fsName, fslType);

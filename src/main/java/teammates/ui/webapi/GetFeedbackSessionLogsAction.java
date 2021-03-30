@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -31,8 +32,11 @@ public class GetFeedbackSessionLogsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() {
-        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        if (!userInfo.isInstructor) {
+            throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
+        }
 
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
 
         if (courseAttributes == null) {
@@ -55,8 +59,14 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
-        Instant startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
-        Instant endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+        Instant startTime;
+        Instant endTime;
+        try {
+            startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
+            endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+        } catch (NumberFormatException e) {
+            return new JsonResult("Invalid start or end time", HttpStatus.SC_BAD_REQUEST);
+        }
         // TODO: we might want to impose limits on the time range from startTime to endTime
 
         if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
