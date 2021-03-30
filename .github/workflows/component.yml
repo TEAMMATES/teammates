@@ -5,12 +5,10 @@ on:
     branches:
       - master 
       - release
-      - audit-logs
   pull_request:
     branches:
       - master 
       - release
-      - audit-logs
   schedule:
     - cron: "0 0 * * *" #end of every day
 jobs:

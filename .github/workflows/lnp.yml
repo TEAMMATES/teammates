@@ -5,7 +5,6 @@ on:
     branches:
       - master 
       - release
-      - audit-logs
 jobs:
   LnP-testing:
     runs-on: ubuntu-latest
