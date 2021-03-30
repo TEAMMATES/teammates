@@ -9,7 +9,7 @@ interface InstructorData {
   name: string;
   email: string;
   institution: string;
-  status: Status;
+  status: InstructorSignupStatus;
   joinLink?: string;
   message?: string;
 }
@@ -17,7 +17,7 @@ interface InstructorData {
 /**
  * Status of an instructor signup.
  */
-export enum Status {
+export enum InstructorSignupStatus {
   /**
    * The instructor is being added.
    */
@@ -79,7 +79,7 @@ export class AdminHomePageComponent {
         name: instructorDetailSplit[0],
         email: instructorDetailSplit[1],
         institution: instructorDetailSplit[2],
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
@@ -97,7 +97,7 @@ export class AdminHomePageComponent {
       name: this.instructorName,
       email: this.instructorEmail,
       institution: this.instructorInstitution,
-      status: Status.PENDING,
+      status: InstructorSignupStatus.PENDING,
     });
     this.instructorName = '';
     this.instructorEmail = '';
@@ -117,11 +117,11 @@ export class AdminHomePageComponent {
    */
   asyncAddInstructor(i: number): Observable<JoinLink> | null {
     const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (instructor.status !== Status.PENDING && instructor.status !== Status.FAIL) {
+    if (instructor.status !== InstructorSignupStatus.PENDING && instructor.status !== InstructorSignupStatus.FAIL) {
       return null;
     }
     this.activeRequests += 1;
-    instructor.status = Status.ADDING;
+    instructor.status = InstructorSignupStatus.ADDING;
 
     this.isAddingInstructors = true;
     return this.accountService.createAccount({
@@ -130,11 +130,11 @@ export class AdminHomePageComponent {
       instructorInstitution: instructor.institution,
     }).pipe(
       tap((resp: JoinLink) => {
-        instructor.status = Status.SUCCESS;
+        instructor.status = InstructorSignupStatus.SUCCESS;
         instructor.joinLink = resp.joinLink;
         this.activeRequests -= 1;
       }, (resp: ErrorMessageOutput) => {
-        instructor.status = Status.FAIL;
+        instructor.status = InstructorSignupStatus.FAIL;
         instructor.message = resp.error.message;
         this.activeRequests -= 1;
       }),

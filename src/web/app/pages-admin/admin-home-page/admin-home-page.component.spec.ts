@@ -5,7 +5,7 @@ import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
-import { AdminHomePageComponent, Status } from './admin-home-page.component';
+import { AdminHomePageComponent, InstructorSignupStatus } from './admin-home-page.component';
 
 describe('AdminHomePageComponent', () => {
   let component: AdminHomePageComponent;
@@ -54,7 +54,7 @@ describe('AdminHomePageComponent', () => {
       email: 'instructor@example.com',
       institution: 'Instructor Institution',
       name: 'Instructor Name',
-      status: Status.PENDING,
+      status: InstructorSignupStatus.PENDING,
     });
   });
 
@@ -116,13 +116,13 @@ describe('AdminHomePageComponent', () => {
       email: 'instructora@example.com',
       institution: 'Institution A',
       name: 'Instructor A',
-      status: Status.PENDING,
+      status: InstructorSignupStatus.PENDING,
     });
     expect(component.instructorsConsolidated[1]).toEqual({
       email: 'instructord@example.com',
       institution: 'Institution D',
       name: 'Instructor D',
-      status: Status.PENDING,
+      status: InstructorSignupStatus.PENDING,
     });
   });
 
@@ -132,7 +132,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -151,7 +151,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -175,7 +175,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -201,7 +201,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -209,7 +209,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
-        status: Status.SUCCESS,
+        status: InstructorSignupStatus.SUCCESS,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
       },
@@ -217,7 +217,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
-        status: Status.FAIL,
+        status: InstructorSignupStatus.FAIL,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
       },
@@ -245,7 +245,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -253,7 +253,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
-        status: Status.SUCCESS,
+        status: InstructorSignupStatus.SUCCESS,
         joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
       },
@@ -261,7 +261,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor C',
         email: 'instructorc@example.com',
         institution: 'Sample Institution C',
-        status: Status.FAIL,
+        status: InstructorSignupStatus.FAIL,
         joinLink: 'This should not be displayed',
         message: 'The instructor cannot be added for some reason',
       },
@@ -276,7 +276,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor A',
         email: 'instructora@example.com',
         institution: 'Sample Institution A',
-        status: Status.ADDING,
+        status: InstructorSignupStatus.ADDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
@@ -284,7 +284,7 @@ describe('AdminHomePageComponent', () => {
         name: 'Instructor B',
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
-        status: Status.PENDING,
+        status: InstructorSignupStatus.PENDING,
         joinLink: 'This should not be displayed',
         message: 'This should not be displayed',
       },
