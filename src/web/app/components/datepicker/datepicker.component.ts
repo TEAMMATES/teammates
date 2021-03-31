@@ -13,6 +13,9 @@ import { DateFormat } from '../session-edit-form/session-edit-form-model';
 export class DatepickerComponent implements OnInit {
 
   @Input()
+  _id: string = '';
+
+  @Input()
   date: DateFormat | undefined;
 
   @Input()
