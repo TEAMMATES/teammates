@@ -2,20 +2,20 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { DatepickerTodayComponent } from './datepicker-today.component';
+import { DatepickerComponent } from './datepicker.component';
 
 /**
  * Datepicker with today button module.
  */
 @NgModule({
-  declarations: [DatepickerTodayComponent],
+  declarations: [DatepickerComponent],
   imports: [
     CommonModule,
     FormsModule,
     NgbDatepickerModule,
   ],
   exports: [
-    DatepickerTodayComponent,
+    DatepickerComponent,
   ],
 })
-export class DatepickerTodayModule { }
+export class DatepickerModule { }

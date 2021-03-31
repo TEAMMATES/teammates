@@ -1,15 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
-import { DatepickerTodayComponent } from './datepicker-today.component';
+import { DatepickerComponent } from './datepicker.component';
 
-describe('DatepickerTodayComponent', () => {
-  let component: DatepickerTodayComponent;
-  let fixture: ComponentFixture<DatepickerTodayComponent>;
+describe('DatepickerComponent', () => {
+  let component: DatepickerComponent;
+  let fixture: ComponentFixture<DatepickerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [DatepickerTodayComponent],
+      declarations: [DatepickerComponent],
       imports: [
         FormsModule,
         NgbDatepickerModule,
@@ -19,7 +19,7 @@ describe('DatepickerTodayComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DatepickerTodayComponent);
+    fixture = TestBed.createComponent(DatepickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -6,11 +6,11 @@ import { DateFormat } from '../session-edit-form/session-edit-form-model';
  * Datepicker with today button component
  */
 @Component({
-  selector: 'tm-datepicker-today',
-  templateUrl: './datepicker-today.component.html',
-  styleUrls: ['./datepicker-today.component.scss'],
+  selector: 'tm-datepicker',
+  templateUrl: './datepicker.component.html',
+  styleUrls: ['./datepicker.component.scss'],
 })
-export class DatepickerTodayComponent implements OnInit {
+export class DatepickerComponent implements OnInit {
 
   @Input()
   dateFormat: DateFormat | undefined;
