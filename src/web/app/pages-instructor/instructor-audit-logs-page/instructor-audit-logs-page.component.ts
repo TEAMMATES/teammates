@@ -33,7 +33,6 @@ interface SearchLogsFormModel {
   logsTimeTo: TimeFormat;
   courseId: string;
   studentName: string;
-  isSearchDisabled: boolean;
 }
 
 /**
@@ -68,7 +67,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     logsTimeTo: { hour: 0, minute: 0 },
     courseId: '',
     studentName: '',
-    isSearchDisabled: true,
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
@@ -95,9 +93,9 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    this.formModel.logsDateFrom = { ...this.dateToday };
+    this.formModel.logsDateFrom = { ...this.dateToday, day: today.getDate() - 1 };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: today.getHours(), minute: 0 };
+    this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
     this.loadData();
   }
@@ -126,16 +124,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
           logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
               this.searchResults.push(this.toFeedbackSessionLogModel(log)));
         }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
-  }
-
-  /**
-   * Update search button state
-   */
-  updateSearchButtonDisabled(event: string): void {
-    this.formModel.courseId = event;
-    if (this.formModel.courseId) {
-      this.formModel.isSearchDisabled = false;
-    }
   }
 
   /**

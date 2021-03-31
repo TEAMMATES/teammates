@@ -10,7 +10,8 @@
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-8" [ngModel]="formModel.courseId" (ngModelChange)="updateSearchButtonDisabled($event)">
+          <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId">
+            <option value="" disabled selected hidden>Select Course ID</option>
             <option *ngFor="let course of courses">
               {{course.courseId}}
             </option>
@@ -62,7 +63,7 @@
             <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
           </div>
           <div class="col-md-2">
-            <button class="float-right btn btn-primary" (click)="search()" [disabled]="formModel.isSearchDisabled">Search</button>
+            <button class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
           </div>
         </div>
       </div>
