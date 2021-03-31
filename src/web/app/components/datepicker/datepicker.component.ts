@@ -13,7 +13,7 @@ import { DateFormat } from '../session-edit-form/session-edit-form-model';
 export class DatepickerComponent implements OnInit {
 
   @Input()
-  dateFormat: DateFormat | undefined;
+  date: DateFormat | undefined;
 
   @Input()
   disabled: boolean = false;

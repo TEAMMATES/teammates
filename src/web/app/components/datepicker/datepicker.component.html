@@ -6,7 +6,7 @@
     </button>
   </ng-template>
   <input type="text" class="form-control" ngbDatepicker
-         [ngModel]="dateFormat" (ngModelChange)="changeDate($event)"
+         [ngModel]="date" (ngModelChange)="changeDate($event)"
          [maxDate]="maxDate" [minDate]="minDate" #timeDp="ngbDatepicker" [disabled]="disabled" [footerTemplate]="footer"/>
   <div class="input-group-append" *ngIf="!disabled">
     <button class="btn btn-light" (click)="timeDp.toggle()" type="button">
