@@ -32,12 +32,10 @@ abstract class SearchDocument {
     static List<SolrDocument> filterOutCourseId(QueryResponse response,
                                                   List<InstructorAttributes> instructors) {
         SolrDocumentList documents = response.getResults();
-        List<SolrDocument> filteredResults = new ArrayList<>();
 
         // unfiltered case
         if (instructors == null) {
-            filteredResults.addAll(documents);
-            return filteredResults;
+            return documents;
         }
 
         // filtered case
@@ -46,6 +44,7 @@ abstract class SearchDocument {
             courseIdSet.add(ins.courseId);
         }
 
+        List<SolrDocument> filteredResults = new ArrayList<>();
         for (SolrDocument document : documents) {
             String courseId = (String) document.getFirstValue("courseId");
             if (courseIdSet.contains(courseId)) {

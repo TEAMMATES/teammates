@@ -39,38 +39,11 @@ public final class SearchManager {
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
-    private String searchServiceHost;
     private HttpSolrClient client;
 
     public SearchManager(String searchServiceHost) {
-        this.searchServiceHost = searchServiceHost;
-        if (isSearchServiceActive()) {
-            this.client = new HttpSolrClient.Builder(this.searchServiceHost).build();
-        }
-    }
-
-    private boolean isSearchServiceActive() {
-        return !StringHelper.isEmpty(searchServiceHost);
-    }
-
-    /**
-     * Reset the data for all collections in search server.
-     */
-    void resetCollections() {
-        if (!isSearchServiceActive()) {
-            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
-            return;
-        }
-
-        try {
-            client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, "*:*");
-            client.deleteByQuery(STUDENT_COLLECTION_NAME, "*:*");
-        } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, "resetCollections", e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        } catch (IOException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, "resetCollections", e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+        if (!StringHelper.isEmpty(searchServiceHost)) {
+            this.client = new HttpSolrClient.Builder(searchServiceHost).build();
         }
     }
 
@@ -81,7 +54,7 @@ public final class SearchManager {
      */
     public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
             throws SearchNotImplementedException {
-        if (!isSearchServiceActive()) {
+        if (client == null) {
             throw new SearchNotImplementedException();
         }
 
@@ -106,7 +79,7 @@ public final class SearchManager {
      * Batch creates or updates search documents for the given students.
      */
     public void putStudentSearchDocuments(StudentAttributes... students) {
-        if (!isSearchServiceActive()) {
+        if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
@@ -125,7 +98,7 @@ public final class SearchManager {
      * Removes student search documents based on the given keys.
      */
     public void deleteStudentSearchDocuments(String... keys) {
-        if (!isSearchServiceActive()) {
+        if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
@@ -150,7 +123,7 @@ public final class SearchManager {
      * Searches for instructors.
      */
     public InstructorSearchResultBundle searchInstructors(String queryString) throws SearchNotImplementedException {
-        if (!isSearchServiceActive()) {
+        if (client == null) {
             throw new SearchNotImplementedException();
         }
 
@@ -175,7 +148,7 @@ public final class SearchManager {
      * Batch creates or updates search documents for the given instructors.
      */
     public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
-        if (!isSearchServiceActive()) {
+        if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
@@ -194,7 +167,7 @@ public final class SearchManager {
      * Removes instructor search documents based on the given keys.
      */
     public void deleteInstructorSearchDocuments(String... keys) {
-        if (!isSearchServiceActive()) {
+        if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }

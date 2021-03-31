@@ -75,7 +75,6 @@ class StudentSearchDocument extends SearchDocument {
             bundle.studentList.add(student);
         }
 
-        bundle.numberOfResults = bundle.studentList.size();
         return bundle;
     }
 

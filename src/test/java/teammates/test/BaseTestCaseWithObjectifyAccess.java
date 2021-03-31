@@ -39,11 +39,6 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
         SearchManagerFactory.registerSearchManager(new SearchManager(TestProperties.SEARCH_SERVICE_HOST));
     }
 
-    @AfterClass
-    public void resetSearch() {
-        SearchManagerFactory.resetSearchManager();
-    }
-
     @BeforeClass
     public void setupObjectify() {
         DatastoreOptions options = localDatastoreHelper.getOptions();

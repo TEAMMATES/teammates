@@ -75,7 +75,6 @@ class InstructorSearchDocument extends SearchDocument {
             bundle.instructorList.add(instructor);
         }
 
-        bundle.numberOfResults = bundle.instructorList.size();
         return bundle;
     }
 
