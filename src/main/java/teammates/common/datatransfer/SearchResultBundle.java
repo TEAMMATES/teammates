@@ -1,14 +1,9 @@
 package teammates.common.datatransfer;
 
 /**
- * The basic search result bundle object.
+ * The base class for search result bundle.
  */
-public class SearchResultBundle {
+abstract class SearchResultBundle {
 
-    public int numberOfResults;
-
-    protected SearchResultBundle() {
-        // prevents instantiation; to be instantiated as children classes
-    }
-
+    public abstract int size();
 }

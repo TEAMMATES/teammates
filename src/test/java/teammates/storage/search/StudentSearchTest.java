@@ -18,8 +18,7 @@ import teammates.test.TestProperties;
 
 /**
  * SUT: {@link StudentsDb},
- *      {@link teammates.storage.search.StudentSearchDocument},
- *      {@link teammates.storage.search.StudentSearchQuery}.
+ *      {@link teammates.storage.search.StudentSearchDocument}.
  */
 public class StudentSearchTest extends BaseSearchTest {
 
@@ -45,14 +44,14 @@ public class StudentSearchTest extends BaseSearchTest {
         StudentSearchResultBundle bundle =
                 studentsDb.searchStudentsInWholeSystem("non-existent");
 
-        assertEquals(0, bundle.numberOfResults);
+        assertEquals(0, bundle.size());
         assertTrue(bundle.studentList.isEmpty());
 
         ______TS("success: search for students in whole system; query string matches some students");
 
         bundle = studentsDb.searchStudentsInWholeSystem("student1");
 
-        assertEquals(5, bundle.numberOfResults);
+        assertEquals(5, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(
                      Arrays.asList(stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
                      bundle.studentList);
@@ -61,7 +60,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         bundle = studentsDb.searchStudentsInWholeSystem("stUdeNt2");
 
-        assertEquals(3, bundle.numberOfResults);
+        assertEquals(3, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(
                      Arrays.asList(stu2InCourse1, stu2InCourse2, stu2InUnregCourse),
                      bundle.studentList);
@@ -76,12 +75,12 @@ public class StudentSearchTest extends BaseSearchTest {
 
         bundle = studentsDb.search("student1", ins1OfCourse1);
 
-        assertEquals(1, bundle.numberOfResults);
+        assertEquals(1, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(stu1InCourse1), bundle.studentList);
 
         bundle = studentsDb.search("student1", ins1OfCourse2);
 
-        assertEquals(1, bundle.numberOfResults);
+        assertEquals(1, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(stu1InCourse2), bundle.studentList);
 
         ______TS("success: search for students; deleted student no longer searchable");
@@ -90,7 +89,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         bundle = studentsDb.search("student1", ins1OfCourse1);
 
-        assertEquals(0, bundle.numberOfResults);
+        assertEquals(0, bundle.size());
         assertTrue(bundle.studentList.isEmpty());
 
     }
@@ -106,7 +105,7 @@ public class StudentSearchTest extends BaseSearchTest {
         StudentSearchResultBundle bundle =
                 studentsDb.searchStudentsInWholeSystem("studentABCDE");
 
-        assertEquals(0, bundle.numberOfResults);
+        assertEquals(0, bundle.size());
 
         // create a new student
         studentsDb.createEntity(
@@ -118,7 +117,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         // the newly created student is searchable
         bundle = studentsDb.searchStudentsInWholeSystem("studentABCDE");
-        assertEquals(1, bundle.numberOfResults);
+        assertEquals(1, bundle.size());
         assertEquals("studentABCDE", bundle.studentList.get(0).getName());
 
     }
@@ -138,7 +137,7 @@ public class StudentSearchTest extends BaseSearchTest {
         StudentSearchResultBundle bundle = studentsDb.searchStudentsInWholeSystem("student1");
 
         // there is search result before deletion
-        assertEquals(5, bundle.numberOfResults);
+        assertEquals(5, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(
                 Arrays.asList(stu1InCourse1, stu1InCourse2, stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
                 bundle.studentList);
@@ -149,7 +148,7 @@ public class StudentSearchTest extends BaseSearchTest {
         // the search result will change
         bundle = studentsDb.searchStudentsInWholeSystem("student1");
 
-        assertEquals(4, bundle.numberOfResults);
+        assertEquals(4, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(
                 Arrays.asList(stu1InCourse2, stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
                 bundle.studentList);
@@ -162,7 +161,7 @@ public class StudentSearchTest extends BaseSearchTest {
         // the search result will change
         bundle = studentsDb.searchStudentsInWholeSystem("student1");
 
-        assertEquals(3, bundle.numberOfResults);
+        assertEquals(3, bundle.size());
         AssertHelper.assertSameContentIgnoreOrder(
                 Arrays.asList(stu1InCourse3, stu1InUnregCourse, stu1InArchCourse),
                 bundle.studentList);

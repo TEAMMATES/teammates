@@ -16,4 +16,8 @@ public class StudentSearchResultBundle extends SearchResultBundle {
     public List<StudentAttributes> studentList = new ArrayList<>();
     public Map<String, InstructorAttributes> courseIdInstructorMap = new HashMap<>();
 
+    @Override
+    public int size() {
+        return studentList.size();
+    }
 }
