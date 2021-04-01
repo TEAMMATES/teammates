@@ -68,13 +68,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsEditor;
 
-    @FindBy(id = "submission-start-date")
+    @FindBy(css = "#submission-start-date input")
     private WebElement startDateBox;
 
     @FindBy(id = "submission-start-time")
     private WebElement startTimeDropdown;
 
-    @FindBy(id = "submission-end-date")
+    @FindBy(css = "#submission-end-date input")
     private WebElement endDateBox;
 
     @FindBy(id = "submission-end-time")
@@ -95,7 +95,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "session-visibility-custom")
     private WebElement customSessionVisibleTimeButton;
 
-    @FindBy(id = "session-visibility-date")
+    @FindBy(css = "#session-visibility-date input")
     private WebElement sessionVisibilityDateBox;
 
     @FindBy(id = "session-visibility-time")
@@ -107,7 +107,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "response-visibility-custom")
     private WebElement customResponseVisibleTimeButton;
 
-    @FindBy(id = "response-visibility-date")
+    @FindBy(css = "#response-visibility-date input")
     private WebElement responseVisibilityDateBox;
 
     @FindBy(id = "response-visibility-time")
