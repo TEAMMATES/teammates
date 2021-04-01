@@ -60,7 +60,7 @@ public final class SearchManager {
 
         QueryResponse response = null;
         SolrQuery studentQuery = new SolrQuery();
-        studentQuery.setQuery(queryString);
+        studentQuery.setQuery("\"" + queryString + "\"");
 
         try {
             response = client.query(STUDENT_COLLECTION_NAME, studentQuery);
@@ -129,7 +129,7 @@ public final class SearchManager {
 
         QueryResponse response = null;
         SolrQuery instructorQuery = new SolrQuery();
-        instructorQuery.setQuery(queryString);
+        instructorQuery.setQuery("\"" + queryString + "\"");
 
         try {
             response = client.query(INSTRUCTOR_COLLECTION_NAME, instructorQuery);
