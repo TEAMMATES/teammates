@@ -8,6 +8,7 @@ import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { ApiConst } from '../../../types/api-const';
 import {
   Course,
   Courses,
@@ -55,7 +56,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {
-  LOG_RETENTION_DAYS: number = 30;
+  LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -88,7 +89,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.dateToday.month = today.getMonth() + 1;
     this.dateToday.day = today.getDate();
 
-    const earliestSearchDate: Date = new Date(Date.now() - this.LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+    const earliestSearchDate: Date = new Date(Date.now() - this.LOGS_RETENTION_PERIOD * 24 * 60 * 60 * 1000);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
