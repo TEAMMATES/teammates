@@ -95,14 +95,15 @@ class EnrollStudentsAction extends Action {
                             exception.getMessage()));
                 }
             } else {
-                // The student is new.
-                    studentsToCreateInBatch.add(student);
-                    // Unsuccessfully enrolled students will not be returned.
+                // The student is new; defer its creation for batch processing.
+                studentsToCreateInBatch.add(student);
             }
         });
+
+        // Batch process new students.
         enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
-        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
-            exception.getMessage()));
+        logic.getFailedStudentUpdatesInfo(studentsToCreateInBatch).forEach((studentEmail, error) ->
+                failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(studentEmail, error)));
 
         return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
     }

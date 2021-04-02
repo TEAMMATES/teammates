@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -67,6 +68,10 @@ public final class StudentsLogic {
      */
     public List<StudentAttributes> createStudents(List<StudentAttributes> students) {
         return studentsDb.createEntitiesSilent(students);
+    }
+
+    public Map<String, String> getFailedStudentUpdatesInfo(List<StudentAttributes> students) {
+        return studentsDb.getFailedStudentUpdatesInfo(students);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {

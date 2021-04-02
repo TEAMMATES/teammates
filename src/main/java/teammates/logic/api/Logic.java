@@ -651,6 +651,10 @@ public class Logic {
         return studentsLogic.createStudents(students);
     }
 
+    public Map<String, String> getFailedStudentUpdatesInfo(List<StudentAttributes> students) {
+        return studentsLogic.getFailedStudentUpdatesInfo(students);
+    }
+
     /**
      * Updates a student by {@link StudentAttributes.UpdateOptions}.
      *

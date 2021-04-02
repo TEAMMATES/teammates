@@ -4,7 +4,9 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.appengine.api.search.Results;
@@ -58,6 +60,28 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             studentDocuments.add(new StudentSearchDocument(student));
         }
         putDocument(Const.SearchIndex.STUDENT, studentDocuments.toArray(new SearchDocument[0]));
+    }
+
+    /**
+     * Gets the error messages of the students failed to be created or updated.
+     */
+    public Map<String, String> getFailedStudentUpdatesInfo(Collection<StudentAttributes> studentsToAdd) {
+        Map<String, String> failureMessages = new HashMap<>();
+        for (StudentAttributes studentToAdd : studentsToAdd) {
+            studentToAdd.sanitizeForSaving();
+
+            if (!studentToAdd.isValid()) {
+                failureMessages.put(studentToAdd.getEmail(), StringHelper.toString(studentToAdd.getInvalidityInfo()));
+            }
+
+            // hasExistingEntities is key only query, which has negligible cost.
+            if (hasExistingEntities(studentToAdd)) {
+                String error = String.format(ERROR_CREATE_ENTITY_ALREADY_EXISTS, studentToAdd.toString());
+                failureMessages.put(studentToAdd.getEmail(), error);
+            }
+        }
+
+        return failureMessages;
     }
 
     /**
@@ -415,6 +439,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         return !load()
                 .filterKey(Key.create(CourseStudent.class,
                         CourseStudent.generateId(entityToCreate.getEmail(), entityToCreate.getCourse())))
+                .keys()
                 .list()
                 .isEmpty();
     }
