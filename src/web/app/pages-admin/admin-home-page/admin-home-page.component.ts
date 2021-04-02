@@ -66,7 +66,7 @@ export class AdminHomePageComponent {
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
-        // TODO handle should add all instructors when promptederror
+        // TODO should handle add all instructors when prompted with error
         invalidLines.push(instructorDetail);
         continue;
       }
