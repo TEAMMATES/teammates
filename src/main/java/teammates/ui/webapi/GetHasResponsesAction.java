@@ -66,9 +66,13 @@ class GetHasResponsesAction extends Action {
                     // Course has no sessions and therefore no response; access to responses is safe for all.
                     return;
                 }
-                gateKeeper.verifyAccessible(
-                        logic.getStudentForGoogleId(courseId, userInfo.getId()),
-                        feedbackSessions.get(0));
+
+                // Verify that all sessions are accessible to the user.
+                for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                    gateKeeper.verifyAccessible(
+                            logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                            feedbackSession);
+                }
             } else {
                 gateKeeper.verifyAccessible(
                         logic.getStudentForGoogleId(courseId, userInfo.getId()),
@@ -122,9 +126,8 @@ class GetHasResponsesAction extends Action {
             }
 
             StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
-
-            boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
-            return new JsonResult(new HasResponsesData(hasResponses));
+            return new JsonResult(new HasResponsesData(
+                    logic.hasStudentSubmittedFeedback(feedbackSession, student.email)));
         }
     }
 }
