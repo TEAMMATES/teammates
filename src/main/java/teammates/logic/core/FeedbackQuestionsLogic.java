@@ -257,6 +257,14 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
+    /**
+     * Returns true if a session has question in either STUDENTS type or TEAMS type.
+     */
+    public boolean sessionHasQuestions(String feedbackSessionName, String courseId) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+    }
+
     Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
