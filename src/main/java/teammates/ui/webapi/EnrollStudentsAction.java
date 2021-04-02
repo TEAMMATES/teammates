@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 
@@ -73,6 +74,7 @@ class EnrollStudentsAction extends Action {
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
         List<StudentAttributes> studentsToCreateInBatch = new ArrayList<>();
+        List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
         studentsToEnroll.forEach(student -> {
             if (existingStudentsEmail.contains(student.email)) {
                 // The student has been enrolled in the course.
@@ -89,16 +91,19 @@ class EnrollStudentsAction extends Action {
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    return;
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                            exception.getMessage()));
                 }
             } else {
                 // The student is new.
-                studentsToCreateInBatch.add(student);
+                    studentsToCreateInBatch.add(student);
+                    // Unsuccessfully enrolled students will not be returned.
             }
         });
-
         enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
+        failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+            exception.getMessage()));
 
-        return new JsonResult(new StudentsData(enrolledStudents));
+        return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
     }
 }

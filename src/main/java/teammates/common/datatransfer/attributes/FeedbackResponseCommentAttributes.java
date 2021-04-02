@@ -2,7 +2,6 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -265,10 +264,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         } else {
             return false;
         }
-    }
-
-    public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
-        frcs.sort(Comparator.comparing(frc -> frc.createdAt));
     }
 
     /**

@@ -11,8 +11,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
-import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**
@@ -280,7 +280,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         JsonResult result = action.execute();
         assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
-        return ((StudentsData) result.getOutput()).getStudents();
+        return ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
     }
 
     private void verifyStudentInDatabase(StudentAttributes expectedStudent,
