@@ -39,6 +39,8 @@ public final class SearchManager {
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
+    private static final int NUM_OF_RESULTS = 20;
+
     private HttpSolrClient client;
 
     public SearchManager(String searchServiceHost) {
@@ -61,6 +63,7 @@ public final class SearchManager {
         QueryResponse response = null;
         SolrQuery studentQuery = new SolrQuery();
         studentQuery.setQuery("\"" + queryString + "\"");
+        studentQuery.setRows(NUM_OF_RESULTS);
 
         try {
             response = client.query(STUDENT_COLLECTION_NAME, studentQuery);
@@ -130,6 +133,7 @@ public final class SearchManager {
         QueryResponse response = null;
         SolrQuery instructorQuery = new SolrQuery();
         instructorQuery.setQuery("\"" + queryString + "\"");
+        instructorQuery.setRows(NUM_OF_RESULTS);
 
         try {
             response = client.query(INSTRUCTOR_COLLECTION_NAME, instructorQuery);
