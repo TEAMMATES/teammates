@@ -10,7 +10,6 @@ import org.apache.solr.common.SolrInputDocument;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 
 /**
@@ -80,9 +79,8 @@ class InstructorSearchDocument extends SearchDocument {
 
     private static void sortInstructorResultList(List<InstructorAttributes> instructorList) {
         instructorList.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
-                //TODO TO REMOVE AFTER DATA MIGRATION - needed to work with code before the sanitizing was removed
-                .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.role))
-                .thenComparing(instructor -> SanitizationHelper.desanitizeIfHtmlSanitized(instructor.name))
+                .thenComparing(instructor -> instructor.role)
+                .thenComparing(instructor -> instructor.name)
                 .thenComparing(instructor -> instructor.email));
     }
 }
