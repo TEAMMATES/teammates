@@ -24,4 +24,5 @@ public final class SearchManagerFactory {
             instance = searchManager;
         }
     }
+
 }

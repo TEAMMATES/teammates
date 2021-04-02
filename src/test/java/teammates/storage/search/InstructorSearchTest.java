@@ -87,7 +87,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their name");
 
-        results = instructorsDb.searchInstructorsInWholeSystem("Instructor 5 of CourseNoRegister");
+        results = instructorsDb.searchInstructorsInWholeSystem("\"Instructor 5 of CourseNoRegister\"");
         verifySearchResults(results, insInUnregCourse);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by their email");
