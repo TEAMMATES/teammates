@@ -20,7 +20,7 @@ import teammates.test.TestProperties;
  */
 public class InstructorSearchTest extends BaseSearchTest {
 
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = new InstructorsDb();
 
     @Test
     public void allTests() throws Exception {
@@ -150,7 +150,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorSearchResultBundle bundle =
                 instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
 
-        assertEquals(0, bundle.size());
+        assertEquals(0, bundle.instructorList.size());
 
         // create a new instructor
         instructorsDb.createEntity(
@@ -162,7 +162,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         // the newly created instructor is searchable
         bundle = instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
-        assertEquals(1, bundle.size());
+        assertEquals(1, bundle.instructorList.size());
         assertEquals("instructorABCDE", bundle.instructorList.get(0).getName());
     }
 
@@ -217,7 +217,7 @@ public class InstructorSearchTest extends BaseSearchTest {
      */
     private static void verifySearchResults(InstructorSearchResultBundle actual,
             InstructorAttributes... expected) {
-        assertEquals(expected.length, actual.size());
+        assertEquals(expected.length, actual.instructorList.size());
         assertEquals(expected.length, actual.instructorList.size());
         standardizeInstructorsForComparison(expected);
         standardizeInstructorsForComparison(

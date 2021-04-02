@@ -12,8 +12,4 @@ public class InstructorSearchResultBundle extends SearchResultBundle {
 
     public List<InstructorAttributes> instructorList = new ArrayList<>();
 
-    @Override
-    public int size() {
-        return instructorList.size();
-    }
 }
