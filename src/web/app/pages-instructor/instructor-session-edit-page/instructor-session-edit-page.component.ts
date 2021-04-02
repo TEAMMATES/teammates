@@ -537,7 +537,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   private loadResponseStatusForQuestion(model: QuestionEditFormModel): void {
     this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId)
         .subscribe((resp: HasResponses) => {
-          model.isQuestionHasResponses = resp.hasResponses;
+          model.isQuestionHasResponses = resp.hasResponses[''];
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 

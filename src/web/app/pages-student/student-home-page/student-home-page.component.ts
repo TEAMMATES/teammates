@@ -94,22 +94,24 @@ export class StudentHomePageComponent implements OnInit {
             const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
             const studentSessions: StudentSession[] = [];
-            for (const fs of sortedFss) {
-              const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-              const isWaitingToOpen: boolean =
-                fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-              const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
-              this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
-                fs.feedbackSessionName)
-                .subscribe((hasRes: HasResponses) => {
-                  const isSubmitted: boolean = hasRes.hasResponses;
+            this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(course.courseId)
+              .subscribe((hasRes: HasResponses) => {
+                for (const fs of sortedFss) {
+                  const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
+                  const isWaitingToOpen: boolean =
+                    fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                  const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+                  const isSubmitted: boolean = hasRes.hasResponses[fs.feedbackSessionName];
+                  if (isSubmitted === undefined) {
+                    continue;
+                  }
                   studentSessions.push(Object.assign({},
                     { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
-                }, (error: ErrorMessageOutput) => {
-                  this.hasCoursesLoadingFailed = true;
-                  this.statusMessageService.showErrorToast(error.error.message);
-                });
-            }
+                }
+              }, (error: ErrorMessageOutput) => {
+                this.hasCoursesLoadingFailed = true;
+                this.statusMessageService.showErrorToast(error.error.message);
+              });
 
             this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>

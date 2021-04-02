@@ -315,12 +315,12 @@ describe('StudentHomePageComponent', () => {
     };
 
     const hasRes: HasResponses = {
-      hasResponses: false,
+      hasResponses: { 'First Session': false },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -333,12 +333,16 @@ describe('StudentHomePageComponent', () => {
 
   it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
     const hasRes: HasResponses = {
-      hasResponses: false,
+      hasResponses: {
+        'Orientation Session': false,
+        'Welcome Tea Session': false,
+        'Latest update Session': false,
+      },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -351,12 +355,16 @@ describe('StudentHomePageComponent', () => {
 
   it('should sort feedback sessions by submissionEndTimestamp, when createdAtTimestamps are equal', () => {
     const hasRes: HasResponses = {
-      hasResponses: false,
+      hasResponses: {
+        'Orientation Session': false,
+        'Welcome Tea Session': false,
+        'Latest update Session': false,
+      },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
 
     component.loadStudentCourses();
 

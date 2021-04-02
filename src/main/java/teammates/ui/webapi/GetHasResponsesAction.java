@@ -1,5 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -55,11 +59,21 @@ class GetHasResponsesAction extends Action {
         } else {
             //An student can check whether he has submitted responses for a feedback session in his course.
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-
-            gateKeeper.verifyAccessible(
-                    logic.getStudentForGoogleId(courseId, userInfo.getId()),
-                    getNonNullFeedbackSession(feedbackSessionName, courseId));
+            String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            if (feedbackSessionName == null) {
+                List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+                if (feedbackSessions.isEmpty()) {
+                    // Course has no sessions and therefore no response; access to responses is safe for all.
+                    return;
+                }
+                gateKeeper.verifyAccessible(
+                        logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                        feedbackSessions.get(0));
+            } else {
+                gateKeeper.verifyAccessible(
+                        logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                        getNonNullFeedbackSession(feedbackSessionName, courseId));
+            }
         }
     }
 
@@ -87,7 +101,20 @@ class GetHasResponsesAction extends Action {
             return new JsonResult(new HasResponsesData(hasResponses));
         } else {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+            if (feedbackSessionName == null) {
+                // check all sessions in the course
+                List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+                StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+
+                Map<String, Boolean> sessionsHasResponses = new HashMap<>();
+                for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                    boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
+                    sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
+                }
+                return new JsonResult(new HasResponsesData(sessionsHasResponses));
+            }
+
             FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
             if (feedbackSession == null) {
                 return new JsonResult("No feedback session found with name: " + feedbackSessionName,
