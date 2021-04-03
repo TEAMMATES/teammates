@@ -218,7 +218,6 @@ public class InstructorSearchTest extends BaseSearchTest {
     private static void verifySearchResults(InstructorSearchResultBundle actual,
             InstructorAttributes... expected) {
         assertEquals(expected.length, actual.instructorList.size());
-        assertEquals(expected.length, actual.instructorList.size());
         standardizeInstructorsForComparison(expected);
         standardizeInstructorsForComparison(
                 actual.instructorList.toArray(new InstructorAttributes[0]));

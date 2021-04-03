@@ -45,7 +45,6 @@ public class StudentSearchTest extends BaseSearchTest {
                 studentsDb.searchStudentsInWholeSystem("non-existent");
 
         assertEquals(0, bundle.studentList.size());
-        assertTrue(bundle.studentList.isEmpty());
 
         ______TS("success: search for students in whole system; query string matches some students");
 
@@ -90,7 +89,6 @@ public class StudentSearchTest extends BaseSearchTest {
         bundle = studentsDb.search("student1", ins1OfCourse1);
 
         assertEquals(0, bundle.studentList.size());
-        assertTrue(bundle.studentList.isEmpty());
 
     }
 
