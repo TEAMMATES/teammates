@@ -77,7 +77,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         //SEARCH APIs
-        map(ResourceURIs.SEARCH_COMMENTS, GET, SearchCommentsAction.class);
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
