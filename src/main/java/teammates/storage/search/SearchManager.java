@@ -94,7 +94,7 @@ public final class SearchManager {
             studentDocs.add(studentDoc);
         }
 
-        addDocumentsToCollection(client, studentDocs, STUDENT_COLLECTION_NAME);
+        addDocumentsToCollection(studentDocs, STUDENT_COLLECTION_NAME);
     }
 
     /**
@@ -164,7 +164,7 @@ public final class SearchManager {
             instructorDocs.add(instructorDoc);
         }
 
-        addDocumentsToCollection(client, instructorDocs, INSTRUCTOR_COLLECTION_NAME);
+        addDocumentsToCollection(instructorDocs, INSTRUCTOR_COLLECTION_NAME);
     }
 
     /**
@@ -192,8 +192,7 @@ public final class SearchManager {
         }
     }
 
-    private void addDocumentsToCollection(SolrClient client, List<SolrInputDocument> docs,
-                                          String collectionName) {
+    private void addDocumentsToCollection(List<SolrInputDocument> docs, String collectionName) {
         try {
             client.add(collectionName, docs);
             client.commit(collectionName);
