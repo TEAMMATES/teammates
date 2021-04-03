@@ -69,6 +69,10 @@ class GetHasResponsesAction extends Action {
 
                 // Verify that all sessions are accessible to the user.
                 for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                    if (!feedbackSession.isVisible()) {
+                        // Skip invisible sessions.
+                        continue;
+                    }
                     gateKeeper.verifyAccessible(
                             logic.getStudentForGoogleId(courseId, userInfo.getId()),
                             feedbackSession);
@@ -113,6 +117,10 @@ class GetHasResponsesAction extends Action {
 
                 Map<String, Boolean> sessionsHasResponses = new HashMap<>();
                 for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                    if (!feedbackSession.isVisible()) {
+                        // Skip invisible sessions.
+                        continue;
+                    }
                     boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
                     sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
                 }
