@@ -9,7 +9,6 @@ import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.StringHelper;
 
@@ -43,17 +42,13 @@ class StudentSearchDocument extends SearchDocument {
 
     /**
      * Produces a {@link StudentSearchResultBundle} from the {@code QueryResponse} collection.
-     *
-     * <p>The list of {@link InstructorAttributes} is used to filter out the search result.</p>
      */
-    static StudentSearchResultBundle fromResponse(QueryResponse response,
-                                                        List<InstructorAttributes> instructors) {
+    static StudentSearchResultBundle fromResponse(QueryResponse response) {
         if (response == null) {
             return new StudentSearchResultBundle();
         }
 
-        List<SolrDocument> filteredResults = filterOutCourseId(response, instructors);
-        StudentSearchResultBundle bundle = constructBaseBundle(filteredResults);
+        StudentSearchResultBundle bundle = constructBaseBundle(response.getResults());
         sortStudentResultList(bundle.studentList);
 
         return bundle;

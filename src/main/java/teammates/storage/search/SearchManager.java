@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
@@ -17,6 +18,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
@@ -64,6 +66,11 @@ public final class SearchManager {
         studentQuery.setQuery("\"" + queryString + "\"");
         studentQuery.setRows(NUM_OF_RESULTS);
 
+        if (instructors != null) {
+            String filterQueryString = prepareFilterQueryString(instructors);
+            studentQuery.addFilterQuery(filterQueryString);
+        }
+
         try {
             response = client.query(STUDENT_COLLECTION_NAME, studentQuery);
         } catch (SolrServerException e) {
@@ -74,7 +81,7 @@ public final class SearchManager {
                     + TeammatesException.toStringWithStackTrace(e));
         }
 
-        return StudentSearchDocument.fromResponse(response, instructors);
+        return StudentSearchDocument.fromResponse(response);
     }
 
     /**
@@ -202,5 +209,12 @@ public final class SearchManager {
             log.severe(String.format(ERROR_PUT_DOCUMENT, docs, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
+    }
+
+    private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
+        return instructors.stream()
+                .filter(i -> i.privileges.getCourseLevelPrivileges()
+                        .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                .map(ins -> ins.courseId).collect(Collectors.joining(" "));
     }
 }
