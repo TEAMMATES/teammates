@@ -125,16 +125,7 @@ public final class Config {
     }
 
     static String getBaseAppUrl() {
-        ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
-        if (serverEnvironment == null) {
-            return null;
-        }
-        String hostname = (String) serverEnvironment.getAttributes()
-                .get("com.google.appengine.runtime.default_version_hostname");
-        if (hostname == null) {
-            return null;
-        }
-        return (isDevServer() ? "http://" : "https://") + hostname;
+        return isDevServer() ? "http://localhost:8080" : "https://" + APP_ID + ".appspot.com";
     }
 
     /**
