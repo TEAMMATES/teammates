@@ -54,6 +54,7 @@ dependencies {
     annotationProcessor(objectify)
 
     implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
+    implementation("com.google.auth:google-auth-library-oauth2-http:0.24.1")
     implementation("com.google.cloud:google-cloud-tasks:1.30.11")
     implementation("com.google.cloud:google-cloud-logging:2.1.2")
     implementation("com.google.cloud:google-cloud-storage:1.113.9")
