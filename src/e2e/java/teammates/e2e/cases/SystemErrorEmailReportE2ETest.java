@@ -2,7 +2,6 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import com.google.apphosting.api.DeadlineExceededException;
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.EntityNotFoundException;
@@ -30,7 +29,6 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
     public void testAll() {
         testAssertionError();
         testNullPointerException();
-        testDeadlineExceededException();
         testDatastoreException();
         testUnauthorizedAccessException();
         testInvalidHttpParameterException();
@@ -62,20 +60,6 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
         BACKDOOR.executeGetRequest(url, null);
 
         print("NullPointerException triggered, verify that you have received error logs via email");
-
-    }
-
-    private void testDeadlineExceededException() {
-
-        ______TS("DeadlineExceededException testing");
-
-        String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName())
-                .toString();
-
-        BACKDOOR.executeGetRequest(url, null);
-
-        print("DeadlineExceededException triggered, verify that you have received error logs via email");
 
     }
 

@@ -10,7 +10,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
 
-import com.google.apphosting.api.DeadlineExceededException;
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.EntityNotFoundException;
@@ -80,14 +79,6 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
-
-        ______TS("Failure case: DeadlineExceededException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
 
         ______TS("Failure case: DatastoreException");
 
@@ -168,14 +159,6 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
 
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
-
-        ______TS("Failure case: DeadlineExceededException");
-
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
 
         ______TS("Failure case: DatastoreTimeoutException");
 

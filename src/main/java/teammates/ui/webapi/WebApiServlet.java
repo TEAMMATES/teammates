@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.apphosting.api.DeadlineExceededException;
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.ActionMappingException;
@@ -86,6 +85,7 @@ public class WebApiServlet extends HttpServlet {
             return;
         }
 
+        // TODO need to handle the server timeout error
         try {
             Action action = new ActionFactory().getAction(req, req.getMethod());
             action.init(req);
@@ -107,15 +107,6 @@ public class WebApiServlet extends HttpServlet {
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(enfe));
             throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
-        } catch (DeadlineExceededException e) {
-
-            // This exception may not be caught because GAE kills the request soon after throwing it
-            // In that case, the error message in the log will be emailed to the admin by a separate cron job
-
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(e));
-            throwError(resp, HttpStatus.SC_GATEWAY_TIMEOUT,
-                    "The request exceeded the server timeout limit. Please try again later.");
         } catch (DatastoreException e) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
