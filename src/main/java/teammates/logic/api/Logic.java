@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -1251,28 +1250,6 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates documents for the given comments.
-     *
-     * @see FeedbackResponseCommentsLogic#putDocuments(List)
-     */
-    public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
-        feedbackResponseCommentsLogic.putDocuments(comments);
-    }
-
-    /**
-     * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
-     * @param instructors   a list of InstructorAttributes associated to a googleId,
-     *                      used for filtering of search result
-     * @return Null if no match found
-     */
-    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                                         List<InstructorAttributes> instructors) {
-        Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(instructors);
-        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors);
-    }
-
-    /**
      * Updates a feedback response comment by {@link FeedbackResponseCommentAttributes.UpdateOptions}.
      *
      * <br/>Preconditions: <br/>
@@ -1360,6 +1337,13 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(generateOptionsFor);
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
+    }
+
+    public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(student1Email);
+        Assumption.assertNotNull(student2Email);
+        return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
 
 }

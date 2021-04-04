@@ -133,7 +133,6 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 - Managing relationships between entities, e.g. cascade logic for create/update/delete.
 - Managing transactions, e.g. ensuring atomicity of a transaction.
 - Sanitizing input values received from the UI component.
-- Providing a mechanism for checking access control rights.
 - Connecting to GAE-provided or third-party APIs, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
 
 ![Logic Component](images/LogicComponent.png)
@@ -146,15 +145,19 @@ Package overview:
 
 Represented by these classes:
 - `Logic`: A [Facade class](http://en.wikipedia.org/wiki/Facade_pattern) which connects to the several `*Logic` classes to handle the logic related to various types of data and to access data from the `Storage` component.
-- `GateKeeper`: Checks access rights of a user for a given action.
+- `UserProvision`: Retrieves user information (based on request cookies).
 - `EmailGenerator`: Generates emails to be sent.
-- `EmailSender`: Sends email with the provider chosen based on the build configuration. It connects to the email provider by using the appropriate `*Service` class.
-- `TaskQueuer`: Adds tasks to the task queue. It connects to GAE's task queue API.
+- `EmailSender`: Sends email with the provider chosen based on the build configuration.
+- `TaskQueuer`: Adds tasks to the task queue, i.e. to be executed at a later time.
+- `FileStorage`: Manages CRUD of binary files such as profile pictures.
+- `LogsProcessor`: For more advanced usage of logging that cannot be captured by the standard logger class.
+
+Many classes in this layer make use of proxy pattern, i.e. they only connect to production services such as Google Cloud Storage in the staging/production server.
 
 ### Policies
 
 Access control:
-+ Although this component provides methods to perform access control, the API itself is not access controlled. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the `Logic`.
++ Although this component provides methods that are relevant to access control (e.g. providing user information), the access control check itself does not happen in this component. The UI is expected to check access control (using `GateKeeper` class) before calling a method in the logic component.
 
 API for creating entities:
 + Null parameters: Causes an assertion failure.

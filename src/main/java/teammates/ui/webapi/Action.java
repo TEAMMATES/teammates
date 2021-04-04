@@ -23,9 +23,10 @@ import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
-import teammates.logic.api.GateKeeper;
 import teammates.logic.api.Logic;
+import teammates.logic.api.LogsProcessor;
 import teammates.logic.api.TaskQueuer;
+import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.BasicRequest;
 
@@ -37,12 +38,14 @@ import teammates.ui.request.BasicRequest;
 public abstract class Action {
 
     Logic logic = new Logic();
+    UserProvision userProvision = new UserProvision();
     GateKeeper gateKeeper = new GateKeeper();
     EmailGenerator emailGenerator = new EmailGenerator();
     TaskQueuer taskQueuer = new TaskQueuer();
     EmailSender emailSender = new EmailSender();
     FileStorage fileStorage = new FileStorage();
     RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
+    LogsProcessor logsProcessor = new LogsProcessor();
 
     HttpServletRequest req;
     UserInfo userInfo;
@@ -54,29 +57,21 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    void init(HttpServletRequest req) {
+    public void init(HttpServletRequest req) {
         this.req = req;
         initAuthInfo();
     }
 
-    public TaskQueuer getTaskQueuer() {
-        return taskQueuer;
+    public void setUserProvision(UserProvision userProvision) {
+        this.userProvision = userProvision;
     }
 
     public void setTaskQueuer(TaskQueuer taskQueuer) {
         this.taskQueuer = taskQueuer;
     }
 
-    public EmailSender getEmailSender() {
-        return emailSender;
-    }
-
     public void setEmailSender(EmailSender emailSender) {
         this.emailSender = emailSender;
-    }
-
-    public FileStorage getFileStorage() {
-        return fileStorage;
     }
 
     public void setFileStorage(FileStorage fileStorage) {
@@ -85,6 +80,10 @@ public abstract class Action {
 
     public void setRecaptchaVerifier(RecaptchaVerifier recaptchaVerifier) {
         this.recaptchaVerifier = recaptchaVerifier;
+    }
+
+    public void setLogsProcessor(LogsProcessor logsProcessor) {
+        this.logsProcessor = logsProcessor;
     }
 
     /**
@@ -108,8 +107,7 @@ public abstract class Action {
     private void initAuthInfo() {
         if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
-            userInfo = new UserInfo(getRequestParamValue(Const.ParamsNames.USER_ID));
-            userInfo.isAdmin = true;
+            userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
             userInfo.isStudent = true;
             userInfo.isInstructor = true;
             return;
@@ -120,10 +118,9 @@ public abstract class Action {
         String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
         boolean isRequestFromAppEngineQueue = queueNameHeader != null;
         if (isRequestFromAppEngineQueue) {
-            userInfo = new UserInfo("AppEngine-" + queueNameHeader);
-            userInfo.isAdmin = true;
+            userInfo = userProvision.getAdminOnlyUser("AppEngine-" + queueNameHeader);
         } else {
-            userInfo = gateKeeper.getCurrentUser();
+            userInfo = userProvision.getCurrentUser();
         }
 
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
@@ -131,7 +128,7 @@ public abstract class Action {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
         if (userInfo != null && userParam != null) {
             if (userInfo.isAdmin) {
-                userInfo = gateKeeper.getMasqueradeUser(userParam);
+                userInfo = userProvision.getMasqueradeUser(userParam);
                 authType = AuthType.MASQUERADE;
             } else if (!userInfo.id.equals(userParam)) {
                 throw new UnauthorizedAccessException("User " + userInfo.id

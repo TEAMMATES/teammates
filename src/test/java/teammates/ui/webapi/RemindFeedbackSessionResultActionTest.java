@@ -67,7 +67,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
         assertEquals("Published email could not be resent "
                 + "as the feedback session is not published.", message.getMessage());
-        verifyNoTasksAdded(action);
+        verifyNoTasksAdded();
 
         ______TS("Successful case: Typical case");
 
@@ -81,8 +81,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifySpecifiedTasksAdded(action,
-                Const.TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test

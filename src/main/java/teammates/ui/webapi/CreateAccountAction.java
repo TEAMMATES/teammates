@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -76,12 +75,9 @@ class CreateAccountAction extends AdminOnlyAction {
 
         logic.persistDataBundle(data);
 
-        List<FeedbackResponseCommentAttributes> frComments =
-                logic.getFeedbackResponseCommentForGiver(courseId, instructorEmail);
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putFeedbackResponseCommentDocuments(frComments);
         logic.putStudentDocuments(students);
         logic.putInstructorDocuments(instructors);
 

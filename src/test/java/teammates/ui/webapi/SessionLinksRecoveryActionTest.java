@@ -63,9 +63,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         assertEquals("The recovery links for your feedback sessions have been sent to "
                 + "the specified email address: non-existent@abc.com", output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals("non-existent@abc.com", emailSent.getRecipient());
     }
@@ -88,9 +88,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                         + "specified email address: " + student1InCourse2.getEmail(),
                 output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
     }
@@ -114,9 +114,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                         + "sent to the specified email address: " + student1InCourse3.getEmail(),
                 output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse3.getEmail(), emailSent.getRecipient());
     }
@@ -140,9 +140,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                         + "to the specified email address: " + student1InCourse1.getEmail(),
                 output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
     }

@@ -18,4 +18,8 @@ export enum SimpleModalType {
    * Neutral modal.
    */
   NEUTRAL,
+  /**
+   * Load modal.
+   */
+  LOAD,
 }

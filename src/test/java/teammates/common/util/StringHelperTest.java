@@ -262,14 +262,6 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testExtractContentFromQuotedString() {
-        assertEquals(StringHelper.extractContentFromQuotedString("\"data\""), "data");
-        assertEquals(StringHelper.extractContentFromQuotedString("data without quotes"), "data without quotes");
-        assertEquals(StringHelper.extractContentFromQuotedString(null), null);
-        assertEquals(StringHelper.extractContentFromQuotedString(""), "");
-    }
-
-    @Test
     public void testSignatureGeneration() throws Exception {
         String data1 = "National University of Singapore";
         String data2 = "Nanyang Technological University";
