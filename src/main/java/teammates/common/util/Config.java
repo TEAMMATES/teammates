@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.google.appengine.api.utils.SystemProperty;
 import com.google.apphosting.api.ApiProxy;
 
 import teammates.common.exception.TeammatesException;
@@ -132,7 +131,22 @@ public final class Config {
      * Returns true if the server is configured to be the dev server.
      */
     public static boolean isDevServer() {
-        return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
+        // In production server, GAE sets some non-overrideable environment variables.
+        // We will make use of some of them to determine whether the server is dev server or not.
+        // This means that any developer can replicate this condition in dev server,
+        // but it is their own choice and risk should they choose to do so.
+
+        String appName = System.getenv("GAE_APPLICATION");
+        String version = System.getenv("GAE_VERSION");
+        String env = System.getenv("GAE_ENV");
+
+        if (appName == null || version == null || env == null) {
+            return true;
+        }
+
+        return !appName.endsWith(APP_ID)
+                || !APP_VERSION.equals(version.replace("-", "."))
+                || !"standard".equals(env);
     }
 
     /**
