@@ -115,7 +115,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
                         this.getClass().getSimpleName(), this.timeStamp);
     }
 
-    String createFileAndDirectory(String directory, String fileName) throws IOException {
+    protected String createFileAndDirectory(String directory, String fileName) throws IOException {
         File dir = new File(directory);
         if (!dir.exists()) {
             dir.mkdir();
