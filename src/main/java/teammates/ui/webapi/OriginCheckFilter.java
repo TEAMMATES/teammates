@@ -168,7 +168,7 @@ public class OriginCheckFilter implements Filter {
         log.info("Request failed origin check: [" + request.getMethod() + "] " + request.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(request)
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(request)
-                + ", Request ID: " + Config.getRequestId());
+                + ", Request ID: " + request.getHeader("X-Cloud-Trace-Context"));
 
         JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
         result.send(response);

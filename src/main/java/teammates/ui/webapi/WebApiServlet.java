@@ -78,7 +78,7 @@ public class WebApiServlet extends HttpServlet {
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + requestParametersAsString
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
-                + ", Request ID: " + Config.getRequestId());
+                + ", Request ID: " + req.getHeader("X-Cloud-Trace-Context"));
 
         if (Config.MAINTENANCE) {
             throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,
@@ -92,6 +92,7 @@ public class WebApiServlet extends HttpServlet {
             action.checkAccessControl();
 
             ActionResult result = action.execute();
+            result.setRequestId(req.getHeader("X-Cloud-Trace-Context"));
             result.send(resp);
         } catch (ActionMappingException e) {
             throwErrorBasedOnRequester(req, resp, e, e.getStatusCode());

@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import com.google.apphosting.api.ApiProxy;
-
 import teammates.common.exception.TeammatesException;
 
 /**
@@ -147,21 +145,6 @@ public final class Config {
         return !appName.endsWith(APP_ID)
                 || !APP_VERSION.equals(version.replace("-", "."))
                 || !"standard".equals(env);
-    }
-
-    /**
-     * Returns the GAE's internal request ID of a request. This is not related to HttpServletRequest.
-     *
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/how-requests-are-handled">https://cloud.google.com/appengine/docs/standard/java/how-requests-are-handled</a>
-     */
-    public static String getRequestId() {
-        ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
-        if (serverEnvironment == null) {
-            // This will be the case in dev server
-            return "dummyrequestid";
-        }
-        return String.valueOf(ApiProxy.getCurrentEnvironment().getAttributes()
-                .get("com.google.appengine.runtime.request_log_id"));
     }
 
     /**
