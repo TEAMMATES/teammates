@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.StringHelper;
@@ -41,21 +41,21 @@ class StudentSearchDocument extends SearchDocument {
     }
 
     /**
-     * Produces a {@link StudentSearchResultBundle} from the {@code QueryResponse} collection.
+     * Produces a list of {@link StudentAttributes} from the {@code QueryResponse} collection.
      */
-    static StudentSearchResultBundle fromResponse(QueryResponse response) {
+    static List<StudentAttributes> fromResponse(QueryResponse response) {
         if (response == null) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
-        StudentSearchResultBundle bundle = constructBaseBundle(response.getResults());
-        sortStudentResultList(bundle.studentList);
+        List<StudentAttributes> studentList = constructBaseBundle(response.getResults());
+        sortStudentResultList(studentList);
 
-        return bundle;
+        return studentList;
     }
 
-    private static StudentSearchResultBundle constructBaseBundle(List<SolrDocument> results) {
-        StudentSearchResultBundle bundle = new StudentSearchResultBundle();
+    private static List<StudentAttributes> constructBaseBundle(List<SolrDocument> results) {
+        List<StudentAttributes> studentList = new ArrayList<>();
 
         for (SolrDocument document : results) {
             String studentId = (String) document.getFirstValue("id");
@@ -67,10 +67,10 @@ class StudentSearchDocument extends SearchDocument {
                 continue;
             }
 
-            bundle.studentList.add(student);
+            studentList.add(student);
         }
 
-        return bundle;
+        return studentList;
     }
 
     private static void sortStudentResultList(List<StudentAttributes> studentList) {

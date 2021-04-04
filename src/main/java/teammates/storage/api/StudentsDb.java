@@ -11,7 +11,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -61,10 +60,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors)
+    public List<StudentAttributes> search(String queryString, List<InstructorAttributes> instructors)
             throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
         return getSearchManager().searchStudents(queryString, instructors);
@@ -77,10 +76,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
         return getSearchManager().searchStudents(queryString, null);

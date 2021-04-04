@@ -2,6 +2,7 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +10,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -73,11 +73,11 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+    public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
 
         if (queryString.trim().isEmpty()) {
-            return new InstructorSearchResultBundle();
+            return new ArrayList<>();
         }
 
         return getSearchManager().searchInstructors(queryString);

@@ -12,8 +12,6 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 
-import teammates.common.datatransfer.InstructorSearchResultBundle;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
@@ -55,7 +53,7 @@ public final class SearchManager {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
+    public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
             throws SearchNotImplementedException {
         if (client == null) {
             throw new SearchNotImplementedException();
@@ -131,7 +129,7 @@ public final class SearchManager {
     /**
      * Searches for instructors.
      */
-    public InstructorSearchResultBundle searchInstructors(String queryString) throws SearchNotImplementedException {
+    public List<InstructorAttributes> searchInstructors(String queryString) throws SearchNotImplementedException {
         if (client == null) {
             throw new SearchNotImplementedException();
         }

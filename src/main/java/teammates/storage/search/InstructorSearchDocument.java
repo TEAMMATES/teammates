@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -7,7 +8,6 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.StringHelper;
@@ -42,24 +42,24 @@ class InstructorSearchDocument extends SearchDocument {
     }
 
     /**
-     * Produces an {@link InstructorSearchResultBundle} from the {@code QueryResponse} collection.
+     * Produces a list of {@link InstructorAttributes} from the {@code QueryResponse} collection.
      *
      * <p>This method should be used by admin only since the searching does not restrict the
      * visibility according to the logged-in user's google ID.</p>
      */
-    static InstructorSearchResultBundle fromResponse(QueryResponse response) {
+    static List<InstructorAttributes> fromResponse(QueryResponse response) {
         if (response == null) {
-            return new InstructorSearchResultBundle();
+            return new ArrayList<>();
         }
 
-        InstructorSearchResultBundle bundle = constructBaseBundle(response.getResults());
-        sortInstructorResultList(bundle.instructorList);
+        List<InstructorAttributes> instructorList = constructBaseBundle(response.getResults());
+        sortInstructorResultList(instructorList);
 
-        return bundle;
+        return instructorList;
     }
 
-    private static InstructorSearchResultBundle constructBaseBundle(List<SolrDocument> results) {
-        InstructorSearchResultBundle bundle = new InstructorSearchResultBundle();
+    private static List<InstructorAttributes> constructBaseBundle(List<SolrDocument> results) {
+        List<InstructorAttributes> instructorList = new ArrayList<>();
 
         for (SolrDocument document : results) {
             String instructorId = (String) document.getFirstValue("id");
@@ -71,10 +71,10 @@ class InstructorSearchDocument extends SearchDocument {
                 continue;
             }
 
-            bundle.instructorList.add(instructor);
+            instructorList.add(instructor);
         }
 
-        return bundle;
+        return instructorList;
     }
 
     private static void sortInstructorResultList(List<InstructorAttributes> instructorList) {
