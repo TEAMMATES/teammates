@@ -114,10 +114,16 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
+    // Reset error highlighting on a new submission
+    this.resetTableStyle(newStudentsHOTInstance, 0,
+        newStudentsHOTInstance.getData().length - 1,
+        0,
+        hotInstanceColHeaders.indexOf(this.colHeaders[4]));
+
     // Remove error highlight on click
     newStudentsHOTInstance.addHook('afterSelectionEnd', (row: number, column: number,
                                                          row2: number, column2: number) => {
-      this.resetTableStyleOnClick(newStudentsHOTInstance, row, row2, column, column2);
+      this.resetTableStyle(newStudentsHOTInstance, row, row2, column, column2);
     });
 
     // Record the row with its index on the table
@@ -319,7 +325,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
   }
 
-  private resetTableStyleOnClick(newStudentsHOTInstance: Handsontable,
+  private resetTableStyle(newStudentsHOTInstance: Handsontable,
                                  startRow: number, endRow: number, startCol: number, endCol: number): void {
     for (let row: number = startRow; row <= endRow; row += 1) {
       for (let col: number = startCol; col <= endCol; col += 1) {
