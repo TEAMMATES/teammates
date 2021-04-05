@@ -8,6 +8,7 @@ import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { ApiConst } from '../../../types/api-const';
 import {
   Course,
   Courses,
@@ -33,7 +34,6 @@ interface SearchLogsFormModel {
   logsTimeTo: TimeFormat;
   courseId: string;
   studentName: string;
-  isSearchDisabled: boolean;
 }
 
 /**
@@ -56,7 +56,7 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-audit-logs-page.component.scss'],
 })
 export class InstructorAuditLogsPageComponent implements OnInit {
-  LOG_RETENTION_DAYS: number = 30;
+  LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -68,7 +68,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     logsTimeTo: { hour: 0, minute: 0 },
     courseId: '',
     studentName: '',
-    isSearchDisabled: true,
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
@@ -90,14 +89,14 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.dateToday.month = today.getMonth() + 1;
     this.dateToday.day = today.getDate();
 
-    const earliestSearchDate: Date = new Date(Date.now() - this.LOG_RETENTION_DAYS * 24 * 60 * 60 * 1000);
+    const earliestSearchDate: Date = new Date(Date.now() - this.LOGS_RETENTION_PERIOD * 24 * 60 * 60 * 1000);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    this.formModel.logsDateFrom = { ...this.dateToday };
+    this.formModel.logsDateFrom = { ...this.dateToday, day: today.getDate() - 1 };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: today.getHours(), minute: 0 };
+    this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
     this.loadData();
   }
@@ -112,6 +111,17 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
+
+    let email: string = '';
+    if (this.formModel.studentName) {
+      const students: Student[] = this.courseToStudents[this.formModel.courseId];
+      const selectedStudent: Student | undefined =
+          students.find((student: Student) => student.name === this.formModel.studentName);
+      if (selectedStudent) {
+        email = selectedStudent.email;
+      }
+    }
+
     forkJoin(localDateTime)
         .pipe(
             concatMap((timestamp: number[]) => {
@@ -119,6 +129,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
                 courseId: this.formModel.courseId,
                 searchFrom: timestamp[0].toString(),
                 searchUntil: timestamp[1].toString(),
+                studentEmail: email,
               });
             }),
             finalize(() => this.isSearching = false))
@@ -126,16 +137,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
           logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
               this.searchResults.push(this.toFeedbackSessionLogModel(log)));
         }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
-  }
-
-  /**
-   * Update search button state
-   */
-  updateSearchButtonDisabled(event: string): void {
-    this.formModel.courseId = event;
-    if (this.formModel.courseId) {
-      this.formModel.isSearchDisabled = false;
-    }
   }
 
   /**
