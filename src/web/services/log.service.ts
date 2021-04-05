@@ -29,7 +29,7 @@ export class LogService {
       fsltype: queryParams.logType.toString(),
     };
 
-    return this.httpRequestService.post(ResourceEndpoints.TRACK_SESSION, paramMap);
+    return this.httpRequestService.post(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
 
   /**

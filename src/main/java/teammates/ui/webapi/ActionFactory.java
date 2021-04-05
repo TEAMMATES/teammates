@@ -118,7 +118,7 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
 
         // Logging and tracking
-        map(ResourceURIs.TRACK_SESSION, POST, CreateFeedbackSessionLogAction.class);
+        map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
 
         // Cron jobs; use GET request

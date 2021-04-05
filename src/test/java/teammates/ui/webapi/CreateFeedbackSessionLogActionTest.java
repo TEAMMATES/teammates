@@ -14,7 +14,7 @@ import teammates.common.util.Const;
 public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFeedbackSessionLogAction> {
     @Override
     protected String getActionUri() {
-        return Const.ResourceURIs.TRACK_SESSION;
+        return Const.ResourceURIs.SESSION_LOGS;
     }
 
     @Override
