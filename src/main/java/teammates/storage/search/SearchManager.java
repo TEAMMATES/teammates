@@ -61,7 +61,10 @@ public final class SearchManager {
 
         QueryResponse response = null;
         SolrQuery studentQuery = new SolrQuery();
-        studentQuery.setQuery("\"" + queryString + "\"");
+
+        String cleanQueryString = escapeSpecialChars(queryString);
+        studentQuery.setQuery("\"" + cleanQueryString + "\"");
+
         studentQuery.setRows(NUM_OF_RESULTS);
 
         if (instructors != null) {
@@ -136,7 +139,10 @@ public final class SearchManager {
 
         QueryResponse response = null;
         SolrQuery instructorQuery = new SolrQuery();
-        instructorQuery.setQuery("\"" + queryString + "\"");
+
+        String cleanQueryString = escapeSpecialChars(queryString);
+        instructorQuery.setQuery("\"" + cleanQueryString + "\"");
+
         instructorQuery.setRows(NUM_OF_RESULTS);
 
         try {
@@ -214,5 +220,27 @@ public final class SearchManager {
                 .filter(i -> i.privileges.getCourseLevelPrivileges()
                         .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
                 .map(ins -> ins.courseId).collect(Collectors.joining(" "));
+    }
+
+    private String escapeSpecialChars(String queryString) {
+        // Solr special characters: + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
+        return queryString.replace("\\", "\\\\")
+                .replace("+", "\\+")
+                .replace("-", "\\-")
+                .replace("&&", "\\&&")
+                .replace("||", "\\||")
+                .replace("!", "\\!")
+                .replace("(", "\\(")
+                .replace(")", "\\)")
+                .replace("{", "\\{")
+                .replace("}", "\\}")
+                .replace("[", "\\[")
+                .replace("]", "\\]")
+                .replace("^", "\\^")
+                .replace("\"", "\\\"")
+                .replace("~", "\\~")
+                .replace("?", "\\?")
+                .replace(":", "\\:")
+                .replace("/", "\\/");
     }
 }
