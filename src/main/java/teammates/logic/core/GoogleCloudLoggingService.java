@@ -160,6 +160,7 @@ public class GoogleCloudLoggingService implements LogService {
                 // If the feedback session log type retrieved from the logs is invalid, discard it
                 continue;
             }
+
             FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(student, fs, fslType, timestamp);
             fsLogEntries.add(fslEntry);
         }
