@@ -70,6 +70,16 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns an Instant that is offset by a number of days before now.
+     *
+     * @param offsetInDays integer number of days to offset by
+     * @return an Instant offset by {@code offsetInDays} days
+     */
+    public static Instant getInstantDaysOffsetBeforeNow(long offsetInDays) {
+        return Instant.now().minus(Duration.ofDays(offsetInDays));
+    }
+
+    /**
      * Formats a datetime stamp from an {@code instant} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.

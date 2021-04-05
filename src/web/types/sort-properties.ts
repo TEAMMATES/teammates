@@ -346,6 +346,16 @@ export enum SortBy {
      * The creation date of a comment
      */
     COMMENTS_CREATION_DATE,
+
+    /**
+     * The type of log
+     */
+    LOG_TYPE,
+
+    /**
+     * The date of log
+     */
+    LOG_DATE,
 }
 
 /**
