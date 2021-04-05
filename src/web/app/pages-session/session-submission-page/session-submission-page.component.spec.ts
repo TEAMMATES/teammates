@@ -18,13 +18,26 @@ import { StudentService } from '../../../services/student.service';
 import {
   AuthInfo,
   CommentVisibilityType,
+  FeedbackConstantSumQuestionDetails,
+  FeedbackConstantSumResponseDetails,
+  FeedbackContributionQuestionDetails,
+  FeedbackContributionResponseDetails,
   FeedbackMcqQuestionDetails,
   FeedbackMcqResponseDetails,
+  FeedbackMsqQuestionDetails,
+  FeedbackMsqResponseDetails,
+  FeedbackNumericalScaleQuestionDetails,
+  FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionRecipients,
   FeedbackQuestionType,
+  FeedbackRankOptionsQuestionDetails,
+  FeedbackRankOptionsResponseDetails,
+  FeedbackRankRecipientsQuestionDetails,
   FeedbackResponse,
   FeedbackResponseComment,
+  FeedbackRubricQuestionDetails,
+  FeedbackRubricResponseDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -224,6 +237,74 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
+  const testRecipientSubmissionForm6: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-6',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      answers: ['answer 1', 'answer 2'],
+      isOther: false,
+      otherFieldContent: 'other field content',
+      questionType: FeedbackQuestionType.MSQ,
+    } as FeedbackMsqResponseDetails,
+    isValid: true,
+  };
+
+  const testRecipientSubmissionForm7: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-7',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      answer: 5,
+    } as FeedbackNumericalScaleResponseDetails,
+    isValid: true,
+  };
+
+  const testRecipientSubmissionForm8: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-8',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      answers: [7, 13],
+    } as FeedbackConstantSumResponseDetails,
+    isValid: true,
+  };
+
+  const testRecipientSubmissionForm9: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-9',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      answer: 20,
+    } as FeedbackContributionResponseDetails,
+    isValid: true,
+  };
+
+  const testRecipientSubmissionForm10: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-10',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      answer: [3, 4],
+    } as FeedbackRubricResponseDetails,
+    isValid: true,
+  };
+
+  const testRecipientSubmissionForm11: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-11',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      answers: [2, 1],
+    } as FeedbackRankOptionsResponseDetails,
+    isValid: true,
+  };
+
+  const testRecipientSubmissionForm12: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-12',
+    recipientIdentifier: 'barry-harris-id',
+    responseDetails: {
+      minOptionsToBeRanked: 1,
+      maxOptionsToBeRanked: 2,
+      areDuplicatesAllowed: false,
+    } as FeedbackRankRecipientsQuestionDetails,
+    isValid: true,
+  };
+
   const testResponse4: FeedbackResponse = {
     feedbackResponseId: 'response-id-4',
     giverIdentifier: 'giver-identifier',
@@ -244,6 +325,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqResponseDetails,
   };
 
+  // MCQ
   const testQuestionSubmissionForm1: QuestionSubmissionFormModel = {
     feedbackQuestionId: 'feedback-question-id-1',
     questionNumber: 1,
@@ -266,6 +348,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
   };
 
+  // TEXT
   const testQuestionSubmissionForm2: QuestionSubmissionFormModel = {
     feedbackQuestionId: 'feedback-question-id-2',
     questionNumber: 2,
@@ -287,6 +370,7 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
   };
 
+  // MCQ
   const testQuestionSubmissionForm3: QuestionSubmissionFormModel = {
     feedbackQuestionId: 'feedback-question-id-3',
     questionNumber: 3,
@@ -311,6 +395,174 @@ describe('SessionSubmissionPageComponent', () => {
       },
     ],
     recipientSubmissionForms: [testRecipientSubmissionForm4, testRecipientSubmissionForm5],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // MSQ
+  const testQuestionSubmissionForm4: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-4',
+    questionNumber: 4,
+    questionBrief: 'MSQ question',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.MSQ,
+    questionDetails: {
+      msqChoices: ['first', 'second' , 'third'],
+      otherEnabled: false,
+      hasAssignedWeights: true,
+      msqWeights: [1, 2, 3],
+      maxSelectableChoices: 2,
+      minSelectableChoices: 1,
+    } as FeedbackMsqQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm6],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // NUMSCALE
+  const testQuestionSubmissionForm5: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-5',
+    questionNumber: 5,
+    questionBrief: 'numerical scale question',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.NUMSCALE,
+    questionDetails: {
+      minScale: 1,
+      maxScale: 10,
+      step: 1,
+    } as FeedbackNumericalScaleQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm7],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // CONSTSUM
+  const testQuestionSubmissionForm6: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-6',
+    questionNumber: 6,
+    questionBrief: 'constant sum question',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
+    questionDetails: {
+      numOfConstSumOptions: 2,
+      constSumOptions: ['option 1', 'option 2'],
+      distributeToRecipients: true,
+      pointsPerOption: true,
+      forceUnevenDistribution: false,
+      distributePointsFor: 'distribute points for',
+      points: 20,
+    } as FeedbackConstantSumQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm8],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // CONTRIB
+  const testQuestionSubmissionForm7: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-7',
+    questionNumber: 7,
+    questionBrief: 'contribution question',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.CONTRIB,
+    questionDetails: {
+      isNotSureAllowed: false,
+    } as FeedbackContributionQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm9],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // RUBRIC
+  const testQuestionSubmissionForm8: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-8',
+    questionNumber: 8,
+    questionBrief: 'question brief',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.RUBRIC,
+    questionDetails: {
+      hasAssignedWeights: false,
+      rubricWeightsForEachCell: [[1, 2], [2, 1]],
+      numOfRubricChoices: 2,
+      rubricChoices: ['choice 1', 'choice 2'],
+      numOfRubricSubQuestions: 2,
+      rubricSubQuestions: ['subquestion 1', 'subquestion 2'],
+      rubricDescriptions: [['description 1', 'description 2'], ['description 3', 'description 4']],
+    } as FeedbackRubricQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm10],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // RANK_OPTIONS
+  const testQuestionSubmissionForm9: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-9',
+    questionNumber: 9,
+    questionBrief: 'question brief',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.RANK_OPTIONS,
+    questionDetails: {
+      options: ['option 1', 'option 2'],
+    } as FeedbackRankOptionsQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm11],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+    showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
+  };
+
+  // RANK_RECIPIENTS
+  const testQuestionSubmissionForm10: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-10',
+    questionNumber: 10,
+    questionBrief: 'question brief',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    questionDetails: {
+      minOptionsToBeRanked: 1,
+      maxOptionsToBeRanked: 2,
+      areDuplicatesAllowed: false,
+    } as FeedbackRankRecipientsQuestionDetails,
+    giverType: FeedbackParticipantType.INSTRUCTORS,
+    recipientType: FeedbackParticipantType.STUDENTS,
+    recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
+    recipientSubmissionForms: [testRecipientSubmissionForm12],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -462,6 +714,13 @@ describe('SessionSubmissionPageComponent', () => {
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
       testQuestionSubmissionForm3,
+      testQuestionSubmissionForm4,
+      testQuestionSubmissionForm5,
+      testQuestionSubmissionForm6,
+      testQuestionSubmissionForm7,
+      testQuestionSubmissionForm8,
+      testQuestionSubmissionForm9,
+      testQuestionSubmissionForm10,
     ];
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
@@ -475,6 +734,13 @@ describe('SessionSubmissionPageComponent', () => {
       testQuestionSubmissionForm1,
       testQuestionSubmissionForm2,
       testQuestionSubmissionForm3,
+      testQuestionSubmissionForm4,
+      testQuestionSubmissionForm5,
+      testQuestionSubmissionForm6,
+      testQuestionSubmissionForm7,
+      testQuestionSubmissionForm8,
+      testQuestionSubmissionForm9,
+      testQuestionSubmissionForm10,
     ];
     component.isSubmissionFormsDisabled = true;
     component.isFeedbackSessionLoading = false;
