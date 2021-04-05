@@ -295,7 +295,6 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
-        public static final String TRACK_SESSION = URI_PREFIX + "/track/session";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
