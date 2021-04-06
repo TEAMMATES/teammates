@@ -110,6 +110,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.allStudentChunks = [];
     this.invalidRowsIndex = new Set();
 
+    const lastColIndex: number = 4;
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
@@ -118,7 +119,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.resetTableStyle(newStudentsHOTInstance, 0,
         newStudentsHOTInstance.getData().length - 1,
         0,
-        hotInstanceColHeaders.indexOf(this.colHeaders[4]));
+        hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
 
     // Remove error highlight on click
     newStudentsHOTInstance.addHook('afterSelectionEnd', (row: number, column: number,
