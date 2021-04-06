@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -38,6 +39,7 @@ public final class SearchManager {
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
+    private static final int START_INDEX = 0;
     private static final int NUM_OF_RESULTS = 20;
 
     private HttpSolrClient client;
@@ -62,9 +64,10 @@ public final class SearchManager {
         QueryResponse response = null;
         SolrQuery studentQuery = new SolrQuery();
 
-        String cleanQueryString = escapeSpecialChars(queryString);
-        studentQuery.setQuery("\"" + cleanQueryString + "\"");
+        String cleanQueryString = cleanSpecialChars(queryString);
+        studentQuery.setQuery(cleanQueryString);
 
+        studentQuery.setStart(START_INDEX);
         studentQuery.setRows(NUM_OF_RESULTS);
 
         if (instructors != null) {
@@ -120,6 +123,7 @@ public final class SearchManager {
 
         try {
             client.deleteById(STUDENT_COLLECTION_NAME, batchQueryString);
+            client.commit(STUDENT_COLLECTION_NAME);
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
@@ -140,9 +144,10 @@ public final class SearchManager {
         QueryResponse response = null;
         SolrQuery instructorQuery = new SolrQuery();
 
-        String cleanQueryString = escapeSpecialChars(queryString);
-        instructorQuery.setQuery("\"" + cleanQueryString + "\"");
+        String cleanQueryString = cleanSpecialChars(queryString);
+        instructorQuery.setQuery(cleanQueryString);
 
+        instructorQuery.setStart(START_INDEX);
         instructorQuery.setRows(NUM_OF_RESULTS);
 
         try {
@@ -193,6 +198,7 @@ public final class SearchManager {
 
         try {
             client.deleteById(INSTRUCTOR_COLLECTION_NAME, batchQueryString);
+            client.commit(INSTRUCTOR_COLLECTION_NAME);
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
@@ -222,9 +228,9 @@ public final class SearchManager {
                 .map(ins -> ins.courseId).collect(Collectors.joining(" "));
     }
 
-    private String escapeSpecialChars(String queryString) {
+    private String cleanSpecialChars(String queryString) {
         // Solr special characters: + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
-        return queryString.replace("\\", "\\\\")
+        String res = queryString.replace("\\", "\\\\")
                 .replace("+", "\\+")
                 .replace("-", "\\-")
                 .replace("&&", "\\&&")
@@ -237,10 +243,22 @@ public final class SearchManager {
                 .replace("[", "\\[")
                 .replace("]", "\\]")
                 .replace("^", "\\^")
-                .replace("\"", "\\\"")
                 .replace("~", "\\~")
                 .replace("?", "\\?")
                 .replace(":", "\\:")
                 .replace("/", "\\/");
+
+        // imbalanced double quotes are invalid
+        int count = StringUtils.countMatches(res, "\"");
+        if (count % 2 == 1) {
+            res = res.replace("\"", "\\\"");
+        }
+
+        // use exact match only when there's email-like input
+        if (res.contains("@") && count == 0) {
+            return "\"" + res + "\"";
+        } else {
+            return res;
+        }
     }
 }
