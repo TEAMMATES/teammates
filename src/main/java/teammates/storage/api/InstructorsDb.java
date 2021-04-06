@@ -58,12 +58,10 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     /**
-     * Removes search document for the given instructor by using {@code encryptedRegistrationKey}.
-     *
-     * <p>See {@link InstructorSearchDocument} for more details.</p>
+     * Removes search document for the given instructor by using {@code instructorUniqueId}.
      */
-    public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
-        getSearchManager().deleteInstructorSearchDocuments(encryptedRegistrationKey);
+    public void deleteDocumentByInstructorId(String instructorUniqueId) {
+        getSearchManager().deleteInstructorSearchDocuments(instructorUniqueId);
     }
 
     /**
@@ -300,7 +298,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return;
         }
 
-        deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructorToDelete.getRegistrationKey()));
+        deleteDocumentByInstructorId(instructorToDelete.getUniqueId());
 
         deleteEntity(Key.create(Instructor.class, instructorToDelete.getUniqueId()));
     }
@@ -315,7 +313,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
             getSearchManager().deleteInstructorSearchDocuments(
                     instructorsToDelete.stream()
-                            .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
+                            .map(Instructor::getUniqueId)
                             .toArray(String[]::new));
 
             deleteEntity(instructorsToDelete.stream()

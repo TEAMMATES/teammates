@@ -10,7 +10,6 @@ import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link SolrInputDocument} for instructors.
@@ -29,7 +28,7 @@ class InstructorSearchDocument extends SearchDocument {
 
         CourseAttributes course = coursesDb.getCourse(instructor.courseId);
 
-        document.addField("id", StringHelper.encrypt(instructor.key));
+        document.addField("id", instructor.getEmail() + "%" + instructor.getCourseId());
         document.addField("name", instructor.getName());
         document.addField("email", instructor.getEmail());
         document.addField("courseId", instructor.getCourseId());
@@ -62,12 +61,13 @@ class InstructorSearchDocument extends SearchDocument {
         List<InstructorAttributes> instructorList = new ArrayList<>();
 
         for (SolrDocument document : results) {
-            String instructorId = (String) document.getFirstValue("id");
-            InstructorAttributes instructor = instructorsDb.getInstructorForRegistrationKey(instructorId);
+            String courseId = (String) document.getFirstValue("courseId");
+            String email = (String) document.getFirstValue("email");
+            InstructorAttributes instructor = instructorsDb.getInstructorById(courseId, email);
             if (instructor == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
-                instructorsDb.deleteDocumentByEncryptedInstructorKey(instructorId);
+                instructorsDb.deleteInstructor(courseId, email);
                 continue;
             }
 

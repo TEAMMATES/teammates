@@ -10,7 +10,6 @@ import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.StringHelper;
 
 /**
  * The {@link SearchDocument} object that defines how we store {@link SolrInputDocument} for students.
@@ -29,7 +28,7 @@ class StudentSearchDocument extends SearchDocument {
 
         CourseAttributes course = coursesDb.getCourse(student.course);
 
-        document.addField("id", student.key);
+        document.addField("id", student.getId());
         document.addField("name", student.getName());
         document.addField("email", student.getEmail());
         document.addField("courseId", student.getCourse());
@@ -58,12 +57,13 @@ class StudentSearchDocument extends SearchDocument {
         List<StudentAttributes> studentList = new ArrayList<>();
 
         for (SolrDocument document : results) {
-            String studentId = (String) document.getFirstValue("id");
-            StudentAttributes student = studentsDb.getStudentForRegistrationKey(StringHelper.encrypt(studentId));
+            String courseId = (String) document.getFirstValue("courseId");
+            String email = (String) document.getFirstValue("email");
+            StudentAttributes student = studentsDb.getStudentForEmail(courseId, email);
             if (student == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
-                studentsDb.deleteDocumentByStudentKey(studentId);
+                studentsDb.deleteStudent(courseId, email);
                 continue;
             }
 

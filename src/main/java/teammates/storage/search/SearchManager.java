@@ -251,7 +251,7 @@ public final class SearchManager {
         // imbalanced double quotes are invalid
         int count = StringUtils.countMatches(res, "\"");
         if (count % 2 == 1) {
-            res = res.replace("\"", "\\\"");
+            res = res.replace("\"", "");
         }
 
         // use exact match only when there's email-like input

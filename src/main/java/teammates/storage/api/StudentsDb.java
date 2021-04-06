@@ -86,12 +86,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Removes search document for the given student by using {@code unencryptedRegistrationKey}.
-     *
-     * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
+     * Removes search document for the given student by using {@code studentUniqueId}.
      */
-    public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
-        getSearchManager().deleteStudentSearchDocuments(unencryptedRegistrationKey);
+    public void deleteDocumentByStudentId(String studentUniqueId) {
+        getSearchManager().deleteStudentSearchDocuments(studentUniqueId);
     }
 
     /**
@@ -312,7 +310,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudentToDelete != null) {
-            deleteDocumentByStudentKey(courseStudentToDelete.getRegistrationKey());
+            deleteDocumentByStudentId(courseStudentToDelete.getUniqueId());
             deleteEntity(Key.create(CourseStudent.class, courseStudentToDelete.getUniqueId()));
         }
     }
@@ -324,7 +322,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
             getSearchManager().deleteStudentSearchDocuments(
-                    studentsToDelete.stream().map(CourseStudent::getRegistrationKey).toArray(String[]::new));
+                    studentsToDelete.stream().map(CourseStudent::getUniqueId).toArray(String[]::new));
 
             deleteEntity(studentsToDelete.stream()
                     .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))
