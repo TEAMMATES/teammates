@@ -38,8 +38,8 @@ public class CompileLogsActionTest extends BaseActionTest<CompileLogsAction> {
         // The class does not check for the log severity as it is assumed that the logs service
         // will filter them correctly
 
-        mockLogsProcessor.insertErrorLogs("Test info message", "INFO");
-        mockLogsProcessor.insertErrorLogs("Test warning message", "WARNING");
+        mockLogsProcessor.insertErrorLog("Test info message", "INFO");
+        mockLogsProcessor.insertErrorLog("Test warning message", "WARNING");
 
         action = getAction();
         action.execute();
