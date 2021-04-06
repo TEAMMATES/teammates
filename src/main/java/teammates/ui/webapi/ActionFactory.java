@@ -77,7 +77,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         //SEARCH APIs
-        map(ResourceURIs.SEARCH_COMMENTS, GET, SearchCommentsAction.class);
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
@@ -117,6 +116,10 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, DELETE, DeleteStudentProfilePictureAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
+
+        // Logging and tracking
+        map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
+        map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
 
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/java/config/cron
