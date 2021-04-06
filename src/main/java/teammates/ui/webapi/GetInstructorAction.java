@@ -39,7 +39,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
         case FULL_DETAIL:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             break;
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
