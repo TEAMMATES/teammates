@@ -16,9 +16,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorHomePage;
-import teammates.e2e.pageobjects.InstructorSearchPage;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -71,24 +69,6 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(instructor.googleId);
         InstructorHomePage homePage = loginAdminToPage(url, InstructorHomePage.class);
 
-        ______TS("search for valid student");
-        InstructorSearchPage searchPage = homePage.searchKeyword(studentToEmail.getName());
-        searchPage.waitForPageToLoad();
-
-        // Here, it is sufficient to ensure that the number of search results matches
-        // A more thorough testing of this page will be done in its own E2E test
-
-        searchPage.verifyNumCoursesInStudentResults(2);
-        homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
-
-        ______TS("search for invalid student");
-        searchPage = homePage.searchKeyword("INVALID");
-        searchPage.waitForPageToLoad(true);
-
-        searchPage.verifyStatusMessage("No results found.");
-        searchPage.verifyNumCoursesInStudentResults(0);
-        homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
-
         ______TS("verify loaded data");
         homePage.sortCoursesById();
         int courseIndex = 1;
@@ -118,7 +98,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
 
         homePage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        homePage = AppPage.getNewPageInstance(browser, url, InstructorHomePage.class);
+        homePage = getNewPageInstance(url, InstructorHomePage.class);
         homePage.sortCoursesByName();
         // flip index after sorting
         courseIndex = 0;

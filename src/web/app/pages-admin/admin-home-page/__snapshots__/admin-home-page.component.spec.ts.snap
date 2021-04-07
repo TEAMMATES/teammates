@@ -320,7 +320,7 @@ exports[`AdminHomePageComponent should snap with disabled adding instructor butt
           </tbody>
         </table>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary top-padded"
           disabled=""
           id="add-all-instructors"
         >
@@ -612,7 +612,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
           </tbody>
         </table>
         <button
-          class="btn btn-primary"
+          class="btn btn-primary top-padded"
           id="add-all-instructors"
         >
           

@@ -1,7 +1,7 @@
-<div class="card-header bg-secondary text-white cursor-pointer" (click)="toggleTab()">
+<div id="no-response-panel" class="card-header bg-secondary text-white cursor-pointer" (click)="toggleTab()">
   Participants who have not responded to any question
   <div class="card-header-btn-toolbar">
-    <button class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
+    <button id="btn-remind-all" class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
         [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
       Remind All
     </button>
@@ -11,7 +11,7 @@
 <div *ngIf="isTabExpanded" @collapseAnim>
   <div class="card-body p-0">
     <div *ngIf="noResponseStudentsInSection.length">
-      <table class="table table-striped">
+      <table id="no-response-table" class="table table-striped">
         <thead>
         <tr>
           <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
@@ -21,7 +21,7 @@
               <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
             </span>
           </th>
-          <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
+          <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
             Name
             <span class="fa-stack"><i class="fas fa-sort"></i>
               <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>

@@ -29,7 +29,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withNationality("Lebanese")
                 .withGender(StudentProfileAttributes.Gender.FEMALE)
                 .withMoreInfo("moreInfo can have a lot more than this...")
-                .withPictureKey("profile Pic Key")
                 .build();
     }
 
@@ -44,7 +43,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals("", profileAttributes.institute);
         assertEquals("", profileAttributes.nationality);
         assertEquals("", profileAttributes.moreInfo);
-        assertEquals("", profileAttributes.pictureKey);
     }
 
     @Test
@@ -87,12 +85,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                     .withMoreInfo(null)
                     .build();
         });
-
-        assertThrows(AssertionError.class, () -> {
-            StudentProfileAttributes.builder(VALID_GOOGLE_ID)
-                    .withPictureKey(null)
-                    .build();
-        });
     }
 
     @Test
@@ -104,7 +96,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withNationality("Lebanese")
                 .withGender(StudentProfileAttributes.Gender.FEMALE)
                 .withMoreInfo("moreInfo can have a lot more than this...")
-                .withPictureKey("profile Pic Key")
                 .build();
 
         assertEquals(VALID_GOOGLE_ID, studentProfileAttributes.getGoogleId());
@@ -114,14 +105,13 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals("Lebanese", studentProfileAttributes.getNationality());
         assertEquals(StudentProfileAttributes.Gender.FEMALE, studentProfileAttributes.getGender());
         assertEquals("moreInfo can have a lot more than this...", studentProfileAttributes.getMoreInfo());
-        assertEquals("profile Pic Key", studentProfileAttributes.getPictureKey());
     }
 
     @Test
     public void testValueOf_withAllFieldPopulatedStudentProfile_shouldGenerateAttributesCorrectly() {
         StudentProfile studentProfile = new StudentProfile("id", "Joe", "joe@gmail.com",
                 "Teammates Institute", "American", StudentProfileAttributes.Gender.MALE.name().toLowerCase(),
-                "hello", "key");
+                "hello");
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
         assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
@@ -131,14 +121,13 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
         assertEquals(studentProfile.getGender(), profileAttributes.gender.name().toLowerCase());
         assertEquals(studentProfile.getMoreInfo(), profileAttributes.moreInfo);
-        assertEquals(studentProfile.getPictureKey(), profileAttributes.pictureKey);
 
     }
 
     @Test
     public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
         StudentProfile studentProfile = new StudentProfile("id", null, null,
-                null, null, null, null, null);
+                null, null, null, null);
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
         assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
@@ -148,8 +137,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals("", profileAttributes.nationality);
         assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.gender);
         assertEquals("", profileAttributes.moreInfo);
-        assertEquals("", profileAttributes.pictureKey);
-
     }
 
     @Test
@@ -204,7 +191,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(profileToSanitizeExpected.nationality, profileToSanitize.nationality);
         assertEquals(profileToSanitizeExpected.gender, profileToSanitize.gender);
         assertEquals(profileToSanitizeExpected.moreInfo, profileToSanitize.moreInfo);
-        assertEquals(profileToSanitizeExpected.pictureKey, profileToSanitize.pictureKey);
     }
 
     @Override
@@ -220,7 +206,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals(expectedEntity.getNationality(), actualEntity.getNationality());
         assertEquals(expectedEntity.getGender(), actualEntity.getGender());
         assertEquals(expectedEntity.getMoreInfo(), actualEntity.getMoreInfo());
-        assertEquals(expectedEntity.getPictureKey(), actualEntity.getPictureKey());
     }
 
     @Test
@@ -242,7 +227,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                         .withNationality("Singapore")
                         .withGender(StudentProfileAttributes.Gender.MALE)
                         .withMoreInfo("more info")
-                        .withPictureKey("newPic")
                         .build();
 
         assertEquals("testGoogleId", updateOptions.getGoogleId());
@@ -257,7 +241,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertEquals("Singapore", profileAttributes.nationality);
         assertEquals(StudentProfileAttributes.Gender.MALE, profileAttributes.gender);
         assertEquals("more info", profileAttributes.moreInfo);
-        assertEquals("newPic", profileAttributes.pictureKey);
     }
 
     @Test
@@ -288,10 +271,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         assertThrows(AssertionError.class, () ->
                 StudentProfileAttributes.updateOptionsBuilder("validId")
                         .withMoreInfo(null));
-
-        assertThrows(AssertionError.class, () ->
-                StudentProfileAttributes.updateOptionsBuilder("validId")
-                        .withPictureKey(null));
     }
 
     @Test
@@ -309,7 +288,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withNationality("Lebanese")
                 .withGender(StudentProfileAttributes.Gender.FEMALE)
                 .withMoreInfo("moreInfo can have a lot more than this...")
-                .withPictureKey("profile Pic Key")
                 .build();
 
         assertTrue(profile.equals(studentProfileSimilar));
@@ -339,7 +317,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withNationality("Lebanese")
                 .withGender(StudentProfileAttributes.Gender.FEMALE)
                 .withMoreInfo("moreInfo can have a lot more than this...")
-                .withPictureKey("profile Pic Key")
                 .build();
 
         assertTrue(profile.hashCode() == studentProfileSimilar.hashCode());
@@ -359,7 +336,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
             StudentProfileAttributes profile) {
         return new StudentProfile(profile.googleId, profile.shortName, profile.email,
                                   profile.institute, profile.nationality, profile.gender.name().toLowerCase(),
-                                  profile.moreInfo, profile.pictureKey);
+                                  profile.moreInfo);
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
@@ -395,7 +372,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String nationality = "$invalid nationality ";
         StudentProfileAttributes.Gender gender = StudentProfileAttributes.Gender.MALE;
         String moreInfo = "Ooops no validation for this one...";
-        String pictureKey = "";
 
         return StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
@@ -404,7 +380,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withNationality(nationality)
                 .withGender(gender)
                 .withMoreInfo(moreInfo)
-                .withPictureKey(pictureKey)
                 .build();
     }
 
@@ -416,7 +391,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         String nationality = "&\"invalid nationality &";
         StudentProfileAttributes.Gender gender = StudentProfileAttributes.Gender.OTHER;
         String moreInfo = "<<script> alert('hi!'); </script>";
-        String pictureKey = "testPictureKey";
 
         return StudentProfileAttributes.builder(googleId)
                 .withShortName(shortName)
@@ -425,7 +399,6 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 .withNationality(nationality)
                 .withGender(gender)
                 .withMoreInfo(moreInfo)
-                .withPictureKey(pictureKey)
                 .build();
     }
 

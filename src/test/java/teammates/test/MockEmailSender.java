@@ -25,9 +25,18 @@ public class MockEmailSender extends EmailSender {
         return new EmailSendingStatus(HttpStatus.SC_OK, null);
     }
 
-    @Override
+    /**
+     * Gets the emails sent.
+     */
     public List<EmailWrapper> getEmailsSent() {
         return sentEmails;
+    }
+
+    /**
+     * Clears the list of emails sent.
+     */
+    public void clearEmails() {
+        sentEmails.clear();
     }
 
 }

@@ -77,7 +77,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         //SEARCH APIs
-        map(ResourceURIs.SEARCH_COMMENTS, GET, SearchCommentsAction.class);
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
@@ -105,7 +104,6 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
-        map(ResourceURIs.SUBMISSION_CONFIRMATION, POST, ConfirmFeedbackSessionSubmissionAction.class);
         map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.SESSION_LINKS_RECOVERY, POST, SessionLinksRecoveryAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
@@ -118,6 +116,10 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT_PROFILE_PICTURE, DELETE, DeleteStudentProfilePictureAction.class);
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
+
+        // Logging and tracking
+        map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
+        map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
 
         // Cron jobs; use GET request
         // Reference: https://cloud.google.com/appengine/docs/standard/java/config/cron
@@ -158,9 +160,7 @@ public class ActionFactory {
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
-        Action action = getAction(uri, method);
-        action.init(req);
-        return action;
+        return getAction(uri, method);
     }
 
     private Action getAction(String uri, String method) throws ActionMappingException {

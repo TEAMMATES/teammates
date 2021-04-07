@@ -36,7 +36,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
     protected void testExecute_invalidEmail_shouldFail() {
         ______TS("email address is not valid");
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "invalid-email-address",
+                Const.ParamsNames.STUDENT_EMAIL, "invalid-email-address",
         };
 
         SessionLinksRecoveryAction a = getAction(nonExistingParam);
@@ -52,7 +52,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         ______TS("Typical case: non-existent email address");
 
         String[] nonExistingParam = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, "non-existent@abc.com",
+                Const.ParamsNames.STUDENT_EMAIL, "non-existent@abc.com",
         };
 
         SessionLinksRecoveryAction a = getAction(nonExistingParam);
@@ -63,9 +63,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         assertEquals("The recovery links for your feedback sessions have been sent to "
                 + "the specified email address: non-existent@abc.com", output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals("non-existent@abc.com", emailSent.getRecipient());
     }
@@ -76,7 +76,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
         ______TS("Typical case: successfully sent recovery link email: No feedback sessions found");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse2.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse2.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -88,9 +88,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                         + "specified email address: " + student1InCourse2.getEmail(),
                 output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse2.getEmail(), emailSent.getRecipient());
     }
@@ -102,7 +102,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 + "closed and unpublished.");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse3.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse3.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -114,9 +114,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                         + "sent to the specified email address: " + student1InCourse3.getEmail(),
                 output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse3.getEmail(), emailSent.getRecipient());
     }
@@ -128,7 +128,7 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                 + "closed and published.");
 
         String[] param = new String[] {
-                Const.ParamsNames.SESSION_LINKS_RECOVERY_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
         SessionLinksRecoveryAction a = getAction(param);
@@ -140,9 +140,9 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
                         + "to the specified email address: " + student1InCourse1.getEmail(),
                 output.getMessage());
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(EmailType.SESSION_LINKS_RECOVERY.getSubject(), emailSent.getSubject());
         assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
     }

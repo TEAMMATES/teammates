@@ -7,11 +7,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 
 /**
@@ -25,12 +27,6 @@ public class InstructorSearchPage extends AppPage {
     @FindBy(id = "btn-search")
     private WebElement searchButton;
 
-    @FindBy(id = "students-checkbox")
-    private WebElement studentsCheckbox;
-
-    @FindBy(id = "comment-checkbox")
-    private WebElement commentCheckbox;
-
     public InstructorSearchPage(Browser browser) {
         super(browser);
     }
@@ -40,29 +36,22 @@ public class InstructorSearchPage extends AppPage {
         return getPageTitle().contains("Search");
     }
 
-    public void verifyNumCoursesInStudentResults(int expectedNum) {
-        List<WebElement> studentCoursesResult = getStudentCoursesResult();
-        assertEquals(expectedNum, studentCoursesResult.size());
-    }
-
-    public void search(boolean searchForStudents, boolean searchForComments, String searchTerm) {
-        if (searchForStudents && !studentsCheckbox.isSelected()
-                || !searchForStudents && studentsCheckbox.isSelected()) {
-            click(studentsCheckbox);
-        }
-
-        if (searchForComments && !commentCheckbox.isSelected()
-                || !searchForComments && commentCheckbox.isSelected()) {
-            click(commentCheckbox);
-        }
-
-        if (searchForStudents || searchForComments) {
-            searchKeyword.clear();
-            searchKeyword.sendKeys(searchTerm);
-            click(searchButton);
-            waitForLoadingElement();
-        } else {
+    public void search(String searchTerm) {
+        searchKeyword.clear();
+        searchKeyword.sendKeys(searchTerm);
+        if (StringHelper.isEmpty(searchTerm)) {
             verifyUnclickable(searchButton);
+            return;
+        }
+        click(searchButton);
+        WebElement loadingContainer = null;
+        try {
+            loadingContainer = waitForElementPresence(By.className("loading-container"));
+        } catch (TimeoutException e) {
+            // loading has finished before this block is reached
+        }
+        if (loadingContainer != null) {
+            waitForElementStaleness(loadingContainer);
         }
     }
 

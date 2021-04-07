@@ -5,8 +5,6 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
  */
 export interface SearchParams {
   searchKey: string;
-  isSearchForStudents: boolean;
-  isSearchForComments: boolean;
 }
 
 /**
@@ -21,8 +19,6 @@ export class InstructorSearchBarComponent implements OnInit {
 
   @Input() searchParams: SearchParams = {
     searchKey: '',
-    isSearchForStudents: true,
-    isSearchForComments: false,
   };
 
   @Output() searched: EventEmitter<any> = new EventEmitter();
@@ -48,11 +44,4 @@ export class InstructorSearchBarComponent implements OnInit {
     this.triggerSearchParamsChangeEvent('searchKey', newKey);
   }
 
-  onStudentCheckboxChange(checkboxState: boolean): void {
-    this.triggerSearchParamsChangeEvent('isSearchForStudents', checkboxState);
-  }
-
-  onCommentCheckboxChange(checkboxState: boolean): void {
-    this.triggerSearchParamsChangeEvent('isSearchForComments', checkboxState);
-  }
 }

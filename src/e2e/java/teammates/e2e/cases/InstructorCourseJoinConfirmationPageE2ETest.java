@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.CourseJoinConfirmationPage;
 import teammates.e2e.pageobjects.ErrorReportingModal;
 import teammates.e2e.pageobjects.InstructorHomePage;
@@ -51,7 +50,7 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
         confirmationPage.confirmJoinCourse(InstructorHomePage.class);
 
         ______TS("Already joined, no confirmation page");
-        browser.driver.get(joinLink.toAbsoluteString());
-        AppPage.getNewPageInstance(browser, InstructorHomePage.class);
+
+        getNewPageInstance(joinLink, InstructorHomePage.class);
     }
 }

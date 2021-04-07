@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { of } from 'rxjs';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { Instructor, Instructors, JoinState } from '../types/api-output';
 import { InstructorCreateRequest, InstructorPermissionRole } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';

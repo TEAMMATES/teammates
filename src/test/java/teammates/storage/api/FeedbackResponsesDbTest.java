@@ -20,7 +20,6 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
@@ -305,8 +304,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> frDb.createEntity(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> frDb.createEntity(null));
 
         ______TS("invalid params");
 
@@ -340,21 +338,18 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null fqId");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponse(null, "student1InCourse1@gmail.tmt", "student1InCourse1@gmail.tmt"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("null giverEmail");
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponse(expected.feedbackQuestionId, null, "student1InCourse1@gmail.tmt"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("null receiverEmail");
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponse(expected.feedbackQuestionId, "student1InCourse1@gmail.tmt", null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("get by id");
 
@@ -380,9 +375,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForQuestion(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent feedback question");
 
@@ -401,13 +395,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForQuestionInSection(null, "Section 1"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForQuestionInSection(questionId, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent feedback question");
 
@@ -429,13 +421,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForSession(null, courseId));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForSession(feedbackSessionName, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent feedback session");
 
@@ -462,13 +452,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForReceiverForCourse(null, "student1InCourse1@gmail.tmt"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForReceiverForCourse(courseId, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent courseId");
 
@@ -496,12 +484,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesFromGiverForQuestion(null, "student1InCourse1@gmail.tmt"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class, () -> frDb.getFeedbackResponsesFromGiverForQuestion(questionId, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> frDb.getFeedbackResponsesFromGiverForQuestion(questionId, null));
 
         ______TS("non-existent feedback question");
 
@@ -529,13 +515,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForReceiverForQuestion(null, "student1InCourse1@gmail.tmt"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForReceiverForQuestion(questionId, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent feedback question");
 
@@ -563,12 +547,10 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesFromGiverForCourse(null, "student1InCourse1@gmail.tmt"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class, () -> frDb.getFeedbackResponsesFromGiverForCourse(courseId, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> frDb.getFeedbackResponsesFromGiverForCourse(courseId, null));
 
         ______TS("non-existent feedback question");
 
@@ -596,13 +578,11 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForSessionInSection(null, courseId, "Section 1"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, null, "Section 1"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent feedback session");
 
@@ -647,8 +627,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> frDb.updateFeedbackResponse(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> frDb.updateFeedbackResponse(null));
 
         ______TS("feedback response does not exist");
 

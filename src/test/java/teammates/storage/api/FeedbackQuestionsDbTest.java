@@ -16,7 +16,6 @@ import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
@@ -232,8 +231,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> fqDb.createEntity(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fqDb.createEntity(null));
 
         ______TS("invalid params");
 
@@ -270,14 +268,12 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null fsName");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestion(null, expected.courseId, 1));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("null courseId");
 
-        ae = assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(expected.feedbackSessionName, null, 1));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fqDb.getFeedbackQuestion(expected.feedbackSessionName, null, 1));
 
         ______TS("get by id");
 
@@ -311,13 +307,11 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionsForSession(null, expected.get(0).courseId));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionsForSession(expected.get(0).feedbackSessionName, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existent session");
 
@@ -360,18 +354,15 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionsForGiverType(null, fqa.courseId, FeedbackParticipantType.STUDENTS));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionsForGiverType(
                         fqa.feedbackSessionName, null, FeedbackParticipantType.STUDENTS));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fqDb.getFeedbackQuestionsForGiverType(fqa.feedbackSessionName, fqa.courseId, null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("non-existant session");
 
@@ -421,8 +412,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> fqDb.updateFeedbackQuestion(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fqDb.updateFeedbackQuestion(null));
 
         ______TS("invalid feedback question attributes");
 
@@ -440,8 +430,8 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                                 .build()));
         AssertHelper.assertContains(
                 String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                        FeedbackParticipantType.OWN_TEAM_MEMBERS.toDisplayRecipientName(),
-                        FeedbackParticipantType.TEAMS.toDisplayGiverName()),
+                        "Giver's team members",
+                        "Teams in this course"),
                 ipe.getMessage());
 
         ______TS("feedback session does not exist");

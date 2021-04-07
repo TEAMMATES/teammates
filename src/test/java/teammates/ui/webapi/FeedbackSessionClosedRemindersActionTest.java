@@ -46,7 +46,7 @@ public class FeedbackSessionClosedRemindersActionTest
         FeedbackSessionClosedRemindersAction action = getAction();
         action.execute();
 
-        verifyNoTasksAdded(action);
+        verifyNoTasksAdded();
 
         ______TS("1 session closed recently, 1 session closed recently with disabled closed reminder, "
                  + "1 session closed recently but still in grace period");
@@ -104,11 +104,11 @@ public class FeedbackSessionClosedRemindersActionTest
         action = getAction();
         action.execute();
 
-        // 5 students and 5 instructors in course1
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 10);
+        // 5 students and 5 instructors in course1 and 4 students have submitted
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
-        List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
@@ -129,7 +129,7 @@ public class FeedbackSessionClosedRemindersActionTest
         action = getAction();
         action.execute();
 
-        verifyNoTasksAdded(action);
+        verifyNoTasksAdded();
 
     }
 

@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.UrlExtension;
-
 /**
  * Represents properties in test.properties file.
  */
@@ -62,9 +60,6 @@ public final class TestProperties {
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
-    /** The value of "test.persistence.timeout" in test.properties file. */
-    public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
-
     /** The flag to indicate whether emails sent should be verified. */
     public static final boolean INCLUDE_EMAIL_VERIFICATION;
 
@@ -78,7 +73,7 @@ public final class TestProperties {
                 prop.load(testPropStream);
             }
 
-            TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
+            TEAMMATES_URL = prop.getProperty("test.app.url");
 
             TEST_EMAIL = prop.getProperty("test.email");
             TEST_SENDER_EMAIL = prop.getProperty("test.senderemail");
@@ -95,7 +90,6 @@ public final class TestProperties {
             CHROME_USER_DATA_PATH = prop.getProperty("test.chrome.userdata.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
-            PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 
             INCLUDE_EMAIL_VERIFICATION = Boolean.parseBoolean(prop.getProperty("test.verify.emails"));
 

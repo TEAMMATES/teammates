@@ -190,16 +190,12 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String courseId = instructor.courseId;
-        String courseName = "Typical Course 1 with 2 Evals";
-        String courseTimeZone = typicalBundle.courses.get("typicalCourse1").getTimeZone().getId();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.COURSE_NAME, courseName,
-                Const.ParamsNames.COURSE_TIME_ZONE, courseTimeZone,
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_COURSE, submissionParams);
     }
 
 }

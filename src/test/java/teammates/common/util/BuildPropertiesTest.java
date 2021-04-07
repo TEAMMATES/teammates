@@ -11,7 +11,7 @@ public class BuildPropertiesTest extends BaseTestCaseWithMinimalGaeEnvironment {
 
     @Test
     public void checkPresence() {
-        assertNotNull(Config.APP_URL);
+        assertNotNull(Config.getBaseAppUrl());
     }
 
 }

@@ -14,7 +14,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -44,9 +43,6 @@ import teammates.common.util.Const;
  * Represents the feedback submission page of the website.
  */
 public class FeedbackSubmitPage extends AppPage {
-
-    @FindBy(id = "confirmation-email-checkbox")
-    private WebElement confirmationEmailCheckbox;
 
     public FeedbackSubmitPage(Browser browser) {
         super(browser);
@@ -114,10 +110,6 @@ public class FeedbackSubmitPage extends AppPage {
 
     public void verifyCannotSubmit() {
         assertFalse(getSubmitButton().isEnabled());
-    }
-
-    public void markWithConfirmationEmail() {
-        markOptionAsSelected(confirmationEmailCheckbox);
     }
 
     public void addComment(int qnNumber, String recipient, String newComment) {
@@ -230,7 +222,7 @@ public class FeedbackSubmitPage extends AppPage {
         if (questionDetails.isOtherEnabled()) {
             msqChoices.add("Other");
         }
-        if (questionDetails.getMinSelectableChoices() == Integer.MIN_VALUE) {
+        if (questionDetails.getMinSelectableChoices() == Const.POINTS_NO_VALUE) {
             msqChoices.add("None of the above");
         }
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
@@ -241,11 +233,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyMsqSelectableOptionsMessage(int qnNumber, FeedbackMsqQuestionDetails questionDetails) {
-        if (questionDetails.getMinSelectableChoices() > Integer.MIN_VALUE) {
+        if (questionDetails.getMinSelectableChoices() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
                     "Choose at least " + questionDetails.getMinSelectableChoices() + " options.");
         }
-        if (questionDetails.getMaxSelectableChoices() > Integer.MIN_VALUE) {
+        if (questionDetails.getMaxSelectableChoices() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
                     "Choose no more than " + questionDetails.getMaxSelectableChoices() + " options.");
         }
@@ -472,11 +464,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyRankQuestion(int qnNumber, String recipient, FeedbackRankQuestionDetails questionDetails) {
-        if (questionDetails.getMaxOptionsToBeRanked() != Integer.MIN_VALUE) {
+        if (questionDetails.getMaxOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
                     "Rank no more than " + questionDetails.getMaxOptionsToBeRanked() + " options.");
         }
-        if (questionDetails.getMinOptionsToBeRanked() != Integer.MIN_VALUE) {
+        if (questionDetails.getMinOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
                     "Rank at least " + questionDetails.getMinOptionsToBeRanked() + " options.");
         }

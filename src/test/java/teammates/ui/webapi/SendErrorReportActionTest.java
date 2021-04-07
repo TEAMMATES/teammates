@@ -29,7 +29,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
     @Override
     @Test
     protected void testExecute() throws Exception {
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         ______TS("Normal case: valid report with all fields populated");
         ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT, CONTENT);

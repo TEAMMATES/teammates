@@ -18,7 +18,6 @@ import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
-import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.e2e.util.TestProperties;
 
@@ -53,8 +52,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         newSession = FeedbackSessionAttributes
                 .builder("New Session", course.getId())
                 .withCreatorEmail(instructor.getEmail())
-                .withStartTime(TimeHelper.parseInstant("2035-04-01 9:59 PM +0000"))
-                .withEndTime(TimeHelper.parseInstant("2035-04-30 8:00 PM +0000"))
+                .withStartTime(TimeHelper.parseInstant("2035-04-01T21:59:00Z"))
+                .withEndTime(TimeHelper.parseInstant("2035-04-30T20:00:00Z"))
                 .withSessionVisibleFromTime(Const.TIME_REPRESENTS_FOLLOW_OPENING)
                 .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                 .withGracePeriod(Duration.ZERO)
@@ -94,7 +93,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been added."
                 + "Click the \"Add New Question\" button below to begin adding questions for the feedback session.");
-        feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
+        feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
@@ -110,7 +109,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                         + "Please modify settings/questions as necessary.");
-        feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
+        feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession);
         verifyPresentInDatastore(copiedSession);
@@ -125,7 +124,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
 
         feedbackSessionsPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        feedbackSessionsPage = AppPage.getNewPageInstance(browser, url,
+        feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession2);
         verifyPresentInDatastore(copiedSession2);

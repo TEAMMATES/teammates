@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -26,7 +25,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public String nationality;
     public Gender gender;
     public String moreInfo;
-    public String pictureKey;
     public Instant modifiedDate;
 
     private StudentProfileAttributes(String googleId) {
@@ -37,7 +35,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.nationality = "";
         this.gender = Gender.OTHER;
         this.moreInfo = "";
-        this.pictureKey = "";
         this.modifiedDate = Instant.now();
     }
 
@@ -59,9 +56,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
         if (sp.getMoreInfo() != null) {
             studentProfileAttributes.moreInfo = sp.getMoreInfo();
-        }
-        if (sp.getPictureKey() != null) {
-            studentProfileAttributes.pictureKey = sp.getPictureKey();
         }
         if (sp.getModifiedDate() != null) {
             studentProfileAttributes.modifiedDate = sp.getModifiedDate();
@@ -86,7 +80,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         studentProfileAttributes.gender = gender;
         studentProfileAttributes.nationality = nationality;
         studentProfileAttributes.moreInfo = moreInfo;
-        studentProfileAttributes.pictureKey = pictureKey;
         studentProfileAttributes.modifiedDate = modifiedDate;
 
         return studentProfileAttributes;
@@ -120,10 +113,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         return moreInfo;
     }
 
-    public String getPictureKey() {
-        return pictureKey;
-    }
-
     public Instant getModifiedDate() {
         return modifiedDate;
     }
@@ -154,8 +143,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
         Assumption.assertNotNull(gender);
 
-        Assumption.assertNotNull(this.pictureKey);
-
         // No validation for modified date as it is determined by the system.
         // No validation for More Info. It will properly sanitized.
 
@@ -171,7 +158,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     public int hashCode() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(this.email).append(this.shortName).append(this.institute)
-                .append(this.googleId).append(this.pictureKey).append(this.gender.toString());
+                .append(this.googleId).append(this.gender.toString());
         return stringBuilder.toString().hashCode();
     }
 
@@ -187,7 +174,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
                     && Objects.equals(this.shortName, otherProfile.shortName)
                     && Objects.equals(this.institute, otherProfile.institute)
                     && Objects.equals(this.googleId, otherProfile.googleId)
-                    && Objects.equals(this.pictureKey, otherProfile.pictureKey)
                     && Objects.equals(this.gender, otherProfile.gender);
         } else {
             return false;
@@ -197,7 +183,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
     @Override
     public StudentProfile toEntity() {
         return new StudentProfile(googleId, shortName, email, institute, nationality, gender.name().toLowerCase(),
-                                  moreInfo, this.pictureKey);
+                                  moreInfo);
     }
 
     @Override
@@ -215,7 +201,6 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         updateOptions.nationalityOption.ifPresent(s -> nationality = s);
         updateOptions.genderOption.ifPresent(s -> gender = s);
         updateOptions.moreInfoOption.ifPresent(s -> moreInfo = s);
-        updateOptions.pictureKeyOption.ifPresent(s -> pictureKey = s);
     }
 
     /**
@@ -281,10 +266,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         private UpdateOption<String> nationalityOption = UpdateOption.empty();
         private UpdateOption<Gender> genderOption = UpdateOption.empty();
         private UpdateOption<String> moreInfoOption = UpdateOption.empty();
-        private UpdateOption<String> pictureKeyOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+            Assumption.assertNotNull(googleId);
 
             this.googleId = googleId;
         }
@@ -340,51 +324,44 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public B withShortName(String shortName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, shortName);
+            Assumption.assertNotNull(shortName);
 
             updateOptions.shortNameOption = UpdateOption.of(shortName);
             return thisBuilder;
         }
 
         public B withEmail(String email) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+            Assumption.assertNotNull(email);
 
             updateOptions.emailOption = UpdateOption.of(email);
             return thisBuilder;
         }
 
         public B withInstitute(String institute) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, institute);
+            Assumption.assertNotNull(institute);
 
             updateOptions.instituteOption = UpdateOption.of(institute);
             return thisBuilder;
         }
 
         public B withNationality(String nationality) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, nationality);
+            Assumption.assertNotNull(nationality);
 
             updateOptions.nationalityOption = UpdateOption.of(nationality);
             return thisBuilder;
         }
 
         public B withGender(Gender gender) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gender);
+            Assumption.assertNotNull(gender);
 
             updateOptions.genderOption = UpdateOption.of(gender);
             return thisBuilder;
         }
 
         public B withMoreInfo(String moreInfo) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, moreInfo);
+            Assumption.assertNotNull(moreInfo);
 
             updateOptions.moreInfoOption = UpdateOption.of(moreInfo);
-            return thisBuilder;
-        }
-
-        public B withPictureKey(String pictureKey) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, pictureKey);
-
-            updateOptions.pictureKeyOption = UpdateOption.of(pictureKey);
             return thisBuilder;
         }
 

@@ -57,10 +57,10 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
         action.execute();
 
         // send 3 emails as specified in the submission parameters
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 3);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
-        List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();
