@@ -555,8 +555,8 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseId = courseid;
-      for (const sessionName of Object.keys(resp.hasResponses)) {
-        if (resp.hasResponses[sessionName]) {
+      for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
+        if (resp.hasResponsesBySession[sessionName]) {
           const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
           from those modified students to be deleted. You may wish to download the data

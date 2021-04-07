@@ -60,6 +60,7 @@ import { InstructorSessionBasePageComponent } from '../instructor-session-base-p
 import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
 import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
+import { read } from "fs";
 
 /**
  * Instructor feedback session edit page.
@@ -70,6 +71,7 @@ import { TemplateQuestionModalComponent } from './template-question-modal/templa
   styleUrls: ['./instructor-session-edit-page.component.scss'],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
+
 
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;
@@ -82,6 +84,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   isEditingMode: boolean = false;
 
   courseName: string = '';
+
+  readonly hasResponsesSingleEntryPlaceholder: string = '';
 
   // models
   sessionEditFormModel: SessionEditFormModel = {
@@ -537,7 +541,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   private loadResponseStatusForQuestion(model: QuestionEditFormModel): void {
     this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId)
         .subscribe((resp: HasResponses) => {
-          model.isQuestionHasResponses = resp.hasResponses[''];
+          model.isQuestionHasResponses = resp.hasResponsesBySession[this.hasResponsesSingleEntryPlaceholder];
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
