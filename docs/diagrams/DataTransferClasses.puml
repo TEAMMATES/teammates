@@ -1,0 +1,68 @@
+@startuml
+!include style.puml
+skinparam arrowThickness 1.1
+skinparam arrowColor MODEL_COLOR
+skinparam classBackgroundColor MODEL_COLOR
+
+class DataBundle
+class "InstructorAttributes" as IA1
+class "StudentAttributes" as SA1
+class CourseAttributes
+class AccountAttributes
+class " *Attributes" as Attributes
+
+class " *SearchResultBundle" as SearchResultBundle
+class "InstructorAttributes" as IA2
+class "StudentAttributes" as SA2
+class "FeedbackResponse\nCommentAttributes" as FeedbackResponseCommentAttributes
+class "FeedbackSessionAttributes" as FSA1
+
+class SessionResultsBundle
+class "FeedbackSessionAttributes" as FSA2
+class FeedbackQuestionAttributes
+class FeedbackResponseAttributes
+class CourseRoster
+class "StudentAttributes" as SA3
+class "InstructorAttributes" as IA3
+
+SessionResultsBundle o--> "1" FSA2
+SessionResultsBundle o--> "*" FeedbackQuestionAttributes
+SessionResultsBundle o--> "*" FeedbackResponseAttributes
+SessionResultsBundle o--> "1" CourseRoster
+
+' The hidden associations are for positioning purposes only
+SessionResultsBundle -[hidden]left- FeedbackResponseAttributes
+FSA2 -[hidden]down- FeedbackQuestionAttributes
+FeedbackQuestionAttributes -[hidden]up- FSA2
+FeedbackQuestionAttributes -[hidden]-> FeedbackResponseAttributes
+FeedbackResponseAttributes -[hidden]-> CourseRoster
+
+CourseRoster o--> "*" SA3
+CourseRoster o--> "*" IA3
+
+SearchResultBundle o--> "*" IA2
+SearchResultBundle o--> "*" SA2
+SearchResultBundle o--> "*" FeedbackResponseCommentAttributes
+SearchResultBundle o--> "*" FSA1
+
+' The hidden associations are for positioning purposes only
+SearchResultBundle -[hidden]left- FeedbackResponseCommentAttributes
+IA2 -[hidden]down- SA2
+SA2 -[hidden]up- IA2
+SA2 -[hidden]-> FeedbackResponseCommentAttributes
+FeedbackResponseCommentAttributes -[hidden]-> FSA1
+
+DataBundle o--> "*" IA1
+DataBundle o--> "*" SA1
+DataBundle o--> "*" CourseAttributes
+DataBundle o--> "*" AccountAttributes
+DataBundle o--> "*" Attributes
+
+' The hidden associations are for positioning purposes only
+DataBundle -[hidden]left- CourseAttributes
+IA1 -[hidden]down- SA1
+SA1 -[hidden]up- IA1
+SA1 -[hidden]-> CourseAttributes
+CourseAttributes -[hidden]-> AccountAttributes
+AccountAttributes -[hidden]-> Attributes
+@enduml
