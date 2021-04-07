@@ -22,7 +22,7 @@ export class McqQuestionEditDetailsFormComponent
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
     FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
     FeedbackParticipantType.OWN_TEAM_MEMBERS,
-    FeedbackParticipantType.INSTRUCTORS
+    FeedbackParticipantType.INSTRUCTORS,
   ];
 
   // Used to store and restore user input when user toggles generate option
