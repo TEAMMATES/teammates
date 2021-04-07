@@ -53,6 +53,9 @@ describe('InstructorAuditLogsPageComponent', () => {
     creationTimestamp: 0,
     deletionTimestamp: 0,
   };
+  const emptyStudent: Student = {
+    courseId: '', email: '', name: '', sectionName: '', teamName: '',
+  };
   const testStudent: Student = {
     email: 'doejohn@email.com',
     courseId: 'CS9999',
@@ -100,8 +103,7 @@ describe('InstructorAuditLogsPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [InstructorAuditLogsPageModule, HttpClientTestingModule],
-    })
-        .compileComponents();
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -179,9 +181,6 @@ describe('InstructorAuditLogsPageComponent', () => {
   });
 
   it('should load all courses and students that instructor has on init', () => {
-    const emptyStudent: Student = {
-      courseId: '', email: '', name: '', sectionName: '', teamName: '',
-    };
     const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and
         .returnValue(of({
           courses: [
