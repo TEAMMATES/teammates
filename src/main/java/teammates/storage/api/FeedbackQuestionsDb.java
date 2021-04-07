@@ -69,7 +69,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
-     * Gets all feedback questions of a session that has certain giver type.
+     * Checks if there is any feedback questions in a session in a course for the given giver type.
      */
     public boolean hasFeedbackQuestionsForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {

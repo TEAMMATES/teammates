@@ -12,16 +12,16 @@ public class HasResponsesData extends ApiOutput {
      */
     public static final String KEY_FOR_SINGLE_ENTRY = "";
 
-    private final Map<String, Boolean> hasResponses;
+    private final Map<String, Boolean> hasResponsesBySession;
 
     /**
      * Constructor for check for presence of responses.
      *
-     * @param hasResponses True if has response.
+     * @param hasResponsesBySession True if has response.
      */
-    public HasResponsesData(boolean hasResponses) {
-        this.hasResponses = new HashMap<>();
-        this.hasResponses.put(KEY_FOR_SINGLE_ENTRY, hasResponses);
+    public HasResponsesData(boolean hasResponsesBySession) {
+        this.hasResponsesBySession = new HashMap<>();
+        this.hasResponsesBySession.put(KEY_FOR_SINGLE_ENTRY, hasResponsesBySession);
     }
 
     /**
@@ -30,7 +30,7 @@ public class HasResponsesData extends ApiOutput {
      * @param hasResponsesBySession Map of session name and whether each has response.
      */
     public HasResponsesData(Map<String, Boolean> hasResponsesBySession) {
-        this.hasResponses = hasResponsesBySession;
+        this.hasResponsesBySession = hasResponsesBySession;
     }
 
     /**
@@ -38,6 +38,6 @@ public class HasResponsesData extends ApiOutput {
      * if the key for single entry is absent, it is used for multiple session check.
      */
     public Map<String, Boolean> hasResponses() {
-        return hasResponses;
+        return hasResponsesBySession;
     }
 }
