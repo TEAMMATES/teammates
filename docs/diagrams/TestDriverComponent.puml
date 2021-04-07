@@ -1,0 +1,55 @@
+@startuml
+!include style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component TestDriver {
+    package TestCases {
+        folder "*.spec.ts" as SpecTs {
+            rectangle FrontEndUnitTests
+        }
+
+        folder "::common" as Common {
+            rectangle "Test cases that do not need \n simulated GAE environment" as TC1
+        }
+
+       folder "::logic, ::storage, ::webapi" as LogicStorageWebAPI {
+            rectangle "Test cases that need stimulated \n GAE environment" as TC2
+       }
+    }
+
+    package test {
+        rectangle BaseTestCase
+        rectangle BaseComponentTestCase
+        rectangle "Mock*" as Mock
+        rectangle TestProperties
+        rectangle GaeSimulation
+        rectangle FileHelper
+    }
+}
+
+rectangle TestNG
+rectangle Jest
+rectangle LocalFilesForTesting
+
+TestNG ..> TestCases
+Jest ..> FrontEndUnitTests
+TC1 -> BaseTestCase
+TC2 -> BaseComponentTestCase
+BaseComponentTestCase -> BaseTestCase
+BaseComponentTestCase ..> GaeSimulation
+FileHelper ..> LocalFilesForTesting
+
+' The hidden associations are for positioning purposes only
+TestCases -[hidden]down- test
+BaseComponentTestCase -[hidden]down- Mock
+BaseComponentTestCase -[hidden]down- TestProperties
+BaseTestCase -[hidden]down- GaeSimulation
+BaseTestCase -[hidden]down- FileHelper
+
+
+@enduml
