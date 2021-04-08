@@ -21,10 +21,10 @@ export class MsqQuestionEditDetailsFormComponent
 
   readonly PARTICIPANT_TYPES: string[] = [
     FeedbackParticipantType.STUDENTS,
-    FeedbackParticipantType.TEAMS,
-    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
     FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+    FeedbackParticipantType.TEAMS,
     FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
+    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
     FeedbackParticipantType.OWN_TEAM_MEMBERS,
     FeedbackParticipantType.INSTRUCTORS,
   ];
