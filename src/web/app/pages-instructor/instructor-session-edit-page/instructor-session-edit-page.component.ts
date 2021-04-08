@@ -60,7 +60,6 @@ import { InstructorSessionBasePageComponent } from '../instructor-session-base-p
 import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
 import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
-import { read } from "fs";
 
 /**
  * Instructor feedback session edit page.
@@ -71,7 +70,6 @@ import { read } from "fs";
   styleUrls: ['./instructor-session-edit-page.component.scss'],
 })
 export class InstructorSessionEditPageComponent extends InstructorSessionBasePageComponent implements OnInit {
-
 
   // enum
   SessionEditFormMode: typeof SessionEditFormMode = SessionEditFormMode;

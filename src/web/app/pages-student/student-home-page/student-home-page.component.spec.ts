@@ -315,7 +315,7 @@ describe('StudentHomePageComponent', () => {
     };
 
     const hasRes: HasResponses = {
-      hasResponses: { 'First Session': false },
+      hasResponsesBySession: { 'First Session': false },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
@@ -333,7 +333,7 @@ describe('StudentHomePageComponent', () => {
 
   it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
     const hasRes: HasResponses = {
-      hasResponses: {
+      hasResponsesBySession: {
         'Orientation Session': false,
         'Welcome Tea Session': false,
         'Latest update Session': false,
@@ -355,7 +355,7 @@ describe('StudentHomePageComponent', () => {
 
   it('should sort feedback sessions by submissionEndTimestamp, when createdAtTimestamps are equal', () => {
     const hasRes: HasResponses = {
-      hasResponses: {
+      hasResponsesBySession: {
         'Orientation Session': false,
         'Welcome Tea Session': false,
         'Latest update Session': false,
