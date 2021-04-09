@@ -8,6 +8,9 @@ import org.openqa.selenium.support.FindBy;
 
 import teammates.common.util.ThreadHelper;
 
+/**
+ * Represents the student feedback submission page of the website.
+ */
 public class StudentFeedbackSubmissionPage extends AppPage {
 
     @FindBy(css = "tm-loading-retry")
@@ -24,12 +27,12 @@ public class StudentFeedbackSubmissionPage extends AppPage {
 
     public void populateResponse() {
         List<WebElement> questions = topLevelComponent.findElements(By.tagName("tm-question-submission-form"));
-        for (WebElement question: questions) {
+        for (WebElement question : questions) {
             try {
                 WebElement textQuestion = question.findElement(By.tagName("tm-text-question-instruction"));
                 fillTextBox(textQuestion.findElement(By.tagName("textarea")), "Test text");
             } catch (Exception e) {
-
+                System.out.println("Skipping non-text question");
             }
         }
     }

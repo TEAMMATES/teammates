@@ -11,6 +11,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+/**
+ * Represents the instructor audit logs page of the website.
+ */
 public class InstructorAuditLogsPage extends AppPage {
     private List<WebElement> sessionCards;
 
@@ -107,7 +110,7 @@ public class InstructorAuditLogsPage extends AppPage {
 
     private String getTimeString(Instant instant, ZoneId timeZone) {
         ZonedDateTime dateTime = instant.atZone(timeZone);
-        if (dateTime.getHour() == 23 && dateTime.getMinute() == 59) {
+        if (dateTime.getHour() == 0) {
             return "23:59H";
         }
         return DateTimeFormatter
