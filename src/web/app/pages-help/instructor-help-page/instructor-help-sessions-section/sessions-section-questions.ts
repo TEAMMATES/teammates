@@ -111,9 +111,4 @@ export enum SessionsSectionQuestions {
    * A student says he/she did not recieve the link to submit responses. What do i do?
    */
   NO_LINK_TO_RESPOND = 'no-link-to-respond',
-
-  /**
-   * Can I see when a student tried to access the submission page?
-   */
-  ACCESS_SUBMISSION = 'access-submission',
 }
