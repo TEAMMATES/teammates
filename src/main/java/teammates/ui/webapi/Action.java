@@ -216,18 +216,15 @@ public abstract class Action {
 
     /**
      * Gets the unregistered student by the HTTP param.
-     *
-     * @throws UnauthorizedAccessException if HTTP param is provided but student cannot be found
      */
     Optional<StudentAttributes> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
             if (studentAttributes == null) {
-                throw new UnauthorizedAccessException("RegKey is not valid.");
-            } else {
-                return Optional.of(studentAttributes);
+                return Optional.empty();
             }
+            return Optional.of(studentAttributes);
         }
         return Optional.empty();
     }

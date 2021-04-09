@@ -54,7 +54,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             return logic.getStudentForEmail(courseId, previewAsPerson);
         } else {
             return getUnregisteredStudent().orElseGet(() -> {
-                gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+                if (userInfo == null) {
+                    return null;
+                }
                 return logic.getStudentForGoogleId(courseId, userInfo.getId());
             });
         }
@@ -108,10 +110,10 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             return logic.getInstructorForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
-        } else {
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+        } else if (userInfo != null) {
             return logic.getInstructorForGoogleId(courseId, userInfo.getId());
         }
+        return null;
     }
 
     /**

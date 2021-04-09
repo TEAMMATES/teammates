@@ -58,7 +58,9 @@ class GetSessionResultsAction extends Action {
 
     private StudentAttributes getStudent(String courseId) {
         return getUnregisteredStudent().orElseGet(() -> {
-            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
+            if (userInfo == null) {
+                return null;
+            }
             return logic.getStudentForGoogleId(courseId, userInfo.getId());
         });
     }
