@@ -57,7 +57,7 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    public void init(HttpServletRequest req) throws UnauthorizedAccessException {
+    public void init(HttpServletRequest req) {
         this.req = req;
         initAuthInfo();
     }
@@ -90,6 +90,12 @@ public abstract class Action {
      * Checks if the requesting user has sufficient authority to access the resource.
      */
     void checkAccessControl() throws UnauthorizedAccessException {
+        String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
+        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
+            throw new UnauthorizedAccessException("User " + userInfo.id
+                    + " is trying to masquerade as " + userParam + " without admin permission.");
+        }
+
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
@@ -104,7 +110,7 @@ public abstract class Action {
         checkSpecificAccessControl();
     }
 
-    private void initAuthInfo() throws UnauthorizedAccessException {
+    private void initAuthInfo() {
         if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
             userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
@@ -126,15 +132,9 @@ public abstract class Action {
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null) {
-            if (userInfo.isAdmin) {
-                userInfo = userProvision.getMasqueradeUser(userParam);
-                authType = AuthType.MASQUERADE;
-            } else if (!userInfo.id.equals(userParam)) {
-                throw new UnauthorizedAccessException("User " + userInfo.id
-                                                    + " is trying to masquerade as " + userParam
-                                                    + " without admin permission.");
-            }
+        if (userInfo != null && userParam != null && userInfo.isAdmin) {
+            userInfo = userProvision.getMasqueradeUser(userParam);
+            authType = AuthType.MASQUERADE;
         }
     }
 

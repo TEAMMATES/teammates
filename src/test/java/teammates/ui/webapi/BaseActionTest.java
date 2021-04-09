@@ -526,7 +526,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * accessible to the logged in user masquerading as another user with {@code userId}.
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(addUserIdToParams(userId, params)));
+        assertThrows(UnauthorizedAccessException.class,
+                () -> getAction(addUserIdToParams(userId, params)).checkAccessControl());
     }
 
     // The next few methods are for parsing results

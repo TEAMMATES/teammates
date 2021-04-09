@@ -9,7 +9,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.UserInfo;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.UserProvision;
@@ -139,14 +138,6 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals("unregisteredId", user.id);
 
         assertNull(output.getInstitute());
-
-        ______TS("Failure case: Non-admin cannot masquerade");
-
-        loginAsInstructor("idOfInstructor1OfCourse1");
-
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(new String[] {
-                Const.ParamsNames.USER_ID, "idOfAnotherInstructor",
-        }));
     }
 
     @Test
@@ -201,6 +192,11 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
     @Test
     protected void testAccessControl() {
         verifyAnyUserCanAccess();
+
+        ______TS("Failure case: Non-admin cannot masquerade");
+
+        loginAsInstructor("idOfInstructor1OfCourse1");
+        verifyCannotMasquerade("idOfAnotherInstructor");
     }
 
 }

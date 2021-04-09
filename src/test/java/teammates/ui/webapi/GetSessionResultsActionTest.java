@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -111,8 +110,9 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.name(),
         };
-        String[] finalParams = submissionParams;
-        assertThrows(UnauthorizedAccessException.class, () -> verifyAccessibleForStudentsOfTheSameCourse(finalParams));
+
+        loginAsStudent("student1InCourse1");
+        verifyCannotAccess(submissionParams);
 
         ______TS("accessible for authenticated student when published");
         FeedbackSessionAttributes publishedFeedbackSession = typicalBundle.feedbackSessions.get("closedSession");
