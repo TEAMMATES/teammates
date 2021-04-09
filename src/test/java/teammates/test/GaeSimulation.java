@@ -19,6 +19,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.UserProvision;
 import teammates.ui.webapi.Action;
@@ -146,7 +147,7 @@ public class GaeSimulation {
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
             action.init(req);
             return action;
-        } catch (ActionMappingException e) {
+        } catch (ActionMappingException | UnauthorizedAccessException e) {
             throw new RuntimeException(e);
         }
     }

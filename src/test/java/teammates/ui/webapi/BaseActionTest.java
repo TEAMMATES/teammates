@@ -484,12 +484,20 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected void verifyCanAccess(String... params) {
         Action c = getAction(params);
-        c.checkAccessControl();
+        try {
+            c.checkAccessControl();
+        } catch (UnauthorizedAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     protected void verifyCanAccess(BasicRequest request, String... params) {
         Action c = getAction(request, params);
-        c.checkAccessControl();
+        try {
+            c.checkAccessControl();
+        } catch (UnauthorizedAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**

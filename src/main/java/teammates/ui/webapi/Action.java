@@ -57,7 +57,7 @@ public abstract class Action {
     /**
      * Initializes the action object based on the HTTP request.
      */
-    public void init(HttpServletRequest req) {
+    public void init(HttpServletRequest req) throws UnauthorizedAccessException {
         this.req = req;
         initAuthInfo();
     }
@@ -89,7 +89,7 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    void checkAccessControl() {
+    void checkAccessControl() throws UnauthorizedAccessException {
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
@@ -104,7 +104,7 @@ public abstract class Action {
         checkSpecificAccessControl();
     }
 
-    private void initAuthInfo() {
+    private void initAuthInfo() throws UnauthorizedAccessException {
         if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
             authType = AuthType.ALL_ACCESS;
             userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
@@ -261,7 +261,7 @@ public abstract class Action {
     /**
      * Checks the specific access control needs for the resource.
      */
-    abstract void checkSpecificAccessControl();
+    abstract void checkSpecificAccessControl() throws UnauthorizedAccessException;
 
     /**
      * Executes the action.

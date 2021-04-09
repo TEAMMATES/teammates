@@ -24,7 +24,7 @@ class GetSessionResultsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
