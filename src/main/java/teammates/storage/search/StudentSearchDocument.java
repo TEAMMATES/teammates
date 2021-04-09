@@ -63,7 +63,8 @@ class StudentSearchDocument extends SearchDocument {
             if (student == null) {
                 // search engine out of sync as SearchManager may fail to delete documents
                 // the chance is low and it is generally not a big problem
-                studentsDb.deleteDocumentByStudentId(email + "%" + courseId);
+                String id = (String) document.getFirstValue("id");
+                studentsDb.deleteDocumentByStudentId(id);
                 continue;
             }
 
