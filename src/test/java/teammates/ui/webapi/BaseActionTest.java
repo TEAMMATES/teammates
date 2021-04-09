@@ -74,15 +74,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Gets an action with request body.
      */
-    protected T getAction(Object requestBody, String... params) {
-        return getAction(JsonUtils.toJson(requestBody), params);
-    }
-
-    /**
-     * Gets an action with request body.
-     */
-    protected T getAction(String body, String... params) {
-        return getAction(body, null, null, params);
+    protected T getAction(BasicRequest requestBody, String... params) {
+        return getAction(JsonUtils.toCompactJson(requestBody), null, null, params);
     }
 
     /**
@@ -491,25 +484,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         }
     }
 
-    protected void verifyCanAccess(BasicRequest request, String... params) {
-        Action c = getAction(request, params);
-        try {
-            c.checkAccessControl();
-        } catch (UnauthorizedAccessException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     /**
      * Verifies that the {@link Action} matching the {@code params} is not accessible to the user.
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
-    }
-
-    protected void verifyCannotAccess(BasicRequest request, String... params) {
-        Action c = getAction(request, params);
         assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
