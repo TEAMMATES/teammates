@@ -54,7 +54,7 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     Cookie getLoginInvalidationCookie() {
-        Cookie cookie = new Cookie(Const.AuthConfig.AUTH_COOKIE_NAME, "");
+        Cookie cookie = new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME, "");
         cookie.setPath("/");
         cookie.setSecure(!Config.isDevServer());
         cookie.setHttpOnly(true);
@@ -63,7 +63,8 @@ abstract class AuthServlet extends HttpServlet {
     }
 
     Cookie getLoginCookie(UserInfoCookie uic) {
-        Cookie cookie = new Cookie(Const.AuthConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
+        Cookie cookie = new Cookie(Const.SecurityConfig.AUTH_COOKIE_NAME,
+                StringHelper.encrypt(JsonUtils.toCompactJson(uic)));
         cookie.setPath("/");
         cookie.setSecure(!Config.isDevServer());
         cookie.setHttpOnly(true);

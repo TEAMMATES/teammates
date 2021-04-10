@@ -29,7 +29,7 @@ public class DevServerLoginServlet extends AuthServlet {
             return;
         }
 
-        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.AuthConfig.AUTH_COOKIE_NAME);
+        String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
         UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
         boolean isLoginNeeded = uic == null || !uic.isValid();
         String nextUrl = req.getParameter("nextUrl");

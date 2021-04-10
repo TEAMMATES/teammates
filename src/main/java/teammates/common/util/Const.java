@@ -165,15 +165,10 @@ public final class Const {
 
     }
 
-    public static class CsrfConfig {
+    public static class SecurityConfig {
 
-        public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
-        public static final String TOKEN_COOKIE_NAME = "CSRF-TOKEN";
-
-    }
-
-    public static class AuthConfig {
-
+        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
+        public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
         public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
     }

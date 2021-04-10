@@ -165,7 +165,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        Cookie cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "someFakeCsrfToken");
+        Cookie cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, "someFakeCsrfToken");
 
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
@@ -185,7 +185,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME,
+        cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME,
                 StringHelper.encrypt("1234"));
 
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);

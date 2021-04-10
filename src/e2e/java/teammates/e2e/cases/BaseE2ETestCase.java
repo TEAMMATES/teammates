@@ -112,7 +112,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
             UserInfoCookie uic = new UserInfoCookie("devserver.admin.account", true);
-            browser.addCookie(Const.AuthConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
+            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
                     true, true);
 
             return getNewPageInstance(url, typeOfPage);

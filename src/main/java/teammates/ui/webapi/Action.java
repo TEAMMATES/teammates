@@ -121,7 +121,7 @@ public abstract class Action {
         if (isRequestFromAppEngineQueue) {
             userInfo = userProvision.getAdminOnlyUser("AppEngine-" + queueNameHeader);
         } else {
-            String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.AuthConfig.AUTH_COOKIE_NAME);
+            String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
             UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
             userInfo = userProvision.getCurrentUser(uic);
         }
