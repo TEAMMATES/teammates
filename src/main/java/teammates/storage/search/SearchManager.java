@@ -17,6 +17,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -36,6 +37,8 @@ public final class SearchManager {
             "Search service is not implemented";
     private static final String ERROR_PUT_DOCUMENT =
             "Failed to put document(s) %s into Solr. Root cause: %s ";
+    private static final String ERROR_RESET_COLLECTION =
+            "Failed to reset collectionS. Root cause: %s ";
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
@@ -204,6 +207,27 @@ public final class SearchManager {
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (IOException e) {
             log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+    }
+
+    /**
+     * Reset the data for all collections in search server.
+     * WARNING: should only be used for testing purposes.
+     */
+    public void resetCollections() {
+        if (!Config.isDevServer()) {
+            return;
+        }
+
+        try {
+            client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, "*:*");
+            client.deleteByQuery(STUDENT_COLLECTION_NAME, "*:*");
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }

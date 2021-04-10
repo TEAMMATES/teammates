@@ -59,6 +59,11 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
         localDatastoreHelper.reset();
     }
 
+    @AfterClass
+    public void resetSearchService() {
+        SearchManagerFactory.resetSearchManager();
+    }
+
     @AfterSuite
     public void tearDownLocalDatastoreHelper() throws InterruptedException, TimeoutException, IOException {
         localDatastoreHelper.stop();
