@@ -253,8 +253,11 @@ public final class SearchManager {
     }
 
     private String cleanSpecialChars(String queryString) {
+        String strRegEx = "<[^>]*>";
+
         // Solr special characters: + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
-        String res = queryString.replace("\\", "\\\\")
+        String res = queryString.replaceAll(strRegEx, "")
+                .replace("\\", "\\\\")
                 .replace("+", "\\+")
                 .replace("-", "\\-")
                 .replace("&&", "\\&&")
