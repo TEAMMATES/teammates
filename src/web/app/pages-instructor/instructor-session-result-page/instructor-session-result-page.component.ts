@@ -288,58 +288,60 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     const missingRespMap: Map<string, ResponseOutput> = new Map();
     const tempMap: Map<string, ResponseOutput> = new Map();
 
-    this.courseService.getCourseSectionNames(this.session.courseId)
-      .subscribe((courseSectionNames: CourseSectionNames) => {
-        concat(
-          ...courseSectionNames.sectionNames.map((sectionName: string) => {
-            return concat(
-              this.feedbackSessionsService.getFeedbackSessionResults({
-                questionId,
-                courseId: this.session.courseId,
-                feedbackSessionName: this.session.feedbackSessionName,
-                intent: Intent.INSTRUCTOR_RESULT,
-                groupBySection: sectionName,
-                sectionByGiverOrReceiver: 'giver',
-              }),
-              this.feedbackSessionsService.getFeedbackSessionResults({
-                questionId,
-                courseId: this.session.courseId,
-                feedbackSessionName: this.session.feedbackSessionName,
-                intent: Intent.INSTRUCTOR_RESULT,
-                groupBySection: sectionName,
-                sectionByGiverOrReceiver: 'receiver',
-              }),
-            );
-          }))
-        .subscribe({
-          next: (resp: SessionResults) => {
-            if (resp.questions.length) {
-              const responses: QuestionOutput = resp.questions[0];
-              responses.allResponses
-                .forEach((response: ResponseOutput) =>
-                  !response.isMissingResponse
-                    ? tempMap.set(response.responseId, response)
-                    : missingRespMap.set(response.responseId, response));
-              this.questionsModel[questionId].statistics =
-                QuestionStatistics.appendStats(
-                  this.questionsModel[questionId].statistics,
-                  responses.questionStatistics);
+    if (this.hasSectionsLoadingFailed) {
+      // the page would not render properly
+      return;
+    }
 
-              this.preprocessComments(responses.allResponses);
-            }
-          },
-          complete: () => {
-            tempMap.forEach((response: ResponseOutput) =>
-              this.questionsModel[questionId].responses.push(response));
-            missingRespMap.forEach((response: ResponseOutput) =>
-              this.questionsModel[questionId].responses.push(response));
-            this.questionsModel[questionId].hasPopulated = true;
-          },
-          error: (resp: ErrorMessageOutput) => {
-            this.statusMessageService.showErrorToast(resp.error.message);
-          },
-        });
-      });
+    concat(
+      ...Object.keys(this.sectionsModel).map((sectionName: string) => {
+        return concat(
+          this.feedbackSessionsService.getFeedbackSessionResults({
+            questionId,
+            courseId: this.session.courseId,
+            feedbackSessionName: this.session.feedbackSessionName,
+            intent: Intent.INSTRUCTOR_RESULT,
+            groupBySection: sectionName,
+            sectionByGiverOrReceiver: 'giver',
+          }),
+          this.feedbackSessionsService.getFeedbackSessionResults({
+            questionId,
+            courseId: this.session.courseId,
+            feedbackSessionName: this.session.feedbackSessionName,
+            intent: Intent.INSTRUCTOR_RESULT,
+            groupBySection: sectionName,
+            sectionByGiverOrReceiver: 'receiver',
+          }),
+        );
+      }))
+    .subscribe({
+      next: (resp: SessionResults) => {
+        if (resp.questions.length) {
+          const responses: QuestionOutput = resp.questions[0];
+          responses.allResponses
+            .forEach((response: ResponseOutput) =>
+              !response.isMissingResponse
+                ? tempMap.set(response.responseId, response)
+                : missingRespMap.set(response.responseId, response));
+          this.questionsModel[questionId].statistics =
+            QuestionStatistics.appendStats(
+              this.questionsModel[questionId].statistics,
+              responses.questionStatistics);
+
+          this.preprocessComments(responses.allResponses);
+        }
+      },
+      complete: () => {
+        tempMap.forEach((response: ResponseOutput) =>
+          this.questionsModel[questionId].responses.push(response));
+        missingRespMap.forEach((response: ResponseOutput) =>
+          this.questionsModel[questionId].responses.push(response));
+        this.questionsModel[questionId].hasPopulated = true;
+      },
+      error: (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      },
+    });
   }
 
   /**
