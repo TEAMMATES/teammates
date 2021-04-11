@@ -562,6 +562,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseId = courseid;
+      if (resp.hasResponsesBySession === undefined) {
+        return;
+      }
       for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
         if (resp.hasResponsesBySession[sessionName]) {
           const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>

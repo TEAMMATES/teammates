@@ -3,25 +3,24 @@ package teammates.ui.output;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.Nullable;
+
 /**
  * The API output format to represent if there are responses.
  */
 public class HasResponsesData extends ApiOutput {
-    /**
-     * Placeholder key for single entry response data.
-     */
-    public static final String KEY_FOR_SINGLE_ENTRY = "";
-
-    private final Map<String, Boolean> hasResponsesBySession;
+    private final boolean hasResponses; // Used for single entry hasResponses check.
+    @Nullable
+    private final Map<String, Boolean> hasResponsesBySession; // Used for multi-session hasResponses check.
 
     /**
      * Constructor for check for presence of responses.
      *
-     * @param hasResponsesBySession True if has response.
+     * @param hasResponses True if has response.
      */
-    public HasResponsesData(boolean hasResponsesBySession) {
-        this.hasResponsesBySession = new HashMap<>();
-        this.hasResponsesBySession.put(KEY_FOR_SINGLE_ENTRY, hasResponsesBySession);
+    public HasResponsesData(boolean hasResponses) {
+        this.hasResponsesBySession = new HashMap<>(); // unused
+        this.hasResponses = hasResponses;
     }
 
     /**
@@ -31,13 +30,20 @@ public class HasResponsesData extends ApiOutput {
      */
     public HasResponsesData(Map<String, Boolean> hasResponsesBySession) {
         this.hasResponsesBySession = hasResponsesBySession;
+        this.hasResponses = false; // unused
     }
 
     /**
-     * Return a map of session name to whether it has responses;
-     * if the key for single entry is absent, it is used for multiple session check.
+     * Return true if has no response.
      */
-    public Map<String, Boolean> hasResponses() {
+    public boolean getHasResponses() {
+        return hasResponses;
+    }
+
+    /**
+     * Return a map of session name to whether it has responses.
+     */
+    public Map<String, Boolean> getHasResponsesBySessions() {
         return hasResponsesBySession;
     }
 }

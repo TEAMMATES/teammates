@@ -315,6 +315,7 @@ describe('StudentHomePageComponent', () => {
     };
 
     const hasRes: HasResponses = {
+      hasResponses: false,
       hasResponsesBySession: { 'First Session': false },
     };
 
@@ -333,6 +334,7 @@ describe('StudentHomePageComponent', () => {
 
   it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
     const hasRes: HasResponses = {
+      hasResponses: false,
       hasResponsesBySession: {
         'Orientation Session': false,
         'Welcome Tea Session': false,
@@ -355,6 +357,7 @@ describe('StudentHomePageComponent', () => {
 
   it('should sort feedback sessions by submissionEndTimestamp, when createdAtTimestamps are equal', () => {
     const hasRes: HasResponses = {
+      hasResponses: false,
       hasResponsesBySession: {
         'Orientation Session': false,
         'Welcome Tea Session': false,

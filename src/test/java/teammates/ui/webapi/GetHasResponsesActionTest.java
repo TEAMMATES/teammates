@@ -106,7 +106,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertTrue(hasResponsesData.hasResponses().get(HasResponsesData.KEY_FOR_SINGLE_ENTRY));
+        assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Course with 0 respondents");
 
@@ -125,7 +125,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertFalse(hasResponsesData.hasResponses().get(HasResponsesData.KEY_FOR_SINGLE_ENTRY));
+        assertFalse(hasResponsesData.getHasResponses());
     }
 
     @Test
@@ -151,7 +151,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertTrue(hasResponsesData.hasResponses().get(HasResponsesData.KEY_FOR_SINGLE_ENTRY));
+        assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Question with 0 responses");
 
@@ -177,7 +177,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertFalse(hasResponsesData.hasResponses().get(HasResponsesData.KEY_FOR_SINGLE_ENTRY));
+        assertFalse(hasResponsesData.getHasResponses());
     }
 
     @Test
@@ -206,7 +206,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertFalse(hasResponsesData.hasResponses().get(HasResponsesData.KEY_FOR_SINGLE_ENTRY));
+        assertFalse(hasResponsesData.getHasResponses());
     }
 
     @Test
@@ -251,7 +251,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertTrue(hasResponsesData.hasResponses().get(HasResponsesData.KEY_FOR_SINGLE_ENTRY));
+        assertTrue(hasResponsesData.getHasResponses());
     }
 
     @Test

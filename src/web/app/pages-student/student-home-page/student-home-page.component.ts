@@ -101,6 +101,9 @@ export class StudentHomePageComponent implements OnInit {
                   const isWaitingToOpen: boolean =
                     fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
                   const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+                  if (hasRes.hasResponsesBySession === undefined) {
+                    continue;
+                  }
                   const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
                   if (isSubmitted === undefined) {
                     continue;

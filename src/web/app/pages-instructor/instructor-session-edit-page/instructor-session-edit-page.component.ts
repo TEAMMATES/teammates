@@ -83,8 +83,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
   courseName: string = '';
 
-  readonly hasResponsesSingleEntryPlaceholder: string = '';
-
   // models
   sessionEditFormModel: SessionEditFormModel = {
     courseId: '',
@@ -539,7 +537,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   private loadResponseStatusForQuestion(model: QuestionEditFormModel): void {
     this.feedbackSessionsService.hasResponsesForQuestion(model.feedbackQuestionId)
         .subscribe((resp: HasResponses) => {
-          model.isQuestionHasResponses = resp.hasResponsesBySession[this.hasResponsesSingleEntryPlaceholder];
+          model.isQuestionHasResponses = resp.hasResponses;
         }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
