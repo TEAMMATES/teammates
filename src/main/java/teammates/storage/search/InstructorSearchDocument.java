@@ -11,16 +11,17 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
  */
 class InstructorSearchDocument extends SearchDocument<InstructorAttributes> {
 
-    InstructorSearchDocument(InstructorAttributes instructor) {
+    private final CourseAttributes course;
+
+    InstructorSearchDocument(InstructorAttributes instructor, CourseAttributes course) {
         super(instructor);
+        this.course = course;
     }
 
     @Override
     Map<String, Object> getSearchableFields() {
         Map<String, Object> fields = new HashMap<>();
         InstructorAttributes instructor = attribute;
-
-        CourseAttributes course = coursesDb.getCourse(instructor.courseId);
 
         fields.put("id", instructor.getEmail() + "%" + instructor.getCourseId());
         fields.put("name", instructor.getName());

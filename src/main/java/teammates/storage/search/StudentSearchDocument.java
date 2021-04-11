@@ -11,16 +11,17 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 class StudentSearchDocument extends SearchDocument<StudentAttributes> {
 
-    StudentSearchDocument(StudentAttributes student) {
+    private final CourseAttributes course;
+
+    StudentSearchDocument(StudentAttributes student, CourseAttributes course) {
         super(student);
+        this.course = course;
     }
 
     @Override
     Map<String, Object> getSearchableFields() {
         Map<String, Object> fields = new HashMap<>();
         StudentAttributes student = attribute;
-
-        CourseAttributes course = coursesDb.getCourse(student.course);
 
         fields.put("id", student.getId());
         fields.put("name", student.getName());

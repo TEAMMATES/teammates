@@ -8,10 +8,12 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Const;
+import teammates.storage.api.CoursesDb;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -19,6 +21,7 @@ import teammates.storage.api.StudentsDb;
  */
 public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
+    private final CoursesDb coursesDb = new CoursesDb();
     private final StudentsDb studentsDb = new StudentsDb();
 
     public StudentSearchManager(String searchServiceHost, boolean isResetAllowed) {
@@ -32,7 +35,8 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     StudentSearchDocument createDocument(StudentAttributes student) {
-        return new StudentSearchDocument(student);
+        CourseAttributes course = coursesDb.getCourse(student.course);
+        return new StudentSearchDocument(student, course);
     }
 
     @Override
