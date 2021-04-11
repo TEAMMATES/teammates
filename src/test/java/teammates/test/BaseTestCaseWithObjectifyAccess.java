@@ -61,7 +61,7 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
 
     @AfterClass
     public void resetSearchService() {
-        SearchManagerFactory.resetSearchManager();
+        SearchManagerFactory.getSearchManager().resetCollections();
     }
 
     @AfterSuite

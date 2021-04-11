@@ -24,12 +24,4 @@ public final class SearchManagerFactory {
             instance = searchManager;
         }
     }
-
-    /**
-     * Deletes all search documents in the search manager instance.
-     */
-    public static void resetSearchManager() {
-        instance.resetCollections();
-    }
-
 }
