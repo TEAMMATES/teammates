@@ -68,13 +68,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "instructions")
     private WebElement instructionsEditor;
 
-    @FindBy(css = "#submission-start-date input")
+    @FindBy(id = "submission-start-date")
     private WebElement startDateBox;
 
     @FindBy(id = "submission-start-time")
     private WebElement startTimeDropdown;
 
-    @FindBy(css = "#submission-end-date input")
+    @FindBy(id = "submission-end-date")
     private WebElement endDateBox;
 
     @FindBy(id = "submission-end-time")
@@ -95,7 +95,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "session-visibility-custom")
     private WebElement customSessionVisibleTimeButton;
 
-    @FindBy(css = "#session-visibility-date input")
+    @FindBy(id = "session-visibility-date")
     private WebElement sessionVisibilityDateBox;
 
     @FindBy(id = "session-visibility-time")
@@ -107,7 +107,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "response-visibility-custom")
     private WebElement customResponseVisibleTimeButton;
 
-    @FindBy(css = "#response-visibility-date input")
+    @FindBy(id = "response-visibility-date")
     private WebElement responseVisibilityDateBox;
 
     @FindBy(id = "response-visibility-time")
@@ -804,7 +804,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getStartDate() {
-        return startDateBox.getAttribute("value");
+        return startDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getStartTime() {
@@ -812,7 +812,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getEndDate() {
-        return endDateBox.getAttribute("value");
+        return endDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getEndTime() {
@@ -820,7 +820,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getSessionVisibilityDate() {
-        return sessionVisibilityDateBox.getAttribute("value");
+        return sessionVisibilityDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getSessionVisibilityTime() {
@@ -828,7 +828,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getResponseVisibilityDate() {
-        return responseVisibilityDateBox.getAttribute("value");
+        return responseVisibilityDateBox.findElement(By.tagName("input"))
+                .getAttribute("value");
     }
 
     private String getResponseVisibilityTime() {
@@ -868,19 +869,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant, timeZone);
     }
 
     private void setSessionEndDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(endDateBox, endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant, timeZone);
     }
 
     private void setVisibilityDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(sessionVisibilityDateBox, sessionVisibilityTimeDropdown, startInstant, timeZone);
+        setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
+                sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
     private void setResponseDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(responseVisibilityDateBox, responseVisibilityTimeDropdown, endInstant, timeZone);
+        setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
+                responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {
