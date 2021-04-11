@@ -449,6 +449,15 @@ public class ArchitectureTest {
     }
 
     @Test
+    public void testArchitecture_externalApi_solrApiCanOnlyBeAccessedBySearchManagerClasses() {
+        noClasses().that().doNotHaveSimpleName("SearchManager")
+                .and().doNotHaveSimpleName("InstructorSearchManager")
+                .and().doNotHaveSimpleName("StudentSearchManager")
+                .should().accessClassesThat().resideInAPackage("org.apache.solr..")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
     public void testArchitecture_externalApi_usersApiCanOnlyBeAccessedByUserProvision() {
         noClasses().that().doNotHaveSimpleName("UserProvision")
                 .should().accessClassesThat().resideInAPackage("com.google.appengine.api.users..")
