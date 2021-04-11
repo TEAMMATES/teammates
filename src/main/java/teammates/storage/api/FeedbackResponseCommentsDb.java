@@ -3,33 +3,23 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponseComment;
-import teammates.storage.search.FeedbackResponseCommentSearchDocument;
-import teammates.storage.search.FeedbackResponseCommentSearchQuery;
-import teammates.storage.search.SearchDocument;
 
 /**
  * Handles CRUD operations for feedback response comments.
@@ -40,33 +30,6 @@ import teammates.storage.search.SearchDocument;
 public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
     private static final Logger log = Logger.getLogger();
-
-    /**
-     * Creates a feedback response comment.
-     *
-     * @return the created comment
-     * @throws InvalidParametersException if the comment is not valid
-     * @throws EntityAlreadyExistsException if the comment already exists in the Datastore
-     */
-    @Override
-    public FeedbackResponseCommentAttributes createEntity(FeedbackResponseCommentAttributes entityToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        FeedbackResponseCommentAttributes createdComment = super.createEntity(entityToAdd);
-        putDocument(createdComment);
-
-        return createdComment;
-    }
-
-    /**
-     * Removes search document for the comment with given id.
-     *
-     * <p>See {@link FeedbackResponseCommentSearchDocument#toDocument()} for more details.</p>
-     *
-     * @param commentId ID of comment
-     */
-    public void deleteDocumentByCommentId(long commentId) {
-        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, String.valueOf(commentId));
-    }
 
     /**
      * Gets a feedback response comment.
@@ -289,10 +252,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
         saveEntity(frc);
 
-        newAttributes = makeAttributes(frc);
-        putDocument(newAttributes);
-
-        return newAttributes;
+        return makeAttributes(frc);
     }
 
     /**
@@ -342,43 +302,10 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     }
 
     /**
-     * Creates or updates search document for the given comment.
-     */
-    public void putDocument(FeedbackResponseCommentAttributes comment) {
-        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, new FeedbackResponseCommentSearchDocument(comment));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given comments.
-     */
-    public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
-        List<SearchDocument> frcSearchDocuments = new ArrayList<>();
-        for (FeedbackResponseCommentAttributes comment : comments) {
-            frcSearchDocuments.add(new FeedbackResponseCommentSearchDocument(comment));
-        }
-        putDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT, frcSearchDocuments.toArray(new SearchDocument[0]));
-    }
-
-    /**
-     * Searches for comments, using a list of instructors as a constraint.
-     */
-    public FeedbackResponseCommentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
-        if (queryString.trim().isEmpty()) {
-            return new FeedbackResponseCommentSearchResultBundle();
-        }
-
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
-                new FeedbackResponseCommentSearchQuery(instructors, queryString));
-
-        return FeedbackResponseCommentSearchDocument.fromResults(results, instructors);
-    }
-
-    /**
      * Deletes a comment.
      */
     public void deleteFeedbackResponseComment(long commentId) {
         deleteEntity(Key.create(FeedbackResponseComment.class, commentId));
-        deleteDocumentByCommentId(commentId);
     }
 
     /**
@@ -403,8 +330,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
         List<Key<FeedbackResponseComment>> keysToDelete = entitiesToDelete.keys().list();
 
-        deleteDocument(Const.SearchIndex.FEEDBACK_RESPONSE_COMMENT,
-                keysToDelete.stream().map(key -> String.valueOf(key.getId())).toArray(String[]::new));
         deleteEntity(keysToDelete.toArray(new Key<?>[0]));
     }
 

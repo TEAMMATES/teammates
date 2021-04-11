@@ -165,13 +165,6 @@ public final class DataBundleLogic {
                     instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
             instructorsDb.putDocument(instructorInDb);
         }
-
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
-            fcDb.putDocument(fcInDb);
-        }
     }
 
     private void processInstructors(

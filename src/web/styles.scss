@@ -273,3 +273,13 @@ h6,
   font-weight: bold;
   color: blue;
 }
+
+.handsontable .invalid-row {
+  background: red;
+  color: white;
+}
+
+.handsontable .valid-row {
+  background: white;
+  color: black;
+}

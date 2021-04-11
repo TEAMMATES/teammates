@@ -180,21 +180,9 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.updateFeedbackResponseComment(updateOptions);
     }
 
-    /**
-     * Creates or updates documents for the given comments.
-     */
-    public void putDocuments(List<FeedbackResponseCommentAttributes> comments) {
-        frcDb.putDocuments(comments);
-    }
-
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
                                                                                        String giverEmail) {
         return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
-    }
-
-    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                             List<InstructorAttributes> instructors) {
-        return frcDb.search(queryString, instructors);
     }
 
     /**

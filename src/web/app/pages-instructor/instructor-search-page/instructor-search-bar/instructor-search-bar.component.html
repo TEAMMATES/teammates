@@ -1,6 +1,9 @@
 <div class="card bg-light mb-4">
   <div class="card-body">
     <div class="text-muted">
+      You can search for students from all your courses here.
+    </div>
+    <div class="text-muted">
       Search Tips:<br>
       <ul>
         <li>Put more keywords to search for more precise results.</li>
@@ -13,26 +16,9 @@
           (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
           <div class="input-group-append">
             <button class="btn btn-primary" id="btn-search" (click)="search()"
-                    [disabled]="!(searchParams.isSearchForComments || searchParams.isSearchForStudents) || searchParams.searchKey === ''"
+                    [disabled]="searchParams.searchKey === ''"
             >Search</button>
           </div>
-      </div>
-      <div class="input-group mt-md-1">
-        <div class="col-md-3">
-          <input type="checkbox" class="form-check-inline" id="students-checkbox" [ngModel]="searchParams.isSearchForStudents"
-                 (ngModelChange)="onStudentCheckboxChange($event)">
-          <label class="form-check-label" for="students-checkbox"><b>Students</b></label>
-        </div>
-        <div class="col-md-9">
-          <input type="checkbox" class="form-check-inline" id="comment-checkbox" [ngModel]="searchParams.isSearchForComments"
-                 (ngModelChange)="onCommentCheckboxChange($event)">
-          <label class="form-check-label" for="comment-checkbox"><b>Questions, responses, comments on responses</b></label>
-        </div>
-        <div class="invalid-field mt-md-1"
-             [hidden]="searchParams.isSearchForComments || searchParams.isSearchForStudents">
-          <i class="fa fa-exclamation-circle" aria-hidden="true"></i> &nbsp;
-          Please select at least one search type.
-        </div>
       </div>
     </div>
   </div>

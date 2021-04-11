@@ -735,6 +735,43 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 "student4 In Course1 (Team 1.1</td></div>'\")",
                 "student5 In Course1 (Team 1.2)"), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
 
+        // TEAM MEMBERS
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("student1 In Course1</td></div>'\"",
+                "student2 In Course1",
+                "student3 In Course1",
+                "student4 In Course1"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(new ArrayList<>(), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        // TEAM MEMBERS EXCLUDING SELF
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalStudent.getEmail(), typicalStudent.getTeam());
+        assertEquals(Arrays.asList("student2 In Course1",
+                "student3 In Course1",
+                "student4 In Course1"),
+                ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
+        feedbackMcqQuestionDetails.setMcqChoices(new ArrayList<>());
+        feedbackMcqQuestionDetails.setGenerateOptionsFor(FeedbackParticipantType.OWN_TEAM_MEMBERS);
+        fqa.setQuestionDetails(feedbackMcqQuestionDetails);
+
+        fqLogic.populateFieldsToGenerateInQuestion(fqa, typicalInstructor.getEmail(), null);
+        assertEquals(new ArrayList<>(), ((FeedbackMcqQuestionDetails) fqa.getQuestionDetails()).getMcqChoices());
+
         // TEAMS
         expected = Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2");
 
