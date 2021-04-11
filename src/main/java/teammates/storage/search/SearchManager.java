@@ -2,9 +2,7 @@ package teammates.storage.search;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -14,12 +12,9 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
-import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
@@ -42,8 +37,6 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             "Failed to put document(s) %s into Solr. Root cause: %s ";
     private static final String ERROR_RESET_COLLECTION =
             "Failed to reset collections. Root cause: %s ";
-    private static final String STUDENT_COLLECTION_NAME = "students";
-    private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
     private static final int START_INDEX = 0;
     private static final int NUM_OF_RESULTS = 20;
@@ -61,42 +54,36 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         }
     }
 
-    /**
-     * Searches for students.
-     *
-     * @param instructors the constraint that restricts the search result
-     */
-    public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+    SolrQuery getBasicQuery(String queryString) {
+        SolrQuery query = new SolrQuery();
+
+        String cleanQueryString = cleanSpecialChars(queryString);
+        query.setQuery(cleanQueryString);
+
+        query.setStart(START_INDEX);
+        query.setRows(NUM_OF_RESULTS);
+
+        return query;
+    }
+
+    QueryResponse performQuery(SolrQuery query) throws SearchNotImplementedException {
         if (client == null) {
             throw new SearchNotImplementedException();
         }
 
         QueryResponse response = null;
-        SolrQuery studentQuery = new SolrQuery();
-
-        String cleanQueryString = cleanSpecialChars(queryString);
-        studentQuery.setQuery(cleanQueryString);
-
-        studentQuery.setStart(START_INDEX);
-        studentQuery.setRows(NUM_OF_RESULTS);
-
-        if (instructors != null) {
-            String filterQueryString = prepareFilterQueryString(instructors);
-            studentQuery.addFilterQuery(filterQueryString);
-        }
 
         try {
-            response = client.query(STUDENT_COLLECTION_NAME, studentQuery);
+            response = client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getRootCause())
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (IOException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getCause())
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
 
-        return StudentSearchDocument.fromResponse(response);
+        return response;
     }
 
     abstract String getCollectionName();
@@ -156,46 +143,15 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     }
 
     /**
-     * Searches for instructors.
-     */
-    public List<InstructorAttributes> searchInstructors(String queryString) throws SearchNotImplementedException {
-        if (client == null) {
-            throw new SearchNotImplementedException();
-        }
-
-        QueryResponse response = null;
-        SolrQuery instructorQuery = new SolrQuery();
-
-        String cleanQueryString = cleanSpecialChars(queryString);
-        instructorQuery.setQuery(cleanQueryString);
-
-        instructorQuery.setStart(START_INDEX);
-        instructorQuery.setRows(NUM_OF_RESULTS);
-
-        try {
-            response = client.query(INSTRUCTOR_COLLECTION_NAME, instructorQuery);
-        } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        } catch (IOException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, queryString, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        }
-
-        return InstructorSearchDocument.fromResponse(response);
-    }
-
-    /**
      * Resets the data for all collections if, and only if called during component tests.
      */
     public void resetCollections() {
-        if (!isResetAllowed) {
+        if (client == null || !isResetAllowed) {
             return;
         }
 
         try {
-            client.deleteByQuery(INSTRUCTOR_COLLECTION_NAME, "*:*");
-            client.deleteByQuery(STUDENT_COLLECTION_NAME, "*:*");
+            client.deleteByQuery(getCollectionName(), "*:*");
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
@@ -203,13 +159,6 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
-    }
-
-    private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
-        return instructors.stream()
-                .filter(i -> i.privileges.getCourseLevelPrivileges()
-                        .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.courseId).collect(Collectors.joining(" "));
     }
 
     private String cleanSpecialChars(String queryString) {
