@@ -99,54 +99,61 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         return StudentSearchDocument.fromResponse(response);
     }
 
+    abstract String getCollectionName();
+
+    abstract SolrInputDocument createDocument(T attribute);
+
     /**
-     * Batch creates or updates search documents for the given students.
+     * Batch creates or updates search documents for the given entities.
      */
-    public void putStudentSearchDocuments(StudentAttributes... students) {
+    public void putDocuments(List<T> attributes) {
         if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
-        List<SolrInputDocument> studentDocs = new ArrayList<>();
+        List<SolrInputDocument> documents = new ArrayList<>();
 
-        for (StudentAttributes student : students) {
-            SolrInputDocument studentDoc = new StudentSearchDocument(student).toDocument();
-            studentDocs.add(studentDoc);
+        for (T attribute : attributes) {
+            documents.add(createDocument(attribute));
         }
 
-        addDocumentsToCollection(studentDocs, STUDENT_COLLECTION_NAME);
+        try {
+            client.add(getCollectionName(), documents);
+            client.commit(getCollectionName());
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
-    abstract void putDocuments(T... attributes);
-
     /**
-     * Removes student search documents based on the given keys.
+     * Removes search documents based on the given keys.
      */
-    public void deleteStudentSearchDocuments(String... keys) {
+    public void deleteDocuments(List<String> keys) {
         if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
-        List<String> batchQueryString = Arrays.asList(keys);
-        if (batchQueryString.isEmpty()) {
+        if (keys.isEmpty()) {
             return;
         }
 
         try {
-            client.deleteById(STUDENT_COLLECTION_NAME, batchQueryString);
-            client.commit(STUDENT_COLLECTION_NAME);
+            client.deleteById(getCollectionName(), keys);
+            client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (IOException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getCause())
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
-
-    abstract void deleteDocuments(String... keys);
 
     /**
      * Searches for instructors.
@@ -179,51 +186,6 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     }
 
     /**
-     * Batch creates or updates search documents for the given instructors.
-     */
-    public void putInstructorSearchDocuments(InstructorAttributes... instructors) {
-        if (client == null) {
-            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
-            return;
-        }
-
-        List<SolrInputDocument> instructorDocs = new ArrayList<>();
-
-        for (InstructorAttributes instructor : instructors) {
-            SolrInputDocument instructorDoc = new InstructorSearchDocument(instructor).toDocument();
-            instructorDocs.add(instructorDoc);
-        }
-
-        addDocumentsToCollection(instructorDocs, INSTRUCTOR_COLLECTION_NAME);
-    }
-
-    /**
-     * Removes instructor search documents based on the given keys.
-     */
-    public void deleteInstructorSearchDocuments(String... keys) {
-        if (client == null) {
-            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
-            return;
-        }
-
-        List<String> batchQueryString = Arrays.asList(keys);
-        if (batchQueryString.isEmpty()) {
-            return;
-        }
-
-        try {
-            client.deleteById(INSTRUCTOR_COLLECTION_NAME, batchQueryString);
-            client.commit(INSTRUCTOR_COLLECTION_NAME);
-        } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        } catch (IOException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, batchQueryString, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        }
-    }
-
-    /**
      * Resets the data for all collections if, and only if called during component tests.
      */
     public void resetCollections() {
@@ -239,19 +201,6 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
                     + TeammatesException.toStringWithStackTrace(e));
         } catch (IOException e) {
             log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        }
-    }
-
-    private void addDocumentsToCollection(List<SolrInputDocument> docs, String collectionName) {
-        try {
-            client.add(collectionName, docs);
-            client.commit(collectionName);
-        } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, docs, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
-        } catch (IOException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, docs, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }

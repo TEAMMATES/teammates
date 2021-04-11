@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -41,7 +42,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        getSearchManager().putDocuments(instructor);
+        getSearchManager().putDocuments(Collections.singletonList(instructor));
     }
 
     /**
@@ -54,14 +55,14 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                         : instructor)
                 .collect(Collectors.toList());
 
-        getSearchManager().putDocuments(instructors.toArray(new InstructorAttributes[0]));
+        getSearchManager().putDocuments(instructors);
     }
 
     /**
      * Removes search document for the given instructor by using {@code instructorUniqueId}.
      */
     public void deleteDocumentByInstructorId(String instructorUniqueId) {
-        getSearchManager().deleteDocuments(instructorUniqueId);
+        getSearchManager().deleteDocuments(Collections.singletonList(instructorUniqueId));
     }
 
     /**
@@ -314,7 +315,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             getSearchManager().deleteDocuments(
                     instructorsToDelete.stream()
                             .map(Instructor::getUniqueId)
-                            .toArray(String[]::new));
+                            .collect(Collectors.toList()));
 
             deleteEntity(instructorsToDelete.stream()
                     .map(s -> Key.create(Instructor.class, s.getUniqueId()))

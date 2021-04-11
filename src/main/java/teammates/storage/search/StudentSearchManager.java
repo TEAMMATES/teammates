@@ -1,5 +1,7 @@
 package teammates.storage.search;
 
+import org.apache.solr.common.SolrInputDocument;
+
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
@@ -12,13 +14,13 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
     }
 
     @Override
-    public void putDocuments(StudentAttributes... attributes) {
-        putStudentSearchDocuments(attributes);
+    String getCollectionName() {
+        return "students";
     }
 
     @Override
-    public void deleteDocuments(String... keys) {
-        deleteStudentSearchDocuments(keys);
+    SolrInputDocument createDocument(StudentAttributes student) {
+        return new StudentSearchDocument(student).toDocument();
     }
 
 }

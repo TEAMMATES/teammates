@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,14 +46,14 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) {
-        getSearchManager().putDocuments(student);
+        getSearchManager().putDocuments(Collections.singletonList(student));
     }
 
     /**
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        getSearchManager().putDocuments(students.toArray(new StudentAttributes[0]));
+        getSearchManager().putDocuments(students);
     }
 
     /**
@@ -89,7 +90,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Removes search document for the given student by using {@code studentUniqueId}.
      */
     public void deleteDocumentByStudentId(String studentUniqueId) {
-        getSearchManager().deleteDocuments(studentUniqueId);
+        getSearchManager().deleteDocuments(Collections.singletonList(studentUniqueId));
     }
 
     /**
@@ -322,7 +323,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
             getSearchManager().deleteDocuments(
-                    studentsToDelete.stream().map(CourseStudent::getUniqueId).toArray(String[]::new));
+                    studentsToDelete.stream().map(CourseStudent::getUniqueId).collect(Collectors.toList()));
 
             deleteEntity(studentsToDelete.stream()
                     .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))
