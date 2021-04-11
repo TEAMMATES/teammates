@@ -1,18 +1,23 @@
 package teammates.storage.search;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.SearchNotImplementedException;
+import teammates.storage.api.InstructorsDb;
 
 /**
  * Acts as a proxy to search service for instructor-related search features.
  */
 public class InstructorSearchManager extends SearchManager<InstructorAttributes> {
+
+    private final InstructorsDb instructorsDb = new InstructorsDb();
 
     public InstructorSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);
@@ -28,6 +33,21 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
         return new InstructorSearchDocument(instructor).toDocument();
     }
 
+    @Override
+    InstructorAttributes getAttributeFromDocument(SolrDocument document) {
+        String courseId = (String) document.getFirstValue("courseId");
+        String email = (String) document.getFirstValue("email");
+        return instructorsDb.getInstructorById(courseId, email);
+    }
+
+    @Override
+    void sortResult(List<InstructorAttributes> result) {
+        result.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
+                .thenComparing(instructor -> instructor.role)
+                .thenComparing(instructor -> instructor.name)
+                .thenComparing(instructor -> instructor.email));
+    }
+
     /**
      * Searches for instructors.
      */
@@ -35,7 +55,7 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
         SolrQuery query = getBasicQuery(queryString);
 
         QueryResponse response = performQuery(query);
-        return InstructorSearchDocument.fromResponse(response);
+        return convertDocumentToAttributes(response);
     }
 
 }

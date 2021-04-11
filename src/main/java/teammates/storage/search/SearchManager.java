@@ -2,6 +2,7 @@ package teammates.storage.search;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -9,6 +10,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
@@ -197,4 +199,32 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             return res;
         }
     }
+
+    abstract T getAttributeFromDocument(SolrDocument document);
+
+    abstract void sortResult(List<T> result);
+
+    List<T> convertDocumentToAttributes(QueryResponse response) {
+        if (response == null) {
+            return new ArrayList<>();
+        }
+
+        List<T> result = new ArrayList<>();
+
+        for (SolrDocument document : response.getResults()) {
+            T attribute = getAttributeFromDocument(document);
+            if (attribute == null) {
+                // search engine out of sync as SearchManager may fail to delete documents
+                // the chance is low and it is generally not a big problem
+                String id = (String) document.getFirstValue("id");
+                deleteDocuments(Collections.singletonList(id));
+                continue;
+            }
+            result.add(attribute);
+        }
+        sortResult(result);
+
+        return result;
+    }
+
 }

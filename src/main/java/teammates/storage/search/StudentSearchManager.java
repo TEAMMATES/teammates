@@ -1,21 +1,26 @@
 package teammates.storage.search;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Const;
+import teammates.storage.api.StudentsDb;
 
 /**
  * Acts as a proxy to search service for student-related search features.
  */
 public class StudentSearchManager extends SearchManager<StudentAttributes> {
+
+    private final StudentsDb studentsDb = new StudentsDb();
 
     public StudentSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);
@@ -29,6 +34,22 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
     @Override
     SolrInputDocument createDocument(StudentAttributes student) {
         return new StudentSearchDocument(student).toDocument();
+    }
+
+    @Override
+    StudentAttributes getAttributeFromDocument(SolrDocument document) {
+        String courseId = (String) document.getFirstValue("courseId");
+        String email = (String) document.getFirstValue("email");
+        return studentsDb.getStudentForEmail(courseId, email);
+    }
+
+    @Override
+    void sortResult(List<StudentAttributes> result) {
+        result.sort(Comparator.comparing((StudentAttributes student) -> student.course)
+                .thenComparing(student -> student.section)
+                .thenComparing(student -> student.team)
+                .thenComparing(student -> student.name)
+                .thenComparing(student -> student.email));
     }
 
     /**
@@ -46,7 +67,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
         }
 
         QueryResponse response = performQuery(query);
-        return StudentSearchDocument.fromResponse(response);
+        return convertDocumentToAttributes(response);
     }
 
     private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
