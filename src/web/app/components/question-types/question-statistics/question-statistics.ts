@@ -45,9 +45,6 @@ export class QuestionStatistics<Q extends FeedbackQuestionDetails, R extends Fee
 
   static appendStats = (prevStats: string, newStats: string): string => {
     if (prevStats === '') {
-      if (newStats === '') {
-        return '';
-      }
       return newStats;
     }
     if (newStats === '') {
