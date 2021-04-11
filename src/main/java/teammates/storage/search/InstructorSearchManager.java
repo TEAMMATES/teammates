@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.SearchNotImplementedException;
@@ -29,8 +28,8 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
     }
 
     @Override
-    SolrInputDocument createDocument(InstructorAttributes instructor) {
-        return new InstructorSearchDocument(instructor).toDocument();
+    InstructorSearchDocument createDocument(InstructorAttributes instructor) {
+        return new InstructorSearchDocument(instructor);
     }
 
     @Override

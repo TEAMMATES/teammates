@@ -1,36 +1,36 @@
 package teammates.storage.search;
 
-import org.apache.solr.common.SolrInputDocument;
+import java.util.HashMap;
+import java.util.Map;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
 /**
- * The {@link SearchDocument} object that defines how we store {@link SolrInputDocument} for students.
+ * The {@link SearchDocument} object that defines how we store document for students.
  */
-class StudentSearchDocument extends SearchDocument {
-
-    private final StudentAttributes student;
+class StudentSearchDocument extends SearchDocument<StudentAttributes> {
 
     StudentSearchDocument(StudentAttributes student) {
-        this.student = student;
+        super(student);
     }
 
     @Override
-    SolrInputDocument toDocument() {
-        SolrInputDocument document = new SolrInputDocument();
+    Map<String, Object> getSearchableFields() {
+        Map<String, Object> fields = new HashMap<>();
+        StudentAttributes student = attribute;
 
         CourseAttributes course = coursesDb.getCourse(student.course);
 
-        document.addField("id", student.getId());
-        document.addField("name", student.getName());
-        document.addField("email", student.getEmail());
-        document.addField("courseId", student.getCourse());
-        document.addField("courseName", course == null ? "" : course.getName());
-        document.addField("team", student.getTeam());
-        document.addField("section", student.getSection());
+        fields.put("id", student.getId());
+        fields.put("name", student.getName());
+        fields.put("email", student.getEmail());
+        fields.put("courseId", student.getCourse());
+        fields.put("courseName", course == null ? "" : course.getName());
+        fields.put("team", student.getTeam());
+        fields.put("section", student.getSection());
 
-        return document;
+        return fields;
     }
 
 }

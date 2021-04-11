@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
-import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -32,8 +31,8 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
     }
 
     @Override
-    SolrInputDocument createDocument(StudentAttributes student) {
-        return new StudentSearchDocument(student).toDocument();
+    StudentSearchDocument createDocument(StudentAttributes student) {
+        return new StudentSearchDocument(student);
     }
 
     @Override

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -90,7 +91,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
     abstract String getCollectionName();
 
-    abstract SolrInputDocument createDocument(T attribute);
+    abstract SearchDocument<T> createDocument(T attribute);
 
     /**
      * Batch creates or updates search documents for the given entities.
@@ -104,7 +105,13 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         List<SolrInputDocument> documents = new ArrayList<>();
 
         for (T attribute : attributes) {
-            documents.add(createDocument(attribute));
+            if (attribute == null) {
+                continue;
+            }
+            Map<String, Object> searchableFields = createDocument(attribute).getSearchableFields();
+            SolrInputDocument document = new SolrInputDocument();
+            searchableFields.forEach((key, value) -> document.addField(key, value));
+            documents.add(document);
         }
 
         try {
