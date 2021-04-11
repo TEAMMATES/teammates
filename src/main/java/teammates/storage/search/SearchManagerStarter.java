@@ -13,7 +13,8 @@ public class SearchManagerStarter implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent event) {
         // Invoked by GAE at application startup.
-        SearchManagerFactory.registerSearchManager(new SearchManager(Config.SEARCH_SERVICE_HOST, false));
+        SearchManagerFactory.registerInstructorSearchManager(new InstructorSearchManager(Config.SEARCH_SERVICE_HOST, false));
+        SearchManagerFactory.registerStudentSearchManager(new StudentSearchManager(Config.SEARCH_SERVICE_HOST, false));
     }
 
     @Override

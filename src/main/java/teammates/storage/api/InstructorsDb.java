@@ -18,7 +18,7 @@ import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
-import teammates.storage.search.SearchManager;
+import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
 
 /**
@@ -29,8 +29,8 @@ import teammates.storage.search.SearchManagerFactory;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
-    private SearchManager getSearchManager() {
-        return SearchManagerFactory.getSearchManager();
+    private InstructorSearchManager getSearchManager() {
+        return SearchManagerFactory.getInstructorSearchManager();
     }
 
     /**
@@ -41,7 +41,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        getSearchManager().putInstructorSearchDocuments(instructor);
+        getSearchManager().putDocuments(instructor);
     }
 
     /**
@@ -54,14 +54,14 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                         : instructor)
                 .collect(Collectors.toList());
 
-        getSearchManager().putInstructorSearchDocuments(instructors.toArray(new InstructorAttributes[0]));
+        getSearchManager().putDocuments(instructors.toArray(new InstructorAttributes[0]));
     }
 
     /**
      * Removes search document for the given instructor by using {@code instructorUniqueId}.
      */
     public void deleteDocumentByInstructorId(String instructorUniqueId) {
-        getSearchManager().deleteInstructorSearchDocuments(instructorUniqueId);
+        getSearchManager().deleteDocuments(instructorUniqueId);
     }
 
     /**
@@ -311,7 +311,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
-            getSearchManager().deleteInstructorSearchDocuments(
+            getSearchManager().deleteDocuments(
                     instructorsToDelete.stream()
                             .map(Instructor::getUniqueId)
                             .toArray(String[]::new));

@@ -282,7 +282,8 @@ public class ArchitectureTest {
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
                                 && !"OfyHelper".equals(input.getSimpleName())
-                                && !"SearchManager".equals(input.getSimpleName())
+                                && !"InstructorSearchManager".equals(input.getSimpleName())
+                                && !"StudentSearchManager".equals(input.getSimpleName())
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })

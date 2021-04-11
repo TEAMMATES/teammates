@@ -22,8 +22,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchManagerFactory;
+import teammates.storage.search.StudentSearchManager;
 
 /**
  * Handles CRUD operations for students.
@@ -37,22 +37,22 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
 
-    private SearchManager getSearchManager() {
-        return SearchManagerFactory.getSearchManager();
+    private StudentSearchManager getSearchManager() {
+        return SearchManagerFactory.getStudentSearchManager();
     }
 
     /**
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) {
-        getSearchManager().putStudentSearchDocuments(student);
+        getSearchManager().putDocuments(student);
     }
 
     /**
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        getSearchManager().putStudentSearchDocuments(students.toArray(new StudentAttributes[0]));
+        getSearchManager().putDocuments(students.toArray(new StudentAttributes[0]));
     }
 
     /**
@@ -89,7 +89,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Removes search document for the given student by using {@code studentUniqueId}.
      */
     public void deleteDocumentByStudentId(String studentUniqueId) {
-        getSearchManager().deleteStudentSearchDocuments(studentUniqueId);
+        getSearchManager().deleteDocuments(studentUniqueId);
     }
 
     /**
@@ -321,7 +321,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     public void deleteStudents(AttributesDeletionQuery query) {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
-            getSearchManager().deleteStudentSearchDocuments(
+            getSearchManager().deleteDocuments(
                     studentsToDelete.stream().map(CourseStudent::getUniqueId).toArray(String[]::new));
 
             deleteEntity(studentsToDelete.stream()

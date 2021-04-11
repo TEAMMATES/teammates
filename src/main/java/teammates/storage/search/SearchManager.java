@@ -13,6 +13,7 @@ import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrInputDocument;
 
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.SearchNotImplementedException;
@@ -24,8 +25,10 @@ import teammates.common.util.StringHelper;
 
 /**
  * Acts as a proxy to search service.
+ *
+ * @param <T> type of entity to be returned
  */
-public final class SearchManager {
+abstract class SearchManager<T extends EntityAttributes<?>> {
 
     private static final Logger log = Logger.getLogger();
 
@@ -45,13 +48,15 @@ public final class SearchManager {
     private static final int START_INDEX = 0;
     private static final int NUM_OF_RESULTS = 20;
 
-    private HttpSolrClient client;
+    private final HttpSolrClient client;
     private final boolean isResetAllowed;
 
-    public SearchManager(String searchServiceHost, boolean isResetAllowed) {
+    SearchManager(String searchServiceHost, boolean isResetAllowed) {
         this.isResetAllowed = Config.isDevServer() && isResetAllowed;
 
-        if (!StringHelper.isEmpty(searchServiceHost)) {
+        if (StringHelper.isEmpty(searchServiceHost)) {
+            this.client = null;
+        } else {
             this.client = new HttpSolrClient.Builder(searchServiceHost).build();
         }
     }
@@ -113,6 +118,8 @@ public final class SearchManager {
         addDocumentsToCollection(studentDocs, STUDENT_COLLECTION_NAME);
     }
 
+    abstract void putDocuments(T... attributes);
+
     /**
      * Removes student search documents based on the given keys.
      */
@@ -138,6 +145,8 @@ public final class SearchManager {
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
+
+    abstract void deleteDocuments(String... keys);
 
     /**
      * Searches for instructors.
