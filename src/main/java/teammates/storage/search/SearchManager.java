@@ -38,7 +38,7 @@ public final class SearchManager {
     private static final String ERROR_PUT_DOCUMENT =
             "Failed to put document(s) %s into Solr. Root cause: %s ";
     private static final String ERROR_RESET_COLLECTION =
-            "Failed to reset collectionS. Root cause: %s ";
+            "Failed to reset collections. Root cause: %s ";
     private static final String STUDENT_COLLECTION_NAME = "students";
     private static final String INSTRUCTOR_COLLECTION_NAME = "instructors";
 
@@ -212,8 +212,7 @@ public final class SearchManager {
     }
 
     /**
-     * Reset the data for all collections in search server.
-     * WARNING: should only be used for testing purposes.
+     * Resets the data for all collections if, and only if called during component tests.
      */
     public void resetCollections() {
         if (!Config.isDevServer()) {
