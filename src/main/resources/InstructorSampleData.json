@@ -627,7 +627,7 @@
       "feedbackSessionName": "First team feedback session",
       "courseId": "demo.course",
       "questionDetails": {
-        "questionText": "Please rate the estimated contribution of your team members and yourself.",
+        "questionText": "How much work did each team member contribute? (response will be shown anonymously to each team member).",
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
@@ -653,7 +653,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Comments about your contribution (shown to other teammates)"
+        "questionText": "What contributions did you make to the team? (response will be shown to each team member)."
       },
       "questionNumber": 2,
       "giverType": "STUDENTS",
@@ -683,7 +683,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Your comments about this teammate (confidential and only shown to instructor)"
+        "questionText": "What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor)."
       },
       "questionNumber": 3,
       "giverType": "STUDENTS",
@@ -704,7 +704,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Comments about team dynamics (confidential and only shown to instructor)"
+        "questionText": "How are the team dynamics thus far? (response is confidential and will only be to the instructor)."
       },
       "questionNumber": 4,
       "giverType": "STUDENTS",
@@ -725,7 +725,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Your feedback to this teammate (shown anonymously to the teammate)"
+        "questionText": "What feedback do you have for each of your team members? (response will be shown anonymously to each team member)."
       },
       "questionNumber": 5,
       "giverType": "STUDENTS",
@@ -747,7 +747,7 @@
       "feedbackSessionName": "Second team feedback session",
       "courseId": "demo.course",
       "questionDetails": {
-        "questionText": "Please rate the estimated contribution of your team members and yourself.",
+        "questionText": "How much work did each team member contribute? (response will be shown anonymously to each team member).",
         "questionType": "CONTRIB"
       },
       "questionNumber": 1,
@@ -773,7 +773,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Comments about your contribution (shown to other teammates)"
+        "questionText": "What contributions did you make to the team? (response will be shown to each team member)."
       },
       "questionNumber": 2,
       "giverType": "STUDENTS",
@@ -803,7 +803,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Your comments about this teammate (confidential and only shown to instructor)"
+        "questionText": "What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor)."
       },
       "questionNumber": 3,
       "giverType": "STUDENTS",
@@ -824,7 +824,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Comments about team dynamics (confidential and only shown to instructor)"
+        "questionText": "How are the team dynamics thus far? (response is confidential and will only be shown to the instructor)."
       },
       "questionNumber": 4,
       "giverType": "STUDENTS",
@@ -845,7 +845,7 @@
       "courseId": "demo.course",
       "questionDetails": {
         "questionType": "TEXT",
-        "questionText": "Your feedback to this teammate (shown anonymously to the teammate)"
+        "questionText": "What feedback do you have for each of your team members? (response will be shown anonymously to each team member)."
       },
       "questionNumber": 5,
       "giverType": "STUDENTS",
