@@ -2,6 +2,8 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -9,7 +11,6 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -18,7 +19,7 @@ import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
-import teammates.storage.search.SearchManager;
+import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
 
 /**
@@ -29,8 +30,8 @@ import teammates.storage.search.SearchManagerFactory;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
-    private SearchManager getSearchManager() {
-        return SearchManagerFactory.getSearchManager();
+    private InstructorSearchManager getSearchManager() {
+        return SearchManagerFactory.getInstructorSearchManager();
     }
 
     /**
@@ -41,7 +42,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         if (instructor.key == null) {
             instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
         }
-        getSearchManager().putInstructorSearchDocuments(instructor);
+        getSearchManager().putDocuments(Collections.singletonList(instructor));
     }
 
     /**
@@ -54,16 +55,14 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
                         : instructor)
                 .collect(Collectors.toList());
 
-        getSearchManager().putInstructorSearchDocuments(instructors.toArray(new InstructorAttributes[0]));
+        getSearchManager().putDocuments(instructors);
     }
 
     /**
-     * Removes search document for the given instructor by using {@code encryptedRegistrationKey}.
-     *
-     * <p>See {@link InstructorSearchDocument} for more details.</p>
+     * Removes search document for the given instructor by using {@code instructorUniqueId}.
      */
-    public void deleteDocumentByEncryptedInstructorKey(String encryptedRegistrationKey) {
-        getSearchManager().deleteInstructorSearchDocuments(encryptedRegistrationKey);
+    public void deleteDocumentByInstructorId(String instructorUniqueId) {
+        getSearchManager().deleteDocuments(Collections.singletonList(instructorUniqueId));
     }
 
     /**
@@ -73,11 +72,11 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+    public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
 
         if (queryString.trim().isEmpty()) {
-            return new InstructorSearchResultBundle();
+            return new ArrayList<>();
         }
 
         return getSearchManager().searchInstructors(queryString);
@@ -300,7 +299,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return;
         }
 
-        deleteDocumentByEncryptedInstructorKey(StringHelper.encrypt(instructorToDelete.getRegistrationKey()));
+        deleteDocumentByInstructorId(instructorToDelete.getUniqueId());
 
         deleteEntity(Key.create(Instructor.class, instructorToDelete.getUniqueId()));
     }
@@ -313,10 +312,10 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
-            getSearchManager().deleteInstructorSearchDocuments(
+            getSearchManager().deleteDocuments(
                     instructorsToDelete.stream()
-                            .map(i -> StringHelper.encrypt(i.getRegistrationKey()))
-                            .toArray(String[]::new));
+                            .map(Instructor::getUniqueId)
+                            .collect(Collectors.toList()));
 
             deleteEntity(instructorsToDelete.stream()
                     .map(s -> Key.create(Instructor.class, s.getUniqueId()))

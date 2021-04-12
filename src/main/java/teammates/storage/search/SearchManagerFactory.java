@@ -5,24 +5,38 @@ package teammates.storage.search;
  */
 public final class SearchManagerFactory {
 
-    private static SearchManager instance;
+    private static InstructorSearchManager instructorInstance;
+    private static StudentSearchManager studentInstance;
 
     private SearchManagerFactory() {
         // prevents initialization
     }
 
-    public static SearchManager getSearchManager() {
-        return instance;
+    public static InstructorSearchManager getInstructorSearchManager() {
+        return instructorInstance;
     }
 
     /**
-     * Registers the search service into the factory.
+     * Registers the instructor search service into the factory.
      */
     @SuppressWarnings("PMD.NonThreadSafeSingleton") // ok to ignore as method is only invoked at application startup
-    public static void registerSearchManager(SearchManager searchManager) {
-        if (instance == null) {
-            instance = searchManager;
+    public static void registerInstructorSearchManager(InstructorSearchManager instructorSearchManager) {
+        if (instructorInstance == null) {
+            instructorInstance = instructorSearchManager;
         }
     }
 
+    public static StudentSearchManager getStudentSearchManager() {
+        return studentInstance;
+    }
+
+    /**
+     * Registers the student search service into the factory.
+     */
+    @SuppressWarnings("PMD.NonThreadSafeSingleton") // ok to ignore as method is only invoked at application startup
+    public static void registerStudentSearchManager(StudentSearchManager studentSearchManager) {
+        if (studentInstance == null) {
+            studentInstance = studentSearchManager;
+        }
+    }
 }
