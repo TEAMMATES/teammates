@@ -2,7 +2,6 @@ package teammates.ui.request;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -33,16 +32,6 @@ public class StudentsEnrollRequestTest extends BaseTestCase {
     public void testValidate_withEmptyEnrollList_shouldFail() {
         StudentsEnrollRequest request = new StudentsEnrollRequest(new ArrayList<>());
         assertThrows(InvalidHttpRequestBodyException.class, request::validate);
-    }
-
-    @Test
-    public void testValidate_withEnrollmentExceedQuota_shouldFail() {
-        List<StudentsEnrollRequest.StudentEnrollRequest> requests = new ArrayList<>();
-        for (int i = 0; i <= StudentsEnrollRequest.SIZE_LIMIT_PER_ENROLLMENT; i++) {
-            requests.add(getTypicalStudentEnrollRequest(i));
-        }
-        StudentsEnrollRequest enrollRequest = new StudentsEnrollRequest(requests);
-        assertThrows(InvalidHttpRequestBodyException.class, enrollRequest::validate);
     }
 
     @Test
