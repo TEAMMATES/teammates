@@ -3,6 +3,7 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,7 +12,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -23,8 +23,8 @@ import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.search.SearchManager;
 import teammates.storage.search.SearchManagerFactory;
+import teammates.storage.search.StudentSearchManager;
 
 /**
  * Handles CRUD operations for students.
@@ -38,22 +38,22 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
 
-    private SearchManager getSearchManager() {
-        return SearchManagerFactory.getSearchManager();
+    private StudentSearchManager getSearchManager() {
+        return SearchManagerFactory.getStudentSearchManager();
     }
 
     /**
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) {
-        getSearchManager().putStudentSearchDocuments(student);
+        getSearchManager().putDocuments(Collections.singletonList(student));
     }
 
     /**
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        getSearchManager().putStudentSearchDocuments(students.toArray(new StudentAttributes[0]));
+        getSearchManager().putDocuments(students);
     }
 
     /**
@@ -61,10 +61,10 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors)
+    public List<StudentAttributes> search(String queryString, List<InstructorAttributes> instructors)
             throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
         return getSearchManager().searchStudents(queryString, instructors);
@@ -77,22 +77,20 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
         return getSearchManager().searchStudents(queryString, null);
     }
 
     /**
-     * Removes search document for the given student by using {@code unencryptedRegistrationKey}.
-     *
-     * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
+     * Removes search document for the given student by using {@code studentUniqueId}.
      */
-    public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
-        getSearchManager().deleteStudentSearchDocuments(unencryptedRegistrationKey);
+    public void deleteDocumentByStudentId(String studentUniqueId) {
+        getSearchManager().deleteDocuments(Collections.singletonList(studentUniqueId));
     }
 
     /**
@@ -313,7 +311,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
         CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudentToDelete != null) {
-            deleteDocumentByStudentKey(courseStudentToDelete.getRegistrationKey());
+            deleteDocumentByStudentId(courseStudentToDelete.getUniqueId());
             deleteEntity(Key.create(CourseStudent.class, courseStudentToDelete.getUniqueId()));
         }
     }
@@ -324,8 +322,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     public void deleteStudents(AttributesDeletionQuery query) {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
-            getSearchManager().deleteStudentSearchDocuments(
-                    studentsToDelete.stream().map(CourseStudent::getRegistrationKey).toArray(String[]::new));
+            getSearchManager().deleteDocuments(
+                    studentsToDelete.stream().map(CourseStudent::getUniqueId).collect(Collectors.toList()));
 
             deleteEntity(studentsToDelete.stream()
                     .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))

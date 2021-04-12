@@ -33,7 +33,7 @@ class SearchInstructorsAction extends AdminOnlyAction {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<InstructorAttributes> instructors;
         try {
-            instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
+            instructors = logic.searchInstructorsInWholeSystem(searchKey);
         } catch (SearchNotImplementedException e) {
             return new JsonResult("Search service is not implemented.", HttpStatus.SC_NOT_IMPLEMENTED);
         }
