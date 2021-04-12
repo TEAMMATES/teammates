@@ -255,6 +255,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void resetSearchService() {
+        // Not necessary as BackDoor API is used instead
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void setupObjectify() {
         // Not necessary as BackDoor API is used instead
     }

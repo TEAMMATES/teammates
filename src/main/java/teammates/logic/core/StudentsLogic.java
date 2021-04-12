@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -96,7 +95,7 @@ public final class StudentsLogic {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
+    public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
             throws SearchNotImplementedException {
         return studentsDb.search(queryString, instructors);
     }
@@ -107,7 +106,7 @@ public final class StudentsLogic {
      * search students in the whole system.
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
         return studentsDb.searchStudentsInWholeSystem(queryString);
     }

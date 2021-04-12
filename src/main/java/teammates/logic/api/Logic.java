@@ -9,9 +9,7 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -130,7 +128,7 @@ public class Logic {
      * search instructors in the whole system.
      * @return Null if no match found.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+    public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
         Assumption.assertNotNull(queryString);
 
@@ -459,7 +457,7 @@ public class Logic {
      *                      used for filtering of search result
      * @return Null if no match found
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors)
+    public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
             throws SearchNotImplementedException {
         Assumption.assertNotNull(queryString);
         Assumption.assertNotNull(instructors);
@@ -472,7 +470,7 @@ public class Logic {
      * search students in the whole system.
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString)
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
         Assumption.assertNotNull(queryString);
 
