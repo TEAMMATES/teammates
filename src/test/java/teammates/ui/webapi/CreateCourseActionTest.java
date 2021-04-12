@@ -71,7 +71,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         MessageOutput message = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_CONFLICT, result.getStatusCode());
-        AssertHelper.assertContains("Trying to create an entity that exists", message.getMessage());
+        AssertHelper.assertContains("has been used by another course, possibly by some other user.", message.getMessage());
 
         ______TS("Typical case missing course id");
 
