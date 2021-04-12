@@ -1,0 +1,78 @@
+{
+  "accounts": {
+    "ICSDet.instr": {
+      "googleId": "tm.e2e.ICSDet.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICSDet.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICSDet.CS2104": {
+      "id": "tm.e2e.ICSDet.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICSDet.instr": {
+      "googleId": "tm.e2e.ICSDet.instr",
+      "courseId": "tm.e2e.ICSDet.CS2104",
+      "name": "Teammates Test",
+      "email": "ICSDet.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "ICSDet.jose.tmms": {
+      "googleId": "tm.e2e.ICSDet.jose.tmms",
+      "email": "ICSDet.jose.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDet.CS2104",
+      "name": "José Gómez",
+      "comments": "This student's name is José Gómez",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "ICSDet.benny.c": {
+      "googleId": "tm.e2e.ICSDet.benny.c",
+      "email": "ICSDet.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDet.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "ICSDet.jose.tmms": {
+      "googleId": "tm.e2e.ICSDet.jose.tmms",
+      "shortName": "José",
+      "email": "jose@e.tmt",
+      "institute": "TEAMMATES Test Institute 7",
+      "nationality": "Laotian",
+      "gender": "MALE",
+      "moreInfo": "This is a lot of info..."
+    }
+  }
+}

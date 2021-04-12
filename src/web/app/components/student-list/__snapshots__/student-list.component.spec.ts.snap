@@ -1,0 +1,2697 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`StudentListComponent should snap with default fields 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with enable remind button set to true and two students yet to join 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton={[Function Boolean]}
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Section 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td>
+            Yet to Join
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-send-invite"
+            >
+              Send Invite
+            </button>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td>
+            Yet to Join
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-send-invite"
+            >
+              Send Invite
+            </button>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Danny Engrid
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            danny.e.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with enable remind button set to true, one student yet to join when not allowed to modify student 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton={[Function Boolean]}
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Section 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td>
+            Yet to Join
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-send-invite"
+            >
+              Send Invite
+            </button>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Danny Engrid
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            danny.e.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with some student list data 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Section 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Danny Engrid
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            danny.e.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with some student list data and some students to hide 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Section 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          hidden=""
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          hidden=""
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Danny Engrid
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            danny.e.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with some student list data when not allowed to modify student for a specific section 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Section 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 1
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Benny Charles
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            benny.c.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right disabled mouse-hover-only"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=benny.c.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Alice Betsy
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            alice.b.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=alice.b.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Tutorial Group 2
+          </td>
+          <td>
+            Team 1
+          </td>
+          <td>
+            Danny Engrid
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            danny.e.tmms@gmail.tmt
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=danny.e.tmms@gmail.tmt"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with some student list data with no sections 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead="false"
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+        <tr
+          s=""
+        >
+          <td>
+            <tm-view-photo-popover>
+              
+              
+              
+              <a
+                href="/"
+                queryparamshandling="preserve"
+                role="button"
+              >
+                 View Photo 
+              </a>
+              
+              
+              
+            </tm-view-photo-popover>
+          </td>
+          
+          <td>
+            Team 1
+          </td>
+          <td>
+            tester
+          </td>
+          <td>
+            Joined
+          </td>
+          <td>
+            tester@tester.com
+          </td>
+          <td
+            class="no-print align-center"
+          >
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/details?courseid=&studentemail=tester@tester.com"
+              id="btn-view-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               View
+            </a>
+            
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/courses/student/edit?courseid=&studentemail=tester@tester.com"
+              id="btn-edit-details"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               Edit
+            </a>
+            
+            
+            <button
+              class="btn btn-light btn-sm btn-margin-right"
+              id="btn-delete"
+            >
+              Delete
+            </button>
+            
+            <a
+              class="btn btn-light btn-sm btn-margin-right"
+              href="/web/instructor/students/records?courseid=&studentemail=tester@tester.com"
+              id="btn-view-records"
+              rel="noopener noreferrer"
+              target="_blank"
+            >
+               All Records
+            </a>
+            
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;
+
+exports[`StudentListComponent should snap with table head set to hidden 1`] = `
+<tm-student-list
+  JoinState={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  courseId=""
+  courseService={[Function CourseService]}
+  enableRemindButton="false"
+  isActionButtonsEnabled={[Function Boolean]}
+  isHideTableHead={[Function Boolean]}
+  listOfStudentsToHide={[Function Array]}
+  removeStudentFromCourseEvent={[Function EventEmitter]}
+  simpleModalService={[Function SimpleModalService]}
+  sortStudentListEvent={[Function EventEmitter]}
+  statusMessageService={[Function StatusMessageService]}
+  students={[Function Array]}
+  tableSortBy="0"
+  tableSortOrder={[Function Number]}
+  useGrayHeading={[Function Boolean]}
+>
+  <div
+    class="table-responsive"
+  >
+    <table
+      class="table table-bordered table-striped m-0"
+    >
+      <thead
+        class="thead-gray"
+        hidden=""
+      >
+        <tr>
+          <th>
+            Photo
+          </th>
+          
+          <th
+            class="sortable-header"
+          >
+             Team 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-name"
+          >
+             Student Name 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+            id="sort-by-status"
+          >
+             Status 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="sortable-header"
+          >
+             Email 
+            <span
+              class="fa-stack"
+            >
+              <i
+                class="fas fa-sort"
+              />
+              
+              
+            </span>
+          </th>
+          <th
+            class="align-center"
+          >
+            Action(s)
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        
+      </tbody>
+    </table>
+  </div>
+</tm-student-list>
+`;

@@ -1,13 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   FeedbackParticipantType,
-  FeedbackQuestionType, FeedbackTextQuestionDetails,
+  FeedbackQuestionType, FeedbackResponseDetails, FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
 import { VisibilityControl } from '../../../types/visibility-control';
+import { CommentRowMode, CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 import {
   FeedbackResponseRecipient,
   FeedbackResponseRecipientSubmissionFormModel,
@@ -30,6 +32,7 @@ export class QuestionSubmissionFormComponent implements OnInit {
   FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
   FeedbackParticipantType: typeof FeedbackParticipantType = FeedbackParticipantType;
   FeedbackVisibilityType: typeof FeedbackVisibilityType = FeedbackVisibilityType;
+  CommentRowMode: typeof CommentRowMode = CommentRowMode;
 
   @Input()
   formMode: QuestionSubmissionFormMode = QuestionSubmissionFormMode.FIXED_RECIPIENT;
@@ -40,7 +43,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
   @Input()
   set formModel(model: QuestionSubmissionFormModel) {
     this.model = model;
-
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(model.giverType, model.recipientType);
     const visibilitySetting: {[TKey in VisibilityControl]: FeedbackVisibilityType[]} = {
@@ -49,6 +51,8 @@ export class QuestionSubmissionFormComponent implements OnInit {
       SHOW_RECIPIENT_NAME: model.showRecipientNameTo,
     };
     this.visibilityStateMachine.applyVisibilitySettings(visibilitySetting);
+    this.allowedToHaveParticipantComment =
+        this.feedbackQuestionsService.isAllowedToHaveParticipantComment(this.model.questionType);
   }
 
   @Output()
@@ -68,7 +72,6 @@ export class QuestionSubmissionFormComponent implements OnInit {
 
     questionType: FeedbackQuestionType.TEXT,
     questionDetails: {
-      recommendedLength: 0,
       questionText: '',
       questionType: FeedbackQuestionType.TEXT,
     } as FeedbackTextQuestionDetails,
@@ -81,9 +84,14 @@ export class QuestionSubmissionFormComponent implements OnInit {
     showResponsesTo: [],
   };
 
-  visibilityStateMachine: VisibilityStateMachine;
+  @Output()
+  deleteCommentEvent: EventEmitter<number> = new EventEmitter();
 
-  constructor(private feedbackQuestionsService: FeedbackQuestionsService) {
+  visibilityStateMachine: VisibilityStateMachine;
+  allowedToHaveParticipantComment: boolean = false;
+
+  constructor(private feedbackQuestionsService: FeedbackQuestionsService,
+              private feedbackResponseService: FeedbackResponsesService) {
     this.visibilityStateMachine =
         this.feedbackQuestionsService.getNewVisibilityStateMachine(
             this.model.giverType, this.model.recipientType);
@@ -131,6 +139,72 @@ export class QuestionSubmissionFormComponent implements OnInit {
       [field]: data,
     };
 
+    this.formModelChange.emit({
+      ...this.model,
+      recipientSubmissionForms,
+    });
+  }
+
+  /**
+   * Triggers deletion of a participant comment associated with the response.
+   */
+  triggerDeleteCommentEvent(index: number): void {
+    this.deleteCommentEvent.emit(index);
+  }
+
+  /**
+   * Add new participant comment to response with index.
+   */
+  addNewParticipantCommentToResponse(index: number): void {
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', {
+      commentEditFormModel: {
+        commentText: '',
+      },
+
+      isEditing: true,
+    });
+  }
+
+  /**
+   * Cancel adding new participant comment.
+   */
+  cancelAddingNewParticipantComment(index: number): void {
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver', null);
+  }
+
+  /**
+   * Discards the current editing and restore the original comment.
+   */
+  discardEditedParticipantComment(index: number): void {
+    const commentModel: CommentRowModel | undefined = this.model.recipientSubmissionForms[index].commentByGiver;
+    if (!commentModel || !commentModel.originalComment) {
+      return;
+    }
+    this.triggerRecipientSubmissionFormChange(index, 'commentByGiver',
+        Object.assign({}, commentModel, {
+          commentEditFormModel: {
+            commentText: commentModel.originalComment.commentText,
+          },
+          isEditing: false,
+        }));
+  }
+
+  /**
+   * Checks whether the response is empty or not.
+   */
+  isFeedbackResponseDetailsEmpty(responseDetails: FeedbackResponseDetails): boolean {
+    return this.feedbackResponseService.isFeedbackResponseDetailsEmpty(
+        this.model.questionType, responseDetails);
+  }
+
+  /**
+   * Updates validity of all responses in a question.
+   */
+  updateValidity(isValid: boolean): void {
+    if (this.model.recipientSubmissionForms.length === 0) { return; }
+    const recipientSubmissionForms: FeedbackResponseRecipientSubmissionFormModel[] =
+        this.model.recipientSubmissionForms.slice().map(
+            (model: FeedbackResponseRecipientSubmissionFormModel) => Object.assign({}, model, { isValid }));
     this.formModelChange.emit({
       ...this.model,
       recipientSubmissionForms,

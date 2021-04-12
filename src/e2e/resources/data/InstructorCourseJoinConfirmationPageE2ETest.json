@@ -1,0 +1,71 @@
+{
+  "accounts": {
+    "ICJoinConf.instr": {
+      "googleId": "tm.e2e.ICJoinConf.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "ICJoinConf.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICJoinConf.CS1101": {
+      "id": "tm.e2e.ICJoinConf.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICJoinConf.instr.CS1101": {
+      "courseId": "tm.e2e.ICJoinConf.CS1101",
+      "name": "Teammates Test 2",
+      "email": "ICJoinConf.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "ICJoinConf.instr2.CS1101": {
+      "googleId": "tm.e2e.ICJoinConf.instr",
+      "courseId": "tm.e2e.ICJoinConf.CS1101",
+      "name": "Teammates Test",
+      "email": "ICJoinConf.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

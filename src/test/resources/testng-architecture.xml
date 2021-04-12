@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="architecture-tests">
+    <test name="architecture-tests">
+        <packages>
+            <package name="teammates.architecture" />
+        </packages>
+    </test>
+</suite>

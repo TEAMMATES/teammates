@@ -6,6 +6,7 @@ import {
   FeedbackVisibilityType,
   NumberOfEntitiesToGiveFeedbackToSetting,
 } from '../../../types/api-output';
+import { CommentRowModel } from '../comment-box/comment-row/comment-row.component';
 
 /**
  * The mode of operation for question submission form.
@@ -63,4 +64,9 @@ export interface FeedbackResponseRecipientSubmissionFormModel {
   responseId: string;
   recipientIdentifier: string;
   responseDetails: FeedbackResponseDetails;
+
+  isValid: boolean;
+
+  // comment by giver
+  commentByGiver?: CommentRowModel;
 }

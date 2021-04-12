@@ -1,0 +1,26 @@
+<table class="table table-bordered table-striped margin-bottom-20px">
+  <thead>
+    <tr>
+      <th *ngFor="let column of columns" [ngClass]="{'sortable-header': column.sortBy}" (click)="column.sortBy && onClickHeader(column.header)">
+        <span [ngbTooltip]=column.headerToolTip container="body">{{ column.header }}</span>
+        <span class="fa-stack" *ngIf="column.sortBy">
+          <i class="fas fa-sort"></i>
+          <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+          <i *ngIf="column.sortBy && columnToSortBy === column.header && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+        </span>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let row of tableRows;">
+      <td *ngFor="let item of row">
+        <ndc-dynamic *ngIf="item.customComponent"
+                     [ngComponentOutlet]="item.customComponent.component"
+                     [ndcDynamicInputs]="item.customComponent.componentData"
+        ></ndc-dynamic>
+        <ng-container *ngIf="!item.customComponent && item.displayValue">{{ item.displayValue }}</ng-container>
+        <ng-container *ngIf="!item.customComponent && !item.displayValue">{{ item.value }}</ng-container>
+      </td>
+    </tr>
+  </tbody>
+</table>

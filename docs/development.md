@@ -50,9 +50,7 @@ To stop the dev server, press `Ctrl + C`.
 
 Back-end dev server is the Google App Engine-based server handling all the business logic, including data storage.
 
-### With command line
-
-#### Starting the dev server
+### Starting the dev server
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
@@ -68,36 +66,14 @@ run the following command instead:
 
 The dev server URL will be `http://localhost:8080` as specified in `build.gradle`.
 
-#### Stopping the dev server
+### Stopping the dev server
 
 If you started the server in the background, run the following command to stop it:
 ```sh
 ./gradlew appengineStop
 ```
 
-If the server is running in the foreground, press `Ctrl + C` to stop it or run the above command in a new console.
-
-### With Eclipse
-
-#### Starting the dev server
-
-Right-click on the project folder and choose `Run As → App Engine`.<br>
-After some time, you should see this message (or similar) on the Eclipse console: `Dev App Server is now running`.
-The dev server URL will be given at the console output, e.g. `http://localhost:8080`.
-
-#### Stopping the dev server
-
-Click the "Terminate" icon on the Eclipse console.
-
-### With IntelliJ
-
-#### Starting the dev server
-
-Go to `Run → Run...` and select `Google App Engine Standard Local Server` in the pop-up box.
-
-#### Stopping the dev server
-
-Go to `Run → Stop 'Google App Engine Standard Local Server'`.
+If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
 
 ## Building front-end files
 
@@ -183,51 +159,9 @@ POST http://localhost:8080/_ah/login?action=Log+Out
 
 There are two big categories of testing in TEAMMATES:
 - **Component tests**: white-box unit and integration tests, i.e. they test the application components with full knowledge of the components' internal workings. This is configured in `src/test/resources/testng-component.xml` (back-end) and `src/web/jest.config.js` (front-end).
-- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`.
+- **E2E (end-to-end) tests**: black-box tests, i.e. they test the application as a whole without knowing any internal working. This is configured in `src/e2e/resources/testng-e2e.xml`. To learn more about E2E tests, refer to this [document](https://github.com/TEAMMATES/teammates/blob/master/docs/e2e-testing.md).  
 
-### Configuring browsers for E2E Testing
-
-TEAMMATES E2E testing requires Firefox or Chrome.
-
-Before running tests, modify `src/e2e/resources/test.properties` if necessary, e.g. to configure which browser and test accounts to use.
-
-#### Using Firefox
-
-* You need to use geckodriver for testing with Firefox.
-  * Download the latest stable geckodriver from [here](https://github.com/mozilla/geckodriver/releases).
-    The site will also inform the versions of Firefox that can be used with the driver.
-  * Specify the path to the geckodriver executable in `test.geckodriver.path` value in `test.properties`.
-
-* If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
-
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Firefox:
-  * Enter `about:config` into the Firefox address bar and set `network.http.use-cache` (or `browser.cache.disk.enable` in newer versions of Firefox) to `false`.
-
-#### Using Chrome
-
-* You need to use chromedriver for testing with Chrome.
-  * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
-    The site will also inform the versions of Chrome that can be used with the driver.
-  * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
-
-* If you are planning to test changes to JavaScript code, disable JavaScript caching for Chrome:
-  * Press Ctrl+Shift+J to bring up the Web Console.
-  * Click on the settings button at the bottom right corner.
-  * Under the General tab, check "Disable Cache".
-
-* The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
-  You will need to manually kill these processes after the tests are done.
-  * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
-  * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
-
-### Running the tests
-
-- Other than component tests and E2E tests, there are also:
-  - **Failed tests**: The failed tests from the previous run. The configuration file is auto-generated and can be found in `test-output/testng-failed.xml`.
-  - **All tests**: In IDEs, an additional configuration to run both component tests and E2E tests simultaneously are provided.
-- When running the test cases, a few cases may fail (this can happen due to timing issues). They can be re-run until they pass without affecting the accuracy of the tests.
-
-#### Running the tests with command line
+#### Running the tests
 
 To run all front-end component tests in watch mode (i.e. any change to source code will automatically reload the tests), run the following command:
 ```sh
@@ -243,69 +177,18 @@ To run an individual test in a test file, change `it` in the `*.spec.ts` file to
 
 To run all tests in a test file (or all test files matching a pattern), you can use Jest's watch mode and filter by filename pattern.
 
-Back-end component tests and E2E tests follow this configuration:
+Back-end component tests follow this configuration:
 
 Test suite | Command | Results can be viewed in
 ---|---|---
-`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/component-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-`E2E tests` | `./gradlew e2eTests` | `{project folder}/build/reports/e2e-test-try-{n}/index.html`, where `{n}` is the sequence number of the test run
-`Failed tests` | `./gradlew failedTests` | `{project folder}/build/reports/test-failed/index.html`
-Any individual test | `./gradlew test -Dtest.single=TestClassName` | `{project folder}/build/reports/tests/index.html`
-
-- `Component tests` and `E2E tests` will be run in their entirety once and the failed tests will be re-run a few times. All other test suites will be run once and only once.
-- Before running `E2E tests`, it is important to have the both front-end and back-end dev servers running locally first if you are testing against them.
+`Component tests` | `./gradlew componentTests` | `{project folder}/build/reports/tests/componentTests/index.html`
+Any individual component test | `./gradlew componentTests --tests TestClassName` | `{project folder}/build/reports/tests/componentTests/index.html`
 
 You can generate the coverage data with `jacocoReport` task after running tests, e.g.:
 ```sh
-./gradlew appengineRun componentTests jacocoReport
+./gradlew componentTests jacocoReport
 ```
 The report can be found in the `build/reports/jacoco/jacocoReport/` directory.
-
-#### Running the tests with Eclipse
-
-Only back-end component tests and E2E tests are supported.
-
-Run tests using the configurations available under the green `Run` button on the Eclipse toolbar.
-
-Sometimes, Eclipse does not show these options immediately after you set up the project. "Refreshing" the project should fix that.
-
-To run individual tests, right-click on the test files on the project explorer and choose `Run As → TestNG Test`.
-
-To generate code coverage data:
-- You need [EclEmma Java Code Coverage plugin](https://marketplace.eclipse.org/content/eclemma-java-code-coverage).
-- Choose `Coverage as TestNG Test` instead of the usual `Run as TestNG Test` to run the specified test or test suite. The coverage will be reported in Eclipse after the test run is over.
-
-#### Running the tests with IntelliJ
-
-Only back-end component tests and E2E tests are supported.
-
-Run tests using the configurations available under `Run → Run...`.
-
-To run individual tests, right-click on the test files on the project explorer and choose `Run`.
-
-To measure code coverage, use `Run → Run... → CI Tests → ▶ → Cover `.
-
-Alternatively, you can right click a class with TestNG test(s) and click `Run '$FileClass$' with Coverage`, this will use IntelliJ IDEA's code coverage runner.
-You can further configure your code coverage settings by referring to [IntelliJ IDEA's documentation](https://www.jetbrains.com/help/idea/code-coverage.html).
-
-### Testing against production server
-
-If you are testing against a production server (staging server or live server), some additional tasks need to be done.
-
-1. You need to setup a `Gmail API`<sup>1</sup> as follows:
-   * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md) and download it.
-   * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
-   * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
-
-1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
-   * In particular, you will need legitimate Google accounts to be used for testing.
-
-1. Run the full test suite or any subset of it as how you would have done it in dev server.
-   * You may want to run `InstructorCourseDetailsPageUiTest` standalone first because you would need to login to test accounts for the first time.
-   * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
-
-<sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access Gmail accounts used for testing (these accounts are specified in `test.properties`) to confirm that those accounts receive the expected emails from TEAMMATES.
-This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
 
 ## Deploying to a staging server
 
@@ -340,12 +223,13 @@ There are several files used to configure various aspects of the system.
 * `gradle.properties`, `gradle-wrapper.properties`: Contains the Gradle and Gradle wrapper configuration.
 * `package.json`: Contains the front-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via NPM.
 * `angular.json`: Contains the Angular application configuration.
-* `.travis.yml`: Contains the Travis CI job configuration.
-* `appveyor.yml`: Contains the AppVeyor CI job configuration.
+* `component.yml`: GitHub Action configuration for component tests.
+* `e2e.yml`: GitHub Action configuration for E2E tests.
+* `lnp.yml`: GitHub Action configuration for load & performance tests.
+
 
 **Static Analysis**: These are used to maintain code quality and measure code coverage. See [Static Analysis](static-analysis.md).
 * `static-analysis/*`: Contains most of the configuration files for all the different static analysis tools.
-* `.stylelintrc`: Equivalent to `static-analysis/teammates-stylelint.yml`, currently only used for Stylelint integration in IntelliJ.
 
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.

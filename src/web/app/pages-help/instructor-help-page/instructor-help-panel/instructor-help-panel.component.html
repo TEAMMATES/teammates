@@ -1,0 +1,11 @@
+<div class="card" [id]="id">
+  <div class="card-header bg-light cursor-pointer" (click)="isPanelExpanded = !isPanelExpanded">
+    {{ headerText }}
+    <div class="card-header-btn-toolbar">
+      <tm-panel-chevron [isExpanded]="isPanelExpanded"></tm-panel-chevron>
+    </div>
+  </div>
+  <div class="panel-content card-body" [@collapseAnim]="isPanelExpanded ? 'expanded' : 'collapsed'">
+    <ng-content></ng-content>
+  </div>
+</div>

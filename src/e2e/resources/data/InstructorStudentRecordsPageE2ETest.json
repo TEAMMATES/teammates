@@ -1,0 +1,76 @@
+{
+  "accounts": {
+    "teammates.test": {
+      "googleId": "tm.e2e.ISRecords.teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "benny.c.tmms@ISR.CS2104": {
+      "googleId": "tm.e2e.ISRecords.benny.c.tmms",
+      "name": "Benny Charlés",
+      "isInstructor": false,
+      "email": "benny.c.tmms@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 5"
+    }
+  },
+  "courses": {
+    "CS2104": {
+      "id": "tm.e2e.ISRecords.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "teammates.test.CS2104": {
+      "googleId": "tm.e2e.ISRecords.teammates.test",
+      "courseId": "tm.e2e.ISRecords.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "benny.c.tmms@ISR.CS2104": {
+      "googleId": "tm.e2e.ISRecords.benny.c.tmms",
+      "email": "benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ISRecords.CS2104",
+      "name": "Benny Charlés",
+      "comments": "This student's name is Benny Charlés",
+      "team": "Team 1",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {
+    "benny.c.tmms@ISR.CS2104": {
+      "googleId": "tm.e2e.ISRecords.benny.c.tmms",
+      "shortName": "Ben",
+      "email": "",
+      "institute": "TEAMMATES Test Institute 7",
+      "nationality": "Singaporean",
+      "gender": "MALE",
+      "moreInfo": "This is a lot of info!"
+    }
+  }
+}

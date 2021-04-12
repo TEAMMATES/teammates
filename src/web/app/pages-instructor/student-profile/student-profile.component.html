@@ -3,10 +3,10 @@
   <div class="row">
     <div class="col-12">
       <div class="row">
-        <div class="col-md-2 col-3">
-          <img src="{{getPictureUrl(studentProfile?.pictureKey)}}" class="profile-pic float-right">
+        <div class="col-md-2 col-4">
+          <img src="{{this.photoUrl}}" class="profile-pic float-right" (error)="setDefaultPic()">
         </div>
-        <div class="col-md-10 col-sm-9 col-8">
+        <div class="col-md-10 col-8">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -16,21 +16,21 @@
             <tbody>
               <tr>
                 <td class="font-weight-bold">Short Name (Gender)</td>
-                <td><span *ngIf="studentProfile?.shortName; else notSpecified">{{studentProfile?.shortName}}</span>
+                <td id="name-with-gender"><span *ngIf="studentProfile?.shortName; else notSpecified">{{studentProfile?.shortName}}</span>
                   (<i *ngIf="studentProfile?.gender != Gender.OTHER; else notSpecified">{{studentProfile?.gender}}</i>)
                 </td>
               </tr>
               <tr>
                 <td class="font-weight-bold">Personal Email</td>
-                <td><span *ngIf="studentProfile?.email; else notSpecified">{{studentProfile?.email}}</span>
+                <td id="personal-email"><span *ngIf="studentProfile?.email; else notSpecified">{{studentProfile?.email}}</span>
               </tr>
               <tr>
                 <td class="font-weight-bold">Institution</td>
-                <td><span *ngIf="studentProfile?.institute; else notSpecified">{{studentProfile?.institute}}</span>
+                <td id="institution"><span *ngIf="studentProfile?.institute; else notSpecified">{{studentProfile?.institute}}</span>
               </tr>
               <tr>
                 <td class="font-weight-bold">Nationality</td>
-                <td><span *ngIf="studentProfile?.nationality; else notSpecified">{{studentProfile?.nationality}}</span>
+                <td id="nationality"><span *ngIf="studentProfile?.nationality; else notSpecified">{{studentProfile?.nationality}}</span>
               </tr>
             </tbody>
           </table>

@@ -13,7 +13,6 @@ select {
 
 .student-gender-radio {
   margin-right: 5px;
-  margin-top: 5px;
 }
 
 .student-gender-label {
@@ -26,14 +25,6 @@ select {
   color: grey;
 }
 
-/deep/.modal-content {
-  padding: 0 !important;
-}
-
-/deep/.close:focus {
-  outline: 0;
-}
-
 .profile-pic {
   height: 220px;
   width: 220px;
@@ -41,8 +32,4 @@ select {
 
 .profile-pic-row {
   margin-bottom: 1rem;
-}
-
-.upload-edit-photo {
-  margin-right: 5px;
 }

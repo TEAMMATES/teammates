@@ -1,3 +1,36 @@
 .top-padded {
   margin-top: 20px;
 }
+
+.info-card-padding {
+  padding: 40px 40px 15px;
+}
+
+.action-btn {
+  margin-bottom: var(--btn-margin);
+  width: 100%;
+  white-space: nowrap;
+}
+
+.action-btn-group {
+  max-width: 600px;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.expand-btn {
+  width: 100%;
+}
+
+.margin-vertical-20px {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.report-config-item {
+  margin-bottom: 6px;
+}
+
+.report-config-label {
+  margin-bottom: 2px;
+}

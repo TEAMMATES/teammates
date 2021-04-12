@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.storage.entity.Course;
 
 /**
@@ -28,7 +27,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Gets a course.
      */
     public CourseAttributes getCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributesOrNull(getCourseEntity(courseId));
     }
@@ -37,8 +36,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Gets a list of courses.
      */
     public List<CourseAttributes> getCourses(List<String> courseIds) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseIds.toArray());
+        Assumption.assertNotNull(courseIds);
+        Assumption.assertNotNull(courseIds.toArray());
 
         return makeAttributes(getCourseEntities(courseIds));
     }
@@ -52,7 +51,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      */
     public CourseAttributes updateCourse(CourseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         Course course = getCourseEntity(updateOptions.getCourseId());
 
@@ -89,7 +88,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Deletes a course.
      */
     public void deleteCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
 
         deleteEntity(Key.create(Course.class, courseId));
     }
@@ -99,7 +98,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * @return Soft-deletion time of the course.
      */
     public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
         Course courseEntity = getCourseEntity(courseId);
 
         if (courseEntity == null) {
@@ -116,7 +115,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Restores a soft-deleted course by its given corresponding ID.
      */
     public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
         Course courseEntity = getCourseEntity(courseId);
 
         if (courseEntity == null) {
@@ -128,12 +127,12 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     @Override
-    protected LoadType<Course> load() {
+    LoadType<Course> load() {
         return ofy().load().type(Course.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(CourseAttributes entityToCreate) {
+    boolean hasExistingEntities(CourseAttributes entityToCreate) {
         Key<Course> keyToFind = Key.create(Course.class, entityToCreate.getId());
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
@@ -152,8 +151,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
     }
 
     @Override
-    protected CourseAttributes makeAttributes(Course entity) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+    CourseAttributes makeAttributes(Course entity) {
+        Assumption.assertNotNull(entity);
 
         return CourseAttributes.valueOf(entity);
     }

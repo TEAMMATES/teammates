@@ -1,31 +1,27 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component, Input } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ClipboardModule } from 'ngx-clipboard';
+import { Course, Instructor, InstructorPermissionRole, JoinState, Student } from '../../../types/api-output';
+import { StudentListRowModel } from '../../components/student-list/student-list.component';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { InstructorCourseDetailsPageComponent } from './instructor-course-details-page.component';
+import { InstructorCourseDetailsPageModule } from './instructor-course-details-page.module';
 
-@Component({ selector: 'tm-student-list', template: '' })
-class StudentListStubComponent {
-  @Input() courseId: string = '';
-  @Input() useGrayHeading: boolean = true;
-  @Input() sections: Object[] = [];
-  @Input() enableRemindButton: boolean = true;
-}
-@Component({ selector: 'tm-ajax-preload', template: '' })
-class AjaxPreloadComponent {}
-
-const course: any = {
-  id: 'CS101',
-  name: 'Introduction to CS',
+const course: Course = {
+  courseId: 'CS101',
+  courseName: 'Introduction to CS',
+  timeZone: '',
+  creationTimestamp: 0,
+  deletionTimestamp: 0,
 };
 
-const student: any = {
+const testStudent: Student = {
   name: 'Jamie',
   email: 'jamie@gmail.com',
-  status: 'Yet to join',
-  team: 'Team 1',
+  joinState: JoinState.NOT_JOINED,
+  teamName: 'Team 1',
+  sectionName: 'Tutorial Group 1',
+  courseId: 'CS101',
 };
 
 describe('InstructorCourseDetailsPageComponent', () => {
@@ -34,16 +30,11 @@ describe('InstructorCourseDetailsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [
-        InstructorCourseDetailsPageComponent,
-        StudentListStubComponent,
-        AjaxPreloadComponent,
-      ],
       imports: [
         HttpClientTestingModule,
+        TeammatesCommonModule,
         RouterTestingModule,
-        ClipboardModule,
-        MatSnackBarModule,
+        InstructorCourseDetailsPageModule,
       ],
     })
     .compileComponents();
@@ -69,14 +60,14 @@ describe('InstructorCourseDetailsPageComponent', () => {
       teamsTotal: 0,
       studentsTotal: 0,
     };
-    const coOwner: any = {
+    const coOwner: Instructor = {
+      courseId: course.courseId,
+      joinState: JoinState.JOINED,
       googleId: 'Hodor',
       name: 'Hodor',
       email: 'hodor@gmail.com',
-      key: 'hodor@gmail.com%CS1012345',
-      role: 'Co-owner',
-      displayedName: 'Hodor',
-      isArchived: false,
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      displayedToStudentsAs: 'Hodor',
       isDisplayedToStudents: true,
     };
     const courseDetails: any = {
@@ -85,8 +76,9 @@ describe('InstructorCourseDetailsPageComponent', () => {
     };
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
-    component.courseStudentListAsCsv = 'a,b';
-    component.loading = true;
+    component.isLoadingCsv = false;
+    component.isStudentsLoading = false;
+
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -97,30 +89,36 @@ describe('InstructorCourseDetailsPageComponent', () => {
       teamsTotal: 1,
       studentsTotal: 1,
     };
-    const coOwner: any = {
+    const coOwner: Instructor = {
+      courseId: course.courseId,
+      joinState: JoinState.JOINED,
       googleId: 'Bran',
       name: 'Bran',
       email: 'bran@gmail.com',
-      key: 'bran@gmail.com%CS1012345',
-      role: 'Co-owner',
-      displayedName: 'Bran',
-      isArchived: false,
+      role: InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
+      displayedToStudentsAs: 'Bran',
       isDisplayedToStudents: false,
     };
     const courseDetails: any = {
       course,
       stats,
     };
-    const studentListSectionData: any = {
-      sectionName: 'Tutorial Group 1',
+    const studentListRowModel: StudentListRowModel = {
+      student: testStudent,
       isAllowedToViewStudentInSection: true,
       isAllowedToModifyStudent: true,
-      students: [student],
     };
-    component.sections = [studentListSectionData];
+    component.students = [studentListRowModel];
     component.courseDetails = courseDetails;
     component.instructors = [coOwner];
-    component.isAjaxSuccess = false;
+    component.isLoadingCsv = false;
+    component.isStudentsLoading = false;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when students are still loading', () => {
+    component.isStudentsLoading = true;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });

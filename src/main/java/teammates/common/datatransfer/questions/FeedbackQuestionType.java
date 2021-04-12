@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import teammates.common.util.Logger;
-
 /**
  * Feedback Question Type Definitions.
  */
@@ -10,13 +8,17 @@ public enum FeedbackQuestionType {
     MCQ(FeedbackMcqQuestionDetails.class, FeedbackMcqResponseDetails.class),
     MSQ(FeedbackMsqQuestionDetails.class, FeedbackMsqResponseDetails.class),
     NUMSCALE(FeedbackNumericalScaleQuestionDetails.class, FeedbackNumericalScaleResponseDetails.class),
+
     CONSTSUM(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+
+    // TODO: dummy enum, need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
+    CONSTSUM_OPTIONS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+    CONSTSUM_RECIPIENTS(FeedbackConstantSumQuestionDetails.class, FeedbackConstantSumResponseDetails.class),
+
     CONTRIB(FeedbackContributionQuestionDetails.class, FeedbackContributionResponseDetails.class),
     RUBRIC(FeedbackRubricQuestionDetails.class, FeedbackRubricResponseDetails.class),
     RANK_OPTIONS(FeedbackRankOptionsQuestionDetails.class, FeedbackRankOptionsResponseDetails.class),
     RANK_RECIPIENTS(FeedbackRankRecipientsQuestionDetails.class, FeedbackRankRecipientsResponseDetails.class);
-
-    private static final Logger log = Logger.getLogger();
 
     private final Class<? extends FeedbackQuestionDetails> questionDetailsClass;
     private final Class<? extends FeedbackResponseDetails> responseDetailsClass;
@@ -49,14 +51,4 @@ public enum FeedbackQuestionType {
         return responseDetailsClass;
     }
 
-    /**
-     * Returns CONSTSUM if passed CONSTSUM_OPTION or CONSTSUM_RECIPIENT as argument.
-     * Any other string is returned as is.
-     */
-    public static String standardizeIfConstSum(String questionType) {
-        if ("CONSTSUM_OPTION".equals(questionType) || "CONSTSUM_RECIPIENT".equals(questionType)) {
-            return "CONSTSUM";
-        }
-        return questionType;
-    }
 }

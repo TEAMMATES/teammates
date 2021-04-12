@@ -1,0 +1,40 @@
+<div class="modal-header">
+  <h4 class="modal-title" id="role-title">Permissions for {{ role | instructorRoleName }}</h4>
+  <button class="close" data-dismiss="modal" aria-hidden="true" (click)="activeModal.dismiss()">x</button>
+</div>
+<div class="modal-body" id="view-instr-role-modal">
+  <div class="row">
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyCourse">
+      Edit/Delete/Restore Course
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyInstructor">
+      Add/Edit/Delete Instructors
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifySession">
+      Create/Edit/Delete/Restore Sessions
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyStudent">
+      Enroll/Edit/Delete Students
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canViewStudentInSections">
+      View Students' Details
+      <br>
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canSubmitSessionInSections">
+      Sessions: Submit Responses and Add Comments
+      <br>
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canViewSessionInSections">
+      Sessions: View Responses and Comments
+      <br>
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifySessionCommentsInSections">
+      Sessions: Edit/Delete Responses/Comments by others
+      <br>
+    </div>
+  </div>
+</div>

@@ -6,7 +6,9 @@
    Biggest = many contributors, many users, relatively large code base (150k-200k LoC), evolving over a long period.<br>
    "Biggest" above also implies an exceptionally high quality standard because high quality is a necessity for the long-term survival of a big student project.
 
-1. To become **a model and a training ground for Software Engineering students** who want to learn SE skills in the context of a non-trivial real software product.
+2. To become **a model training ground for Software Engineering students** who want to learn SE skills in the context of a non-trivial real software product.
+
+3. To become the most flexible free peer feedback tool on the web.
 
 ## Challenges
 
@@ -24,7 +26,7 @@ The project differs from typical student projects in the following areas, which 
 ## Principles
 
 We apply these principles to meet the challenges stated above.
-+ **We keep moving forward, always**: We release frequently, in weekly [time-boxed iterations](http://en.wikipedia.org/wiki/Timeboxing). Every week, our product becomes better than the previous week. This means "go back and rewrite from scratch" is only a last resort.
++ **We keep moving forward, always**: We release frequently, in [time-boxed iterations](http://en.wikipedia.org/wiki/Timeboxing). Every iteration, our product becomes better. This means "go back and rewrite from scratch" is only a last resort.
 + **We are agile**: We are able to change the system quickly and easily to match emerging requirements. We aim for **minimal yet sufficient documentation**.
 + **We defend our code with tests, fiercely**: Since we practice [collective code ownership](http://www.extremeprogramming.org/rules/collective.html), we have to make sure the code is not accidentally broken by others. We use fully automated regression testing. The testing automation level of this project is probably higher than 99% of the projects out there.
 + **We are "Gods" of the few tools we use**: We stick to a minimal toolset. Adding third-party tools and libraries to the project is done only if there is a STRONG justification. Only mature, stable, and well-supported tools are considered. Once selected, we should know the tool very well to get the best out of it.

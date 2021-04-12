@@ -3,19 +3,16 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
-import com.google.common.collect.HashMultimap;
-import com.google.common.collect.SetMultimap;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
+import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -54,8 +51,6 @@ public final class DataBundleLogic {
     private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
     private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
 
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-
     private static DataBundleLogic instance = new DataBundleLogic();
 
     private DataBundleLogic() {
@@ -74,12 +69,10 @@ public final class DataBundleLogic {
      * if the corresponding accounts are not found in the data bundle.
      * For question ID injection in responses and comments to work properly, all questions
      * referenced by responses and comments must be included in the data bundle.
-     * For session respondent lists to be properly populated, all instructors, questions and responses
-     * relevant to each session must be included in the data bundle.</p>
      *
      * @throws InvalidParametersException if invalid data is encountered.
      */
-    public void persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
+    public DataBundle persistDataBundle(DataBundle dataBundle) throws InvalidParametersException {
         if (dataBundle == null) {
             throw new InvalidParametersException("Null data bundle");
         }
@@ -96,31 +89,62 @@ public final class DataBundleLogic {
 
         // For ensuring only one account per Google ID is created
         Map<String, AccountAttributes> googleIdAccountMap = new HashMap<>();
+        for (AccountAttributes account : accounts) {
+            googleIdAccountMap.put(account.getGoogleId(), account);
+        }
 
-        // For updating the student and instructor respondent lists in sessions before they are persisted
-        SetMultimap<String, InstructorAttributes> courseInstructorsMap = HashMultimap.create();
-        SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap = HashMultimap.create();
-        SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap = HashMultimap.create();
+        processInstructors(instructors, googleIdAccountMap);
+        processStudents(students, googleIdAccountMap);
+        processQuestions(questions);
 
-        processAccountsAndPopulateAccountsMap(accounts, googleIdAccountMap);
-        processInstructorsAndPopulateMapAndAccounts(instructors, courseInstructorsMap, googleIdAccountMap);
-        processStudentsAndPopulateAccounts(students, googleIdAccountMap);
-        processQuestionsAndPopulateMap(questions, sessionQuestionsMap);
-        processResponsesAndPopulateMap(responses, sessionResponsesMap);
-        processSessionsAndUpdateRespondents(sessions, courseInstructorsMap, sessionQuestionsMap, sessionResponsesMap);
+        List<AccountAttributes> newAccounts = accountsDb.putEntities(googleIdAccountMap.values());
 
-        accountsDb.putEntities(googleIdAccountMap.values());
-        profilesDb.putEntities(profiles);
-        coursesDb.putEntities(courses);
-        instructorsDb.putEntities(instructors);
-        studentsDb.putEntities(students);
-        fbDb.putEntities(sessions);
+        List<StudentProfileAttributes> newProfiles = profilesDb.putEntities(profiles);
+        List<CourseAttributes> newCourses = coursesDb.putEntities(courses);
+        List<InstructorAttributes> newInstructors = instructorsDb.putEntities(instructors);
+        List<StudentAttributes> newStudents = studentsDb.putEntities(students);
+        List<FeedbackSessionAttributes> newFeedbackSessions = fbDb.putEntities(sessions);
 
         List<FeedbackQuestionAttributes> createdQuestions = fqDb.putEntities(questions);
         injectRealIds(responses, responseComments, createdQuestions);
 
-        frDb.putEntities(responses);
-        fcDb.putEntities(responseComments);
+        List<FeedbackResponseAttributes> newFeedbackResponses = frDb.putEntities(responses);
+        List<FeedbackResponseCommentAttributes> newFeedbackResponseComments = fcDb.putEntities(responseComments);
+
+        updateDataBundleValue(newAccounts, dataBundle.accounts);
+        updateDataBundleValue(newProfiles, dataBundle.profiles);
+        updateDataBundleValue(newCourses, dataBundle.courses);
+        updateDataBundleValue(newInstructors, dataBundle.instructors);
+        updateDataBundleValue(newStudents, dataBundle.students);
+        updateDataBundleValue(newFeedbackSessions, dataBundle.feedbackSessions);
+        updateDataBundleValue(createdQuestions, dataBundle.feedbackQuestions);
+        updateDataBundleValue(newFeedbackResponses, dataBundle.feedbackResponses);
+        updateDataBundleValue(newFeedbackResponseComments, dataBundle.feedbackResponseComments);
+
+        return dataBundle;
+
+    }
+
+    private <T extends EntityAttributes<?>> void updateDataBundleValue(List<T> newValues, Map<String, T> oldValues) {
+        Map<T, Integer> newValuesMap = new HashMap<>();
+        Map<String, T> values = new LinkedHashMap<>();
+
+        for (int i = 0; i < newValues.size(); i++) {
+            newValuesMap.put(newValues.get(i), i);
+        }
+
+        for (Map.Entry<String, T> entry : oldValues.entrySet()) {
+            String key = entry.getKey();
+            T value = entry.getValue();
+
+            if (newValuesMap.containsKey(value)) {
+                int index = newValuesMap.get(value);
+                values.put(key, newValues.get(index));
+            }
+        }
+
+        oldValues.clear();
+        oldValues.putAll(values);
     }
 
     /**
@@ -141,114 +165,36 @@ public final class DataBundleLogic {
                     instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
             instructorsDb.putDocument(instructorInDb);
         }
-
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
-            fcDb.putDocument(fcInDb);
-        }
     }
 
-    private void processAccountsAndPopulateAccountsMap(Collection<AccountAttributes> accounts,
-            Map<String, AccountAttributes> googleIdAccountMap) {
-        for (AccountAttributes account : accounts) {
-            googleIdAccountMap.put(account.googleId, account);
-        }
-    }
-
-    private void processInstructorsAndPopulateMapAndAccounts(Collection<InstructorAttributes> instructors,
-            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
-            Map<String, AccountAttributes> googleIdAccountMap) {
+    private void processInstructors(
+            Collection<InstructorAttributes> instructors, Map<String, AccountAttributes> googleIdAccountMap) {
         for (InstructorAttributes instructor : instructors) {
             validateInstructorPrivileges(instructor);
 
-            courseInstructorsMap.put(instructor.courseId, instructor);
-
+            // create adhoc account to maintain data integrity
             if (!StringHelper.isEmpty(instructor.googleId)) {
                 googleIdAccountMap.putIfAbsent(instructor.googleId, makeAccount(instructor));
             }
         }
     }
 
-    private void processStudentsAndPopulateAccounts(Collection<StudentAttributes> students,
-            Map<String, AccountAttributes> googleIdAccountMap) {
+    private void processStudents(
+            Collection<StudentAttributes> students, Map<String, AccountAttributes> googleIdAccountMap) {
         for (StudentAttributes student : students) {
             populateNullSection(student);
 
+            // create adhoc account to maintain data integrity
             if (!StringHelper.isEmpty(student.googleId)) {
                 googleIdAccountMap.putIfAbsent(student.googleId, makeAccount(student));
             }
         }
     }
 
-    private void processQuestionsAndPopulateMap(Collection<FeedbackQuestionAttributes> questions,
-            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap) {
+    private void processQuestions(Collection<FeedbackQuestionAttributes> questions) {
         for (FeedbackQuestionAttributes question : questions) {
             question.removeIrrelevantVisibilityOptions();
-
-            String sessionKey = makeSessionKey(question.feedbackSessionName, question.courseId);
-            sessionQuestionsMap.put(sessionKey, question);
         }
-    }
-
-    private void processResponsesAndPopulateMap(Collection<FeedbackResponseAttributes> responses,
-            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
-        for (FeedbackResponseAttributes response : responses) {
-            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
-            sessionResponsesMap.put(sessionKey, response);
-        }
-    }
-
-    private void processSessionsAndUpdateRespondents(Collection<FeedbackSessionAttributes> sessions,
-            SetMultimap<String, InstructorAttributes> courseInstructorsMap,
-            SetMultimap<String, FeedbackQuestionAttributes> sessionQuestionsMap,
-            SetMultimap<String, FeedbackResponseAttributes> sessionResponsesMap) {
-        for (FeedbackSessionAttributes session : sessions) {
-            String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
-
-            Set<InstructorAttributes> courseInstructors = courseInstructorsMap.get(session.getCourseId());
-            Set<FeedbackQuestionAttributes> sessionQuestions = sessionQuestionsMap.get(sessionKey);
-            Set<FeedbackResponseAttributes> sessionResponses = sessionResponsesMap.get(sessionKey);
-
-            updateRespondents(session, courseInstructors, sessionQuestions, sessionResponses);
-        }
-    }
-
-    private void updateRespondents(FeedbackSessionAttributes session,
-            Set<InstructorAttributes> courseInstructors,
-            Set<FeedbackQuestionAttributes> sessionQuestions,
-            Set<FeedbackResponseAttributes> sessionResponses) {
-        String sessionKey = makeSessionKey(session.getFeedbackSessionName(), session.getCourseId());
-
-        SetMultimap<String, String> instructorQuestionKeysMap = HashMultimap.create();
-        for (InstructorAttributes instructor : courseInstructors) {
-            List<FeedbackQuestionAttributes> questionsForInstructor =
-                    fqLogic.getFeedbackQuestionsForInstructor(
-                            new ArrayList<>(sessionQuestions), session.isCreator(instructor.email));
-
-            List<String> questionKeys = makeQuestionKeys(questionsForInstructor, sessionKey);
-            instructorQuestionKeysMap.putAll(instructor.email, questionKeys);
-        }
-
-        Set<String> respondingInstructors = new HashSet<>();
-        Set<String> respondingStudents = new HashSet<>();
-
-        for (FeedbackResponseAttributes response : sessionResponses) {
-            String respondent = response.giver;
-            String responseQuestionNumber = response.feedbackQuestionId; // contains question number before injection
-            String responseQuestionKey = makeQuestionKey(sessionKey, responseQuestionNumber);
-
-            Set<String> instructorQuestionKeys = instructorQuestionKeysMap.get(respondent);
-            if (instructorQuestionKeys.contains(responseQuestionKey)) {
-                respondingInstructors.add(respondent);
-            } else {
-                respondingStudents.add(respondent);
-            }
-        }
-
-        session.setRespondingInstructorList(respondingInstructors);
-        session.setRespondingStudentList(respondingStudents);
     }
 
     private void injectRealIds(
@@ -391,15 +337,6 @@ public final class DataBundleLogic {
 
     private String makeSessionKey(String feedbackSessionName, String courseId) {
         return feedbackSessionName + "%" + courseId;
-    }
-
-    private List<String> makeQuestionKeys(List<FeedbackQuestionAttributes> questions, String sessionKey) {
-        List<String> questionKeys = new ArrayList<>();
-        for (FeedbackQuestionAttributes question : questions) {
-            String questionKey = makeQuestionKey(sessionKey, question.questionNumber);
-            questionKeys.add(questionKey);
-        }
-        return questionKeys;
     }
 
     private String makeQuestionKey(String sessionKey, int questionNumber) {

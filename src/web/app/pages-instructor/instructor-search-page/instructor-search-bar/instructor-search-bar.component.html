@@ -1,6 +1,9 @@
 <div class="card bg-light mb-4">
   <div class="card-body">
     <div class="text-muted">
+      You can search for students from all your courses here.
+    </div>
+    <div class="text-muted">
       Search Tips:<br>
       <ul>
         <li>Put more keywords to search for more precise results.</li>
@@ -9,30 +12,14 @@
     </div>
     <div class="form-group">
       <div class="input-group">
-        <input type="text" class="form-control" [(ngModel)]="searchKey" (keyup.enter)="search()"
-            placeholder="Your search keyword">
+        <input type="text" id="search-keyword" class="form-control" [ngModel]="searchParams.searchKey"
+          (ngModelChange)="onSearchKeyChange($event)" (keyup.enter)="search()" placeholder="Your search keyword">
           <div class="input-group-append">
-            <button class="btn btn-primary" (click)="search()">Search</button>
+            <button class="btn btn-primary" id="btn-search" (click)="search()"
+                    [disabled]="searchParams.searchKey === ''"
+            >Search</button>
           </div>
       </div>
-    </div>
-    <div>
-      <div class="form-check form-check-inline">
-        <input id="students-check" class="form-check-input" type="checkbox" [(ngModel)]="searchStudents"/>
-        <label class="form-check-label" for="students-check">
-          Students
-        </label>
-      </div>
-      <div class="form-check form-check-inline">
-        <input id="search-feedback-sessions-data-check" type="checkbox"
-            class="form-check-input" [(ngModel)]="searchFeedbackSessionData"/>
-        <label class="form-check-label" for="search-feedback-sessions-data-check">
-          Questions, responses, comments on responses
-        </label>
-      </div>
-      <span ngbTooltip="Tick the checkboxes to limit your search to certain categories"
-          class="fas fa-info-circle">
-      </span>
     </div>
   </div>
 </div>

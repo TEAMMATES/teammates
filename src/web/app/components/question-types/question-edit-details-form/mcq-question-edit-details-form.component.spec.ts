@@ -1,5 +1,7 @@
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
@@ -13,9 +15,12 @@ describe('McqQuestionEditDetailsFormComponent', () => {
       declarations: [
         McqQuestionEditDetailsFormComponent,
         McqFieldComponent,
-        WeightFieldComponent],
+        WeightFieldComponent,
+      ],
       imports: [
         FormsModule,
+        DragDropModule,
+        TeammatesCommonModule,
       ],
     })
     .compileComponents();

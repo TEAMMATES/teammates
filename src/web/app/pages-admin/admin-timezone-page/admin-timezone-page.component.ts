@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { finalize } from 'rxjs/operators';
 import { TimezoneService } from '../../../services/timezone.service';
 import { TimeZones } from '../../../types/api-output';
 
@@ -14,19 +14,21 @@ import { TimeZones } from '../../../types/api-output';
 export class AdminTimezonePageComponent implements OnInit {
 
   javaTzVersion: string = '';
-  javaTimezones: { [key: string]: number } = {};
+  javaTimezones: Record<string, number> = {};
   momentTzVersion: string = '';
-  momentTimezones: { [key: string]: number } = {};
+  momentTimezones: Record<string, number> = {};
 
-  constructor(private timezoneService: TimezoneService, private httpRequestService: HttpRequestService) {}
+  isTimezonesLoading: boolean = false;
+
+  constructor(private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
     this.momentTzVersion = this.timezoneService.getTzVersion();
     this.momentTimezones = this.timezoneService.getTzOffsets();
-    this.httpRequestService.get('/timezone').subscribe((res: TimeZones) => {
-      this.javaTzVersion = res.version;
-      this.javaTimezones = res.offsets;
-    });
+    this.timezoneService.getTimeZone().pipe(finalize(() => this.isTimezonesLoading = false))
+        .subscribe((res: TimeZones) => {
+          this.javaTzVersion = res.version;
+          this.javaTimezones = res.offsets;
+        });
   }
-
 }

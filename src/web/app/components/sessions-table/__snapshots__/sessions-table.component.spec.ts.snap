@@ -1,0 +1,871 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionsTableComponent should snap like in home page with 2 sessions sorted by start date 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  downloadSessionResultsEvent={[Function EventEmitter]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  ngbModal={[Function NgbModal]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy={[Function Number]}
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="sessions-table"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+          >
+            
+            <th
+              class="sortable-header"
+              id="sort-session-name"
+            >
+               Session Name 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
+              </span>
+            </th>
+            
+            <th
+              class="sortable-header"
+            >
+               Start Date 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
+                <i
+                  class="fas fa-sort-up"
+                />
+              </span>
+            </th>
+            
+            <th
+              class="sortable-header"
+            >
+               End Date 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
+              </span>
+            </th>
+            <th>
+              Submissions
+            </th>
+            <th>
+              Responses
+            </th>
+            <th
+              class="ngb-tooltip-class"
+              container="body"
+              ngbtooltip="Number of students submitted / Class size"
+            >
+              <span>
+                Response Rate
+              </span>
+            </th>
+            <th
+              class="text-center"
+            >
+              Action(s)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            
+            <td>
+              Season 8 Review
+            </td>
+            
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:30 AM
+              </span>
+            </td>
+            
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:32 AM
+              </span>
+            </td>
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Open
+              </span>
+            </td>
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Not Published
+              </span>
+            </td>
+            <td>
+              
+              
+              <div
+                id="response-rate-0"
+              >
+                8 / 9
+              </div>
+              
+            </td>
+            <td
+              class="actions-cell"
+            >
+              
+              <a
+                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
+                tmrouterlink="/web/instructor/sessions/edit"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+              </a>
+              
+              <button
+                class="btn btn-light btn-sm"
+                id="btn-soft-delete-0"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                id="btn-copy-0"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              
+              <a
+                href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
+                tmrouterlink="/web/instructor/sessions/submission"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  ngbtooltip="Start submitting feedback"
+                  type="button"
+                >
+                  Submit
+                </button>
+                
+              </a>
+              
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-0"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
+                    tmrouterlink="/web/instructor/sessions/result"
+                  >
+                    View Results
+                  </a>
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    container="body"
+                    id="btn-publish-0"
+                    ngbtooltip="Make session responses available for viewing"
+                    placement="left"
+                  >
+                    Publish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    id="btn-download-0"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-remind-0"
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+            <td>
+              Season 7 Review
+            </td>
+            
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:13 AM
+              </span>
+            </td>
+            
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                19 Jan 7:15 AM
+              </span>
+            </td>
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Closed
+              </span>
+            </td>
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Published
+              </span>
+            </td>
+            <td>
+              
+              
+              
+              <tm-ajax-loading>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm text-primary"
+                    role="status"
+                  />
+                </div>
+              </tm-ajax-loading>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                type="button"
+              >
+                 Edit 
+              </button>
+              
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                id="btn-soft-delete-1"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                id="btn-copy-1"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ngbtooltip="Start submitting feedback"
+                type="button"
+              >
+                Submit
+              </button>
+              
+              
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-1"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn dropdown-item clickable disabled"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
+                    tmrouterlink="/web/instructor/sessions/result"
+                  >
+                    View Results
+                  </a>
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    container="body"
+                    disabled=""
+                    id="btn-unpublish-1"
+                    ngbtooltip="Make responses no longer visible"
+                    placement="left"
+                  >
+                    Unpublish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    id="btn-resend-1"
+                  >
+                    Resend link to view results
+                  </button>
+                  <button
+                    class="btn dropdown-item clickable"
+                    disabled=""
+                    id="btn-download-1"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                  id="btn-remind-1"
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-sessions-table>
+`;
+
+exports[`SessionsTableComponent should snap like in sessions page with 2 sessions sorted by session name 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  downloadSessionResultsEvent={[Function EventEmitter]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  ngbModal={[Function NgbModal]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy={[Function Number]}
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <table
+        class="table table-responsive-lg table-striped table-bordered margin-bottom-0"
+        id="sessions-table"
+      >
+        <thead>
+          <tr
+            class="bg-primary text-white"
+          >
+            
+            <th
+              class="sortable-header"
+              id="sort-course-id"
+            >
+               Course ID 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
+              </span>
+            </th>
+            <th
+              class="sortable-header"
+              id="sort-session-name"
+            >
+               Session Name 
+              <span
+                class="fa-stack"
+              >
+                <i
+                  class="fas fa-sort"
+                />
+                
+                
+                <i
+                  class="fas fa-sort-up"
+                />
+              </span>
+            </th>
+            
+            
+            <th>
+              Submissions
+            </th>
+            <th>
+              Responses
+            </th>
+            <th
+              class="ngb-tooltip-class"
+              container="body"
+              ngbtooltip="Number of students submitted / Class size"
+            >
+              <span>
+                Response Rate
+              </span>
+            </th>
+            <th
+              class="text-center"
+            >
+              Action(s)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          <tr>
+            
+            <td>
+              GOT
+            </td>
+            <td>
+              Season 8 Review
+            </td>
+            
+            
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Open
+              </span>
+            </td>
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Not Published
+              </span>
+            </td>
+            <td>
+              
+              
+              <div
+                id="response-rate-0"
+              >
+                8 / 9
+              </div>
+              
+            </td>
+            <td
+              class="actions-cell"
+            >
+              
+              <a
+                href="/web/instructor/sessions/edit?courseid=GOT&fsname=Season%208%20Review&editingMode=true"
+                tmrouterlink="/web/instructor/sessions/edit"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  type="button"
+                >
+                   Edit 
+                </button>
+              </a>
+              
+              <button
+                class="btn btn-light btn-sm"
+                id="btn-soft-delete-0"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                id="btn-copy-0"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              
+              <a
+                href="/web/instructor/sessions/submission?courseid=GOT&fsname=Season%208%20Review"
+                tmrouterlink="/web/instructor/sessions/submission"
+              >
+                
+                <button
+                  class="btn btn-light btn-sm"
+                  ngbtooltip="Start submitting feedback"
+                  type="button"
+                >
+                  Submit
+                </button>
+                
+              </a>
+              
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-0"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
+                    tmrouterlink="/web/instructor/sessions/result"
+                  >
+                    View Results
+                  </a>
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    container="body"
+                    id="btn-publish-0"
+                    ngbtooltip="Make session responses available for viewing"
+                    placement="left"
+                  >
+                    Publish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    id="btn-download-0"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  id="btn-remind-0"
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            
+            <td>
+              GOT
+            </td>
+            <td>
+              Season 7 Review
+            </td>
+            
+            
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Closed
+              </span>
+            </td>
+            <td>
+              <span
+                class="ngb-tooltip-class"
+              >
+                Published
+              </span>
+            </td>
+            <td>
+              
+              
+              
+              <tm-ajax-loading>
+                <div
+                  class="loading-container"
+                >
+                  <div
+                    class="spinner-border spinner-border-sm text-primary"
+                    role="status"
+                  />
+                </div>
+              </tm-ajax-loading>
+            </td>
+            <td
+              class="actions-cell"
+            >
+              
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                type="button"
+              >
+                 Edit 
+              </button>
+              
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                id="btn-soft-delete-1"
+                type="button"
+              >
+                Delete
+              </button>
+              <button
+                class="btn btn-light btn-sm"
+                id="btn-copy-1"
+                ngbtooltip="Copy feedback session details"
+                type="button"
+              >
+                Copy
+              </button>
+              
+              <button
+                class="btn btn-light btn-sm"
+                disabled=""
+                ngbtooltip="Start submitting feedback"
+                type="button"
+              >
+                Submit
+              </button>
+              
+              
+              <div
+                class="d-inline-block dropdown"
+                ngbdropdown=""
+              >
+                <button
+                  aria-expanded="false"
+                  aria-haspopup="true"
+                  class="btn btn-light btn-sm dropdown-toggle"
+                  id="btn-results-1"
+                  ngbdropdowntoggle=""
+                >
+                  Results
+                </button>
+                <div
+                  class="dropdown-menu"
+                  ngbdropdownmenu=""
+                  x-placement="bottom"
+                >
+                  <a
+                    class="btn dropdown-item clickable disabled"
+                    href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
+                    tmrouterlink="/web/instructor/sessions/result"
+                  >
+                    View Results
+                  </a>
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    container="body"
+                    disabled=""
+                    id="btn-unpublish-1"
+                    ngbtooltip="Make responses no longer visible"
+                    placement="left"
+                  >
+                    Unpublish Results
+                  </button>
+                  
+                  
+                  
+                  <button
+                    class="btn dropdown-item clickable"
+                    id="btn-resend-1"
+                  >
+                    Resend link to view results
+                  </button>
+                  <button
+                    class="btn dropdown-item clickable"
+                    disabled=""
+                    id="btn-download-1"
+                  >
+                    Download Results
+                  </button>
+                </div>
+              </div>
+              <div
+                class="d-inline-block"
+                ngbdropdown=""
+                ngbtooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so"
+              >
+                <button
+                  class="btn btn-light btn-sm"
+                  disabled=""
+                  id="btn-remind-1"
+                >
+                  Remind
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-sessions-table>
+`;
+
+exports[`SessionsTableComponent should snap with default fields 1`] = `
+<tm-sessions-table
+  FeedbackSessionPublishStatus={[Function Object]}
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  SessionsTableColumn={[Function Object]}
+  SessionsTableHeaderColorScheme={[Function Object]}
+  SortBy={[Function Object]}
+  SortOrder={[Function Object]}
+  columnsToShow={[Function Array]}
+  copySessionEvent={[Function EventEmitter]}
+  courseCandidates={[Function Array]}
+  downloadSessionResultsEvent={[Function EventEmitter]}
+  editSessionEvent={[Function EventEmitter]}
+  headerColorScheme="0"
+  loadResponseRateEvent={[Function EventEmitter]}
+  moveSessionToRecycleBinEvent={[Function EventEmitter]}
+  ngbModal={[Function NgbModal]}
+  publishSessionEvent={[Function EventEmitter]}
+  resendResultsLinkToStudentsEvent={[Function EventEmitter]}
+  sendRemindersToStudentsEvent={[Function EventEmitter]}
+  sessionsTableRowModels={[Function Array]}
+  sessionsTableRowModelsSortBy="0"
+  sessionsTableRowModelsSortOrder={[Function Number]}
+  simpleModalService={[Function SimpleModalService]}
+  sortSessionsTableRowModelsEvent={[Function EventEmitter]}
+  submitSessionAsInstructorEvent={[Function EventEmitter]}
+  unpublishSessionEvent={[Function EventEmitter]}
+  viewSessionResultEvent={[Function EventEmitter]}
+>
+  <div
+    class="no-session-message"
+  >
+     There are no feedback sessions in this course. 
+  </div>
+</tm-sessions-table>
+`;

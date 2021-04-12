@@ -1,30 +1,19 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Subscription } from 'rxjs';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { finalize } from 'rxjs/operators';
 import { StatusMessageService } from '../../../services/status-message.service';
-import { MessageOutput } from '../../../types/api-output';
+import { JoinState, MessageOutput, Student } from '../../../types/api-output';
 import { StudentUpdateRequest } from '../../../types/api-request';
 import { ErrorMessageOutput } from '../../error-message-output';
 
+import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
+import { StudentService } from '../../../services/student.service';
 import { FormValidator } from '../../../types/form-validator';
-
-interface StudentAttributes {
-  email: string;
-  course: string;
-  name: string;
-  lastName: string;
-  comments: string;
-  team: string;
-  section: string;
-}
-
-interface StudentEditDetails {
-  student: StudentAttributes;
-  isOpenOrPublishedEmailSentForTheCourse: boolean;
-}
+import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 
 /**
  * Instructor course student edit page.
@@ -36,50 +25,50 @@ interface StudentEditDetails {
 })
 export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestroy {
 
-  user: string = '';
-  @Input() isEnabled: boolean = true;
-  courseid: string = '';
-  studentemail: string = '';
-  student!: StudentAttributes;
+  FormValidator: typeof FormValidator = FormValidator; // enum
 
-  isOpenOrPublishedEmailSentForTheCourse?: boolean;
-  isSessionSummarySendEmail: boolean = false;
+  @Input() isEnabled: boolean = true;
+  courseId: string = '';
+  studentEmail: string = '';
+  student!: Student;
 
   isTeamnameFieldChanged: boolean = false;
   isEmailFieldChanged: boolean = false;
+  isStudentLoading: boolean = false;
+  hasStudentLoadingFailed: boolean = false;
 
   editForm!: FormGroup;
   teamFieldSubscription?: Subscription;
   emailFieldSubscription?: Subscription;
 
-  FormValidator: typeof FormValidator = FormValidator; // enum
-
   constructor(private route: ActivatedRoute,
               private router: Router,
-              private httpRequestService: HttpRequestService,
               private statusMessageService: StatusMessageService,
-              private ngbModal: NgbModal) { }
+              private studentService: StudentService,
+              private navigationService: NavigationService,
+              private ngbModal: NgbModal,
+              private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
     if (!this.isEnabled) {
       this.student = {
         email: 'alice@email.com',
-        course: '',
+        courseId: '',
         name: 'Alice Betsy',
         lastName: '',
         comments: 'Alice is a transfer student.',
-        team: 'Team A',
-        section: 'Section A',
+        teamName: 'Team A',
+        sectionName: 'Section A',
+        joinState: JoinState.JOINED,
       };
-      this.studentemail = this.student.email;
       this.initEditForm();
       return;
     }
 
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-      this.courseid = queryParams.courseid;
-      this.loadStudentEditDetails(queryParams.courseid, queryParams.studentemail, queryParams.user);
+      this.courseId = queryParams.courseid;
+      this.studentEmail = queryParams.studentemail;
+      this.loadStudentEditDetails(queryParams.courseid, queryParams.studentemail);
     });
   }
 
@@ -95,22 +84,18 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
   /**
    * Loads student details required for this page.
    */
-  loadStudentEditDetails(courseid: string, studentemail: string, user: string): void {
-    const paramsMap: { [key: string]: string } = { courseid, studentemail, user };
-    this.httpRequestService.get('/students/editDetails', paramsMap)
-        .subscribe((resp: StudentEditDetails) => {
-          this.student = resp.student;
-          if (!this.student) {
-            this.statusMessageService.showErrorMessage('Error retrieving student details');
-          } else {
-            this.studentemail = this.student.email;
-            this.isOpenOrPublishedEmailSentForTheCourse =
-                resp.isOpenOrPublishedEmailSentForTheCourse;
-            this.initEditForm();
-          }
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorMessage(resp.error.message);
-        });
+  loadStudentEditDetails(courseId: string, studentEmail: string): void {
+    this.hasStudentLoadingFailed = false;
+    this.isStudentLoading = true;
+    this.studentService.getStudent(
+        courseId, studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
+      this.student = student;
+      this.initEditForm();
+    }, (resp: ErrorMessageOutput) => {
+      this.hasStudentLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
   }
 
   /**
@@ -121,11 +106,11 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     this.editForm = new FormGroup({
       studentname: new FormControl(this.student.name,
           [Validators.required, Validators.maxLength(FormValidator.STUDENT_NAME_MAX_LENGTH)]),
-      sectionname: new FormControl(this.student.section,
+      sectionname: new FormControl(this.student.sectionName,
           [Validators.required, Validators.maxLength(FormValidator.SECTION_NAME_MAX_LENGTH)]),
-      teamname: new FormControl(this.student.team,
+      teamname: new FormControl(this.student.teamName,
           [Validators.required, Validators.maxLength(FormValidator.TEAM_NAME_MAX_LENGTH)]),
-      newstudentemail: new FormControl(this.studentemail, // original student email initialized
+      newstudentemail: new FormControl(this.student.email, // original student email initialized
           [Validators.required, Validators.maxLength(FormValidator.EMAIL_MAX_LENGTH)]),
       comments: new FormControl(this.student.comments),
     });
@@ -158,17 +143,23 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
    * Handles logic related to showing the appropriate modal boxes
    * upon submission of the form. Submits the form otherwise.
    */
-  onSubmit(confirmDelModal: any, resendPastLinksModal: any): void {
+  onSubmit(resendPastLinksModal: any): void {
     if (!this.isEnabled) {
       return;
     }
 
     if (this.isTeamnameFieldChanged) {
-      this.ngbModal.open(confirmDelModal);
+      const modalContent: string = `Editing these fields will result in some existing responses from this student to be deleted.
+            You may download the data before you make the changes.`;
+      const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
+          'Delete existing responses?', SimpleModalType.WARNING, modalContent);
+      modalRef.result.then(() => {
+        this.deleteExistingResponses(resendPastLinksModal);
+      }, () => {});
     } else if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {
-      this.submitEditForm();
+      this.submitEditForm(false);
     }
   }
 
@@ -180,50 +171,33 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
     if (this.isEmailFieldChanged) {
       this.ngbModal.open(resendPastLinksModal);
     } else {
-      this.submitEditForm();
+      this.submitEditForm(false);
     }
-  }
-
-  /**
-   * Sets the boolean value of `isSessionSummarySendEmail` to true if
-   * user chooses to resend past session link to the new email.
-   */
-  resendPastSessionLinks(isResend: boolean): any {
-    if (isResend) {
-      this.isSessionSummarySendEmail = true;
-    }
-    this.submitEditForm();
   }
 
   /**
    * Submits the form data to edit the student details.
    */
-  submitEditForm(): void {
-    // creates a new object instead of using its reference
-    const paramsMap: { [key: string]: string } = {
-      user: this.user,
-      courseid: this.courseid,
-      studentemail: this.studentemail,
-    };
-
+  submitEditForm(shouldResendPastSessionLinks: boolean): void {
     const reqBody: StudentUpdateRequest = {
       name: this.editForm.value.studentname,
       email: this.editForm.value.newstudentemail,
       team: this.editForm.value.teamname,
       section: this.editForm.value.sectionname,
       comments: this.editForm.value.comments,
-      isSessionSummarySendEmail: this.isSessionSummarySendEmail,
+      isSessionSummarySendEmail: shouldResendPastSessionLinks,
     };
 
-    this.httpRequestService.put('/student', paramsMap, reqBody)
+    this.studentService.updateStudent({
+      courseId: this.courseId,
+      studentEmail: this.student.email,
+      requestBody: reqBody,
+    })
       .subscribe((resp: MessageOutput) => {
-        this.router.navigate(['/web/instructor/courses/details'], {
-          queryParams: { courseid: this.courseid },
-        }).then(() => {
-          this.statusMessageService.showSuccessMessage(resp.message);
-        });
+        this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
+            resp.message, { courseid: this.courseId });
       }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorMessage(resp.error.message);
+        this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
 }

@@ -21,15 +21,6 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Returns the first value for the key in the parameter map, or null if key not found.
-     *
-     * @param paramMap A parameter map (e.g., the kind found in HttpServletRequests)
-     */
-    public static String getValueFromParamMap(Map<String, String[]> paramMap, String key) {
-        return paramMap.getOrDefault(key, new String[] { null })[0];
-    }
-
-    /**
      * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping string.
      */
     public static String getRequestParametersAsString(HttpServletRequest req) {
@@ -59,21 +50,7 @@ public final class HttpRequestHelper {
                 transformed.put(key, values.length == 1 ? values[0] : values);
             }
         });
-        return JsonUtils.toJson(transformed).replaceAll("([^,])\r?\n *", "$1")
-                .replaceAll(",\r?\n *", ", ");
-    }
-
-    /**
-     * Returns the URL used for the HTTP request but without the domain, e.g. "/page/studentHome?user=james"
-     */
-    public static String getRequestedUrl(HttpServletRequest req) {
-        String link = req.getRequestURI();
-        String query = req.getQueryString();
-
-        if (query != null && !query.trim().isEmpty()) {
-            return link + "?" + query;
-        }
-        return link;
+        return JsonUtils.toCompactJson(transformed);
     }
 
     /**

@@ -11,7 +11,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -31,12 +30,12 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     public List<FeedbackParticipantType> showResponsesTo;
     public List<FeedbackParticipantType> showGiverNameTo;
     public List<FeedbackParticipantType> showRecipientNameTo;
-    protected transient Instant createdAt;
-    protected transient Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private String feedbackQuestionId;
 
-    FeedbackQuestionAttributes() {
+    private FeedbackQuestionAttributes() {
         this.showResponsesTo = new ArrayList<>();
         this.showGiverNameTo = new ArrayList<>();
         this.showRecipientNameTo = new ArrayList<>();
@@ -161,27 +160,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return getInvalidityInfo().isEmpty();
     }
 
-    public boolean isGiverAStudent() {
-        return giverType == FeedbackParticipantType.SELF
-               || giverType == FeedbackParticipantType.STUDENTS;
-    }
-
-    public boolean isRecipientNameHidden() {
-        return recipientType == FeedbackParticipantType.NONE
-               || recipientType == FeedbackParticipantType.SELF;
-    }
-
-    public boolean isRecipientAStudent() {
-        return recipientType == FeedbackParticipantType.SELF
-               || recipientType == FeedbackParticipantType.STUDENTS
-               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
-    }
-
-    public boolean isRecipientInstructor() {
-        return recipientType == FeedbackParticipantType.INSTRUCTORS;
-    }
-
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }
@@ -209,13 +187,11 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         if (this.questionNumber != o.questionNumber) {
             return Integer.compare(this.questionNumber, o.questionNumber);
         }
-        /**
-         * Although question numbers ought to be unique in a feedback session,
-         * eventual consistency can result in duplicate questions numbers.
-         * Therefore, to ensure that the question order is always consistent to the user,
-         * compare feedbackQuestionId, which is guaranteed to be unique,
-         * when the questionNumbers are the same.
-         */
+        // Although question numbers ought to be unique in a feedback session,
+        // eventual consistency can result in duplicate questions numbers.
+        // Therefore, to ensure that the question order is always consistent to the user,
+        // compare feedbackQuestionId, which is guaranteed to be unique,
+        // when the questionNumbers are the same.
         return this.feedbackQuestionId.compareTo(o.feedbackQuestionId);
     }
 
@@ -338,40 +314,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         return true;
-    }
-
-    public void updateValues(FeedbackQuestionAttributes newAttributes) {
-        // These can't be changed anyway. Copy values to defensively avoid invalid parameters.
-        newAttributes.feedbackSessionName = this.feedbackSessionName;
-        newAttributes.courseId = this.courseId;
-
-        if (newAttributes.questionDetails == null) {
-            newAttributes.questionDetails = getQuestionDetails();
-        }
-
-        if (newAttributes.questionDescription == null) {
-            newAttributes.questionDescription = this.questionDescription;
-        }
-
-        if (newAttributes.giverType == null) {
-            newAttributes.giverType = this.giverType;
-        }
-
-        if (newAttributes.recipientType == null) {
-            newAttributes.recipientType = this.recipientType;
-        }
-
-        if (newAttributes.showResponsesTo == null) {
-            newAttributes.showResponsesTo = this.showResponsesTo;
-        }
-
-        if (newAttributes.showGiverNameTo == null) {
-            newAttributes.showGiverNameTo = this.showGiverNameTo;
-        }
-
-        if (newAttributes.showRecipientNameTo == null) {
-            newAttributes.showRecipientNameTo = this.showRecipientNameTo;
-        }
     }
 
     public void removeIrrelevantVisibilityOptions() {
@@ -576,14 +518,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+            Assumption.assertNotNull(feedbackSessionName);
 
             feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
             return this;
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(courseId);
 
             feedbackQuestionAttributes.courseId = courseId;
             return this;
@@ -615,7 +557,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         private UpdateOption<List<FeedbackParticipantType>> showRecipientNameToOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackQuestionId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
+            Assumption.assertNotNull(feedbackQuestionId);
 
             this.feedbackQuestionId = feedbackQuestionId;
         }
@@ -667,15 +609,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected FeedbackQuestionAttributes.UpdateOptions updateOptions;
-        protected B thisBuilder;
+        FeedbackQuestionAttributes.UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 
         public B withQuestionDetails(FeedbackQuestionDetails questionDetails) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, questionDetails);
+            Assumption.assertNotNull(questionDetails);
 
             updateOptions.questionDetailsOption = UpdateOption.of(questionDetails.getDeepCopy());
             return thisBuilder;
@@ -694,14 +636,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withGiverType(FeedbackParticipantType giverType) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverType);
+            Assumption.assertNotNull(giverType);
 
             updateOptions.giverTypeOption = UpdateOption.of(giverType);
             return thisBuilder;
         }
 
         public B withRecipientType(FeedbackParticipantType recipientType) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipientType);
+            Assumption.assertNotNull(recipientType);
 
             updateOptions.recipientTypeOption = UpdateOption.of(recipientType);
             return thisBuilder;
@@ -713,25 +655,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withShowResponsesTo(List<FeedbackParticipantType> showResponsesTo) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showResponsesTo);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, (Object[]) showResponsesTo.toArray());
+            Assumption.assertNotNull(showResponsesTo);
+            Assumption.assertNotNull((Object[]) showResponsesTo.toArray());
 
             updateOptions.showResponsesToOption = UpdateOption.of(new ArrayList<>(showResponsesTo));
             return thisBuilder;
         }
 
         public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showGiverNameTo);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, (Object[]) showGiverNameTo.toArray());
+            Assumption.assertNotNull(showGiverNameTo);
+            Assumption.assertNotNull((Object[]) showGiverNameTo.toArray());
 
             updateOptions.showGiverNameToOption = UpdateOption.of(new ArrayList<>(showGiverNameTo));
             return thisBuilder;
         }
 
         public B withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showRecipientNameTo);
-            Assumption.assertNotNull(
-                    Const.StatusCodes.NULL_PARAMETER, (Object[]) showRecipientNameTo.toArray());
+            Assumption.assertNotNull(showRecipientNameTo);
+            Assumption.assertNotNull((Object[]) showRecipientNameTo.toArray());
 
             updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
             return thisBuilder;

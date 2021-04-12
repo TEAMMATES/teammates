@@ -1,0 +1,6 @@
+<div>
+  <p *ngIf="!questionDetails.areDuplicatesAllowed && isSameRanksAssigned" class="text-danger">The same rank should not be given multiple times.</p>
+  <p *ngIf="isNoRecipientRanked" class="text-info">Please rank the above recipients.</p>
+  <p *ngIf="isMinRecipientsEnabled && isRecipientsRankedLessThanMin" class="text-danger">Rank at least {{ questionDetails.minOptionsToBeRanked }} recipients.</p>
+  <p *ngIf="isMaxRecipientsEnabled && isRecipientsRankedMoreThanMax" class="text-danger">Rank no more than {{questionDetails.maxOptionsToBeRanked}} recipients.</p>
+</div>

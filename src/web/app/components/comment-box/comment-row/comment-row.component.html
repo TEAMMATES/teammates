@@ -1,0 +1,45 @@
+<tm-comment-edit-form *ngIf="model.isEditing || mode == CommentRowMode.ADD"
+                      [mode]="mode"
+                      [model]="model.commentEditFormModel"
+                      (modelChange)="triggerModelChange('commentEditFormModel', $event)"
+                      [isVisibilityOptionEnabled]="isVisibilityOptionEnabled"
+                      [isDisabled]="isDisabled"
+                      [shouldHideSavingButton]="shouldHideSavingButton"
+                      [questionShowResponsesTo]="questionShowResponsesTo"
+                      [response]="response"
+                      [isFeedbackParticipantComment]="isFeedbackParticipantComment"
+                      [shouldHideClosingButton]="shouldHideClosingButton"
+                      (closeCommentBoxEvent)="triggerCloseEditing()"
+                      (saveCommentEvent)="triggerSaveCommentEvent()"></tm-comment-edit-form>
+
+<div class="card" *ngIf="!model.isEditing && mode == CommentRowMode.EDIT && model.originalComment">
+  <div class="card-body">
+    <div class="row comment-row">
+      <div class="col-12">
+        <span id="by-response-giver" class="text-secondary" *ngIf="isFeedbackParticipantComment">
+          Comment by response giver.
+        </span>
+        <span class="text-secondary" *ngIf="!isFeedbackParticipantComment">
+          <span id="comment-giver-name">{{ model.commentGiverName ? model.commentGiverName : model.originalComment.commentGiver }} commented at </span>
+          <span class="ngb-tooltip-class" style="margin-right: .25rem;" [ngbTooltip]="model.originalComment.createdAt | formatDateDetail: model.timezone!">
+            {{ model.originalComment.createdAt | formatDateBrief: model.timezone! }}</span>
+          <ng-container *ngIf="model.originalComment.lastEditedAt && model.originalComment.lastEditedAt !== model.originalComment.createdAt">
+            <i class="fas fa-circle dot-xs align-middle" style="margin-right: .25rem;"></i>
+            <span id="last-editor-name" style="margin-right: .25rem;" class="ngb-tooltip-class"
+                  [ngbTooltip]="model.originalComment.lastEditedAt | formatDateDetail: model.timezone!">edited by {{ model.lastEditorName ? model.lastEditorName : model.originalComment.lastEditorEmail }}</span>
+          </ng-container>
+        </span>
+
+        <i class="fa fa-eye" aria-hidden="true" ngbTooltip="This response comment is visible to {{ visibilityStateMachine.getVisibilityTypesUnderVisibilityControl(CommentVisibilityControl.SHOW_COMMENT) | commentVisibilityTypesJointName }}"></i>
+
+        <div class="float-right">
+          <button id="btn-edit-comment" type="button" class="btn btn-outline-primary btn-sm" *ngIf="!shouldHideEditButton" ngbTooltip='Edit this comment'
+                  (click)="triggerModelChange('isEditing', true)" [disabled]="isDisabled"><i class="fas fa-pencil-alt"></i></button>
+          <button id="btn-delete-comment" type="button" class="btn btn-outline-primary btn-sm btn-margin-left" *ngIf="!shouldHideDeleteButton" ngbTooltip='Delete this comment'
+                  (click)="triggerDeleteCommentEvent()" [disabled]="isDisabled"><i class="fas fa-trash"></i></button>
+        </div>
+      </div>
+      <div id="comment-text" class="col-12" [innerHTML]="model.originalComment.commentText | safeHtml"></div>
+    </div>
+  </div>
+</div>

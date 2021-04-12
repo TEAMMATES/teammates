@@ -22,6 +22,10 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
     }
 
+    public AppUrl withInstitutionMac(String mac) {
+        return withParam(Const.ParamsNames.INSTITUTION_MAC, mac);
+    }
+
     public AppUrl withCourseId(String courseId) {
         return withParam(Const.ParamsNames.COURSE_ID, courseId);
     }
@@ -34,17 +38,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.STUDENT_EMAIL, email);
     }
 
-    public AppUrl withInstructorId(String instructorId) {
-        return withParam(Const.ParamsNames.INSTRUCTOR_ID, instructorId);
-    }
-
-    public AppUrl withQuestionNumber(String questionNumber) {
-        return withParam(Const.ParamsNames.FEEDBACK_QUESTION_NUMBER, questionNumber);
-    }
-
-    @Deprecated
-    public AppUrl withEnableSessionEditDetails(boolean shouldLoadInEditMode) {
-        return withParam(Const.ParamsNames.FEEDBACK_SESSION_ENABLE_EDIT, Boolean.toString(shouldLoadInEditMode));
+    public AppUrl withEntityType(String entityType) {
+        return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
     }
 
 }

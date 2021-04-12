@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCollapseModule, NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { PanelChevronModule } from '../panel-chevron/panel-chevron.module';
 import {
   QuestionEditDetailsFormModule,
 } from '../question-types/question-edit-details-form/question-edit-details-form.module';
@@ -24,12 +25,15 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    NgbModule,
+    NgbCollapseModule,
+    NgbDropdownModule,
+    NgbTooltipModule,
     AjaxLoadingModule,
     VisibilityMessagesModule,
     TeammatesCommonModule,
     RichTextEditorModule,
     QuestionEditDetailsFormModule,
+    PanelChevronModule,
   ],
   declarations: [
     QuestionEditFormComponent,

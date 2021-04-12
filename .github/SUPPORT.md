@@ -3,8 +3,8 @@
 If you are looking for support for TEAMMATES, check out:
 
 * User Documentation
-  * [For students](http://teammatesv4.appspot.com/studentHelp.jsp)
-  * [For instructors](http://teammatesv4.appspot.com/instructorHelp.jsp)
+  * [For students](https://teammatesv4.appspot.com/web/front/help/student)
+  * [For instructors](https://teammatesv4.appspot.com/web/front/help/instructor)
 * [Developer Documentation](../docs/README.md)
 * [FAQs by external contributors](https://github.com/TEAMMATES/teammates/issues?utf8=✓&q=is:issue+label:a-DevHelp). Note that many of the questions asked and/or answers provided may have been outdated now.
 

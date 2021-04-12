@@ -1,32 +1,48 @@
-<div class="container">
+<div class="container error-container">
   <h2>Uh oh! Something went wrong.</h2>
   <hr>
   <div class="row">
     <div class="col-md-12">
-      <p>
+      <p id="error-message">
         The server returns the following error message: "{{ errorMessage }}".
       </p>
-      <p>
-        We are sorry that this happened. Please help us troubleshoot the problem by providing us some additional details using the form below:
-      </p>
+      <div *ngIf="errorReportEnabled">
+        <p>
+          We are sorry that this happened.
+          Please help us troubleshoot the problem by providing us some additional details using the form below:
+        </p>
+      </div>
+      <div *ngIf="!errorReportEnabled">
+        <p>
+          We are sorry that this happened.
+          It is likely that your browser could not create or access cookies for authorization.
+          If cookies are disabled in your browser, please turn on your cookies before trying again.
+          Alternatively, you could also try emptying your browser's cache, or switching to a different browser.
+        </p>
+        <p>
+          For further support, please contact our email address at <a href="mailto:{{ supportEmail }}">{{ supportEmail }}</a>.
+        </p>
+      </div>
     </div>
   </div>
-  <div class="form-group">
-    <label>Request ID:</label>
-    <br><em>Note: This field is filled by the system and not modifiable.</em>
-    <input type="text" [(ngModel)]="requestId" class="form-control" [disabled]="true">
-  </div>
-  <div class="form-group">
-    <label>Subject:</label>
-    <br><em>Note: This field is pre-filled for convenience. Feel free to change it to suit your needs.</em>
-    <input type="text" [(ngModel)]="subject" class="form-control">
-  </div>
-  <div class="form-group">
-    <label>Content:</label>
-    <textarea [(ngModel)]="content" class="form-control" placeholder="Tell us the steps you took that led you to this error page"></textarea>
-  </div>
-  <button class="btn btn-success" (click)="sendErrorReport()" [disabled]="!sendButtonEnabled" *ngIf="!errorReportSubmitted">Send Error Report</button>
-  <div *ngIf="errorReportSubmitted">
-    Your error report has been recorded. We will follow up with you in due course, usually, within 24 hours.
+  <div id="error-report" *ngIf="errorReportEnabled">
+    <div class="form-group">
+      <label>Request ID:</label>
+      <br><em>Note: This field is filled by the system and not modifiable.</em>
+      <input type="text" [(ngModel)]="requestId" class="form-control" [disabled]="true">
+    </div>
+    <div class="form-group">
+      <label>Subject:</label>
+      <br><em>Note: This field is pre-filled for convenience. Feel free to change it to suit your needs.</em>
+      <input type="text" [(ngModel)]="subject" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Content:</label>
+      <textarea [(ngModel)]="content" class="form-control" placeholder="Tell us the steps you took that led you to this error page"></textarea>
+    </div>
+    <button class="btn btn-success" (click)="sendErrorReport()" [disabled]="!sendButtonEnabled" *ngIf="!errorReportSubmitted">Send Error Report</button>
+    <div *ngIf="errorReportSubmitted">
+      Your error report has been recorded. We will follow up with you in due course, usually, within 24 hours.
+    </div>
   </div>
 </div>

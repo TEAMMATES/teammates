@@ -3,13 +3,14 @@
   text-align: center;
 }
 
-.actions-cell button {
-  margin: 2px;
+@media (min-width: 1200px) {
+  .actions-cell {
+    min-width: 410px;
+  }
 }
 
-.tool-tip-decorate {
-  border-bottom: 1px dotted #808080;
-  text-decoration: none;
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
 }
 
 .sortable-header {

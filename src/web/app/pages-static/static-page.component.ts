@@ -69,6 +69,9 @@ export class StaticPageComponent implements OnInit {
     this.authService.getAuthUser().subscribe((res: AuthInfo) => {
       if (res.user) {
         this.user = res.user.id;
+        if (res.masquerade) {
+          this.user += ' (M)';
+        }
         this.institute = res.institute;
         this.isInstructor = res.user.isInstructor;
         this.isStudent = res.user.isStudent;
@@ -79,7 +82,10 @@ export class StaticPageComponent implements OnInit {
       }
       this.isFetchingAuthDetails = false;
     }, () => {
-      // TODO
+      this.isInstructor = false;
+      this.isStudent = false;
+      this.isAdmin = false;
+      this.isFetchingAuthDetails = false;
     });
   }
 

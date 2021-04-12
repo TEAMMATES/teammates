@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 
 import {
   FeedbackMcqQuestionDetails,
@@ -16,24 +16,35 @@ import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
   styleUrls: ['./mcq-question-edit-answer-form.component.scss'],
 })
 export class McqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails> implements OnInit {
+    extends QuestionEditAnswerFormComponent<FeedbackMcqQuestionDetails, FeedbackMcqResponseDetails>
+    implements OnInit, OnChanges {
 
+  /**
+   * The unique ID in the page where the component is used.
+   *
+   * <p>This is to ensure that only one MCQ option can be selected.
+   */
   @Input()
   id: string = '';
 
-  isMcqOptionSelected: boolean[] = Array(this.questionDetails.numOfMcqChoices).fill(false);
-  indexOfPreviousOptionSelected: number = 0;
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
+
+  isMcqOptionSelected: boolean[] = [];
 
   constructor() {
     super(DEFAULT_MCQ_QUESTION_DETAILS(), DEFAULT_MCQ_RESPONSE_DETAILS());
   }
 
   ngOnInit(): void {
+  }
+
+  // sync the internal status with the input data
+  ngOnChanges(): void {
+    this.isMcqOptionSelected = Array(this.questionDetails.numOfMcqChoices).fill(false);
     if (this.responseDetails.answer !== '' && !this.responseDetails.isOther) {
       const indexOfAnswerInPreviousSubmission: number =
           this.questionDetails.mcqChoices.indexOf(this.responseDetails.answer);
       this.isMcqOptionSelected[indexOfAnswerInPreviousSubmission] = true;
-      this.indexOfPreviousOptionSelected = indexOfAnswerInPreviousSubmission;
     }
   }
 
@@ -41,32 +52,36 @@ export class McqQuestionEditAnswerFormComponent
    * Updates the other option radio box when clicked.
    */
   updateIsOtherOption(): void {
-    this.responseDetails.isOther = !this.responseDetails.isOther;
-    this.isMcqOptionSelected[this.indexOfPreviousOptionSelected] = false;
-    if (!this.responseDetails.isOther) {
-      this.responseDetails.otherFieldContent = '';
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.isOther = !this.responseDetails.isOther;
+    if (fieldsToUpdate.isOther) {
+      fieldsToUpdate.answer = '';
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
     } else {
-      this.responseDetails.answer = '';
+      fieldsToUpdate.otherFieldContent = '';
     }
-  }
 
-  /**
-   * Updates the other field content.
-   */
-  updateOtherOptionText(otherOptionText: string): void {
-    this.responseDetails.otherFieldContent = otherOptionText;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Updates the answer to the Mcq option specified by the index.
    */
   updateSelectedMcqOption(index: number): void {
-    this.responseDetails.isOther = false;
-    this.responseDetails.otherFieldContent = '';
-    this.isMcqOptionSelected[this.indexOfPreviousOptionSelected] = false;
-    this.isMcqOptionSelected[index] = true;
-    this.indexOfPreviousOptionSelected = index;
-    this.responseDetails.answer = this.questionDetails.mcqChoices[index];
+    let answer: string;
+    if (this.responseDetails.answer === this.questionDetails.mcqChoices[index]) {
+      // same answer is selected: toggle as unselected
+      answer = '';
+    } else {
+      answer = this.questionDetails.mcqChoices[index];
+    }
+    this.triggerResponseDetailsChangeBatch({
+      answer,
+      isOther: false,
+      otherFieldContent: '',
+    });
   }
 
 }

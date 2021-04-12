@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { StudentAttributes } from '../student-attributes';
+import { Student } from '../../../../types/api-output';
 
 /**
  * A simple table to show course-related information about a student
@@ -11,7 +11,8 @@ import { StudentAttributes } from '../student-attributes';
 })
 export class CourseRelatedInfoComponent implements OnInit {
 
-  @Input() student?: StudentAttributes;
+  @Input() student?: Student;
+  @Input() isDisplayOnly: boolean = false;
 
   constructor() { }
 

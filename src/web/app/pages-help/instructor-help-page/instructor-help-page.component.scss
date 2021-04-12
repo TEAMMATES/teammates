@@ -1,9 +1,26 @@
-.main-body {
-  width: 1100px;
+.side-nav {
+  width: 150px;
+  top: 100px;
+  right: 5%;
+  position: fixed;
 }
 
-.side-nav {
-  position: fixed;
-  left: 1170px;
-  top: 100px;
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  padding-right: 30px;
+}
+
+.section-body {
+  padding-bottom: 5px;
+}
+
+@media (max-width: 992px) {
+  .side-nav {
+    display: none;
+  }
+
+  .flex-container {
+    padding-right: 0;
+  }
 }

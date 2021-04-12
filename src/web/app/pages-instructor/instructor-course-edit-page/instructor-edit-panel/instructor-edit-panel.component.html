@@ -1,0 +1,118 @@
+<div class="card bg-light top-padded">
+  <div class="card-header bg-primary text-white text-center">
+    <strong>Instructor {{ instructorIndex + 1 }}</strong>
+    <div class="card-header-btn-toolbar">
+      <button id="btn-resend-invite-{{ instructorIndex + 1 }}" class="btn btn-primary btn-sm" ngbTooltip="Send invitation email to the instructor" placement="top-right"
+              *ngIf="instructor.joinState == JoinState.NOT_JOINED && editMode == EditMode.EDIT"
+              [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
+              (click)="sendRemindJoinEmail.emit()">
+        <i class="fa fa-envelope" aria-hidden="true"></i>
+        Resend Invite
+      </button>
+      <button id="btn-edit-instructor-{{ instructorIndex + 1 }}" *ngIf="!instructor.isEditing && editMode == EditMode.EDIT" class="btn btn-primary btn-sm"
+              [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
+              (click)="triggerModelChange('isEditing', true)">
+        <i *ngIf="!instructor.isSavingInstructorEdit" class="fa fa-pen" aria-hidden="true"></i>
+        Edit
+      </button>
+      <button id="btn-cancel-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing || editMode == EditMode.ADD" class="btn btn-primary btn-sm"
+              [disabled]="isSavingNewInstructor"
+              (click)="cancelEditing.emit()">
+        <i class="fa fa-times" aria-hidden="true"></i>
+        Cancel
+      </button>
+      <button id="btn-delete-instructor-{{ instructorIndex + 1 }}" *ngIf="editMode == EditMode.EDIT" class="btn btn-primary btn-sm"
+              ngbTooltip="Delete the instructor from the course" placement="top-right"
+              [disabled]="!currInstructorCoursePrivilege.canModifyInstructor || instructor.isSavingInstructorEdit"
+              (click)="deleteInstructor.emit()">
+        <i class="fa fa-trash" aria-hidden="true"></i>
+        Delete
+      </button>
+    </div>
+  </div>
+
+  <div class="card-body text-center" [ngClass]="{'fill-plain': editMode == EditMode.ADD}">
+    <div class="form-row form-group" *ngIf="editMode == EditMode.EDIT && currInstructorCoursePrivilege.canModifyInstructor">
+      <label class="col-sm-3 control-label">
+        Google ID:
+      </label>
+      <div class="col-sm-9" *ngIf="instructor.joinState == JoinState.JOINED">
+        <input id="google-id-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="3" [ngModel]="instructor.googleId" disabled>
+      </div>
+      <span class="text-danger col-sm-9 text-left margin-bottom-label" *ngIf="instructor.joinState == JoinState.NOT_JOINED">
+        Not available. Instructor is yet to join this course.
+      </span>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        Name:
+      </label>
+      <div class="col-sm-9">
+        <input id="name-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="100" tabindex="4"
+               [ngModel]="instructor.name" (ngModelChange)="triggerModelChange('name', $event)" [disabled]="!instructor.isEditing">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        Email:
+      </label>
+      <div class="col-sm-9">
+        <input id="email-instructor-{{ instructorIndex + 1 }}" class="form-control" maxlength="254" tabindex="5"
+               [ngModel]="instructor.email" (ngModelChange)="triggerModelChange('email', $event)"
+               [disabled]="!instructor.isEditing || (instructor.joinState == JoinState.NOT_JOINED && editMode != EditMode.ADD)">
+      </div>
+    </div>
+    <div class="form-row form-group">
+      <label class="col-sm-3 control-label">
+        <input id="checkbox-display-instructor-{{ instructorIndex + 1 }}" checked=""
+               type="checkbox" [ngModel]="instructor.isDisplayedToStudents"
+               (ngModelChange)="triggerModelChange('isDisplayedToStudents', $event)" [disabled]="!instructor.isEditing">
+        &nbsp;
+        <span class="ngb-tooltip-class" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course">Display to students as:</span>
+      </label>
+      <div class="col-sm-9">
+        <input id="displayed-name-instructor-{{ instructorIndex + 1 }}" class="form-control"
+               type="text"
+               (ngModelChange)="triggerModelChange('displayedToStudentsAs', $event)"
+               [disabled]="!instructor.isDisplayedToStudents || !instructor.isEditing"
+               [defaultValue]="'Instructor'"
+               placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
+               [ngModel]="instructor.isDisplayedToStudents ? instructor.displayedToStudentsAs : '(This instructor will NOT be displayed to students)'">
+      </div>
+    </div>
+    <div class="form-row form-group align-items-start text-left">
+      <label class="col-sm-3 control-label text-center text-md-right">
+        Access Level:
+      </label>
+      <div id="access-levels-instructor-{{ instructorIndex + 1 }}" class="col-sm-9">
+        <ng-container *ngIf="instructor.isEditing">
+          <div *ngFor="let role of InstructorPermissionRole | enumToArray" class="form-row">
+            <label>
+              <input id="{{role + instructorIndex + 1}}" type="radio" [checked]="role == instructor.role" (click)="triggerModelChange('role', role)" [disabled]="!instructor.isEditing">
+              {{ role | instructorRoleDescription }}
+              <button *ngIf="role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                      (click)="viewRolePrivilegeModel.emit(role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
+            </label>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="!instructor.isEditing">
+          <span id="role-instructor-{{ instructorIndex + 1 }}">{{ instructor.role | instructorRoleDescription }}</span>
+          <button *ngIf="instructor.role != InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                  (click)="viewRolePrivilegeModel.emit(instructor.role); $event.stopPropagation();" type="button" class="btn btn-link padding-0">View Details</button>
+        </ng-container>
+      </div>
+    </div>
+
+    <tm-custom-privilege-setting-panel class="text-left" id="custom-access-instructor-{{ instructorIndex + 1 }}" *ngIf="instructor.isEditing && instructor.role == InstructorPermissionRole.INSTRUCTOR_PERMISSION_ROLE_CUSTOM"
+                                       [permission]="this.instructor.permission" (permissionChange)="triggerModelChange('permission', $event)"
+                                       [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-custom-privilege-setting-panel>
+
+    <div *ngIf="instructor.isEditing">
+      <button id="btn-save-instructor-{{ instructorIndex + 1 }}" class="btn btn-success" tabindex="6" type="button" (click)="saveInstructor.emit()" [disabled]="instructor.isSavingInstructorEdit || isSavingNewInstructor">
+        <tm-ajax-loading *ngIf="instructor.isSavingInstructorEdit || isSavingNewInstructor"></tm-ajax-loading>
+        <span *ngIf="editMode == EditMode.EDIT">Save changes</span>
+        <span *ngIf="editMode == EditMode.ADD">Add Instructor</span>
+      </button>
+    </div>
+  </div>
+</div>

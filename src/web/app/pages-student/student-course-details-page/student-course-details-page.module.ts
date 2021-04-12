@@ -1,7 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
+import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { StudentCourseDetailsPageComponent } from './student-course-details-page.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: StudentCourseDetailsPageComponent,
+  },
+];
 
 /**
  * Module for student course details page.
@@ -15,7 +25,10 @@ import { StudentCourseDetailsPageComponent } from './student-course-details-page
   ],
   imports: [
     CommonModule,
-    RouterModule,
+    RouterModule.forChild(routes),
+    TeammatesCommonModule,
+    LoadingSpinnerModule,
+    LoadingRetryModule,
   ],
 })
 export class StudentCourseDetailsPageModule { }

@@ -1,7 +1,5 @@
 package teammates.common.util;
 
-import teammates.common.exception.NullHttpParameterException;
-
 /**
  * This class provides a set of static method to verify assumptions about the system.
  * When the real runtime condition differs from the assumed situation,
@@ -61,19 +59,6 @@ public final class Assumption {
     }
 
     /**
-     * <em>Fails</em> a test <em>without</em> a failure message.
-     *
-     * <p>Although failing <em>with</em> an explicit failure message is recommended,
-     * this method may be useful when maintaining legacy code.
-     *
-     * @deprecated Use the version that makes failure message compulsory
-     */
-    @Deprecated
-    public static void fail() {
-        throw new AssertionError();
-    }
-
-    /**
      * <em>Asserts</em> that {@code expected} and {@code actual} are equal.
      *
      * <p>If both are {@code null}, they are considered equal.
@@ -112,6 +97,15 @@ public final class Assumption {
     }
 
     /**
+     * <em>Asserts</em> that {@code actuals} are all not {@code null}.
+     */
+    public static void assertNotNull(Object... objects) {
+        for (Object object : objects) {
+            assertNotNull(object);
+        }
+    }
+
+    /**
      * <em>Asserts</em> that {@code objects} are all not {@code null}.
      *
      * <p>Fails with the supplied failure {@code message}.
@@ -121,20 +115,6 @@ public final class Assumption {
             if (object == null) {
                 fail(message);
             }
-        }
-    }
-
-    /**
-     * Asserts that the POST parameter is not null.
-     */
-    // TODO remove this after all controller classes have been migrated
-    // Reason 1: Not all HTTP requests are POST, but null parameters for any HTTP request are equally undesirable
-    // Reason 2: This is applicable only at controller level
-    @Deprecated
-    public static <T> void assertPostParamNotNull(String parameterName, T postParameter) {
-        if (postParameter == null) {
-            throw new NullHttpParameterException(String.format(Const.StatusCodes.NULL_POST_PARAMETER,
-                    parameterName));
         }
     }
 

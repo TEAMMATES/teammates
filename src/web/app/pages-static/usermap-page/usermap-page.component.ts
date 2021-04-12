@@ -25,7 +25,7 @@ export class UsermapPageComponent implements OnInit {
     this.nInstitutions = 0;
     const countryNames: string[] = Object.keys(userMapData.institutes);
     for (const country of countryNames) {
-      this.nInstitutions += userMapData.institutes[country].length;
+      this.nInstitutions += (userMapData as any).institutes[country].length;
     }
     this.nCountries = countryNames.length;
     this.drawUsermap();

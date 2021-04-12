@@ -6,6 +6,7 @@
     <description>
         This is the PMD ruleset for all TEAMMATES Java code.
     </description>
+    <exclude-pattern>.*/com/google/appengine/logging/v1/.*</exclude-pattern> <!-- Ignore auto-generated code -->
     <exclude-pattern>.*.html</exclude-pattern>
     <exclude-pattern>.*.xml</exclude-pattern>
 
@@ -42,7 +43,6 @@
     Most code style-related rules are enforced by CheckStyle.
     The rules included here covers what CheckStyle does not cover.
     -->
-    <rule ref="category/java/codestyle.xml/AvoidFinalLocalVariable"/>
     <rule ref="category/java/codestyle.xml/AvoidProtectedFieldInFinalClass"/>
     <rule ref="category/java/codestyle.xml/AvoidProtectedMethodInFinalClassNotExtending"/>
     <rule ref="category/java/codestyle.xml/AvoidUsingNativeCode"/>
@@ -62,6 +62,7 @@
     <rule ref="category/java/codestyle.xml/UnnecessaryFullyQualifiedName"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryLocalBeforeReturn"/>
     <rule ref="category/java/codestyle.xml/UnnecessaryReturn"/>
+    <rule ref="category/java/codestyle.xml/UseDiamondOperator"/>
     <rule ref="category/java/codestyle.xml/UselessQualifiedThis"/>
 
     <rule ref="category/java/design.xml">
@@ -105,6 +106,7 @@
         <!-- May consider enforcing -->
         <exclude name="AvoidFieldNameMatchingTypeName"/>
         <exclude name="AvoidFieldNameMatchingMethodName"/>
+        <exclude name="CloseResource"/>
 
         <!-- Very difficult to enforce -->
         <exclude name="AvoidDuplicateLiterals"/>
@@ -113,6 +115,7 @@
 
         <!-- Not worth the benefit -->
         <exclude name="ConstructorCallsOverridableMethod"/>
+        <exclude name="DetachedTestCase"/>
         <exclude name="JUnitSpelling"/>
         <exclude name="JUnitStaticSuite"/>
         <exclude name="NullAssignment"/>
@@ -156,7 +159,7 @@
         <exclude name="StaticEJBFieldShouldBeFinal"/>
 
         <!-- Irrelevant logging rules -->
-        <exclude name="InvalidSlf4jMessageFormat"/>
+        <exclude name="InvalidLogMessageFormat"/>
         <exclude name="ProperLogger"/>
         <exclude name="UseCorrectExceptionLogging"/>
     </rule>

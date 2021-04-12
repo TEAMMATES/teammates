@@ -8,8 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import com.google.appengine.api.log.AppLogLine;
-
+import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -60,6 +59,8 @@ public class EmailGenerator {
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
+    private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
+
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
@@ -109,12 +110,29 @@ public class EmailGenerator {
     }
 
     /**
+     * Generates the feedback session reminder emails for the given {@code student}.
+     */
+    public EmailWrapper generateFeedbackSessionStudentReminderEmail(
+            FeedbackSessionAttributes session, StudentAttributes student) {
+
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPEN);
+        String additionalContactInformation = HTML_NO_ACTION_REQUIRED + getAdditionalContactInformationFragment(course);
+
+        return generateFeedbackSessionEmailBaseForStudents(course, session, student, template,
+                EmailType.FEEDBACK_SESSION_REMINDER.getSubject(),
+                FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW, additionalContactInformation);
+    }
+
+    /**
      * Generates the email containing the summary of the feedback sessions
      * email for the given {@code courseId} for {@code student}.
      * @param courseId - ID of the course
      * @param studentEmail - Email of student to send feedback session summary to
+     * @param resendLinksTemplate - The email template including the reason behind why the links are being resent
      */
-    public EmailWrapper generateFeedbackSessionSummaryOfCourse(String courseId, String studentEmail) {
+    public EmailWrapper generateFeedbackSessionSummaryOfCourse(
+            String courseId, String studentEmail, String resendLinksTemplate) {
 
         CourseAttributes course = coursesLogic.getCourse(courseId);
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, studentEmail);
@@ -166,12 +184,19 @@ public class EmailGenerator {
             linksFragmentValue.append(Templates.populateTemplate(
                     EmailTemplates.FRAGMENT_SINGLE_FEEDBACK_SESSION_LINKS,
                     "${feedbackSessionName}", fsa.getFeedbackSessionName(),
-                    "${deadline}", fsa.getEndTimeString() + (fsa.isClosed() ? " (Passed)" : ""),
+                    "${deadline}", TimeHelper.formatInstant(fsa.getEndTime(), fsa.getTimeZone(), DATETIME_DISPLAY_FORMAT)
+                            + (fsa.isClosed() ? " (Passed)" : ""),
                     "${submitUrl}", submitUrlHtml,
                     "${reportUrl}", reportUrlHtml));
         }
+
+        if (linksFragmentValue.length() == 0) {
+            linksFragmentValue.append("No links found.");
+        }
+
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-        String emailBody = Templates.populateTemplate(EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS,
+
+        String emailBody = Templates.populateTemplate(resendLinksTemplate,
                 "${userName}", SanitizationHelper.sanitizeForHtml(student.name),
                 "${userEmail}", student.email,
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -181,41 +206,17 @@ public class EmailGenerator {
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
-        email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
         email.setContent(emailBody);
 
+        // Set appropriate email subject, depending on the email template
+        if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS)) {
+            email.setSubject(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId()));
+        } else if (resendLinksTemplate.equals(Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS)) {
+            email.setSubject(String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(),
+                                                                                    course.getName(), course.getId()));
+        }
+
         return email;
-    }
-
-    /**
-     * Generates the feedback submission confirmation email for the given {@code session} for {@code student}.
-     */
-    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForStudent(
-            FeedbackSessionAttributes session, StudentAttributes student, Instant timestamp) {
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getFeedbackSessionName())
-                .withRegistrationKey(StringHelper.encrypt(student.key))
-                .withStudentEmail(student.email)
-                .toAbsoluteString();
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, student.name, student.email, timestamp);
-    }
-
-    /**
-     * Generates the feedback submission confirmation email for the given {@code session} for {@code instructor}.
-     */
-    public EmailWrapper generateFeedbackSubmissionConfirmationEmailForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor, Instant timestamp) {
-
-        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
-        String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
-                .withCourseId(course.getId())
-                .withSessionName(session.getFeedbackSessionName())
-                .toAbsoluteString();
-
-        return generateSubmissionConfirmationEmail(course, session, submitUrl, instructor.name, instructor.email, timestamp);
     }
 
     /**
@@ -244,30 +245,6 @@ public class EmailGenerator {
                     template, subject, additionalContactInformation));
         }
         return emails;
-    }
-
-    private EmailWrapper generateSubmissionConfirmationEmail(
-            CourseAttributes course, FeedbackSessionAttributes session, String submitUrl,
-            String userName, String userEmail, Instant timestamp) {
-        String template = EmailTemplates.USER_FEEDBACK_SUBMISSION_CONFIRMATION;
-        String subject = EmailType.FEEDBACK_SUBMISSION_CONFIRMATION.getSubject();
-        String additionalContactInformation = getAdditionalContactInformationFragment(course);
-        String emailBody = Templates.populateTemplate(template,
-                "${userName}", SanitizationHelper.sanitizeForHtml(userName),
-                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
-                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
-                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
-                "${submitUrl}", submitUrl,
-                "${timeStamp}", SanitizationHelper.sanitizeForHtml(
-                        TimeHelper.formatDateTimeForDisplay(timestamp, session.getTimeZone())),
-                "${additionalContactInformation}", additionalContactInformation);
-
-        EmailWrapper email = getEmptyEmailAddressedToEmail(userEmail);
-        email.setSubject(String.format(subject, course.getName(), session.getFeedbackSessionName()));
-        email.setContent(emailBody);
-        return email;
-
     }
 
     private EmailWrapper generateSessionLinksRecoveryEmailForNonExistentStudent(String recoveryEmailAddress) {
@@ -390,7 +367,7 @@ public class EmailGenerator {
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
 
-        String reportUrl = Config.getFrontEndAppUrl(Const.ActionURIs.INSTRUCTOR_FEEDBACK_RESULTS_PAGE)
+        String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
@@ -400,7 +377,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -427,7 +405,7 @@ public class EmailGenerator {
 
             for (StudentAttributes student : studentsForCourse) {
                 try {
-                    if (!fsLogic.isFeedbackSessionFullyCompletedByStudent(session.getFeedbackSessionName(),
+                    if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
                             session.getCourseId(), student.email)) {
                         students.add(student);
                     }
@@ -468,13 +446,28 @@ public class EmailGenerator {
         List<InstructorAttributes> instructors = isEmailNeededForStudents
                                                  ? instructorsLogic.getInstructorsForCourse(session.getCourseId())
                                                  : new ArrayList<>();
-        List<StudentAttributes> students = isEmailNeededForStudents
+        List<StudentAttributes> studentsForCourse = isEmailNeededForStudents
                                            ? studentsLogic.getStudentsForCourse(session.getCourseId())
                                            : new ArrayList<>();
+        ArrayList<StudentAttributes> studentsToEmail = new ArrayList<>();
+        for (StudentAttributes student : studentsForCourse) {
+            try {
+                if (!fsLogic.isFeedbackSessionAttemptedByStudent(session.getFeedbackSessionName(),
+                        session.getCourseId(), student.email)) {
+                    studentsToEmail.add(student);
+                }
+            } catch (EntityDoesNotExistException e) {
+                log.severe("Course " + session.getCourseId() + " does not exist or "
+                        + "session " + session.getFeedbackSessionName() + " does not exist");
+                // Course or session cannot be found for one student => it will be the case for all students
+                // Do not waste time looping through all students
+                break;
+            }
+        }
 
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_CLOSED);
         String additionalContactInformation = getAdditionalContactInformationFragment(course);
-        return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+        return generateFeedbackSessionEmailBases(course, session, studentsToEmail, instructors, template,
                 EmailType.FEEDBACK_CLOSED.getSubject(), FEEDBACK_ACTION_VIEW, additionalContactInformation);
     }
 
@@ -540,16 +533,16 @@ public class EmailGenerator {
     private List<EmailWrapper> generateFeedbackSessionEmailBases(
             CourseAttributes course, FeedbackSessionAttributes session, List<StudentAttributes> students,
             List<InstructorAttributes> instructors, String template, String subject, String feedbackAction,
-            String addtionalContactInformation) {
+            String additionalContactInformation) {
 
         List<EmailWrapper> emails = new ArrayList<>();
         for (StudentAttributes student : students) {
             emails.add(generateFeedbackSessionEmailBaseForStudents(course, session, student,
-                    template, subject, feedbackAction, addtionalContactInformation));
+                    template, subject, feedbackAction, additionalContactInformation));
         }
         for (InstructorAttributes instructor : instructors) {
             emails.add(generateFeedbackSessionEmailBaseForInstructors(course, session, instructor,
-                    template, subject, feedbackAction, addtionalContactInformation));
+                    template, subject, feedbackAction, additionalContactInformation));
         }
         return emails;
     }
@@ -577,7 +570,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
@@ -617,7 +611,8 @@ public class EmailGenerator {
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
-                "${deadline}", SanitizationHelper.sanitizeForHtml(session.getEndTimeString()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", instructorFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
@@ -744,6 +739,9 @@ public class EmailGenerator {
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${googleId}", SanitizationHelper.sanitizeForHtml(googleId),
+                "${appUrl}", isInstructor
+                        ? Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).toAbsoluteString()
+                        : Config.getFrontEndAppUrl(Const.WebPageURIs.STUDENT_HOME_PAGE).toAbsoluteString(),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(emailAddress);
@@ -773,7 +771,7 @@ public class EmailGenerator {
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor, String emailBody) {
         String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         return Templates.populateTemplate(emailBody,
@@ -785,9 +783,9 @@ public class EmailGenerator {
             InstructorAttributes instructor, String emailBody, String institute) {
         AppUrl url = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR);
+                .withEntityType(Const.EntityType.INSTRUCTOR);
         if (institute != null) {
-            url = url.withParam(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+            url = url.withInstructorInstitution(institute);
         }
         String joinUrl = url.toAbsoluteString();
 
@@ -800,10 +798,10 @@ public class EmailGenerator {
     /**
      * Generates the logs compilation email for the given {@code logs}.
      */
-    public EmailWrapper generateCompiledLogsEmail(List<AppLogLine> logs) {
+    public EmailWrapper generateCompiledLogsEmail(List<ErrorLogEntry> logs) {
         StringBuilder emailBody = new StringBuilder();
         for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i)));
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).message, logs.get(i).severity));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
@@ -812,12 +810,12 @@ public class EmailGenerator {
         return email;
     }
 
-    private String generateSevereErrorLogLine(int index, AppLogLine logLine) {
+    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel) {
         return Templates.populateTemplate(
                 EmailTemplates.SEVERE_ERROR_LOG_LINE,
                 "${index}", String.valueOf(index),
-                "${errorType}", logLine.getLogLevel().toString(),
-                "${errorMessage}", logLine.getLogMessage().replace("\n", "<br>"));
+                "${errorType}", logLevel,
+                "${errorMessage}", logMessage);
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {

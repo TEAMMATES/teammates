@@ -1,5 +1,5 @@
-<nav class="navbar fixed-top navbar-light bg-light" *ngIf="moderatedPerson">
-  <div class="col-12 text-center">
+<div class="bg-light" *ngIf="moderatedPerson">
+  <div class="col-12 text-center text-break">
     <h5>You are moderating responses for
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
@@ -17,21 +17,27 @@
       </p>
     </div>
   </div>
-</nav>
-<nav class="navbar fixed-top navbar-light bg-light" *ngIf="previewAsPerson">
-  <div class="col-12 text-center">
+</div>
+<div class="bg-light" *ngIf="previewAsPerson">
+  <div class="col-12 text-center text-break">
     <h4>Previewing Session as
       <span *ngIf="intent === Intent.STUDENT_SUBMISSION">student</span>
       <span *ngIf="intent === Intent.INSTRUCTOR_SUBMISSION">instructor</span>
       {{ personName }} ({{ previewAsPerson }})
     </h4>
   </div>
-</nav>
+</div>
 <div class="row" *ngIf="regKey">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
-      You are submitting feedback as {{ personName }}. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to
-      <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (recommended).
+      <div *ngIf="loggedInUser">
+        You are submitting feedback as <mark><b>{{ personName }}</b></mark>. If you wish to link your Google account ({{ loggedInUser }}) with this user,
+        <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">click here</a>.
+      </div>
+      <div *ngIf="!loggedInUser">
+        You are submitting feedback as <mark><b>{{ personName }}</b></mark>. You may submit feedback for sessions that are currently open and view results without logging in.
+        To access other features you need to <a href="#" (click)="joinCourseForUnregisteredStudent(); $event.preventDefault()">login using a Google account</a> (optional).
+      </div>
     </div>
   </div>
 </div>
@@ -43,58 +49,61 @@
   </div>
 </div>
 
-<div class="card card-plain">
+<div class="card card-plain" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
     <br/>
-    <div class="row">
-      <div class="col-2 text-right"><b>Course ID:</b></div>
-      <div class="col-5">{{ courseId }}</div>
+    <div class="row text-center">
+      <div class="col-md-3"><b>Course ID:</b></div>
+      <div id="course-id" class="col-md-6">{{ courseId }}</div>
     </div>
     <br/>
-    <div class="row">
-      <div class="col-2 text-right"><b>Session:</b></div>
-      <div class="col-5">{{ feedbackSessionName }}</div>
+    <div class="row text-center">
+      <div class="col-md-3"><b>Session:</b></div>
+      <div id="fs-name" class="col-md-6">{{ feedbackSessionName }}</div>
     </div>
     <br/>
-    <div class="row">
-      <div class="col-2 text-right"><b>Opening time:</b></div>
-      <div class="col-5">{{ formattedSessionOpeningTime }}</div>
+    <div class="row text-center">
+      <div class="col-md-3"><b>Opening time:</b></div>
+      <div id="opening-time" class="col-md-6">{{ formattedSessionOpeningTime }}</div>
     </div>
     <br/>
-    <div class="row">
-      <div class="col-2 text-right"><b>Closing time:</b></div>
-      <div class="col-5">{{ formattedSessionClosingTime }}</div>
+    <div class="row text-center">
+      <div class="col-md-3"><b>Closing time:</b></div>
+      <div id="closing-time" class="col-md-6">{{ formattedSessionClosingTime }}</div>
     </div>
     <br/>
-    <div class="row">
-      <div class="col-2 text-right"><b>Instructions:</b></div>
-      <div class="col-5" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+    <div class="row text-center">
+      <div class="col-md-3"><b>Instructions:</b></div>
+      <div id="instructions" class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
     <br/>
   </div>
 </div>
 
-<tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
-                             [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
-                             [isDisabled]="isSubmissionFormsDisabled"
-></tm-question-submission-form>
+<tm-loading-retry [shouldShowRetry]="hasFeedbackSessionQuestionsLoadingFailed" [message]="'Failed to load questions'" (retryEvent)="retryLoadingFeedbackSessionQuestions()">
+  <div *tmIsLoading="isFeedbackSessionQuestionsLoading || isFeedbackSessionQuestionResponsesLoading">
+    <tm-question-submission-form *ngFor="let questionSubmissionForm of questionSubmissionForms; let i = index; trackBy: trackQuestionSubmissionFormByFn"
+                                 [attr.id]="questionSubmissionForm.feedbackQuestionId"
+                                 [(formModel)]="questionSubmissionForms[i]" [formMode]="getQuestionSubmissionFormMode(questionSubmissionForm)"
+                                 [isDisabled]="isSubmissionFormsDisabled && !this.previewAsPerson"
+                                 (deleteCommentEvent)="deleteParticipantComment(i, $event)"
+    ></tm-question-submission-form>
 
-<br/>
-<div class="row" *ngIf="!hasAnyResponseToSubmit">
-  <div class="col-12 text-center">
-    <div class="alert alert-info" role="alert">
-      There are no questions for you to answer here!
+    <br/>
+    <div class="row" *ngIf="!hasAnyResponseToSubmit">
+      <div class="col-12 text-center">
+        <div class="alert alert-info" role="alert">
+          There are no questions for you to answer here!
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="hasAnyResponseToSubmit">
+      <div class="col-12 text-center">
+        <button id="btn-submit" type="submit" class="btn btn-success"
+                ngbTooltip="You can save your responses at any time and come back later to continue."
+                (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
+        ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Feedback</button>
+      </div>
     </div>
   </div>
-</div>
-<div class="row" *ngIf="hasAnyResponseToSubmit">
-  <div class="col-12 text-center">
-    <label><input type="checkbox" [(ngModel)]="shouldSendConfirmationEmail" [disabled]="isSubmissionFormsDisabled"> Send me a confirmation email</label>
-  </div>
-  <div class="col-12 text-center">
-    <button type="submit" class="btn btn-primary"
-            ngbTooltip="You can save your responses at any time and come back later to continue."
-            (click)="saveFeedbackResponses()" [disabled]="isSavingResponses || isSubmissionFormsDisabled"
-    ><tm-ajax-loading *ngIf="isSavingResponses"></tm-ajax-loading>Submit Feedback</button>
-  </div>
-</div>
+</tm-loading-retry>

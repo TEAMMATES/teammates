@@ -6,7 +6,7 @@
         <th class="text-center" *ngFor="let choice of questionDetails.rubricChoices">{{ choice }}</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="rubric-answers">
       <tr *ngFor="let answer of answers; let i = index">
         <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
         <td class="text-center" *ngFor="let choice of questionDetails.rubricChoices">
@@ -17,7 +17,7 @@
   </table>
 </div>
 <div *ngIf="!isStudentPage">
-  <ul>
-    <li *ngFor="let answer of answers">{{ answer.answer }} {{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</li>
-  </ul>
+  <ol type="a">
+    <li *ngFor="let answer of answers">{{ answer.answer }} <span class="choice-index">{{ answer.index ? '(Choice ' + answer.index + ')' : '' }}</span></li>
+  </ol>
 </div>

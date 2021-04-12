@@ -6,13 +6,17 @@
   margin-top: 10px;
 }
 
-.question-header {
-  background-color: lighten(#007BFF, 5%);
+.margin-top-15px {
+  margin-top: 15px;
 }
 
-.evaluee-span {
-  border-bottom: 1px dotted #808080;
-  font-weight: bold;
+.margin-bottom-20px {
+  margin-bottom: 20px;
+}
+
+.constraint-margins {
+  margin-top: 10px;
+  margin-left: 20px;
 }
 
 .evaluee-col {
@@ -20,10 +24,15 @@
   padding-right: 50px;
 }
 
-.evaluee-row {
-  margin-bottom: 20px;
+.evaluee-select {
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
-.evaluee-select {
-  font-weight: bold;
+.visibility-card {
+  background-color: rgba(0, 0, 0, .03);
+}
+
+.indent {
+  margin-left: 1%;
 }

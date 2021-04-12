@@ -2,12 +2,8 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.Assumption;
@@ -46,7 +42,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     // true if comment is given by response giver
     public boolean isCommentFromFeedbackParticipant;
 
-    FeedbackResponseCommentAttributes() {
+    private FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
         receiverSection = Const.DEFAULT_SECTION;
         showCommentTo = new ArrayList<>();
@@ -178,43 +174,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
     }
 
     /**
-     * Converts comment text in form of string for csv i.e if it contains image, changes it into link.
-     *
-     * @return Comment in form of string
-     */
-    public String getCommentAsCsvString() {
-        String htmlText = commentText;
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        convertImageToLinkInComment(comment, htmlText);
-        return SanitizationHelper.sanitizeForCsv(comment.toString());
-    }
-
-    /**
-     * Converts comment text in form of string.
-     *
-     * @return Comment in form of string
-     */
-    public String getCommentAsHtmlString() {
-        String htmlText = commentText;
-        StringBuilder comment = new StringBuilder(200);
-        comment.append(Jsoup.parse(htmlText).text());
-        convertImageToLinkInComment(comment, htmlText);
-        return SanitizationHelper.sanitizeForHtml(comment.toString());
-    }
-
-    // Converts image in comment text to link.
-    private void convertImageToLinkInComment(StringBuilder comment, String htmlText) {
-        if (!(Jsoup.parse(htmlText).getElementsByTag("img").isEmpty())) {
-            comment.append(" Images Link: ");
-            Elements ele = Jsoup.parse(htmlText).getElementsByTag("img");
-            for (Element element : ele) {
-                comment.append(element.absUrl("src") + ' ');
-            }
-        }
-    }
-
-    /**
      * Use only to match existing and known Comment.
      */
     public void setId(Long id) {
@@ -275,8 +234,36 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
                 + "]";
     }
 
-    public static void sortFeedbackResponseCommentsByCreationTime(List<FeedbackResponseCommentAttributes> frcs) {
-        frcs.sort(Comparator.comparing(frc -> frc.createdAt));
+    @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.feedbackQuestionId)
+                .append(this.feedbackResponseId).append(this.courseId)
+                .append(this.commentGiver).append(this.commentText)
+                .append(this.giverSection).append(this.receiverSection);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseCommentAttributes otherCommentAttributes =
+                    (FeedbackResponseCommentAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherCommentAttributes.feedbackSessionName)
+                    && Objects.equals(this.feedbackResponseId, otherCommentAttributes.feedbackResponseId)
+                    && Objects.equals(this.feedbackQuestionId, otherCommentAttributes.feedbackQuestionId)
+                    && Objects.equals(this.courseId, otherCommentAttributes.courseId)
+                    && Objects.equals(this.commentGiver, otherCommentAttributes.commentGiver)
+                    && Objects.equals(this.commentText, otherCommentAttributes.commentText)
+                    && Objects.equals(this.giverSection, otherCommentAttributes.giverSection)
+                    && Objects.equals(this.receiverSection, otherCommentAttributes.receiverSection);
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -314,28 +301,28 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(courseId);
             frca.courseId = courseId;
 
             return this;
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+            Assumption.assertNotNull(feedbackSessionName);
             frca.feedbackSessionName = feedbackSessionName;
 
             return this;
         }
 
         public Builder withCommentGiver(String commentGiver) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentGiver);
+            Assumption.assertNotNull(commentGiver);
             frca.commentGiver = commentGiver;
 
             return this;
         }
 
         public Builder withFeedbackQuestionId(String feedbackQuestionId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
+            Assumption.assertNotNull(feedbackQuestionId);
             frca.feedbackQuestionId = feedbackQuestionId;
 
             return this;
@@ -347,7 +334,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withCommentGiverType(FeedbackParticipantType commentGiverType) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentGiverType);
+            Assumption.assertNotNull(commentGiverType);
 
             frca.commentGiverType = commentGiverType;
             return this;
@@ -382,7 +369,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         private UpdateOption<String> receiverSectionOption = UpdateOption.empty();
 
         private UpdateOptions(long feedbackResponseCommentId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseCommentId);
+            Assumption.assertNotNull(feedbackResponseCommentId);
 
             this.feedbackResponseCommentId = feedbackResponseCommentId;
         }
@@ -415,14 +402,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             }
 
             public Builder withLastEditorEmail(String lastEditorEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, lastEditorEmail);
+                Assumption.assertNotNull(lastEditorEmail);
 
                 updateOptions.lastEditorEmailOption = UpdateOption.of(lastEditorEmail);
                 return this;
             }
 
             public Builder withLastEditorAt(Instant lastEditedAt) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, lastEditedAt);
+                Assumption.assertNotNull(lastEditedAt);
 
                 updateOptions.lastEditedAtOption = UpdateOption.of(lastEditedAt);
                 return this;
@@ -445,50 +432,50 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 
         public B withFeedbackResponseId(String feedbackResponseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseId);
+            Assumption.assertNotNull(feedbackResponseId);
 
             updateOptions.feedbackResponseIdOption = UpdateOption.of(feedbackResponseId);
             return thisBuilder;
         }
 
         public B withCommentText(String commentText) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, commentText);
+            Assumption.assertNotNull(commentText);
 
             updateOptions.commentTextOption = UpdateOption.of(commentText);
             return thisBuilder;
         }
 
         public B withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showCommentTo);
+            Assumption.assertNotNull(showCommentTo);
 
             updateOptions.showCommentToOption = UpdateOption.of(showCommentTo);
             return thisBuilder;
         }
 
         public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, showGiverNameTo);
+            Assumption.assertNotNull(showGiverNameTo);
 
             updateOptions.showGiverNameToOption = UpdateOption.of(showGiverNameTo);
             return thisBuilder;
         }
 
         public B withGiverSection(String giverSection) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverSection);
+            Assumption.assertNotNull(giverSection);
 
             updateOptions.giverSectionOption = UpdateOption.of(giverSection);
             return thisBuilder;
         }
 
         public B withReceiverSection(String receiverSection) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, receiverSection);
+            Assumption.assertNotNull(receiverSection);
 
             updateOptions.receiverSectionOption = UpdateOption.of(receiverSection);
             return thisBuilder;

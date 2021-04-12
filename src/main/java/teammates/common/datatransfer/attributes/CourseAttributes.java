@@ -2,17 +2,16 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.DateTimeException;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
-import teammates.common.util.TimeHelper;
 import teammates.storage.entity.Course;
 
 /**
@@ -29,7 +28,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     private String id;
 
-    CourseAttributes(String courseId) {
+    private CourseAttributes(String courseId) {
         this.id = courseId;
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.createdAt = Instant.now();
@@ -90,45 +89,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return deletedAt;
     }
 
-    public String getCreatedAtDateString() {
-        return TimeHelper.formatDateForInstructorPages(createdAt, timeZone);
-    }
-
-    public String getCreatedAtDateStamp() {
-        return TimeHelper.formatDateTimeToIso8601Utc(createdAt);
-    }
-
-    public String getCreatedAtFullDateTimeString() {
-        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(createdAt, timeZone);
-        return TimeHelper.formatDateTimeForDisplay(localDateTime);
-    }
-
-    public String getDeletedAtDateString() {
-        if (this.deletedAt == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        return TimeHelper.formatDateForInstructorPages(deletedAt, timeZone);
-    }
-
-    public String getDeletedAtDateStamp() {
-        if (this.deletedAt == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        return TimeHelper.formatDateTimeToIso8601Utc(deletedAt);
-    }
-
-    public String getDeletedAtFullDateTimeString() {
-        if (this.deletedAt == null) {
-            return Const.DELETION_DATE_NOT_APPLICABLE;
-        }
-        LocalDateTime localDateTime = TimeHelper.convertInstantToLocalDateTime(deletedAt, timeZone);
-        return TimeHelper.formatDateTimeForDisplay(localDateTime);
-    }
-
-    public void resetDeletedAt() {
-        this.deletedAt = null;
-    }
-
     public boolean isCourseDeleted() {
         return this.deletedAt != null;
     }
@@ -161,6 +121,28 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.id).append(this.name);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            CourseAttributes otherCourse = (CourseAttributes) other;
+            return Objects.equals(this.id, otherCourse.id)
+                    && Objects.equals(this.name, otherCourse.name);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void sanitizeForSaving() {
         // no additional sanitization required
     }
@@ -175,11 +157,6 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     public static void sortById(List<CourseAttributes> courses) {
         courses.sort(Comparator.comparing(CourseAttributes::getId));
-    }
-
-    public static void sortByCreatedDate(List<CourseAttributes> courses) {
-        courses.sort(Comparator.comparing((CourseAttributes course) -> course.createdAt).reversed()
-                .thenComparing(course -> course.getId()));
     }
 
     /**
@@ -229,7 +206,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(courseId);
 
             this.courseId = courseId;
         }
@@ -274,22 +251,22 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+            Assumption.assertNotNull(name);
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withTimezone(ZoneId timezone) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timezone);
+            Assumption.assertNotNull(timezone);
 
             updateOptions.timeZoneOption = UpdateOption.of(timezone);
             return thisBuilder;

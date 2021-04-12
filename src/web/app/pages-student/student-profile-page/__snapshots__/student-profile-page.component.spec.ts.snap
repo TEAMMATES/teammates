@@ -1,225 +1,266 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`StudentProfilePageComponent should snap when student profile is still loading 1`] = `
+<tm-student-profile-page
+  Gender={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
+  hasLoadingStudentProfileFailed="false"
+  id=""
+  isLoadingStudentProfile={[Function Boolean]}
+  isSavingProfileEdit="false"
+  nationalitiesService={[Function NationalitiesService]}
+  ngbModal={[Function NgbModal]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentProfileService={[Function StudentProfileService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-student-profile-page>
+`;
+
 exports[`StudentProfilePageComponent should snap with a student field without information 1`] = `
 <tm-student-profile-page
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
+  hasLoadingStudentProfileFailed="false"
   id=""
+  isLoadingStudentProfile="false"
+  isSavingProfileEdit="false"
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
-  <div>
-    <h1>
-      Student Profile
-    </h1>
+  <tm-loading-retry>
+    
+    
     <div
-      class="card"
+      class="text-center text-sm-left"
     >
+      <h1>
+        Student Profile
+      </h1>
+      
       <div
-        class="card-body fill-plain"
+        class="card"
       >
-        <h1>
-          
-        </h1>
         <div
-          class="row profile-pic-row"
+          class="card-body fill-plain"
         >
-          <div
-            class="col-3 cursor-pointer"
-          >
-            <img
-              class="profile-pic"
-              src=""
-            />
-          </div>
-        </div>
-        <div
-          class="row profile-pic-row"
-        >
-          <div
-            class="col-3 cursor-pointer"
-          >
-            <button
-              class="btn btn-primary upload-edit-photo"
-              ngbtooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
-            >
-               Upload/Edit Photo 
-            </button>
+          <h1>
             
-          </div>
-        </div>
-        <form
-          class="ng-untouched ng-pristine ng-valid"
-          ng-reflect-form="[object Object]"
-          novalidate=""
-        >
+          </h1>
           <div
-            class="form-group"
-            ngbtooltip="This is the name you prefer to be called by"
+            class="row profile-pic-row"
           >
-            <label>
-              The name you prefer to be called by instructors
-            </label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentshortname"
-              id="studentshortname"
-              ng-reflect-name="studentshortname"
-            />
+            <div
+              class="col cursor-pointer"
+            >
+              <img
+                class="profile-pic"
+                src=""
+              />
+            </div>
           </div>
           <div
-            class="form-group"
-            ngbtooltip="This is a long term contact email"
+            class="row profile-pic-row"
           >
-            <label>
-               Long-term Contact Email 
-              <em
-                class="font-weight-normal emphasis text-muted small"
+            <div
+              class="col-md-12 cursor-pointer"
+            >
+              <button
+                class="btn btn-primary upload-edit-photo btn-margin-right"
+                ngbtooltip=".jpg or .png, max size 5 MB"
               >
-                - only visible to your instructors
-              </em>
-            </label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentprofileemail"
-              id="studentprofileemail"
-              ng-reflect-name="studentprofileemail"
-            />
+                 Upload/Edit Photo 
+              </button>
+              
+              <button
+                class="btn btn-danger"
+                id="profile-delete-photo"
+              >
+                 Delete Photo 
+              </button>
+            </div>
           </div>
-          <div
-            class="form-group"
-            ngbtooltip="This is the institution that you represent"
+          <form
+            class="ng-untouched ng-pristine ng-valid"
+            novalidate=""
           >
+            <div
+              class="form-group"
+            >
+              <label>
+                The name you prefer to be called by instructors
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentshortname"
+                id="studentshortname"
+              />
+            </div>
+            <div
+              class="form-group"
+            >
+              <label>
+                 Long-term Contact Email 
+                <em
+                  class="font-weight-normal emphasis text-muted small"
+                >
+                  - only visible to your instructors
+                </em>
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentprofileemail"
+                id="studentprofileemail"
+              />
+            </div>
+            <div
+              class="form-group"
+            >
+              <label>
+                Institute
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentprofileinstitute"
+                id="studentprofileinstitute"
+              />
+            </div>
+            <div
+              class="form-group"
+            >
+              <label>
+                Nationality
+              </label>
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentnationality"
+                id="studentnationality"
+              >
+                
+              </select>
+            </div>
             <label>
-              Institute
+              Gender
             </label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentprofileinstitute"
-              id="studentprofileinstitute"
-              ng-reflect-name="studentprofileinstitute"
-            />
-          </div>
-          <div
-            class="form-group"
-            ngbtooltip="This is your nationality"
-          >
-            <label>
-              Nationality
-            </label>
-            <select
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentnationality"
-              id="studentnationality"
-              ng-reflect-name="studentnationality"
+            <div
+              class="form-group"
             >
               
-            </select>
-          </div>
-          <label>
-            Gender
-          </label>
-          <div
-            class="form-group"
-          >
-            
-            <div
-              class="custom-control-inline"
-            >
-              <input
-                class="student-gender-radio ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="MALE"
-                type="radio"
-              />
-              <label
-                class="student-gender-label"
+              <div
+                class="custom-control-inline"
               >
-                Male
-              </label>
+                <input
+                  class="student-gender-radio ng-untouched ng-pristine ng-valid"
+                  formcontrolname="studentgender"
+                  type="radio"
+                />
+                <label
+                  class="student-gender-label mt-1"
+                >
+                  Male
+                </label>
+              </div>
+              <div
+                class="custom-control-inline"
+              >
+                <input
+                  class="student-gender-radio ng-untouched ng-pristine ng-valid"
+                  formcontrolname="studentgender"
+                  type="radio"
+                />
+                <label
+                  class="student-gender-label mt-1"
+                >
+                  Female
+                </label>
+              </div>
+              <div
+                class="custom-control-inline"
+              >
+                <input
+                  class="student-gender-radio ng-untouched ng-pristine ng-valid"
+                  formcontrolname="studentgender"
+                  type="radio"
+                />
+                <label
+                  class="student-gender-label mt-1"
+                >
+                  Not Specified
+                </label>
+              </div>
             </div>
             <div
-              class="custom-control-inline"
+              class="form-group"
             >
-              <input
-                class="student-gender-radio ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="FEMALE"
-                type="radio"
-              />
               <label
-                class="student-gender-label"
+                class="ngb-tooltip-class"
+                ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
               >
-                Female
+                 More Information about Yourself
               </label>
+              <textarea
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentprofilemoreinfo"
+                id="studentprofilemoreinfo"
+                placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
+                rows="4"
+              >
+                            
+              </textarea>
             </div>
             <div
-              class="custom-control-inline"
+              class="text-center"
             >
-              <input
-                class="student-gender-radio ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="OTHER"
-                type="radio"
-              />
-              <label
-                class="student-gender-label"
+              <button
+                class="btn btn-primary student-save-profile"
+                type="submit"
               >
-                Not Specified
-              </label>
+                
+                 Save Profile 
+              </button>
             </div>
-          </div>
-          <div
-            class="form-group"
-            ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
-          >
-            <label>
-              More Information about Yourself
-            </label>
-            <textarea
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentprofilemoreinfo"
-              id="studentprofilemoreinfo"
-              ng-reflect-name="studentprofilemoreinfo"
-              placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
-              rows="4"
+            <div
+              class="whisper"
             >
-                        
-            </textarea>
-          </div>
-          <div
-            class="text-center"
-          >
-            <input
-              class="btn btn-primary student-save-profile"
-              type="submit"
-              value="Save Profile"
-            />
-          </div>
-          <div
-            class="whisper"
-          >
-            This profile will be visible to all your instructors and coursemates.
-          </div>
-        </form>
-        
-        
+              This profile will be visible to all your instructors and coursemates.
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-student-profile-page>
 `;
 
@@ -228,15 +269,38 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
+  defaultPictureLink={[Function String]}
+  hasLoadingStudentProfileFailed="false"
   id=""
+  isLoadingStudentProfile={[Function Boolean]}
+  isSavingProfileEdit="false"
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  route={[Function ActivatedRoute]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
-  
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-student-profile-page>
 `;
 
@@ -245,242 +309,233 @@ exports[`StudentProfilePageComponent should snap with values and a profile photo
   Gender={[Function Object]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
+  defaultPictureLink={[Function String]}
   editForm={[Function FormGroup]}
-  httpRequestService={[Function HttpRequestService]}
+  hasLoadingStudentProfileFailed="false"
   id=""
+  isLoadingStudentProfile="false"
+  isSavingProfileEdit="false"
   nationalities={[Function Array]}
+  nationalitiesService={[Function NationalitiesService]}
   ngbModal={[Function NgbModal]}
-  pictureKey={[Function String]}
   profilePicLink={[Function String]}
-  route={[Function ActivatedRoute]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
   studentProfileService={[Function StudentProfileService]}
-  user="undefined"
 >
-  <div>
-    <h1>
-      Student Profile
-    </h1>
+  <tm-loading-retry>
+    
+    
     <div
-      class="card"
+      class="text-center text-sm-left"
     >
+      <h1>
+        Student Profile
+      </h1>
+      
       <div
-        class="card-body fill-plain"
+        class="card"
       >
-        <h1>
-          
-        </h1>
         <div
-          class="row profile-pic-row"
+          class="card-body fill-plain"
         >
-          <div
-            class="col-3 cursor-pointer"
-          >
-            <img
-              class="profile-pic"
-              src="/webapi/students/profilePic?blob-key=$photo.jpg&time=1552509888215"
-            />
-          </div>
-        </div>
-        <div
-          class="row profile-pic-row"
-        >
-          <div
-            class="col-3 cursor-pointer"
-          >
-            <button
-              class="btn btn-primary upload-edit-photo"
-              ngbtooltip="Upload a profile picture (.jpg or .png, max size 5 MB)"
-            >
-               Upload/Edit Photo 
-            </button>
+          <h1>
             
-            <button
-              class="btn btn-danger"
-              id="profile-delete-photo"
-              ngbtooltip="Delete your profile picture"
+          </h1>
+          <div
+            class="row profile-pic-row"
+          >
+            <div
+              class="col cursor-pointer"
             >
-               Delete Photo 
-            </button>
-          </div>
-        </div>
-        <form
-          class="ng-untouched ng-pristine ng-valid"
-          ng-reflect-form="[object Object]"
-          novalidate=""
-        >
-          <div
-            class="form-group"
-            ngbtooltip="This is the name you prefer to be called by"
-          >
-            <label>
-              The name you prefer to be called by instructors
-            </label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentshortname"
-              id="studentshortname"
-              ng-reflect-name="studentshortname"
-            />
+              <img
+                class="profile-pic"
+                src="/webapi/students/profilePic?blob-key=$photo.jpg&time=1552509888215"
+              />
+            </div>
           </div>
           <div
-            class="form-group"
-            ngbtooltip="This is a long term contact email"
+            class="row profile-pic-row"
           >
-            <label>
-               Long-term Contact Email 
-              <em
-                class="font-weight-normal emphasis text-muted small"
+            <div
+              class="col-md-12 cursor-pointer"
+            >
+              <button
+                class="btn btn-primary upload-edit-photo btn-margin-right"
+                ngbtooltip=".jpg or .png, max size 5 MB"
               >
-                - only visible to your instructors
-              </em>
-            </label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentprofileemail"
-              id="studentprofileemail"
-              ng-reflect-name="studentprofileemail"
-            />
+                 Upload/Edit Photo 
+              </button>
+              
+              <button
+                class="btn btn-danger"
+                id="profile-delete-photo"
+              >
+                 Delete Photo 
+              </button>
+            </div>
           </div>
-          <div
-            class="form-group"
-            ngbtooltip="This is the institution that you represent"
+          <form
+            class="ng-untouched ng-pristine ng-valid"
+            novalidate=""
           >
+            <div
+              class="form-group"
+            >
+              <label>
+                The name you prefer to be called by instructors
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentshortname"
+                id="studentshortname"
+              />
+            </div>
+            <div
+              class="form-group"
+            >
+              <label>
+                 Long-term Contact Email 
+                <em
+                  class="font-weight-normal emphasis text-muted small"
+                >
+                  - only visible to your instructors
+                </em>
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentprofileemail"
+                id="studentprofileemail"
+              />
+            </div>
+            <div
+              class="form-group"
+            >
+              <label>
+                Institute
+              </label>
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentprofileinstitute"
+                id="studentprofileinstitute"
+              />
+            </div>
+            <div
+              class="form-group"
+            >
+              <label>
+                Nationality
+              </label>
+              <select
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentnationality"
+                id="studentnationality"
+              >
+                
+                <option
+                  value="Derpistan"
+                >
+                   Derpistan 
+                </option>
+                <option
+                  value="Blablaland"
+                >
+                   Blablaland 
+                </option>
+              </select>
+            </div>
             <label>
-              Institute
+              Gender
             </label>
-            <input
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentprofileinstitute"
-              id="studentprofileinstitute"
-              ng-reflect-name="studentprofileinstitute"
-            />
-          </div>
-          <div
-            class="form-group"
-            ngbtooltip="This is your nationality"
-          >
-            <label>
-              Nationality
-            </label>
-            <select
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentnationality"
-              id="studentnationality"
-              ng-reflect-name="studentnationality"
+            <div
+              class="form-group"
             >
               
-              <option
-                ng-reflect-value="Derpistan"
-                value="Derpistan"
+              <div
+                class="custom-control-inline"
               >
-                 Derpistan 
-              </option>
-              <option
-                ng-reflect-value="Blablaland"
-                value="Blablaland"
+                <input
+                  class="student-gender-radio ng-untouched ng-pristine ng-valid"
+                  formcontrolname="studentgender"
+                  type="radio"
+                />
+                <label
+                  class="student-gender-label mt-1"
+                >
+                  Male
+                </label>
+              </div>
+              <div
+                class="custom-control-inline"
               >
-                 Blablaland 
-              </option>
-            </select>
-          </div>
-          <label>
-            Gender
-          </label>
-          <div
-            class="form-group"
-          >
-            
-            <div
-              class="custom-control-inline"
-            >
-              <input
-                class="student-gender-radio ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="MALE"
-                type="radio"
-              />
-              <label
-                class="student-gender-label"
+                <input
+                  class="student-gender-radio ng-untouched ng-pristine ng-valid"
+                  formcontrolname="studentgender"
+                  type="radio"
+                />
+                <label
+                  class="student-gender-label mt-1"
+                >
+                  Female
+                </label>
+              </div>
+              <div
+                class="custom-control-inline"
               >
-                Male
-              </label>
+                <input
+                  class="student-gender-radio ng-untouched ng-pristine ng-valid"
+                  formcontrolname="studentgender"
+                  type="radio"
+                />
+                <label
+                  class="student-gender-label mt-1"
+                >
+                  Not Specified
+                </label>
+              </div>
             </div>
             <div
-              class="custom-control-inline"
+              class="form-group"
             >
-              <input
-                class="student-gender-radio ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="FEMALE"
-                type="radio"
-              />
               <label
-                class="student-gender-label"
+                class="ngb-tooltip-class"
+                ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
               >
-                Female
+                 More Information about Yourself
               </label>
+              <textarea
+                class="form-control ng-untouched ng-pristine ng-valid"
+                formcontrolname="studentprofilemoreinfo"
+                id="studentprofilemoreinfo"
+                placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
+                rows="4"
+              >
+                            
+              </textarea>
             </div>
             <div
-              class="custom-control-inline"
+              class="text-center"
             >
-              <input
-                class="student-gender-radio ng-untouched ng-pristine ng-valid"
-                formcontrolname="studentgender"
-                ng-reflect-form-control-name="studentgender"
-                ng-reflect-name="studentgender"
-                ng-reflect-value="OTHER"
-                type="radio"
-              />
-              <label
-                class="student-gender-label"
+              <button
+                class="btn btn-primary student-save-profile"
+                type="submit"
               >
-                Not Specified
-              </label>
+                
+                 Save Profile 
+              </button>
             </div>
-          </div>
-          <div
-            class="form-group"
-            ngbtooltip="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc"
-          >
-            <label>
-              More Information about Yourself
-            </label>
-            <textarea
-              class="form-control ng-untouched ng-pristine ng-valid"
-              formcontrolname="studentprofilemoreinfo"
-              id="studentprofilemoreinfo"
-              ng-reflect-name="studentprofilemoreinfo"
-              placeholder="You may specify miscellaneous info about yourself e.g. links to home page, online CV, portfolio etc."
-              rows="4"
+            <div
+              class="whisper"
             >
-                        
-            </textarea>
-          </div>
-          <div
-            class="text-center"
-          >
-            <input
-              class="btn btn-primary student-save-profile"
-              type="submit"
-              value="Save Profile"
-            />
-          </div>
-          <div
-            class="whisper"
-          >
-            This profile will be visible to all your instructors and coursemates.
-          </div>
-        </form>
-        
-        
+              This profile will be visible to all your instructors and coursemates.
+            </div>
+          </form>
+        </div>
       </div>
     </div>
-  </div>
+    
+    
+  </tm-loading-retry>
 </tm-student-profile-page>
 `;

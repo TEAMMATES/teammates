@@ -1,0 +1,1050 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionResultCsvService should display student last name displayed properly for feedbackSessionResultsC1S1NewLastName 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",new name new last name,new last name,student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",new name new last name,new last name,student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for CONSTSUM question (restricted responses) 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,CONSTSUM Session
+
+
+Question 1,How important are the following factors to you? Give points accordingly.
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Grades,Fun
+
+
+Question 2,Split points among the teams
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 3,How much has each student worked?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for CONSTSUM question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,CONSTSUM Session
+
+
+Question 1,How important are the following factors to you? Give points accordingly.
+
+Summary Statistics
+Option,Total Points,Average Points,Points Received
+Fun,101,50.5,20,81
+Grades,99,49.5,19,80
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Grades,Fun
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,19,81
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,,80,20
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+
+Question 2,Split points among the teams
+
+Summary Statistics
+Team,Recipient,Total Points,Average Points,Points Received
+,\\"Team 1.1</td></div>'\\"\\"\\",80,80,80
+,Team 1.2,20,20,20
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,80
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Team 1.2,Team 1.2,Team 1.2,,20
+
+
+Question 3,How much has each student worked?
+
+Summary Statistics
+Team,Recipient,Total Points,Average Points,Points Received
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",30,30,30
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,20,20,20
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,30,30,30
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,10,10,10
+Team 1.2,student5 In Course1,10,10,10
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,30
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,20
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,30
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,10
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,10
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for CONTRIB question (restricted section) 1`] = `
+"Course,FSQTT.idOfCourseWithSections
+Session Name,CONTRIB Session Section Restricted
+
+
+Question 1,\\"How much has each team member including yourself, contributed to the project?\\"
+
+Summary Statistics
+\\"In the points given below, an equal share is equal to 100 points. e.g. 80 means \\"\\"Equal share - 20%\\"\\" and 110 means \\"\\"Equal share + 10%\\"\\".\\"
+Claimed Contribution (CC) = the contribution claimed by the student.
+Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
+Team,Name,Email,CC,PC,Ratings Received
+Team 2,student3 In Course With Sections,student3InCourseWithSections@gmail.tmt,100,N/A,N/A
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Team 2,student3 In Course With Sections,Sections,student3InCourseWithSections@gmail.tmt,Team 2,student3 In Course With Sections,Sections,student3InCourseWithSections@gmail.tmt,Equal share
+Team 3,student4 In Course With Sections,Sections,student4InCourseWithSections@gmail.tmt,Team 3,student4 In Course With Sections,Sections,student4InCourseWithSections@gmail.tmt,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for CONTRIB question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,CONTRIB Session
+
+
+Question 1,\\"How much has each team member including yourself, contributed to the project?\\"
+
+Summary Statistics
+\\"In the points given below, an equal share is equal to 100 points. e.g. 80 means \\"\\"Equal share - 20%\\"\\" and 110 means \\"\\"Equal share + 10%\\"\\".\\"
+Claimed Contribution (CC) = the contribution claimed by the student.
+Perceived Contribution (PC) = the average value of student's contribution as perceived by the team members.
+Team,Name,Email,CC,PC,Ratings Received
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,95,N/A,N/A,N/A,N/A
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,Not Submitted,75,75,N/A,N/A
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,Not Submitted,103,103,N/A,N/A
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,Not Submitted,122,122,N/A,N/A
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Equal share
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Equal share - 20%
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Equal share + 10%
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Equal share + 30%
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for MCQ question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,MCQ Session
+
+
+Question 1,What do you like best about our product?
+
+Summary Statistics
+Choice,Response Count,Percentage (%)
+It's good,1,33.33
+It's perfect,2,66.67
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,It's good,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,It's perfect,Student 2 comment,Instructor1 Course1,Instructor 1 comment to student 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,It's perfect,Student 3 comment
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response,
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response,
+
+
+Question 2,What do you like best about the class' product?
+
+Summary Statistics
+Choice,Response Count,Percentage (%)
+It's good,1,50
+It's perfect,1,50
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,It's good,
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,It's perfect,
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,No Response,
+
+
+Question 3,What can be improved for this class?
+
+Summary Statistics
+Choice,Response Count,Percentage (%)
+Content,0,0
+Other,1,100
+Teaching style,0,0
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Lecture notes,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response,
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response,
+
+
+Question 4,What do you like best about our product?
+
+Summary Statistics
+Choice,Weight,Response Count,Percentage (%),Weighted Percentage (%)
+It's good,1.25,1,100,100
+It's perfect,1.7,0,0,0
+Other,3,0,0,0
+
+Per Recipient Statistics
+Team,Recipient Name,It's good [1.25],It's perfect [1.7],Other [3],Total,Average
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",1,0,0,1.25,1.25
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,It's good,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response,
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response,
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for MSQ question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,MSQ Session
+
+
+Question 1,What do you like best about our product?
+
+Summary Statistics
+Choice,Response Count,Percentage (%)
+It's good,2,66.67
+It's perfect,1,33.33
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,It's good,It's perfect
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,It's good,It's perfect
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,,It's good,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+
+Question 2,What do you like best about the class' product?
+
+Summary Statistics
+Choice,Response Count,Percentage (%)
+It's good,1,33.33
+It's perfect,2,66.67
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,It's good,It's perfect
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,,It's good,It's perfect
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,,,It's perfect
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,
+
+
+Question 3,Choose all the food you like
+
+Summary Statistics
+Choice,Weight,Response Count,Percentage (%),Weighted Percentage (%)
+Chicken rice,0,1,16.67,0
+Other,3,2,33.33,54.55
+Pasta,2,2,33.33,36.36
+Pizza,1,1,16.67,9.09
+
+Per Recipient Statistics
+Team,Recipient Name,Pizza [1],Pasta [2],Chicken rice [0],Other [3],Total,Average
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",1,1,1,1,6,1.5
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,0,1,0,0,2,2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,0,0,0,1,3,3
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Pizza,Pasta,Chicken rice
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,,Pizza,Pasta,Chicken rice
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,,,Pasta,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,,,,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for NUMSCALE question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,NUMSCALE Session
+
+
+Question 1,Rate our product.
+
+Summary Statistics
+Team,Recipient,Average,Minimum,Maximum
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",3.5,3.5,3.5
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,2,2
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,3.5
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+
+Question 2,Rate our product.
+
+Summary Statistics
+Team,Recipient,Average,Minimum,Maximum
+Instructors,Instructor1 Course1,4.5,4.5,4.5
+Instructors,Instructor2 Course1,1,1,1
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,4.5
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,1
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for RANK question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,RANK Session
+
+
+Question 1,Rank the other students.
+
+Summary Statistics
+Team,Recipient,Self Rank,Overall Rank,Overall Rank Excluding Self,Ranks Received,Team Rank,Team Rank Excluding Self
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",4,4,-,4
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,2,1,3,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,3,1,1,2,3
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,3,3,2,1,3,4
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,4
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,3
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,2
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,3
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,4
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,3
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+
+
+Question 2,Rank the areas of improvement you think your team should make progress in.
+
+Summary Statistics
+Option,Overall Rank,Ranks Received
+Friendliness of teammates,
+Quality of progress reports,4,2,3
+Quality of work,3,1,1,2,3,4
+Teamwork and communication,1,1,1,1,4
+Time management,2,1,2,2,3
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Rank 1,Rank 2,Rank 3,Rank 4,Rank 5
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Quality of work,Quality of progress reports,Time management,Teamwork and communication,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of progress reports,Quality of work,
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,\\"Time management, Teamwork and communication\\",Quality of work,,,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",\\"Team 1.1</td></div>'\\"\\"\\",,,Teamwork and communication,Time management,Quality of work,,
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,Team 1.2,Team 1.2,,,Quality of work,,,,
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for RUBRIC question 1`] = `
+"Course,FSQTT.idOfTypicalCourse1
+Session Name,RUBRIC Session
+
+
+Question 1,Please choose the best choice for the following sub-questions.
+
+Summary Statistics
+,Yes,No,Average
+a) This student has done a good job.,66.67% (2) [1.25],33.33% (1) [-1.7],0.27
+b) This student has tried his/her best.,75% (3) [1.25],25% (1) [-1.7],0.51
+
+Per Recipient Statistics
+Team,Recipient Name,Recipient's Email,Sub Question,Yes,No,Total,Average
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,a) This student has done a good job.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],100% (1) [-1.7],-1.7,-1.7
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,a) This student has done a good job.,0% (0) [1.25],100% (1) [-1.7],-1.7,-1.7
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,b) This student has tried his/her best.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,a) This student has done a good job.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,b) This student has tried his/her best.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,a) This student has done a good job.,0% (0) [1.25],0% (0) [-1.7],0,0
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,b) This student has tried his/her best.,100% (1) [1.25],0% (0) [-1.7],1.25,1.25
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,b,No,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,a,No,2
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,b,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,b,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,a,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,b,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,All Sub-Questions,No Response
+
+
+Question 2,Please choose the best choice for the following sub-questions. Only first subquestion has responses
+
+Summary Statistics
+,Yes,No,Average
+a) This student has done a good job.,66.67% (2) [1.25],33.33% (1) [1],1.17
+b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0
+
+Per Recipient Statistics
+Team,Recipient Name,Recipient's Email,Sub Question,Yes,No,Total,Average
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,a) This student has done a good job.,100% (1) [1.25],0% (0) [1],1.25,1.25
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0,0
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,a) This student has done a good job.,0% (0) [1.25],100% (1) [1],1,1
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0,0
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,a) This student has done a good job.,100% (1) [1.25],0% (0) [1],1.25,1.25
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,b) This student has tried his/her best.,0% (0) [1.25],0% (0) [1],0,0
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,b,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,a,No,2
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,b,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,a,Yes,1
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,b,No Response,
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,All Sub-Questions,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,All Sub-Questions,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,All Sub-Questions,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for a specific question (question 1) 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for a specific question (question 2) 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for a specific question from/to section 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response if either the giver or evaluee is in the selected section
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for a specific question with responses from and to section 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response only if both are in the selected section
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for a specific question with responses from section 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response if the giver is in the selected section
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+
+"
+`;
+
+exports[`SessionResultCsvService should generate results for a specific question with responses to section 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response if the evaluee is in the selected section
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+"
+`;
+
+exports[`SessionResultCsvService should hide missing responses 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should hide stats 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,Session with MCQ
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Quality,
+
+"
+`;
+
+exports[`SessionResultCsvService should only show responses from and to section for feedbackSessionResultsC1S1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response only if both are in the selected section
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should only show responses from section for feedbackSessionResultsC1S1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response if the giver is in the selected section
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should only show responses to section for feedbackSessionResultsC1S1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response if the evaluee is in the selected section
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should show missing responses 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Helper Course1,Course1,helper@course1.tmt,-,-,,,No Response
+Instructors,Instructor Not Yet Joined Course 1,1,instructorNotYetJoinedCourse1@email.tmt,-,-,,,No Response
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,-,-,,,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,-,-,,,No Response
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should show missing responses for feedbackSessionResultsC1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,No Response
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,Course1,student4InCourse1@gmail.tmt,No Response
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Helper Course1,Course1,helper@course1.tmt,-,-,,,No Response
+Instructors,Instructor Not Yet Joined Course 1,1,instructorNotYetJoinedCourse1@email.tmt,-,-,,,No Response
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
+Instructors,Instructor2 Course1,Course1,instructor2@course1.tmt,-,-,,,No Response
+Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,-,-,,,No Response
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Response
+
+"
+`;
+
+exports[`SessionResultCsvService should show responses along with stats for feedbackSessionResultsC1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should show responses for feedbackSessionResultsC1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,\\"Good work, keep it up!\\",Instructor1 Course1,Instructor 1 comment to instructor 1 self feedback Question 3
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should show responses from/to section for feedbackSessionResultsC1S1S1 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,First feedback session
+Section Name,Section 1
+Section View Detail,Show response if either the giver or evaluee is in the selected section
+
+
+Question 1,What is the best selling point of your product?
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Student 1 self feedback.,Instructor1 Course1,Instructor 1 comment to student 1 self feedback
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,I'm cool'
+
+
+Question 2,Rate 1 other student's product
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Comment From,Comment
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Response from student 2 to student 5.,Instructor1 Course1,Instructor 1 comment to response from student 2 to student 5 in feedback Question 2
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,Course1,student3InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,\\"Response from student 3 \\"\\"to\\"\\" student 2. Multiline test.\\"
+Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,Course1,student2InCourse1@gmail.tmt,Response from student 5 to student 2.
+
+
+Question 3,My comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 4,Instructor comments on the class
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+
+Question 5,New format Text question
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback
+
+"
+`;
+
+exports[`SessionResultCsvService should show stats 1`] = `
+"Course,idOfTypicalCourse1
+Session Name,Session with MCQ
+
+
+Question 1,What is the best selling point of your product?
+
+Summary Statistics
+Choice,Response Count,Percentage (%)
+Price,0,0
+Quality,1,100
+
+
+Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Feedback,Giver's Comments
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",\\"Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,Quality,
+
+"
+`;

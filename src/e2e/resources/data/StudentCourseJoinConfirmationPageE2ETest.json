@@ -1,0 +1,103 @@
+{
+  "accounts": {
+    "SCJoinConf.instr": {
+      "googleId": "tm.e2e.SCJoinConf.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "SCJoinConf.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "alice.tmms": {
+      "googleId": "tm.e2e.SCJoinConf.alice",
+      "name": "Alice B",
+      "isInstructor": false,
+      "email": "SCJoinConf.alice@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "SCJoinConf.CS2104": {
+      "id": "tm.e2e.SCJoinConf.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    },
+    "SCJoinConf.CS1101": {
+      "id": "tm.e2e.SCJoinConf.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "SCJoinConf.instr.CS2104": {
+      "googleId": "tm.e2e.SCJoinConf.instr",
+      "courseId": "tm.e2e.SCJoinConf.CS2104",
+      "name": "Teammates Test",
+      "email": "SCJoinConf.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "SCJoinConf.instr.CS1101": {
+      "googleId": "tm.e2e.SCJoinConf.instr",
+      "courseId": "tm.e2e.SCJoinConf.CS1101",
+      "name": "Teammates Test",
+      "email": "SCJoinConf.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "alice.tmms@SCJoinConf.CS2104": {
+      "googleId": "",
+      "email": "SCJoinConf.alice@gmail.tmt",
+      "course": "tm.e2e.SCJoinConf.CS2104",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "alice.tmms@SCJoinConf.CS1101": {
+      "googleId": "tm.e2e.SCJoinConf.alice",
+      "email": "SCJoinConf.alice@gmail.tmt",
+      "course": "tm.e2e.SCJoinConf.CS1101",
+      "name": "Amy Betsy",
+      "comments": "This student's name is Amy Betsy",
+      "team": "Team 1",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

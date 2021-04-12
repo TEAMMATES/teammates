@@ -2,7 +2,15 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { TeammatesCommonModule } from '../../teammates-common/teammates-common.module';
+import { ConstsumOptionsFieldComponent } from './constsum-options-field/constsum-options-field.component';
+import {
+  ConstsumOptionsQuestionEditDetailsFormComponent,
+} from './constsum-options-question-edit-details-form.component';
+import {
+  ConstsumRecipientsQuestionEditDetailsFormComponent,
+} from './constsum-recipients-question-edit-details-form.component';
 import { ContributionQuestionEditDetailsFormComponent } from './contribution-question-edit-details-form.component';
 import { McqFieldComponent } from './mcq-field/mcq-field.component';
 import { McqQuestionEditDetailsFormComponent } from './mcq-question-edit-details-form.component';
@@ -11,6 +19,8 @@ import { MsqQuestionEditDetailsFormComponent } from './msq-question-edit-details
 import { NumScaleQuestionEditDetailsFormComponent } from './num-scale-question-edit-details-form.component';
 import { RankOptionsFieldComponent } from './rank-options-field/rank-options-field.component';
 import { RankOptionsQuestionEditDetailsFormComponent } from './rank-options-question-edit-details-form.component';
+import { RankRecipientsQuestionEditDetailsFormComponent } from './rank-recipients-question-edit-details-form.component';
+import { RubricQuestionEditDetailsFormComponent } from './rubric-question-edit-details-form.component';
 import { TextQuestionEditDetailsFormComponent } from './text-question-edit-details-form.component';
 import { WeightFieldComponent } from './weight-field/weight-field.component';
 
@@ -27,8 +37,13 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     NumScaleQuestionEditDetailsFormComponent,
     RankOptionsFieldComponent,
     RankOptionsQuestionEditDetailsFormComponent,
+    RankRecipientsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
+    RubricQuestionEditDetailsFormComponent,
+    ConstsumOptionsQuestionEditDetailsFormComponent,
+    ConstsumOptionsFieldComponent,
+    ConstsumRecipientsQuestionEditDetailsFormComponent,
   ],
   exports: [
     ContributionQuestionEditDetailsFormComponent,
@@ -39,14 +54,19 @@ import { WeightFieldComponent } from './weight-field/weight-field.component';
     NumScaleQuestionEditDetailsFormComponent,
     RankOptionsFieldComponent,
     RankOptionsQuestionEditDetailsFormComponent,
+    RankRecipientsQuestionEditDetailsFormComponent,
     TextQuestionEditDetailsFormComponent,
     WeightFieldComponent,
+    RubricQuestionEditDetailsFormComponent,
+    ConstsumOptionsQuestionEditDetailsFormComponent,
+    ConstsumRecipientsQuestionEditDetailsFormComponent,
   ],
   imports: [
     CommonModule,
     DragDropModule,
     FormsModule,
-    NgbModule,
+    NgbTooltipModule,
+    TeammatesCommonModule,
   ],
 })
 export class QuestionEditDetailsFormModule { }

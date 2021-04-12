@@ -1,417 +1,666 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+exports[`InstructorCourseDetailsPageComponent should snap when students are still loading 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
+  hasLoadingStudentsFailed="false"
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
-  isAjaxSuccess={[Function Boolean]}
-  loading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
+  isLoadingCsv="false"
+  isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
-  sections={[Function Array]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
+  students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
-  <div>
-    <h1>
-      Course Details
-    </h1>
-    <div
-      class="card"
-    >
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
       <div
-        class="card-body fill-plain"
+        class="loading-container"
       >
         <div
-          class="form"
-        >
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Course ID:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                CS101
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Course name:
-            </label>
-            <div
-              class="col-sm-6"
-              id="coursename"
-            >
-              <p
-                class="form-control-static"
-              >
-                Introduction to CS
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Sections:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Teams:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Total students:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                0
-              </p>
-            </div>
-          </div>
-        </div>
+          class="row spinner-border text-primary"
+          role="status"
+        />
         <div
-          class="form-group row"
+          class="row text-secondary"
         >
-          <label
-            class="col-sm-3 control-label text-right"
-          >
-            Instructors:
-          </label>
-          <div
-            class="col-sm-6"
-          >
-            
-            <div>
-              
-              
-               Co-owner: Hodor (hodor@gmail.com) 
-              
-            </div>
-          </div>
+          Loading...
         </div>
-        
       </div>
-    </div>
+    </tm-loading-spinner>
     
-    <div
-      class="alert alert-warning"
-    >
-      <i
-        class="fa fa-exclamation-circle text-muted"
-      />
-       There are no students in this course. Click 
-      <a
-        href="/web/instructor/courses/enroll?courseid=CS101"
-        ng-reflect-query-params="[object Object]"
-        ng-reflect-router-link="/web/instructor/courses/enroll"
-        routerlink="/web/instructor/courses/enroll"
+    
+  </tm-loading-retry>
+</tm-instructor-course-details-page>
+`;
+
+exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and no students, and populated course student list 1`] = `
+<tm-instructor-course-details-page
+  courseDetails={[Function Object]}
+  courseService={[Function CourseService]}
+  hasLoadingStudentsFailed="false"
+  instructorService={[Function InstructorService]}
+  instructors={[Function Array]}
+  isLoadingCsv="false"
+  isStudentsLoading="false"
+  ngbModal={[Function NgbModal]}
+  route={[Function ActivatedRoute]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
+  students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+>
+  <tm-loading-retry>
+    
+    
+    <div>
+      <h1>
+        Course Details
+      </h1>
+      <div
+        class="card"
       >
-        here
-      </a>
-       to enroll students. 
+        <div
+          class="card-body fill-plain"
+        >
+          <div
+            class="form"
+          >
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Course ID:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="course-id"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  CS101
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Course name:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="course-name"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  Introduction to CS
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Sections:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="num-sections"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Teams:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="num-teams"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Total students:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="num-students"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  
+                </p>
+              </div>
+            </div>
+          </div>
+          <div
+            class="form-group row"
+          >
+            <label
+              class="col-sm-3 text-sm-right control-label"
+            >
+              Instructors:
+            </label>
+            <div
+              class="col-sm-6 text-sm-left"
+              id="instructors"
+            >
+              
+              <div>
+                 Co-owner: Hodor (hodor@gmail.com) 
+              </div>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+      <div
+        class="alert alert-warning"
+      >
+        <i
+          class="fa fa-exclamation-circle text-muted"
+        />
+         There are no students in this course. Click 
+        <a
+          href="/web/instructor/courses/enroll?courseid=CS101"
+          tmrouterlink="/web/instructor/courses/enroll"
+        >
+          here
+        </a>
+         to enroll students. 
+      </div>
+      
     </div>
     
     
-    
-    
-  </div>
+  </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;
 
 exports[`InstructorCourseDetailsPageComponent should snap with a course with one co-owner and one student, and ajax failure 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
   courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
-  httpRequestService={[Function HttpRequestService]}
+  hasLoadingStudentsFailed="false"
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
-  isAjaxSuccess="false"
-  loading="false"
-  navigationService={[Function NavigationService]}
+  isLoadingCsv="false"
+  isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
-  sections={[Function Array]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
+  students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
-  <div>
-    <h1>
-      Course Details
-    </h1>
-    <div
-      class="card"
-    >
+  <tm-loading-retry>
+    
+    
+    <div>
+      <h1>
+        Course Details
+      </h1>
       <div
-        class="card-body fill-plain"
+        class="card"
       >
         <div
-          class="form"
+          class="card-body fill-plain"
         >
           <div
-            class="form-group row"
+            class="form"
           >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Course ID:
-            </label>
             <div
-              class="col-sm-6"
+              class="form-group row"
             >
-              <p
-                class="form-control-static"
+              <label
+                class="col-sm-3 text-sm-right"
               >
-                CS101
-              </p>
+                Course ID:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="course-id"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  CS101
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Course name:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="course-name"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  Introduction to CS
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Sections:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="num-sections"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Teams:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="num-teams"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  
+                </p>
+              </div>
+            </div>
+            <div
+              class="form-group row"
+            >
+              <label
+                class="col-sm-3 text-sm-right"
+              >
+                Total students:
+              </label>
+              <div
+                class="col-sm-6 text-sm-left"
+                id="num-students"
+              >
+                <p
+                  class="form-control-static"
+                >
+                  
+                </p>
+              </div>
             </div>
           </div>
           <div
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-right"
+              class="col-sm-3 text-sm-right control-label"
             >
-              Course name:
+              Instructors:
             </label>
             <div
-              class="col-sm-6"
-              id="coursename"
+              class="col-sm-6 text-sm-left"
+              id="instructors"
             >
-              <p
-                class="form-control-static"
-              >
-                Introduction to CS
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Sections:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                1
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Teams:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                1
-              </p>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <label
-              class="col-sm-3 text-right"
-            >
-              Total students:
-            </label>
-            <div
-              class="col-sm-6"
-            >
-              <p
-                class="form-control-static"
-              >
-                1
-              </p>
-            </div>
-          </div>
-        </div>
-        <div
-          class="form-group row"
-        >
-          <label
-            class="col-sm-3 control-label text-right"
-          >
-            Instructors:
-          </label>
-          <div
-            class="col-sm-6"
-          >
-            
-            <div>
               
-              
-               Co-owner: Bran (bran@gmail.com) 
-              
-            </div>
-          </div>
-        </div>
-        
-        <div>
-          <div
-            class="form-group"
-          >
-            <div
-              class="text-center"
-            >
-              <button
-                class="btn btn-primary"
-                type="button"
-                value="Remind Students to Join"
-              >
-                <i
-                  class="fa fa-envelope"
-                />
-                 Remind Students to Join 
-              </button>
-              <button
-                class="btn btn-primary"
-                type="button"
-              >
-                <i
-                  class="fa fa-download"
-                />
-                 Download Student List 
-              </button>
-              <button
-                class="btn btn-danger"
-                type="button"
-                value="Delete All Students"
-              >
-                <i
-                  class="fa fa-trash"
-                />
-                 Delete All Students 
-              </button>
               <div>
-                <span>
-                  Non-English characters not displayed properly in the downloaded file? 
-                  <span
-                    class="btn-link"
-                  >
-                     Click here. 
-                  </span>
-                </span>
+                 Co-owner: Bran (bran@gmail.com) 
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            <div
+              class="form-group"
+            >
+              <div
+                class="text-center"
+              >
+                <button
+                  class="btn btn-primary"
+                  id="btn-remind-all"
+                  type="button"
+                  value="Remind Students to Join"
+                >
+                  <i
+                    class="fa fa-envelope"
+                  />
+                   Remind Students to Join 
+                </button>
+                <button
+                  class="btn btn-primary btn-margin-left"
+                  id="btn-download"
+                  type="button"
+                >
+                  
+                  <i
+                    class="fa fa-download"
+                  />
+                  
+                   Download Student List 
+                </button>
+                <button
+                  class="btn btn-danger btn-margin-left"
+                  id="btn-delete-all"
+                  type="button"
+                  value="Delete All Students"
+                >
+                  <i
+                    class="fa fa-trash"
+                  />
+                   Delete All Students 
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
+      
+      <div
+        class="card-body p-0 student-table-margin card border"
+        id="student-list"
+      >
+        <tm-student-list>
+          <div
+            class="table-responsive"
+          >
+            <table
+              class="table table-bordered table-striped m-0"
+            >
+              <thead
+                class="thead-gray"
+              >
+                <tr>
+                  <th>
+                    Photo
+                  </th>
+                  
+                  <th
+                    class="sortable-header"
+                  >
+                     Section 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      
+                      
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Team 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      
+                      
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                    id="sort-by-name"
+                  >
+                     Student Name 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      
+                      
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                    id="sort-by-status"
+                  >
+                     Status 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      
+                      
+                    </span>
+                  </th>
+                  <th
+                    class="sortable-header"
+                  >
+                     Email 
+                    <span
+                      class="fa-stack"
+                    >
+                      <i
+                        class="fas fa-sort"
+                      />
+                      
+                      
+                    </span>
+                  </th>
+                  <th
+                    class="align-center"
+                  >
+                    Action(s)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                
+                <tr
+                  s=""
+                >
+                  <td>
+                    <tm-view-photo-popover>
+                      
+                      
+                      
+                      <a
+                        href="/"
+                        queryparamshandling="preserve"
+                        role="button"
+                      >
+                         View Photo 
+                      </a>
+                      
+                      
+                      
+                    </tm-view-photo-popover>
+                  </td>
+                  
+                  <td>
+                    Tutorial Group 1
+                  </td>
+                  <td>
+                    Team 1
+                  </td>
+                  <td>
+                    Jamie
+                  </td>
+                  <td>
+                    Yet to Join
+                  </td>
+                  <td>
+                    jamie@gmail.com
+                  </td>
+                  <td
+                    class="no-print align-center"
+                  >
+                    
+                    
+                    <a
+                      class="btn btn-light btn-sm btn-margin-right"
+                      href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-view-details"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                       View
+                    </a>
+                    
+                    
+                    <a
+                      class="btn btn-light btn-sm btn-margin-right"
+                      href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-edit-details"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                       Edit
+                    </a>
+                    
+                    
+                    
+                    
+                    
+                    <button
+                      class="btn btn-light btn-sm btn-margin-right"
+                      id="btn-send-invite"
+                    >
+                      Send Invite
+                    </button>
+                    
+                    
+                    <button
+                      class="btn btn-light btn-sm btn-margin-right"
+                      id="btn-delete"
+                    >
+                      Delete
+                    </button>
+                    
+                    <a
+                      class="btn btn-light btn-sm btn-margin-right"
+                      href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
+                      id="btn-view-records"
+                      rel="noopener noreferrer"
+                      target="_blank"
+                    >
+                       All Records
+                    </a>
+                    
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </tm-student-list>
+      </div>
+      
     </div>
     
-    <div
-      class="card-body p-0"
-    >
-      <div
-        class="card-header text-dark-blue bg-light-blue font-weight-bold"
-      >
-        [CS101]
-      </div>
-      <div
-        class="card-body p-0"
-      >
-        <tm-student-list
-          ng-reflect-course-id="CS101"
-          ng-reflect-enable-remind-button="true"
-          ng-reflect-sections="[object Object]"
-          ng-reflect-use-gray-heading="true"
-        />
-      </div>
-    </div>
     
-    
-    
-    
-  </div>
+  </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;
 
 exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-instructor-course-details-page
-  clipboardService={[Function ClipboardService]}
+  courseDetails={[Function Object]}
   courseService={[Function CourseService]}
-  courseStudentListAsCsv=""
-  httpRequestService={[Function HttpRequestService]}
+  hasLoadingStudentsFailed="false"
+  instructorService={[Function InstructorService]}
   instructors={[Function Array]}
-  isAjaxSuccess={[Function Boolean]}
-  loading="false"
-  navigationService={[Function NavigationService]}
+  isLoadingCsv="false"
+  isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
-  sections={[Function Array]}
+  simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  studentService={[Function StudentService]}
+  studentSortBy="0"
+  studentSortOrder={[Function Number]}
+  students={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
 >
-  
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
 </tm-instructor-course-details-page>
 `;

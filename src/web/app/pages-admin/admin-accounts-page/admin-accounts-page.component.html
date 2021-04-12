@@ -1,27 +1,29 @@
-<div class="card bg-light" style="margin-top: 30px;" *ngIf="accountInfo.googleId">
-  <div class="card-body row" style="padding: 25px 40px;">
-    <label class="col-sm-2 control-label">Google ID:</label>
-    <div class="col-sm-10">{{ accountInfo.googleId }}</div>
+<div *tmIsLoading="isLoadingAccountInfo">
+  <div class="card bg-light" style="margin-top: 30px;" *ngIf="accountInfo.googleId">
+    <div class="card-body row" style="padding: 25px 40px;">
+      <label class="col-sm-2 control-label">Google ID:</label>
+      <div id="account-google-id" class="col-sm-10">{{ accountInfo.googleId }}</div>
 
-    <label class="col-sm-2 control-label">Name:</label>
-    <div class="col-sm-10">{{ accountInfo.name }}</div>
+      <label class="col-sm-2 control-label">Name:</label>
+      <div id="account-name" class="col-sm-10">{{ accountInfo.name }}</div>
 
-    <label class="col-sm-2 control-label">Email:</label>
-    <div class="col-sm-10">{{ accountInfo.email }}</div>
+      <label class="col-sm-2 control-label">Email:</label>
+      <div id="account-email" class="col-sm-10">{{ accountInfo.email }}</div>
 
-    <label class="col-sm-2 control-label">Institute:</label>
-    <div class="col-sm-10">{{ accountInfo.institute }}</div>
+      <label class="col-sm-2 control-label">Institute:</label>
+      <div id="account-institute" class="col-sm-10">{{ accountInfo.institute }}</div>
 
-    <label class="col-sm-2 control-label">Is Instructor:</label>
-    <div class="col-sm-10">{{ accountInfo.isInstructor }}</div>
+      <label class="col-sm-2 control-label">Is Instructor:</label>
+      <div id="account-is-instructor" class="col-sm-10">{{ accountInfo.isInstructor }}</div>
 
-    <div class="mx-auto" style="margin-top: 20px">
-      <button class="btn btn-sm btn-warning" style="margin-right: 10px;" *ngIf="accountInfo.isInstructor" (click)="downgradeAccountToStudent()">
-        <i class="fas fa-times"></i> Downgrade to Student
-      </button>
-      <button class="btn btn-sm btn-danger" (click)="deleteAccount()">
-        <i class="fas fa-trash-alt"></i> Delete Account
-      </button>
+      <div class="mx-auto" style="margin-top: 20px;">
+        <button id="btn-downgrade-account" class="btn btn-sm btn-warning" style="margin-right: 10px;" *ngIf="accountInfo.isInstructor" (click)="downgradeAccountToStudent()">
+          <i class="fas fa-times"></i> Downgrade to Student
+        </button>
+        <button id="btn-delete-account" class="btn btn-sm btn-danger" (click)="deleteAccount()">
+          <i class="fas fa-trash-alt"></i> Delete Account
+        </button>
+      </div>
     </div>
   </div>
 </div>
@@ -30,57 +32,60 @@
   Instructor For {{ instructorCourses.length }} Courses
 </h3>
 
-<div class="card bg-light" *ngIf="instructorCourses.length">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Course</th>
-        <th>Options</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let course of instructorCourses">
-        <td>[{{ course.id }}] {{ course.name }}</td>
-        <td>
-          <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.id)">
-            <i class="fas fa-trash-alt"></i> Remove From Course
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div *ngIf="!accountInfo.isInstructor" class="alert alert-warning">
-  <i class="fas fa-exclamation-circle"></i> This account is not an instructor.
-</div>
-<div *ngIf="accountInfo.isInstructor && !instructorCourses.length" class="alert alert-warning">
-  <i class="fas fa-exclamation-circle"></i> No instructor courses found for this account.
+<div *tmIsLoading="isLoadingInstructorCourses">
+  <div class="card bg-light" *ngIf="instructorCourses.length">
+    <table id="instructor-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of instructorCourses">
+          <td>[{{ course.courseId }}] {{ course.courseName }}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="removeInstructorFromCourse(course.courseId)">
+              <i class="fas fa-trash-alt"></i> Remove From Course
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!accountInfo.isInstructor" class="alert alert-warning">
+    <i class="fas fa-exclamation-circle"></i> This account is not an instructor.
+  </div>
+  <div *ngIf="accountInfo.isInstructor && !instructorCourses.length" class="alert alert-warning">
+    <i class="fas fa-exclamation-circle"></i> No instructor courses found for this account.
+  </div>
 </div>
 
 <h3 style="margin-top: 20px; margin-bottom: 30px;">
   Student For {{ studentCourses.length }} Courses
 </h3>
-
-<div class="card bg-light" *ngIf="studentCourses.length">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Course</th>
-        <th>Options</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let course of studentCourses">
-        <td>[{{ course.id }}] {{ course.name }}</td>
-        <td>
-          <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.id)">
-            <i class="fas fa-trash-alt"></i> Remove From Course
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<div *ngIf="!studentCourses.length" class="alert alert-warning">
-  <i class="fas fa-exclamation-circle"></i> No student courses found for this account.
+<div *tmIsLoading="isLoadingStudentCourses">
+  <div class="card bg-light" *ngIf="studentCourses.length">
+    <table id="student-table" class="table table-striped">
+      <thead>
+        <tr>
+          <th>Course</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let course of studentCourses">
+          <td>[{{ course.courseId }}] {{ course.courseName }}</td>
+          <td>
+            <button class="btn btn-sm btn-danger" (click)="removeStudentFromCourse(course.courseId)">
+              <i class="fas fa-trash-alt"></i> Remove From Course
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div *ngIf="!studentCourses.length" class="alert alert-warning">
+    <i class="fas fa-exclamation-circle"></i> No student courses found for this account.
+  </div>
 </div>

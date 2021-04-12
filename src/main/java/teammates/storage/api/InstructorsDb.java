@@ -32,7 +32,6 @@ import teammates.storage.search.SearchDocument;
  */
 public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
 
-
     /**
      * Creates or updates search document for the given instructor.
      */
@@ -112,8 +111,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique constraint courseId-email.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(email);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email));
     }
@@ -122,8 +121,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique ID.
      */
     public InstructorAttributes getInstructorById(String courseId, String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(email);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributesOrNull(getInstructorEntityById(courseId, email));
     }
@@ -132,8 +131,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique constraint courseId-googleId.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(googleId);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId));
     }
@@ -142,7 +141,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique constraint encryptedKey.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, encryptedKey);
+        Assumption.assertNotNull(encryptedKey);
 
         String decryptedKey;
         try {
@@ -160,7 +159,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * @param omitArchived whether archived instructors should be omitted or not
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, googleId);
+        Assumption.assertNotNull(googleId);
 
         return makeAttributes(getInstructorEntitiesForGoogleId(googleId, omitArchived));
     }
@@ -169,7 +168,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets all instructors of a course.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributes(getInstructorEntitiesForCourse(courseId));
     }
@@ -178,7 +177,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets all instructors that will be displayed to students of a course.
      */
     public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributes(getInstructorEntitiesThatAreDisplayedInCourse(courseId));
     }
@@ -192,7 +191,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      */
     public InstructorAttributes updateInstructorByGoogleId(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         Instructor instructor = getInstructorEntityForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
         if (instructor == null) {
@@ -248,7 +247,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         Instructor instructor = getInstructorEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (instructor == null) {
@@ -300,8 +299,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * <p>Fails silently if the student does not exist.
      */
     public void deleteInstructor(String courseId, String email) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, email);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(email);
+        Assumption.assertNotNull(courseId);
 
         Instructor instructorToDelete = getInstructorEntityForEmail(courseId, email);
 
@@ -318,7 +317,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Deletes instructors using {@link AttributesDeletionQuery}.
      */
     public void deleteInstructors(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
+        Assumption.assertNotNull(query);
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
@@ -385,12 +384,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     @Override
-    protected LoadType<Instructor> load() {
+    LoadType<Instructor> load() {
         return ofy().load().type(Instructor.class);
     }
 
     @Override
-    protected boolean hasExistingEntities(InstructorAttributes entityToCreate) {
+    boolean hasExistingEntities(InstructorAttributes entityToCreate) {
         // cannot use direct key query as email of an instructor can be changed
         return !load()
                 .filter("courseId =", entityToCreate.getCourseId())
@@ -401,8 +400,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     }
 
     @Override
-    protected InstructorAttributes makeAttributes(Instructor entity) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+    InstructorAttributes makeAttributes(Instructor entity) {
+        Assumption.assertNotNull(entity);
 
         return InstructorAttributes.valueOf(entity);
     }

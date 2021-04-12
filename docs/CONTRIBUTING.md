@@ -2,7 +2,7 @@
 
 Thanks for taking your time to contribute to TEAMMATES!
 
-We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/about.jsp) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in a OSS production environment. Here are some information that might be useful to would-be contributors.
+We welcome contributions from anyone, in particular, students (see [here](https://teammatesv4.appspot.com/web/front/about) for the list of our contributors). One of the main objectives of TEAMMATES is to help students get experience in an OSS production environment. Here are some information that might be useful to would-be contributors.
 
 * [Getting started](#getting-started)
   * [Know the product/project](#know-the-productproject)
@@ -23,7 +23,7 @@ We welcome contributions from anyone, in particular, students (see [here](https:
 Understand what TEAMMATES is about, both as a product (users' point of view) and a project (developers' point of view).
 
 * [Product intro page](https://teammatesv4.appspot.com) shown to potential users
-* [Features overview](https://teammatesv4.appspot.com/features.jsp)
+* [Features overview](https://teammatesv4.appspot.com/web/front/features)
 * [Project vision, challenges, and principles](overview.md)
 
 ### Code of Conduct
@@ -43,7 +43,7 @@ If you are certain that you are reporting a new issue, [open a new issue](https:
 
 We welcome anyone manually testing our product and reporting bugs or suggestions for enhancements in the issue tracker.
 
-If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/request.jsp).
+If you want to undertake such a role without actually contributing code, [get an instructor account from TEAMMATES](https://teammatesv4.appspot.com/web/front/request).
 Remember to mention the purpose of your request under "Any other comments/queries". 
 
 ### Submitting a pull request
@@ -86,7 +86,8 @@ Roles:
 
 1. [Set up TEAMMATES development environment on your computer.](setting-up.md)<br>
    **Important: Follow instructions to the letter. Install the specified versions of the tool stack, not the latest versions.**
-1. Get *dev green* (more info in [_Development Guidelines_ document](development.md)).
+1. Get all component tests to pass (more info in [_Development Guidelines_ document](development.md)).
+1. (Optional) Get all E2E tests to pass.
    It is OK to proceed to the next phase if you have fewer than 5 failing test cases.
 
 #### Phase B: Learn
@@ -96,11 +97,10 @@ Try your best to be familiar with at least building and testing the application 
 
 #### Phase C: Start contributing
 
-When you are ready for a real contribution, you are advised to start with an issue labelled [d.FirstTimers](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:d.FirstTimers) (but do not do more than one of those), then move on to other issues labelled [d.Contributors](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:d.Contributors).
+When you are ready for a real contribution, you are advised to start with an issue labelled [good first issue](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"good+first+issue") (but do not do more than one of those), then move on to other issues labelled [help wanted](https://github.com/TEAMMATES/teammates/issues?q=is:issue+is:open+label:"help+wanted").
 Steps for fixing an issue are lined out in the [process document](process.md).
 
-> In the event that you cannot find a `d.FirstTimers`-labelled issue, you can start with a `d.Contributors`-labelled issue.
-> You can consult the `e.*` label, if it is present, to estimate the difficulty. Lower number generally means less amount of work required.
+> In the event that you cannot find a `good first issue`-labelled issue, you can start with a `help wanted`-labelled issue.
 
 #### Important
 

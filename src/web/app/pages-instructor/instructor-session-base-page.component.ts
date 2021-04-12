@@ -1,38 +1,47 @@
 import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { saveAs } from 'file-saver';
 import { from, Observable, of } from 'rxjs';
-import { concatMap, last, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
-import { HttpRequestService } from '../../services/http-request.service';
+import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
 import { StatusMessageService } from '../../services/status-message.service';
+import { TableComparatorService } from '../../services/table-comparator.service';
 import {
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackSession,
   FeedbackSessionStats,
-  InstructorPrivilege,
 } from '../../types/api-output';
-import { FeedbackSessionStudentRemindRequest } from '../../types/api-request';
-import {
-  CopySessionResult,
-  SessionsTableRowModel,
-  SortBy,
-  SortOrder,
-} from '../components/sessions-table/sessions-table-model';
+import { Intent } from '../../types/api-request';
+import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../types/default-retry-attempts';
+import { SortBy, SortOrder } from '../../types/sort-properties';
+import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
+import { ErrorReportComponent } from '../components/error-report/error-report.component';
+import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { Intent } from '../Intent';
 
 /**
  * The base page for session related page.
  */
 export abstract class InstructorSessionBasePageComponent {
 
-  protected constructor(protected router: Router, protected httpRequestService: HttpRequestService,
+  isResultActionLoading: boolean = false;
+
+  protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
+
+  private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
+
+  protected constructor(protected router: Router,
+                        protected instructorService: InstructorService,
                         protected statusMessageService: StatusMessageService,
                         protected navigationService: NavigationService,
                         protected feedbackSessionsService: FeedbackSessionsService,
-                        protected feedbackQuestionsService: FeedbackQuestionsService) { }
+                        protected feedbackQuestionsService: FeedbackQuestionsService,
+                        protected tableComparatorService: TableComparatorService,
+                        protected ngbModal: NgbModal) { }
 
   /**
    * Copies a feedback session.
@@ -61,12 +70,12 @@ export abstract class InstructorSessionBasePageComponent {
           createdFeedbackSession = feedbackSession;
 
           // copy questions
-          const param: { [key: string]: string } = {
-            courseid: fromFeedbackSession.courseId,
-            fsname: fromFeedbackSession.feedbackSessionName,
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+            courseId: fromFeedbackSession.courseId,
+            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
             intent: Intent.FULL_DETAIL,
-          };
-          return this.httpRequestService.get('/questions', param);
+          },
+          );
         }),
         switchMap((response: FeedbackQuestions) => {
           if (response.questions.length === 0) {
@@ -111,7 +120,7 @@ export abstract class InstructorSessionBasePageComponent {
       let strA: string;
       let strB: string;
       switch (by) {
-        case SortBy.FEEDBACK_SESSION_NAME:
+        case SortBy.SESSION_NAME:
           strA = a.feedbackSession.feedbackSessionName;
           strB = b.feedbackSession.feedbackSessionName;
           break;
@@ -119,11 +128,11 @@ export abstract class InstructorSessionBasePageComponent {
           strA = a.feedbackSession.courseId;
           strB = b.feedbackSession.courseId;
           break;
-        case SortBy.START_DATE:
+        case SortBy.SESSION_START_DATE:
           strA = String(a.feedbackSession.submissionStartTimestamp);
           strB = String(b.feedbackSession.submissionStartTimestamp);
           break;
-        case SortBy.END_DATE:
+        case SortBy.SESSION_END_DATE:
           strA = String(a.feedbackSession.submissionEndTimestamp);
           strB = String(b.feedbackSession.submissionEndTimestamp);
           break;
@@ -131,7 +140,7 @@ export abstract class InstructorSessionBasePageComponent {
           strA = String(a.feedbackSession.createdAtTimestamp);
           strB = String(b.feedbackSession.createdAtTimestamp);
           break;
-        case SortBy.DELETION_DATE:
+        case SortBy.SESSION_DELETION_DATE:
           strA = String(a.feedbackSession.deletedAtTimestamp);
           strB = String(b.feedbackSession.deletedAtTimestamp);
           break;
@@ -139,27 +148,7 @@ export abstract class InstructorSessionBasePageComponent {
           strA = '';
           strB = '';
       }
-      if (order === SortOrder.ASC) {
-        return strA.localeCompare(strB);
-      }
-      if (order === SortOrder.DESC) {
-        return strB.localeCompare(strA);
-      }
-      return 0;
-    });
-  }
-
-  /**
-   * Updates the instructor privilege in {@code SessionsTableRowModel}.
-   */
-  protected updateInstructorPrivilege(model: SessionsTableRowModel): void {
-    this.httpRequestService.get('/instructor/privilege', {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    }).subscribe((instructorPrivilege: InstructorPrivilege) => {
-      model.instructorPrivilege = instructorPrivilege;
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      return this.tableComparatorService.compare(by, order, strA, strB);
     });
   }
 
@@ -168,122 +157,201 @@ export abstract class InstructorSessionBasePageComponent {
    */
   loadResponseRate(model: SessionsTableRowModel): void {
     model.isLoadingResponseRate = true;
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-    this.httpRequestService.get('/session/stats', paramMap).subscribe((resp: FeedbackSessionStats) => {
-      model.isLoadingResponseRate = false;
-      model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
-    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+    this.feedbackSessionsService.loadSessionStatistics(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .pipe(finalize(() => model.isLoadingResponseRate = false))
+        .subscribe((resp: FeedbackSessionStats) => {
+          model.responseRate = `${resp.submittedTotal} / ${resp.expectedTotal}`;
+        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   /**
    * Edits the feedback session.
    */
   editSession(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/edit'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/edit',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
-   * Copies the feedback session.
+   * Creates list of copy session requests from params
+   * @param model the source session model
+   * @param result the result of the copy session modal
+   * @returns the list of copy session requests
    */
-  copySession(model: SessionsTableRowModel, result: CopySessionResult): void {
-    this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, result.copyToCourseId)
-        .subscribe((createdSession: FeedbackSession) => {
-          this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit'
-              + `?courseid=${createdSession.courseId}&fsname=${createdSession.feedbackSessionName}`,
-              'The feedback session has been copied. Please modify settings/questions as necessary.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+  createSessionCopyRequestsFromRowModel(
+      model: SessionsTableRowModel, result: CopySessionResult): Observable<FeedbackSession>[] {
+    const copySessionRequests: Observable<FeedbackSession>[] = [];
+    result.copyToCourseList.forEach((copyToCourseId: string) => {
+      copySessionRequests.push(
+          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
+              .pipe(catchError((err: any) => {
+                this.failedToCopySessions[copyToCourseId] = err.error.message;
+                return of(err);
+              })),
+      );
+    });
+    return copySessionRequests;
+  }
+
+  /**
+   * Creates list of copy session requests from params
+   * @param result the result of the copy session modal
+   * @param courseId the source courseId
+   * @param feedbackSessionName the source feedback session name
+   * @returns the list of copy session requests
+   */
+  createSessionCopyRequestsFromModal(result: CopySessionModalResult, courseId: string, feedbackSessionName: string)
+      : Observable<FeedbackSession>[] {
+    const copySessionRequests: Observable<FeedbackSession>[] = [];
+    result.copyToCourseList.forEach((copyToCourseId: string) => {
+      copySessionRequests.push(this.feedbackSessionsService.getFeedbackSession({
+        courseId,
+        feedbackSessionName,
+        intent: Intent.FULL_DETAIL,
+      }).pipe(
+          switchMap((feedbackSession: FeedbackSession) =>
+              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)),
+          catchError((err: any) => {
+            this.failedToCopySessions[copyToCourseId] = err.error.message;
+            return of(err);
+          }),
+      ));
+    });
+    return copySessionRequests;
+  }
+
+  /**
+   * Submits a single copy session request.
+   */
+  copySingleSession(copySessionRequest: Observable<FeedbackSession>): void {
+    copySessionRequest.subscribe((createdSession: FeedbackSession) => {
+      if (Object.keys(this.failedToCopySessions).length === 0) {
+        this.navigationService.navigateWithSuccessMessage(this.router,
+            '/web/instructor/sessions/edit',
+            'The feedback session has been copied. Please modify settings/questions as necessary.',
+            { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+      } else {
+        this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+      }
+    }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+  }
+
+  showCopyStatusMessage(): void {
+    if (Object.keys(this.failedToCopySessions).length > 0) {
+      this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+    } else {
+      this.statusMessageService.showSuccessToast('Feedback session copied successfully to all courses.');
+    }
+  }
+
+  getCopyErrorMessage(): string {
+    return Object.keys(this.failedToCopySessions).map((key: string) =>
+        `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ');
   }
 
   /**
    * Submits the feedback session as instructor.
    */
   submitSessionAsInstructor(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/submission'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/submission',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
   }
 
   /**
    * Views the result of a feedback session.
    */
   viewSessionResult(model: SessionsTableRowModel): void {
-    this.router.navigateByUrl('/web/instructor/sessions/result'
-        + `?courseid=${model.feedbackSession.courseId}&fsname=${model.feedbackSession.feedbackSessionName}`);
+    this.navigationService.navigateByURLWithParamEncoding(
+        this.router,
+        '/web/instructor/sessions/result',
+        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
+  }
+
+  /**
+   * Downloads the result of a feedback session in csv.
+   */
+  downloadSessionResult(model: SessionsTableRowModel): void {
+    this.isResultActionLoading = true;
+    const filename: string =
+        `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
+    let blob: any;
+
+    this.feedbackSessionsService.downloadSessionResults(
+      model.feedbackSession.courseId,
+      model.feedbackSession.feedbackSessionName,
+      Intent.INSTRUCTOR_RESULT,
+      true,
+      true,
+    ) .pipe(finalize(() => this.isResultActionLoading = false))
+      .subscribe((resp: string) => {
+        blob = new Blob([resp], { type: 'text/csv' });
+        saveAs(blob, filename);
+      }, (resp: ErrorMessageOutput) => {
+        this.statusMessageService.showErrorToast(resp.error.message);
+      });
   }
 
   /**
    * Publishes a feedback session.
    */
   publishSession(model: SessionsTableRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.post('/session/publish', paramMap)
+    this.isResultActionLoading = true;
+    this.feedbackSessionsService.publishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .pipe(finalize(() => this.isResultActionLoading = false))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          this.statusMessageService.showSuccessMessage('The feedback session has been published. '
+          this.statusMessageService.showSuccessToast('The feedback session has been published. '
               + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (!this.publishUnpublishRetryAttempts) {
+            this.openErrorReportModal(resp);
+          } else {
+            this.publishUnpublishRetryAttempts -= 1;
+          }
+        });
   }
 
   /**
    * Unpublishes a feedback session.
    */
   unpublishSession(model: SessionsTableRowModel): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.delete('/session/publish', paramMap)
+    this.isResultActionLoading = true;
+    this.feedbackSessionsService.unpublishFeedbackSession(
+        model.feedbackSession.courseId,
+        model.feedbackSession.feedbackSessionName,
+    )
+        .pipe(finalize(() => this.isResultActionLoading = false))
         .subscribe((feedbackSession: FeedbackSession) => {
           model.feedbackSession = feedbackSession;
           model.responseRate = '';
 
-          this.statusMessageService.showSuccessMessage('The feedback session has been unpublished.');
-        }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorMessage(resp.error.message); });
+          this.statusMessageService.showSuccessToast('The feedback session has been unpublished.');
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          if (!this.publishUnpublishRetryAttempts) {
+            this.openErrorReportModal(resp);
+          } else {
+            this.publishUnpublishRetryAttempts -= 1;
+          }
+        });
   }
 
-  /**
-   * Sends e-mails to remind students on the published results link.
-   */
-  resendResultsLinkToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.post('/session/remind/result', paramMap, request).subscribe(() => {
-      this.statusMessageService.showSuccessMessage(
-          'Session published notification emails have been resent to those students and instructors. '
-          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
-  }
-
-  /**
-   * Sends e-mails to remind students who have not submitted their feedback.
-   */
-  sendRemindersToStudents(model: SessionsTableRowModel, request: FeedbackSessionStudentRemindRequest): void {
-    const paramMap: { [key: string]: string } = {
-      courseid: model.feedbackSession.courseId,
-      fsname: model.feedbackSession.feedbackSessionName,
-    };
-
-    this.httpRequestService.post('/session/remind/submission', paramMap, request).subscribe(() => {
-      this.statusMessageService.showSuccessMessage(
-          'Reminder e-mails have been sent out to those students and instructors. '
-          + 'Please allow up to 1 hour for all the notification emails to be sent out.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
-    });
+  openErrorReportModal(resp: ErrorMessageOutput): void {
+    const modal: NgbModalRef = this.ngbModal.open(ErrorReportComponent);
+    modal.componentInstance.requestId = resp.error.requestId;
+    modal.componentInstance.errorMessage = resp.error.message;
   }
 }

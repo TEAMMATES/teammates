@@ -1,45 +1,48 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~bootstrap/dist/css/bootstrap.css';
-@import '~@fortawesome/fontawesome-free/css/all.css';
-@import '~handsontable/dist/handsontable.full.css';
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-
 body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-size: .875rem;
 }
 
-.snackbar {
-  max-width: 100% !important;
-  margin-top: 60px !important;
+ul {
+  margin-bottom: 0;
 }
 
-.snackbar-danger {
-  background-color: var(--danger);
-  color: var(--light);
-
-  a {
-    color: #000;
-  }
+h1,
+.h1 {
+  font-size: 2.1875rem;
 }
 
-.snackbar-success {
-  background-color: var(--success);
-  color: var(--light);
-
-  a {
-    color: #000;
-  }
+h2,
+.h2 {
+  font-size: 1.75rem;
 }
 
-.snackbar-warning {
-  background-color: var(--warning);
-  color: var(--dark);
+h3,
+.h3 {
+  font-size: 1.53125rem;
 }
 
-.btn {
-  font-size: inherit;
+h4,
+.h4 {
+  font-size: 1.3125rem;
+}
+
+h5,
+.h5 {
+  font-size: 1.09375rem;
+}
+
+h6,
+.h6 {
+  font-size: .875rem;
+}
+
+.btn,
+.form-control,
+.dropdown-item {
+  font-size: .875rem;
 }
 
 .color-orange {
@@ -54,12 +57,106 @@ body {
   display: none;
 }
 
-.modal-dialog {
-  min-width: 800px;
+.modal {
+  text-align: center;
 }
 
-.modal-content {
-  padding: 30px 20px;
+.modal::before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.modal-header {
+  padding: .75rem 1rem;
+}
+
+.modal-body {
+  padding: 1rem 1.25rem;
+}
+
+.modal-footer {
+  padding: .3rem .5rem;
+}
+
+.modal-dialog {
+  text-align: left;
+  display: inline-block;
+  max-height: 90vh;
+  max-width: 70vw;
+  min-width: 30vw;
+  scrollbar-width: none; // Firefox
+  -ms-overflow-style: none;  // IE10+
+  vertical-align: middle;
+
+  &::-webkit-scrollbar { // Webkit-based browsers
+    width: 0;
+    height: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-dialog {
+    max-width: 80vw;
+    min-width: 65vw;
+  }
+}
+
+.modal-large .modal-dialog {
+  width: 1000px;
+}
+
+.close:focus {
+  outline: 0;
+}
+
+.table {
+  margin-bottom: 0;
+
+  & th,
+  td {
+    padding: .5rem;
+  }
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-header {
+  align-items: center;
+  display: flex;
+  padding: .5rem 1rem;
+}
+
+.card-header-btn-toolbar {
+  align-items: center;
+  margin-left: auto;
+  text-align: right;
+
+  button {
+    margin-right: var(--btn-margin);
+  }
+
+  .btn-primary {
+    background-color: darken(#007BFF, 5%); // 5% darker than primary
+  }
+
+  .btn-secondary {
+    background-color: darken(#6C757D, 10%); // 10% darker than secondary
+  }
+}
+
+.dropdown-item {
+  &:focus,
+  &:hover {
+    background-color: #DAE0E5;
+  }
+}
+
+.form-control::placeholder {
+  opacity: .7;
 }
 
 // The following few properties are for the usermap page.
@@ -99,8 +196,90 @@ body {
   cursor: pointer;
 }
 
+.ngb-tooltip-class {
+  text-decoration: underline dotted #808080;
+
+  &:hover {
+    text-decoration: underline dotted #000;
+  }
+}
+
+.modal-window-class {
+  color: #000;
+  text-decoration: underline dashed #000;
+  cursor: pointer;
+}
+
 @media print {
   .no-print {
     display: none;
   }
+}
+
+// cursor not-allowed for input disabled attribute and tinyMCE's disabled
+[disabled],
+.editor.editor-disabled {
+  cursor: not-allowed;
+}
+
+.btn-light {
+  border: 1px solid #DDD;
+
+  &[disabled] {
+    border: 1px solid #EEE;
+  }
+}
+
+:root {
+  --btn-margin: 5px;
+}
+
+.btn-margin-left {
+  margin-left: var(--btn-margin);
+}
+
+.btn-margin-right {
+  margin-right: var(--btn-margin);
+}
+
+.btn-margin {
+  margin: var(--btn-margin);
+}
+
+.fa-sort-down,
+.fa-sort-up {
+  color: black;
+}
+
+.fa-sort {
+  color: #CCC;
+}
+
+.fa-sort,
+.fa-sort-up,
+.fa-sort-down {
+  // copied from fa-stack-X
+  left: 0;
+  position: absolute;
+  text-align: center;
+  line-height: inherit;
+}
+
+.fa-stack {
+  width: auto;
+}
+
+.ngb-dp-today > .btn-light {
+  font-weight: bold;
+  color: blue;
+}
+
+.handsontable .invalid-row {
+  background: red;
+  color: white;
+}
+
+.handsontable .valid-row {
+  background: white;
+  color: black;
 }

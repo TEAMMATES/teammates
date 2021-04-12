@@ -1,0 +1,24 @@
+<div class="row" *ngIf="!isAllFormsNotAnswered">
+  <div class="col-12">
+    <p *ngIf="isInsufficientPointsDistributed" class="text-danger"><span class="fa fa-times"></span>
+      Actual total is {{ totalAnsweredPoints }}! Distribute the remaining {{ totalRequiredPoints - totalAnsweredPoints }} points.</p>
+
+    <p *ngIf="isPointsOverAllocated" class="text-danger"><span class="fa fa-times"></span>
+      Actual total is {{ totalAnsweredPoints }}! Remove the extra  {{ totalAnsweredPoints - totalRequiredPoints }} points allocated.</p>
+
+    <p *ngIf="isAllPointsDistributed" class="text-success"><span class="fa fa-check"></span>
+      All points distributed!</p>
+
+    <p *ngIf="isWronglyAllUneven" class="text-danger"><span class="fa fa-times"></span>
+      Multiple recipients are given same points!</p>
+
+    <p *ngIf="isCorrectlyAllUneven" class="text-success"><span class="fa fa-check"></span>
+      All allocated points are different!</p>
+
+    <p *ngIf="isWronglySomeUneven" class="text-danger"><span class="fa fa-times"></span>
+      All recipients are given {{ allAnswers[0] }} points. Please allocate different points to at least one recipient.</p>
+
+    <p *ngIf="isCorrectlySomeUneven" class="text-success"><span class="fa fa-check"></span>
+      At least one recipient has been allocated different number of points.</p>
+  </div>
+</div>

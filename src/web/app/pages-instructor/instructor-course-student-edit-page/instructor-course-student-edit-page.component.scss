@@ -10,14 +10,6 @@ label {
   margin-bottom: 15px;
 }
 
-/deep/.modal-content {
-  padding: 0 !important;
-}
-
-/deep/.close:focus {
-  outline: 0;
-}
-
 .invalid-field {
   padding-top: 5px;
   color: #B50000;

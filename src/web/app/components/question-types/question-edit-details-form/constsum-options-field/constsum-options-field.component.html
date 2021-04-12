@@ -1,0 +1,10 @@
+<div class="input-group">
+  <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text"
+         (ngModelChange)="onConstsumOptionEntered($event.trim())">
+  <span class="input-group-btn">
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;" tabindex="-1"
+            [disabled]="!isEditable" (click)="deleteConstsumOption()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </span>
+</div>

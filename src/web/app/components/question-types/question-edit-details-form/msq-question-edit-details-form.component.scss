@@ -7,7 +7,6 @@
   resize: both;
   padding: .375rem .75rem;
   margin-bottom: 0;
-  font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
   color: #495057;
@@ -16,6 +15,12 @@
   border: 1px solid #CED4DA;
 }
 
-.padding-left-260px {
-  padding-left: 260px;
+@media (min-width: 576px) {
+  .padding-left-300px {
+    padding-left: 300px;
+  }
+}
+
+.margin-top-22px {
+  margin-top: 22px;
 }

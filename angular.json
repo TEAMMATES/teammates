@@ -10,7 +10,7 @@
       "prefix": "tm",
       "schematics": {
         "@schematics/angular:component": {
-          "styleext": "scss"
+          "style": "scss"
         }
       },
       "architect": {
@@ -21,53 +21,13 @@
             "index": "src/web/index.html",
             "main": "src/web/main.ts",
             "polyfills": "src/web/polyfills.ts",
-            "tsConfig": "src/web/tsconfig.app.json",
+            "tsConfig": "tsconfig.app.json",
+            "aot": true,
             "assets": [
-              "src/web/assets/",
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/skins",
-                "output": "tinymce/skins"
-              },
-              {
-                "glob": "**/*",
-                "input": "node_modules/tinymce/plugins/emoticons/img",
-                "output": "plugins/emoticons/img"
-              }
+              "src/web/assets/"
             ],
             "styles": [
               "src/web/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/tinymce/tinymce.min.js",
-              "node_modules/tinymce/themes/modern/theme.js",
-              "src/web/tinymce/placeholder-plugin.js",
-              "node_modules/tinymce/plugins/advlist/plugin.js",
-              "node_modules/tinymce/plugins/autolink/plugin.js",
-              "node_modules/tinymce/plugins/lists/plugin.js",
-              "node_modules/tinymce/plugins/link/plugin.js",
-              "node_modules/tinymce/plugins/image/plugin.js",
-              "node_modules/tinymce/plugins/charmap/plugin.js",
-              "node_modules/tinymce/plugins/print/plugin.js",
-              "node_modules/tinymce/plugins/hr/plugin.js",
-              "node_modules/tinymce/plugins/anchor/plugin.js",
-              "node_modules/tinymce/plugins/searchreplace/plugin.js",
-              "node_modules/tinymce/plugins/wordcount/plugin.js",
-              "node_modules/tinymce/plugins/visualblocks/plugin.js",
-              "node_modules/tinymce/plugins/visualchars/plugin.js",
-              "node_modules/tinymce/plugins/code/plugin.js",
-              "node_modules/tinymce/plugins/fullscreen/plugin.js",
-              "node_modules/tinymce/plugins/insertdatetime/plugin.js",
-              "node_modules/tinymce/plugins/nonbreaking/plugin.js",
-              "node_modules/tinymce/plugins/save/plugin.js",
-              "node_modules/tinymce/plugins/table/plugin.js",
-              "node_modules/tinymce/plugins/contextmenu/plugin.js",
-              "node_modules/tinymce/plugins/directionality/plugin.js",
-              "node_modules/tinymce/plugins/emoticons/plugin.js",
-              "node_modules/tinymce/plugins/paste/plugin.js",
-              "node_modules/tinymce/plugins/textcolor/plugin.js",
-              "node_modules/tinymce/plugins/colorpicker/plugin.js",
-              "node_modules/tinymce/plugins/textpattern/plugin.js"
             ]
           },
           "configurations": {
@@ -76,30 +36,20 @@
                 {
                   "replace": "src/web/environments/environment.ts",
                   "with": "src/web/environments/environment.prod.ts"
-                },
-                {
-                  "replace": "src/web/index.html",
-                  "with": "src/web/index.prod.html"
                 }
               ],
+              "index": {
+                "input": "src/web/index.prod.html",
+                "output": "index.html"
+              },
               "assets": [
                 "src/web/assets/",
-                {
-                  "glob": "**/*",
-                  "input": "node_modules/tinymce/skins",
-                  "output": "tinymce/skins"
-                },
-                {
-                  "glob": "**/*",
-                  "input": "node_modules/tinymce/plugins/emoticons/img",
-                  "output": "plugins/emoticons/img"
-                },
                 "src/web/BingSiteAuth.xml",
                 "src/web/google8c7ef1e995031e09.html",
                 "src/web/pulse.html",
                 "src/web/robots.txt",
                 "src/web/sitemap.xml",
-                "src/web/manifest.json"
+                "src/web/manifest.webmanifest"
               ],
               "optimization": true,
               "outputHashing": "all",
@@ -109,14 +59,19 @@
               "aot": true,
               "extractLicenses": false,
               "vendorChunk": true,
-              "subresourceIntegrity": true,
               "buildOptimizer": true,
               "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
                 }
               ]
             }
@@ -149,8 +104,8 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": [
-              "src/web/tsconfig.app.json",
-              "src/web/tsconfig.tslint-spec.json"
+              "tsconfig.app.json",
+              "tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

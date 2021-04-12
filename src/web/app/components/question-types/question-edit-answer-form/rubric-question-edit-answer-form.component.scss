@@ -1,0 +1,19 @@
+.row-answered {
+  background-color: #DFF0D8;
+}
+
+.answer-cell:hover {
+  background-color: #D9EDF7 !important;
+}
+
+@media (max-width: 768px) {
+  .desktop-view {
+    display: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .mobile-view {
+    display: none;
+  }
+}

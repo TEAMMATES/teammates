@@ -26,7 +26,7 @@ public class InstructorSearchQuery extends SearchQuery {
     }
 
     @Override
-    protected String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
+    String prepareVisibilityQueryString(List<InstructorAttributes> instructors) {
         return null; // method not used
     }
 

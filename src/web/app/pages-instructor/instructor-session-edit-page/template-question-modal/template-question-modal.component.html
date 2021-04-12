@@ -4,23 +4,25 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
-<div class="modal-body">
+<div id="template-question-modal" class="modal-body">
   <div class="card margin-top-20px" *ngFor="let templateQuestionModel of templateQuestionModels">
-    <div class="card-header">
+    <div class="card-header cursor-pointer"
+         (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
       <label>
-        <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected">
+        <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
       </label>&nbsp;
-      <span [innerHTML]="templateQuestionModel.description" class="template-description"
-            (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails"></span>
+      <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
     </div>
-    <div class="card-body" *ngIf="templateQuestionModel.isShowDetails">
-      <tm-question-edit-form [formModel]="templateQuestionModel.model" isDisplayOnly="true"></tm-question-edit-form>
+    <div *ngIf="templateQuestionModel.isShowDetails" @collapseAnim>
+      <div class="card-body">
+        <tm-question-edit-form [formModel]="templateQuestionModel.model" isDisplayOnly="true"></tm-question-edit-form>
+      </div>
     </div>
   </div>
 </div>
 
 <div class="modal-footer">
-  <button type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
+  <button id="btn-confirm-template" type="button" class="btn btn-primary" (click)="activeModal.close(getSelectedQuestions())"
           [disabled]="!hasAnyTemplateQuestionSelected">Add</button>
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Close</button>
 </div>

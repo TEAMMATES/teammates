@@ -6,70 +6,52 @@
     ×
   </button>
 </div>
+
 <div class="modal-body align-center">
   <div class="row">
-    <div class="col-4 profile-pic-edit-col">
-      <div class="align-center">
-        <span class="btn btn-primary profile-pic-file-selector">
-          Browse...
-          <input
-            class="student-photo"
-            type="file"
-            name="studentprofilephoto"
-            (change)="onFileChanged($event)">
-        </span>
-        <input type="text" class="filename-preview" [value]=fileName disabled>
-        <p class="form-text">
-          Max Size: 5 MB
-        </p>
-        <button type="button" class="btn btn-primary profile-upload-picture-submit" [disabled]="!isFileSelected" (click)="uploadPicture()">
-          Upload Picture
-        </button>
-      </div>
+    <div class="col sm-5">
+      <p>If you have no profile picture, upload one from your computer. Once a picture is uploaded,
+        you will be able to edit it using the buttons below. Cropping is available by adjusting the box
+        size.
+      </p>
     </div>
-    <div *ngIf="pictureKey" class="col-8 border-left-gray">
-      <div class="profile-pic-edit">
-        <div class="alert alert-info">
-          Adjust the cropper to crop your image to the desired area.
-        </div>
-        <div *ngIf="isImageLoaded">
-          <image-cropper
-              [imageBase64]="imageToShow"
-              [maintainAspectRatio]="false"
-              (imageCropped)="imageCropped($event)"
-              format="png"
-              outputType="file">
-          </image-cropper>
-        </div>
-        <div class="profile-pic-edit-toolbar">
-          <button class="btn btn-primary btn-space" (click)="rotateLeft()">
-            <i class="fas fa-redo-alt fa-flip-horizontal"></i>
-          </button>
-          <button class="btn btn-primary btn-space" (click)="flipHorizontal()">
-            <i class="fas fa-angle-double-left"></i>
-          </button>
-          <button class="btn btn-primary btn-space" (click)="flipVertical()">
-            <i class="fas fa-angle-double-up"></i>
-          </button>
-          <button class="btn btn-primary btn-space" (click)="rotateRight()">
-            <i class="fas fa-redo-alt"></i>
-          </button>
-        </div>
-        <label>
-          Your Photo
-        </label>
-        <br>
-      </div>
-      <button id="profile-edit-picture-submit" class="btn btn-primary" (click)="saveEditedPhoto()">
-        Save Edited Photo
+  </div>
+
+  <div class="row">
+    <div class="col-md-4">
+      <input class="row col student-photo" type="file" (change)="fileChangeEvent($event)"/>
+      <small>Max Size: 5MB</small>
+    </div>
+
+    <div class="col-md-8 pl-md-5">
+      <button class="btn btn-primary btn-space" (click)="flipHorizontal()" ngbTooltip="Flip Horizontally">
+        <i class="fas fa-angle-double-left"></i>
+      </button>
+
+      <button class="btn btn-primary btn-space" (click)="flipVertical()" ngbTooltip="Flip Vertically">
+        <i class="fas fa-angle-double-up"></i>
+      </button>
+
+      <button class="btn btn-primary btn-space" (click)="rotateLeft()" ngbTooltip="Rotate Anti-clockwise">
+        <i class="fas fa-redo-alt fa-flip-horizontal"></i>
+      </button>
+
+      <button class="btn btn-primary btn-space" (click)="rotateRight()" ngbTooltip="Rotate Clockwise">
+        <i class="fas fa-redo-alt"></i>
       </button>
     </div>
-    <div *ngIf="!pictureKey" class="col-8 border-left-gray">
-      <div class="alert alert-warning align-middle">
-        Please upload a photo to start editing.
-      </div>
-    </div>
+  </div>
+
+  <div class="row">
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="false"
+      (imageCropped)="imageCropped($event)"
+    ></image-cropper>
   </div>
 </div>
 <div class="modal-footer">
+  <div>
+    <button class="btn btn-success btn-lg profile-upload-picture-submit" (click)="uploadPicture()">Upload Image</button>
+  </div>
 </div>

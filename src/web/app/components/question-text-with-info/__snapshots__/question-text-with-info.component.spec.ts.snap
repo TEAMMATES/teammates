@@ -1,0 +1,143 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`QuestionTextWithInfoComponent should not show control link and question details for TEXT questions 1`] = `
+<tm-question-text-with-info
+  FeedbackQuestionType={[Function Object]}
+  additionalInfoIsExpanded="false"
+  downloadQuestionResultEvent={[Function EventEmitter]}
+  questionDetails={[Function Object]}
+  questionNumber="0"
+  shouldShowDownloadQuestionResult="false"
+>
+  <span
+    class="d-inline-flex row align-items-center no-gutters"
+  >
+    
+    
+    <span
+      class="col-auto"
+    >
+      <b>
+        Question 0: 
+      </b>
+    </span>
+    <span
+      class="col-auto"
+      id="question-text"
+    >
+       Text question details
+    </span>
+    
+  </span>
+</tm-question-text-with-info>
+`;
+
+exports[`QuestionTextWithInfoComponent should show control link when question type is not TEXT 1`] = `
+<tm-question-text-with-info
+  FeedbackQuestionType={[Function Object]}
+  additionalInfoIsExpanded="false"
+  downloadQuestionResultEvent={[Function EventEmitter]}
+  questionDetails={[Function Object]}
+  questionNumber="0"
+  shouldShowDownloadQuestionResult="false"
+>
+  <span
+    class="d-inline-flex row align-items-center no-gutters"
+  >
+    
+    
+    <span
+      class="col-auto"
+    >
+      <b>
+        Question 0: 
+      </b>
+    </span>
+    <span
+      class="col-auto"
+      id="question-text"
+    >
+       MCQ question details
+    </span>
+    
+    <a
+      class="info-font-size ml-1"
+      href="/"
+      id="additional-info-link"
+      queryparamshandling="merge"
+    >
+       [more] 
+    </a>
+  </span>
+</tm-question-text-with-info>
+`;
+
+exports[`QuestionTextWithInfoComponent should show question detail when click control link 1`] = `
+<tm-question-text-with-info
+  FeedbackQuestionType={[Function Object]}
+  additionalInfoIsExpanded={[Function Boolean]}
+  downloadQuestionResultEvent={[Function EventEmitter]}
+  questionDetails={[Function Object]}
+  questionNumber="0"
+  shouldShowDownloadQuestionResult="false"
+>
+  <span
+    class="d-inline-flex row align-items-center no-gutters"
+  >
+    
+    
+    <span
+      class="col-auto"
+    >
+      <b>
+        Question 0: 
+      </b>
+    </span>
+    <span
+      class="col-auto"
+      id="question-text"
+    >
+       MCQ question details
+    </span>
+    
+    <a
+      class="info-font-size ml-1"
+      href="/"
+      id="additional-info-link"
+      queryparamshandling="merge"
+    >
+       [less] 
+    </a>
+  </span><div
+    class="info-font-size"
+    id="additional-info"
+  >
+    
+    
+    
+    <tm-mcq-question-additional-info>
+      Multiple-choice (single answer) question options:
+  
+      
+      
+      <ul>
+        
+        <li>
+          a
+        </li>
+        <li>
+          b
+        </li>
+        
+      </ul>
+    </tm-mcq-question-additional-info>
+    
+    
+    
+    
+    
+    
+    
+  </div>
+</tm-question-text-with-info>
+`;

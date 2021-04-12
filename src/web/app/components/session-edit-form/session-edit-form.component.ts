@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbDateParserFormatter, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
-import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
   Course,
   FeedbackSessionPublishStatus,
@@ -11,6 +11,8 @@ import {
   SessionVisibleSetting,
 } from '../../../types/api-output';
 import { FEEDBACK_SESSION_NAME_MAX_LENGTH } from '../../../types/field-validator';
+import { SimpleModalType } from '../simple-modal/simple-modal-type';
+import { collapseAnim } from '../teammates-common/collapse-anim';
 import { SessionEditFormDatePickerFormatter } from './session-edit-form-datepicker-formatter';
 import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session-edit-form-model';
 
@@ -22,6 +24,7 @@ import { DateFormat, SessionEditFormMode, SessionEditFormModel } from './session
   templateUrl: './session-edit-form.component.html',
   styleUrls: ['./session-edit-form.component.scss'],
   providers: [{ provide: NgbDateParserFormatter, useClass: SessionEditFormDatePickerFormatter }],
+  animations: [collapseAnim],
 })
 export class SessionEditFormComponent implements OnInit {
 
@@ -65,6 +68,8 @@ export class SessionEditFormComponent implements OnInit {
 
     isSaving: false,
     isEditable: true,
+    isDeleting: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -89,6 +94,9 @@ export class SessionEditFormComponent implements OnInit {
   editExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
+  cancelEditingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
   deleteExistingSessionEvent: EventEmitter<void> = new EventEmitter<void>();
 
   @Output()
@@ -97,7 +105,10 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   copyOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private modalService: NgbModal) { }
+  @Output()
+  closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) { }
 
   ngOnInit(): void {
   }
@@ -199,10 +210,23 @@ export class SessionEditFormComponent implements OnInit {
   }
 
   /**
+   * Handles cancel button click event.
+   */
+  cancelHandler(): void {
+    this.simpleModalService.openConfirmationModal('Discard unsaved edit?',
+        SimpleModalType.WARNING, 'Warning: Any unsaved changes will be lost.').result.then(() => {
+          this.cancelEditingSessionEvent.emit();
+        }, () => {});
+  }
+
+  /**
    * Handles delete current feedback session button click event.
    */
-  deleteHandler(modal: any): void {
-    this.modalService.open(modal).result.then(() => {
+  deleteHandler(): void {
+    this.simpleModalService.openConfirmationModal(`Delete the session <strong>${ this.model.feedbackSessionName }</strong>?`,
+        SimpleModalType.WARNING,
+        'The session will be moved to the recycle bin. This action can be reverted by going to the "Sessions" tab and restoring the desired session(s).',
+    ).result.then(() => {
       this.deleteExistingSessionEvent.emit();
     }, () => {});
   }
@@ -222,10 +246,9 @@ export class SessionEditFormComponent implements OnInit {
   }
 
   /**
-   * Handles session 'Help' link click event.
+   * Handles closing of the edit form.
    */
-  sessionHelpHandler(): void {
-    window.open(`${environment.frontendUrl}/web/instructor/help`);
-    // TODO scroll down to the session setup specific section in the help page
+  closeEditFormHandler(): void {
+    this.closeEditFormEvent.emit();
   }
 }

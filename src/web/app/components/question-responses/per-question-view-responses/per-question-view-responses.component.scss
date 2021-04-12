@@ -1,0 +1,23 @@
+.sortable-header {
+  cursor: pointer;
+  min-width: 120px;
+}
+
+.color-neutral {
+  color: gray;
+}
+
+.actions-cell,
+.actions-cell-narrow {
+  min-width: 160px;
+}
+
+@media (min-width: 1000px) {
+  .actions-cell {
+    min-width: 300px;
+  }
+
+  .actions-cell-narrow {
+    min-width: 160px;
+  }
+}

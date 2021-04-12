@@ -8,6 +8,8 @@ import teammates.storage.entity.BaseEntity;
 /**
  * Base class for Attribute classes (Attribute classes represent attributes of
  * persistable entities).
+ *
+ * @param <E> type of persistable entity being wrapped
  */
 public abstract class EntityAttributes<E extends BaseEntity> {
 
@@ -45,7 +47,7 @@ public abstract class EntityAttributes<E extends BaseEntity> {
      * @param error An error message, possibly empty.
      * @param errors A List of errors, to add {@code error} to.
      */
-    public void addNonEmptyError(String error, List<String> errors) {
+    void addNonEmptyError(String error, List<String> errors) {
         if (error.isEmpty()) {
             return;
         }
@@ -57,6 +59,8 @@ public abstract class EntityAttributes<E extends BaseEntity> {
      * Helper class to determine whether a field should be updated or not.
      *
      * <p>The class behaves like {@link java.util.Optional} but allows null value.
+     *
+     * @param <T> type of object being updated
      */
     protected static class UpdateOption<T> {
 
@@ -100,7 +104,7 @@ public abstract class EntityAttributes<E extends BaseEntity> {
          * @param consumer block to be executed if a value is present
          * @throws NullPointerException if value is present and {@code consumer} is null
          */
-        public void ifPresent(Consumer<? super T> consumer) {
+        void ifPresent(Consumer<? super T> consumer) {
             if (isValuePresent) {
                 consumer.accept(value);
             }

@@ -20,28 +20,21 @@ public class RecaptchaVerifier {
     /** The Google reCAPTCHA API URL to verify the response token. */
     private static final String VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
 
-    /** The shared secret key between the TEAMMATES site and reCAPTCHA. */
-    private static final String SECRET_KEY = Config.CAPTCHA_SECRET_KEY;
-
     private static final Logger log = Logger.getLogger();
 
-    /**
-     * Returns true if the {@code captchaResponse} token is verified successfully.
-     * @param captchaResponse The user's captcha response from the client side
-     * @return true if the {@code captchaResponse} is verified successfully
-     */
-    public boolean isVerificationSuccessful(String captchaResponse) {
-        return isVerificationSuccessful(captchaResponse, SECRET_KEY);
+    private final String secretKey;
+
+    public RecaptchaVerifier(String secretKey) {
+        this.secretKey = secretKey;
     }
 
     /**
      * Returns true if the {@code captchaResponse} token is verified successfully or {@code secretKey} is null.
      * @param captchaResponse The user's captcha response from the client side
-     * @param secretKey The secret CAPTCHA site key
      * @return true if the {@code captchaResponse} is verified successfully or {@code secretKey} is null, and false if a
      *         exception occurs or if the API request fails
      */
-    public boolean isVerificationSuccessful(String captchaResponse, String secretKey) {
+    public boolean isVerificationSuccessful(String captchaResponse) {
         if (secretKey == null || secretKey.isEmpty()) {
             return true;
         }
@@ -66,7 +59,7 @@ public class RecaptchaVerifier {
         }
     }
 
-    protected String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
+    String getApiResponse(String captchaResponse, String secretKey) throws URISyntaxException, IOException {
         URIBuilder urlb = new URIBuilder(VERIFY_URL);
         urlb.setParameter("secret", secretKey);
         urlb.setParameter("response", captchaResponse);

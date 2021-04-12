@@ -38,7 +38,7 @@ This document lines out the common terms used in the project.
 `* server`:
 
 + **Dev server**: The development server running on your computer.
-+ **CI server**: Continuous Integration server used for building/testing patches. Can be Travis or AppVeyor.
++ **CI server**: Continuous Integration server used for building/testing patches. We use GitHub Actions.
 + **Production server**: A server on Google App Engine. Can be a staging server or the live server.
 + **Staging server**: The server instance you created on Google App Engine for testing purpose.
 + **Live server**: The server running the released public version of the app (i.e. http://teammatesv4.appspot.com).
@@ -49,10 +49,3 @@ This document lines out the common terms used in the project.
 + **Component tests**: Unit and integration tests, i.e. white-box tests. There are separate component test suites for front-end and back-end.
 + **E2E tests**: End-to-end system tests, i.e. black-box tests. Also used for product acceptance.
 + **CI tests**: Tests to be run on the CI server. Consists of components tests and E2E tests.
-
-`* green`:
-
-+ **Dev green**: **All** tests are passing on the dev server.
-+ **CI green**: **CI** tests are passing on the CI server.
-+ **Staging green**: **All** tests are passing against your own staging server.
-+ **Live green**: **All** tests are passing against the app running on the live server.

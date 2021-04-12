@@ -1,12 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnChanges, OnInit, ViewChild } from '@angular/core';
 import {
   FeedbackMsqQuestionDetails,
   FeedbackMsqResponseDetails,
 } from '../../../../types/api-output';
 import { DEFAULT_MSQ_QUESTION_DETAILS, DEFAULT_MSQ_RESPONSE_DETAILS } from '../../../../types/default-question-structs';
+import { MSQ_ANSWER_NONE_OF_THE_ABOVE, NO_VALUE } from '../../../../types/feedback-response-details';
 import { QuestionEditAnswerFormComponent } from './question-edit-answer-form';
-
-const NONE_OF_THE_ABOVE: string = 'None of the above';
 
 /**
  * The Msq question submission form for a recipient.
@@ -17,16 +16,25 @@ const NONE_OF_THE_ABOVE: string = 'None of the above';
   styleUrls: ['./msq-question-edit-answer-form.component.scss'],
 })
 export class MsqQuestionEditAnswerFormComponent
-    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails> implements OnInit {
+    extends QuestionEditAnswerFormComponent<FeedbackMsqQuestionDetails, FeedbackMsqResponseDetails>
+    implements OnInit, OnChanges {
 
-  isMsqOptionSelected: boolean[] = Array(this.questionDetails.msqChoices.length).fill(false);
+  readonly NO_VALUE: number = NO_VALUE;
+  isMsqOptionSelected: boolean[] = [];
+
+  @ViewChild('inputTextBoxOther') inputTextBoxOther?: ElementRef;
 
   constructor() {
     super(DEFAULT_MSQ_QUESTION_DETAILS(), DEFAULT_MSQ_RESPONSE_DETAILS());
   }
 
   ngOnInit(): void {
-    if (this.responseDetails.answers[0] !== NONE_OF_THE_ABOVE) {
+  }
+
+  // sync the internal status with the input data
+  ngOnChanges(): void {
+    this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
+    if (!this.isNoneOfTheAboveEnabled) {
       for (let i: number = 0; i < this.questionDetails.msqChoices.length; i += 1) {
         const indexOfElementInAnswerArray: number
             = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[i]);
@@ -38,65 +46,75 @@ export class MsqQuestionEditAnswerFormComponent
   }
 
   /**
-   * Checks if None of the above option is enabled and disables it.
-   */
-  disableNoneOfTheAboveOption(): void {
-    if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
-    }
-  }
-
-  /**
    * Updates the answers to include/exclude the Msq option specified by the index.
    */
   updateSelectedAnswers(index: number): void {
-    this.isMsqOptionSelected[index] = !this.isMsqOptionSelected[index];
-    this.disableNoneOfTheAboveOption();
-    if (this.isMsqOptionSelected[index]) {
-      this.responseDetails.answers.push(this.questionDetails.msqChoices[index]);
-    } else {
-      const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
-      this.responseDetails.answers.splice(indexInResponseArray, 1);
+    let newAnswers: string[] = [];
+    if (!this.isNoneOfTheAboveEnabled) {
+      newAnswers = this.responseDetails.answers.slice();
     }
+    const indexInResponseArray: number = this.responseDetails.answers.indexOf(this.questionDetails.msqChoices[index]);
+    if (indexInResponseArray > -1) {
+      newAnswers.splice(indexInResponseArray, 1);
+    } else {
+      newAnswers.unshift(this.questionDetails.msqChoices[index]);
+    }
+
+    this.triggerResponseDetailsChange('answers', newAnswers);
   }
 
   /**
    * Updates the other option checkbox when clicked.
    */
   updateIsOtherOption(): void {
-    this.disableNoneOfTheAboveOption();
-    this.responseDetails.isOther = !this.responseDetails.isOther;
-    if (!this.responseDetails.isOther) {
-      this.responseDetails.otherFieldContent = '';
+    const fieldsToUpdate: any = {};
+    fieldsToUpdate.isOther = !this.responseDetails.isOther;
+    fieldsToUpdate.answers = this.responseDetails.answers;
+    if (this.isNoneOfTheAboveEnabled) {
+      fieldsToUpdate.answers = [];
     }
+    if (fieldsToUpdate.isOther) {
+      // create a placeholder for other answer
+      fieldsToUpdate.answers.push('');
+      setTimeout(() => { // focus on the text box after the isOther field is updated to enable the text box
+        (this.inputTextBoxOther as ElementRef).nativeElement.focus();
+      }, 0);
+    } else {
+      // remove other answer (last element) from the answer list
+      fieldsToUpdate.answers.splice(-1, 1);
+      fieldsToUpdate.otherFieldContent = '';
+    }
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
-   * Updates the other field content.
+   * Updates other answer field.
    */
-  updateOtherOptionText(otherOptionText: string): void {
-    this.responseDetails.otherFieldContent = otherOptionText;
+  updateOtherAnswerField($event: string): void {
+    const fieldsToUpdate: any = {};
+    // we shall update both the other field content and the answer list
+    fieldsToUpdate.otherFieldContent = $event;
+    fieldsToUpdate.answers = this.responseDetails.answers.slice();
+    fieldsToUpdate.answers[fieldsToUpdate.answers.length - 1] = $event;
+    this.triggerResponseDetailsChangeBatch(fieldsToUpdate);
   }
 
   /**
    * Checks if None of the above checkbox is enabled.
    */
   get isNoneOfTheAboveEnabled(): boolean {
-    return this.responseDetails.answers[0] === NONE_OF_THE_ABOVE;
+    return !this.responseDetails.isOther && this.responseDetails.answers.length === 1
+        && this.responseDetails.answers[0] === MSQ_ANSWER_NONE_OF_THE_ABOVE;
   }
 
   /**
    * Updates answers if None of the Above option is selected.
    */
   updateNoneOfTheAbove(): void {
-    if (this.isNoneOfTheAboveEnabled) {
-      this.responseDetails.answers.splice(0, 1);
-    } else {
-      this.isMsqOptionSelected = Array(this.questionDetails.msqChoices.length).fill(false);
-      this.responseDetails.answers = [];
-      this.responseDetails.isOther = false;
-      this.responseDetails.otherFieldContent = '';
-      this.responseDetails.answers[0] = NONE_OF_THE_ABOVE;
-    }
+    this.triggerResponseDetailsChangeBatch({
+      answers: this.isNoneOfTheAboveEnabled ? [] : [MSQ_ANSWER_NONE_OF_THE_ABOVE],
+      isOther: false,
+      otherFieldContent: '',
+    });
   }
 }

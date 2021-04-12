@@ -1,7 +1,6 @@
 package teammates.common.datatransfer;
 
 import java.util.Arrays;
-import java.util.List;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -33,11 +32,6 @@ public class TeamEvalResult {
 
     /** the values that were used to calculate normalizedAveragePerceived values. */
     public int[][] normalizedPeerContributionRatio;
-
-    // List of student email's.
-    // The index of the student in the list is used as the index for the int arrays.
-    // The 2d int arrays are of the format [giverIndex][recipientIndex]
-    public List<String> studentEmails;
 
     public TeamEvalResult(int[][] submissionValues) {
         /*This is the only method that should be public. However, many of the
@@ -141,7 +135,7 @@ public class TeamEvalResult {
         return output;
     }
 
-    public static int[] calculatePerceivedForStudent(int[] claimedSanitizedRow,
+    static int[] calculatePerceivedForStudent(int[] claimedSanitizedRow,
             double[] normalizedAveragePerceivedAsDouble) {
 
         verify("Unsanitized value received ", isSanitized(claimedSanitizedRow));
@@ -168,7 +162,7 @@ public class TeamEvalResult {
                 normalizedAveragePerceivedAsDouble));
     }
 
-    public static boolean isSanitized(int[] array) {
+    static boolean isSanitized(int[] array) {
         for (int value : array) {
             if (!isSanitized(value)) {
                 return false;
@@ -212,7 +206,7 @@ public class TeamEvalResult {
         return output;
     }
 
-    public static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
+    static double[] purgeValuesCorrespondingToSpecialValuesInFilter(
             double[] filterArray, double[] valueArray) {
         double[] returnValue = new double[filterArray.length];
         for (int i = 0; i < filterArray.length; i++) {
@@ -226,7 +220,7 @@ public class TeamEvalResult {
         return returnValue;
     }
 
-    public static double sum(double[] input) {
+    static double sum(double[] input) {
         if (input.length == 0) {
             return 0;
         }
@@ -244,12 +238,11 @@ public class TeamEvalResult {
         return sum;
     }
 
-    public static int sum(int[] input) {
+    private static int sum(int[] input) {
         return (int) sum(intToDouble(input));
     }
 
-    // TODO: methods like these private and use reflection to test
-    public static double[][] removeSelfRatings(double[][] input) {
+    static double[][] removeSelfRatings(double[][] input) {
         double[][] output = new double[input.length][input.length];
         for (int i = 0; i < input.length; i++) {
             for (int j = 0; j < input[i].length; j++) {
@@ -267,17 +260,12 @@ public class TeamEvalResult {
         return output;
     }
 
-    // TODO: make this private and use reflection to test
-    public static double[] normalizeValues(double[] input) {
+    static double[] normalizeValues(double[] input) {
         double factor = calculateFactor(input);
         return multiplyByFactor(factor, input);
     }
 
-    public static double[] normalizeValues(int[] input) {
-        return normalizeValues(intToDouble(input));
-    }
-
-    public static int[][] normalizeValues(int[][] input) {
+    private static int[][] normalizeValues(int[][] input) {
         return doubleToInt(normalizeValues(intToDouble(input)));
     }
 
@@ -293,7 +281,7 @@ public class TeamEvalResult {
             count++;
         }
 
-        double idealSum = count * 100.0;
+        double idealSum = count * Const.POINTS_EQUAL_SHARE * 1.0;
         double factor = actualSum == 0 ? 0 : idealSum / actualSum;
         log.fine("Factor = " + idealSum + "/" + actualSum + " = " + factor);
         return factor;
@@ -315,8 +303,7 @@ public class TeamEvalResult {
         return Arrays.stream(input).map(value -> doubleToInt(value)).toArray(int[][]::new);
     }
 
-    // TODO: make this private and use reflection to test
-    public static double[] averageColumns(double[][] input) {
+    static double[] averageColumns(double[][] input) {
         double[] output = new double[input.length];
 
         for (int i = 0; i < input.length; i++) {
@@ -352,7 +339,7 @@ public class TeamEvalResult {
         return average;
     }
 
-    public static String pointsToString(int[][] array) {
+    static String pointsToString(int[][] array) {
         return pointsToString(intToDouble(array)).replace(".0", "");
     }
 
@@ -360,7 +347,7 @@ public class TeamEvalResult {
         return replaceMagicNumbers(Arrays.toString(input)) + System.lineSeparator();
     }
 
-    public static String pointsToString(double[][] array) {
+    static String pointsToString(double[][] array) {
         StringBuilder returnValue = new StringBuilder();
         boolean isSquareArray = array.length == array[0].length;
         int teamSize = (array.length - 1) / 3;
@@ -380,9 +367,10 @@ public class TeamEvalResult {
         return replaceMagicNumbers(returnValue.toString());
     }
 
-    /** replaces 999 etc. with NA, NSB, NSU etc.
+    /**
+     * Replaces 999 etc. with NA, NSB, NSU etc.
      */
-    public static String replaceMagicNumbers(String returnValue) {
+    static String replaceMagicNumbers(String returnValue) {
         return returnValue.replace(NA + ".0", " NA")
                           .replace(Integer.toString(NA), " NA")
                           .replace(NSB + ".0", "NSB")
@@ -394,37 +382,37 @@ public class TeamEvalResult {
         return toString(0);
     }
 
-    public String toString(int indent) {
+    private String toString(int indent) {
         String indentString = StringHelper.getIndent(indent);
         String divider = "======================" + System.lineSeparator();
         StringBuilder sb = new StringBuilder(200);
         sb.append("           claimed from student:");
         String filler = "                                ";
         sb.append(indentString)
-          .append(pointsToString(claimed).replace(System.lineSeparator(),
+                .append(pointsToString(claimed).replace(System.lineSeparator(),
                         System.lineSeparator() + indentString + filler))
-          .append(divider)
-          .append("              normalizedClaimed:")
-          .append(indentString)
-          .append(pointsToString(normalizedClaimed).replace(System.lineSeparator(),
+                .append(divider)
+                .append("              normalizedClaimed:")
+                .append(indentString)
+                .append(pointsToString(normalizedClaimed).replace(System.lineSeparator(),
                         System.lineSeparator() + indentString + filler))
-          .append(divider)
-          .append("normalizedPeerContributionRatio:")
-          .append(indentString)
-          .append(pointsToString(normalizedPeerContributionRatio).replace(
+                .append(divider)
+                .append("normalizedPeerContributionRatio:")
+                .append(indentString)
+                .append(pointsToString(normalizedPeerContributionRatio).replace(
                         System.lineSeparator(), System.lineSeparator() + indentString + filler))
-          .append(divider)
-          .append("     normalizedAveragePerceived:")
-          .append(indentString)
-          .append(pointsToString(normalizedAveragePerceived).replace(
+                .append(divider)
+                .append("     normalizedAveragePerceived:")
+                .append(indentString)
+                .append(pointsToString(normalizedAveragePerceived).replace(
                         System.lineSeparator(), System.lineSeparator() + indentString + filler))
-          .append(divider)
+                .append(divider)
 
-          .append("   denormalizedAveragePerceived:")
-          .append(indentString)
-          .append(pointsToString(denormalizedAveragePerceived).replace(
+                .append("   denormalizedAveragePerceived:")
+                .append(indentString)
+                .append(pointsToString(denormalizedAveragePerceived).replace(
                         System.lineSeparator(), System.lineSeparator() + indentString + filler))
-            .append(divider);
+                .append(divider);
         return sb.toString();
     }
 

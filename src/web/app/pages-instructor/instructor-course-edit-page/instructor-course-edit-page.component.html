@@ -1,699 +1,115 @@
-<div class="card bg-light top-padded" *ngIf="this.instructorList.length">
-  <div class="card-header bg-primary text-white">
-    <strong>Course:</strong>
-    <span class="float-sm-right">
-      <button class="btn btn-light btn-sm btn-left btn-course" ngbTooltip="Edit course name"
-              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']"
-              *ngIf="!isEditingCourse" (click)="toggleIsEditingCourse()">
-        <i class="fa fa-pen" aria-hidden="true"></i>
-        Edit
-      </button>
-      <button class="btn btn-light btn-sm btn-course" ngbTooltip="Delete the course and its corresponding students and sessions"
-              [disabled]="!this.instructor.privileges['courseLevel']['canmodifycourse']" (click)="deleteCourse()">
-        <i class="fa fa-trash" aria-hidden="true"></i>
-        Delete
-      </button>
-    </span>
-  </div>
-  <div class="card-body fill-plain">
-    <form class="form form-horizontal" [formGroup]="formEditCourse" (ngSubmit)="onSubmitEditCourse(formEditCourse)">
-      <div>
+<tm-loading-retry [shouldShowRetry]="hasCourseLoadingFailed" [message]="'Failed to load course'" (retryEvent)="loadCourseInfo()">
+  <div *tmIsLoading="isCourseLoading" class="card bg-light top-padded text-center">
+    <div class="card-header bg-primary text-white">
+      <strong>Course</strong>
+      <div class="card-header-btn-toolbar">
+        <button id="btn-edit-course" class="btn btn-primary btn-sm"
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse"
+                *ngIf="!isEditingCourse" (click)="this.isEditingCourse = true">
+          <i class="fa fa-pen" aria-hidden="true"></i>
+          Edit
+        </button>
+        <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-primary btn-sm"
+                [disabled]="isSavingCourseEdit"
+                (click)="cancelEditingCourse()">
+          <i class="fa fa-times" aria-hidden="true"></i>
+          Cancel
+        </button>
+        <button id="btn-delete-course" class="btn btn-primary btn-sm" ngbTooltip="Delete the course and its corresponding students and sessions"
+                [disabled]="!currInstructorCoursePrivilege.canModifyCourse || isSavingCourseEdit" (click)="deleteCourse()">
+          <i class="fa fa-trash" aria-hidden="true"></i>
+          Delete
+        </button>
+      </div>
+    </div>
+    <div class="card-body fill-plain">
+      <form #courseForm="ngForm" (ngSubmit)="onSaveCourse()">
         <div class="form-row form-group">
-          <label class="col-sm-3">Course ID:</label>
-          <div class="col-sm-3">
-            <input class="col-xs-12 form-control" maxlength="40" tabindex="1" formControlName="id">
-          </div>
-        </div>
-        <div class="form-row form-group">
-          <label class="col-sm-3">Course Name:</label>
+          <label class="col-sm-3 font-weight-bold text-md-right">Course ID:</label>
           <div class="col-sm-9">
-            <input class="form-control" ngbTooltip="The name of the course, e.g. Software Engineering."
-                   maxlength="64" tabindex="2" formControlName="name">
+            <input id="course-id" class="col-xs-12 form-control" type="text" tabindex="1"
+                   #courseId="ngModel" [(ngModel)]="course.courseId" name="courseId"
+                   [maxlength]="FormValidator.COURSE_ID_MAX_LENGTH" required disabled>
           </div>
         </div>
         <div class="form-row form-group">
-          <label class="col-xs-12 col-sm-3">Time Zone:</label>
-          <div class="col-xs-12 col-sm-9">
-            <div class="input-group">
-              <select class="form-control" ngbTooltip="The time zone for the course. You should not need to change this as it is auto-detected based on your
-                device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
-                formControlName="timeZone">
-                <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
-              </select>
-              <span class="input-group-btn">
-                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse" (click)="detectTimezone()">
-                  Auto-Detect
-                </button>
-              </span>
+          <label class="col-sm-3 font-weight-bold text-md-right">Course Name:</label>
+          <div class="col-sm-9">
+            <input id = "course-name" class="form-control"
+                   type="text" tabindex="2" [disabled]="!isEditingCourse" name="courseName"
+                   [(ngModel)]="course.courseName" #courseName="ngModel"
+                   [maxlength]="FormValidator.COURSE_NAME_MAX_LENGTH" required>
+            <div [hidden]="courseName.valid || (courseName.pristine && courseName.untouched)"
+                 class="invalid-field">
+              <i class="fa fa-exclamation-circle" aria-hidden="true"></i>
+              The field Course Name should not be empty.
             </div>
           </div>
         </div>
-        <div class="form-group">
-          <div class=" col-sm-12 align-center">
-            <button class="btn btn-primary" type="submit" *ngIf="isEditingCourse">
+        <div class="form-row form-group">
+          <label class="col-xs-12 col-sm-3 font-weight-bold text-md-right"><span class="ngb-tooltip-class" ngbTooltip="You should not need to change this as it is auto-detected based on your
+                device settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">
+            Time Zone:</span></label>
+          <div class="col-xs-12 col-sm-9">
+            <div class="input-group">
+              <select id="time-zone" class="form-control"
+                [(ngModel)]="course.timeZone" #timeZone="ngModel" [disabled]="!isEditingCourse" required name="timeZone">
+                <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
+              </select>
+              <span class="input-group-btn">
+                <button class="btn btn-primary" type=button [disabled]="!isEditingCourse || isSavingCourseEdit" (click)="detectTimezone()">
+                  Auto-Detect
+                </button>
+               </span>
+            </div>
+          </div>
+        </div>
+        <div class="form-group m-0">
+          <div class=" col-sm-12 text-center">
+            <button id="btn-save-course" class="btn btn-success" type="submit" [disabled]="form.invalid || isSavingCourseEdit" *ngIf="isEditingCourse">
+              <tm-ajax-loading *ngIf="isSavingCourseEdit"></tm-ajax-loading>
               Save Changes
             </button>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
-</div>
-<div class="right top-padded" *ngIf="!this.timezone">
-  <a class="small" href="/web/instructor/help#course-instructor-access" rel="noopener noreferrer" target="_blank">
-    <i class="fa fa-info-circle" aria-hidden="true"></i>
-    More about configuring access permissions
-  </a>
-</div>
-<div [formGroup]="formEditInstructors" *ngIf="this.instructorList.length">
-  <div formArrayName="formInstructors">
-    <ng-container *ngFor="let instr of formEditInstructors.get('formInstructors').controls; let i=index">
-      <div class="card bg-light top-padded">
-        <div class="card-header bg-primary text-white">
-          <strong>Instructor {{ i + 1 }}:</strong>
-          <span class="float-sm-right">
-            <button class="btn btn-light btn-sm btn-left btn-instr" ngbTooltip="Send invitation email to the instructor"
-                    *ngIf="!hasGoogleId(i)"
-                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
-                    (click)="onSubmitResendEmail(resendEmailModal, i)">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-              Resend Invite
-            </button>
-            <button class="btn btn-light btn-sm btn-left btn-instr" id="btn-edit-{{ i }}" ngbTooltip="Edit instructor details"
-                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
-                    (click)="toggleIsEditingInstructor(instr, i)" style="display:inline-block">
-              <i class="fa fa-pen" aria-hidden="true"></i>
-              Edit
-            </button>
-            <button class="btn btn-light btn-sm btn-left" style="display:none;" id="btn-cancel-{{ i }}"
-                    ngbTooltip="Cancel editing instructor details"
-                    (click)="toggleIsEditingInstructor(instr, i)">
-              <i class="fa fa-times" aria-hidden="true"></i>
-              Cancel
-            </button>
-            <button class="btn btn-light btn-sm btn-instr" ngbTooltip="Delete the instructor from the course"
-                    [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
-                    (click)="onSubmitDeleteInstructor(deleteInstructorModal, i)">
-              <i class="fa fa-trash" aria-hidden="true"></i>
-              Delete
-            </button>
-          </span>
-        </div>
-        <div class="card-body">
-          <form class="form form-horizontal" [formGroupName]="i" (ngSubmit)="onSubmitEditInstructor(instr, i)">
-            <div class="form-row form-group">
-              <label class="col-sm-3 control-label">
-                Google ID:
-              </label>
-              <div class="col-sm-9" *ngIf="hasGoogleId(i)">
-                <input class="form-control immutable" maxlength="254" tabindex="3" formControlName="googleId">
-              </div>
-              <span class="text-warning" *ngIf="!hasGoogleId(i)">
-                Not available. Instructor is yet to join this course.
-              </span>
-            </div>
-            <div class="form-row form-group">
-              <label class="col-sm-3 control-label">
-                Name:
-              </label>
-              <div class="col-sm-9">
-                <input class="form-control" ngbTooltip="Enter the name of the instructor." maxlength="100" tabindex="4" formControlName="name">
-              </div>
-            </div>
-            <div class="form-row form-group">
-              <label class="col-sm-3 control-label">
-                Email:
-              </label>
-              <div class="col-sm-9">
-                <input class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5" formControlName="email">
-              </div>
-            </div>
-            <div class="form-row form-group">
-              <label class="col-sm-3 control-label">
-                <input checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
-                       type="checkbox" formControlName="isDisplayedToStudents" (change)="onChangeIsDisplayedToStudents($event, instr, i)">
-                Display to students as:
-              </label>
-              <div class="col-sm-9">
-                <input class="form-control" id="name-display-{{ i }}" ngbTooltip="Specify the role of this instructor in this course as shown to the students"
-                       type="text" formControlName="displayedName" [placeholder]="getPlaceholderForDisplayedName(instr.controls.isDisplayedToStudents.value)">
-              </div>
-            </div>
-            <div>
-              <div class="form-row form-group">
-                <label class="col-sm-3 control-label">
-                  Access Level:
-                </label>
-                <div class="col-sm-9">
-                  <span class="form-control-static" id="role-view-{{ i }}">
-                    {{ instructorList[i].role }}
-                    <a class="view-role-details" href="javascript:;" *ngIf="instructorList[i].role !== 'Custom'"
-                       (click)="viewInstructorRole(viewInstructorRoleModal, i)">
-                      View Details
-                    </a>
-                  </span>
-                  <div style="display:none;" id="role-edit-{{ i }}">
-                    <div>
-                      <input type="radio" value="Co-owner" formControlName="role">
-                      Co-owner: Can do everything
-                      <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Co-owner')">
-                        View Details
-                      </a>
-                    </div>
-                    <div>
-                      <input type="radio" value="Manager" formControlName="role">
-                      Manager: Can do everything except for deleting/restoring the course
-                      <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Manager')">
-                        View Details
-                      </a>
-                    </div>
-                    <div>
-                      <input type="radio" value="Observer" formControlName="role">
-                      Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-                      <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Observer')">
-                        View Details
-                      </a>
-                    </div>
-                    <div>
-                      <input type="radio" value="Tutor" formControlName="role">
-                      Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                      <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Tutor')">
-                        View Details
-                      </a>
-                    </div>
-                    <input type="radio" value="Custom" formControlName="role">
-                    Custom: No access by default. Any access needs to be granted explicitly.
-                  </div>
-                </div>
-              </div>
-              <div id="tune-permissions-{{ i }}" style="display: none;">
-                <div class="form-group" formGroupName="tunePermissions">
-                  <div class="col-xs-12">
-                    <div class="card bg-light top-padded" formGroupName="permissionsForCourse">
-                      <div class="card-header bg-light-blue">
-                        <strong>
-                          In general, this instructor can
-                        </strong>
-                      </div>
-                      <div class="card-body">
-                        <div class="col-sm-3">
-                          <input formControlName="canmodifycourse" type="checkbox">
-                          Edit/Delete/Restore Course
-                        </div>
-                        <div class="col-sm-3">
-                          <input formControlName="canmodifyinstructor" type="checkbox">
-                          Add/Edit/Delete Instructors
-                        </div>
-                        <div class="col-sm-3">
-                          <input formControlName="canmodifysession" type="checkbox">
-                          Create/Edit/Delete/Restore Sessions
-                        </div>
-                        <div class="col-sm-3">
-                          <input formControlName="canmodifystudent" type="checkbox">
-                          Enroll/Edit/Delete Students
-                        </div>
-                        <br>
-                        <br>
-                        <div class="col-sm-6 border-right-gray">
-                          <input formControlName="canviewstudentinsection" type="checkbox">
-                          View Students' Details
-                          <br>
-                        </div>
-                        <div class="col-sm-5 col-sm-offset-1">
-                          <input formControlName="cansubmitsessioninsection" type="checkbox">
-                          Sessions: Submit Responses and Add Comments
-                          <br>
-                          <input formControlName="canviewsessioninsection" type="checkbox">
-                          Sessions: View Responses and Comments
-                          <br>
-                          <input formControlName="canmodifysessioncommentinsection" type="checkbox">
-                          Sessions: Edit/Delete Responses/Comments by Others
-                          <br>
-                        </div>
-                      </div>
-                    </div>
-                    <div formArrayName="tuneSectionGroupPermissions">
-                      <ng-container *ngFor="let sectionGroupPermissions of instr.controls.tunePermissions.get('tuneSectionGroupPermissions').controls; let j=index">
-                        <div class="card bg-light top-padded" [formGroup]="sectionGroupPermissions">
-                          <div class="card-header bg-light-blue">
-                            <div class="row">
-                              <div class="col-sm-2">
-                                <p>
-                                  <strong>
-                                    But in section(s)
-                                  </strong>
-                                </p>
-                              </div>
-                              <div class="col-sm-9">
-                                <div class="col-sm-12">
-                                  <div class="col-sm-4" *ngFor="let section of this.sectionNames">
-                                    <input [formControlName]="section" type="checkbox">
-                                    {{ section }}
-                                  </div>
-                                </div>
-                              </div>
-                              <div class="col-sm-1">
-                                <a class="float-sm-right" href="javascript:;" (click)="removeTuneSectionGroupPermissionsPanel(instr, j)">
-                                  <i class="fa fa-trash" aria-hidden="true"></i>
-                                </a>
-                              </div>
-                            </div>
-                            <br>
-                            <div class="row">
-                              <div class="col-sm-12">
-                                <p>
-                                  <strong>
-                                    the instructor can only,
-                                  </strong>
-                                </p>
-                              </div>
-                            </div>
-                          </div>
-                          <div class="panel-body">
-                            <br>
-                            <ng-container formGroupName="permissionsForSection">
-                              <div class="col-sm-6 border-right-gray">
-                                <input formControlName="canviewstudentinsection" type="checkbox">
-                                View Students' Details
-                                <br>
-                                <br>
-                              </div>
-                              <div class="col-sm-5 col-sm-offset-1">
-                                <input formControlName="cansubmitsessioninsection" type="checkbox">
-                                Sessions: Submit Responses and Add Comments
-                                <br>
-                                <input formControlName="canviewsessioninsection" type="checkbox">
-                                Sessions: View Responses and Comments
-                                <br>
-                                <input formControlName="canmodifysessioncommentinsection" type="checkbox">
-                                Sessions: Edit/Delete Responses/Comments by Others
-                                <br>
-                                <br>
-                              </div>
-                            </ng-container>
-                            <a id="hide-link-{{ i }}-{{ j }}" class="small col-sm-5"
-                               style="display:block;" href="javascript:;"
-                               (click)="hideSessionLevelPermissions(i, j)">
-                              Hide session-level permissions
-                            </a>
-                            <a id="show-link-{{ i }}-{{ j }}" class="small col-sm-5"
-                               style="display:none;" href="javascript:;"
-                               (click)="showSessionLevelPermissions(i, j)">
-                              Give different permissions for sessions in this section
-                            </a>
-                            <div id="tune-session-permissions-{{ i }}-{{ j }}" style="display:block;"
-                                 class="row" formGroupName="permissionsForSessions">
-                              <table class="table table-striped">
-                                <thead>
-                                <tr>
-                                  <td>
-                                    Session Name
-                                  </td>
-                                  <td>
-                                    Submit Responses and Add Comments
-                                  </td>
-                                  <td>
-                                    View Responses and Comments
-                                  </td>
-                                  <td>
-                                    Edit/Delete Responses/Comments by Others
-                                  </td>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                  <tr *ngFor="let feedback of this.feedbackNames" [formGroupName]="feedback">
-                                    <td>
-                                      {{ feedback }}
-                                    </td>
-                                    <td class="align-center">
-                                      <input formControlName="cansubmitsessioninsection" type="checkbox">
-                                    </td>
-                                    <td class="align-center">
-                                      <input formControlName="canviewsessioninsection" type="checkbox">
-                                    </td>
-                                    <td class="align-center">
-                                      <input formControlName="canmodifysessioncommentinsection" type="checkbox">
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </ng-container>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <a class="small" href="javascript:;"
-                 *ngIf="instr.controls.role.enabled && instr.controls.role.value == 'Custom'
-                 && instr.controls.tunePermissions.controls['tuneSectionGroupPermissions'].length !== this.sectionNames.length"
-                 (click)="addTuneSectionGroupPermissionsPanel(instr, i)">
-                Give different permissions for a specific section
-              </a>
-              <div class="form-group">
-                <div class="align-center">
-                  <button class="btn btn-primary" tabindex="6" id="btn-save-{{ i }}" style="display:none;" type="submit">
-                    Save changes
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <ng-template #deleteInstructorModal let-modal>
-        <div class="modal-header alert-danger">
-          <h4 class="modal-title icon-danger">Confirm deleting instructor</h4>
-          <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
-        </div>
-        <div class="modal-body" id="delete-instr-modal"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
-          <button type="button" class="btn btn-danger"
-                  (click)="deleteInstructor(i); modal.dismiss()">
-            Yes
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #resendEmailModal let-modal>
-        <div class="modal-header alert-info">
-          <h4 class="modal-title icon-info">Confirm re-sending invitation email</h4>
-          <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">×</button>
-        </div>
-        <div class="modal-body" id="resend-email-modal"></div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-outline-secondary" (click)="modal.dismiss()">No, cancel the operation</button>
-          <button type="button" class="btn btn-info"
-                  (click)="resendReminderEmail(i); modal.dismiss()">
-            Yes
-          </button>
-        </div>
-      </ng-template>
+  <div class="right top-padded">
+    <a class="small" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}" rel="noopener noreferrer" target="_blank">
+      <i class="fa fa-info-circle" aria-hidden="true"></i>
+      More about configuring access permissions
+    </a>
+  </div>
+</tm-loading-retry>
+
+<tm-loading-retry [shouldShowRetry]="hasInstructorsLoadingFailed" [message]="'Failed to load instructors of course'" (retryEvent)="loadCourseInstructors()">
+  <div *tmIsLoading="isInstructorsLoading">
+    <ng-container *ngFor="let panelDetail of instructorDetailPanels; let i = index">
+      <tm-instructor-edit-panel
+          [editMode]="EditMode.EDIT" [(instructor)]="panelDetail.editPanel" [instructorIndex]="i"
+          [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+          (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+          (deleteInstructor)="deleteInstructor(i)"
+          (saveInstructor)="saveInstructor(i)"
+          (cancelEditing)="cancelEditingInstructor(i)"
+          (sendRemindJoinEmail)="resendReminderEmail(i)"
+          [allSections]="this.allSections" [allSessions]="this.allSessions">
+      </tm-instructor-edit-panel>
+      <br/>
     </ng-container>
   </div>
-</div>
-<div class="top-padded bottom-padded align-center" *ngIf="this.instructorList.length">
-  <button class="btn btn-primary btn-instr" *ngIf="!isAddingInstructor"
-          [disabled]="!this.instructor.privileges['courseLevel']['canmodifyinstructor']"
-          (click)="toggleIsAddingInstructor()">
+</tm-loading-retry>
+<div class="text-center" *ngIf="!isAddingNewInstructor">
+  <button id="btn-add-instructor" class="btn btn-success" tabindex="6" type="button" (click)="isAddingNewInstructor = true">
     Add New Instructor
   </button>
 </div>
-<div class="card bg-light top-padded-sm bottom-padded" id="newCard" *ngIf="this.instructorList.length && isAddingInstructor">
-  <div class="card-header bg-primary text-white">
-    <strong>Instructor {{ this.instructorList.length + 1 }}:</strong>
-    <span class="float-sm-right">
-        <button class="btn btn-light btn-sm btn-left" ngbTooltip="Cancel adding an instructor"
-                (click)="toggleIsAddingInstructor()">
-          <i class="fa fa-times" aria-hidden="true"></i>
-          Cancel
-        </button>
-      </span>
-  </div>
-  <div class="card-body">
-    <form class="form form-horizontal" [formGroup]="formAddInstructor" (ngSubmit)="onSubmitAddInstructor(formAddInstructor)">
-      <div class="form-row form-group">
-        <label class="col-sm-3 control-label">
-          Name:
-        </label>
-        <div class="col-sm-9">
-          <input class="form-control" ngbTooltip="Enter the name of the instructor." maxlength="100" tabindex="4" formControlName="name">
-        </div>
-      </div>
-      <div class="form-row form-group">
-        <label class="col-sm-3 control-label">
-          Email:
-        </label>
-        <div class="col-sm-9">
-          <input class="form-control" ngbTooltip="Enter the email of the instructor." maxlength="254" tabindex="5" formControlName="email">
-        </div>
-      </div>
-      <div class="form-row form-group">
-        <label class="col-sm-3 control-label">
-          <input checked="" ngbTooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
-                 type="checkbox" formControlName="isDisplayedToStudents">
-          Display to students as:
-        </label>
-        <div class="col-sm-9">
-          <input class="form-control" ngbTooltip="Specify the role of this instructor in this course as shown to the students" type="text" formControlName="displayedName">
-        </div>
-      </div>
-      <div>
-        <div class="form-row form-group">
-          <label class="col-sm-3 control-label">
-            Access Level:
-          </label>
-          <div class="col-sm-9">
-            <div>
-              <div>
-                <input type="radio" value="Co-owner" formControlName="role">
-                Co-owner: Can do everything
-                <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Co-owner')">
-                  View Details
-                </a>
-              </div>
-              <div>
-                <input type="radio" value="Manager" formControlName="role">
-                Manager: Can do everything except for deleting/restoring the course
-                <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Manager')">
-                  View Details
-                </a>
-              </div>
-              <div>
-                <input type="radio" value="Observer" formControlName="role">
-                Observer: Can only view information(students, submissions, comments etc.). Cannot edit/delete/submit anything.
-                <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Observer')">
-                  View Details
-                </a>
-              </div>
-              <div>
-                <input type="radio" value="Tutor" formControlName="role">
-                Tutor: Can view student details, give/view comments, submit/view responses for sessions
-                <a class="view-role-details" href="javascript:;" (click)="viewRolePrivileges(viewInstructorRoleModal, 'Tutor')">
-                  View Details
-                </a>
-              </div>
-              <input type="radio" value="Custom" formControlName="role">
-              Custom: No access by default. Any access needs to be granted explicitly.
-            </div>
-          </div>
-        </div>
-        <div id="tune-permissions-{{ this.instructorList.length }}" style="display: none;">
-          <div class="form-group" formGroupName="tunePermissions">
-            <div class="col-xs-12">
-              <div class="card bg-light top-padded" formGroupName="permissionsForCourse">
-                <div class="card-header bg-light-blue">
-                  <strong>
-                    In general, this instructor can
-                  </strong>
-                </div>
-                <div class="card-body">
-                  <div class="col-sm-3">
-                    <input formControlName="canmodifycourse" type="checkbox">
-                    Edit/Delete/Restore Course
-                  </div>
-                  <div class="col-sm-3">
-                    <input formControlName="canmodifyinstructor" type="checkbox">
-                    Add/Edit/Delete Instructors
-                  </div>
-                  <div class="col-sm-3">
-                    <input formControlName="canmodifysession" type="checkbox">
-                    Create/Edit/Delete/Restore Sessions
-                  </div>
-                  <div class="col-sm-3">
-                    <input formControlName="canmodifystudent" type="checkbox">
-                    Enroll/Edit/Delete Students
-                  </div>
-                  <br>
-                  <br>
-                  <div class="col-sm-6 border-right-gray">
-                    <input formControlName="canviewstudentinsection" type="checkbox">
-                    View Students' Details
-                    <br>
-                  </div>
-                  <div class="col-sm-5 col-sm-offset-1">
-                    <input formControlName="cansubmitsessioninsection" type="checkbox">
-                    Sessions: Submit Responses and Add Comments
-                    <br>
-                    <input formControlName="canviewsessioninsection" type="checkbox">
-                    Sessions: View Responses and Comments
-                    <br>
-                    <input formControlName="canmodifysessioncommentinsection" type="checkbox">
-                    Sessions: Edit/Delete Responses/Comments by Others
-                    <br>
-                  </div>
-                </div>
-              </div>
-              <div formArrayName="tuneSectionGroupPermissions">
-                <ng-container *ngFor="let sectionGroupPermissions of formAddInstructor.controls.tunePermissions.get('tuneSectionGroupPermissions').controls; let j=index">
-                  <div class="card bg-light top-padded" [formGroup]="sectionGroupPermissions">
-                    <div class="card-header bg-light-blue">
-                      <div class="row">
-                        <div class="col-sm-2">
-                          <p>
-                            <strong>
-                              But in section(s)
-                            </strong>
-                          </p>
-                        </div>
-                        <div class="col-sm-9">
-                          <div class="col-sm-12">
-                            <div class="col-sm-4" *ngFor="let section of this.sectionNames">
-                              <input [formControlName]="section" type="checkbox">
-                              {{ section }}
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-sm-1">
-                          <a class="float-sm-right" href="javascript:;" (click)="removeTuneSectionGroupPermissionsPanel(this.instructorList.length, j)">
-                            <i class="fa fa-trash" aria-hidden="true"></i>
-                          </a>
-                        </div>
-                      </div>
-                      <br>
-                      <div class="row">
-                        <div class="col-sm-12">
-                          <p>
-                            <strong>
-                              the instructor can only,
-                            </strong>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="panel-body">
-                      <br>
-                      <ng-container formGroupName="permissionsForSection">
-                        <div class="col-sm-6 border-right-gray">
-                          <input formControlName="canviewstudentinsection" type="checkbox">
-                          View Students' Details
-                          <br>
-                          <br>
-                        </div>
-                        <div class="col-sm-5 col-sm-offset-1">
-                          <input formControlName="cansubmitsessioninsection" type="checkbox">
-                          Sessions: Submit Responses and Add Comments
-                          <br>
-                          <input formControlName="canviewsessioninsection" type="checkbox">
-                          Sessions: View Responses and Comments
-                          <br>
-                          <input formControlName="canmodifysessioncommentinsection" type="checkbox">
-                          Sessions: Edit/Delete Responses/Comments by Others
-                          <br>
-                          <br>
-                        </div>
-                      </ng-container>
-                      <a id="hide-link-{{ this.instructorList.length }}-{{ j }}" class="small col-sm-5"
-                         style="display:block;" href="javascript:;"
-                         (click)="hideSessionLevelPermissions(this.instructorList.length, j)">
-                        Hide session-level permissions
-                      </a>
-                      <a id="show-link-{{ this.instructorList.length }}-{{ j }}" class="small col-sm-5"
-                         style="display:none;" href="javascript:;"
-                         (click)="showSessionLevelPermissions(this.instructorList.length, j)">
-                        Give different permissions for sessions in this section
-                      </a>
-                      <div id="tune-session-permissions-{{ this.instructorList.length }}-{{ j }}" style="display:block;"
-                           class="row" formGroupName="permissionsForSessions">
-                        <table class="table table-striped">
-                          <thead>
-                          <tr>
-                            <td>
-                              Session Name
-                            </td>
-                            <td>
-                              Submit Responses and Add Comments
-                            </td>
-                            <td>
-                              View Responses and Comments
-                            </td>
-                            <td>
-                              Edit/Delete Responses/Comments by Others
-                            </td>
-                          </tr>
-                          </thead>
-                          <tbody>
-                          <tr *ngFor="let feedback of this.feedbackNames" [formGroupName]="feedback">
-                            <td>
-                              {{ feedback }}
-                            </td>
-                            <td class="align-center">
-                              <input formControlName="canviewsessioninsection" type="checkbox">
-                            </td>
-                            <td class="align-center">
-                              <input formControlName="cansubmitsessioninsection" type="checkbox">
-                            </td>
-                            <td class="align-center">
-                              <input formControlName="canmodifysessioncommentinsection" type="checkbox">
-                            </td>
-                          </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </ng-container>
-              </div>
-            </div>
-          </div>
-        </div>
-        <a class="small" href="javascript:;"
-           *ngIf="formAddInstructor.controls.role.enabled && formAddInstructor.controls.role.value == 'Custom'
-                 && formAddInstructor.controls.tunePermissions.controls['tuneSectionGroupPermissions'].length !== this.sectionNames.length"
-           (click)="addEmptyTuneSectionGroupPermissionsPanel(formAddInstructor)">
-          Give different permissions for a specific section
-        </a>
-        <div class="form-group">
-          <div class="align-center">
-            <button class="btn btn-primary" tabindex="6" type="submit">
-              Add Instructor
-            </button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+<div *ngIf="isAddingNewInstructor" @collapseAnim>
+  <tm-instructor-edit-panel [editMode]="EditMode.ADD" [(instructor)]="newInstructorPanel" [instructorIndex]="instructorDetailPanels.length"
+                            [isSavingNewInstructor]="isSavingNewInstructor"
+                            [currInstructorCoursePrivilege]="currInstructorCoursePrivilege"
+                            (viewRolePrivilegeModel)="viewRolePrivilegeModel($event)"
+                            (saveInstructor)="addNewInstructor()" (cancelEditing)="isAddingNewInstructor = false;"
+                            [allSections]="this.allSections" [allSessions]="this.allSessions"></tm-instructor-edit-panel>
 </div>
-<ng-template #viewInstructorRoleModal let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="role-title"></h4>
-    <button class="close" data-dismiss="modal" aria-hidden="true" (click)="modal.dismiss()">x</button>
-  </div>
-  <div class="modal-body" id="view-instr-role-modal">
-    <div class="row">
-      <div class="col-sm-6">
-        <input disabled id="canmodifycourse" type="checkbox">
-        Edit/Delete/Restore Course
-      </div>
-      <div class="col-sm-6">
-        <input disabled id="canmodifyinstructor" type="checkbox">
-        Add/Edit/Delete Instructors
-      </div>
-      <div class="col-sm-6">
-        <input disabled id="canmodifysession" type="checkbox">
-        Create/Edit/Delete/Restore Sessions
-      </div>
-      <div class="col-sm-6">
-        <input disabled id="canmodifystudent" type="checkbox">
-        Enroll/Edit/Delete Students
-      </div>
-      <div class="col-sm-6">
-        <input disabled id="canviewstudentinsection" type="checkbox">
-        View Students' Details
-        <br>
-      </div>
-      <div class="col-sm-6">
-        <input disabled id="cansubmitsessioninsection" type="checkbox">
-        Sessions: Submit Responses and Add Comments
-        <br>
-        <input disabled id="canviewsessioninsection" type="checkbox">
-        Sessions: View Responses and Comments
-        <br>
-        <input disabled id="canmodifysessioncommentinsection" type="checkbox">
-        Sessions: Edit/Delete Responses/Comments by others
-        <br>
-      </div>
-    </div>
-  </div>
-</ng-template>

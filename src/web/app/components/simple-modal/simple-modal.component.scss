@@ -1,0 +1,26 @@
+.margin-left-5px {
+  margin-left: 5px;
+}
+
+.progress-bar-container {
+  margin-top: 10px;
+  margin-bottom: 2px;
+}
+
+.transparent-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  visibility: false;
+  z-index: 0;
+}
+
+.display-none {
+  display: none;
+}
+
+.z-index-1 {
+  z-index: 1;
+}

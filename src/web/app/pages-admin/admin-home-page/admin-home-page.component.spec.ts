@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { AdminHomePageComponent } from './admin-home-page.component';
 
 describe('AdminHomePageComponent', () => {
@@ -16,6 +18,8 @@ describe('AdminHomePageComponent', () => {
       imports: [
         FormsModule,
         HttpClientTestingModule,
+        LoadingSpinnerModule,
+        AjaxLoadingModule,
       ],
       providers: [AccountService],
     })
@@ -24,7 +28,7 @@ describe('AdminHomePageComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminHomePageComponent);
-    service = TestBed.get(AccountService);
+    service = TestBed.inject(AccountService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -286,9 +290,65 @@ describe('AdminHomePageComponent', () => {
       },
     ];
     component.activeRequests = 1;
+    component.isAddingInstructors = true;
 
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should add multiple instructors split by tabs', () => {
+    component.instructorDetails = `Instructor A   \t  instructora@example.com \t  Sample Institution A\n
+     Instructor B \t instructorb@example.com \t Sample Institution B`;
+
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    button.click();
+
+    expect(component.instructorsConsolidated.length).toEqual(2);
+    expect(component.instructorsConsolidated[0]).toEqual(
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+      },
+    );
+    expect(component.instructorsConsolidated[1]).toEqual(
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+      },
+    );
+  });
+
+  it('should add multiple instructors split by vertical bars', () => {
+    component.instructorDetails = `Instructor A | instructora@example.com | Sample Institution A\n
+        Instructor B | instructorb@example.com | Sample Institution B`;
+
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#add-instructor-single-line');
+    button.click();
+
+    expect(component.instructorsConsolidated.length).toEqual(2);
+    expect(component.instructorsConsolidated[0]).toEqual(
+      {
+        name: 'Instructor A',
+        email: 'instructora@example.com',
+        institution: 'Sample Institution A',
+        status: 'PENDING',
+      },
+    );
+    expect(component.instructorsConsolidated[1]).toEqual(
+      {
+        name: 'Instructor B',
+        email: 'instructorb@example.com',
+        institution: 'Sample Institution B',
+        status: 'PENDING',
+      },
+    );
+  });
 });

@@ -1,0 +1,20 @@
+<div class="modal-header">
+  <h5 class="modal-title">Comments</h5>
+  <button type="button" class="close" (click)="activeModal!.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body" *ngIf="model">
+  <tm-comment-table [model]="model"
+                    [questionShowResponsesTo]="questionShowResponsesTo"
+                    [shouldHideClosingButtonForNewComment]="true"
+                    [response]="response"
+                    (modelChange)="triggerModelChange($event)"
+                    (updateCommentEvent)="triggerUpdateCommentEvent($event)"
+                    (deleteCommentEvent)="triggerDeleteCommentEvent($event)"
+                    (saveNewCommentEvent)="triggerSaveNewCommentEvent()"
+  ></tm-comment-table>
+</div>
+<div class="modal-footer">
+  <button id="btn-close-comments" type="button" class="btn btn-light" (click)="activeModal!.dismiss()">Close</button>
+</div>

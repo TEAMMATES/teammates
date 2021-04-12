@@ -1,0 +1,5 @@
+<a [tmRouterLink]="isGiverInstructor ? '/web/instructor/sessions/submission' : '/web/sessions/submission'"
+   [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: relatedGiverEmail, moderatedquestionId: moderatedQuestionId}"
+   class="btn btn-sm" [ngClass]="btnStyle === 'PRIMARY' ? 'btn-primary' : 'btn-light'">
+  Moderate response
+</a>

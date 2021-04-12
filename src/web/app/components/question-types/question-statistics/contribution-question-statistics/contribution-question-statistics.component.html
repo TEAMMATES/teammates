@@ -1,0 +1,157 @@
+<div *ngIf="isStudent && displayContributionStats && questionStatisticsForStudent">
+  <div class="card" style="margin-top: 20px;">
+    <div class="card-header bg-primary text-white">
+      Comparison of Work Distribution
+    </div>
+    <div class="card-body">
+      <div class="row" style="margin-bottom: 5px;">
+        <div class="col-sm-2">
+          <span class="ngb-tooltip-class" ngbTooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception">
+            <strong>My view:</strong>
+          </span>
+        </div>
+        <div id="own-view-me" class="col-sm-2">
+          <strong>of me:</strong>&nbsp;<tm-contribution [value]="questionStatisticsForStudent.claimed"></tm-contribution>
+        </div>
+        <div id="own-view-others" class="col-sm-8">
+          <strong>of others:</strong>&nbsp;
+          <span *ngFor="let other of questionStatisticsForStudent.claimedOthersValues; let i = index;">
+            <span *ngIf="i !== 0">,&nbsp;</span>
+            <tm-contribution [value]="other"></tm-contribution>
+          </span>
+          &nbsp;<a (click)="openHelpModal(contributionHelpModal)" [tmRouterLink]="" queryParamsHandling="preserve"><i class="fas fa-info-circle"></i></a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-2">
+          <strong>Team view:</strong>
+        </div>
+        <div id="team-view-me" class="col-sm-2">
+          <span class="ngb-tooltip-class" ngbTooltip="The average contribution the other members of your team attributed to you">
+            <strong>of me:&nbsp;</strong>
+          </span>
+          <tm-contribution [value]="questionStatisticsForStudent.perceived"></tm-contribution>
+        </div>
+        <div id="team-view-others" class="col-sm-8">
+          <strong>of others:</strong>&nbsp;
+          <span *ngFor="let other of questionStatisticsForStudent.perceivedOthers; let i = index;">
+            <span *ngIf="i !== 0">,&nbsp;</span>
+            <tm-contribution [value]="other"></tm-contribution>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="!isStudent && displayContributionStats && questionOverallStatistics && responses.length">
+  <div class="row">
+    <div class="col-sm-4 text-color-gray">
+      <strong>
+        Response Summary
+      </strong>
+    </div>
+    <div class="col-sm-8" style="text-align: right;">
+      [<a tmRouterLink="/web/instructor/help" [queryParams]="{questionId: QuestionsSectionQuestions.CONTRIBUTION, section: Sections.questions}" rel="noopener noreferrer" target="_blank">How do I interpret/use these values?</a>]
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 table-responsive">
+      <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
+    </div>
+  </div>
+</div>
+<ng-template #contributionHelpModal>
+  <h4>How do I interpret these results?</h4>
+  <ul>
+    <li>
+      Compare the values given in 'My view' with those under 'Team's view'.
+      This tells you whether your perception matches what the team thinks, particularly regarding your own contribution.
+      You may ignore minor differences.
+    </li>
+    <li>
+      From the estimates you submit, we try to deduce the answer to this question:
+      In your opinion, if your teammates are doing the project by themselves without you,
+      how do they compare against each other in terms of contribution?
+      We want to deduce your unbiased opinion about your team members' contributions.
+    </li>
+    <li>
+      Please note that the ‘Team view’ shown to you has been adjusted to match the total of your own view (i.e., the ‘My view’). In the example below, ‘My view’ adds up to 4E+10% and therefore, the ‘Team view’ has been scaled up to add up to 4E+10% as well (give or take minor differences due to rounding off errors).
+      <div class="card" style="margin-top: 20px;">
+        <div class="card-header bg-primary text-white">
+          Comparison of Work Distribution
+        </div>
+        <div class="card-body">
+          <div class="row" style="margin-bottom: 5px;">
+            <div class="col-sm-2">
+              <span class="ngb-tooltip-class" ngbTooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception">
+                <strong>My view:</strong>
+              </span>
+            </div>
+            <div id="own-view-me" class="col-sm-2">
+              <strong>of me:</strong>&nbsp;
+              <tm-contribution [value]="110"></tm-contribution>
+            </div>
+            <div id="own-view-others" class="col-sm-8">
+              <strong>of others:</strong>&nbsp;
+                <span><tm-contribution [value]="110"></tm-contribution></span>&nbsp;
+                <span><tm-contribution [value]="110"></tm-contribution></span>&nbsp;
+                <span><tm-contribution [value]="80"></tm-contribution></span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-2">
+              <strong>Team view:</strong>
+            </div>
+            <div id="team-view-me" class="col-sm-2">
+              <span class="ngb-tooltip-class" ngbTooltip="The average contribution the other members of your team attributed to you">
+                <strong>of me:</strong>&nbsp;
+              </span>
+              <tm-contribution [value]="109"></tm-contribution>
+            </div>
+            <div id="team-view-others" class="col-sm-8">
+              <strong>of others:</strong>&nbsp;
+                <span><tm-contribution [value]="109"></tm-contribution></span>&nbsp;
+                <span><tm-contribution [value]="109"></tm-contribution></span>&nbsp;
+                <span><tm-contribution [value]="82"></tm-contribution></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      The reason for such an adjustment is to allow you to make a direct comparison between your own view of work distribution against that of the team. In the example above, the ‘Team view’ is quite close to the ‘My view’ which means the respondent has an accurate view of how much each contributed (in other words, the team agrees with the respondent’s view).
+      <br />
+      Note that the above also means the ‘Team view’ seen by each team member could be different.
+    </li>
+  </ul>
+  <h4>How are contribution question results used in grading?</h4>
+  <ul>
+    <li>
+      TEAMMATES does not calculate grades. Instructors are free to choose how they use contribution question results.
+    </li>
+    <li>
+      TEAMMATES recommends that contribution question results be used only as flags to identify teams with contribution imbalances.
+      Once identified, the instructor is recommended to investigate further before taking action.
+    </li>
+  </ul>
+  <h4>How are the scores for contribution questions calculated?</h4>
+  <p>
+    Here are the important things to note about
+    <a href="/web/front/help/instructor#team-contribution-questions" rel="noopener noreferrer" target="_blank">how contribution scores are calculated</a>:
+  </p>
+  <ul>
+    <li>
+      The contribution value you attribute to yourself is not used to calculate the team's view of your contribution.
+      That means you cannot boost your perceived contribution by claiming a high contribution for yourself
+      or attributing a low contribution to team members.
+    </li>
+    <li>
+      We adjust the estimates you submitted to remove artificial inflation/deflation.
+      For example, giving everyone <code>[Equal share + 20%]</code> is as same as giving everyone
+      <code>[Equal share]</code> because in both cases all members have done a similar share of work.
+    </li>
+    <li>
+      The sum of values in the team's view has been scaled to equal the sum of values in your view.
+      That way, you can make a direct comparison between your view and the team's view.
+      As this scaling is specific to you, the values you see in team's view may not match the values your team members see in their results.
+    </li>
+  </ul>
+</ng-template>

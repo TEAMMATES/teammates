@@ -3,13 +3,12 @@ package teammates.common.datatransfer.attributes;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.Account;
 
 /**
@@ -25,7 +24,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
     public String institute;
     public Instant createdAt;
 
-    AccountAttributes(String googleId) {
+    private AccountAttributes(String googleId) {
         this.googleId = googleId;
     }
 
@@ -79,10 +78,6 @@ public class AccountAttributes extends EntityAttributes<Account> {
         return email;
     }
 
-    public String getTruncatedGoogleId() {
-        return StringHelper.truncateLongId(googleId);
-    }
-
     public String getInstitute() {
         return institute;
     }
@@ -119,15 +114,36 @@ public class AccountAttributes extends EntityAttributes<Account> {
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email).append(this.name)
+                .append(this.institute).append(this.googleId);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            AccountAttributes otherAccount = (AccountAttributes) other;
+            return Objects.equals(this.email, otherAccount.email)
+                    && Objects.equals(this.name, otherAccount.name)
+                    && Objects.equals(this.institute, otherAccount.institute)
+                    && Objects.equals(this.googleId, otherAccount.googleId);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void sanitizeForSaving() {
         this.googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         this.name = SanitizationHelper.sanitizeName(name);
         this.email = SanitizationHelper.sanitizeEmail(email);
         this.institute = SanitizationHelper.sanitizeTitle(institute);
-    }
-
-    public boolean isUserRegistered() {
-        return googleId != null && !googleId.isEmpty();
     }
 
     /**
@@ -159,21 +175,21 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public Builder withName(String name) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+            Assumption.assertNotNull(name);
 
             accountAttributes.name = name;
             return this;
         }
 
         public Builder withEmail(String email) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+            Assumption.assertNotNull(email);
 
             accountAttributes.email = email;
             return this;
         }
 
         public Builder withInstitute(String institute) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, institute);
+            Assumption.assertNotNull(institute);
 
             accountAttributes.institute = institute;
             return this;
@@ -196,7 +212,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         private UpdateOption<Boolean> isInstructorOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+            Assumption.assertNotNull(googleId);
 
             this.googleId = googleId;
         }
@@ -240,10 +256,10 @@ public class AccountAttributes extends EntityAttributes<Account> {
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 

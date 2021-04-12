@@ -2,8 +2,8 @@ package teammates.common.datatransfer.attributes;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
@@ -36,18 +36,19 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     public String giverSection;
     public String recipientSection;
 
-    protected transient Instant createdAt;
-    protected transient Instant updatedAt;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private String feedbackResponseId;
 
-    FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
+    private FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
         this.feedbackQuestionId = feedbackQuestionId;
         this.giver = giver;
         this.recipient = recipient;
 
         this.giverSection = Const.DEFAULT_SECTION;
         this.recipientSection = Const.DEFAULT_SECTION;
+        this.feedbackResponseId = FeedbackResponse.generateId(feedbackQuestionId, giver, recipient);
     }
 
     public FeedbackResponseAttributes(FeedbackResponseAttributes copy) {
@@ -66,7 +67,8 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
 
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
-                new FeedbackResponseAttributes(fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
+                new FeedbackResponseAttributes(
+                        fr.getFeedbackQuestionId(), fr.getGiverEmail(), fr.getRecipientEmail());
 
         fra.feedbackResponseId = fr.getId();
         fra.feedbackSessionName = fr.getFeedbackSessionName();
@@ -86,7 +88,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     public FeedbackQuestionType getFeedbackQuestionType() {
-        return responseDetails.questionType;
+        return responseDetails.getQuestionType();
     }
 
     public String getId() {
@@ -168,6 +170,32 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.feedbackSessionName).append(this.courseId)
+                .append(this.feedbackQuestionId).append(this.giver).append(this.recipient);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            FeedbackResponseAttributes otherFeedbackResponse = (FeedbackResponseAttributes) other;
+            return Objects.equals(this.feedbackSessionName, otherFeedbackResponse.feedbackSessionName)
+                    && Objects.equals(this.courseId, otherFeedbackResponse.courseId)
+                    && Objects.equals(this.feedbackQuestionId, otherFeedbackResponse.feedbackQuestionId)
+                    && Objects.equals(this.giver, otherFeedbackResponse.giver)
+                    && Objects.equals(this.recipient, otherFeedbackResponse.recipient);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void sanitizeForSaving() {
         // nothing to sanitize before saving
     }
@@ -192,19 +220,6 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             return new FeedbackTextResponseDetails(serializedResponseDetails);
         }
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
-    }
-
-    /**
-     * Checks if this object represents a missing response.
-     * A missing response should never be written to the database.
-     * It should only be used as a representation.
-     */
-    public boolean isMissingResponse() {
-        return responseDetails == null;
-    }
-
-    public static void sortFeedbackResponses(List<FeedbackResponseAttributes> frs) {
-        frs.sort(Comparator.comparing(FeedbackResponseAttributes::getId));
     }
 
     /**
@@ -243,21 +258,21 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             super(new UpdateOptions(""));
             thisBuilder = this;
 
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackQuestionId);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giver);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipient);
+            Assumption.assertNotNull(feedbackQuestionId);
+            Assumption.assertNotNull(giver);
+            Assumption.assertNotNull(recipient);
             fra = new FeedbackResponseAttributes(feedbackQuestionId, giver, recipient);
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(courseId);
             fra.courseId = courseId;
 
             return this;
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
+            Assumption.assertNotNull(feedbackSessionName);
             fra.feedbackSessionName = feedbackSessionName;
 
             return this;
@@ -284,7 +299,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         private UpdateOption<FeedbackResponseDetails> responseDetailsUpdateOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackResponseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackResponseId);
+            Assumption.assertNotNull(feedbackResponseId);
 
             this.feedbackResponseId = feedbackResponseId;
         }
@@ -316,14 +331,14 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             }
 
             public Builder withGiver(String giver) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giver);
+                Assumption.assertNotNull(giver);
 
                 updateOptions.giverOption = UpdateOption.of(giver);
                 return thisBuilder;
             }
 
             public Builder withRecipient(String recipient) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipient);
+                Assumption.assertNotNull(recipient);
 
                 updateOptions.recipientOption = UpdateOption.of(recipient);
                 return thisBuilder;
@@ -346,29 +361,29 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 
         public B withGiverSection(String giverSection) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, giverSection);
+            Assumption.assertNotNull(giverSection);
 
             updateOptions.giverSectionOption = UpdateOption.of(giverSection);
             return thisBuilder;
         }
 
         public B withRecipientSection(String recipientSection) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, recipientSection);
+            Assumption.assertNotNull(recipientSection);
 
             updateOptions.recipientSectionOption = UpdateOption.of(recipientSection);
             return thisBuilder;
         }
 
         public B withResponseDetails(FeedbackResponseDetails responseDetails) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, responseDetails);
+            Assumption.assertNotNull(responseDetails);
 
             updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails.getDeepCopy());
             return thisBuilder;

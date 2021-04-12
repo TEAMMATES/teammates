@@ -1,0 +1,214 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopySessionModalComponent should snap with default fields 1`] = `
+<tm-copy-session-modal
+  FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
+  activeModal={[Function NgbActiveModal]}
+  copyToCourseSet={[Function Set]}
+  courseCandidates={[Function Array]}
+  newFeedbackSessionName=""
+  sessionToCopyCourseId=""
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy this feedback session to other courses
+      </div>
+      <small
+        class="text-secondary"
+      >
+        (Select the course(s) you want to copy this feedback session to)
+      </small>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-course-modal"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="form-group"
+        >
+          <label>
+            <b>
+              Name for copied session
+            </b>
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-session-name"
+            maxlength="38"
+            type="text"
+          />
+          <span>
+            38 characters left
+          </span>
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-course"
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-session-modal>
+`;
+
+exports[`CopySessionModalComponent should snap with some session and courses candidates 1`] = `
+<tm-copy-session-modal
+  FEEDBACK_SESSION_NAME_MAX_LENGTH={[Function Number]}
+  activeModal={[Function NgbActiveModal]}
+  copyToCourseSet={[Function Set]}
+  courseCandidates={[Function Array]}
+  newFeedbackSessionName={[Function String]}
+  sessionToCopyCourseId={[Function String]}
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy this feedback session to other courses
+      </div>
+      <small
+        class="text-secondary"
+      >
+        (Select the course(s) you want to copy this feedback session to)
+      </small>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-course-modal"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div
+          class="form-group"
+        >
+          <label>
+            <b>
+              Name for copied session
+            </b>
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-session-name"
+            maxlength="38"
+            type="text"
+          />
+          <span>
+            26 characters left
+          </span>
+        </div>
+        
+        <div
+          class="form-check"
+        >
+          <label
+            class="form-check-label"
+          >
+            <input
+              class="form-check-input"
+              name="copySessionChooseCourse"
+              type="checkbox"
+            />
+             [
+            <span
+              class="text-danger"
+            >
+              Test01
+            </span>
+            ] : Sample Course 101 
+            
+            <span
+              class="text-danger"
+            >
+               {Session currently in this course} 
+            </span>
+          </label>
+        </div>
+        <div
+          class="form-check"
+        >
+          <label
+            class="form-check-label"
+          >
+            <input
+              class="form-check-input"
+              name="copySessionChooseCourse"
+              type="checkbox"
+            />
+             [
+            <span>
+              Test02
+            </span>
+            ] : Sample Course 202 
+            
+          </label>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-course"
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-session-modal>
+`;

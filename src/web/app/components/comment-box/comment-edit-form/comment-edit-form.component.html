@@ -1,0 +1,58 @@
+<div class="row">
+  <div class="col-6" *ngIf="isFeedbackParticipantComment">
+    Your comment about the above response
+  </div>
+  <div class="col-6" *ngIf="!isFeedbackParticipantComment && response">
+    Giver: {{ response.giver }} ({{ response.giverTeam }})<br/>
+    Recipient: {{ response.recipient }} ({{ response.recipientTeam }})
+  </div>
+  <div class="col-6">
+    <div class="float-right">
+      <span>
+        <button *ngIf="isVisibilityOptionEnabled" class="btn btn-info btn-sm" (click)="toggleVisibilityTable()">
+          <i class="fas fa-eye"></i> {{ isVisibilityTableExpanded ? "Hide" : "Show" }} Visibility Options</button>
+      </span>
+      <span *ngIf="!isVisibilityOptionEnabled" style="margin-left: 10px;">
+        <button *ngIf="!shouldHideClosingButton" type="button" class="close" aria-label="Close" (click)="triggerCloseCommentBoxEvent()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </span>
+    </div>
+  </div>
+</div>
+<p *ngIf="isVisibilityOptionEnabled">You may change comment's visibility using the visibility options on the right hand side.</p>
+
+<div *ngIf="isVisibilityTableExpanded" @collapseAnim>
+  <table class="table margin-bottom-0 background-color-white table-striped table-responsive-md">
+    <thead>
+    <tr>
+      <th scope="col" class="text-left">User/Group</th>
+      <th scope="col" class="text-center" *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray">{{ commentVisibilityControl | commentVisibilityControlName }}</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let commentVisibilityType of CommentVisibilityType | enumToArray">
+      <tr *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(commentVisibilityType)">
+        <td><span container="body" class="ngb-tooltip-class" [ngbTooltip]="commentVisibilityType | commentVisibilityTypeDescription">{{ commentVisibilityType | commentVisibilityTypeName }}</span></td>
+        <td *ngFor="let commentVisibilityControl of CommentVisibilityControl | enumToArray" class="text-center">
+          <input type="checkbox" [checked]="visibilityStateMachine.isVisible(commentVisibilityType, commentVisibilityControl)"
+                 (click)="modifyVisibilityControl($event.target.checked, commentVisibilityType, commentVisibilityControl)">
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>
+
+<div style="margin: 10px 0;">
+  <tm-rich-text-editor [richText]="model.commentText" (richTextChange)="triggerModelChange('commentText', $event)"
+                       placeholderText="Enter your comment here" [isDisabled]="isDisabled"></tm-rich-text-editor>
+</div>
+
+<button type="button" class="btn btn-success btn-sm float-right btn-margin-left"
+        (click)="triggerSaveCommentEvent()" *ngIf="!shouldHideSavingButton" [disabled]="isDisabled"><i class="fas fa-save"></i>
+  {{ mode == CommentRowMode.EDIT ? 'Save' : 'Add' }}</button>
+
+<button type="button" class="btn btn-light btn-sm float-right"
+        (click)="triggerCloseCommentBoxEvent()" *ngIf="!shouldHideClosingButton" [disabled]="isDisabled"><i class="fas fa-times"></i>
+  {{ mode == CommentRowMode.EDIT ? 'Discard' : 'Cancel' }}</button>

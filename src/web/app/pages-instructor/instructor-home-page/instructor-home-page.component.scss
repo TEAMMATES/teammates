@@ -2,18 +2,24 @@
   padding: 0;
 }
 
-.course-tab-header {
-  cursor: pointer;
+.btn-toolbar {
+  white-space: nowrap;
+  margin-top: 5px;
+  margin-bottom: 2px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
-.height-60px {
-  height: 60px;
+.course-header {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
-.margin-bottom-15px {
-  margin-bottom: 15px;
+.dropdown-item {
+  border: none;
 }
 
-.padding-right-10px {
-  padding-right: 10px;
+.no-border {
+  border: none;
 }

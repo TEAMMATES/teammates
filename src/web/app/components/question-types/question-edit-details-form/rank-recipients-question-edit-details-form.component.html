@@ -1,0 +1,30 @@
+<div class="row">
+  <div class="col-8 padding-left-15px">
+    <label class="form-check-label">
+      <input id="duplicate-rank-checkbox" class="form-check-input" type="checkbox"  [ngModel]="model.areDuplicatesAllowed"
+             (ngModelChange)="triggerModelChange('areDuplicatesAllowed', $event)" [disabled]="!isEditable">
+      <b>Allow response giver to give the same rank to multiple options</b>
+    </label>
+    <br>
+    <br>
+    <label class="form-check-label">
+      <input id="min-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+             [ngModel]="isMinOptionsToBeRankedEnabled"
+             (ngModelChange)="triggerMinOptionsToBeRankedChange($event)">
+      <b>Minimum number of options a respondent must rank</b>
+    </label>
+    <input id="min-options" type="number" class="form-control" [disabled]="!isMinOptionsToBeRankedEnabled || !isEditable"
+           [ngModel]="displayValueForMinOptionsToBeRanked"
+           (ngModelChange)="triggerModelChange('minOptionsToBeRanked', $event)" min="1" max="{{ maxMinOptionsValue }}">
+    <br>
+    <label class="form-check-label">
+      <input id="max-options-checkbox" class="form-check-input" type="checkbox" [disabled]="!isEditable"
+             [ngModel]="isMaxOptionsToBeRankedEnabled"
+             (ngModelChange)="triggerMaxOptionsToBeRankedChange($event)">
+      <b>Maximum number of options a respondent can rank</b>
+    </label>
+    <input id="max-options" type="number" class="form-control" [disabled]="!isMaxOptionsToBeRankedEnabled || !isEditable"
+           [ngModel]="displayValueForMaxOptionsToBeRanked"
+           (ngModelChange)="triggerModelChange('maxOptionsToBeRanked', $event)" [min]="isMinOptionsToBeRankedEnabled ? model.minOptionsToBeRanked : 1">
+  </div>
+</div>

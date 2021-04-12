@@ -1,30 +1,28 @@
-<div class="card margin-top-30px" xmlns="http://www.w3.org/1999/html">
-  <div class="card-header text-white question-header">
-    <b>Question {{ model.questionNumber }}</b>
-    <br/>
-    <span>{{ model.questionBrief }}</span>
+<div id="question-submission-form" class="card">
+  <div class="card-header bg-primary text-white question-header">
+    <span id="question-details"><b>Question {{ model.questionNumber }}: </b>{{ model.questionBrief }}</span>
   </div>
 
   <div class="card-body">
-    <div class="card" *ngIf="model.questionDescription" xmlns="http://www.w3.org/1999/html">
+    <div class="card mb-3" *ngIf="model.questionDescription">
       <div class="card-header">
         <b>More details</b>
       </div>
-      <div class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
+      <div id="question-description" class="card-body" [innerHTML]="model.questionDescription | safeHtml"></div>
     </div>
 
-    <br/>
-
-    <p class="text-secondary">Only the following persons can see your responses: </p>
-    <ul class="text-secondary">
-      <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
-      <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
-        <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
-          {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
-        </li>
-      </ng-container>
-      <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
-    </ul>
+    <div class="card-body visibility-card">
+      <p class="text-secondary">Only the following persons can see your responses: </p>
+      <ul id="visibility-list" class="text-secondary">
+        <li *ngIf="model.recipientType === FeedbackParticipantType.SELF">You can see your own feedback in the results page later on.</li>
+        <ng-container *ngFor="let visibilityType of FeedbackVisibilityType | enumToArray">
+          <li *ngIf="visibilityStateMachine.isVisibilityTypeApplicable(visibilityType) && visibilityStateMachine.hasAnyVisibilityControl(visibilityType)">
+            {{ visibilityType | visibilityEntityName:model.recipientType:model.numberOfEntitiesToGiveFeedbackToSetting:model.customNumberOfEntitiesToGiveFeedbackTo }} {{ visibilityStateMachine.getVisibilityControlUnderVisibilityType(visibilityType) | visibilityCapability }}
+          </li>
+        </ng-container>
+        <li *ngIf="!visibilityStateMachine.hasAnyVisibilityControlForAll()">No-one can see your responses</li>
+      </ul>
+    </div>
 
     <tm-contribution-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONTRIB"></tm-contribution-question-instruction>
     <tm-text-question-instruction *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-instruction>
@@ -33,9 +31,14 @@
     <tm-text-question-constraint *ngIf="model.questionType === FeedbackQuestionType.TEXT"></tm-text-question-constraint>
     <tm-num-scale-question-constraint *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE"></tm-num-scale-question-constraint>
     <tm-rank-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_OPTIONS" [questionDetails]="model.questionDetails"></tm-rank-options-question-instruction>
+    <tm-msq-question-constraint *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"></tm-msq-question-constraint>
+    <tm-rank-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"></tm-rank-recipients-question-instruction>
+    <tm-constsum-options-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"></tm-constsum-options-question-instruction>
+    <tm-constsum-recipients-question-instruction *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
+                                                 [questionDetails]="model.questionDetails" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-constsum-recipients-question-instruction>
 
-    <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF">
-      <span class="evaluee-span" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
+    <p *ngIf="model.recipientType !== FeedbackParticipantType.NONE && model.recipientType !== FeedbackParticipantType.SELF" class="margin-top-15px">
+      <span class="ngb-tooltip-class" ngbTooltip="The party being evaluated or given feedback to">Evaluee/Recipient</span>
     </p>
 
     <div class="alert alert-primary" role="alert" *ngIf="model.giverType === FeedbackParticipantType.TEAMS">
@@ -44,28 +47,26 @@
 
     <div class="row">
       <div class="evaluee-col col-12">
-        <div class="row evaluee-row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
+        <div class="row" *ngFor="let recipientSubmissionFormModel of model.recipientSubmissionForms; let i = index; trackBy: trackRecipientSubmissionFormByFn">
           <div class="col-12 margin-top-10px" *ngIf="model.recipientType !== FeedbackParticipantType.SELF && model.recipientType !== FeedbackParticipantType.NONE">
-            <div *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
+            <div id="recipient-name-{{ i }}" *ngIf="formMode === QuestionSubmissionFormMode.FIXED_RECIPIENT">
               <b>{{ getRecipientName(recipientSubmissionFormModel.recipientIdentifier) }} </b> <span>({{ model.recipientType | recipientTypeName:model.giverType }})</span>
             </div>
-            <div class="row align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
-              <div class="col-4">
-                <select class="form-control evaluee-select" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
-                        (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
-                        [disabled]="isDisabled">
-                  <option value=""></option>
-                  <ng-container *ngFor="let recipient of model.recipientList">
-                    <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ recipient.recipientName }}</option>
-                  </ng-container>
-                </select>
-              </div>
-              <div class="text-left">
-                ({{ model.recipientType | recipientTypeName:model.giverType }})
+            <div class="row evaluee-select align-items-center" *ngIf="formMode === QuestionSubmissionFormMode.FLEXIBLE_RECIPIENT">
+              <select id="recipient-dropdown" class="form-control font-weight-bold col" [ngModel]="recipientSubmissionFormModel.recipientIdentifier"
+                      (ngModelChange)="triggerRecipientSubmissionFormChange(i, 'recipientIdentifier', $event)"
+                      [disabled]="isDisabled">
+                <option value=""></option>
+                <ng-container *ngFor="let recipient of model.recipientList">
+                  <option *ngIf="!isRecipientSelected(recipient) || recipientSubmissionFormModel.recipientIdentifier === recipient.recipientIdentifier" [ngValue]="recipient.recipientIdentifier">{{ recipient.recipientName }}</option>
+                </ng-container>
+              </select>
+              <div class="col text-left">
+                ({{ model.recipientType | recipientTypeName: model.giverType }})
               </div>
             </div>
           </div>
-          <div class="col-12 margin-top-10px">
+          <div class="col-12 margin-top-10px indent">
             <tm-contribution-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONTRIB" [questionDetails]="model.questionDetails"
                                                       [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                       [shouldShowHelpLink]="i === 0"
@@ -81,6 +82,10 @@
                                                        [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                        (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                        [isDisabled]="isDisabled"></tm-rank-options-question-edit-answer-form>
+            <tm-rank-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS" [questionDetails]="model.questionDetails"
+                                                          [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                          (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                          [isDisabled]="isDisabled" [numOfRecipients]="model.recipientSubmissionForms.length"></tm-rank-recipients-question-edit-answer-form>
             <tm-num-scale-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.NUMSCALE" [questionDetails]="model.questionDetails"
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
@@ -90,16 +95,82 @@
                                                     [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                                     (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                                     [isDisabled]="isDisabled"
-                                                    [id]="i"
+                                                    [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"
             ></tm-mcq-question-edit-answer-form>
             <tm-msq-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.MSQ" [questionDetails]="model.questionDetails"
                                               [responseDetails]="recipientSubmissionFormModel.responseDetails"
                                               (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
                                               [isDisabled]="isDisabled"
             ></tm-msq-question-edit-answer-form>
+            <tm-rubric-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.RUBRIC" [questionDetails]="model.questionDetails"
+                                                 [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                 (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                 [isDisabled]="isDisabled"
+                                                 [id]="model.feedbackQuestionId + recipientSubmissionFormModel.recipientIdentifier"></tm-rubric-question-edit-answer-form>
+            <tm-constsum-options-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS" [questionDetails]="model.questionDetails"
+                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                           [isDisabled]="isDisabled">
+            </tm-constsum-options-question-edit-answer-form>
+            <tm-constsum-recipients-question-edit-answer-form *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS" [questionDetails]="model.questionDetails"
+                                                           [responseDetails]="recipientSubmissionFormModel.responseDetails"
+                                                           (responseDetailsChange)="triggerRecipientSubmissionFormChange(i, 'responseDetails', $event)"
+                                                           [isDisabled]="isDisabled"></tm-constsum-recipients-question-edit-answer-form>
+          </div>
+
+          <div id="comment-section" *ngIf="allowedToHaveParticipantComment" class="col-12 margin-bottom-20px margin-top-10px indent">
+            <div *ngIf="recipientSubmissionFormModel.commentByGiver && recipientSubmissionFormModel.commentByGiver.originalComment else newComment">
+              <tm-comment-row [mode]="CommentRowMode.EDIT" [isVisibilityOptionEnabled]="false"
+                              [model]="recipientSubmissionFormModel.commentByGiver"
+                              (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
+                              [isFeedbackParticipantComment]="true"
+                              [questionShowResponsesTo]="model.showResponsesTo"
+                              [shouldHideSavingButton]="true"
+                              (deleteCommentEvent)="triggerDeleteCommentEvent(i)"
+                              (closeEditingEvent)="discardEditedParticipantComment(i)"
+                              [isDisabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
+              <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
+                You must provide a valid response in order to give a comment or your comment will not be saved!
+              </div>
+            </div>
+            <ng-template #newComment>
+              <div style="display: inline-block;" [ngbTooltip]="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails) ? 'Give a valid response in order to comment' : ''">
+                <button id="btn-add-comment" *ngIf="!recipientSubmissionFormModel.commentByGiver" class="btn btn-light btn-sm"
+                        (click)="addNewParticipantCommentToResponse(i)"
+                        [disabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
+                  <i class="fas fa-comment"></i> [Optional] Comment on your response
+                </button>
+              </div>
+              <div *ngIf="recipientSubmissionFormModel.commentByGiver">
+                <tm-comment-row [mode]="CommentRowMode.ADD" [isVisibilityOptionEnabled]="false"
+                                [isFeedbackParticipantComment]="true"
+                                [questionShowResponsesTo]="model.showResponsesTo"
+                                [shouldHideSavingButton]="true"
+                                [model]="recipientSubmissionFormModel.commentByGiver"
+                                (modelChange)="triggerRecipientSubmissionFormChange(i, 'commentByGiver', $event)"
+                                (closeEditingEvent)="cancelAddingNewParticipantComment(i)"
+                                [isDisabled]="isDisabled || isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)"></tm-comment-row>
+                <div class="alert alert-warning margin-top-10px" role="alert" *ngIf="isFeedbackResponseDetailsEmpty(recipientSubmissionFormModel.responseDetails)">
+                  You must provide a valid response in order to give a comment or your comment will not be saved!
+                </div>
+              </div>
+            </ng-template>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="col-12 constraint-margins">
+      <tm-rank-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.RANK_RECIPIENTS"
+                                              [recipientSubmissionForms]="model.recipientSubmissionForms"
+                                              [questionDetails]="model.questionDetails"
+                                              (isValidEvent)="updateValidity($event)"
+      ></tm-rank-recipients-question-constraint>
+      <tm-constsum-recipients-question-constraint *ngIf="model.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS"
+                                                  [recipientSubmissionForms]="model.recipientSubmissionForms"
+                                                  [questionDetails]="model.questionDetails"
+                                                  (isValidEvent)="updateValidity($event)"
+      ></tm-constsum-recipients-question-constraint>
     </div>
 
     <div class="alert alert-warning" role="alert" *ngIf="model.recipientList.length === 0">

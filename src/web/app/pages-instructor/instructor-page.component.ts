@@ -55,7 +55,10 @@ export class InstructorPageComponent implements OnInit {
     this.route.queryParams.subscribe((queryParams: any) => {
       this.authService.getAuthUser(queryParams.user).subscribe((res: AuthInfo) => {
         if (res.user) {
-          this.user = res.user.id + (res.masquerade ? ' (M)' : '');
+          this.user = res.user.id;
+          if (res.masquerade) {
+            this.user += ' (M)';
+          }
           this.institute = res.institute;
           this.isInstructor = res.user.isInstructor;
           this.isStudent = res.user.isStudent;
@@ -65,7 +68,10 @@ export class InstructorPageComponent implements OnInit {
         }
         this.isFetchingAuthDetails = false;
       }, () => {
-        // TODO
+        this.isInstructor = false;
+        this.isStudent = false;
+        this.isAdmin = false;
+        this.isFetchingAuthDetails = false;
       });
     });
   }

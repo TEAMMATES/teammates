@@ -9,7 +9,9 @@ import java.io.StringWriter;
 @SuppressWarnings("serial")
 public final class TeammatesException {
 
-    private TeammatesException() { }
+    private TeammatesException() {
+        // Utility class
+    }
 
     /**
      * Returns the throwable's printed stack trace as string.

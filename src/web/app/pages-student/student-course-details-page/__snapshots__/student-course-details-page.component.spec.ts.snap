@@ -1,499 +1,421 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`StudentCourseDetailsPageComponent should snap when all data are still loading 1`] = `
+<tm-student-course-details-page
+  Gender={[Function Object]}
+  SortBy={[Function Object]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  hasLoadingFailed="false"
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isLoadingCourse={[Function Boolean]}
+  isLoadingInstructor={[Function Boolean]}
+  isLoadingStudent={[Function Boolean]}
+  isLoadingTeammates={[Function Boolean]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  teammateProfiles={[Function Array]}
+  teammateProfilesSortBy="0"
+>
+  <tm-loading-retry>
+    
+    
+    
+    
+    
+  </tm-loading-retry><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-student-course-details-page>
+`;
+
 exports[`StudentCourseDetailsPageComponent should snap with default fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
-  backendUrl={[Function String]}
-  httpRequestService={[Function HttpRequestService]}
+  SortBy={[Function Object]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  hasLoadingFailed="false"
+  instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isLoadingCourse={[Function Boolean]}
+  isLoadingInstructor={[Function Boolean]}
+  isLoadingStudent={[Function Boolean]}
+  isLoadingTeammates="false"
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
-  user="undefined"
+  student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
+  teammateProfiles={[Function Array]}
+  teammateProfilesSortBy="0"
 >
-  
+  <tm-loading-retry>
+    
+    
+    
+    
+    
+  </tm-loading-retry><div
+    class="section"
+  >
+    <div
+      class="row top-padded"
+    >
+      
+      <div
+        class="col-md-10"
+      >
+        <table>
+          <tbody>
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </tm-student-course-details-page>
 `;
 
 exports[`StudentCourseDetailsPageComponent should snap with populated fields 1`] = `
 <tm-student-course-details-page
   Gender={[Function Object]}
-  backendUrl={[Function String]}
+  SortBy={[Function Object]}
   course={[Function Object]}
-  httpRequestService={[Function HttpRequestService]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  hasLoadingFailed="false"
   instructorDetails={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isLoadingCourse="false"
+  isLoadingInstructor="false"
+  isLoadingStudent="false"
+  isLoadingTeammates="false"
   route={[Function ActivatedRoute]}
   statusMessageService={[Function StatusMessageService]}
   student={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+  tableComparatorService={[Function TableComparatorService]}
   teammateProfiles={[Function Array]}
-  user="undefined"
+  teammateProfilesSortBy="0"
 >
   <h1
     class="page-title"
   >
-     Thematic Systems
-  </h1><div
-    class="section"
-  >
+    Team Details for 1.1.c-demo2
+  </h1><tm-loading-retry>
+    
+    
     <div
-      class="col-sm-12"
+      class="section"
     >
-      <h4
-        class="font-weight-bold"
-      >
-        Course
-      </h4>
-    </div>
-    <div
-      class="card border-primary"
-    >
+      
       <div
-        class="card-body fill-plain"
+        class="card"
       >
         <div
-          class="form form-horizontal"
+          class="card-body fill-plain"
         >
+          
+          
           <div
-            class="form-group row"
+            class="row"
           >
             <div
-              class="col-4 text-right"
+              class="col-3 text-right"
             >
               <label>
-                Name
+                Course ID:
               </label>
             </div>
             <div
-              class="col-8"
+              class="col-9"
             >
-              <span>
-                Thematic Systems
+              <span
+                id="course-id"
+              >
+                1.1.c-demo2
               </span>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="row"
           >
             <div
-              class="col-4 text-right"
+              class="col-3 text-right"
             >
               <label>
-                ID
+                Course name:
               </label>
             </div>
             <div
-              class="col-8"
+              class="col-9"
             >
-              <span>
-                CS3281
-              </span>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Timezone
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span>
-                Asia/Singapore
-              </span>
-            </div>
-          </div>
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Created at
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span>
-                2019-03-12T09:13:29.272Z
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
-    class="section"
-  >
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Instructors
-      </h4>
-    </div>
-    <div
-      class="row"
-    >
-      <div
-        class="col-12"
-      >
-        <div
-          class="row"
-        >
-          <div
-            class="col-12"
-          >
-            <table
-              class="table table-striped"
-            >
-              <thead>
-                <tr>
-                  <th
-                    class="font-weight-bold"
-                  >
-                    Name
-                  </th>
-                  <th
-                    class="font-weight-bold"
-                  >
-                    Email
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                
-                <tr>
-                  <td>
-                    Ayush
-                  </td>
-                  <td>
-                    ayush@ayush.com
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    Byush
-                  </td>
-                  <td>
-                    byush@byush.com
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div><div
-    class="section"
-  >
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Self
-      </h4>
-    </div>
-    <div
-      class="card border-primary"
-    >
-      <div
-        class="card-body fill-plain"
-      >
-        <div
-          class="form form-horizontal"
-        >
-          <div
-            class="form-group row"
-          >
-            <div
-              class="col-4 text-right"
-            >
-              <label>
-                Name
-              </label>
-            </div>
-            <div
-              class="col-8"
-            >
-              <span>
-                Cyush
+              <span
+                id="course-name"
+              >
+                Sample Course 101
               </span>
             </div>
           </div>
           
+          
           <div
-            class="form-group row"
+            class="row"
           >
             <div
-              class="col-4 text-right"
+              class="col-3 text-right"
             >
               <label>
-                Section
+                Instructors:
               </label>
             </div>
             <div
-              class="col-8"
+              class="col-9"
+              id="instructors"
+              style="margin-bottom: .5rem;"
             >
-              <span>
-                Section 1
+              
+              <div>
+                 Instructor: 
+                <a
+                  href="mailto:1@1.com"
+                >
+                  1 (1@1.com)
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          
+          <div
+            class="row"
+          >
+            <div
+              class="col-3 text-right"
+            >
+              <label>
+                Your section:
+              </label>
+            </div>
+            <div
+              class="col-9"
+            >
+              <span
+                id="student-section"
+              >
+                Tutorial Group 2
               </span>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="row"
           >
             <div
-              class="col-4 text-right"
+              class="col-3 text-right"
             >
               <label>
-                Team
+                Your team:
               </label>
             </div>
             <div
-              class="col-8"
+              class="col-9"
             >
-              <span>
-                CSquad
+              <span
+                id="student-team"
+              >
+                Team 2
               </span>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="row"
           >
             <div
-              class="col-4 text-right"
+              class="col-3 text-right"
             >
               <label>
-                Email
+                Your name:
               </label>
             </div>
             <div
-              class="col-8"
+              class="col-9"
             >
-              <span>
-                cyush@cyush.com
+              <span
+                id="student-name"
+              >
+                1
               </span>
             </div>
           </div>
           <div
-            class="form-group row"
+            class="row"
           >
             <div
-              class="col-4 text-right"
+              class="col-3 text-right"
             >
               <label>
-                Google ID
+                Your email:
               </label>
             </div>
             <div
-              class="col-8"
+              class="col-9"
             >
-              <span>
-                cyush@gmail.com
+              <span
+                id="student-email"
+              >
+                1@1.com
               </span>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </div><div
-    class="section"
-  >
-    <div
-      class="col-sm-12"
-    >
-      <h4
-        class="font-weight-bold"
-      >
-        Teammates
-      </h4>
     </div>
     
     <div
-      class="row"
+      class="card bg-light mb-4"
     >
       <div
-        class="col-12"
+        class="card-body"
       >
-        <div
-          class="row"
+        <h5
+          class="d-inline"
         >
-          <div
-            class="col-md-2 col-3"
+          <strong>
+             Sort By: 
+          </strong>
+        </h5>
+        <div
+          class="btn-group"
+          data-toggle="buttons"
+        >
+          <button
+            class="btn btn-light"
+            id="sort-name"
           >
-            <img
-              class="profile-pic float-left"
-              src="http://localhost:8080/webapi/students/profilePic?blob-key=something.jpg"
-            />
-          </div>
-          <div
-            class="col-md-10 col-sm-9 col-8"
+            Name
+          </button>
+          <button
+            class="btn btn-light"
           >
-            <table
-              class="table table-striped"
-            >
-              <tbody>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Name
-                  </td>
-                  <td>
-                    <span>
-                      ash
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Email
-                  </td>
-                  <td>
-                    <span>
-                      ash@ash.com
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Gender
-                  </td>
-                  <td>
-                    
-                    <span>
-                      MALE
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Institution
-                  </td>
-                  <td>
-                    
-                    <span>
-                      NUS
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Nationality
-                  </td>
-                  <td>
-                    
-                    <span>
-                      Indian
-                    </span>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+            Email
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Gender
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Institution
+          </button>
+          <button
+            class="btn btn-light"
+          >
+            Nationality
+          </button>
         </div>
       </div>
     </div>
+    
+    
+  </tm-loading-retry><div
+    class="section"
+  >
     <div
-      class="row"
+      class="row top-padded"
     >
+      
       <div
-        class="col-12"
+        class="col-md-2"
       >
-        <div
-          class="row"
-        >
-          <div
-            class="col-md-2 col-3"
-          >
-            <img
-              class="profile-pic float-left"
-              src="http://localhost:8080/webapi/students/profilePic?blob-key=something2.jpg"
-            />
-          </div>
-          <div
-            class="col-md-10 col-sm-9 col-8"
-          >
-            <table
-              class="table table-striped"
-            >
-              <tbody>
-                <tr>
-                  <td
-                    class="font-weight-bold"
+        <strong>
+          Your teammates:
+        </strong>
+      </div>
+      <div
+        class="col-md-10"
+      >
+        <table>
+          <tbody>
+            
+            <tr>
+              <td
+                class="team-member-photo-cell"
+              >
+                <img
+                  class="profile-pic"
+                  src="/assets/images/profile_picture_default.png"
+                />
+              </td>
+              <td
+                class="team-member-profile-cell"
+                id="teammates-details-0"
+              >
+                <div>
+                  <label>
+                    Name:
+                  </label>
+                   2 
+                </div>
+                <div>
+                  <label>
+                    Email:
+                  </label>
+                   
+                  <a
+                    href="mailto:iam2@hello.com"
                   >
-                    Name
-                  </td>
-                  <td>
-                    <span>
-                      bsh
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Email
-                  </td>
-                  <td>
-                    <span>
-                      bsh@bsh.com
-                    </span>
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Gender
-                  </td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Institution
-                  </td>
-                  <td>
-                    
-                  </td>
-                </tr>
-                <tr>
-                  <td
-                    class="font-weight-bold"
-                  >
-                    Nationality
-                  </td>
-                  <td>
-                    
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+                    iam2@hello.com
+                  </a>
+                </div>
+                
+                <div>
+                  <label>
+                    Gender:
+                  </label>
+                   Male 
+                </div>
+                
+                <div>
+                  <label>
+                    Nationality:
+                  </label>
+                   Andorran 
+                </div>
+                
+                <div>
+                  <label>
+                    Institute:
+                  </label>
+                   nus 
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>

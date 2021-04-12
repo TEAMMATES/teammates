@@ -1,0 +1,14 @@
+<span *ngIf="diffOnly">
+  <span class="positive" *ngIf="value > 0">+{{ value }}%</span>
+  <span class="neutral" *ngIf="value === 0">0</span>
+  <span class="negative" *ngIf="value < 0 && value >= -100">{{ value }}%</span>
+  <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
+        *ngIf="value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED">N/A</span>
+</span>
+<span *ngIf="!diffOnly">
+  <span class="positive" *ngIf="value > 100">E +{{ value - 100 }}%</span>
+  <span class="neutral" *ngIf="value === 100">E</span>
+  <span class="negative" *ngIf="value < 100 && value >= 0">E -{{ 100 - value }}%</span>
+  <span class="ngb-tooltip-class neutral" container="body" ngbTooltip="Not Available: There is no data for this or the data is not enough"
+        *ngIf="value === CONTRIBUTION_POINT_NOT_SUBMITTED || value === CONTRIBUTION_POINT_NOT_INITIALIZED">N/A</span>
+</span>

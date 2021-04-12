@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RankOptionsQuestionAdditionalInfoComponent should show options 1`] = `
+<tm-rank-options-question-additional-info
+  questionDetails={[Function Object]}
+>
+  Rank (options) question options:
+  <ul>
+    
+    <li>
+      1
+    </li>
+    <li>
+      2
+    </li>
+    <li>
+      3
+    </li>
+  </ul>
+</tm-rank-options-question-additional-info>
+`;
+
+exports[`RankOptionsQuestionAdditionalInfoComponent should snap with default view 1`] = `
+<tm-rank-options-question-additional-info
+  questionDetails={[Function Object]}
+>
+  Rank (options) question options:
+  <ul>
+    
+  </ul>
+</tm-rank-options-question-additional-info>
+`;

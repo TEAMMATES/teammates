@@ -121,7 +121,7 @@ Make the changes to the code, tests, and documentations as needed by the issue.
      npm run lint
      ```
    * **All affected tests are passing** on your dev server.<br>
-     You are more than welcome to also ensure *dev green*, i.e. all tests are passing on your dev server.
+     You are more than welcome to also ensure that all tests are passing on your dev server.
    * **Staging-tested (if need be)**: If your new code might behave differently on a remote server than how it behaves on the dev server,
      ensure that the affected tests are passing against the updated app running on your own GAE staging server.
    * **No unrelated changes** are introduced in the branch. This includes unnecessary formatting changes.
@@ -173,16 +173,14 @@ Their full descriptions can be viewed under the [labels page](https://github.com
 #### Code review
 
 Your code will be reviewed, in this sequence, by:
-* Travis CI: by running static analysis.<br>
-  If there are problems found, the build will terminate without proceeding to testing.<br>
+* GitHub Actions: by running static analysis.<br>
   Most of the tools will display the cause of the failures in the console;
   if this is not the case, you can run any of the static analysis tools and obtain the reports locally.<br>
   Ensure that the static analysis passes before triggering another build.
-* Travis CI: by building and running tests.<br>
+* GitHub Actions: by building and running tests.<br>
   If there are failed tests, the build will be marked as a failure.
   You can consult the CI log to find which tests.<br>
   Ensure that all tests pass before triggering another build.
-  * The CI log will also contain the command that will enable running the failed tests locally.
 * Reviewer: a core team member will be assigned to the PR as its reviewer, who will approve your PR (`s.FinalReview`) or suggest changes (`s.Ongoing`).
   Feel free to add a comment if:
   * a reviewer is not assigned within 24 hours.
@@ -192,7 +190,7 @@ Your code will be reviewed, in this sequence, by:
 
 #### Updating the PR
 
-If you are tasked to update your PR either by Travis CI or by your reviewer, **do not** close the PR and open a new one.
+If you are tasked to update your PR either by GitHub Actions or by your reviewer, **do not** close the PR and open a new one.
 You should make and push the updates to the same branch used in the PR, essentially repeating [step 3](#step-3-fix-the-issue).
 
 Remember to add a comment to indicate the PR is ready for review again, e.g. `Ready for review` or `Changes made`.
@@ -216,7 +214,7 @@ Your work on the issue is done when your PR is successfully merged to the main r
 
 [GitHub's review feature](https://github.com/blog/2256-a-whole-new-github-universe-announcing-new-tools-forums-and-features#code-better-with-reviews) is to be used in this task.
 
-* Ensure that the Travis CI build is successful and the developer has local dev green.
+* Ensure that the GitHub Actions CI build is successful.
 * Ensure the following:
   * Naming conventions for PR and branch are followed, and `Fixes #....` or similar keyword is present in the PR description.
   * The items in [this list](#things-to-check) are all satisfied.

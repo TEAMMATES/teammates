@@ -1,0 +1,138 @@
+{
+  "accounts": {
+    "instructor": {
+      "googleId": "tm.e2e.ICs.instructor",
+      "name": "Teammates Demo Instr",
+      "isInstructor": true,
+      "email": "ICs.instructor@gmail.tmt",
+      "institute": "TEAMMATES Test Institute"
+    }
+  },
+  "courses": {
+    "CS1101": {
+      "createdAt": "2012-04-02T12:00:00Z",
+      "id": "tm.e2e.ICs.CS1101",
+      "name": "Programming Methodology",
+      "timeZone": "UTC"
+    },
+    "CS2104": {
+      "createdAt": "2013-04-02T12:00:00Z",
+      "id": "tm.e2e.ICs.CS2104",
+      "name": "Programming Language Concept",
+      "timeZone": "UTC"
+    },
+    "CS2105": {
+      "createdAt": "2014-04-02T12:00:00Z",
+      "deletedAt": "2014-04-12T12:00:00Z",
+      "id": "tm.e2e.ICs.CS2105",
+      "name": "Computer Networks",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructorCS1101": {
+      "googleId": "tm.e2e.ICs.instructor",
+      "courseId": "tm.e2e.ICs.CS1101",
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": false,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": false,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorCS2104": {
+      "googleId": "tm.e2e.ICs.instructor",
+      "courseId": "tm.e2e.ICs.CS2104",
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "isArchived": true,
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorCS2105": {
+      "googleId": "tm.e2e.ICs.instructor",
+      "courseId": "tm.e2e.ICs.CS2105",
+      "name": "Teammates Demo Inst",
+      "email": "ICs.instructor@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCS1101": {
+    "googleId": "tm.e2e.ICs.student1",
+    "email": "ICs.student1@gmail.tmt",
+    "course": "tm.e2e.ICs.CS1101",
+    "name": "student1",
+    "comments": "",
+    "team": "Team 1",
+    "section": "Section 1"
+  },
+    "student2InCS1101": {
+      "googleId": "tm.e2e.ICs.student2",
+      "email": "ICs.student2@gmail.tmt",
+      "course": "tm.e2e.ICs.CS1101",
+      "name": "student2",
+      "comments": "",
+      "team": "Team 2",
+      "section": "Section 1"
+    },
+    "UnauthenticatedStudentInCS1101": {
+      "googleId": "",
+      "email": "ICs.student3@gmail.tmt",
+      "course": "tm.e2e.ICs.CS1101",
+      "name": "student3",
+      "comments": "",
+      "team": "Team 3",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

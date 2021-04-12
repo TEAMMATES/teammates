@@ -1,0 +1,9 @@
+<div class="row margin-bottom-15px">
+  <div class="col-md-3">
+    <select class="form-control" [ngModel]="responseDetails.answer"
+            (ngModelChange)="triggerResponseDetailsChange('answer', $event)" [disabled]="isDisabled">
+      <option [ngValue]="RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED"></option>
+      <option *ngFor="let rank of ranksToBeAssigned" [ngValue]="rank">{{ rank }}</option>
+    </select>
+  </div>
+</div>

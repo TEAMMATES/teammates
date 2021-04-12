@@ -1,0 +1,12 @@
+<div class="text-info">
+  <p class="text-left font-weight-bold">Note:</p>
+  <p id="total-points-message">
+    <span class="fa fa-info-circle"></span> Total points distributed should <strong>add up to {{ totalPoints }}</strong>.
+  </p>
+  <p id="one-uneven-message" *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY">
+    <span class="fa fa-info-circle"></span> At least one option should be allocated <strong>different number of points.</strong>
+  </p>
+  <p id="all-uneven-message" *ngIf="questionDetails.forceUnevenDistribution && questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY">
+    <span class="fa fa-info-circle"></span> Every option should be allocated <strong>different number of points.</strong>
+  </p>
+</div>

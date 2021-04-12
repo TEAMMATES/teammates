@@ -1,47 +1,47 @@
 <div class="card border-primary fill-plain">
-  <div class="card-body">
+  <div class="close-header">
+    <button type="button" class="close" aria-label="Close" (click)="closeEditFormHandler()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="card-body text-center">
     <div class="form-group row">
-      <label class="col-sm-3 control-label bold-label text-right">Course ID:</label>
-      <div class="col-sm-3">
-        <input class="form-control" type="text" [(ngModel)]="newCourseId"
-            ngbTooltip="Enter the identifier of the course, e.g.CS3215-2013Semester1."
-            [maxlength]="40" placeholder="e.g. CS3215-2013Semester1"/>
+      <label class="col-md-3 text-md-right col-form-label">Course ID:</label>
+      <div class="col-md-6 text-md-left">
+        <input id="new-course-id" class="form-control" type="text" [(ngModel)]="newCourseId"
+            [maxlength]="40" [disabled]="isAddingCourse" placeholder="e.g. CS3215-2013Semester1"/>
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-3 control-label bold-label text-right">Course Name:</label>
-      <div class="col-sm-9">
-        <input class="form-control" type="text" [(ngModel)]="newCourseName"
-            ngbTooltip="Enter the name of the course, e.g. Software Engineering."
-            [maxlength]="64" placeholder="e.g. Software Engineering"/>
+      <label class="col-md-3 text-md-right col-form-label">Course Name:</label>
+      <div class="col-md-6 text-md-left">
+        <input id="new-course-name" class="form-control" type="text" [(ngModel)]="newCourseName"
+            [maxlength]="64" [disabled]="isAddingCourse" placeholder="e.g. Software Engineering"/>
       </div>
     </div>
     <div class="form-group row">
-      <label class="col-sm-3 control-label bold-label text-right">Time Zone:</label>
-      <div class="col-sm-9">
-        <div class="input-group">
-          <select class="form-control" [(ngModel)]="timezone" ngbTooltip="The time zone for the course. You should not
+      <label class="col-md-3 text-md-right col-form-label ngb-tooltip-class"><span ngbTooltip="You should not
                 need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
                 to match the current time offset in your area, including clock changes due to daylight saving time.">
-            <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+        Time Zone:</span></label>
+      <div class="col-md-6 text-md-left">
+        <div class="input-group">
+          <select id="new-time-zone" class="form-control" [(ngModel)]="timezone" [disabled]="isAddingCourse">
+            <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
           </select>
-          <span class="input-group-btn">
-            <button class="btn btn-primary" (click)="onAutoDetectTimezone()">Auto Detect</button>
+          <span class="input-group-btn" style="margin-left: 5px;">
+            <button class="btn btn-primary btn-margin-left" (click)="onAutoDetectTimezone()" [disabled]="isAddingCourse">Auto Detect</button>
           </span>
         </div>
       </div>
     </div>
     <div class="form-group row">
-      <div class="offset-sm-3 col-sm-9">
-        <button class="btn btn-primary" (click)="onSubmit()">Add Course</button>
+      <div class="col-md-9 offset-md-3 text-md-left">
+        <button id="btn-save-course" class="btn btn-success" (click)="onSubmit()" [disabled]="isAddingCourse">
+          <tm-ajax-loading *ngIf="isAddingCourse"></tm-ajax-loading>
+          Add Course
+        </button>
       </div>
     </div>
   </div>
 </div>
-
-<ng-template #newCourseMessageTemplate>
-  The course has been added. Click <a href="/web/instructor/courses/enroll?courseid={{course.courseId}}">here</a>
-  to add students to the course or click <a href="/web/instructor/courses/edit?courseid={{course.courseId}}">here</a>
-  to add other instructors.<br>If you don't see the course in the list below,
-  please refresh the page after a few moments.
-</ng-template>

@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorCourseStudentDetailsPageComponent should snap with default fields 1`] = `
+<tm-instructor-course-student-details-page
+  courseId="undefined"
+  hasStudentLoadingFailed="false"
+  hasStudentProfileLoadingFailed="false"
+  isStudentLoading={[Function Boolean]}
+  isStudentProfileLoading={[Function Boolean]}
+  photoUrl={[Function String]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  studentEmail="undefined"
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-instructor-course-student-details-page>
+`;
+
+exports[`InstructorCourseStudentDetailsPageComponent should snap with populated student 1`] = `
+<tm-instructor-course-student-details-page
+  courseId="undefined"
+  hasStudentLoadingFailed="false"
+  hasStudentProfileLoadingFailed="false"
+  isStudentLoading={[Function Boolean]}
+  isStudentProfileLoading={[Function Boolean]}
+  photoUrl={[Function String]}
+  route={[Function ActivatedRoute]}
+  statusMessageService={[Function StatusMessageService]}
+  student={[Function Object]}
+  studentEmail="undefined"
+  studentProfile={[Function Object]}
+  studentProfileService={[Function StudentProfileService]}
+  studentService={[Function StudentService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-instructor-course-student-details-page>
+`;

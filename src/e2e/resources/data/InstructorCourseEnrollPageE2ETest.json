@@ -1,0 +1,49 @@
+{
+  "accounts": {
+    "ICEnroll.teammates.test": {
+      "googleId": "tm.e2e.ICEnroll.teammates.test",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "teammates.test@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "ICEnroll.CS2104": {
+      "id": "tm.e2e.ICEnroll.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "ICEnroll.teammates.test": {
+      "googleId": "tm.e2e.ICEnroll.teammates.test",
+      "courseId": "tm.e2e.ICEnroll.CS2104",
+      "name": "Teammates Test",
+      "email": "teammates.test@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": false,
+      "displayedName": "Co-owner",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {},
+  "feedbackSessions": {},
+  "feedbackQuestions": {},
+  "feedbackResponses": {},
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

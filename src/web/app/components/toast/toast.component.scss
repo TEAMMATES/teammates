@@ -1,0 +1,19 @@
+:host {
+  left: 50%;
+  margin: .5em;
+  position: fixed;
+  top: 55px;
+  transform: translateX(-50%);
+  // make toast over the modal
+  z-index: 1100;
+
+  .toast {
+    max-width: 100%;
+  }
+}
+
+.close {
+  font-size: 1rem;
+  margin-left: 10px;
+  color: inherit;
+}

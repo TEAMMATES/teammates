@@ -1,0 +1,429 @@
+{
+  "accounts": {
+    "FSubmit.instr": {
+      "googleId": "tm.e2e.FSubmit.instr",
+      "name": "Teammates Test",
+      "isInstructor": true,
+      "email": "FSubmit.instr@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "FSubmit.instr2": {
+      "googleId": "tm.e2e.FSubmit.instr2",
+      "name": "Teammates Test2",
+      "isInstructor": true,
+      "email": "FSubmit.instr2@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "FSubmit.alice.b": {
+      "googleId": "tm.e2e.FSubmit.alice.b",
+      "name": "Alice B.",
+      "isInstructor": false,
+      "email": "FSubmit.alice.b@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "FSubmit.charlie.d": {
+      "googleId": "tm.e2e.FSubmit.charlie.d",
+      "name": "Charlie D.",
+      "isInstructor": false,
+      "email": "FSubmit.charlie.d@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "FSubmit.danny.e": {
+      "googleId": "tm.e2e.FSubmit.danny.e",
+      "name": "Danny E.",
+      "isInstructor": false,
+      "email": "FSubmit.danny.e@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    },
+    "FSubmit.emily.f": {
+      "googleId": "tm.e2e.FSubmit.emily.f",
+      "name": "Emily F.",
+      "isInstructor": false,
+      "email": "FSubmit.emily.f@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1"
+    }
+  },
+  "courses": {
+    "FSubmit.CS2104": {
+      "id": "tm.e2e.FSubmit.CS2104",
+      "name": "Programming Language Concepts",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "FSubmit.instr": {
+      "googleId": "tm.e2e.FSubmit.instr",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "name": "Teammates Test",
+      "email": "FSubmit.instr@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "FSubmit.instr2": {
+      "googleId": "tm.e2e.FSubmit.instr2",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "name": "Teammates Test2",
+      "email": "FSubmit.instr2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "Alice": {
+      "googleId": "tm.e2e.FSubmit.alice.b",
+      "email": "FSubmit.alice.b@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
+      "name": "Alice Betsy",
+      "comments": "This student's name is Alice Betsy",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "Benny": {
+      "googleId": "tm.e2e.FSubmit.benny.c",
+      "email": "FSubmit.benny.c@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
+      "name": "Benny Charles",
+      "comments": "This student's name is Benny Charles",
+      "team": "Team 1",
+      "section": "None"
+    },
+    "Charlie": {
+      "googleId": "tm.e2e.FSubmit.charlie.d",
+      "email": "FSubmit.charlie.d@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
+      "name": "Charlie Davis",
+      "comments": "This student's name is Charlie Davis",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "Danny": {
+      "googleId": "tm.e2e.FSubmit.danny.e",
+      "email": "FSubmit.danny.e@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
+      "name": "Danny Engrid",
+      "comments": "This student's name is Danny Engrid",
+      "team": "Team 2",
+      "section": "None"
+    },
+    "Emily": {
+      "googleId": "tm.e2e.FSubmit.emily.f",
+      "email": "FSubmit.emily.f@gmail.tmt",
+      "course": "tm.e2e.FSubmit.CS2104",
+      "name": "Emily",
+      "comments": "This student's name is Emily",
+      "team": "Team 3",
+      "section": "None"
+    }
+  },
+  "feedbackSessions": {
+    "Open Session": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "creatorEmail": "FSubmit.instr@gmail.tmt",
+      "instructions": "Instructions for first session",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Grace Period Session": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "creatorEmail": "FSubmit.instr@gmail.tmt",
+      "instructions": "This going to be a grace period session",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T15:59:00Z",
+      "endTime": "2026-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+    "Closed Session": {
+      "feedbackSessionName": "Closed Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "creatorEmail": "FSubmit.instr@gmail.tmt",
+      "instructions": "This going to be a closed session",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-02T15:59:00Z",
+      "endTime": "2012-04-30T15:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T15:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T15:59:00Z",
+      "timeZone": "Asia/Singapore",
+      "gracePeriod": 20,
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Rate 3 other students' products"
+      },
+      "questionDescription": "<p>Question description for qn1</p>",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Provide feedback on each instructor"
+      },
+      "questionDescription": "<p><b>Question description for qn2</b></p>",
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "INSTRUCTORS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn3InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Give feedback to your team mates"
+      },
+      "questionNumber": 3,
+      "giverType": "STUDENTS",
+      "recipientType": "OWN_TEAM_MEMBERS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn4InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "questionText": "What do you think is the other teams' best feature?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
+      "questionNumber": 4,
+      "giverType": "TEAMS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn5InSession1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "This question should be hidden."
+      },
+      "questionNumber": 5,
+      "giverType": "INSTRUCTORS",
+      "recipientType": "STUDENTS",
+      "numberOfEntitiesToGiveFeedbackTo": -100,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn1InGracePeriodSession": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "numOfMcqChoices": 2,
+        "mcqChoices": [
+          "UI",
+          "Algo"
+        ],
+        "questionText": "What do you think is the other teams' best feature?",
+        "questionType": "MCQ",
+        "otherEnabled": false
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS",
+        "RECEIVER"
+      ]
+    },
+    "qn2InGracePeriodSession": {
+      "feedbackSessionName": "Grace Period Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "numOfMcqChoices": 0,
+        "questionText": "Which instructor do you think is the most engaging",
+        "questionType": "MCQ",
+        "otherEnabled": false,
+        "generateOptionsFor": "INSTRUCTORS"
+      },
+      "questionNumber": 2,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 3,
+      "showResponsesTo": [
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "RECEIVER"
+      ]
+    },
+    "qn1InClosedSession": {
+      "feedbackSessionName": "Closed Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "What is the best selling point of your product?"
+      },
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "SELF",
+      "numberOfEntitiesToGiveFeedbackTo": 1,
+      "showResponsesTo": [
+        "RECEIVER",
+        "OWN_TEAM_MEMBERS",
+        "STUDENTS",
+        "INSTRUCTORS"
+      ],
+      "showGiverNameTo": [
+        "RECEIVER",
+        "INSTRUCTORS"
+      ],
+      "showRecipientNameTo": [
+        "INSTRUCTORS"
+      ]
+    }
+  },
+  "feedbackResponses": {
+    "response1": {
+      "feedbackSessionName": "First Session",
+      "courseId": "tm.e2e.FSubmit.CS2104",
+      "feedbackQuestionId": "1",
+      "giver": "FSubmit.benny.c@gmail.tmt",
+      "recipient": "FSubmit.alice.b@gmail.tmt",
+      "giverSection": "None",
+      "recipientSection": "None",
+      "responseDetails": {
+        "questionType": "TEXT",
+        "answer": "Alice response."
+      }
+    }
+  },
+  "feedbackResponseComments": {},
+  "profiles": {}
+}

@@ -1,53 +1,20 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Component, Input } from '@angular/core';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { Gender } from '../../../../types/gender';
-import { SearchStudentsTable } from '../../../pages-instructor/instructor-search-page/instructor-search-page.component';
-import { StudentAttributes } from '../../../pages-instructor/student-profile/student-attributes';
-import { StudentProfile } from '../../../pages-instructor/student-profile/student-profile';
+import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
+import { PanelChevronModule } from '../../../components/panel-chevron/panel-chevron.module';
+import {
+  InstructorCourseStudentEditFormModule,
+} from '../../../pages-instructor/instructor-course-student-edit-page/instructor-course-student-edit-form.module';
+import {
+  InstructorSearchComponentsModule,
+} from '../../../pages-instructor/instructor-search-page/instructor-search-components.module';
+import { StudentProfileModule } from '../../../pages-instructor/student-profile/student-profile.module';
+import { ExampleBoxModule } from '../example-box/example-box.module';
+import { InstructorHelpPanelComponent } from '../instructor-help-panel/instructor-help-panel.component';
 import { InstructorHelpStudentsSectionComponent } from './instructor-help-students-section.component';
-
-@Component({ selector: 'tm-example-box', template: '' })
-class ExampleBoxStubComponent {}
-@Component({ selector: 'tm-instructor-search-bar', template: '' })
-class InstructorSearchBarStubComponent {}
-@Component({ selector: 'tm-instructor-course-student-edit-page', template: '' })
-class InstructorCourseStudentEditPageStubComponent { @Input() isEnabled?: boolean; }
-@Component({ selector: 'tm-student-result-table', template: '' })
-class StudentResultTableStubComponent {
-  @Input() studentTables: SearchStudentsTable[] = [];
-}
-@Component({ selector: 'tm-student-profile', template: '' })
-class StudentProfileStubComponent {
-  @Input() studentProfile: StudentProfile = {
-    shortName: '',
-    email: '',
-    institute: '',
-    nationality: '',
-    gender: Gender.FEMALE,
-    moreInfo: '',
-    pictureKey: '',
-  };
-}
-@Component({ selector: 'tm-course-related-info', template: '' })
-class CourseRelatedInfoStubComponent {
-  @Input() student: StudentAttributes = {
-    email: '',
-    course: '',
-    name: '',
-    lastName: '',
-    comments: '',
-    team: '',
-    section: '',
-  };
-}
-@Component({ selector: 'tm-more-info', template: '' })
-class MoreInfoStubComponent {
-  @Input() studentName: string = '';
-  @Input() moreInfoText: string = '';
-}
 
 describe('InstructorHelpStudentsSectionComponent', () => {
   let component: InstructorHelpStudentsSectionComponent;
@@ -57,17 +24,19 @@ describe('InstructorHelpStudentsSectionComponent', () => {
     TestBed.configureTestingModule({
       declarations: [
         InstructorHelpStudentsSectionComponent,
-        ExampleBoxStubComponent,
-        InstructorSearchBarStubComponent,
-        InstructorCourseStudentEditPageStubComponent,
-        StudentResultTableStubComponent,
-        StudentProfileStubComponent,
-        CourseRelatedInfoStubComponent,
-        MoreInfoStubComponent,
+        InstructorHelpPanelComponent,
       ],
       imports: [
         NgbModule,
         RouterTestingModule,
+        NgxPageScrollCoreModule,
+        NoopAnimationsModule,
+        HttpClientTestingModule,
+        ExampleBoxModule,
+        StudentProfileModule,
+        InstructorSearchComponentsModule,
+        InstructorCourseStudentEditFormModule,
+        PanelChevronModule,
       ],
     })
     .compileComponents();

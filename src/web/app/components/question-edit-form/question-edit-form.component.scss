@@ -1,17 +1,9 @@
 .question-number-select {
-  height: 28px;
-  width: 50px;
+  height: 32px;
+  width: auto;
   display: inline;
   margin-left: 6px;
   margin-right: 5px;
-}
-
-.question-header {
-  background-color: lighten(#007BFF, 5%);
-}
-
-.question-header button {
-  margin-left: 10px;
 }
 
 .background-color-light-blue {
@@ -25,6 +17,10 @@
 .question-basic-info {
   padding-left: 15px;
   font-weight: bold;
+}
+
+.padding-left-15px {
+  padding-left: 15px;
 }
 
 .background-color-light-green {
@@ -56,4 +52,20 @@
 
 .background-color-warning {
   background-color: #FCF8E3;
+}
+
+.dropdown-item {
+  cursor: pointer;
+}
+
+.collapse-caret {
+  margin-right: 10px;
+}
+
+.collapse-qn-description {
+  font-weight: 300;
+}
+
+.white-space-normal {
+  white-space: normal;
 }

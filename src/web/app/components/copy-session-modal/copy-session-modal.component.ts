@@ -23,7 +23,7 @@ export class CopySessionModalComponent implements OnInit {
   sessionToCopyCourseId: string = '';
 
   newFeedbackSessionName: string = '';
-  copyToCourseId: string = '';
+  copyToCourseSet: Set<string> = new Set<string>();
 
   constructor(public activeModal: NgbActiveModal) {}
 
@@ -36,8 +36,14 @@ export class CopySessionModalComponent implements OnInit {
   copy(): void {
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
-      copyToCourseId: this.copyToCourseId,
+      copyToCourseList: Array.from(this.copyToCourseSet),
     });
   }
 
+  /**
+   * Toggles selection of course to copy to in set.
+   */
+  select(courseId: string): void {
+    this.copyToCourseSet.has(courseId) ? this.copyToCourseSet.delete(courseId) : this.copyToCourseSet.add(courseId);
+  }
 }

@@ -1,13 +1,17 @@
-button {
-  margin: 2px;
+.sortable-header {
+  cursor: pointer;
 }
 
 .course-section {
   margin-top: 2em;
 }
 
-.margin-left-10px {
-  margin-left: 10px;
+.bold-label {
+  font-weight: 700 !important;
+}
+
+.recycle-bin-body {
+  padding: 0;
 }
 
 .background-color-medium-gray {
@@ -30,4 +34,36 @@ button {
   cursor: default;
   color: #000;
   pointer-events: none;
+}
+
+.recycle-bin-table {
+  margin-bottom: 0;
+}
+
+.archive-body {
+  padding: 0;
+}
+
+.archive-table {
+  margin-bottom: 0;
+}
+
+.margin-top-30px {
+  margin-top: 30px;
+}
+
+.actions-cell button:not(.dropdown-item) {
+  margin-left: var(--btn-margin);
+}
+
+.dropdown-menu {
+  min-width: .5rem;
+}
+
+.table-responsive {
+  overflow: auto;
+}
+
+.d-inline-block {
+  position: inherit;
 }

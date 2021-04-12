@@ -1,16 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpRequestService } from '../../../services/http-request.service';
+import { finalize } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { StatusMessageService } from '../../../services/status-message.service';
+import { StudentProfileService } from '../../../services/student-profile.service';
+import { StudentService } from '../../../services/student.service';
+import { Student, StudentProfile } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
-import { StudentAttributes } from '../student-profile/student-attributes';
-import { StudentProfile } from '../student-profile/student-profile';
-
-interface StudentDetails {
-  student: StudentAttributes;
-  studentProfile: StudentProfile;
-  hasSection: boolean;
-}
 
 /**
  * Instructor course student details page.
@@ -22,40 +18,57 @@ interface StudentDetails {
 })
 export class InstructorCourseStudentDetailsPageComponent implements OnInit {
 
-  user: string = '';
-  student?: StudentAttributes;
+  student?: Student;
   studentProfile?: StudentProfile;
+  photoUrl: string = '';
 
-  constructor(private route: ActivatedRoute, private httpRequestService: HttpRequestService,
-    private statusMessageService: StatusMessageService) { }
+  courseId: string = '';
+  studentEmail: string = '';
+
+  isStudentLoading: boolean = false;
+  hasStudentLoadingFailed: boolean = false;
+  isStudentProfileLoading: boolean = false;
+  hasStudentProfileLoadingFailed: boolean = false;
+
+  constructor(private route: ActivatedRoute,
+              private statusMessageService: StatusMessageService,
+              private studentService: StudentService,
+              private studentProfileService: StudentProfileService) { }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
-      this.user = queryParams.user;
-      this.loadStudentDetails(queryParams.courseid, queryParams.studentemail);
+      this.courseId = queryParams.courseid;
+      this.studentEmail = queryParams.studentemail;
+
+      this.loadStudentDetails(this.courseId, this.studentEmail);
+      this.photoUrl
+          = `${environment.backendUrl}/webapi/student/profilePic?courseid=${this.courseId}&studentemail=${this.studentEmail}`;
     });
   }
 
   /**
    * Loads the student's details based on the given course ID and email.
    */
-  loadStudentDetails(courseid: string, studentemail: string): void {
-    const paramMap: { [key: string]: string } = { courseid, studentemail };
-    this.httpRequestService.get('/courses/students/details', paramMap).subscribe((resp: StudentDetails) => {
-      this.student = resp.student;
-      this.studentProfile = resp.studentProfile;
-      if (!this.student) {
-        this.statusMessageService.showErrorMessage('Error retrieving student details');
-      }
-      if (!this.studentProfile) {
-        this.statusMessageService.showWarningMessage(
-                'Normally, we would show the student\'s profile here. '
-                + 'However, either this student has not created a profile yet, '
-                + 'or you do not have access to view this student\'s profile.');
-      }
+  loadStudentDetails(courseId: string, studentEmail: string): void {
+    this.hasStudentLoadingFailed = false;
+    this.hasStudentProfileLoadingFailed = false;
+    this.isStudentProfileLoading = true;
+    this.isStudentLoading = true;
+    this.studentProfileService.getStudentProfile(
+        studentEmail, courseId,
+    ).pipe(finalize(() => this.isStudentProfileLoading = false)).subscribe((studentProfile: StudentProfile) => {
+      this.studentProfile = studentProfile;
     }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorMessage(resp.error.message);
+      this.hasStudentLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+    this.studentService.getStudent(
+        courseId, studentEmail,
+    ).pipe(finalize(() => this.isStudentLoading = false)).subscribe((student: Student) => {
+      this.student = student;
+    }, (resp: ErrorMessageOutput) => {
+      this.hasStudentProfileLoadingFailed = true;
+      this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
-
 }

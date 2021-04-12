@@ -1,0 +1,14 @@
+<div *ngIf="responses.length && !isStudent">
+  <div class="row">
+    <div class="col-sm-4 text-color-gray mt-2">
+      <strong>
+        Response Summary
+      </strong>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 table-responsive">
+      <tm-sortable-table [columns]="columnsData" [rows]="rowsData" [initialSortBy]="SortBy.CONSTSUM_RECIPIENTS_POINTS"></tm-sortable-table>
+    </div>
+  </div>
+</div>

@@ -32,7 +32,7 @@ import com.google.gson.stream.JsonWriter;
 
 import teammates.common.util.Config;
 import teammates.common.util.StringHelper;
-import teammates.test.driver.FileHelper;
+import teammates.test.FileHelper;
 
 /**
  * File storage service that saves stats/cache to encrypted/unencrypted files.
@@ -133,7 +133,6 @@ public class FileStore {
                 new TypeToken<Map<String, StatisticsBundle.InstituteStats>>(){}.getType());
     }
 
-    @SuppressWarnings("PMD.UnusedPrivateMethod") // false positive
     private static <T> void saveEncryptedJsonToFile(String fileName, T object, Type typeOfObject) throws Exception {
         SecretKeySpec sks = new SecretKeySpec(StringHelper.hexStringToByteArray(Config.ENCRYPTION_KEY), "AES");
         Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");

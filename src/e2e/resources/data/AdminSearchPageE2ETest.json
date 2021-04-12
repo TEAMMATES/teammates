@@ -1,0 +1,133 @@
+{
+  "accounts": {
+    "instructor1OfCourse1": {
+      "googleId": "tm.e2e.ASearch.instr1",
+      "name": "Instructor1 of Course1",
+      "isInstructor": true,
+      "email": "ASearch.instructor1@gmail.tmt",
+      "institute": "TEAMMATES Institute 1"
+    },
+    "instructor2OfCourse1": {
+      "googleId": "tm.e2e.ASearch.instr2",
+      "name": "Instructor2 of Course1",
+      "isInstructor": true,
+      "email": "ASearch.instructor2@gmail.tmt",
+      "institute": "TEAMMATES Institute 1"
+    },
+    "student1InCourse1": {
+      "googleId": "tm.e2e.ASearch.student1",
+      "name": "Student1 in course1",
+      "isInstructor": false,
+      "email": "ASearch.student1@gmail.tmt",
+      "institute": "TEAMMATES Institute 1"
+    }
+  },
+  "courses": {
+    "typicalCourse1": {
+      "id": "tm.e2e.ASearch.course1",
+      "name": "Typical Course 1",
+      "timeZone": "UTC"
+    }
+  },
+  "instructors": {
+    "instructor1OfCourse1": {
+      "googleId": "tm.e2e.ASearch.instr1",
+      "courseId": "tm.e2e.ASearch.course1",
+      "name": "Instructor1 of Course1",
+      "email": "ASearch.instructor1@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor2OfCourse1": {
+      "googleId": "tm.e2e.ASearch.instr2",
+      "courseId": "tm.e2e.ASearch.course1",
+      "name": "Instructor2 of Course1",
+      "email": "ASearch.instructor2@gmail.tmt",
+      "role": "Co-owner",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    }
+  },
+  "students": {
+    "student1InCourse1": {
+      "googleId": "tm.e2e.ASearch.student1",
+      "email": "ASearch.student1@gmail.tmt",
+      "course": "tm.e2e.ASearch.course1",
+      "name": "Student1 in course1",
+      "comments": "comment for student1InCourse1",
+      "team": "Team 1.1",
+      "section": "Section 1"
+    }
+  },
+  "feedbackSessions": {
+    "session1InCourse1": {
+      "feedbackSessionName": "ASearch.First feedback session",
+      "courseId": "tm.e2e.ASearch.course1",
+      "creatorEmail": "ASearch.instructor1@gmail.tmt",
+      "instructions": "Please please fill in the following questions.",
+      "createdTime": "2012-03-20T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2012-05-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+      "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": true,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    },
+  "session2InCourse1": {
+    "feedbackSessionName": "ASearch.Second feedback session",
+    "courseId": "tm.e2e.ASearch.course1",
+    "creatorEmail": "ASearch.instructor1@gmail.tmt",
+    "instructions": "Please please fill in the following questions.",
+    "createdTime": "2012-03-20T23:59:00Z",
+    "startTime": "2012-04-01T21:59:00Z",
+    "endTime": "2027-04-30T21:59:00Z",
+    "sessionVisibleFromTime": "2012-03-28T21:59:00Z",
+    "resultsVisibleFromTime": "2012-05-01T21:59:00Z",
+    "timeZone": "Africa/Johannesburg",
+    "gracePeriod": 10,
+    "sentOpenEmail": true,
+    "sentClosingEmail": false,
+    "sentClosedEmail": false,
+    "sentPublishedEmail": false,
+    "isOpeningEmailEnabled": true,
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true
+    }
+  }
+}

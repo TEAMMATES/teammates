@@ -3,6 +3,7 @@ package teammates.common.datatransfer.attributes;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.util.Assumption;
@@ -37,7 +38,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
-    InstructorAttributes(String courseId, String email) {
+    private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;
         this.email = email;
 
@@ -165,6 +166,33 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     }
 
     @Override
+    public int hashCode() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(this.email).append(this.name).append(this.courseId)
+                .append(this.googleId).append(this.displayedName).append(this.role);
+        return stringBuilder.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null) {
+            return false;
+        } else if (this == other) {
+            return true;
+        } else if (this.getClass() == other.getClass()) {
+            InstructorAttributes otherInstructor = (InstructorAttributes) other;
+            return Objects.equals(this.email, otherInstructor.email)
+                    && Objects.equals(this.name, otherInstructor.name)
+                    && Objects.equals(this.courseId, otherInstructor.courseId)
+                    && Objects.equals(this.googleId, otherInstructor.googleId)
+                    && Objects.equals(this.displayedName, otherInstructor.displayedName)
+                    && Objects.equals(this.role, otherInstructor.role);
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public void sanitizeForSaving() {
         googleId = SanitizationHelper.sanitizeGoogleId(googleId);
         name = SanitizationHelper.sanitizeName(name);
@@ -221,22 +249,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public boolean hasCoownerPrivileges() {
         return privileges.hasCoownerPrivileges();
-    }
-
-    public boolean hasManagerPrivileges() {
-        return privileges.hasManagerPrivileges();
-    }
-
-    public boolean hasObserverPrivileges() {
-        return privileges.hasObserverPrivileges();
-    }
-
-    public boolean hasTutorPrivileges() {
-        return privileges.hasTutorPrivileges();
-    }
-
-    public boolean isCustomRole() {
-        return Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM.equals(role);
     }
 
     public String getCourseId() {
@@ -302,14 +314,14 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             super(new UpdateOptions());
             thisBuilder = this;
 
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+            Assumption.assertNotNull(courseId);
+            Assumption.assertNotNull(email);
 
             instructorAttributes = new InstructorAttributes(courseId, email);
         }
 
         public Builder withGoogleId(String googleId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+            Assumption.assertNotNull(googleId);
             instructorAttributes.googleId = googleId;
 
             return this;
@@ -336,8 +348,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithEmail(String courseId, String email) {
             super();
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+            Assumption.assertNotNull(courseId);
+            Assumption.assertNotNull(email);
 
             this.courseId = courseId;
             this.email = email;
@@ -397,8 +409,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithGoogleId(String courseId, String googleId) {
             super();
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, googleId);
+            Assumption.assertNotNull(courseId);
+            Assumption.assertNotNull(googleId);
 
             this.courseId = courseId;
             this.googleId = googleId;
@@ -435,7 +447,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             }
 
             public Builder withEmail(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
+                Assumption.assertNotNull(email);
 
                 updateOptionsWithGoogleId.emailOption = UpdateOption.of(email);
                 return this;
@@ -453,12 +465,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
      */
     private static class UpdateOptions {
 
-        protected UpdateOption<String> nameOption = UpdateOption.empty();
-        protected UpdateOption<Boolean> isArchivedOption = UpdateOption.empty();
-        protected UpdateOption<String> roleOption = UpdateOption.empty();
-        protected UpdateOption<Boolean> isDisplayedToStudentsOption = UpdateOption.empty();
-        protected UpdateOption<String> displayedNameOption = UpdateOption.empty();
-        protected UpdateOption<InstructorPrivileges> instructorPrivilegesOption = UpdateOption.empty();
+        UpdateOption<String> nameOption = UpdateOption.empty();
+        UpdateOption<Boolean> isArchivedOption = UpdateOption.empty();
+        UpdateOption<String> roleOption = UpdateOption.empty();
+        UpdateOption<Boolean> isDisplayedToStudentsOption = UpdateOption.empty();
+        UpdateOption<String> displayedNameOption = UpdateOption.empty();
+        UpdateOption<InstructorPrivileges> instructorPrivilegesOption = UpdateOption.empty();
 
         @Override
         public String toString() {
@@ -481,36 +493,36 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
      */
     private abstract static class BasicBuilder<T, B extends BasicBuilder<T, B>> {
 
-        protected UpdateOptions updateOptions;
-        protected B thisBuilder;
+        UpdateOptions updateOptions;
+        B thisBuilder;
 
-        protected BasicBuilder(UpdateOptions updateOptions) {
+        BasicBuilder(UpdateOptions updateOptions) {
             this.updateOptions = updateOptions;
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, name);
+            Assumption.assertNotNull(name);
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withRole(String role) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, role);
+            Assumption.assertNotNull(role);
 
             updateOptions.roleOption = UpdateOption.of(role);
             return thisBuilder;
         }
 
         public B withDisplayedName(String displayedName) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, displayedName);
+            Assumption.assertNotNull(displayedName);
 
             updateOptions.displayedNameOption = UpdateOption.of(displayedName);
             return thisBuilder;
         }
 
         public B withPrivileges(InstructorPrivileges instructorPrivileges) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instructorPrivileges);
+            Assumption.assertNotNull(instructorPrivileges);
 
             updateOptions.instructorPrivilegesOption = UpdateOption.of(instructorPrivileges);
             return thisBuilder;

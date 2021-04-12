@@ -1,0 +1,41 @@
+<div class="transparent-overlay" [ngClass]="{ 'display-none': type !== SimpleModalType.LOAD }"></div>
+<div class="modal-header"
+     [ngClass]="{
+     'alert-danger' : type === SimpleModalType.DANGER,
+     'alert-warning' : type === SimpleModalType.WARNING,
+     'alert-info' : type === SimpleModalType.INFO || type === SimpleModalType.LOAD,
+     'bg-white' : type === SimpleModalType.NEUTRAL}">
+  <div>
+    <h5 class="modal-title">
+      <i *ngIf="type === SimpleModalType.DANGER" class="fas fa-times-circle"></i>
+      <i *ngIf="type === SimpleModalType.WARNING" class="fas fa-exclamation-circle"></i>
+      <i *ngIf="type === SimpleModalType.INFO || type === SimpleModalType.LOAD" class="fas fa-info-circle"></i>
+      <span class="margin-left-5px" [innerHTML]="header"></span>
+    </h5>
+  </div>
+  <button type="button" class="close"
+    (click)="type === SimpleModalType.LOAD ? activeModal.close() : activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div class="modal-body">
+  <div *ngIf="isTemplate">
+    <ng-container *ngTemplateOutlet="content"></ng-container>
+  </div>
+  <div *ngIf="!isTemplate" [innerHTML]="content"></div>
+  <div *ngIf="type === SimpleModalType.LOAD" class="progress-bar-container">
+    <tm-progress-bar></tm-progress-bar>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light modal-btn-cancel" *ngIf="!isInformationOnly" (click)="activeModal.dismiss()">
+    {{ cancelMessage }}
+  </button>
+  <button type="button" class="btn modal-btn-ok z-index-1"
+          [ngClass]="{
+          'btn-danger' : type === SimpleModalType.DANGER || type === SimpleModalType.LOAD,
+          'btn-warning' : type === SimpleModalType.WARNING,
+          'btn-info' : type === SimpleModalType.INFO,
+          'btn-primary' : type === SimpleModalType.NEUTRAL }"
+          (click)="activeModal.close()">{{ confirmMessage }}</button>
+</div>

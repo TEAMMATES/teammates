@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="lnp-tests">
-    <test name="lnp-tests">
-        <packages>
-            <package name="teammates.e2e.cases.lnp" />
-        </packages>
-    </test>
-</suite>

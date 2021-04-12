@@ -35,12 +35,12 @@ rules:
           "exported"
         ]
       },
-      "methods": {
-        "privacies": [
-          "public",
-          "protected"
-        ]
-      },
+      # "methods": {
+      #   "privacies": [
+      #     "public",
+      #     "protected"
+      #   ]
+      # },
       "variables": {
         "visibilities": [
           "exported"
@@ -150,7 +150,6 @@ rules:
   no-unsafe-finally: true
   no-unused-expression: true
   no-unused-variable: false # Use compiler's built-in check instead
-  no-use-before-declare: true
   number-literal-format: true
   one-line: [
     true,
@@ -168,7 +167,6 @@ rules:
   typedef: [
     true,
     "call-signature",
-    "arrow-call-signature",
     "parameter",
     "arrow-parameter",
     "property-declaration",
@@ -195,11 +193,7 @@ rules:
     }
   ]
   unified-signatures: true
-  use-host-property-decorator: true
-  use-input-property-decorator: true
   use-isnan: true
-  use-life-cycle-interface: true
-  use-output-property-decorator: true
   use-pipe-transform-interface: true
   variable-name: [
     true,

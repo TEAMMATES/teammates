@@ -1,0 +1,54 @@
+<div id="no-response-panel" class="card-header bg-secondary text-white cursor-pointer" (click)="toggleTab()">
+  Participants who have not responded to any question
+  <div class="card-header-btn-toolbar">
+    <button id="btn-remind-all" class="btn btn-secondary btn-sm button" type="button" (click)="!isDisplayOnly && openSendReminderModal($event); $event.stopPropagation();"
+        [disabled]="session.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN">
+      Remind All
+    </button>
+    <tm-panel-chevron [isExpanded]="isTabExpanded"></tm-panel-chevron>
+  </div>
+</div>
+<div *ngIf="isTabExpanded" @collapseAnim>
+  <div class="card-body p-0">
+    <div *ngIf="noResponseStudentsInSection.length">
+      <table id="no-response-table" class="table table-striped">
+        <thead>
+        <tr>
+          <th class="cursor-pointer" (click)="sortParticipantsBy(SortBy.TEAM_NAME)">
+            Team
+            <span class="fa-stack"><i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.TEAM_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </th>
+          <th id="sort-by-name" class="cursor-pointer" (click)="sortParticipantsBy(SortBy.RESPONDENT_NAME)">
+            Name
+            <span class="fa-stack"><i class="fas fa-sort"></i>
+              <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.DESC" class="fas fa-sort-down"></i>
+              <i *ngIf="sortBy === SortBy.RESPONDENT_NAME && sortOrder === SortOrder.ASC" class="fas fa-sort-up"></i>
+            </span>
+          </th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let noResponseStudent of noResponseStudentsInSection">
+          <td>{{ noResponseStudent.teamName }}</td>
+          <td>{{ noResponseStudent.name }}</td>
+          <td>
+            <a *ngIf="!isDisplayOnly; else displayOnlySubmitResponseButton" tmRouterLink="/web/sessions/submission" rel="noopener noreferrer" target="_blank"
+               [queryParams]="{courseid: session.courseId, fsname: session.feedbackSessionName, moderatedperson: noResponseStudent.email}"
+               class="btn btn-light btn-sm button">
+              Submit responses
+            </a>
+            <ng-template #displayOnlySubmitResponseButton><a class="btn btn-light btn-sm button">Submit response</a></ng-template>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div *ngIf="!noResponseStudentsInSection.length">
+      <i>All students have responded to some questions in this session.</i>
+    </div>
+  </div>
+</div>

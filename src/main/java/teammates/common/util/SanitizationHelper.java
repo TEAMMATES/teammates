@@ -2,11 +2,6 @@ package teammates.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 import org.owasp.html.HtmlPolicyBuilder;
 import org.owasp.html.PolicyFactory;
@@ -101,23 +96,6 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Escape the string for inserting into javascript code.
-     * This automatically calls {@link #sanitizeForHtml} so make it safe for HTML too.
-     *
-     * @return the sanitized string or null (if the parameter was null).
-     */
-    public static String sanitizeForJs(String str) {
-        if (str == null) {
-            return null;
-        }
-        return SanitizationHelper.sanitizeForHtml(
-                str.replace("\\", "\\\\")
-                .replace("\"", "\\\"")
-                .replace("'", "\\'")
-                .replace("#", "\\#"));
-    }
-
-    /**
      * Sanitizes the string with rich-text.
      * Removes disallowed elements based on defined policy.
      */
@@ -147,26 +125,14 @@ public final class SanitizationHelper {
     }
 
     /**
-     * Sanitizes a list of strings for inserting into HTML.
-     */
-    public static List<String> sanitizeForHtml(List<String> unsanitizedStringList) {
-        if (unsanitizedStringList == null) {
-            return null;
-        }
-        return unsanitizedStringList.stream()
-                .map(s -> sanitizeForHtml(s))
-                .collect(Collectors.toCollection(ArrayList::new));
-    }
-
-    /**
      * Recovers a html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file.<br>
+     * to original encoding for appropriate display.<br>
      * It restores encoding for < > \ / ' &  <br>
      * The method should only be used once on sanitized html
      *
      * @return recovered string
      */
-    public static String desanitizeFromHtml(String sanitizedString) {
+    static String desanitizeFromHtml(String sanitizedString) {
 
         if (sanitizedString == null) {
             return null;
@@ -181,160 +147,16 @@ public final class SanitizationHelper {
     }
 
     /**
-     * This recovers a set of html-sanitized string using {@link #sanitizeForHtml}
-     * to original encoding for appropriate display in files such as csv file.<br>
-     * It restores encoding for < > \ / ' &  <br>
-     * The method should only be used once on sanitized html
-     *
-     * @return recovered string set
-     */
-    public static Set<String> desanitizeFromHtml(Set<String> sanitizedStringSet) {
-        if (sanitizedStringSet == null) {
-            return null;
-        }
-        return sanitizedStringSet.stream()
-                .map(s -> desanitizeFromHtml(s))
-                .collect(Collectors.toCollection(HashSet::new));
-    }
-
-    /**
-     * Escapes HTML tag safely. This function can be applied multiple times.
-     */
-    public static String sanitizeForHtmlTag(String string) {
-        if (string == null) {
-            return null;
-        }
-        return string.replace("<", "&lt;").replace(">", "&gt;");
-    }
-
-    /**
      * Converts a string to be put in URL (replaces some characters).
      */
     public static String sanitizeForUri(String uri) {
         try {
-            return URLEncoder.encode(uri, Const.SystemParams.ENCODING);
+            return URLEncoder.encode(uri, Const.ENCODING).replaceAll("\\+", "%20");
         } catch (UnsupportedEncodingException wontHappen) {
             log.warning("Unexpected UnsupportedEncodingException in "
-                        + "SanitizationHelper.sanitizeForUri(" + uri + ", " + Const.SystemParams.ENCODING + ")");
+                        + "SanitizationHelper.sanitizeForUri(" + uri + ", " + Const.ENCODING + ")");
             return uri;
         }
-    }
-
-    /**
-     * Sanitizes the given URL for the parameter {@link Const.ParamsNames#NEXT_URL}.
-     * The following characters will be sanitized:
-     * <ul>
-     * <li>&, to prevent the parameters of the next URL from being considered as
-     *     part of the original URL</li>
-     * <li>%2B (encoded +), to prevent Google from decoding it back to +,
-     *     which is used to encode whitespace in some cases</li>
-     * <li>%23 (encoded #), to prevent Google from decoding it back to #,
-     *     which is used to traverse the HTML document to a certain id</li>
-     * </ul>
-     *
-     * @return the sanitized url or null (if the parameter was null).
-     */
-    public static String sanitizeForNextUrl(String url) {
-        if (url == null) {
-            return null;
-        }
-        return url.replace("&", "${amp}").replace("%2B", "${plus}").replace("%23", "${hash}");
-    }
-
-    /**
-     * Recovers the URL from sanitization due to {@link SanitizationHelper#sanitizeForNextUrl}.
-     * In addition, any un-encoded whitespace (they may be there due to Google's
-     * behind-the-screen decoding process) will be encoded again to +.
-     * @return the unsanitized url or null (if the parameter was null).
-     */
-    public static String desanitizeFromNextUrl(String sanitizedUrl) {
-        if (sanitizedUrl == null) {
-            return null;
-        }
-        return sanitizedUrl.replace("${amp}", "&")
-                           .replace("${plus}", "%2B")
-                           .replace("${hash}", "%23")
-                           .replace(" ", "+");
-    }
-
-    /**
-     * Sanitize the string for searching.
-     */
-    public static String sanitizeForSearch(String str) {
-        if (str == null) {
-            return null;
-        }
-        return str
-                //general case for punctuation
-                .replace("`", " ").replace("!", " ").replace("#", " ").replace("$", " ").replace("%", " ").replace("^", " ")
-                .replace("&", " ").replace("[", " ").replace("]", " ").replace("{", " ").replace("}", " ").replace("|", " ")
-                .replace(";", " ").replace("*", " ").replace(".", " ").replace("?", " ").replace("'", " ").replace("/", " ")
-                //to prevent injection
-                .replace("=", " ")
-                .replace(":", " ")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;");
-    }
-
-    /**
-     * Sanitizes the string for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180.
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
-     */
-    public static String sanitizeForCsv(String str) {
-        return "\"" + str.replace("\"", "\"\"") + "\"";
-    }
-
-    /**
-     * Sanitizes the list of strings for comma-separated values (CSV) file output.<br>
-     * We follow the definition described by RFC 4180.
-     *
-     * @see <a href="http://tools.ietf.org/html/rfc4180">http://tools.ietf.org/html/rfc4180</a>
-     */
-    public static List<String> sanitizeListForCsv(List<String> strList) {
-
-        return strList.stream().map(string -> sanitizeForCsv(string))
-                               .collect(Collectors.toList());
-
-    }
-
-    /**
-     * Convert the string to a safer version for XPath
-     * For example:
-     * Will o' The Wisp => concat('Will o' , "'" , ' The Wisp' , '')
-     * This will result in the same string when read by XPath.
-     *
-     * <p>This is used when writing the test case for some special characters
-     * such as ' and "
-     *
-     * @return safer version of the text for XPath
-     */
-    public static String sanitizeStringForXPath(String text) {
-        StringBuilder result = new StringBuilder();
-        int startOfChain = 0;
-        int textLength = text.length();
-        boolean isSingleQuotationChain = false;
-        // currentPos iterates one position beyond text length to include last chain
-        for (int currentPos = 0; currentPos <= textLength; currentPos++) {
-            boolean isChainBroken = currentPos >= textLength
-                                    || isSingleQuotationChain && text.charAt(currentPos) != '\''
-                                    || !isSingleQuotationChain && text.charAt(currentPos) == '\'';
-            if (isChainBroken && startOfChain < currentPos) {
-                // format text.substring(startOfChain, currentPos) and append to result
-                char wrapper = isSingleQuotationChain ? '\"' : '\'';
-                result.append(wrapper).append(text.substring(startOfChain, currentPos)).append(wrapper).append(',');
-                startOfChain = currentPos;
-            }
-            // flip isSingleQuotationChain if chain is broken
-            if (isChainBroken) {
-                isSingleQuotationChain = !isSingleQuotationChain;
-            }
-        }
-        if (result.length() == 0) {
-            return "''";
-        }
-        return "concat(" + result.toString() + "'')";
     }
 
     /**

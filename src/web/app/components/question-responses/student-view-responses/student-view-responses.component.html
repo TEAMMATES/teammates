@@ -1,19 +1,47 @@
-<div class="card border-{{ isSelfResponses ? 'info' : 'primary' }}" style="margin-top: 20px;">
+<div class="card border-{{ isSelfResponses ? 'info' : 'primary' }} mt-4">
   <div class="card-header bg-{{ isSelfResponses ? 'info' : 'primary' }} text-white">
-    <b>To:</b> {{ recipient }}
+    <span id="response-recipient"><b>To:</b> {{ recipient }}</span>
   </div>
   <div class="card-body" style="padding: 0;">
     <table class="table">
       <tbody>
         <ng-container *ngFor="let response of responses">
           <tr>
-            <td>
+            <td id="response-giver">
               <strong>From:</strong> {{ response.giver }}
             </td>
           </tr>
           <tr>
             <td>
-              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="questionDetails" [isStudentPage]="true"></tm-single-response>
+              <tm-single-response [responseDetails]="response.responseDetails" [questionDetails]="feedbackQuestion.questionDetails"
+                                  [isStudentPage]="true" [giverEmail]="response.giverEmail" [recipientEmail]="response.recipientEmail" [statistics]="statistics"></tm-single-response>
+            </td>
+          </tr>
+          <tr *ngIf="response.participantComment">
+            <td>
+              <tm-comment-row
+                              [mode]="CommentRowMode.EDIT"
+                              [isVisibilityOptionEnabled]="false"
+                              [isDisabled]="true"
+                              [shouldHideSavingButton]="true"
+                              [shouldHideClosingButton]="true"
+                              [shouldHideEditButton]="true"
+                              [shouldHideDeleteButton]="true"
+                              [isFeedbackParticipantComment]="true"
+                              [response]="response"
+                              [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
+                              [model]="response.participantComment | commentToCommentRowModel"
+            ></tm-comment-row>
+            </td>
+          </tr>
+          <tr *ngIf="response.instructorComments.length > 0">
+            <td>
+              <tm-comment-table
+                  [response]="response"
+                  [questionShowResponsesTo]="feedbackQuestion.showResponsesTo"
+                  [model]="response.instructorComments | commentsToCommentTableModel: true : timezone"
+                  [shouldHideClosingButtonForNewComment]="true"
+              ></tm-comment-table>
             </td>
           </tr>
         </ng-container>

@@ -1,0 +1,26 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    Resend Published Email
+    <small>(Select the student(s) or instructor(s) you want to resend the published email to)</small>
+  </h4>
+  <button type="button" class="close" (click)="activeModal.dismiss()"><i class="fas fa-times"></i></button>
+</div>
+<div class="modal-body">
+  <div class="table-responsive" *ngIf="studentListInfoTableRowModels.length > 0; else noRespondentsToRemind">
+    <tm-respondent-list-info-table
+        [(studentListInfoTableRowModels)]="studentListInfoTableRowModels"
+        [shouldDisplayHasSubmittedSessionColumn]="false"
+        [(instructorListInfoTableRowModels)]="instructorListInfoTableRowModels"
+    ></tm-respondent-list-info-table>
+  </div>
+  <ng-template #noRespondentsToRemind>
+    <h4 class="p-2 bg-info text-white">
+      There are no participants to email.
+    </h4>
+  </ng-template>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn " (click)="activeModal.dismiss()">Cancel</button>
+  <button id="btn-confirm-resend-results" type="button" class="btn btn-primary" (click)="activeModal.close(collateRespondentsToSendHandler())">Send</button>
+</div>

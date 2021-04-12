@@ -1,7 +1,21 @@
-.img-core-team {
-  max-width: 100%;
+.core-team-table {
+  margin-bottom: 20px;
 }
 
-.core-team {
-  margin: 15px 0;
+.core-team-photo-cell,
+.core-team-details-cell {
+  border: 1px solid #EEE;
+  padding-bottom: 15px;
+  padding-left: 15px;
+  padding-right: 15px;
+  padding-top: 15px;
+
+  img {
+    width: 100px;
+  }
+}
+
+.core-team-details-cell {
+  min-width: 360px;
+  padding-right: 40px;
 }

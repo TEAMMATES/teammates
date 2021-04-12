@@ -1,4 +1,4 @@
-<h4 style="margin-top: 40px; margin-bottom: 10px;">
+<h4>
   <small>
     Total: {{ totalOngoingSessions}} -
     Opened: {{ totalOpenSessions}} -
@@ -10,33 +10,33 @@
   </small>
   <br>
 </h4>
-<button class="btn btn-info btn-sm" style="margin-right: 10px;" (click)="openAllInstitutions()">Open All</button>
+<button class="btn btn-info btn-sm btn-margin-right" (click)="openAllInstitutions()">Open All</button>
 <button class="btn btn-warning btn-sm" (click)="closeAllInstitutions()">Collapse All</button>
 <div style="margin-top: 20px;">
-  <div class="form-group text-center">
-    <button class="btn btn-link center-block" (click)="showFilter = !showFilter">
+  <div class="text-center">
+    <button id="btn-toggle-filter" class="btn btn-link center-block" (click)="showFilter = !showFilter">
       {{ showFilter ? 'Hide' : 'Show' }} filter
       <br>
       <i class="fas fa-chevron-{{ showFilter ? 'up' : 'down' }}"></i>
     </button>
   </div>
-  <div class="card bg-light" *ngIf="showFilter">
+  <div id="filter-section" class="card bg-light" *ngIf="showFilter">
     <div class="card-body">
       <div class="row">
-        <div class="col-md-4" data-toggle="tooltip" data-placement="top">
+        <div class="col-xl-4" data-toggle="tooltip" data-placement="top">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <label class="label-control">From</label>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <form>
                 <div class="form-group">
                   <div class="input-group">
-                    <input class="form-control" id="dateOfBirth" placeholder="Date" name="dp1" [(ngModel)]="startDate" ngbDatepicker #dp1="ngbDatepicker">
+                    <input class="form-control" id="start-date" placeholder="Date" name="dp1" [(ngModel)]="startDate" ngbDatepicker #dp1="ngbDatepicker">
                     <div class="input-group-append">
-                      <button class="btn btn-secondary" (click)="dp1.toggle()" type="button">
+                      <button class="btn btn-light" (click)="dp1.toggle()" type="button">
                         <i class="fas fa-calendar-alt"></i>
                       </button>
                     </div>
@@ -44,25 +44,25 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
               <ngb-timepicker [(ngModel)]="startTime" [spinners]="false"></ngb-timepicker>
             </div>
           </div>
         </div>
-        <div class="col-md-4 border-left-gray" data-toggle="tooltip" data-placement="top">
+        <div class="col-xl-4 border-left-gray" data-toggle="tooltip" data-placement="top">
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <label class="label-control">To</label>
             </div>
           </div>
           <div class="row">
-            <div class="col-md-6">
+            <div class="col-6">
               <form>
                 <div class="form-group">
                   <div class="input-group">
-                    <input class="form-control" placeholder="Date" name="dp2" [(ngModel)]="endDate" ngbDatepicker #dp2="ngbDatepicker">
+                    <input class="form-control" id="end-date" placeholder="Date" name="dp2" [(ngModel)]="endDate" ngbDatepicker #dp2="ngbDatepicker">
                     <div class="input-group-append">
-                      <button class="btn btn-secondary" (click)="dp2.toggle()" type="button">
+                      <button class="btn btn-light" (click)="dp2.toggle()" type="button">
                         <i class="fas fa-calendar-alt"></i>
                       </button>
                     </div>
@@ -70,25 +70,25 @@
                 </div>
               </form>
             </div>
-            <div class="col-md-6">
+            <div class="col-6">
               <ngb-timepicker [(ngModel)]="endTime" [spinners]="false"></ngb-timepicker>
             </div>
           </div>
         </div>
-        <div class="col-md-4 border-left-gray">
+        <div class="col-xl-4 border-left-gray">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-12">
               <label class="control-label">Time Zone</label>
             </div>
           </div>
           <div class="row">
-            <div class="col-sm-6">
-              <select class="form-control" [(ngModel)]="timezone">
+            <div class="col-6">
+              <select id="filter-timezone" class="form-control" [(ngModel)]="filterTimezone">
                 <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
               </select>
             </div>
-            <div class="col-sm-6">
-              <button class="btn btn-primary btn-block" (click)="getFeedbackSessions()">
+            <div class="col-6">
+              <button class="btn btn-primary btn-block" id="btn-get-sessions" (click)="getFeedbackSessions()">
                 Filter by Range
               </button>
             </div>
@@ -99,39 +99,61 @@
   </div>
 </div>
 
-<div class="card bg-light" style="margin-top: 20px;" *ngFor="let mapping of sessions | keyvalue">
-  <div class="card-header bg-primary text-white" style="cursor: pointer;" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
-    <strong>{{ mapping.key }}</strong>
-    <strong class="float-sm-right">{{ mapping.value.length }}</strong>
+<ng-template #noOngoingSessions>
+  <div class="alert alert-warning margin-top-30px" role="alert">
+    Currently No Ongoing Sessions
   </div>
-  <div class="card-body" *ngIf="institutionPanelsStatus[mapping.key]">
-    <div class="table-responsive">
-      <table class="table table-striped data-table">
-        <thead>
-          <tr>
-            <th>Status</th>
-            <th>[Course ID] Session Name</th>
-            <th>Response Rate</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-            <th>Creator</th>
-          </tr>
-        </thead>
+</ng-template>
 
-        <tbody>
-          <tr *ngFor="let session of mapping.value">
-            <td>{{ session.ongoingSession.sessionStatus }}</td>
-            <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
-            <td>
-              <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
-              <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
-            </td>
-            <td>{{ showDateFromMillis(session.ongoingSession.startTime) }}</td>
-            <td>{{ showDateFromMillis(session.ongoingSession.endTime) }}</td>
-            <td><a [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
-          </tr>
-        </tbody>
-      </table>
+<div *tmIsLoading="isLoadingOngoingSessions">
+  <div *ngIf="totalOngoingSessions; else noOngoingSessions">
+    <div class="row margin-top-30px" style="align-items: center;">
+      <div class="col-md-5">
+        Display session start/end time in this time zone:
+      </div>
+      <div class="col-md-7">
+        <select id="table-timezone" class="form-control" [(ngModel)]="tableTimezone" (ngModelChange)="updateDisplayedTimes()">
+          <option *ngFor="let timezone of timezones" [value]="timezone">{{ timezone }}</option>
+        </select>
+      </div>
+    </div>
+    <div class="card bg-light margin-top-30px" *ngFor="let mapping of sessions | keyvalue">
+      <div class="text-white card-header bg-primary cursor-pointer" (click)="institutionPanelsStatus[mapping.key] = !institutionPanelsStatus[mapping.key]">
+        <strong>{{ mapping.key }} - Number of sessions: {{ mapping.value.length }}</strong>
+        <div class="card-header-btn-toolbar">
+          <tm-panel-chevron [isExpanded]="institutionPanelsStatus[mapping.key]"></tm-panel-chevron>
+        </div>
+      </div>
+      <div class="card-body session-table-body" *ngIf="institutionPanelsStatus[mapping.key]" @collapseAnim>
+        <div class="table-responsive">
+          <table class="table table-striped data-table session-table" id="ongoing-sessions-table">
+            <thead>
+            <tr>
+              <th>Status</th>
+              <th>[Course ID] Session Name</th>
+              <th>Response Rate</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Creator</th>
+            </tr>
+            </thead>
+
+            <tbody>
+            <tr *ngFor="let session of mapping.value">
+              <td>{{ session.ongoingSession.sessionStatus }}</td>
+              <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
+              <td>
+                <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
+                <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>
+              </td>
+              <td>{{ session.startTimeString }}</td>
+              <td>{{ session.endTimeString }}</td>
+              <td><a target="_blank" rel="noopener noreferrer" [href]="session.ongoingSession.instructorHomePageLink">{{ session.ongoingSession.creatorEmail }}</a></td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

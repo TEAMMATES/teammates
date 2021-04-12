@@ -28,7 +28,7 @@ public class InstructorSearchDocument extends SearchDocument {
     }
 
     @Override
-    protected void prepareData() {
+    void prepareData() {
         if (instructor == null) {
             return;
         }
@@ -37,7 +37,7 @@ public class InstructorSearchDocument extends SearchDocument {
     }
 
     @Override
-    protected Document toDocument() {
+    Document toDocument() {
 
         String delim = ",";
 

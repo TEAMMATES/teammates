@@ -1,0 +1,93 @@
+{
+  "questions": [
+    {
+      "feedbackQuestion": {
+        "feedbackQuestionId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGD8M",
+        "questionNumber": 1,
+        "questionBrief": "How much has each team member including yourself, contributed to the project?",
+        "questionDetails": {
+          "isNotSureAllowed": true,
+          "questionType": "CONTRIB",
+          "questionText": "How much has each team member including yourself, contributed to the project?"
+        },
+        "questionType": "CONTRIB",
+        "giverType": "STUDENTS",
+        "recipientType": "OWN_TEAM_MEMBERS_INCLUDING_SELF",
+        "numberOfEntitiesToGiveFeedbackToSetting": "UNLIMITED",
+        "showResponsesTo": [
+          "INSTRUCTORS"
+        ],
+        "showGiverNameTo": [
+          "INSTRUCTORS"
+        ],
+        "showRecipientNameTo": [
+          "INSTRUCTORS"
+        ]
+      },
+      "questionStatistics": "{\n  \"results\": {\n    \"student3InCourseWithSections@gmail.tmt\": {\n      \"claimed\": 100,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": []\n    },\n    \"student1InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": [\n        -9999\n      ]\n    },\n    \"student4InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": []\n    },\n    \"student2InCourseWithSections@gmail.tmt\": {\n      \"claimed\": -999,\n      \"perceived\": -9999,\n      \"claimedOthers\": {},\n      \"perceivedOthers\": [\n        -9999\n      ]\n    }\n  }\n}",
+      "allResponses": [
+        {
+          "isMissingResponse": false,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGD8M%student3InCourseWithSections@gmail.tmt%student3InCourseWithSections@gmail.tmt",
+          "giver": "student3 In Course With Sections",
+          "giverLastName": "Sections",
+          "relatedGiverEmail": "student3InCourseWithSections@gmail.tmt",
+          "giverTeam": "Team 2",
+          "giverEmail": "student3InCourseWithSections@gmail.tmt",
+          "giverSection": "Section 2",
+          "recipient": "student3 In Course With Sections",
+          "recipientLastName": "Sections",
+          "recipientTeam": "Team 2",
+          "recipientEmail": "student3InCourseWithSections@gmail.tmt",
+          "recipientSection": "Section 2",
+          "responseDetails": {
+            "answer": 100,
+            "questionType": "CONTRIB"
+          },
+          "instructorComments": []
+        },
+        {
+          "isMissingResponse": true,
+          "responseId": "agR0ZXN0chYLEhBGZWVkYmFja1F1ZXN0aW9uGD8M%student4InCourseWithSections@gmail.tmt%student4InCourseWithSections@gmail.tmt",
+          "giver": "student4 In Course With Sections",
+          "giverLastName": "Sections",
+          "relatedGiverEmail": "student4InCourseWithSections@gmail.tmt",
+          "giverTeam": "Team 3",
+          "giverEmail": "student4InCourseWithSections@gmail.tmt",
+          "giverSection": "Section 3",
+          "recipient": "student4 In Course With Sections",
+          "recipientLastName": "Sections",
+          "recipientTeam": "Team 3",
+          "recipientEmail": "student4InCourseWithSections@gmail.tmt",
+          "recipientSection": "Section 3",
+          "responseDetails": {
+            "answer": "No Response",
+            "questionType": "TEXT"
+          },
+          "instructorComments": []
+        }
+      ],
+      "responsesToSelf": [],
+      "responsesFromSelf": [],
+      "otherResponses": []
+    }
+  ],
+  "feedbackSession": {
+    "courseId": "FSQTT.idOfCourseWithSections",
+    "timeZone": "Africa/Johannesburg",
+    "feedbackSessionName": "CONTRIB Session Section Restricted",
+    "instructions": "Please answer the following questions.",
+    "submissionStartTimestamp": 1333317540000,
+    "submissionEndTimestamp": 1809122340000,
+    "gracePeriod": 10,
+    "sessionVisibleSetting": "CUSTOM",
+    "customSessionVisibleTimestamp": 1332971940000,
+    "responseVisibleSetting": "CUSTOM",
+    "customResponseVisibleTimestamp": 1809208740000,
+    "submissionStatus": "OPEN",
+    "publishStatus": "NOT_PUBLISHED",
+    "isClosingEmailEnabled": true,
+    "isPublishedEmailEnabled": true,
+    "createdAtTimestamp": 1332287940000
+  }
+}

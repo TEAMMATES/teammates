@@ -27,7 +27,6 @@ public final class FieldValidator {
     public static final int PERSON_NAME_MAX_LENGTH = 100;
 
     public static final String NATIONALITY_FIELD_NAME = "nationality";
-    public static final int NATIONALITY_MAX_LENGTH = 55; // one more than longest official nationality name
 
     public static final String COURSE_NAME_FIELD_NAME = "course name";
     public static final int COURSE_NAME_MAX_LENGTH = 64;
@@ -47,12 +46,6 @@ public final class FieldValidator {
     // email-related
     public static final String EMAIL_FIELD_NAME = "email";
     public static final int EMAIL_MAX_LENGTH = 254;
-
-    public static final String EMAIL_SUBJECT_FIELD_NAME = "email subject";
-    public static final int EMAIL_SUBJECT_MAX_LENGTH = 200;
-
-    public static final String EMAIL_CONTENT_FIELD_NAME = "email content";
-    public static final String EMAIL_CONTENT_ERROR_MESSAGE = EMAIL_CONTENT_FIELD_NAME + " should not be empty.";
 
     // others
     public static final String STUDENT_ROLE_COMMENTS_FIELD_NAME = "comments about a student enrolled in a course";
@@ -104,8 +97,6 @@ public final class FieldValidator {
     // ERROR MESSAGES //
     ////////////////////
 
-    // possible reasons for invalidity
-    public static final String REASON_EMPTY = "is empty";
     public static final String REASON_TOO_LONG = "is too long";
     public static final String REASON_INCORRECT_FORMAT = "is not in the correct format";
     public static final String REASON_CONTAINS_INVALID_CHAR = "contains invalid characters";
@@ -147,15 +138,16 @@ public final class FieldValidator {
             "The provided ${fieldName} is not acceptable to TEAMMATES as it contains only whitespace "
             + "or contains extra spaces at the beginning or at the end of the text.";
     public static final String NON_HTML_FIELD_ERROR_MESSAGE =
-            SanitizationHelper.sanitizeForHtml("The provided ${fieldName} is not acceptable to TEAMMATES "
-                                                + "as it cannot contain the following special html characters"
-                                                + " in brackets: (< > \" / ' &)");
+            "The provided ${fieldName} is not acceptable to TEAMMATES "
+                    + "as it cannot contain the following special html characters"
+                    + " in brackets: (< > \" / ' &)";
     public static final String NON_NULL_FIELD_ERROR_MESSAGE =
             "The provided ${fieldName} is not acceptable to TEAMMATES as it cannot be empty.";
 
     // field-specific error messages
     public static final String HINT_FOR_CORRECT_EMAIL =
-            "An email address contains some text followed by one '@' sign followed by some more text. "
+            "An email address contains some text followed by one '@' sign followed by some more text, and should end "
+                    + "with a top level domain address like .com. "
             + HINT_FOR_CORRECT_FORMAT_FOR_SIZE_CAPPED_NON_EMPTY_NO_SPACES;
     public static final String EMAIL_ERROR_MESSAGE =
             ERROR_INFO + " " + HINT_FOR_CORRECT_EMAIL;
@@ -222,50 +214,20 @@ public final class FieldValidator {
     public static final String REGEX_COURSE_ID = "[a-zA-Z0-9_.$-]+";
 
     /**
-     * A normal course ID followed by the word '-demo' and then followed any amount of digits.
-     */
-    public static final String REGEX_SAMPLE_COURSE_ID = REGEX_COURSE_ID + "-demo\\d*";
-
-    /**
      * Local part:
      * <li>Can only start with letters, digits, hyphen or plus sign;
      * <li>Special characters allowed are ! # $ % & ' * + - / = ? ^ _ ` { } ~
      * <li>Dot can only appear between any 2 characters and cannot appear continuously<br>
      * Domain part:
-     * <li>Only allow letters, digits, hyphen and dot; Must end with letters
+     * <li>Only allow letters, digits, hyphen and dot; Must end with letters; Must have TLD
      */
     public static final String REGEX_EMAIL = "^[\\w+-][\\w+!#$%&'*/=?^_`{}~-]*+(\\.[\\w+!#$%&'*/=?^_`{}~-]+)*+"
-                                            + "@([A-Za-z0-9-]+\\.)*[A-Za-z]+$";
+                                            + "@([A-Za-z0-9-]+\\.)+[A-Za-z]+$";
 
     /**
      * Allows English alphabet, numbers, underscore,  dot and hyphen.
      */
     public static final String REGEX_GOOGLE_ID_NON_EMAIL = "[a-zA-Z0-9_.-]+";
-
-    /*
-     * =======================================================================
-     * Regex used for checking header column name in enroll lines
-     */
-    public static final List<String> REGEX_COLUMN_SECTION = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {"sections?", "sect?", "courses?\\s+sec(tion)?s?"}));
-    public static final List<String> REGEX_COLUMN_TEAM = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {
-                            "teams?", "groups?", "students?\\s+teams?", "students?\\s+groups?", "courses?\\s+teams?",
-                    }));
-    public static final List<String> REGEX_COLUMN_NAME = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {"names?", "students?\\s+names?", "full\\s+names?", "students?\\s+full\\s+names?"}));
-    public static final List<String> REGEX_COLUMN_EMAIL = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {
-                            "emails?", "mails?", "e-mails?", "e\\s+mails?", "emails?\\s+address(es)?",
-                            "e-mails?\\s+address(es)?", "contacts?",
-                    }));
-    public static final List<String> REGEX_COLUMN_COMMENT = Collections.unmodifiableList(
-            Arrays.asList(
-                    new String[] {"comments?", "notes?"}));
 
     private FieldValidator() {
         // utility class
@@ -277,30 +239,6 @@ public final class FieldValidator {
     /////////////////////////////////////////
 
     /**
-     * Checks if {@code emailContent} is not null and not empty.
-     * @return An explanation of why the {@code emailContent} is not acceptable.
-     *         Returns an empty string if the {@code emailContent} is acceptable.
-     */
-    public static String getInvalidityInfoForEmailContent(String emailContent) {
-        Assumption.assertNotNull("Non-null value expected", emailContent);
-        if (emailContent.isEmpty()) {
-            return EMAIL_CONTENT_ERROR_MESSAGE;
-        }
-        return "";
-    }
-
-    /**
-     * Checks if {@code emailSubject} is a non-null non-empty string no longer than the specified length
-     * {@code EMAIL_SUBJECT_MAX_LENGTH}, and also does not contain any invalid characters (| or %).
-     * @return An explanation of why the {@code emailSubject} is not acceptable.
-     *         Returns an empty string if the {@code emailSubject} is acceptable.
-     */
-    public static String getInvalidityInfoForEmailSubject(String emailSubject) {
-        return getValidityInfoForAllowedName(
-                EMAIL_SUBJECT_FIELD_NAME, EMAIL_SUBJECT_MAX_LENGTH, emailSubject);
-    }
-
-    /**
      * Checks if {@code email} is not null, not empty, not longer than {@code EMAIL_MAX_LENGTH}, and is a
      * valid email address according to {@code REGEX_EMAIL}.
      * @return An explanation of why the {@code email} is not acceptable.
@@ -309,7 +247,6 @@ public final class FieldValidator {
     public static String getInvalidityInfoForEmail(String email) {
 
         Assumption.assertNotNull("Non-null value expected", email);
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(email);
 
         if (email.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
@@ -317,10 +254,10 @@ public final class FieldValidator {
         } else if (isUntrimmed(email)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", EMAIL_FIELD_NAME);
         } else if (email.length() > EMAIL_MAX_LENGTH) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
+            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME,
                                             REASON_TOO_LONG, EMAIL_MAX_LENGTH);
-        } else if (!StringHelper.isMatching(email, REGEX_EMAIL)) {
-            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, sanitizedValue, EMAIL_FIELD_NAME,
+        } else if (!isValidEmailAddress(email)) {
+            return getPopulatedErrorMessage(EMAIL_ERROR_MESSAGE, email, EMAIL_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, EMAIL_MAX_LENGTH);
         }
         return "";
@@ -350,9 +287,8 @@ public final class FieldValidator {
         Assumption.assertNotNull("Non-null value expected", googleId);
         Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
                 !googleId.toLowerCase().endsWith("@gmail.com"));
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(googleId);
 
-        boolean isValidFullEmail = StringHelper.isMatching(googleId, REGEX_EMAIL);
+        boolean isValidFullEmail = isValidEmailAddress(googleId);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
 
         if (googleId.isEmpty()) {
@@ -361,10 +297,10 @@ public final class FieldValidator {
         } else if (isUntrimmed(googleId)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", GOOGLE_ID_FIELD_NAME);
         } else if (googleId.length() > GOOGLE_ID_MAX_LENGTH) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
+            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
                                             REASON_TOO_LONG, GOOGLE_ID_MAX_LENGTH);
         } else if (!(isValidFullEmail || isValidEmailWithoutDomain)) {
-            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, sanitizedValue, GOOGLE_ID_FIELD_NAME,
+            return getPopulatedErrorMessage(GOOGLE_ID_ERROR_MESSAGE, googleId, GOOGLE_ID_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, GOOGLE_ID_MAX_LENGTH);
         }
         return "";
@@ -388,13 +324,12 @@ public final class FieldValidator {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}",
                     COURSE_NAME_FIELD_NAME);
         }
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(courseId);
         if (courseId.length() > COURSE_ID_MAX_LENGTH) {
-            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
+            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
                                             REASON_TOO_LONG, COURSE_ID_MAX_LENGTH);
         }
         if (!StringHelper.isMatching(courseId, REGEX_COURSE_ID)) {
-            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, sanitizedValue, COURSE_ID_FIELD_NAME,
+            return getPopulatedErrorMessage(COURSE_ID_ERROR_MESSAGE, courseId, COURSE_ID_FIELD_NAME,
                                             REASON_INCORRECT_FORMAT, COURSE_ID_MAX_LENGTH);
         }
         return "";
@@ -417,7 +352,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code teamName} is acceptable.
      */
     public static String getInvalidityInfoForTeamName(String teamName) {
-        boolean isValidEmail = StringHelper.isMatching(teamName, REGEX_EMAIL);
+        boolean isValidEmail = isValidEmailAddress(teamName);
         if (isValidEmail) {
             return TEAM_NAME_IS_VALID_EMAIL_ERROR_MESSAGE;
         }
@@ -475,7 +410,7 @@ public final class FieldValidator {
     public static String getInvalidityInfoForNationality(String nationality) {
         Assumption.assertNotNull("Non-null value expected", nationality);
         if (!NationalityHelper.getNationalities().contains(nationality)) {
-            return String.format(NATIONALITY_ERROR_MESSAGE, SanitizationHelper.sanitizeForHtml(nationality));
+            return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
         }
         return "";
     }
@@ -510,9 +445,8 @@ public final class FieldValidator {
     public static String getInvalidityInfoForTimeZone(String timeZoneValue) {
         Assumption.assertNotNull("Non-null value expected", timeZoneValue);
         if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
-            String sanitizedValue = SanitizationHelper.sanitizeForHtml(timeZoneValue);
             return getPopulatedErrorMessage(TIME_ZONE_ERROR_MESSAGE,
-                    sanitizedValue, TIME_ZONE_FIELD_NAME, REASON_UNAVAILABLE_AS_CHOICE);
+                    timeZoneValue, TIME_ZONE_FIELD_NAME, REASON_UNAVAILABLE_AS_CHOICE);
         }
         return "";
     }
@@ -525,10 +459,9 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForRole(String role) {
         Assumption.assertNotNull("Non-null value expected", role);
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(role);
 
         if (!ROLE_ACCEPTED_VALUES.contains(role)) {
-            return String.format(ROLE_ERROR_MESSAGE, sanitizedValue);
+            return String.format(ROLE_ERROR_MESSAGE, role);
         }
         return "";
     }
@@ -547,7 +480,7 @@ public final class FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
+    static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
@@ -564,25 +497,24 @@ public final class FieldValidator {
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
-        String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         if (value.length() > maxLength) {
-            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
+            return getPopulatedErrorMessage(SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, value,
                                             fieldName, REASON_TOO_LONG, maxLength);
         }
         if (!Character.isLetterOrDigit(value.codePointAt(0))) {
             boolean hasStartingBrace = value.charAt(0) == '{' && value.contains("}");
             if (!hasStartingBrace) {
-                return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue,
+                return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, value,
                                                 fieldName, REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
             }
             if (!StringHelper.isMatching(value.substring(1), REGEX_NAME)) {
-                return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
+                return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, value, fieldName,
                                                 REASON_CONTAINS_INVALID_CHAR);
             }
             return "";
         }
         if (!StringHelper.isMatching(value, REGEX_NAME)) {
-            return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, sanitizedValue, fieldName,
+            return getPopulatedErrorMessage(INVALID_NAME_ERROR_MESSAGE, value, fieldName,
                                             REASON_CONTAINS_INVALID_CHAR);
         }
         return "";
@@ -601,15 +533,14 @@ public final class FieldValidator {
      * @return An explanation of why the {@code value} is not acceptable.
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
-    public static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
+    static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
         Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
 
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
         }
         if (value.length() > maxLength) {
-            String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
-            return getPopulatedErrorMessage(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, sanitizedValue,
+            return getPopulatedErrorMessage(SIZE_CAPPED_POSSIBLY_EMPTY_STRING_ERROR_MESSAGE, value,
                                             fieldName, REASON_TOO_LONG, maxLength);
         }
         return "";
@@ -676,9 +607,11 @@ public final class FieldValidator {
         if (giverType == FeedbackParticipantType.TEAMS
                 && (recipientType == FeedbackParticipantType.OWN_TEAM
                         || recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
+            String displayRecipientName = recipientType == FeedbackParticipantType.OWN_TEAM
+                    ? "Giver's team" : "Giver's team members";
             errors.add(String.format(PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
-                    recipientType.toDisplayRecipientName(),
-                    giverType.toDisplayGiverName()));
+                    displayRecipientName,
+                    "Teams in this course"));
         }
 
         return errors;
@@ -764,7 +697,7 @@ public final class FieldValidator {
         return errors;
     }
 
-    public static String getValidityInfoForNonHtmlField(String fieldName, String value) {
+    static String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -774,7 +707,7 @@ public final class FieldValidator {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
 
-    public static boolean isUntrimmed(String value) {
+    private static boolean isUntrimmed(String value) {
         return value.length() != value.trim().length();
     }
 
@@ -783,7 +716,7 @@ public final class FieldValidator {
      * @param email text input which needs the validation
      * @return true if it is a valid email address, else false.
      */
-    public static boolean isValidEmailAddress(String email) {
+    private static boolean isValidEmailAddress(String email) {
         return StringHelper.isMatching(email, REGEX_EMAIL);
     }
 
@@ -797,7 +730,7 @@ public final class FieldValidator {
         return uniqueElements.size() == elements.size();
     }
 
-    public static String getPopulatedErrorMessage(
+    private static String getPopulatedErrorMessage(
             String messageTemplate, String userInput, String fieldName, String errorReason, int maxLength) {
         return getPopulatedErrorMessage(messageTemplate, userInput, fieldName, errorReason)
                    .replace("${maxLength}", String.valueOf(maxLength));

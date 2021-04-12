@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { environment } from '../environments/environment';
+import { ResourceEndpoints } from '../types/api-const';
 import { AuthService } from './auth.service';
 import { HttpRequestService } from './http-request.service';
 
@@ -18,7 +19,7 @@ describe('AuthService', () => {
         { provide: HttpRequestService, useValue: spyHttpRequestService },
       ],
     });
-    service = TestBed.get(AuthService);
+    service = TestBed.inject(AuthService);
   });
 
   it('should be created', () => {
@@ -27,7 +28,7 @@ describe('AuthService', () => {
 
   it('should execute getAuthUser', () => {
     service.getAuthUser();
-    expect(spyHttpRequestService.get).toHaveBeenCalledWith('/auth', { frontendUrl });
+    expect(spyHttpRequestService.get).toHaveBeenCalledWith(ResourceEndpoints.AUTH, { frontendUrl });
   });
 
 });

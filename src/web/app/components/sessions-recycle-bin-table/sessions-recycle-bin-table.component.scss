@@ -1,0 +1,21 @@
+.recycle-bin-body {
+  padding: 0;
+}
+
+.recycle-bin-table {
+  margin-bottom: 0;
+}
+
+.recycle-bin-table-header {
+  background-color: #E5E5E6;
+  color: gray;
+  font-weight: normal;
+}
+
+.sortable-header {
+  cursor: pointer;
+}
+
+.actions-cell button {
+  margin-right: var(--btn-margin);
+}

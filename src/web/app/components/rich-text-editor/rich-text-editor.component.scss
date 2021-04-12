@@ -1,13 +1,14 @@
 .editor {
-  border: 1px solid #CED4DA;
   background-color: #FFF;
-  border-radius: .25rem;
-  padding: .375rem .75rem;
 }
 
 .editor-disabled {
   background-color: #E9ECEF;
   opacity: 1;
+
+  ::ng-deep .tox-tinymce {
+    opacity: .5;
+  }
 }
 
 .placeholder {

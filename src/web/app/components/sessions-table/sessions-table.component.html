@@ -1,87 +1,111 @@
 <div class="row" *ngIf="sessionsTableRowModels.length > 0; else noSessionMessage">
   <div class="col-12">
-    <table class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
+    <table id="sessions-table" class="table table-responsive-lg table-striped table-bordered margin-bottom-0">
       <thead>
       <tr [ngClass]="{ 'bg-primary text-white': headerColorScheme === SessionsTableHeaderColorScheme.BLUE }">
-        <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">
+        <th id="sort-course-id" class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.COURSE_ID)" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">
           Course ID
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.COURSE_ID" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.COURSE_ID && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
-        <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.FEEDBACK_SESSION_NAME)">
+        <th id="sort-session-name" class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_NAME)">
           Session Name
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.FEEDBACK_SESSION_NAME" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.FEEDBACK_SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_NAME && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
-        <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.START_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
+        <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_START_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
           Start Date
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.START_DATE" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.START_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.START_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_START_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
-        <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.END_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
+        <th class="sortable-header" (click)="sortSessionsTableRowModels(SortBy.SESSION_END_DATE)" *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
           End Date
-          <span *ngIf="sessionsTableRowModelsSortBy !== SortBy.END_DATE" [ngClass]="{ 'text-secondary': headerColorScheme === SessionsTableHeaderColorScheme.WHITE }"><i class="fas fa-sort"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.END_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"><i class="fas fa-sort-down"></i></span>
-          <span *ngIf="sessionsTableRowModelsSortBy === SortBy.END_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"><i class="fas fa-sort-up"></i></span>
+          <span class="fa-stack">
+            <i class="fas fa-sort"></i>
+            <i class="fas fa-sort-down" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.DESC"></i>
+            <i class="fas fa-sort-up" *ngIf="sessionsTableRowModelsSortBy === SortBy.SESSION_END_DATE && sessionsTableRowModelsSortOrder === SortOrder.ASC"></i>
+          </span>
         </th>
         <th>Submissions</th>
         <th>Responses</th>
-        <th ngbTooltip="Number of students submitted / Class size" container="body"><span class="tool-tip-decorate">Response Rate</span></th>
-        <th>Action(s)</th>
+        <th class="ngb-tooltip-class" ngbTooltip="Number of students submitted / Class size" container="body"><span >Response Rate</span></th>
+        <th class="text-center">Action(s)</th>
       </tr>
       </thead>
       <tbody>
       <tr *ngFor="let sessionsTableRowModel of sessionsTableRowModels; let idx = index">
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
         <td>{{ sessionsTableRowModel.feedbackSession.feedbackSessionName }}</td>
-        <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)" container="body"
-            [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
-        <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)" container="body"
-            [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
-        <td [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip" container="body">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
-        </td>
-        <td [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip" container="body" class="tool-tip-decorate">
-          <span class="tool-tip-decorate">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>
+        <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone" >{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
+        <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone">{{ sessionsTableRowModel.feedbackSession.submissionEndTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
+        <td>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusTooltip">{{ sessionsTableRowModel.feedbackSession.submissionStatus | submissionStatusName }}</span>
         </td>
         <td>
-          <a href="#" *ngIf="sessionsTableRowModel.responseRate.length === 0 && !sessionsTableRowModel.isLoadingResponseRate" (click)="loadResponseRateEvent.emit(idx); $event.preventDefault()">Show</a>
-          <div *ngIf="sessionsTableRowModel.responseRate.length !== 0">{{ sessionsTableRowModel.responseRate }}</div>
-          <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate"></tm-ajax-loading>
+          <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.publishStatus | publishStatusTooltip">{{ sessionsTableRowModel.feedbackSession.publishStatus | publishStatusName }}</span>
+        </td>
+        <td>
+          <a id="show-response-rate-{{ idx }}" href="#" *ngIf="sessionsTableRowModel.responseRate.length === 0 && !sessionsTableRowModel.isLoadingResponseRate" (click)="loadResponseRateEvent.emit(idx); $event.preventDefault()">Show</a>
+          <div id="response-rate-{{ idx }}" *ngIf="sessionsTableRowModel.responseRate.length !== 0">{{ sessionsTableRowModel.responseRate }}</div>
+          <tm-ajax-loading *ngIf="sessionsTableRowModel.isLoadingResponseRate" [useBlueSpinner]="true"></tm-ajax-loading>
         </td>
         <td class="actions-cell">
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Edit feedback session details" (click)="editSessionEvent.emit(idx)"
-                  [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Edit</button>
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Delete the feedback session" (click)="moveSessionToRecycleBin(idx)"
+          <a *ngIf="sessionsTableRowModel.instructorPrivilege.canModifySession; else editSessionBtn" tmRouterLink="/web/instructor/sessions/edit" [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName, editingMode: true }">
+            <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
+          </a>
+          <ng-template #editSessionBtn>
+            <button type="button" class="btn btn-light btn-sm" (click)="editSessionEvent.emit(idx)"
+                    [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">
+              Edit
+            </button>
+          </ng-template>
+          <button id="btn-soft-delete-{{ idx }}" type="button" class="btn btn-light btn-sm" (click)="moveSessionToRecycleBin(idx)"
                   [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">Delete</button>
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Copy feedback session details" (click)="copySession(idx)">Copy</button>
-          <button type="button" class="btn btn-light btn-sm" ngbTooltip="Start submitting feedback"
-                  [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
-                    || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)" >Submit</button>
-          <div ngbDropdown class="d-inline-block" ngbTooltip="View the submitted responses for this feedback session">
-            <button class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
+          <button id="btn-copy-{{ idx }}" type="button" class="btn btn-light btn-sm" ngbTooltip="Copy feedback session details" (click)="copySession(idx)">Copy</button>
+          <a *ngIf="sessionsTableRowModel.feedbackSession.submissionStatus === FeedbackSessionSubmissionStatus.OPEN && sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections; else submitBtn"
+             tmRouterLink="/web/instructor/sessions/submission"
+             [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">
+            <ng-container *ngTemplateOutlet="submitBtn"></ng-container>
+          </a>
+          <ng-template #submitBtn>
+            <button type="button" class="btn btn-light btn-sm" ngbTooltip="Start submitting feedback"
+                    [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
+                      || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)">Submit</button>
+          </ng-template>
+          <div ngbDropdown class="d-inline-block">
+            <button id="btn-results-{{ idx }}" class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
-              <button class="dropdown-item clickable" (click)="viewSessionResultEvent.emit(idx)">View Results</button>
-              <button class="dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
+              <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
+                      (click)="viewSessionResultEvent.emit(idx)"
+                      tmRouterLink="/web/instructor/sessions/result"
+                      [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results</a>
+              <button id="btn-unpublish-{{ idx }}" class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
                       *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                         && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"
                       [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession" (click)="unpublishSession(idx)">Unpublish Results</button>
               <ng-template #publishButton>
-                <button class="dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
+                <button id="btn-publish-{{ idx }}" class="btn dropdown-item clickable" [disabled]="[FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                   || sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED || !sessionsTableRowModel.instructorPrivilege.canModifySession"
                         ngbTooltip="Make session responses available for viewing" placement="left" container="body" (click)="publishSession(idx)">Publish Results</button>
               </ng-template>
-              <button class="dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
-              <button class="dropdown-item clickable">Download Results</button>
+              <button id="btn-resend-{{ idx }}" class="btn dropdown-item clickable" *ngIf="sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED" (click)="remindResultsLinkToStudent(idx)">Resend link to view results</button>
+              <button id="btn-download-{{ idx }}" class="btn dropdown-item clickable" (click)="downloadSessionResults(idx)"
+                      [disabled]="!sessionsTableRowModel.instructorPrivilege.canViewSessionInSections">Download Results</button>
             </div>
           </div>
           <div ngbDropdown class="d-inline-block" ngbTooltip="Send e-mails to remind students and instructors who have not submitted their feedbacks to do so">
-            <button class="btn btn-light btn-sm" (click)="sendRemindersToStudents(idx)"
+            <button id="btn-remind-{{ idx }}" class="btn btn-light btn-sm" (click)="sendRemindersToStudents(idx)"
               [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
                           !sessionsTableRowModel.instructorPrivilege.canModifySession">Remind</button>
           </div>

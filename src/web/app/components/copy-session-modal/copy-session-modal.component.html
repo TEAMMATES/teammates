@@ -7,30 +7,30 @@
     <i class="fas fa-times"></i>
   </button>
 </div>
-<div class="modal-body">
+<div id="copy-course-modal" class="modal-body">
   <div class="row">
     <div class="col-12">
       <div class="form-group">
         <label><b>Name for copied session</b></label>
-        <input type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" maxlength="38">
+        <input id="copy-session-name" type="text" class="form-control" [(ngModel)]="newFeedbackSessionName" [maxlength]="FEEDBACK_SESSION_NAME_MAX_LENGTH">
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">
-        <input type="radio" name="copySessionChooseCourse" class="form-check-input"
-               [(ngModel)]="copyToCourseId" [value]="course.courseId">
         <label class="form-check-label">
+          <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
+                 [checked]="copyToCourseSet.has(course.courseId)" (click)="select(course.courseId)">
           [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]
           : {{ course.courseName }}
+          <span *ngIf="sessionToCopyCourseId === course.courseId" class="text-danger">
+            {{ "{Session currently in this course}" }}
+          </span>
         </label>
-        <div *ngIf="sessionToCopyCourseId === course.courseId" class="text-danger">
-          {{ "{Session currently in this course}" }}
-        </div>
       </div>
     </div>
   </div>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
-  <button type="button" class="btn btn-primary" (click)="copy()"
-          [disabled]="!newFeedbackSessionName || !copyToCourseId">Copy</button>
+  <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
+          [disabled]="!newFeedbackSessionName || copyToCourseSet.size < 1">Copy</button>
 </div>

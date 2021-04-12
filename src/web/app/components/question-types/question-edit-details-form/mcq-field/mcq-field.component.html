@@ -1,13 +1,12 @@
-<div class="input-group width-100-pc">
+<div class="input-group">
   <span class="input-group-addon">
-    <span>&#8597; </span>
-    <input type="radio" class="disabled_radio" disabled>
+    <input type="radio" disabled>
   </span>
-  <input type="text" class="form-control" [disabled]="!isEditable" [(ngModel)]="text" #mcq
-         (blur)="onMcqOptionEntered(mcq.value)">
+  <input type="text" class="form-control" [disabled]="!isEditable" [ngModel]="text" #mcq
+         (ngModelChange)="onMcqOptionEntered($event.trim())">
   <span class="input-group-btn">
-    <button type="button" class="btn btn-default input-group-addon" style="cursor: initial" tabindex="-1"
-                      [disabled]="!isEditable" (click)="deleteMcqOption()">
+    <button type="button" class="btn btn-danger input-group-addon" style="cursor: initial;"
+            tabindex="-1" [disabled]="!isEditable" (click)="deleteMcqOption()">
       <span aria-hidden="true">&times;</span>
     </button>
   </span>

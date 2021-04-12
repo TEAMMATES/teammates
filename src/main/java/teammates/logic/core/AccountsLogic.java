@@ -11,6 +11,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Assumption;
+import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
 /**
@@ -45,17 +46,13 @@ public final class AccountsLogic {
      * @throws InvalidParametersException if the account is not valid
      * @throws EntityAlreadyExistsException if the account already exists in the Datastore.
      */
-    public AccountAttributes createAccount(AccountAttributes accountData)
+    AccountAttributes createAccount(AccountAttributes accountData)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return accountsDb.createEntity(accountData);
     }
 
     public AccountAttributes getAccount(String googleId) {
         return accountsDb.getAccount(googleId);
-    }
-
-    public boolean isAccountPresent(String googleId) {
-        return accountsDb.getAccount(googleId) != null;
     }
 
     public boolean isAccountAnInstructor(String googleId) {
@@ -113,11 +110,11 @@ public final class AccountsLogic {
 
     /**
      * Joins the user as an instructor and sets the institute if it is not null.
-     * If the given instructor is null, the instructor is given the institute of an existing instructor of the same course.
+     * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId);
+        InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
 
         // Register the instructor
         instructor.googleId = googleId;
@@ -162,8 +159,15 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private InstructorAttributes validateInstructorJoinRequest(String encryptedKey, String googleId)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+    private InstructorAttributes validateInstructorJoinRequest(String encryptedKey,
+                                                               String googleId,
+                                                               String institute,
+                                                               String mac)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
+
+        if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
+            throw new InvalidParametersException("Institute authentication failed.");
+        }
 
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
 
@@ -240,7 +244,7 @@ public final class AccountsLogic {
     /**
      * Makes an account as an instructor account.
      */
-    public void makeAccountInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
+    void makeAccountInstructor(String googleId) throws InvalidParametersException, EntityDoesNotExistException {
         accountsDb.updateAccount(
                 AccountAttributes.updateOptionsBuilder(googleId)
                         .withIsInstructor(true)
