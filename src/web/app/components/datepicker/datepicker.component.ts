@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbCalendar } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
 import { DateFormat } from '../session-edit-form/session-edit-form-model';
 
 /**
@@ -35,4 +35,10 @@ export class DatepickerComponent implements OnInit {
   changeDate(date: DateFormat): void {
     this.dateChangeCallback.emit(date);
   }
+
+  selectTodayDate(dp: NgbInputDatepicker): void {
+    this.dateChangeCallback.emit(this.calendar.getToday());
+    dp.navigateTo(this.calendar.getToday());
+  }
+
 }
