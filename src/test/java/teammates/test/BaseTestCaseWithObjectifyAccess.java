@@ -15,8 +15,9 @@ import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
 import teammates.storage.api.OfyHelper;
-import teammates.storage.search.SearchManager;
+import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
+import teammates.storage.search.StudentSearchManager;
 
 /**
  * Base class for all test cases which require access to the Objectify service. Requires a minimal GAE API environment
@@ -36,7 +37,10 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
 
     @BeforeClass
     public void setupSearch() {
-        SearchManagerFactory.registerSearchManager(new SearchManager(TestProperties.SEARCH_SERVICE_HOST));
+        SearchManagerFactory.registerInstructorSearchManager(
+                new InstructorSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
+        SearchManagerFactory.registerStudentSearchManager(
+                new StudentSearchManager(TestProperties.SEARCH_SERVICE_HOST, true));
     }
 
     @BeforeClass
@@ -57,6 +61,12 @@ public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMi
     @AfterClass
     public void resetLocalDatastoreHelper() throws IOException {
         localDatastoreHelper.reset();
+    }
+
+    @AfterClass
+    public void resetSearchService() {
+        SearchManagerFactory.getInstructorSearchManager().resetCollections();
+        SearchManagerFactory.getStudentSearchManager().resetCollections();
     }
 
     @AfterSuite

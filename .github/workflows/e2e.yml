@@ -43,6 +43,10 @@ jobs:
         run: sudo apt-get install google-cloud-sdk-datastore-emulator
       - name: Set up local datastore emulator
         run: gcloud beta emulators datastore start --project=teammates-john --host-port=localhost:8484 --consistency=1.0 &
+      - name: Run Solr search service
+        run: |
+          docker run --name=tm_solr -d -p 8983:8983 solr:8.8.1
+          docker exec $(docker ps -qf "name=tm_solr") /bin/sh -c "$(cat ./solr.sh)"
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes 
       - name: Install Frontend Dependencies

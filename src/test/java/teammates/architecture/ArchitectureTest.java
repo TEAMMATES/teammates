@@ -282,7 +282,8 @@ public class ArchitectureTest {
                     public boolean apply(JavaClass input) {
                         return input.getPackageName().startsWith(STORAGE_PACKAGE)
                                 && !"OfyHelper".equals(input.getSimpleName())
-                                && !"SearchManager".equals(input.getSimpleName())
+                                && !"InstructorSearchManager".equals(input.getSimpleName())
+                                && !"StudentSearchManager".equals(input.getSimpleName())
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
@@ -444,6 +445,15 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_loggingApiCanOnlyBeAccessedByLogger() {
         noClasses().that().doNotHaveSimpleName("Logger")
                 .should().accessClassesThat().resideInAPackage("java.util.logging..")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_solrApiCanOnlyBeAccessedBySearchManagerClasses() {
+        noClasses().that().doNotHaveSimpleName("SearchManager")
+                .and().doNotHaveSimpleName("InstructorSearchManager")
+                .and().doNotHaveSimpleName("StudentSearchManager")
+                .should().accessClassesThat().resideInAPackage("org.apache.solr..")
                 .check(ALL_CLASSES);
     }
 
