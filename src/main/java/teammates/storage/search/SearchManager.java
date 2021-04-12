@@ -46,8 +46,11 @@ public final class SearchManager {
     private static final int NUM_OF_RESULTS = 20;
 
     private HttpSolrClient client;
+    private final boolean isResetAllowed;
 
-    public SearchManager(String searchServiceHost) {
+    public SearchManager(String searchServiceHost, boolean isResetAllowed) {
+        this.isResetAllowed = Config.isDevServer() && isResetAllowed;
+
         if (!StringHelper.isEmpty(searchServiceHost)) {
             this.client = new HttpSolrClient.Builder(searchServiceHost).build();
         }
@@ -215,7 +218,7 @@ public final class SearchManager {
      * Resets the data for all collections if, and only if called during component tests.
      */
     public void resetCollections() {
-        if (!Config.isDevServer()) {
+        if (!isResetAllowed) {
             return;
         }
 
