@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -62,7 +61,7 @@ public final class InstructorsLogic {
      * search instructors in the whole system.
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString)
+    public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
             throws SearchNotImplementedException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
