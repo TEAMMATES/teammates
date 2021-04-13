@@ -19,10 +19,15 @@ import { QuestionEditDetailsFormComponent } from './question-edit-details-form.c
 export class MsqQuestionEditDetailsFormComponent
     extends QuestionEditDetailsFormComponent<FeedbackMsqQuestionDetails> {
 
-  readonly PARTICIPANT_TYPES: string[] = [FeedbackParticipantType.STUDENTS,
-    FeedbackParticipantType.STUDENTS_EXCLUDING_SELF, FeedbackParticipantType.TEAMS,
-    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, FeedbackParticipantType.OWN_TEAM_MEMBERS,
-    FeedbackParticipantType.TEAMS_EXCLUDING_SELF, FeedbackParticipantType.INSTRUCTORS];
+  readonly PARTICIPANT_TYPES: string[] = [
+    FeedbackParticipantType.STUDENTS,
+    FeedbackParticipantType.STUDENTS_EXCLUDING_SELF,
+    FeedbackParticipantType.TEAMS,
+    FeedbackParticipantType.TEAMS_EXCLUDING_SELF,
+    FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
+    FeedbackParticipantType.OWN_TEAM_MEMBERS,
+    FeedbackParticipantType.INSTRUCTORS,
+  ];
 
   // Used to store and restore user input when user toggles generate option
   storageModel: FeedbackMsqQuestionDetails = {

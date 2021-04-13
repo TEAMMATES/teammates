@@ -19,6 +19,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -85,6 +86,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -151,6 +153,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -305,6 +308,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -829,6 +833,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -1482,6 +1487,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -1743,6 +1749,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -2032,6 +2039,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
