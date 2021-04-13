@@ -47,7 +47,7 @@ public class ArchitectureTest {
     private static final String LNP_UTIL_PACKAGE = LNP_PACKAGE + ".util";
 
     private static final String CLIENT_PACKAGE = "teammates.client";
-    private static final String CLIENT_REMOTEAPI_PACKAGE = CLIENT_PACKAGE + ".remoteapi";
+    private static final String CLIENT_CONNECTOR_PACKAGE = CLIENT_PACKAGE + ".connector";
     private static final String CLIENT_SCRIPTS_PACKAGE = CLIENT_PACKAGE + ".scripts";
     private static final String CLIENT_UTIL_PACKAGE = CLIENT_PACKAGE + ".util";
 
@@ -423,8 +423,8 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_client_remoteApiShouldNotTouchScripts() {
-        noClasses().that().resideInAPackage(includeSubpackages(CLIENT_REMOTEAPI_PACKAGE))
+    public void testArchitecture_client_connectorShouldNotTouchScripts() {
+        noClasses().that().resideInAPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .check(forClasses(CLIENT_PACKAGE));
     }
@@ -484,7 +484,7 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_objectifyApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_REMOTEAPI_PACKAGE))
+                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .and().doNotHaveSimpleName("BaseTestCaseWithObjectifyAccess")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")

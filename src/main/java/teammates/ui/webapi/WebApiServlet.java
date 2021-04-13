@@ -122,14 +122,14 @@ public class WebApiServlet extends HttpServlet {
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
             throws IOException {
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
 
         if (isRequestFromAppEngineQueue) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
 
-            // Response status is not set to 4XX to 5XX to prevent GAE retry mechanism because
+            // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
             // if the cause of the exception is improper request URL, no amount of retry is going to help.
             // The action will be inaccurately marked as "success", but the severe log can be used
             // to trace the origin of the problem.

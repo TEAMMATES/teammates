@@ -199,7 +199,7 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 ## Running client scripts
 
-> Client scripts are scripts that remotely manipulate data on GAE via its Remote API. They are run as standard Java applications.
+> Client scripts are scripts that remotely manipulate data on a Google Cloud Datastore instance. They are run as standard Java applications.
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 

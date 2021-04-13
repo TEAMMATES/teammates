@@ -1,4 +1,4 @@
-package teammates.client.remoteapi;
+package teammates.client.connector;
 
 import java.io.IOException;
 
@@ -14,10 +14,8 @@ import teammates.storage.api.OfyHelper;
 
 /**
  * Enables access to any Datastore (local/production).
- *
- * @see <a href="https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi">https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi</a>
  */
-public abstract class RemoteApiClient {
+public abstract class DatastoreClient {
 
     protected Objectify ofy() {
         return ObjectifyService.ofy();
