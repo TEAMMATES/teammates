@@ -1,0 +1,39 @@
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref
+
+# Run/deploy with Java 11 runtime.
+runtime: java11
+
+# Command to run the application as how it would be done in command line.
+entrypoint: 'java -cp "WEB-INF/lib/*:WEB-INF/classes/." teammates.main.Application'
+
+# GAE instance class that determines compute resources available to the application.
+instance_class: F1
+
+# VPC Access Connector is required in order to connect to VMs in Compute Engine, e.g. the search service.
+# For details on how to set this up, refer to the guide in teammates-ops repo or GCP's official documentation.
+# vpc_access_connector:
+#   name: projects/teammates-john/locations/us-central1/connectors/connector-name
+
+# Defines environment variables.
+# The following example enables Google Cloud Profiler agent to ingest application performance data.
+# env_variables:
+#   JAVA_TOOL_OPTIONS: "-agentpath:/opt/cprof/profiler_java_agent.so=-cprof_enable_heap_sampling=true"
+
+# Defines policy for automatic scaling (instance class F*).
+# If the application uses instance class B*, this part is not relevant.
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref#scaling_elements
+automatic_scaling:
+  # max_instances: 0
+  # min_instances: 0
+  # max_idle_instances: automatic
+  # min_idle_instances: 0
+  # max_pending_latency: automatic
+  # min_pending_latency: 0
+  max_concurrent_requests: 10
+  target_cpu_utilization: 0.6
+  target_throughput_utilization: 0.6
+
+# Enable warmup request to reduce latency when new instances are created.
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/configuring-warmup-requests
+inbound_services:
+  - warmup

@@ -193,7 +193,7 @@ task createConfigs {
             "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
-            "src/main/webapp/WEB-INF/appengine-web.template.xml"
+            "src/main/appengine/app.template.yaml"
         ]
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()

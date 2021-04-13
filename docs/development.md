@@ -213,7 +213,7 @@ There are several files used to configure various aspects of the system.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
 * `client.properties`: Contains some configuration values used in client scripts.
-* `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
+* `app.yaml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
 * `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
