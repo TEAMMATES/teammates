@@ -231,6 +231,6 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.xml`: Contains the cron jobs specification.
-* `queue.xml`: Contains the task queues configuration.
-* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
+* `cron.yaml`: Contains the cron jobs specification.
+* `queue.yaml`: Contains the task queues configuration.
+* `index.yaml`: Contains the Google Cloud Datastore indexes configuration.
