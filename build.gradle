@@ -1,5 +1,3 @@
-apply plugin: "idea"
-
 apply plugin: "war"
 // apply plugin: "com.google.cloud.tools.appengine"
 // see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
@@ -204,23 +202,6 @@ task createConfigs {
                 rename '(.*).template(.*)', '$1$2'
             }
         }
-    }
-}
-
-// IDE SETUP TASKS (MAINTENANCE MODE ONLY)
-
-// Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
-// IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
-// Note that this property is not documented and may change anytime.
-if (System.getProperty('idea.paths.selector') != null) {
-    // Nest the buildDir inside IntelliJ's default project compiler output directory
-    buildDir = new File(projectDir, 'out/build')
-}
-
-idea {
-    module {
-        // Exclude the CLI build directory
-        excludeDirs += [file('build')]
     }
 }
 
