@@ -75,8 +75,13 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(MAIN_PACKAGE)
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
-                .check(forClasses(MAIN_PACKAGE));
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !input.getSimpleName().endsWith("Servlet");
+                    }
+                }).check(forClasses(MAIN_PACKAGE));
     }
 
     @Test

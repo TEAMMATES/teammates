@@ -56,17 +56,6 @@
     </servlet-mapping>
 
     <servlet>
-        <description>Servlet that handles login requests in dev server</description>
-        <servlet-name>DevServerLoginServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.DevServerLoginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DevServerLoginServlet</servlet-name>
-        <url-pattern>/devServerLogin</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
         <description>Servlet that handles login requests</description>
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>teammates.ui.webapi.LoginServlet</servlet-class>

@@ -4,9 +4,13 @@ import java.io.File;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.Configuration.ClassList;
 import org.eclipse.jetty.webapp.JettyWebXmlConfiguration;
 import org.eclipse.jetty.webapp.WebAppContext;
+
+import teammates.common.util.Config;
+import teammates.ui.webapi.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.
@@ -33,6 +37,15 @@ public final class Application {
         String warPath = new File(classPath).getParentFile().getParentFile().getAbsolutePath();
         webapp.setWar(warPath);
         ClassList classlist = ClassList.setServerDefault(server);
+
+        if (Config.isDevServer()) {
+            // For dev server, we dynamically add servlets to serve the dev server login page.
+            webapp.setWelcomeFiles(new String[] { "index.html" });
+
+            ServletHolder devServerLoginServlet =
+                    new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
+            webapp.addServlet(devServerLoginServlet, "/devServerLogin");
+        }
 
         // Enable Jetty annotation scanning
         classlist.addBefore(
