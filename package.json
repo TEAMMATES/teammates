@@ -1,9 +1,8 @@
 {
   "scripts": {
     "ng": "ng",
-    "mv": "move-cli --mkdirp",
     "start": "ng serve",
-    "build": "npm run mv -- src/main/webapp/WEB-INF src/main/temp/WEB-INF && npm-run-all \"ng -- build --prod {@}\" \"mv -- src/main/temp/WEB-INF src/main/webapp/WEB-INF\" -c --",
+    "build": "ng build --prod",
     "analyze": "webpack-bundle-analyzer src/main/webapp/stats-es2015.json",
     "test": "ng test --watch",
     "coverage": "rimraf coverage && ng test --coverage",
@@ -59,7 +58,6 @@
     "jest": "^26.1.0",
     "jsonlint-cli": "^1.0.1",
     "lintspaces-cli": "^0.7.1",
-    "move-cli": "^1.2.1",
     "npm-run-all": "^4.1.5",
     "rimraf": "^3.0.2",
     "stylelint": "^13.6.1",

@@ -242,12 +242,23 @@ task explodeWar(type: Sync) {
     dependsOn war
     into "${buildDir}/exploded-teammates"
     from project.zipTree(war.archiveFile)
+    outputs.upToDateWhen { false }
+}
+
+task copyDistToExplodedWar {
+    doLast {
+        copy {
+            from "src/web/dist"
+            into explodeWar.destinationDir
+        }
+    }
+    mustRunAfter explodeWar
 }
 
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     main = "teammates.main.Application"
-    dependsOn explodeWar
+    dependsOn explodeWar, copyDistToExplodedWar
 }
 
 task runDatastoreEmulator(type: JavaExec) {
