@@ -303,9 +303,18 @@ task copyExplodedWarToStagedApp {
     }
 }
 
+task copyDistToStagedApp {
+    doLast {
+        copy {
+            from "src/web/dist"
+            into "${buildDir}/staged-app/dist"
+        }
+    }
+}
+
 appengineStage {
     dependsOn explodeWar
-    finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp
+    finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp, copyDistToStagedApp
 }
 
 // STATIC ANALYSIS TASKS

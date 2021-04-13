@@ -28,20 +28,6 @@
         <url-pattern>/webapi/*</url-pattern>
     </filter-mapping>
 
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-    <servlet>
-        <description>Servlet that handles the single web page application</description>
-        <servlet-name>WebPageServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.WebPageServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WebPageServlet</servlet-name>
-        <url-pattern>/web/*</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <description>REST API Servlet</description>
         <servlet-name>WebApiServlet</servlet-name>
