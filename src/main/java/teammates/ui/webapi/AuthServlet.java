@@ -48,7 +48,7 @@ abstract class AuthServlet extends HttpServlet {
      * Returns the redirect URI for the given HTTP servlet request.
      */
     String getRedirectUri(HttpServletRequest req) {
-        GenericUrl url = new GenericUrl(req.getRequestURL().toString());
+        GenericUrl url = new GenericUrl(req.getRequestURL().toString().replaceFirst("^http://", "https://"));
         url.setRawPath("/oauth2callback");
         return url.build();
     }
