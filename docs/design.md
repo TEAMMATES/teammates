@@ -133,7 +133,7 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 - Managing relationships between entities, e.g. cascade logic for create/update/delete.
 - Managing transactions, e.g. ensuring atomicity of a transaction.
 - Sanitizing input values received from the UI component.
-- Connecting to GAE-provided or third-party APIs, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
+- Connecting to GCP or third-party services, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
 
 ![Logic Component](images/LogicComponent.png)
 

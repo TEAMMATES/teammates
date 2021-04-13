@@ -11,7 +11,6 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def appengineVersion = "1.9.81"
 def checkstyleVersion = "8.33"
 def pmdVersion = "6.24.0"
 def spotbugsVersion = "4.0.6"
@@ -53,7 +52,6 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
     implementation("com.google.auth:google-auth-library-oauth2-http:0.24.1")
     implementation("com.google.cloud:google-cloud-tasks:1.30.11")
     implementation("com.google.cloud:google-cloud-logging:2.1.2")
@@ -73,8 +71,6 @@ dependencies {
 
     testAnnotationProcessor(testng)
 
-    testImplementation("com.google.appengine:appengine-api-stubs:${appengineVersion}")
-    testImplementation("com.google.appengine:appengine-testing:${appengineVersion}")
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
     testImplementation(testng)
