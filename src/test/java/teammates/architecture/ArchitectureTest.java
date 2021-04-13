@@ -495,7 +495,6 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
-                .and().doNotHaveSimpleName("GaeSimulation")
                 .and().doNotHaveSimpleName("MockFilterChain")
                 .and().doNotHaveSimpleName("MockHttpServletRequest")
                 .and().doNotHaveSimpleName("MockHttpServletResponse")

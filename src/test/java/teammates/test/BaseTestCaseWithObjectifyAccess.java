@@ -20,10 +20,9 @@ import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
 
 /**
- * Base class for all test cases which require access to the Objectify service. Requires a minimal GAE API environment
- * registered for creation of Datastore Key objects used in defining parent-child relationships in entities.
+ * Base class for all test cases which require access to the Objectify service.
  */
-public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithMinimalGaeEnvironment {
+public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCase {
     private static final double DB_CONSISTENCY = 1.0;
     private static final int EMULATOR_PORT = TestProperties.TEST_LOCALDATASTORE_PORT;
     private static LocalDatastoreHelper localDatastoreHelper;
