@@ -29,7 +29,7 @@
     </filter-mapping>
 
     <welcome-file-list>
-        <welcome-file>web/front/home</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
     <servlet>
         <description>Servlet that handles the single web page application</description>
@@ -109,15 +109,10 @@
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AllResources</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+    <context-param>
+        <param-name>org.eclipse.jetty.servlet.Default.dirAllowed</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
     <session-config>
         <cookie-config>

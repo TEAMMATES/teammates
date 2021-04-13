@@ -30,7 +30,7 @@ jobs:
         run: gcloud beta emulators datastore start --project=teammates-john --host-port=localhost:8484 --consistency=1.0 &
       - name: Create Config Files
         run: ./gradlew createConfigs
-      - name: Start App Engine
-        run: ./gradlew appengineStart
+      - name: Start Server
+        run: ./gradlew serverRun &
       - name: Start Tests
         run: ./gradlew lnpTests

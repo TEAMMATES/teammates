@@ -48,30 +48,27 @@ To stop the dev server, press `Ctrl + C`.
 
 ## Managing the dev server: back-end
 
-Back-end dev server is the Google App Engine-based server handling all the business logic, including data storage.
+Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
 
 ### Starting the dev server
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
 ```sh
-./gradlew appengineStart
+./gradlew serverRun &
 ```
 
 To start the server in the foreground (e.g. if you want the console output to be visible),
 run the following command instead:
 ```sh
-./gradlew appengineRun
+./gradlew serverRun
 ```
 
-The dev server URL will be `http://localhost:8080` as specified in `build.gradle`.
+The dev server URL will be `http://localhost:8080`.
 
 ### Stopping the dev server
 
-If you started the server in the background, run the following command to stop it:
-```sh
-./gradlew appengineStop
-```
+If you started the server in the background, use any method available in your OS to stop the process at port `8080`.
 
 If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
 

@@ -1,7 +1,5 @@
 apply plugin: "war"
-// apply plugin: "com.google.cloud.tools.appengine"
-// see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
-project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
+apply plugin: "com.google.cloud.tools.appengine-appyaml"
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
@@ -65,6 +63,9 @@ dependencies {
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
     implementation("javax.servlet:javax.servlet-api:3.1.0")
     implementation("org.apache.solr:solr-solrj:8.8.1")
+    implementation("org.eclipse.jetty:jetty-server:9.4.39.v20210325")
+    implementation("org.eclipse.jetty:jetty-webapp:9.4.39.v20210325")
+    implementation("org.eclipse.jetty:jetty-annotations:9.4.39.v20210325")
     implementation("org.jsoup:jsoup:1.13.1")
 
     testAnnotationProcessor(testng)
@@ -236,16 +237,23 @@ processTestResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+task explodeWar(type: Sync) {
+    dependsOn war
+    into "${buildDir}/exploded-teammates"
+    from project.zipTree(war.archiveFile)
+}
+
+task serverRun(type: JavaExec) {
+    classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
+    main = "teammates.main.Application"
+    dependsOn explodeWar
+}
+
 appengine {
     tools {
         if (project.properties['cloud.sdk.home'] != null) {
             cloudSdkHome = project.properties['cloud.sdk.home']
         }
-    }
-    run {
-        port = 8080
-        jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8"]
-        automaticRestart = true
     }
     deploy {
         String buildPropertiesPath = "${projectDir}/src/main/resources/build.properties"
@@ -261,6 +269,26 @@ appengine {
         stopPreviousVersion = false
         promote = false
     }
+}
+
+task removeWarFromStagedApp {
+    doLast {
+        delete "${buildDir}/staged-app/${war.archiveName}"
+    }
+}
+
+task copyExplodedWarToStagedApp {
+    doLast {
+        copy {
+            from explodeWar.destinationDir
+            into "${buildDir}/staged-app"
+        }
+    }
+}
+
+appengineStage {
+    dependsOn explodeWar
+    finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp
 }
 
 // STATIC ANALYSIS TASKS

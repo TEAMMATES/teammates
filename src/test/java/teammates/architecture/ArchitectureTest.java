@@ -33,6 +33,8 @@ public class ArchitectureTest {
     private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".output";
     private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".request";
 
+    private static final String MAIN_PACKAGE = "teammates.main";
+
     private static final String TEST_DRIVER_PACKAGE = "teammates.test";
 
     private static final String E2E_PACKAGE = "teammates.e2e";
@@ -66,6 +68,15 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .check(forClasses(UI_PACKAGE, STORAGE_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_mainShouldNotTouchProductionCodeExceptCommon() {
+        noClasses().that().resideInAPackage(MAIN_PACKAGE)
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .check(forClasses(MAIN_PACKAGE));
     }
 
     @Test
@@ -501,6 +512,13 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("MockPart")
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_jettyApiCanOnlyBeAccessedBySomePackages() {
+        noClasses().that().resideOutsideOfPackage(MAIN_PACKAGE)
+                .should().accessClassesThat().haveFullyQualifiedName("org.eclipse.jetty..")
                 .check(ALL_CLASSES);
     }
 
