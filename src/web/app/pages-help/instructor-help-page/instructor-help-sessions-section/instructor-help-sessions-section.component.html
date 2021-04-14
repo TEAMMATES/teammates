@@ -52,7 +52,7 @@
                             [id]="SessionsSectionQuestions.SESSION_NEW_FEEDBACK"
                             headerText="How do I create and schedule a new feedback session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_NEW_FEEDBACK]">
-    To create a new feedback session, click the <b>Sessions</b> tab at the top of the page. Then,
+    To create a new feedback session, click the 'Sessions' tab at the top of the page. Then,
     fill out and submit the <b>Add New Feedback Session</b> form:
     <ol>
       <li>
@@ -223,11 +223,11 @@
                             headerText="How do I preview a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]">
     <p>
-      To see what the current session looks like to anyone in the course when they are submitting responses, use the <b>Preview</b> feature.<br>
+      To see what the current session looks like to anyone in the course when they are submitting responses, use the 'Preview' feature.<br>
       You can quickly and easily confirm that the questions and their settings are correct after editing questions.
     </p>
     <p>
-      To access the preview panel of a specific session, click the <button class="btn btn-sm btn-secondary">Edit</button> button for that session in the <b>Home</b> or <b>Sessions</b> page. The preview
+      To access the preview panel of a specific session, click the <button class="btn btn-sm btn-secondary">Edit</button> button for that session in the 'Home' or 'Sessions' page. The preview
       panel is located at the bottom of the Edit Feedback Session page.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_PREVIEW]" @collapseAnim>
@@ -235,7 +235,7 @@
         <div class="card-body background-color-light-blue text-center">
           <div class="row align-items-center">
             <div class="col-2 text-right">
-              <b>Preview Session:</b>
+              'Preview Session:'
             </div>
             <div class="col-5">
               <select class="form-control preview-select">
@@ -315,7 +315,7 @@
                             headerText="How do I view the results of my session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_VIEW_RESULTS]">
     <p>
-      View responses to a session by clicking the <button class="btn btn-sm btn-secondary">Results</button> button of a session in the <b>Home</b> or <b>Sessions</b> page.<br>
+      View responses to a session by clicking the <button class="btn btn-sm btn-secondary">Results</button> button of a session in the 'Home' or 'Sessions' page.<br>
       Click <button class="btn btn-primary btn-s">Edit View</button> to sort the results in an order that best suits you.
     </p>
     <p>5 different views are available, each denoting the order in which responses are grouped.
@@ -480,7 +480,7 @@
     </p>
     <ol>
       <li>
-        Go to the <b>Students</b> page and click the panel heading for Course B. You will see a list of students enrolled in the course.
+        Go to the 'Students' page and click the panel heading for Course B. You will see a list of students enrolled in the course.
       </li>
       <li>
         Click <button class="btn btn-sm btn-secondary">All Records</button> button corresponding to Student A to access all the responses Student A has given and received.
@@ -565,7 +565,7 @@
                             headerText="How do I view sessions I have deleted?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]">
     <p>
-      You can view all your deleted feedback sessions by navigating to the <b>Sessions</b> page.<br>
+      You can view all your deleted feedback sessions by navigating to the 'Sessions' page.<br>
       Scroll to the <b>Deleted feedback sessions</b> heading, which looks similar to this:
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION]" @collapseAnim>
@@ -585,7 +585,7 @@
                             headerText="How do I restore a deleted session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]">
     <p>
-      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the <b>Sessions</b> page.<br>
+      To restore a deleted feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to restore in the 'Sessions' page.<br>
       Then, click on the <button href="#" class="btn btn-secondary btn-sm" type="button">Restore</button> button corresponding to the session you want to restore.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.RESTORE_SESSION]" @collapseAnim>
@@ -604,7 +604,7 @@
                             headerText="How do I permanently delete a session?"
                             [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]">
     <p>
-      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the <b>Sessions</b> page.<br>
+      To permanently delete a feedback session, first <a (click)="jumpTo(SessionsSectionQuestions.VIEW_DELETED_SESSION); questionsToCollapsed[SessionsSectionQuestions.VIEW_DELETED_SESSION] = true" [tmRouterLink]="">view the session</a> that you would like to permanently delete in the 'Sessions' page.<br>
       Then, click on the <button href="#" class="btn btn-sm btn-danger" type="button">Delete Permanently</button> button corresponding to the session you want to delete.
     </p>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.PERMANENT_DEL_SESSION]" @collapseAnim>
