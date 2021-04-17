@@ -72,6 +72,16 @@ public class OriginCheckFilter implements Filter {
             return;
         }
 
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
+
+        if (isRequestFromAppEngineQueue) {
+            // Requests from App Engine are allowed to bypass CSRF check
+            chain.doFilter(req, res);
+            return;
+        }
+
         String referrer = request.getHeader("referer");
         if (referrer == null) {
             // Requests with missing referrer information are given the benefit of the doubt

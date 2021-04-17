@@ -21,6 +21,8 @@
     <filter-mapping>
         <filter-name>OriginCheckFilter</filter-name>
         <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
