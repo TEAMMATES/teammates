@@ -34,6 +34,7 @@ To learn more about Solr, visit their [official documentation page](https://solr
    ```sh
    curl -X POST -H "Content-Type: application/json" --data-binary '{"add-copy-field": {"source": "*", "dest": "_text_"}}' localhost:8983/solr/students/schema
    ```
+   Alternatively, you can add Copy Field in the Admin Console by going to `http://localhost:8983` in browser.
 
 ## Setting up Solr using Docker
 
