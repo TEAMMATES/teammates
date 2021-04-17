@@ -24,6 +24,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -168,7 +169,7 @@ public class OriginCheckFilter implements Filter {
         log.info("Request failed origin check: [" + request.getMethod() + "] " + request.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(request)
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(request)
-                + ", Request ID: " + request.getHeader("X-Cloud-Trace-Context"));
+                + ", Request ID: " + RequestTracer.getRequestId());
 
         JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
         result.send(response);

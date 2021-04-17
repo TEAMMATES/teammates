@@ -5,6 +5,17 @@
         version="3.1" metadata-complete="true">
 
     <filter>
+        <filter-name>RequestTraceFilter</filter-name>
+        <filter-class>teammates.ui.webapi.RequestTraceFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>RequestTraceFilter</filter-name>
+        <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
+    </filter-mapping>
+
+    <filter>
         <filter-name>ObjectifyFilter</filter-name>
         <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
     </filter>

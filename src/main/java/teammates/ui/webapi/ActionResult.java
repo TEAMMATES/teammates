@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 abstract class ActionResult {
 
-    String requestId;
     private final int statusCode;
 
     ActionResult(int statusCode) {
@@ -23,10 +22,6 @@ abstract class ActionResult {
 
     int getStatusCode() {
         return statusCode;
-    }
-
-    void setRequestId(String requestId) {
-        this.requestId = requestId;
     }
 
 }
