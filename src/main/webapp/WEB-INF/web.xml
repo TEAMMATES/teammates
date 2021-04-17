@@ -14,22 +14,6 @@
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
-
-    <filter>
-        <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>ObjectifyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-    <listener>
-        <listener-class>teammates.storage.api.OfyHelper</listener-class>
-    </listener>
-    <listener>
-        <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
-    </listener>
-
     <filter>
         <filter-name>OriginCheckFilter</filter-name>
         <filter-class>teammates.ui.webapi.OriginCheckFilter</filter-class>
@@ -38,6 +22,22 @@
         <filter-name>OriginCheckFilter</filter-name>
         <url-pattern>/webapi/*</url-pattern>
     </filter-mapping>
+    <filter>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>teammates.storage.api.OfyHelper</listener-class>
+    </listener>
+    <listener>
+        <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
+    </listener>
 
     <servlet>
         <description>REST API Servlet</description>
