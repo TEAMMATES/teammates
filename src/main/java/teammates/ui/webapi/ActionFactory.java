@@ -179,8 +179,8 @@ public class ActionFactory {
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            Assumption.fail("Could not create the action for " + uri + ": "
-                    + TeammatesException.toStringWithStackTrace(e));
+            assert false : "Could not create the action for " + uri + ": "
+                    + TeammatesException.toStringWithStackTrace(e);
             return null;
         }
     }

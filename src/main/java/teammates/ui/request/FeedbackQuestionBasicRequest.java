@@ -98,8 +98,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         case UNLIMITED:
             return Const.MAX_POSSIBLE_RECIPIENTS;
         default:
-            Assumption.fail("Unknown numberOfEntitiesToGiveFeedbackToSetting"
-                    + numberOfEntitiesToGiveFeedbackToSetting);
+            assert false : "Unknown numberOfEntitiesToGiveFeedbackToSetting: " + numberOfEntitiesToGiveFeedbackToSetting;
             break;
         }
         return 0;
@@ -152,7 +151,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
             case RECIPIENT_TEAM_MEMBERS:
                 return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
             default:
-                Assumption.fail("Unknown feedbackVisibilityType" + feedbackVisibilityType);
+                assert false : "Unknown feedbackVisibilityType" + feedbackVisibilityType;
                 break;
             }
             return null;

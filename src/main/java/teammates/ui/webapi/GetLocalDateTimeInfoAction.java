@@ -61,7 +61,7 @@ class GetLocalDateTimeInfoAction extends Action {
                     earlierInterpretation.toEpochMilli(), laterInterpretation.toEpochMilli());
             break;
         default:
-            Assumption.fail("Unreachable case");
+            assert false : "Unreachable case";
             break;
         }
 

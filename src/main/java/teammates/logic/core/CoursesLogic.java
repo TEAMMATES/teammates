@@ -107,7 +107,7 @@ public final class CoursesLogic {
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "
                                   + System.lineSeparator() + instructor.toString() + System.lineSeparator()
                                   + TeammatesException.toStringWithStackTrace(e);
-            Assumption.fail(errorMessage);
+            assert false : errorMessage;
         }
     }
 

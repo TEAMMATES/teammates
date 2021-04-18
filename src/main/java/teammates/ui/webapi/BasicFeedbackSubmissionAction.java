@@ -176,7 +176,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
                 return student == null ? Const.DEFAULT_SECTION : student.section;
             default:
-                Assumption.fail("Invalid giver type " + giverType + " for recipient type " + recipientType);
+                assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
             }
         case INSTRUCTORS:
@@ -191,7 +191,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
             return student == null ? Const.DEFAULT_SECTION : student.section;
         default:
-            Assumption.fail("Unknown recipient type " + recipientType);
+            assert false : "Unknown recipient type " + recipientType;
             return null;
         }
     }

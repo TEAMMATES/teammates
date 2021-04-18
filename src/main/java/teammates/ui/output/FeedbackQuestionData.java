@@ -131,7 +131,7 @@ public class FeedbackQuestionData extends ApiOutput {
             case RECEIVER_TEAM_MEMBERS:
                 return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                Assumption.fail("Unknown feedbackParticipantType" + feedbackParticipantType);
+                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
                 break;
             }
             return null;

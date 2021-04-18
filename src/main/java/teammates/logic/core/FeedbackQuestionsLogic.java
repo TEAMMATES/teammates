@@ -622,7 +622,7 @@ public final class FeedbackQuestionsLogic {
 
                 optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
+                assert false : "Course disappeared";
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
@@ -651,7 +651,7 @@ public final class FeedbackQuestionsLogic {
             optionList.sort(null);
             break;
         default:
-            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
+            assert false : "Trying to generate options for neither students, teams nor instructors";
             break;
         }
 
@@ -769,7 +769,7 @@ public final class FeedbackQuestionsLogic {
                 }
             }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Adjusting question number should not cause: " + e.getMessage());
+            assert false : "Adjusting question number should not cause: " + e.getMessage();
         }
     }
 
@@ -819,7 +819,7 @@ public final class FeedbackQuestionsLogic {
                             .withQuestionNumber(question.questionNumber - 1)
                             .build());
                 } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                    Assumption.fail("Shifting question number should not cause: " + e.getMessage());
+                    assert false : "Shifting question number should not cause: " + e.getMessage();
                 }
             }
         }
@@ -841,7 +841,7 @@ public final class FeedbackQuestionsLogic {
                 List<String> teams = coursesLogic.getTeamsForCourse(courseId);
                 return teams.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
             } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
+                assert false : "Course disappeared";
             }
         }
 

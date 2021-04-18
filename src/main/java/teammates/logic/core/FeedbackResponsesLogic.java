@@ -271,8 +271,8 @@ public final class FeedbackResponsesLogic {
                 }
                 break;
             default:
-                Assumption.fail("Invalid FeedbackParticipantType for showNameTo in "
-                                + "FeedbackResponseLogic.isFeedbackParticipantNameVisibleToUser()");
+                assert false : "Invalid FeedbackParticipantType for showNameTo in "
+                        + "FeedbackResponseLogic.isFeedbackParticipantNameVisibleToUser()";
                 break;
             }
         }
@@ -419,7 +419,7 @@ public final class FeedbackResponsesLogic {
                                 .withRecipientSection(newSection)
                                 .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Not possible to trigger recreating of response");
+                assert false : "Not possible to trigger recreating of response";
             }
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
@@ -437,7 +437,7 @@ public final class FeedbackResponsesLogic {
                                 .withGiverSection(newSection)
                                 .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Not possible to trigger recreating of response");
+                assert false : "Not possible to trigger recreating of response";
             }
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
@@ -466,9 +466,7 @@ public final class FeedbackResponsesLogic {
                                 .build());
                 frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
             } catch (EntityAlreadyExistsException e) {
-                Assumption
-                        .fail("Feedback response failed to update successfully "
-                            + "as email was already in use.");
+                assert false : "Feedback response failed to update successfully as email was already in use.";
             }
         }
 
@@ -482,9 +480,7 @@ public final class FeedbackResponsesLogic {
                                 .withRecipient(newEmail)
                                 .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption
-                        .fail("Feedback response failed to update successfully "
-                            + "as email was already in use.");
+                assert false : "Feedback response failed to update successfully as email was already in use.";
             }
         }
     }

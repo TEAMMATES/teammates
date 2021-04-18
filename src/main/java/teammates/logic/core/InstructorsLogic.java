@@ -303,7 +303,7 @@ public final class InstructorsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException e) {
-            Assumption.fail("Unexpected invalid parameter.");
+            assert false : "Unexpected invalid parameter.";
         }
     }
 

@@ -97,7 +97,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
         try {
             return createEntity(entityToAdd, false);
         } catch (EntityAlreadyExistsException e) {
-            Assumption.fail("Unreachable branch");
+            assert false : "Unreachable branch";
             return null;
         }
     }

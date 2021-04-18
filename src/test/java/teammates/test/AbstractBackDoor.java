@@ -632,10 +632,8 @@ public abstract class AbstractBackDoor {
                     case RECIPIENT_TEAM_MEMBERS:
                         return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
                     default:
-                        Assumption.fail("Unknown FeedbackVisibilityType " + feedbackParticipantType);
-                        break;
+                        throw new RuntimeException("Unknown FeedbackVisibilityType " + feedbackParticipantType);
                     }
-                    return null;
                 }).collect(Collectors.toList());
         Collections.sort(feedbackParticipantTypeList);
         return feedbackParticipantTypeList;

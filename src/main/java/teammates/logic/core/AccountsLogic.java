@@ -98,7 +98,7 @@ public final class AccountsLogic {
                             .withGoogleId(student.googleId)
                             .build());
         } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e));
+            assert false : "Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e);
         }
 
         if (accountsDb.getAccount(googleId) == null) {
@@ -124,8 +124,8 @@ public final class AccountsLogic {
                             .withGoogleId(instructor.googleId)
                             .build());
         } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Instructor disappeared while trying to register "
-                    + TeammatesException.toStringWithStackTrace(e));
+            assert false : "Instructor disappeared while trying to register "
+                    + TeammatesException.toStringWithStackTrace(e);
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
@@ -140,7 +140,7 @@ public final class AccountsLogic {
                         .withIsInstructor(true)
                         .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Account already exists.");
+                assert false : "Account already exists.";
             }
         } else {
             makeAccountInstructor(googleId);
@@ -236,8 +236,8 @@ public final class AccountsLogic {
                             .build()
             );
         } catch (InvalidParametersException e) {
-            Assumption.fail("Invalid account data detected unexpectedly "
-                    + "while removing instruction privileges from account :" + googleId + e.getMessage());
+            assert false : "Invalid account data detected unexpectedly "
+                    + "while removing instruction privileges from account " + googleId + ": " + e.getMessage();
         }
     }
 

@@ -193,7 +193,7 @@ public final class StudentsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resetting google ID shall not cause: " + e.getMessage());
+            assert false : "Resetting google ID shall not cause: " + e.getMessage();
         }
     }
 

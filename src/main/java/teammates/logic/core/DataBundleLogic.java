@@ -308,7 +308,7 @@ public final class DataBundleLogic {
             break;
 
         default:
-            Assumption.fail("Invalid instructor permission role name");
+            assert false : "Invalid instructor permission role name";
             break;
         }
     }
