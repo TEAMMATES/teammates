@@ -29,7 +29,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
-        Assumption.assertTrue(newDetails instanceof FeedbackTextQuestionDetails);
+        assert newDetails instanceof FeedbackTextQuestionDetails;
 
         // delete the existing response upon change from rich text allowed to disallowed
         // due to the effort to cleanup of HTML tags from the respondents

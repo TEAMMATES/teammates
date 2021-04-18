@@ -79,8 +79,7 @@ public class AttributesDeletionQuery {
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
             assert feedbackSessionName != null;
-            Assumption.assertTrue("session name must come together with course ID",
-                    attributesDeletionQuery.isCourseIdPresent());
+            assert attributesDeletionQuery.isCourseIdPresent() : "Session name must come together with course ID";
             Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isQuestionIdPresent());
             Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isResponseIdPresent());
 
@@ -109,11 +108,11 @@ public class AttributesDeletionQuery {
         }
 
         public AttributesDeletionQuery build() {
-            Assumption.assertTrue(INVALID_COMBINATION,
-                    attributesDeletionQuery.isCourseIdPresent()
-                            || attributesDeletionQuery.isFeedbackSessionNamePresent()
-                            || attributesDeletionQuery.isQuestionIdPresent()
-                            || attributesDeletionQuery.isResponseIdPresent());
+            assert attributesDeletionQuery.isCourseIdPresent()
+                    || attributesDeletionQuery.isFeedbackSessionNamePresent()
+                    || attributesDeletionQuery.isQuestionIdPresent()
+                    || attributesDeletionQuery.isResponseIdPresent()
+                    : INVALID_COMBINATION;
 
             return attributesDeletionQuery;
         }

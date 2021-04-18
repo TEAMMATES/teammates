@@ -43,7 +43,7 @@ public final class StringHelper {
      * Generates a string which consists of {@code length} copies of {@code character} without space.
      */
     static String generateStringOfLength(int length, char character) {
-        Assumption.assertTrue(length >= 0);
+        assert length >= 0;
         return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 

@@ -65,7 +65,7 @@ public final class AccountsLogic {
         assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
 
-        Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());
+        assert !instructorList.isEmpty() : "Course has no instructors: " + cd.getId();
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (InstructorAttributes instructor : instructorList) {

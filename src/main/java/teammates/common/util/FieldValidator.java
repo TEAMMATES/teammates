@@ -285,8 +285,8 @@ public final class FieldValidator {
     public static String getInvalidityInfoForGoogleId(String googleId) {
 
         assert googleId != null;
-        Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
-                !googleId.toLowerCase().endsWith("@gmail.com"));
+        assert !googleId.toLowerCase().endsWith("@gmail.com")
+                : "\"" + googleId + "\"" + "is not expected to be a gmail address.";
 
         boolean isValidFullEmail = isValidEmailAddress(googleId);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
@@ -657,9 +657,9 @@ public final class FieldValidator {
         assert showResponsesTo != null;
         assert showGiverNameTo != null;
         assert showRecipientNameTo != null;
-        Assumption.assertTrue("Non-null value expected", !showResponsesTo.contains(null));
-        Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
-        Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
+        assert !showResponsesTo.contains(null);
+        assert !showGiverNameTo.contains(null);
+        assert !showRecipientNameTo.contains(null);
 
         List<String> errors = new LinkedList<>();
 

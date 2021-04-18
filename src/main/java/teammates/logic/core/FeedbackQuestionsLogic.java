@@ -345,7 +345,7 @@ public final class FeedbackQuestionsLogic {
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver,
             @Nullable CourseRoster courseRoster) {
-        Assumption.assertTrue(instructorGiver != null || studentGiver != null);
+        assert instructorGiver != null || studentGiver != null;
 
         Map<String, String> recipients = new HashMap<>();
 
