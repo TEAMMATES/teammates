@@ -1,7 +1,5 @@
 package teammates.common.datatransfer;
 
-import teammates.common.util.Assumption;
-
 /**
  * The query for attributes deletion.
  */

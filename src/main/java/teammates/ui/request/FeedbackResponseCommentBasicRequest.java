@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Assumption;
 import teammates.ui.output.CommentVisibilityType;
 
 /**

@@ -12,7 +12,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.storage.entity.Course;
 
 /**

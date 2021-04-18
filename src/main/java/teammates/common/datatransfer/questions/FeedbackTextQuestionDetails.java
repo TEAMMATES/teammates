@@ -6,7 +6,6 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Assumption;
 
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 

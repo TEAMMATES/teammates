@@ -2,7 +2,6 @@ package teammates.common.datatransfer;
 
 import java.util.Arrays;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;

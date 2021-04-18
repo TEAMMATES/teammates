@@ -16,7 +16,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchNotImplementedException;
-import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchManager;

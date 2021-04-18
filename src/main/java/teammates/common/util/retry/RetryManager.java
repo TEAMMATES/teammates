@@ -1,6 +1,5 @@
 package teammates.common.util.retry;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 

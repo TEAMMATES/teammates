@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
 /**

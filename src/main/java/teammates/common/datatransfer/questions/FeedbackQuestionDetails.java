@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
 /**

@@ -16,7 +16,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
