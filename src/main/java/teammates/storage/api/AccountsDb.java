@@ -23,7 +23,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
      * Gets an account.
      */
     public AccountAttributes getAccount(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return googleId.isEmpty() ? null : makeAttributesOrNull(getAccountEntity(googleId));
     }
@@ -37,7 +37,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
      */
     public AccountAttributes updateAccount(AccountAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         Account account = getAccountEntity(updateOptions.getGoogleId());
         if (account == null) {
@@ -72,7 +72,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
      * <p>Fails silently if there is no such account.
      */
     public void deleteAccount(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         deleteEntity(Key.create(Account.class, googleId));
     }
@@ -99,7 +99,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
 
     @Override
     AccountAttributes makeAttributes(Account entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return AccountAttributes.valueOf(entity);
     }

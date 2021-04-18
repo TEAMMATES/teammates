@@ -141,7 +141,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
             addNonEmptyError(FieldValidator.getInvalidityInfoForNationality(nationality), errors);
         }
 
-        Assumption.assertNotNull(gender);
+        assert gender != null;
 
         // No validation for modified date as it is determined by the system.
         // No validation for More Info. It will properly sanitized.
@@ -268,7 +268,7 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         private UpdateOption<String> moreInfoOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(googleId);
+            assert googleId != null;
 
             this.googleId = googleId;
         }
@@ -324,42 +324,42 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         }
 
         public B withShortName(String shortName) {
-            Assumption.assertNotNull(shortName);
+            assert shortName != null;
 
             updateOptions.shortNameOption = UpdateOption.of(shortName);
             return thisBuilder;
         }
 
         public B withEmail(String email) {
-            Assumption.assertNotNull(email);
+            assert email != null;
 
             updateOptions.emailOption = UpdateOption.of(email);
             return thisBuilder;
         }
 
         public B withInstitute(String institute) {
-            Assumption.assertNotNull(institute);
+            assert institute != null;
 
             updateOptions.instituteOption = UpdateOption.of(institute);
             return thisBuilder;
         }
 
         public B withNationality(String nationality) {
-            Assumption.assertNotNull(nationality);
+            assert nationality != null;
 
             updateOptions.nationalityOption = UpdateOption.of(nationality);
             return thisBuilder;
         }
 
         public B withGender(Gender gender) {
-            Assumption.assertNotNull(gender);
+            assert gender != null;
 
             updateOptions.genderOption = UpdateOption.of(gender);
             return thisBuilder;
         }
 
         public B withMoreInfo(String moreInfo) {
-            Assumption.assertNotNull(moreInfo);
+            assert moreInfo != null;
 
             updateOptions.moreInfoOption = UpdateOption.of(moreInfo);
             return thisBuilder;

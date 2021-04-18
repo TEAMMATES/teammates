@@ -21,7 +21,7 @@ public abstract class FeedbackResponseDetails {
     public abstract String getAnswerString();
 
     public String getJsonString() {
-        Assumption.assertNotNull(questionType);
+        assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the answer simply contains the response text, not a JSON
             // This is due to legacy data in the data store before there were multiple question types
@@ -31,7 +31,7 @@ public abstract class FeedbackResponseDetails {
     }
 
     public FeedbackResponseDetails getDeepCopy() {
-        Assumption.assertNotNull(questionType);
+        assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
             return new FeedbackTextResponseDetails(getAnswerString());
         }

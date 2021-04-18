@@ -19,7 +19,7 @@ class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
         boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_INSTRUCTOR_REJOINING);
 
         CourseAttributes course = logic.getCourse(courseId);
-        Assumption.assertNotNull(course);
+        assert course != null;
 
         // The instructor is queried using the `id`of instructor as it ensures that the
         // instructor is retrieved (and not null) even if the index building for
@@ -27,7 +27,7 @@ class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
         // The instructor `id` can be constructed back using (instructorEmail%courseId)
         // because instructors' email cannot be changed before joining the course.
         InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);
-        Assumption.assertNotNull(instructor);
+        assert instructor != null;
 
         EmailWrapper email;
         if (isRejoin) {
@@ -37,7 +37,7 @@ class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
         } else {
             String inviterId = getNonNullRequestParamValue(ParamsNames.INVITER_ID);
             AccountAttributes inviter = logic.getAccount(inviterId);
-            Assumption.assertNotNull(inviter);
+            assert inviter != null;
 
             email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);
         }

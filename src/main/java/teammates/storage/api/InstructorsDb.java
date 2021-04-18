@@ -102,8 +102,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique constraint courseId-email.
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(courseId);
+        assert email != null;
+        assert courseId != null;
 
         return makeAttributesOrNull(getInstructorEntityForEmail(courseId, email));
     }
@@ -112,8 +112,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique ID.
      */
     public InstructorAttributes getInstructorById(String courseId, String email) {
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(courseId);
+        assert email != null;
+        assert courseId != null;
 
         return makeAttributesOrNull(getInstructorEntityById(courseId, email));
     }
@@ -122,8 +122,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique constraint courseId-googleId.
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
+        assert googleId != null;
+        assert courseId != null;
 
         return makeAttributesOrNull(getInstructorEntityForGoogleId(courseId, googleId));
     }
@@ -132,7 +132,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets an instructor by unique constraint encryptedKey.
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-        Assumption.assertNotNull(encryptedKey);
+        assert encryptedKey != null;
 
         String decryptedKey;
         try {
@@ -150,7 +150,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * @param omitArchived whether archived instructors should be omitted or not
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return makeAttributes(getInstructorEntitiesForGoogleId(googleId, omitArchived));
     }
@@ -159,7 +159,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets all instructors of a course.
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getInstructorEntitiesForCourse(courseId));
     }
@@ -168,7 +168,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Gets all instructors that will be displayed to students of a course.
      */
     public List<InstructorAttributes> getInstructorsDisplayedToStudents(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getInstructorEntitiesThatAreDisplayedInCourse(courseId));
     }
@@ -182,7 +182,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      */
     public InstructorAttributes updateInstructorByGoogleId(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         Instructor instructor = getInstructorEntityForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
         if (instructor == null) {
@@ -238,7 +238,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         Instructor instructor = getInstructorEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (instructor == null) {
@@ -290,8 +290,8 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * <p>Fails silently if the student does not exist.
      */
     public void deleteInstructor(String courseId, String email) {
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(courseId);
+        assert email != null;
+        assert courseId != null;
 
         Instructor instructorToDelete = getInstructorEntityForEmail(courseId, email);
 
@@ -308,7 +308,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * Deletes instructors using {@link AttributesDeletionQuery}.
      */
     public void deleteInstructors(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(query);
+        assert query != null;
 
         if (query.isCourseIdPresent()) {
             List<Instructor> instructorsToDelete = load().filter("courseId =", query.getCourseId()).list();
@@ -392,7 +392,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
     @Override
     InstructorAttributes makeAttributes(Instructor entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return InstructorAttributes.valueOf(entity);
     }

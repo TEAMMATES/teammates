@@ -26,7 +26,7 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
         String courseId = remindRequest.getCourseId();
         String[] usersToRemind = remindRequest.getUsersToRemind();
         String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
-        Assumption.assertNotNull(googleIdOfInstructorToNotify);
+        assert googleIdOfInstructorToNotify != null;
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

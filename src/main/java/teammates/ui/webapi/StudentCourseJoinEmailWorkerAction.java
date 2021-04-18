@@ -18,10 +18,10 @@ class StudentCourseJoinEmailWorkerAction extends AdminOnlyAction {
         boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
 
         CourseAttributes course = logic.getCourse(courseId);
-        Assumption.assertNotNull(course);
+        assert course != null;
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        Assumption.assertNotNull(student);
+        assert student != null;
 
         EmailWrapper email = isRejoin
                 ? emailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student)

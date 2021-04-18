@@ -205,7 +205,7 @@ public class CourseStudent extends BaseEntity {
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
-        Assumption.assertNotNull(uniqueId);
+        assert uniqueId != null;
 
         SecureRandom prng = new SecureRandom();
         return uniqueId + "%" + prng.nextInt();

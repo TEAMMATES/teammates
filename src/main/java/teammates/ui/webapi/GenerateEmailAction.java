@@ -23,10 +23,10 @@ class GenerateEmailAction extends AdminOnlyAction {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
         CourseAttributes course = logic.getCourse(courseId);
-        Assumption.assertNotNull(course);
+        assert course != null;
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        Assumption.assertNotNull(student);
+        assert student != null;
 
         EmailWrapper email;
 

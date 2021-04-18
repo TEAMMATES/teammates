@@ -62,7 +62,7 @@ public final class AccountsLogic {
 
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
-        Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
+        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
 
         Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());

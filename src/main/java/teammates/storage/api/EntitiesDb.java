@@ -59,7 +59,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
     private A createEntity(A entityToAdd, boolean shouldCheckExistence)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(entityToAdd);
+        assert entityToAdd != null;
 
         entityToAdd.sanitizeForSaving();
 
@@ -111,7 +111,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * @throws InvalidParametersException if any of entity to add is not valid
      */
     public List<A> putEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
-        Assumption.assertNotNull(entitiesToAdd);
+        assert entitiesToAdd != null;
 
         List<E> entities = new ArrayList<>();
 
@@ -145,7 +145,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Saves an entity.
      */
     void saveEntity(E entityToSave) {
-        Assumption.assertNotNull(entityToSave);
+        assert entityToSave != null;
 
         log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
 
@@ -167,8 +167,8 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Deletes entity by key.
      */
     void deleteEntity(Key<?>... keys) {
-        Assumption.assertNotNull((Object) keys);
-        Assumption.assertNotNull((Object[]) keys);
+        assert (Object) keys != null;
+        assert (Object[]) keys != null;
 
         for (Key<?> key : keys) {
             log.info(String.format("Delete entity %s of key (id: %d, name: %s)",

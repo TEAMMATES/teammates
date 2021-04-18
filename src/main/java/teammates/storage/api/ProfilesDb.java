@@ -38,7 +38,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
      */
     public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         StudentProfile studentProfile = getStudentProfileEntityFromDb(updateOptions.getGoogleId());
         boolean shouldCreateEntity = studentProfile == null; // NOPMD
@@ -120,7 +120,7 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
 
     @Override
     StudentProfileAttributes makeAttributes(StudentProfile entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return StudentProfileAttributes.valueOf(entity);
     }

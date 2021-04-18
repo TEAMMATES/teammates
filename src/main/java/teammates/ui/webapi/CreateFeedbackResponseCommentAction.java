@@ -40,7 +40,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
         }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        assert response != null;
 
         String courseId = response.courseId;
         String feedbackSessionName = response.feedbackSessionName;
@@ -52,7 +52,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(studentAttributes);
+            assert studentAttributes != null;
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session);
@@ -67,7 +67,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(instructorAsFeedbackParticipant);
+            assert instructorAsFeedbackParticipant != null;
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session);
@@ -107,7 +107,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         }
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        assert response != null;
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 
         String commentText = comment.getCommentText();

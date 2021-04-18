@@ -27,7 +27,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Gets a course.
      */
     public CourseAttributes getCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributesOrNull(getCourseEntity(courseId));
     }
@@ -36,8 +36,8 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Gets a list of courses.
      */
     public List<CourseAttributes> getCourses(List<String> courseIds) {
-        Assumption.assertNotNull(courseIds);
-        Assumption.assertNotNull(courseIds.toArray());
+        assert courseIds != null;
+        assert courseIds.toArray() != null;
 
         return makeAttributes(getCourseEntities(courseIds));
     }
@@ -51,7 +51,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      */
     public CourseAttributes updateCourse(CourseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         Course course = getCourseEntity(updateOptions.getCourseId());
 
@@ -88,7 +88,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Deletes a course.
      */
     public void deleteCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         deleteEntity(Key.create(Course.class, courseId));
     }
@@ -98,7 +98,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * @return Soft-deletion time of the course.
      */
     public Instant softDeleteCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         Course courseEntity = getCourseEntity(courseId);
 
         if (courseEntity == null) {
@@ -115,7 +115,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
      * Restores a soft-deleted course by its given corresponding ID.
      */
     public void restoreDeletedCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         Course courseEntity = getCourseEntity(courseId);
 
         if (courseEntity == null) {
@@ -152,7 +152,7 @@ public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
 
     @Override
     CourseAttributes makeAttributes(Course entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return CourseAttributes.valueOf(entity);
     }

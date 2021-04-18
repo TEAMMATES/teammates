@@ -228,7 +228,7 @@ public final class InstructorsLogic {
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
