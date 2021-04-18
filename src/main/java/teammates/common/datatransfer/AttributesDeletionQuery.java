@@ -70,8 +70,8 @@ public class AttributesDeletionQuery {
 
         public Builder withCourseId(String courseId) {
             assert courseId != null;
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isQuestionIdPresent());
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isResponseIdPresent());
+            assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.courseId = courseId;
             return this;
@@ -80,8 +80,8 @@ public class AttributesDeletionQuery {
         public Builder withFeedbackSessionName(String feedbackSessionName) {
             assert feedbackSessionName != null;
             assert attributesDeletionQuery.isCourseIdPresent() : "Session name must come together with course ID";
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isQuestionIdPresent());
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isResponseIdPresent());
+            assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.feedbackSessionName = feedbackSessionName;
             return this;
@@ -89,9 +89,9 @@ public class AttributesDeletionQuery {
 
         public Builder withQuestionId(String questionId) {
             assert questionId != null;
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isCourseIdPresent());
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isFeedbackSessionNamePresent());
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isResponseIdPresent());
+            assert !attributesDeletionQuery.isCourseIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isFeedbackSessionNamePresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isResponseIdPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.questionId = questionId;
             return this;
@@ -99,9 +99,9 @@ public class AttributesDeletionQuery {
 
         public Builder withResponseId(String responseId) {
             assert responseId != null;
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isCourseIdPresent());
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isFeedbackSessionNamePresent());
-            Assumption.assertFalse(INVALID_COMBINATION, attributesDeletionQuery.isQuestionIdPresent());
+            assert !attributesDeletionQuery.isCourseIdPresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isFeedbackSessionNamePresent() : INVALID_COMBINATION;
+            assert !attributesDeletionQuery.isQuestionIdPresent() : INVALID_COMBINATION;
 
             attributesDeletionQuery.responseId = responseId;
             return this;
