@@ -296,7 +296,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             entitiesToDelete = entitiesToDelete.filter("feedbackQuestionId =", query.getQuestionId());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     /**

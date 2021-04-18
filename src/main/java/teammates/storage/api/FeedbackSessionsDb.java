@@ -362,7 +362,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {

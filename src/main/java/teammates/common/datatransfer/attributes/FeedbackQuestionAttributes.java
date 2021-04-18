@@ -656,7 +656,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         public B withShowResponsesTo(List<FeedbackParticipantType> showResponsesTo) {
             assert showResponsesTo != null;
-            assert (Object[]) showResponsesTo.toArray() != null;
+            assert !showResponsesTo.contains(null);
 
             updateOptions.showResponsesToOption = UpdateOption.of(new ArrayList<>(showResponsesTo));
             return thisBuilder;
@@ -664,7 +664,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
             assert showGiverNameTo != null;
-            assert (Object[]) showGiverNameTo.toArray() != null;
+            assert !showGiverNameTo.contains(null);
 
             updateOptions.showGiverNameToOption = UpdateOption.of(new ArrayList<>(showGiverNameTo));
             return thisBuilder;
@@ -672,7 +672,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         public B withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
             assert showRecipientNameTo != null;
-            assert (Object[]) showRecipientNameTo.toArray() != null;
+            assert !showRecipientNameTo.contains(null);
 
             updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
             return thisBuilder;

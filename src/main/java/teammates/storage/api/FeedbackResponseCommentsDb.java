@@ -270,9 +270,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             entitiesToDelete = entitiesToDelete.filter("feedbackResponseId =", query.getResponseId());
         }
 
-        List<Key<FeedbackResponseComment>> keysToDelete = entitiesToDelete.keys().list();
-
-        deleteEntity(keysToDelete.toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {

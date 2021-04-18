@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -166,11 +167,19 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     /**
      * Deletes entity by key.
      */
-    void deleteEntity(Key<?>... keys) {
-        assert (Object) keys != null;
-        assert (Object[]) keys != null;
+    void deleteEntity(Key<E> key) {
+        assert key != null;
+        deleteEntity(Collections.singletonList(key));
+    }
 
-        for (Key<?> key : keys) {
+    /**
+     * Deletes entities by keys.
+     */
+    void deleteEntity(List<Key<E>> keys) {
+        assert keys != null;
+        assert !keys.contains(null);
+
+        for (Key<E> key : keys) {
             log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
                     key.getKind(), key.getRaw().getId(), key.getName()));
         }

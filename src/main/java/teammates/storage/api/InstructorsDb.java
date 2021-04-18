@@ -319,7 +319,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
 
             deleteEntity(instructorsToDelete.stream()
                     .map(s -> Key.create(Instructor.class, s.getUniqueId()))
-                    .toArray(Key[]::new));
+                    .collect(Collectors.toList()));
         }
     }
 

@@ -79,7 +79,7 @@ public final class AccountsLogic {
                 break;
             }
         }
-        Assumption.assertNotEmpty("No institute found for the course", institute);
+        assert !StringHelper.isEmpty(institute) : "No institute found for the course";
         return institute;
     }
 

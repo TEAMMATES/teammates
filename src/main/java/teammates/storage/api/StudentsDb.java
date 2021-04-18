@@ -327,7 +327,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
             deleteEntity(studentsToDelete.stream()
                     .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))
-                    .toArray(Key[]::new));
+                    .collect(Collectors.toList()));
         }
     }
 

@@ -4,7 +4,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
@@ -151,7 +150,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
             entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     /**
