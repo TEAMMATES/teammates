@@ -168,7 +168,8 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
     private FeedbackQuestionAttributes getTemplateQuestion() {
         FeedbackContributionQuestionDetails detail = new FeedbackContributionQuestionDetails();
-        detail.setQuestionText("Your estimate of how much each team member has contributed.");
+        detail.setQuestionText("How much work did each team member contribute?"
+                + " (response will be shown anonymously to each team member).");
         detail.setNotSureAllowed(false);
 
         return FeedbackQuestionAttributes.builder()
