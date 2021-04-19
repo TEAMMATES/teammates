@@ -1,0 +1,16 @@
+<div class="input-group">
+  <ng-template #footer>
+    <button class="footer-button" type="button"
+            (click)="selectTodayDate(timeDp)">
+      Today
+    </button>
+  </ng-template>
+  <input type="text" class="form-control" ngbDatepicker
+         [ngModel]="date" (ngModelChange)="changeDate($event)"
+         [maxDate]="maxDate" [minDate]="minDate" #timeDp="ngbDatepicker" [disabled]="disabled" [footerTemplate]="footer"/>
+  <div class="input-group-append" *ngIf="!disabled">
+    <button class="btn btn-light" (click)="timeDp.toggle()" type="button">
+      <i class="fas fa-calendar-alt"></i>
+    </button>
+  </div>
+</div>
