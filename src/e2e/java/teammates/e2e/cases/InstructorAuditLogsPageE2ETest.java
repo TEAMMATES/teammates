@@ -62,9 +62,11 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify empty logs output");
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
+        System.out.println("hi" + auditLogsPage.getLogsData());
         for (String log : auditLogsPage.getLogsData()) {
             assertEquals(log, "No activity for this feedback session in selected search period");
         }
+        System.out.println("bye");
 
         ______TS("verify logs output");
         AppUrl studentSubmissionPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
@@ -80,11 +82,12 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
         int emptyLogCounter = 0;
+        System.out.println(auditLogsPage.getLogsData());
         for (String log : auditLogsPage.getLogsData()) {
             if (log.equals("No activity for this feedback session in selected search period")) {
                 emptyLogCounter++;
             }
         }
-        // assertNotEquals(auditLogsPage.getLogsData().size(), emptyLogCounter);
+         assertNotEquals(auditLogsPage.getLogsData().size(), emptyLogCounter);
     }
 }
