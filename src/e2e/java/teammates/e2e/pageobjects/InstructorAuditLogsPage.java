@@ -4,18 +4,20 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import teammates.common.util.ThreadHelper;
+
 /**
  * Represents the instructor audit logs page of the website.
  */
 public class InstructorAuditLogsPage extends AppPage {
-    private List<WebElement> sessionCards;
+    private final Map<String, Boolean> isLogPresentForSession = new HashMap<>();
 
     @FindBy(id = "course-id-dropdown")
     private WebElement courseIdDropDown;
@@ -52,12 +54,18 @@ public class InstructorAuditLogsPage extends AppPage {
 
     public void startSearching() {
         click(searchButton);
-        sessionCards = logsOutput.findElements(By.className("card"));
+        ThreadHelper.waitFor(3000);
+        logsOutput
+                .findElements(By.className("card"))
+                .forEach(card -> {
+                    String sessionName = card.getText().trim();
+                    click(card.findElement(By.className("fa-chevron-down")));
+                    isLogPresentForSession.put(sessionName, !card.findElements(By.className("card-body")).isEmpty());
+                });
     }
 
-    public List<String> getLogsData() {
-        return sessionCards.stream().map(card -> card.findElement(By.tagName("i"))
-                .getText()).collect(Collectors.toList());
+    public Boolean isLogPresentForSession(String sessionName) {
+        return isLogPresentForSession.get(sessionName);
     }
 
     public String getCourseId() {

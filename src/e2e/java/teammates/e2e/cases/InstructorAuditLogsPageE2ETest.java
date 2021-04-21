@@ -3,6 +3,9 @@ package teammates.e2e.cases;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -62,11 +65,11 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         ______TS("verify empty logs output");
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
-        System.out.println("hi" + auditLogsPage.getLogsData());
-        for (String log : auditLogsPage.getLogsData()) {
-            assertEquals(log, "No activity for this feedback session in selected search period");
+
+        List<String> sessions = new ArrayList<>(Arrays.asList(feedbackSession.getFeedbackSessionName()));
+        for (String sessionName : sessions) {
+            assertFalse(auditLogsPage.isLogPresentForSession(sessionName));
         }
-        System.out.println("bye");
 
         ______TS("verify logs output");
         AppUrl studentSubmissionPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
@@ -81,13 +84,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         auditLogsPage = loginAdminToPage(url, InstructorAuditLogsPage.class);
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
-        int emptyLogCounter = 0;
-        System.out.println(auditLogsPage.getLogsData());
-        for (String log : auditLogsPage.getLogsData()) {
-            if (log.equals("No activity for this feedback session in selected search period")) {
-                emptyLogCounter++;
-            }
-        }
-         assertNotEquals(auditLogsPage.getLogsData().size(), emptyLogCounter);
+
+        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.feedbackSessionName));
     }
 }
