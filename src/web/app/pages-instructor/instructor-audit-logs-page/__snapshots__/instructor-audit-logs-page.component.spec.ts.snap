@@ -40,8 +40,13 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><div>
+  </tm-loading-spinner><div
+    id="logs-output"
+  >
     
+    <div>
+      
+    </div>
   </div>
 </tm-instructor-audit-logs-page>
 `;
@@ -155,6 +160,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
             </div>
             <div
               class="col-md-3"
+              id="logs-from-timepicker"
             >
               <tm-time-picker>
                 <select
@@ -354,6 +360,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
             </div>
             <div
               class="col-md-3"
+              id="logs-to-timepicker"
             >
               <tm-time-picker>
                 <select
@@ -499,21 +506,26 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
         </div>
       </div>
     </div>
-  </div><tm-loading-spinner>
-    <div
-      class="loading-container"
-    >
+  </div><div
+    id="logs-output"
+  >
+    
+    <tm-loading-spinner>
       <div
-        class="row spinner-border text-primary"
-        role="status"
-      />
-      <div
-        class="row text-secondary"
+        class="loading-container"
       >
-        Loading...
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
       </div>
-    </div>
-  </tm-loading-spinner>
+    </tm-loading-spinner>
+  </div>
 </tm-instructor-audit-logs-page>
 `;
 
@@ -557,8 +569,13 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><div>
+  </tm-loading-spinner><div
+    id="logs-output"
+  >
     
+    <div>
+      
+    </div>
   </div>
 </tm-instructor-audit-logs-page>
 `;
@@ -666,6 +683,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
             </div>
             <div
               class="col-md-3"
+              id="logs-from-timepicker"
             >
               <tm-time-picker>
                 <select
@@ -862,6 +880,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
             </div>
             <div
               class="col-md-3"
+              id="logs-to-timepicker"
             >
               <tm-time-picker>
                 <select
@@ -1007,250 +1026,255 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
         </div>
       </div>
     </div>
-  </div><div>
+  </div><div
+    id="logs-output"
+  >
     
     <div>
-      <div
-        class="card mb-3 alert-success-border"
-      >
+      
+      <div>
         <div
-          class="card-header alert-success cursor-pointer"
+          class="card mb-3 alert-success-border"
         >
-           Feedback session 1 
           <div
-            class="card-header-btn-toolbar"
+            class="card-header alert-success cursor-pointer"
           >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                
-                
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
-          </div>
-        </div>
-        
-        <div>
-          
-          <div
-            class="card-body"
-          >
-            <tm-sortable-table>
-              <table
-                class="table table-bordered table-striped margin-bottom-20px"
-              >
-                <thead>
-                  <tr>
-                    
-                    <th
-                      class="sortable-header"
-                    >
-                      <span
-                        container="body"
-                      >
-                        Time
-                      </span>
-                      
-                      <span
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                        
-                        
-                      </span>
-                    </th>
-                    <th
-                      class="sortable-header"
-                    >
-                      <span
-                        container="body"
-                      >
-                        Name
-                      </span>
-                      
-                      <span
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                        
-                        
-                        <i
-                          class="fas fa-sort-up"
-                        />
-                      </span>
-                    </th>
-                    <th
-                      class="sortable-header"
-                    >
-                      <span
-                        container="body"
-                      >
-                        Activity
-                      </span>
-                      
-                      <span
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                        
-                        
-                      </span>
-                    </th>
-                    <th
-                      class="sortable-header"
-                    >
-                      <span
-                        container="body"
-                      >
-                        Email
-                      </span>
-                      
-                      <span
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                        
-                        
-                      </span>
-                    </th>
-                    <th
-                      class="sortable-header"
-                    >
-                      <span
-                        container="body"
-                      >
-                        Section
-                      </span>
-                      
-                      <span
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                        
-                        
-                      </span>
-                    </th>
-                    <th
-                      class="sortable-header"
-                    >
-                      <span
-                        container="body"
-                      >
-                        Team
-                      </span>
-                      
-                      <span
-                        class="fa-stack"
-                      >
-                        <i
-                          class="fas fa-sort"
-                        />
-                        
-                        
-                      </span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
+             Feedback session 1 
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
                   
-                  <tr>
-                    
-                    <td>
-                      
-                      
-                      
-                      
-                      15 January 2021
-                    </td>
-                    <td>
-                      
-                      
-                      
-                      
-                      Doe John
-                    </td>
-                    <td>
-                      
-                      
-                      
-                      
-                      Viewed the submission page
-                    </td>
-                    <td>
-                      
-                      
-                      
-                      
-                      doejohn@email.com
-                    </td>
-                    <td>
-                      
-                      
-                      
-                      
-                      section 1
-                    </td>
-                    <td>
-                      
-                      
-                      
-                      
-                      team 1
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </tm-sortable-table>
+                  
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
           </div>
           
+          <div>
+            
+            <div
+              class="card-body"
+            >
+              <tm-sortable-table>
+                <table
+                  class="table table-bordered table-striped margin-bottom-20px"
+                >
+                  <thead>
+                    <tr>
+                      
+                      <th
+                        class="sortable-header"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Time
+                        </span>
+                        
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                          
+                          
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Name
+                        </span>
+                        
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                          
+                          
+                          <i
+                            class="fas fa-sort-up"
+                          />
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Activity
+                        </span>
+                        
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                          
+                          
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Email
+                        </span>
+                        
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                          
+                          
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Section
+                        </span>
+                        
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                          
+                          
+                        </span>
+                      </th>
+                      <th
+                        class="sortable-header"
+                      >
+                        <span
+                          container="body"
+                        >
+                          Team
+                        </span>
+                        
+                        <span
+                          class="fa-stack"
+                        >
+                          <i
+                            class="fas fa-sort"
+                          />
+                          
+                          
+                        </span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    
+                    <tr>
+                      
+                      <td>
+                        
+                        
+                        
+                        
+                        15 January 2021
+                      </td>
+                      <td>
+                        
+                        
+                        
+                        
+                        Doe John
+                      </td>
+                      <td>
+                        
+                        
+                        
+                        
+                        Viewed the submission page
+                      </td>
+                      <td>
+                        
+                        
+                        
+                        
+                        doejohn@email.com
+                      </td>
+                      <td>
+                        
+                        
+                        
+                        
+                        section 1
+                      </td>
+                      <td>
+                        
+                        
+                        
+                        
+                        team 1
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </tm-sortable-table>
+            </div>
+            
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-      <div
-        class="card mb-3 alert-success-border"
-      >
+      <div>
         <div
-          class="card-header alert-success cursor-pointer"
+          class="card mb-3 alert-success-border"
         >
-           Feedback session 2 
           <div
-            class="card-header-btn-toolbar"
+            class="card-header alert-success cursor-pointer"
           >
-            <tm-panel-chevron>
-              <div
-                class="chevron"
-              >
-                
-                
-                <i
-                  class="fas fa-chevron-up"
-                />
-              </div>
-            </tm-panel-chevron>
+             Feedback session 2 
+            <div
+              class="card-header-btn-toolbar"
+            >
+              <tm-panel-chevron>
+                <div
+                  class="chevron"
+                >
+                  
+                  
+                  <i
+                    class="fas fa-chevron-up"
+                  />
+                </div>
+              </tm-panel-chevron>
+            </div>
           </div>
-        </div>
-        
-        <div>
           
-          <i>
-            No activity for this feedback session in selected search period
-          </i>
-          
+          <div>
+            
+            <i>
+              No activity for this feedback session in selected search period
+            </i>
+            
+          </div>
         </div>
       </div>
     </div>
