@@ -6,6 +6,8 @@ import { FeedbackQuestionsService } from '../../services/feedback-questions.serv
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
+import { ProgressBarService } from '../../services/progress-bar.service';
+import { SimpleModalService } from '../../services/simple-modal.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { StudentService } from '../../services/student.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
@@ -47,9 +49,12 @@ export abstract class InstructorSessionModalPageComponent extends InstructorSess
                         feedbackQuestionsService: FeedbackQuestionsService,
                         tableComparatorService: TableComparatorService,
                         ngbModal: NgbModal,
+                        simpleModalService: SimpleModalService,
+                        progressBarService: ProgressBarService,
                         protected studentService: StudentService) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
+        ngbModal, simpleModalService, progressBarService);
   }
 
   /**
