@@ -72,6 +72,12 @@
 </div>
 
 <div *tmIsLoading="isSearching">
+  <div *ngIf="searchErrorMessage" class="card card-default">
+    <div class="card-body bg-danger text-white">
+      <button class="float-right fas fa-times close" (click)="searchErrorMessage = ''"></button>
+      {{ searchErrorMessage }}
+    </div>
+  </div>
   <div *ngFor="let results of searchResults">
     <div class="card mb-3 alert-success-border">
       <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">

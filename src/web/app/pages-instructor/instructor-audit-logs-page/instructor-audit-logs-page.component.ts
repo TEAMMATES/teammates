@@ -76,6 +76,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
+  searchErrorMessage: string = '';
 
   constructor(private courseService: CourseService,
               private studentService: StudentService,
@@ -136,7 +137,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
         .subscribe((logs: FeedbackSessionLogs) => {
           logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
               this.searchResults.push(this.toFeedbackSessionLogModel(log)));
-        }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        }, (resp: ErrorMessageOutput) => this.searchErrorMessage = resp.error.message);
   }
 
   /**

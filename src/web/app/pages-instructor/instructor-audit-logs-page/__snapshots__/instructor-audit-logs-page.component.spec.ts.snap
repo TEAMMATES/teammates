@@ -13,6 +13,7 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
   isLoading={[Function Boolean]}
   isSearching="false"
   logsService={[Function LogService]}
+  searchErrorMessage=""
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -42,6 +43,7 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
     </div>
   </tm-loading-spinner><div>
     
+    
   </div>
 </tm-instructor-audit-logs-page>
 `;
@@ -59,6 +61,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
   isLoading="false"
   isSearching={[Function Boolean]}
   logsService={[Function LogService]}
+  searchErrorMessage=""
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -530,6 +533,7 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
   isLoading={[Function Boolean]}
   isSearching="false"
   logsService={[Function LogService]}
+  searchErrorMessage=""
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -559,6 +563,7 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
     </div>
   </tm-loading-spinner><div>
     
+    
   </div>
 </tm-instructor-audit-logs-page>
 `;
@@ -576,6 +581,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
   isLoading="false"
   isSearching="false"
   logsService={[Function LogService]}
+  searchErrorMessage=""
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -1008,6 +1014,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
       </div>
     </div>
   </div><div>
+    
     
     <div>
       <div
