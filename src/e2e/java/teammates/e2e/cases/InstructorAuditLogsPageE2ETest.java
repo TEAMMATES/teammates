@@ -36,7 +36,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
 
         instructor = testData.instructors.get("instructor");
         course = testData.courses.get("course");
-        student = testData.students.get("alice.tmms@IFEdit.CS2104");
+        student = testData.students.get("alice.tmms@IAuditLogs.CS2104");
         feedbackQuestion = testData.feedbackQuestions.get("qn1");
         feedbackSession = testData.feedbackSessions.get("openSession");
     }
