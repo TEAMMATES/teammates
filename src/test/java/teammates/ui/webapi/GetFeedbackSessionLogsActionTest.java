@@ -183,7 +183,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
     }
 
 }

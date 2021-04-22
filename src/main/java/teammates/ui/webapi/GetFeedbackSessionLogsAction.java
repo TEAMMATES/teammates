@@ -47,7 +47,8 @@ public class GetFeedbackSessionLogsAction extends Action {
         gateKeeper.verifyAccessible(instructor, courseAttributes);
 
         if (!instructor.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT)) {
-            throw new UnauthorizedAccessException("Instructor permission for modifying students is required to access this resource.");
+            throw new UnauthorizedAccessException("Instructor permission for modifying students is"
+                    + " required to access this resource.");
         }
 
     }
