@@ -1247,9 +1247,13 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
         
         <div>
           
-          <i>
-            No activity for this feedback session in selected search period
-          </i>
+          <div
+            class="no-activity-body"
+          >
+            <i>
+              No activity for this feedback session in selected search period
+            </i>
+          </div>
           
         </div>
       </div>
