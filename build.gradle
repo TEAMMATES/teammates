@@ -25,7 +25,7 @@ buildscript {
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:30.1-jre"
+        classpath "com.google.guava:guava:30.1.1-jre"
     }
 }
 
@@ -49,11 +49,12 @@ dependencies {
     annotationProcessor(objectify)
 
     implementation("com.google.auth:google-auth-library-oauth2-http:0.24.1")
+    implementation("com.google.cloud:google-cloud-datastore:1.106.2")
     implementation("com.google.cloud:google-cloud-tasks:1.30.11")
     implementation("com.google.cloud:google-cloud-logging:2.1.2")
     implementation("com.google.cloud:google-cloud-storage:1.113.9")
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("com.google.guava:guava:30.1-jre")
+    implementation("com.google.guava:guava:30.1.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20200615.1")
     implementation("com.mailjet:mailjet-client:4.5.0")
@@ -247,6 +248,11 @@ task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     main = "teammates.main.Application"
     dependsOn explodeWar
+}
+
+task runDatastoreEmulator(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "teammates.storage.api.DatastoreEmulatorRunner"
 }
 
 appengine {
