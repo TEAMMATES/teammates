@@ -4,7 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { concat, Observable } from 'rxjs';
-// import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -188,8 +187,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       next: (resp: EnrollStudents) => {
         enrolledStudents.push(...resp.studentsData.students);
         const percentage: number = Math.round(100 * enrolledStudents.length / studentEnrollRequests.size);
-        console.log(enrolledStudents.length);
-        console.log(studentEnrollRequests.size);
         this.progressBarService.updateProgress(percentage);
 
 
@@ -198,7 +195,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             this.unsuccessfulEnrolls[unsuccessfulEnroll.studentEmail] = unsuccessfulEnroll.errorMessage;
 
             for (const index of studentEnrollRequests.keys()) {
-
               if (studentEnrollRequests.get(index)?.email === unsuccessfulEnroll.studentEmail) {
                 this.invalidRowsIndex.add(index);
                 break;
@@ -215,7 +211,6 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         if (this.invalidRowsIndex.size > 0) {
           this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
         }
-
         this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
       },
       error: (resp: ErrorMessageOutput) => {
