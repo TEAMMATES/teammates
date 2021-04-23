@@ -9,6 +9,7 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { StatusMessageModule } from '../../components/status-message/status-message.module';
 import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-page.component';
+import { ProgressBarModule } from "../../components/progress-bar/progress-bar.module";
 
 const routes: Routes = [
   {
@@ -27,16 +28,17 @@ const routes: Routes = [
   exports: [
     InstructorCourseEnrollPageComponent,
   ],
-  imports: [
-    CommonModule,
-    HotTableModule,
-    StatusMessageModule,
-    AjaxPreloadModule,
-    RouterModule.forChild(routes),
-    AjaxLoadingModule,
-    LoadingRetryModule,
-    LoadingSpinnerModule,
-    PanelChevronModule,
-  ],
+    imports: [
+        CommonModule,
+        HotTableModule,
+        StatusMessageModule,
+        AjaxPreloadModule,
+        RouterModule.forChild(routes),
+        AjaxLoadingModule,
+        LoadingRetryModule,
+        LoadingSpinnerModule,
+        PanelChevronModule,
+        ProgressBarModule,
+    ],
 })
 export class InstructorCourseEnrollPageModule { }

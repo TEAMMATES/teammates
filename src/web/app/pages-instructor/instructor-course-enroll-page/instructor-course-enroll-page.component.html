@@ -103,7 +103,7 @@
                     class="btn btn-success float-right"
                     [disabled]="isEnrolling"
                     (click)="submitEnrollData()">
-                  <tm-ajax-loading *ngIf="isEnrolling"></tm-ajax-loading>
+                  <tm-progress-bar *ngIf="isEnrolling"></tm-progress-bar>
                   Enroll students
                 </button>
               </div>

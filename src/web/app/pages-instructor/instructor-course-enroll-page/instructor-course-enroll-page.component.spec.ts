@@ -9,6 +9,7 @@ import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-s
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
 import { StatusMessageModule } from '../../components/status-message/status-message.module';
 import { InstructorCourseEnrollPageComponent } from './instructor-course-enroll-page.component';
+import { ProgressBarModule } from "../../components/progress-bar/progress-bar.module";
 
 describe('InstructorCourseEnrollPageComponent', () => {
   let component: InstructorCourseEnrollPageComponent;
@@ -25,6 +26,7 @@ describe('InstructorCourseEnrollPageComponent', () => {
         AjaxLoadingModule,
         StatusMessageModule,
         LoadingSpinnerModule,
+        ProgressBarModule,
         LoadingRetryModule,
         PanelChevronModule,
       ],

@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { HotTableRegisterer } from '@handsontable/angular';
 import Handsontable from 'handsontable';
 import { concat, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+// import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -16,6 +16,7 @@ import { StatusMessage } from '../../components/status-message/status-message';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { EnrollStatus } from './enroll-status';
+import { ProgressBarService } from "../../../services/progress-bar.service";
 
 interface EnrollResultPanel {
   status: EnrollStatus;
@@ -92,6 +93,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
+              private progressBarService: ProgressBarService,
               private simpleModalService: SimpleModalService) { }
 
   ngOnInit(): void {
@@ -181,16 +183,22 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
           );
         }),
     );
-
-    enrollRequests.pipe(finalize(() => this.isEnrolling = false)).subscribe({
+    this.progressBarService.updateProgress(0);
+    enrollRequests.pipe().subscribe({
       next: (resp: EnrollStudents) => {
         enrolledStudents.push(...resp.studentsData.students);
+        const percentage: number = Math.round(100 * enrolledStudents.length / studentEnrollRequests.size);
+        console.log(enrolledStudents.length);
+        console.log(studentEnrollRequests.size);
+        this.progressBarService.updateProgress(percentage);
+
 
         if (resp.unsuccessfulEnrolls != null) {
           for (const unsuccessfulEnroll of resp.unsuccessfulEnrolls) {
             this.unsuccessfulEnrolls[unsuccessfulEnroll.studentEmail] = unsuccessfulEnroll.errorMessage;
 
             for (const index of studentEnrollRequests.keys()) {
+
               if (studentEnrollRequests.get(index)?.email === unsuccessfulEnroll.studentEmail) {
                 this.invalidRowsIndex.add(index);
                 break;
@@ -200,10 +208,10 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         }
       },
       complete: () => {
+        setTimeout(()=>{this.isEnrolling = false;}, 1000)
         this.showEnrollResults = true;
         this.statusMessage.pop(); // removes any existing error status message
         this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
-
         if (this.invalidRowsIndex.size > 0) {
           this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
         }
