@@ -1,6 +1,7 @@
 package teammates.common.datatransfer.questions;
 
 import org.testng.annotations.Test;
+import teammates.common.util.JsonUtils;
 
 import teammates.test.BaseTestCase;
 
@@ -39,6 +40,16 @@ public class FeedbackQuestionDetailsTest extends BaseTestCase {
         ______TS("All attributes are same, should be same");
         ((FeedbackTextQuestionDetails) ftqd2).setRecommendedLength(50);
         assertEquals(ftqd1, ftqd2);
+    }
 
+    @Test
+    public void testGetJsonString() {
+        FeedbackTextQuestionDetails qd = new FeedbackTextQuestionDetails("first question?");
+        FeedbackQuestionDetails qdDeep = qd.getDeepCopy();
+        qdDeep.setQuestionType(FeedbackQuestionType.TEXT);
+        String answer = qdDeep.getJsonString();
+        String[] arrOfStr = answer.split(": ");
+        assertEquals( arrOfStr[1].split(",")[0], "true");
+        assertEquals(arrOfStr[2].split(",")[0].replaceAll("^\"|\"$", ""), "TEXT");
     }
 }
