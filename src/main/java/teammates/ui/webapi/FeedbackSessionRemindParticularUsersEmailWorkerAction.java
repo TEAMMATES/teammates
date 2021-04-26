@@ -6,6 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
@@ -21,11 +22,13 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
     @Override
     JsonResult execute() {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
+        String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
+        if (googleIdOfInstructorToNotify == null) {
+            throw new InvalidHttpRequestBodyException("Instructor to notify cannot be null.");
+        }
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String courseId = remindRequest.getCourseId();
         String[] usersToRemind = remindRequest.getUsersToRemind();
-        String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
-        assert googleIdOfInstructorToNotify != null;
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);

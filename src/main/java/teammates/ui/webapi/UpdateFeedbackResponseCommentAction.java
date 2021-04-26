@@ -54,7 +54,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
-            assert student != null;
+            if (student == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session);
@@ -68,7 +70,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            assert instructorAsFeedbackParticipant != null;
+            if (instructorAsFeedbackParticipant == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session);
