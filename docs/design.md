@@ -133,7 +133,7 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 - Managing relationships between entities, e.g. cascade logic for create/update/delete.
 - Managing transactions, e.g. ensuring atomicity of a transaction.
 - Sanitizing input values received from the UI component.
-- Connecting to GAE-provided or third-party APIs, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
+- Connecting to GCP or third-party services, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
 
 ![Logic Component](images/LogicComponent.png)
 
@@ -209,10 +209,10 @@ Represented by the `*Db` classes. These classes act as the bridge to the Google 
 
 ### Policies
 
-Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
-Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
+Add and Delete operations try to wait until data is persisted in the database before returning. This is not enough to compensate for eventual consistency involving multiple servers in the Google Cloud Datastore environment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
+Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all replicas of the Google Cloud Datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
 
-Implementation of Transaction Control has been minimized due to limitations of GAE environment and the nature of our data schema.
+Implementation of Transaction Control has been minimized due to limitations of Google Cloud Datastore environment and the nature of our data schema.
 
 API for creating:
 + Attempt to create an entity that already exists: Throws `EntityAlreadyExistsException`.
@@ -299,5 +299,5 @@ The Client component contains scripts that can connect directly to the applicati
 Package overview:
 
 - **`client.util`**: Contains helpers needed for client scripts.
-- **`client.remoteapi`**: Classes needed to connect to the back end directly.
+- **`client.connector`**: Classes needed to connect to the back end directly.
 - **`client.scripts`**: Scripts that deal with the back end data for administrative purposes.

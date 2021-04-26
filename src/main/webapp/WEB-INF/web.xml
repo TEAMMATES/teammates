@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-        version="3.1">
+        version="3.1" metadata-complete="true">
 
     <filter>
         <filter-name>ObjectifyFilter</filter-name>
@@ -28,20 +28,6 @@
         <url-pattern>/webapi/*</url-pattern>
     </filter-mapping>
 
-    <welcome-file-list>
-        <welcome-file>web/front/home</welcome-file>
-    </welcome-file-list>
-    <servlet>
-        <description>Servlet that handles the single web page application</description>
-        <servlet-name>WebPageServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.WebPageServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WebPageServlet</servlet-name>
-        <url-pattern>/web/*</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <description>REST API Servlet</description>
         <servlet-name>WebApiServlet</servlet-name>
@@ -53,17 +39,6 @@
         <url-pattern>/webapi/*</url-pattern>
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <description>Servlet that handles login requests in dev server</description>
-        <servlet-name>DevServerLoginServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.DevServerLoginServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>DevServerLoginServlet</servlet-name>
-        <url-pattern>/devServerLogin</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -109,19 +84,16 @@
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AllResources</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+    <context-param>
+        <param-name>org.eclipse.jetty.servlet.Default.dirAllowed</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
     <session-config>
         <cookie-config>
             <http-only>true</http-only>
         </cookie-config>
     </session-config>
+
+    <absolute-ordering />
 </web-app>
