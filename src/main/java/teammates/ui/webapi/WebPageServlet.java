@@ -44,10 +44,11 @@ public class WebPageServlet extends HttpServlet {
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
         try {
             req.getRequestDispatcher("/index.html").forward(req, resp);
-        } catch (IllegalArgumentException e) {
-            if (e.getClass().getSimpleName().equals("NotUtf8Exception")) {
+        } catch (RuntimeException e) {
+            if (e.getClass().getSimpleName().equals("BadMessageException")) {
                 log.warning(TeammatesException.toStringWithStackTrace(e));
                 resp.setStatus(HttpStatus.SC_BAD_REQUEST);
+                resp.getWriter().write(e.getMessage());
             } else {
                 throw e;
             }

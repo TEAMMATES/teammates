@@ -33,6 +33,8 @@ public class ArchitectureTest {
     private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".output";
     private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".request";
 
+    private static final String MAIN_PACKAGE = "teammates.main";
+
     private static final String TEST_DRIVER_PACKAGE = "teammates.test";
 
     private static final String E2E_PACKAGE = "teammates.e2e";
@@ -47,7 +49,7 @@ public class ArchitectureTest {
     private static final String LNP_UTIL_PACKAGE = LNP_PACKAGE + ".util";
 
     private static final String CLIENT_PACKAGE = "teammates.client";
-    private static final String CLIENT_REMOTEAPI_PACKAGE = CLIENT_PACKAGE + ".remoteapi";
+    private static final String CLIENT_CONNECTOR_PACKAGE = CLIENT_PACKAGE + ".connector";
     private static final String CLIENT_SCRIPTS_PACKAGE = CLIENT_PACKAGE + ".scripts";
     private static final String CLIENT_UTIL_PACKAGE = CLIENT_PACKAGE + ".util";
 
@@ -66,6 +68,20 @@ public class ArchitectureTest {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .check(forClasses(UI_PACKAGE, STORAGE_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_mainShouldNotTouchProductionCodeExceptCommon() {
+        noClasses().that().resideInAPackage(MAIN_PACKAGE)
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !input.getSimpleName().endsWith("Servlet");
+                    }
+                }).check(forClasses(MAIN_PACKAGE));
     }
 
     @Test
@@ -423,8 +439,8 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_client_remoteApiShouldNotTouchScripts() {
-        noClasses().that().resideInAPackage(includeSubpackages(CLIENT_REMOTEAPI_PACKAGE))
+    public void testArchitecture_client_connectorShouldNotTouchScripts() {
+        noClasses().that().resideInAPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .check(forClasses(CLIENT_PACKAGE));
     }
@@ -484,7 +500,7 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_objectifyApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().resideOutsideOfPackage(includeSubpackages(STORAGE_API_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_REMOTEAPI_PACKAGE))
+                .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
                 .and().doNotHaveSimpleName("BaseTestCaseWithObjectifyAccess")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
@@ -495,13 +511,19 @@ public class ArchitectureTest {
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
         noClasses().that().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
-                .and().doNotHaveSimpleName("GaeSimulation")
                 .and().doNotHaveSimpleName("MockFilterChain")
                 .and().doNotHaveSimpleName("MockHttpServletRequest")
                 .and().doNotHaveSimpleName("MockHttpServletResponse")
                 .and().doNotHaveSimpleName("MockPart")
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
                 .should().accessClassesThat().haveFullyQualifiedName("javax.servlet..")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_jettyApiCanOnlyBeAccessedBySomePackages() {
+        noClasses().that().resideOutsideOfPackage(MAIN_PACKAGE)
+                .should().accessClassesThat().haveFullyQualifiedName("org.eclipse.jetty..")
                 .check(ALL_CLASSES);
     }
 
