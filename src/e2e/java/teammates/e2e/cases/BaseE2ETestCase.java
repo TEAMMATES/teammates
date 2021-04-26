@@ -258,18 +258,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // Not necessary as BackDoor API is used instead
     }
 
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setUpGae() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownGae() {
-        // Not necessary as BackDoor API is used instead
-    }
-
     protected AccountAttributes getAccount(String googleId) {
         return BACKDOOR.getAccount(googleId);
     }

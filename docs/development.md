@@ -48,30 +48,27 @@ To stop the dev server, press `Ctrl + C`.
 
 ## Managing the dev server: back-end
 
-Back-end dev server is the Google App Engine-based server handling all the business logic, including data storage.
+Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
 
 ### Starting the dev server
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
 ```sh
-./gradlew appengineStart
+./gradlew serverRun &
 ```
 
 To start the server in the foreground (e.g. if you want the console output to be visible),
 run the following command instead:
 ```sh
-./gradlew appengineRun
+./gradlew serverRun
 ```
 
-The dev server URL will be `http://localhost:8080` as specified in `build.gradle`.
+The dev server URL will be `http://localhost:8080`.
 
 ### Stopping the dev server
 
-If you started the server in the background, run the following command to stop it:
-```sh
-./gradlew appengineStop
-```
+If you started the server in the background, use any method available in your OS to stop the process at port `8080`.
 
 If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
 
@@ -199,7 +196,7 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 ## Running client scripts
 
-> Client scripts are scripts that remotely manipulate data on GAE via its Remote API. They are run as standard Java applications.
+> Client scripts are scripts that remotely manipulate data on a Google Cloud Datastore instance. They are run as standard Java applications.
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
@@ -216,7 +213,7 @@ There are several files used to configure various aspects of the system.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
 * `client.properties`: Contains some configuration values used in client scripts.
-* `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
+* `app.yaml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
 * `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
@@ -234,6 +231,6 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.xml`: Contains the cron jobs specification.
-* `queue.xml`: Contains the task queues configuration.
-* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
+* `cron.yaml`: Contains the cron jobs specification.
+* `queue.yaml`: Contains the task queues configuration.
+* `index.yaml`: Contains the Google Cloud Datastore indexes configuration.

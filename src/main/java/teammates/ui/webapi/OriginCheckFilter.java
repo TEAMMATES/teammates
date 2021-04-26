@@ -140,7 +140,7 @@ public class OriginCheckFilter implements Filter {
         }
 
         String target = new Url(requestUrl).getBaseUrl();
-        return origin.equals(target);
+        return origin.replaceFirst("^https?://", "").equals(target.replaceFirst("^https?://", ""));
     }
 
     private String getCsrfTokenErrorIfAny(HttpServletRequest request) {

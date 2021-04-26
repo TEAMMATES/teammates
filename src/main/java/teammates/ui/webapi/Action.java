@@ -121,7 +121,7 @@ public abstract class Action {
         }
 
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
         boolean isRequestFromAppEngineQueue = queueNameHeader != null;
         if (isRequestFromAppEngineQueue) {
