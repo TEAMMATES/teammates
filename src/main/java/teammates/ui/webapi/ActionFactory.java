@@ -122,7 +122,7 @@ public class ActionFactory {
         map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
 
         // Cron jobs; use GET request
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/config/cron
+        // Reference: https://cloud.google.com/appengine/docs/standard/java11/scheduling-jobs-with-cron-yaml
 
         map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
         map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
@@ -132,7 +132,7 @@ public class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
 
         // Task queue workers; use POST request
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
 
         map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,

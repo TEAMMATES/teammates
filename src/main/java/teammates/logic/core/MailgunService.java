@@ -21,7 +21,7 @@ import teammates.common.util.Logger;
 /**
  * Email sender service provided by Mailgun.
  *
- * @see <a href="https://cloud.google.com/appengine/docs/java/mail/mailgun">https://cloud.google.com/appengine/docs/java/mail/mailgun</a>
+ * @see <a href="https://cloud.google.com/appengine/docs/standard/java11/sending-messages#mailgun">https://cloud.google.com/appengine/docs/standard/java11/sending-messages#mailgun</a>
  * @see FormDataMultiPart
  */
 public class MailgunService implements EmailSenderService {

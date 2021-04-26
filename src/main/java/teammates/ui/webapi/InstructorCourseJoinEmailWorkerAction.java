@@ -23,7 +23,7 @@ class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
 
         // The instructor is queried using the `id`of instructor as it ensures that the
         // instructor is retrieved (and not null) even if the index building for
-        // saving the new instructor takes more time in GAE.
+        // saving the new instructor takes more time in database.
         // The instructor `id` can be constructed back using (instructorEmail%courseId)
         // because instructors' email cannot be changed before joining the course.
         InstructorAttributes instructor = logic.getInstructorById(courseId, instructorEmail);

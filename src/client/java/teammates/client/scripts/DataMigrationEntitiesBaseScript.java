@@ -17,7 +17,7 @@ import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.client.remoteapi.RemoteApiClient;
+import teammates.client.connector.DatastoreClient;
 import teammates.storage.entity.BaseEntity;
 import teammates.test.FileHelper;
 
@@ -33,7 +33,7 @@ import teammates.test.FileHelper;
  *
  * @param <T> The entity type to be migrated by the script.
  */
-public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends RemoteApiClient {
+public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends DatastoreClient {
 
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
@@ -96,8 +96,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
      * <p>Transaction is useful for data consistency. However, there are some limitations on operations
      * inside a transaction. In addition, the performance of the script will also be affected.
      *
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/datastore/transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi#transaction-efficiency">Transactions are less efficient</a>
+     * @see <a href="https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
      */
     protected boolean shouldUseTransaction() {
         return false;

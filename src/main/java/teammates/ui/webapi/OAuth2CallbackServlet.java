@@ -39,7 +39,8 @@ public class OAuth2CallbackServlet extends AuthServlet {
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
         }
-        AuthorizationCodeResponseUrl responseUrl = new AuthorizationCodeResponseUrl(buf.toString());
+        AuthorizationCodeResponseUrl responseUrl =
+                new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
         if (responseUrl.getError() != null) {
             resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
             resp.getWriter().print(responseUrl.getError());
