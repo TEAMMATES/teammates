@@ -10,7 +10,7 @@
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId">
+          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId">
             <option value="" disabled selected hidden>Select Course ID</option>
             <option *ngFor="let course of courses">
               {{course.courseId}}
@@ -41,9 +41,9 @@
           <label for="student-name-dropdown" class="font-weight-bold">Student Name (Optional)</label>
         </div>
         <div class="col-12">
-          <select id="student-name-dropdown" class="form-control col-8" [(ngModel)]="formModel.studentName">
-            <option *ngFor="let student of courseToStudents[formModel.courseId]">
-              {{student.name}}
+          <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
+            <option *ngFor="let student of courseToStudents[formModel.courseId]" [value]="student.email">
+              {{student.name}} {{student.email ? '&lt;' + student.email + '&gt;' : ''}}
             </option>
           </select>
         </div>

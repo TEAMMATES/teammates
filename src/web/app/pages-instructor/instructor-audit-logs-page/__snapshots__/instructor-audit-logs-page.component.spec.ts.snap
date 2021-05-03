@@ -98,7 +98,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
             class="col-12"
           >
             <select
-              class="form-control col-8 ng-untouched ng-pristine ng-valid"
+              class="form-control col-12 ng-untouched ng-pristine ng-valid"
               id="course-id-dropdown"
             >
               <option
@@ -308,12 +308,14 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
             class="col-12"
           >
             <select
-              class="form-control col-8 ng-untouched ng-pristine ng-valid"
+              class="form-control col-12 ng-untouched ng-pristine ng-valid"
               id="student-name-dropdown"
             >
               
-              <option>
-                 Doe John 
+              <option
+                value="doejohn@email.com"
+              >
+                 Doe John &lt;doejohn@email.com&gt; 
               </option>
             </select>
           </div>
@@ -615,7 +617,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
             class="col-12"
           >
             <select
-              class="form-control col-8 ng-untouched ng-pristine ng-valid"
+              class="form-control col-12 ng-untouched ng-pristine ng-valid"
               id="course-id-dropdown"
             >
               <option
@@ -819,7 +821,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
             class="col-12"
           >
             <select
-              class="form-control col-8 ng-untouched ng-pristine ng-valid"
+              class="form-control col-12 ng-untouched ng-pristine ng-valid"
               id="student-name-dropdown"
             >
               
