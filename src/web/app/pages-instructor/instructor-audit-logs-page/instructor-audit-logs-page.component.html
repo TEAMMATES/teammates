@@ -85,7 +85,9 @@
           <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
         </div>
         <ng-template #noActivityTemplate>
-          <i>No activity for this feedback session in selected search period</i>
+          <div class="no-activity-body">
+            <i>No activity for this feedback session in selected search period</i>
+          </div>
         </ng-template>
       </div>
     </div>
