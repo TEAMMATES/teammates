@@ -265,9 +265,9 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             this.showCopyStatusMessage();
           });
         }
-        this.sessionEditFormModel.isCopying = false;
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
-      .catch(() => this.sessionEditFormModel.isCopying = false);
+        //this.sessionEditFormModel.isCopying = false;
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message).pipe(finalize(() => this.sessionEditFormModel.isCopying = false)); });
+      //.catch(() => this.sessionEditFormModel.isCopying = false);
     });
   }
 
