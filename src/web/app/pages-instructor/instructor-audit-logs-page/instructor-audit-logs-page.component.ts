@@ -33,7 +33,7 @@ interface SearchLogsFormModel {
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
   courseId: string;
-  studentName: string;
+  studentEmail: string;
 }
 
 /**
@@ -67,7 +67,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
     courseId: '',
-    studentName: '',
+    studentEmail: '',
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
@@ -112,16 +112,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
-    let email: string = '';
-    if (this.formModel.studentName) {
-      const students: Student[] = this.courseToStudents[this.formModel.courseId];
-      const selectedStudent: Student | undefined =
-          students.find((student: Student) => student.name === this.formModel.studentName);
-      if (selectedStudent) {
-        email = selectedStudent.email;
-      }
-    }
-
     forkJoin(localDateTime)
         .pipe(
             concatMap((timestamp: number[]) => {
@@ -129,7 +119,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
                 courseId: this.formModel.courseId,
                 searchFrom: timestamp[0].toString(),
                 searchUntil: timestamp[1].toString(),
-                studentEmail: email,
+                studentEmail: this.formModel.studentEmail,
               });
             }),
             finalize(() => this.isSearching = false))
