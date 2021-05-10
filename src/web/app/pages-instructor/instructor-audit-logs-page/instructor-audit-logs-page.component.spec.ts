@@ -138,7 +138,7 @@ describe('InstructorAuditLogsPageComponent', () => {
       logsDateTo: { year: 1998, month: 9, day: 11 },
       logsTimeTo: { hour: 15, minute: 0 },
       courseId: 'CS9999',
-      studentName: 'Doe John',
+      studentEmail: 'doejohn@email.com',
     };
     component.courseToStudents = {
       CS9999: [testStudent],
@@ -219,7 +219,7 @@ describe('InstructorAuditLogsPageComponent', () => {
       logsDateTo: { year: 2020, month: 12, day: 31 },
       logsTimeTo: { hour: 23, minute: 59 },
       courseId: testCourse1.courseId,
-      studentName: testStudent.name,
+      studentEmail: testStudent.email,
     };
     component.courseToStudents = { CS9999: [testStudent] };
     fixture.detectChanges();
