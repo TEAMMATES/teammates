@@ -788,8 +788,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
         this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
-        this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting = lastQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting;
-        this.newQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo = lastQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo;
+        this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting =
+          lastQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting;
+        this.newQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo =
+          lastQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo;
       }
 
       const newQuestionVisibilityStateMachine: VisibilityStateMachine =
