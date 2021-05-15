@@ -934,6 +934,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
     >
       <button
         class="btn expand-btn btn-light margin-top-30px"
+        id="btn-collapse-expand"
       >
          Collapse All 
       </button>
@@ -3551,6 +3552,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     >
       <button
         class="btn expand-btn btn-light margin-top-30px"
+        id="btn-collapse-expand"
       >
          Collapse All 
       </button>

@@ -19,16 +19,23 @@ import {
   FeedbackSessionSubmissionStatus,
   FeedbackTextQuestionDetails,
   FeedbackVisibilityType,
+  Instructor,
+  Instructors,
+  JoinState,
   NumberOfEntitiesToGiveFeedbackToSetting,
   ResponseVisibleSetting,
   SessionVisibleSetting,
+  Student,
+  Students,
 } from '../../../types/api-output';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FeedbackSessionsService } from 'src/web/services/feedback-sessions.service';
 import { CourseService } from 'src/web/services/course.service';
 import { of } from 'rxjs';
 import { FeedbackQuestionsService } from 'src/web/services/feedback-questions.service';
-
+import { StudentService } from 'src/web/services/student.service';
+import { InstructorService } from 'src/web/services/instructor.service';
+import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
 
 describe('InstructorSessionEditPageComponent', () => {
 
@@ -147,11 +154,50 @@ describe('InstructorSessionEditPageComponent', () => {
     isQuestionDetailsChanged: false,
   };
 
+  const sessionEditFormModel: SessionEditFormModel = {
+    courseId: 'testId',
+    timeZone: 'Asia/Singapore',
+    courseName: 'Test Course',
+    feedbackSessionName: 'test session',
+    instructions: 'Instructions',
+
+    submissionStartTime: { hour: 23, minute: 59 },
+    submissionStartDate: { year: 0, month: 0, day: 0 },
+    submissionEndTime: { hour: 23, minute: 59 },
+    submissionEndDate: { year: 0, month: 0, day: 0 },
+    gracePeriod: 0,
+
+    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+    customSessionVisibleTime: { hour: 23, minute: 59 },
+    customSessionVisibleDate: { year: 0, month: 0, day: 0 },
+
+    responseVisibleSetting: ResponseVisibleSetting.CUSTOM,
+    customResponseVisibleTime: { hour: 23, minute: 59 },
+    customResponseVisibleDate: { year: 0, month: 0, day: 0 },
+
+    submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+    publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
+
+    isClosingEmailEnabled: true,
+    isPublishedEmailEnabled: true,
+
+    templateSessionName: '',
+
+    isSaving: false,
+    isEditable: false,
+    isDeleting: false,
+    isCopying: false,
+    hasVisibleSettingsPanelExpanded: false,
+    hasEmailSettingsPanelExpanded: false,
+  };
+
   let component: InstructorSessionEditPageComponent;
   let fixture: ComponentFixture<InstructorSessionEditPageComponent>;
   let feedbackSessionsService: FeedbackSessionsService;
   let feedbackQuestionsService: FeedbackQuestionsService;
   let courseService: CourseService;
+  let studentService: StudentService;
+  let instructorService: InstructorService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -174,6 +220,8 @@ describe('InstructorSessionEditPageComponent', () => {
     courseService = TestBed.inject(CourseService);
     feedbackSessionsService = TestBed.inject(FeedbackSessionsService);
     feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
+    studentService = TestBed.inject(StudentService);
+    instructorService = TestBed.inject(InstructorService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -230,5 +278,92 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(component.questionEditFormModels.length).toBe(2);
     expect(component.questionEditFormModels[0].feedbackQuestionId).toBe('feedback-question-1');
     expect(component.questionEditFormModels[1].feedbackQuestionId).toBe('feedback-question-2');
+  });
+
+  it('should get all students of the course', () => {
+    const testStudent1: Student = {
+      email: 'alice@tmms.com',
+      courseId: 'testId',
+      name: 'Alice',
+      teamName: 'Team 1',
+      sectionName: 'Section 1',
+    };
+    const testStudent2: Student = {
+      email: 'bob@tmms.com',
+      courseId: 'testId',
+      name: 'Bob',
+      teamName: 'Team 1',
+      sectionName: 'Section 1',
+    };
+    const students: Students = {
+      students: [testStudent1, testStudent2]
+    };
+    spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of(students));
+
+    component.getAllStudentsOfCourse();
+
+    expect(component.studentsOfCourse.length).toBe(2);
+    expect(component.studentsOfCourse[0].name).toBe('Alice');
+  });
+
+  it('should get all instructors of the course', () => {
+    const testInstructor1: Instructor = {
+      courseId: 'testId',
+      email: 'test@example.com',
+      name: 'Instructor A',
+      joinState: JoinState.JOINED,
+    };
+    const testInstructor2: Instructor = {
+      courseId: 'testId',
+      email: 'test@example.com',
+      name: 'Instructor B',
+      joinState: JoinState.JOINED,
+    };
+    const instructors: Instructors = {
+      instructors: [testInstructor1, testInstructor2]
+    }
+    spyOn(instructorService, 'loadInstructors').and.returnValue(of(instructors));
+
+    component.getAllInstructorsCanBePreviewedAs();
+    expect(component.instructorsCanBePreviewedAs.length).toBe(2);
+    expect(component.instructorsCanBePreviewedAs[0].name).toBe('Instructor A');
+  });
+
+  it('should collapse all questions', () => {
+    testQuestionEditFormModel1.isCollapsed = false;
+    testQuestionEditFormModel2.isCollapsed = false;
+    component.isLoadingFeedbackQuestions = false;
+    component.questionEditFormModels = [testQuestionEditFormModel1, testQuestionEditFormModel2];
+    fixture.detectChanges();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
+    button.click();
+
+    expect(component.questionEditFormModels[0].isCollapsed).toBe(true);
+    expect(component.questionEditFormModels[1].isCollapsed).toBe(true);
+  });
+
+  it('should expand all questions when at least one question is collapsed', () => {
+    testQuestionEditFormModel1.isCollapsed = true;
+    testQuestionEditFormModel2.isCollapsed = false;
+    component.questionEditFormModels = [testQuestionEditFormModel1, testQuestionEditFormModel2];
+    component.isLoadingFeedbackQuestions = false;
+    fixture.detectChanges();
+    
+    const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
+    button.click();
+
+    expect(component.questionEditFormModels[0].isCollapsed).toBe(false);
+    expect(component.questionEditFormModels[1].isCollapsed).toBe(false);
+  });
+
+  it('should cancel edit session', () => {
+    component.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(sessionEditFormModel));
+    sessionEditFormModel.instructions = 'New instructions';
+    component.sessionEditFormModel = sessionEditFormModel;
+    component.isLoadingFeedbackSession = false;
+
+    component.cancelEditingSessionHandler();
+    expect(component.sessionEditFormModel.instructions).toBe('Instructions');
   })
 });
