@@ -91,8 +91,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         }
         assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 0).isEmpty());
 
-        ______TS("success: mix of answers of all responses that are 1) in range and is multiple of 10 " +
-                "2) POINTS_NOT_SURE and notSure is allowed 3) POINTS_NOT_SUBMITTED");
+        ______TS("success: mix of answers of all responses that are 1) in range and is multiple of 10 "
+                + "2) POINTS_NOT_SURE and notSure is allowed 3) POINTS_NOT_SUBMITTED");
         responses.clear();
         for (int answer : VALID_CONTRIBUTION_RESPONSE_ANSWERS) {
             FeedbackContributionResponseDetails details1 = new FeedbackContributionResponseDetails();
@@ -128,8 +128,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 0));
 
-        ______TS("failure: mix of answers of all responses that are 1) either not in range or not multiple of 10," +
-                "2) POINTS_NOT_SURE and notSure is not allowed");
+        ______TS("failure: mix of answers of all responses that are 1) either not in range or not multiple of"
+                + "10, 2) POINTS_NOT_SURE and notSure is not allowed");
         responses.clear();
         for (int answer : INVALID_CONTRIBUTION_RESPONSE_ANSWERS) {
             FeedbackContributionResponseDetails details1 = new FeedbackContributionResponseDetails();
