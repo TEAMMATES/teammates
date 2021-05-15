@@ -5,10 +5,11 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
-import teammates.storage.entity.FeedbackQuestion;
 import teammates.test.BaseTestCase;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * SUT: {@link FeedbackContributionQuestionDetails}.
