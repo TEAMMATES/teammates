@@ -164,15 +164,21 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateGiverRecipientVisibility() {
         FeedbackContributionQuestionDetails details = new FeedbackContributionQuestionDetails();
-        FeedbackQuestion qn = new FeedbackQuestion("session", "course",
-                "text", "description", 1, FeedbackQuestionType.TEXT,
-                FeedbackParticipantType.STUDENTS, FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF,
-                Const.MAX_POSSIBLE_RECIPIENTS, Arrays.asList(FeedbackParticipantType.RECEIVER,
-                    FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
-                    FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                    FeedbackParticipantType.INSTRUCTORS), new ArrayList<>(), new ArrayList<>());
-        qn.setFeedbackQuestionId(1L);
-        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.valueOf(qn);
+        FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder()
+                .withCourseId("course")
+                .withFeedbackSessionName("session")
+                .withGiverType(FeedbackParticipantType.STUDENTS)
+                .withRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                .withQuestionNumber(1)
+                .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
+                .withShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER,
+                        FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
+                        FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                        FeedbackParticipantType.INSTRUCTORS))
+                .withShowGiverNameTo(new ArrayList<>())
+                .withShowRecipientNameTo(new ArrayList<>())
+                .withQuestionDescription("description")
+                .build();
 
         ______TS("success: valid giver recipient visibility");
         assertEquals("", details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
