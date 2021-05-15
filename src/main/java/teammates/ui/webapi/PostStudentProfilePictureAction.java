@@ -24,7 +24,7 @@ class PostStudentProfilePictureAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to access this resource.");
         }
