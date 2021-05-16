@@ -6,7 +6,7 @@
         <th class="text-center" *ngFor="let choice of questionDetails.rubricChoices">{{ choice }}</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="rubric-answers">
       <tr *ngFor="let answer of answers; let i = index">
         <td>{{ questionDetails.rubricSubQuestions[i] }}</td>
         <td class="text-center" *ngFor="let choice of questionDetails.rubricChoices">

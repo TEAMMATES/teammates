@@ -1,15 +1,10 @@
 package teammates.test;
 
-import java.io.IOException;
-import java.net.URLConnection;
-import java.util.Arrays;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -20,9 +15,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const;
-import teammates.common.util.GoogleCloudStorageHelper;
-import teammates.common.util.retry.RetryManager;
 import teammates.logic.api.LogicExtension;
 
 /**
@@ -45,21 +37,6 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     @AfterClass
     public void tearDownGae() {
         gaeSimulation.tearDown();
-    }
-
-    @Override
-    protected RetryManager getPersistenceRetryManager() {
-        return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
-    }
-
-    protected static String writeFileToGcs(String googleId, String filename) throws IOException {
-        byte[] image = FileHelper.readFileAsBytes(filename);
-        String contentType = URLConnection.guessContentTypeFromName(filename);
-        return GoogleCloudStorageHelper.writeImageDataToGcs(googleId, image, contentType);
-    }
-
-    protected static boolean doesFileExistInGcs(String fileKey) {
-        return GoogleCloudStorageHelper.doesFileExistInGcs(fileKey);
     }
 
     @Override
@@ -115,44 +92,26 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle dataBundle) {
         try {
             logic.removeDataBundle(dataBundle);
             logic.persistDataBundle(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle dataBundle) {
+    protected boolean doPutDocuments(DataBundle dataBundle) {
         try {
             logic.putDocuments(dataBundle);
-            return Const.StatusCodes.BACKDOOR_STATUS_SUCCESS;
+            return true;
         } catch (Exception e) {
-            return Const.StatusCodes.BACKDOOR_STATUS_FAILURE + ": " + TeammatesException.toStringWithStackTrace(e);
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
         }
     }
 
-    /*
-     * Verifies that search results match with expected output.
-     * Compares the text for each comment as it is unique.
-     *
-     * @param actual the results from the search query.
-     * @param expected the expected results for the search query.
-     */
-    protected static void verifySearchResults(FeedbackResponseCommentSearchResultBundle actual,
-            FeedbackResponseCommentAttributes... expected) {
-        assertEquals(expected.length, actual.numberOfResults);
-        assertEquals(expected.length, actual.comments.size());
-        FeedbackResponseCommentAttributes.sortFeedbackResponseCommentsByCreationTime(Arrays.asList(expected));
-        FeedbackResponseCommentAttributes[] sortedComments = Arrays.asList(expected)
-                                                                     .toArray(new FeedbackResponseCommentAttributes[2]);
-        int[] i = new int[] { 0 };
-        actual.comments.forEach((key, comments) -> comments.forEach(comment -> {
-            assertEquals(sortedComments[i[0]].commentText, comment.commentText);
-            i[0]++;
-        }));
-    }
 }

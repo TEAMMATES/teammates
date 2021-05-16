@@ -20,7 +20,7 @@ class DeleteInstructorAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         //allow access to admins or instructor with modify permission
         if (userInfo.isAdmin) {
             return;
@@ -33,7 +33,7 @@ class DeleteInstructorAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -55,7 +55,7 @@ class DeleteInstructorAction extends Action {
         }
 
         // Deleting last instructor from the course is not allowed if you're not the admin
-        if (userInfo.isInstructor && !hasAlternativeInstructor(courseId, instructor.email)) {
+        if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.email)) {
             return new JsonResult("The instructor you are trying to delete is the last instructor in the course. "
                     + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
         }
@@ -81,7 +81,7 @@ class DeleteInstructorAction extends Action {
 
             hasAlternativeModifyInstructor = hasAlternativeModifyInstructor || (instr.isRegistered()
                     && !instr.getEmail().equals(instructorToDeleteEmail)
-                    && instr.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+                    && instr.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
             hasAlternativeVisibleInstructor = hasAlternativeVisibleInstructor
                     || (instr.isDisplayedToStudents() && !instr.getEmail().equals(instructorToDeleteEmail));

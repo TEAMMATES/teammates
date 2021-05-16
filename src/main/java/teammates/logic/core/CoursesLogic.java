@@ -199,7 +199,7 @@ public final class CoursesLogic {
      * except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+        Assumption.assertNotNull(instructorList);
 
         List<String> courseIdList = instructorList.stream()
                 .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
@@ -224,7 +224,7 @@ public final class CoursesLogic {
      * Returns a list of {@link CourseAttributes} for soft-deleted courses for a given list of instructors.
      */
     public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull("Supplied parameter was null", instructorList);
+        Assumption.assertNotNull(instructorList);
 
         List<String> softDeletedCourseIdList = instructorList.stream()
                 .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())

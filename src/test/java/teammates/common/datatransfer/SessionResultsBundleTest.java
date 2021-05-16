@@ -31,7 +31,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
         SessionResultsBundle bundle =
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -64,7 +64,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(),
                         new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new HashMap<>(), new HashMap<>(), new HashMap<>(),
+                        new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
@@ -90,22 +90,34 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
-        Map<String, boolean[]> responseVisibilityTable = new HashMap<>();
-        responseVisibilityTable.put("response1ForQ1S1C1", new boolean[] {true, false});
-        responseVisibilityTable.put("response2ForQ1S1C1", new boolean[] {false, true});
-        responseVisibilityTable.put("response1ForQ2S1C1", new boolean[] {true, true});
-        responseVisibilityTable.put("response2ForQ2S1C1", new boolean[] {false, false});
+        Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
+        responseGiverVisibilityTable.put("response1ForQ1S1C1", true);
+        responseGiverVisibilityTable.put("response2ForQ1S1C1", false);
+        responseGiverVisibilityTable.put("response1ForQ2S1C1", true);
+        responseGiverVisibilityTable.put("response2ForQ2S1C1", false);
+
+        Map<String, Boolean> responseRecipientVisibilityTable = new HashMap<>();
+        responseRecipientVisibilityTable.put("response1ForQ1S1C1", false);
+        responseRecipientVisibilityTable.put("response2ForQ1S1C1", true);
+        responseRecipientVisibilityTable.put("response1ForQ2S1C1", true);
+        responseRecipientVisibilityTable.put("response2ForQ2S1C1", false);
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), responseVisibilityTable, new HashMap<>(), new HashMap<>(),
+                        new ArrayList<>(), responseGiverVisibilityTable, responseRecipientVisibilityTable,
+                        new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 
-        for (Map.Entry<String, boolean[]> visibilityEntry : responseVisibilityTable.entrySet()) {
-            assertEquals(visibilityEntry.getValue()[Const.VISIBILITY_TABLE_GIVER],
+        for (Map.Entry<String, Boolean> visibilityEntry : responseGiverVisibilityTable.entrySet()) {
+            assertEquals(visibilityEntry.getValue(),
                     bundle.isResponseGiverVisible(responseBundle.feedbackResponses.get(visibilityEntry.getKey())));
+        }
+
+        for (Map.Entry<String, Boolean> visibilityEntry : responseRecipientVisibilityTable.entrySet()) {
+            assertEquals(visibilityEntry.getValue(),
+                    bundle.isResponseRecipientVisible(responseBundle.feedbackResponses.get(visibilityEntry.getKey())));
         }
     }
 
@@ -116,14 +128,14 @@ public class SessionResultsBundleTest extends BaseTestCase {
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
-        Map<Long, boolean[]> commentVisibilityTable = new HashMap<>();
-        commentVisibilityTable.put(1L, new boolean[] {true});
-        commentVisibilityTable.put(2L, new boolean[] {false});
+        Map<Long, Boolean> commentGiverVisibilityTable = new HashMap<>();
+        commentGiverVisibilityTable.put(1L, true);
+        commentGiverVisibilityTable.put(2L, false);
 
         SessionResultsBundle bundle =
                 new SessionResultsBundle(session,
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
-                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), commentVisibilityTable,
+                        new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), commentGiverVisibilityTable,
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
                                 new ArrayList<>(responseBundle.instructors.values())));
 

@@ -11,6 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.ScriptTimeoutException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -39,15 +40,14 @@ public class Browser {
     }
 
     /**
-     * The {@link WebDriver} object that drives the Browser instance.
-     */
-    // TODO change this to private once all legacy UI tests are migrated
-    public WebDriver driver;
-
-    /**
      * Indicates whether the app is being used by an admin.
      */
     public boolean isAdminLoggedIn;
+
+    /**
+     * The {@link WebDriver} object that drives the Browser instance.
+     */
+    WebDriver driver;
 
     /**
      * Keeps track of multiple windows opened by the {@link WebDriver}.
@@ -120,6 +120,29 @@ public class Browser {
         driver.switchTo().window(windowHandles.pop());
     }
 
+    /**
+     * Closes the current browser.
+     */
+    public void close() {
+        driver.quit();
+    }
+
+    /**
+     * Visits the given URL.
+     */
+    public void goToUrl(String url) {
+        if (TestProperties.BROWSER.equals(TestProperties.BROWSER_CHROME)) {
+            // Recent chromedriver has bug in setting page load timeout, which can potentially cause infinitely long waits
+            ((JavascriptExecutor) driver).executeScript("window.location.href='" + url + "'");
+            return;
+        }
+        try {
+            driver.get(url);
+        } catch (TimeoutException e) {
+            System.out.println("Page could not load completely. Trying to continue test.");
+        }
+    }
+
     private WebDriver createWebDriver() {
         System.out.print("Initializing Selenium: ");
 
@@ -144,7 +167,6 @@ public class Browser {
             FirefoxProfile profile;
             if (TestProperties.isDevServer()) {
                 profile = new FirefoxProfile();
-                profile.setPreference("browser.private.browsing.autostart", true);
             } else {
                 // Get user data from browser to bypass google blocking automated log in.
                 // Log in manually to teammates to use that log in data for e2e tests.
@@ -165,6 +187,10 @@ public class Browser {
             profile.setPreference("browser.download.dir", downloadPath);
 
             FirefoxOptions options = new FirefoxOptions().setProfile(profile);
+            if (TestProperties.isDevServer()) {
+                options.addArguments("-private");
+            }
+
             return new FirefoxDriver(options);
         }
 
@@ -174,7 +200,7 @@ public class Browser {
 
             Map<String, Object> chromePrefs = new HashMap<>();
             chromePrefs.put("download.default_directory", downloadPath);
-            chromePrefs.put("profile.default_content_settings.popups", 0);
+            chromePrefs.put("download.prompt_for_download", false);
             ChromeOptions options = new ChromeOptions();
             options.setExperimentalOption("prefs", chromePrefs);
             options.addArguments("--allow-file-access-from-files");

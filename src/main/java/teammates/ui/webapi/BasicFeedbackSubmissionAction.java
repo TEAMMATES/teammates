@@ -31,12 +31,13 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Verifies that instructor can see the moderated question in moderation request.
      */
-    void verifyInstructorCanSeeQuestionIfInModeration(FeedbackQuestionAttributes feedbackQuestion) {
+    void verifyInstructorCanSeeQuestionIfInModeration(FeedbackQuestionAttributes feedbackQuestion)
+            throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
 
         if (!StringHelper.isEmpty(moderatedPerson) && !canInstructorSeeQuestion(feedbackQuestion)) {
             // should not moderate question which instructors cannot see
-            throw new UnauthorizedAccessException("The question is not applicable for moderation");
+            throw new UnauthorizedAccessException("The question is not applicable for moderation", true);
         }
     }
 
@@ -53,7 +54,9 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             return logic.getStudentForEmail(courseId, previewAsPerson);
         } else {
             return getUnregisteredStudent().orElseGet(() -> {
-                gateKeeper.verifyLoggedInUserPrivileges();
+                if (userInfo == null) {
+                    return null;
+                }
                 return logic.getStudentForGoogleId(courseId, userInfo.getId());
             });
         }
@@ -63,7 +66,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      * Checks the access control for student feedback submission.
      */
     void checkAccessControlForStudentFeedbackSubmission(
-            StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
+            StudentAttributes student, FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
         if (student == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent student entity");
         }
@@ -72,16 +75,16 @@ abstract class BasicFeedbackSubmissionAction extends Action {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
                     student.getSection(),
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(
                     logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()), feedbackSession,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                    Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             if (!StringHelper.isEmpty(student.googleId)) {
                 if (userInfo == null) {
@@ -107,28 +110,28 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             return logic.getInstructorForEmail(courseId, moderatedPerson);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
             return logic.getInstructorForEmail(courseId, previewAsPerson);
-        } else {
-            gateKeeper.verifyLoggedInUserPrivileges();
+        } else if (userInfo != null) {
             return logic.getInstructorForGoogleId(courseId, userInfo.getId());
         }
+        return null;
     }
 
     /**
      * Checks the access control for instructor feedback submission.
      */
     void checkAccessControlForInstructorFeedbackSubmission(
-            InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) {
+            InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
 
         if (!StringHelper.isEmpty(moderatedPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS);
+                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
         } else if (!StringHelper.isEmpty(previewAsPerson)) {
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(feedbackSession.getCourseId(), userInfo.getId()),
-                    feedbackSession, Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                    feedbackSession, Const.InstructorPermissions.CAN_MODIFY_SESSION);
         } else {
             gateKeeper.verifySessionSubmissionPrivilegeForInstructor(feedbackSession, instructor);
         }
@@ -137,11 +140,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
     /**
      * Verifies that it is not a preview request.
      */
-    void verifyNotPreview() {
+    void verifyNotPreview() throws UnauthorizedAccessException {
         String previewAsPerson = getRequestParamValue(Const.ParamsNames.PREVIEWAS);
         if (!StringHelper.isEmpty(previewAsPerson)) {
             // should not view response under preview mode
-            throw new UnauthorizedAccessException("Cannot get responses in preview request");
+            throw new UnauthorizedAccessException("You are not allowed to see responses when previewing", true);
         }
     }
 
@@ -150,11 +153,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      *
      * <p>If it is moderation request, omit the check.
      */
-    void verifySessionOpenExceptForModeration(FeedbackSessionAttributes feedbackSession) {
+    void verifySessionOpenExceptForModeration(FeedbackSessionAttributes feedbackSession) throws UnauthorizedAccessException {
         String moderatedPerson = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_MODERATED_PERSON);
 
         if (StringHelper.isEmpty(moderatedPerson) && !(feedbackSession.isOpened() || feedbackSession.isInGracePeriod())) {
-            throw new UnauthorizedAccessException("The feedback session is not available for submission");
+            throw new UnauthorizedAccessException("The feedback session is not available for submission", true);
         }
     }
 

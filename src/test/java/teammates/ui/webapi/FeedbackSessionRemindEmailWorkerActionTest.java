@@ -47,9 +47,6 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         FeedbackSessionAttributes session1 = typicalBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        // re-read from Datastore to update the respondents list
-        session1 = logic.getFeedbackSession(session1.getFeedbackSessionName(), session1.getCourseId());
-
         String[] submissionParams = new String[] {
                 ParamsNames.FEEDBACK_SESSION_NAME, session1.getFeedbackSessionName(),
                 ParamsNames.COURSE_ID, session1.getCourseId(),
@@ -60,7 +57,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         action.execute();
 
         // 1 student and 4 instructors sent reminder, 1 instructor notified
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
 
         Set<String> giverSet =
                 logic.getGiverSetThatAnswerFeedbackSession(session1.getCourseId(), session1.getFeedbackSessionName());
@@ -83,7 +80,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
                 instructor1.getGoogleId()).email);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
-        List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();

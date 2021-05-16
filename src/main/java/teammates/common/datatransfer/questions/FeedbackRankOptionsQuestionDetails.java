@@ -9,26 +9,27 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
 public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDetails {
-    public static final transient int MIN_NUM_OF_OPTIONS = 2;
-    public static final transient String ERROR_INVALID_MAX_OPTIONS_ENABLED =
-            "Max options enabled is invalid";
-    public static final transient String ERROR_INVALID_MIN_OPTIONS_ENABLED =
-            "Min options enabled is invalid";
-    public static final transient String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES =
-            "Min options enabled is more than the total choices";
-    public static final transient String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES =
-            "Max options enabled is more than the total choices";
-    public static final transient String ERROR_NOT_ENOUGH_OPTIONS =
-            "Too little options for " + Const.FeedbackQuestionTypeNames.RANK_OPTION
-            + ". Minimum number of options is: ";
-    public static final transient String ERROR_EMPTY_OPTIONS_ENTERED =
-            "Empty Rank Options are not allowed";
+
+    static final String QUESTION_TYPE_NAME = "Rank (options) question";
+    static final int MIN_NUM_OF_OPTIONS = 2;
+    static final String ERROR_INVALID_MAX_OPTIONS_ENABLED = "Max options enabled is invalid";
+    static final String ERROR_INVALID_MIN_OPTIONS_ENABLED = "Min options enabled is invalid";
+    static final String ERROR_MIN_OPTIONS_ENABLED_MORE_THAN_CHOICES = "Min options enabled is more than the total choices";
+    static final String ERROR_MAX_OPTIONS_ENABLED_MORE_THAN_CHOICES = "Max options enabled is more than the total choices";
+    static final String ERROR_NOT_ENOUGH_OPTIONS =
+            "Too little options for " + QUESTION_TYPE_NAME + ". Minimum number of options is: ";
+    static final String ERROR_EMPTY_OPTIONS_ENTERED = "Empty rank options are not allowed";
+    static final String ERROR_DUPLICATE_RANK_RESPONSE = "Duplicate ranks are not allowed.";
+    static final String ERROR_INVALID_RANK_RESPONSE = "Invalid rank assigned.";
 
     private List<String> options;
 
     public FeedbackRankOptionsQuestionDetails() {
-        super(FeedbackQuestionType.RANK_OPTIONS);
+        this(null);
+    }
 
+    public FeedbackRankOptionsQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.RANK_OPTIONS, questionText);
         this.options = new ArrayList<>();
     }
 
@@ -52,8 +53,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             errors.add(ERROR_EMPTY_OPTIONS_ENTERED);
         }
 
-        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != NO_VALUE;
-        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != NO_VALUE;
+        boolean isMaxOptionsToBeRankedEnabled = maxOptionsToBeRanked != Const.POINTS_NO_VALUE;
+        boolean isMinOptionsToBeRankedEnabled = minOptionsToBeRanked != Const.POINTS_NO_VALUE;
 
         if (isMaxOptionsToBeRankedEnabled) {
             if (maxOptionsToBeRanked < 1) {
@@ -89,8 +90,8 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
     public List<String> validateResponsesDetails(List<FeedbackResponseDetails> responses, int numRecipients) {
         List<String> errors = new ArrayList<>();
 
-        boolean isMinOptionsEnabled = minOptionsToBeRanked != Integer.MIN_VALUE;
-        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Integer.MIN_VALUE;
+        boolean isMinOptionsEnabled = minOptionsToBeRanked != Const.POINTS_NO_VALUE;
+        boolean isMaxOptionsEnabled = maxOptionsToBeRanked != Const.POINTS_NO_VALUE;
 
         for (FeedbackResponseDetails response : responses) {
             FeedbackRankOptionsResponseDetails details = (FeedbackRankOptionsResponseDetails) response;
@@ -100,7 +101,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
 
             // if duplicate ranks are not allowed but have been assigned trigger this error
             if (isAnswerContainsDuplicates && !areDuplicatesAllowed) {
-                errors.add("Duplicate Ranks are not allowed.");
+                errors.add(ERROR_DUPLICATE_RANK_RESPONSE);
             }
             // if number of options ranked is less than the minimum required trigger this error
             if (isMinOptionsEnabled && filteredAnswers.size() < minOptionsToBeRanked) {
@@ -113,7 +114,7 @@ public class FeedbackRankOptionsQuestionDetails extends FeedbackRankQuestionDeta
             // if rank assigned is invalid trigger this error
             boolean isRankInvalid = filteredAnswers.stream().anyMatch(answer -> answer < 1 || answer > options.size());
             if (isRankInvalid) {
-                errors.add("Invalid rank assigned.");
+                errors.add(ERROR_INVALID_RANK_RESPONSE);
             }
         }
 

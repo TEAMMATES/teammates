@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import moment from 'moment-timezone';
-import { environment } from '../../../environments/environment';
 import { TemplateSession } from '../../../services/feedback-sessions.service';
-import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import {
   Course,
@@ -70,6 +68,8 @@ export class SessionEditFormComponent implements OnInit {
 
     isSaving: false,
     isEditable: true,
+    isDeleting: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -108,7 +108,7 @@ export class SessionEditFormComponent implements OnInit {
   @Output()
   closeEditFormEvent: EventEmitter<void> = new EventEmitter<void>();
 
-  constructor(private simpleModalService: SimpleModalService, private navigationService: NavigationService) { }
+  constructor(private simpleModalService: SimpleModalService, public calendar: NgbCalendar) { }
 
   ngOnInit(): void {
   }
@@ -243,13 +243,6 @@ export class SessionEditFormComponent implements OnInit {
    */
   copyOthersHandler(): void {
     this.copyOtherSessionsEvent.emit();
-  }
-
-  /**
-   * Handles session 'Help' link click event.
-   */
-  sessionHelpHandler(): void {
-    this.navigationService.openNewWindow(`${environment.frontendUrl}/web/instructor/help?questionId=sessions&section=sessions`);
   }
 
   /**

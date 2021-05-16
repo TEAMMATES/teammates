@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.FeedbackResponseCommentSearchResultBundle;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
@@ -69,6 +68,10 @@ public class Logic {
         return accountsLogic.getAccount(googleId);
     }
 
+    public String getCourseInstitute(String courseId) {
+        return accountsLogic.getCourseInstitute(courseId);
+    }
+
     /**
      * Updates/Creates the profile using {@link StudentProfileAttributes.UpdateOptions}.
      *
@@ -101,31 +104,6 @@ public class Logic {
         Assumption.assertNotNull(googleId);
 
         accountsLogic.deleteAccountCascade(googleId);
-    }
-
-    /**
-     * Delete the picture associated with the {@code key} in Cloud Storage.
-     *
-     * <br/> Preconditions: <br/>
-     * All parameters are non-null.
-     *
-     * <p>Fails silently if the {@code key} doesn't exist.</p>
-     */
-    public void deletePicture(String key) {
-        Assumption.assertNotNull(key);
-
-        profilesLogic.deletePicture(key);
-    }
-
-    /**
-     * Deletes {@code pictureKey} for the student profile associated with {@code googleId}.
-     *
-     * <p>If the associated profile doesn't exist, create a new one.</p>
-     */
-    public void deletePictureKey(String googleId) {
-        Assumption.assertNotNull(googleId);
-
-        profilesLogic.deletePictureKey(googleId);
     }
 
     /**
@@ -706,6 +684,11 @@ public class Logic {
         return studentsLogic.getUnregisteredStudentsForCourse(courseId);
     }
 
+    /**
+     * Checks whether an instructor has completed a feedback session.
+     *
+     * <p> If there is no question for instructors, the feedback session is completed</p>
+     */
     public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
         Assumption.assertNotNull(fsa);
@@ -713,6 +696,11 @@ public class Logic {
         return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
     }
 
+    /**
+     * Checks whether a student has completed a feedback session.
+     *
+     * <p> If there is no question for students, the feedback session is completed</p>
+     */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
         Assumption.assertNotNull(fsa);
         Assumption.assertNotNull(userEmail);
@@ -958,62 +946,6 @@ public class Logic {
     }
 
     /**
-     * Adds an instructor with {@code email} in the instructor respondent set
-     * in feedback session {@code feedbackSessionName} in {@code courseId}.
-     */
-    public void addInstructorRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.addInstructorRespondent(email, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Adds a student with {@code email} in the student respondent set
-     * in feedback session {@code feedbackSessionName} in {@code courseId}.
-     */
-    public void addStudentRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.addStudentRespondent(email, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Deletes an instructor with {@code email} in the instructor respondent set
-     * in session {@code feedbackSessionName} of course {@code courseId}.
-     */
-    public void deleteInstructorRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.deleteInstructorRespondent(email, feedbackSessionName, courseId);
-    }
-
-    /**
-     * Deletes a student with {@code email} in the student respondent set
-     * in session {@code feedbackSessionName} of course {@code courseId}.
-     */
-    public void deleteStudentRespondent(String email, String feedbackSessionName, String courseId)
-            throws EntityDoesNotExistException, InvalidParametersException {
-
-        Assumption.assertNotNull(email);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        feedbackSessionsLogic.deleteStudentFromRespondentList(email, feedbackSessionName, courseId);
-    }
-
-    /**
      * Publishes a feedback session.
      *
      * <br/>Preconditions: <br/>
@@ -1132,8 +1064,6 @@ public class Logic {
      *
      * <p>Silently fail if question does not exist.
      *
-     * <p>The respondent lists will also be updated due the deletion of question.
-     *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
      */
@@ -1238,14 +1168,6 @@ public class Logic {
         return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
 
-    public boolean hasGiverRespondedForSession(String userEmail, String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(userEmail);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-
-        return feedbackResponsesLogic.hasGiverRespondedForSession(userEmail, feedbackSessionName, courseId);
-    }
-
     public boolean hasResponsesForCourse(String courseId) {
         return feedbackResponsesLogic.hasResponsesForCourse(courseId);
     }
@@ -1277,8 +1199,6 @@ public class Logic {
 
     /**
      * Deletes a feedback response cascade its associated comments.
-     *
-     * <p>The respondent lists will NOT be updated.
      *
      * <br/>Preconditions: <br/>
      * * All parameters are non-null.
@@ -1327,28 +1247,6 @@ public class Logic {
         Assumption.assertNotNull(feedbackResponseId);
 
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
-    }
-
-    /**
-     * Batch creates or updates documents for the given comments.
-     *
-     * @see FeedbackResponseCommentsLogic#putDocuments(List)
-     */
-    public void putFeedbackResponseCommentDocuments(List<FeedbackResponseCommentAttributes> comments) {
-        feedbackResponseCommentsLogic.putDocuments(comments);
-    }
-
-    /**
-     * Search for FeedbackResponseComment. Preconditions: all parameters are non-null.
-     * @param instructors   a list of InstructorAttributes associated to a googleId,
-     *                      used for filtering of search result
-     * @return Null if no match found
-     */
-    public FeedbackResponseCommentSearchResultBundle searchFeedbackResponseComments(String queryString,
-                                                                         List<InstructorAttributes> instructors) {
-        Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(instructors);
-        return feedbackResponseCommentsLogic.searchFeedbackResponseComments(queryString, instructors);
     }
 
     /**
@@ -1439,6 +1337,13 @@ public class Logic {
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(generateOptionsFor);
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
+    }
+
+    public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(student1Email);
+        Assumption.assertNotNull(student2Email);
+        return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
 
 }

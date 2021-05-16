@@ -25,3 +25,6 @@ coverage:
       default:
         # enforce manually; sometimes used codes are not "covered" e.g. client scripts
         threshold: 100%
+
+ignore:
+  - "src/main/java/com/google/appengine/logging/v1/*.java"

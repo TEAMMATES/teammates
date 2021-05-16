@@ -7,12 +7,11 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -52,12 +51,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading="false"
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -209,7 +207,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
          There are no students in this course. Click 
         <a
           href="/web/instructor/courses/enroll?courseid=CS101"
-          routerlink="/web/instructor/courses/enroll"
+          tmrouterlink="/web/instructor/courses/enroll"
         >
           here
         </a>
@@ -230,12 +228,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading="false"
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -411,9 +408,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   type="button"
                   value="Delete All Students"
                 >
+                  
                   <i
                     class="fa fa-trash"
                   />
+                  
                    Delete All Students 
                 </button>
               </div>
@@ -635,12 +634,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
-  navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
-  router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

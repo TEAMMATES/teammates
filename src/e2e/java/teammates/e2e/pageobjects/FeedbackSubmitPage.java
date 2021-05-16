@@ -14,7 +14,6 @@ import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -45,9 +44,6 @@ import teammates.common.util.Const;
  */
 public class FeedbackSubmitPage extends AppPage {
 
-    @FindBy(id = "confirmation-email-checkbox")
-    private WebElement confirmationEmailCheckbox;
-
     public FeedbackSubmitPage(Browser browser) {
         super(browser);
     }
@@ -69,7 +65,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyNumQuestions(int expected) {
-        assertEquals(browser.driver.findElements(By.tagName("tm-question-submission-form")).size(), expected);
+        assertEquals(browser.driver.findElements(By.id("question-submission-form")).size(), expected);
     }
 
     public void verifyQuestionDetails(int qnNumber, FeedbackQuestionAttributes questionAttributes) {
@@ -101,7 +97,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyWarningMessageForPartialResponse(int[] unansweredQuestions) {
-        click(waitForElementPresence(By.id("btn-submit")));
+        click(getSubmitButton());
         StringBuilder expectedSb = new StringBuilder();
         for (int unansweredQuestion : unansweredQuestions) {
             expectedSb.append(unansweredQuestion).append(", ");
@@ -113,11 +109,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyCannotSubmit() {
-        assertFalse(waitForElementPresence(By.id("btn-submit")).isEnabled());
-    }
-
-    public void markWithConfirmationEmail() {
-        markOptionAsSelected(confirmationEmailCheckbox);
+        assertFalse(getSubmitButton().isEnabled());
     }
 
     public void addComment(int qnNumber, String recipient, String newComment) {
@@ -230,7 +222,7 @@ public class FeedbackSubmitPage extends AppPage {
         if (questionDetails.isOtherEnabled()) {
             msqChoices.add("Other");
         }
-        if (questionDetails.getMinSelectableChoices() == Integer.MIN_VALUE) {
+        if (questionDetails.getMinSelectableChoices() == Const.POINTS_NO_VALUE) {
             msqChoices.add("None of the above");
         }
         List<WebElement> optionTexts = getMsqOptions(qnNumber, recipient);
@@ -241,11 +233,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyMsqSelectableOptionsMessage(int qnNumber, FeedbackMsqQuestionDetails questionDetails) {
-        if (questionDetails.getMinSelectableChoices() > Integer.MIN_VALUE) {
+        if (questionDetails.getMinSelectableChoices() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
                     "Choose at least " + questionDetails.getMinSelectableChoices() + " options.");
         }
-        if (questionDetails.getMaxSelectableChoices() > Integer.MIN_VALUE) {
+        if (questionDetails.getMaxSelectableChoices() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
                     "Choose no more than " + questionDetails.getMaxSelectableChoices() + " options.");
         }
@@ -472,11 +464,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyRankQuestion(int qnNumber, String recipient, FeedbackRankQuestionDetails questionDetails) {
-        if (questionDetails.getMaxOptionsToBeRanked() != Integer.MIN_VALUE) {
+        if (questionDetails.getMaxOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("max-options-message")).getText(),
                     "Rank no more than " + questionDetails.getMaxOptionsToBeRanked() + " options.");
         }
-        if (questionDetails.getMinOptionsToBeRanked() != Integer.MIN_VALUE) {
+        if (questionDetails.getMinOptionsToBeRanked() != Const.POINTS_NO_VALUE) {
             assertEquals(getQuestionForm(qnNumber).findElement(By.id("min-options-message")).getText(),
                     "Rank at least " + questionDetails.getMinOptionsToBeRanked() + " options.");
         }
@@ -589,7 +581,9 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private WebElement getQuestionForm(int qnNumber) {
-        return browser.driver.findElements(By.tagName("tm-question-submission-form")).get(qnNumber - 1);
+        By questionFormId = By.id("question-submission-form");
+        waitForElementPresence(questionFormId);
+        return browser.driver.findElements(questionFormId).get(qnNumber - 1);
     }
 
     private String getQuestionBrief(int qnNumber) {
@@ -676,7 +670,11 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void clickSubmitButton() {
-        clickAndConfirm(browser.driver.findElement(By.id("btn-submit")));
+        clickAndConfirm(getSubmitButton());
+    }
+
+    private WebElement getSubmitButton() {
+        return waitForElementPresence(By.id("btn-submit"));
     }
 
     private String getQuestionDescription(int qnNumber) {
@@ -715,13 +713,13 @@ public class FeedbackSubmitPage extends AppPage {
         } catch (NoSuchElementException e) {
             // continue
         }
-        int i = 0;
-        while (true) {
+        int limit = 20; // we are not likely to set test data exceeding this number
+        for (int i = 0; i < limit; i++) {
             if (questionForm.findElement(By.id("recipient-name-" + i)).getText().contains(recipient)) {
                 return i;
             }
-            i++;
         }
+        return -1;
     }
 
     private WebElement getTextResponseEditor(int qnNumber, String recipient) {

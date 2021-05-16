@@ -5,10 +5,8 @@ import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -143,112 +141,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // sessions in different courses should not be affected
         assertNotNull(
                 fsLogic.getFeedbackSession(session1InCourse2.getFeedbackSessionName(), session1InCourse2.getCourseId()));
-    }
-
-    @Test
-    public void testDeleteInstructorFromRespondentsList_typicalData_emailShouldBeRemoved() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        fsLogic.addInstructorRespondent("test@email.com",
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        FeedbackSessionAttributes session2InCourse1 = dataBundle.feedbackSessions.get("session2InCourse1");
-        fsLogic.addInstructorRespondent("test@email.com",
-                session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId());
-        // they are in the same course
-        assertEquals(session1InCourse1.getCourseId(), session2InCourse1.getCourseId());
-        assertTrue(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingInstructorList()
-                        .contains("test@email.com"));
-        assertTrue(
-                fsLogic.getFeedbackSession(session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId())
-                        .getRespondingInstructorList()
-                        .contains("test@email.com"));
-
-        // remove email from all respondents list
-        fsLogic.deleteInstructorFromRespondentsList(session1InCourse1.getCourseId(), "test@email.com");
-
-        // the email should not appear
-        assertFalse(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingInstructorList()
-                        .contains("test@email.com"));
-        assertFalse(
-                fsLogic.getFeedbackSession(session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId())
-                        .getRespondingInstructorList()
-                        .contains("test@email.com"));
-    }
-
-    @Test
-    public void testDeleteStudentFromRespondentsList_typicalData_emailShouldBeRemoved() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        fsLogic.addStudentRespondent("test@email.com",
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        FeedbackSessionAttributes session2InCourse1 = dataBundle.feedbackSessions.get("session2InCourse1");
-        fsLogic.addStudentRespondent("test@email.com",
-                session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId());
-        // they are in the same course
-        assertEquals(session1InCourse1.getCourseId(), session2InCourse1.getCourseId());
-        assertTrue(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingStudentList()
-                        .contains("test@email.com"));
-        assertTrue(
-                fsLogic.getFeedbackSession(session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId())
-                        .getRespondingStudentList()
-                        .contains("test@email.com"));
-
-        // remove email from all respondents list
-        fsLogic.deleteStudentFromRespondentsList(session1InCourse1.getCourseId(), "test@email.com");
-
-        // the email should not appear
-        assertFalse(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingStudentList()
-                        .contains("test@email.com"));
-        assertFalse(
-                fsLogic.getFeedbackSession(session2InCourse1.getFeedbackSessionName(), session2InCourse1.getCourseId())
-                        .getRespondingStudentList()
-                        .contains("test@email.com"));
-    }
-
-    @Test
-    public void testDeleteInstructorRespondent_typicalData_shouldRemoveFromRespondentList() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        fsLogic.addInstructorRespondent("test@email.com",
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        assertTrue(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingInstructorList()
-                        .contains("test@email.com"));
-
-        // delete the instructor from the list
-        fsLogic.deleteInstructorRespondent("test@email.com",
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-
-        assertFalse(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingInstructorList()
-                        .contains("test@email.com"));
-    }
-
-    @Test
-    public void testDeleteStudentRespondent_typicalData_shouldRemoveFromRespondentList() throws Exception {
-        FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
-        fsLogic.addStudentRespondent("test@email.com",
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-        assertTrue(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingStudentList()
-                        .contains("test@email.com"));
-
-        // delete the student from the list
-        fsLogic.deleteStudentFromRespondentList("test@email.com",
-                session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId());
-
-        assertFalse(
-                fsLogic.getFeedbackSession(session1InCourse1.getFeedbackSessionName(), session1InCourse1.getCourseId())
-                        .getRespondingStudentList()
-                        .contains("test@email.com"));
     }
 
     @Test
@@ -926,13 +818,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
     }
 
-    // Stringifies the visibility table for easy testing/comparison.
-    private <T> String tableToString(Map<T, boolean[]> table) {
-        return table.entrySet().stream()
-                .map(entry -> "{" + entry.getKey() + "={" + entry.getValue()[0] + ',' + entry.getValue()[1] + "}}")
-                .collect(Collectors.joining(","));
-    }
-
     private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
@@ -1096,27 +981,37 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(7, bundle.getQuestionMissingResponseMap().size());
 
         // Test the generated response visibilityTable for userNames.
-        String mapString = tableToString(bundle.getResponseVisibilityTable());
-        List<String> expectedStrings = new ArrayList<>();
-        Collections.addAll(expectedStrings,
-                getResponseId("qn1.resp1", responseBundle) + "={true,true}",
-                getResponseId("qn2.resp1", responseBundle) + "={true,true}",
-                getResponseId("qn2.resp3", responseBundle) + "={true,true}",
-                getResponseId("qn3.resp1", responseBundle) + "={true,true}",
-                getResponseId("qn4.resp2", responseBundle) + "={true,true}",
-                getResponseId("qn4.resp3", responseBundle) + "={false,true}",
-                getResponseId("qn5.resp1", responseBundle) + "={true,false}",
-                getResponseId("qn7.resp1", responseBundle) + "={true,true}",
-                getResponseId("qn7.resp2", responseBundle) + "={true,true}",
-                getResponseId("qn8.resp1", responseBundle) + "={true,true}",
-                getResponseId("qn8.resp2", responseBundle) + "={true,true}");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(totalResponse, bundle.getResponseVisibilityTable().size());
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn1.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn7.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn7.resp2", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn8.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn8.resp2", responseBundle)));
+        assertEquals(totalResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn1.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn7.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn7.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn8.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn8.resp2", responseBundle)));
+        assertEquals(totalResponse, responseRecipientVisibilityTable.size());
 
         // no entry in comment visibility table
-        mapString = tableToString(bundle.getCommentVisibilityTable());
-        expectedStrings.clear();
-        AssertHelper.assertContains(expectedStrings, mapString);
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
     }
 
     @Test
@@ -1174,26 +1069,35 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(8, bundle.getQuestionMissingResponseMap().size());
 
         // Test the generated response visibilityTable for userNames.
-        String mapString = tableToString(bundle.getResponseVisibilityTable());
-        List<String> expectedStrings = new ArrayList<>();
-        Collections.addAll(expectedStrings,
-                getResponseId("qn2.resp1", responseBundle) + "={false,false}",
-                getResponseId("qn2.resp2", responseBundle) + "={false,false}",
-                getResponseId("qn2.resp3", responseBundle) + "={false,false}",
-                getResponseId("qn3.resp1", responseBundle) + "={true,false}",
-                getResponseId("qn3.resp2", responseBundle) + "={false,false}",
-                getResponseId("qn4.resp1", responseBundle) + "={true,true}",
-                getResponseId("qn4.resp2", responseBundle) + "={true,true}",
-                getResponseId("qn4.resp3", responseBundle) + "={true,true}",
-                getResponseId("qn5.resp1", responseBundle) + "={false,true}",
-                getResponseId("qn6.resp1", responseBundle) + "={true,true}");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(totalResponse + totalMissingResponse, bundle.getResponseVisibilityTable().size());
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp2", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn3.resp2", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn6.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp2", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn6.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseRecipientVisibilityTable.size());
 
         // no entry in comment visibility table
-        mapString = tableToString(bundle.getCommentVisibilityTable());
-        expectedStrings.clear();
-        AssertHelper.assertContains(expectedStrings, mapString);
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
     }
 
     @Test
@@ -1229,20 +1133,24 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(8, bundle.getQuestionMissingResponseMap().size());
 
         // Test the generated response visibilityTable for userNames.
-        String mapString = tableToString(bundle.getResponseVisibilityTable());
-        List<String> expectedStrings = new ArrayList<>();
-        Collections.addAll(expectedStrings,
-                getResponseId("qn3.resp1", responseBundle) + "={true,false}",
-                getResponseId("qn4.resp3", responseBundle) + "={true,true}",
-                getResponseId("qn2.resp3", responseBundle) + "={false,false}",
-                getResponseId("qn2.resp1", responseBundle) + "={false,false}");
-        AssertHelper.assertContains(expectedStrings, mapString);
-        assertEquals(totalResponse + totalMissingResponse, bundle.getResponseVisibilityTable().size());
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseGiverVisibilityTable.size());
+        assertEquals(totalResponse + totalMissingResponse, responseRecipientVisibilityTable.size());
 
         // no entry in comment visibility table
-        mapString = tableToString(bundle.getCommentVisibilityTable());
-        expectedStrings.clear();
-        AssertHelper.assertContains(expectedStrings, mapString);
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
     }
 
     // TODO: testGetSessionResultsForUser_studentAllQuestionsSpecificSection_shouldGenerateCorrectBundle

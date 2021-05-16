@@ -5,9 +5,8 @@ import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import {
-  ConfirmationResponse,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -218,29 +217,6 @@ export class FeedbackSessionsService {
   }
 
   /**
-   * Saves and confirms a submission by posting it using API.
-   */
-  confirmSubmission(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
-    sendSubmissionEmail: string,
-    intent: string,
-    key: string,
-    moderatedPerson: string,
-  }): Observable<ConfirmationResponse> {
-    const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
-      sendsubmissionemail: queryParams.sendSubmissionEmail,
-      intent: queryParams.intent,
-      key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
-    };
-
-    return this.httpRequestService.post(ResourceEndpoints.SUBMISSION_CONFIRMATION, paramMap);
-  }
-
-  /**
    * Sends e-mails to remind respondents on the published results link.
    */
   remindResultsLinkToRespondents(
@@ -390,7 +366,7 @@ export class FeedbackSessionsService {
     captchaResponse: string,
   }): Observable<SessionLinksRecoveryResponse> {
     const paramMap: Record<string, string> = {
-      sessionlinksrecoveryemail: queryParam.sessionLinksRecoveryEmail,
+      studentemail: queryParam.sessionLinksRecoveryEmail,
       captcharesponse: queryParam.captchaResponse,
     };
 

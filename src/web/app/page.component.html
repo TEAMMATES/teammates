@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top" (tmClickOutside)="isCollapsed = true">
-  <a routerLink="/web" (click)="isCollapsed = true">
+  <a tmRouterLink="/web" (click)="isCollapsed = true">
     <img src="assets/images/teammateslogo.png" alt="TEAMMATES [Logo]">
   </a>
   <button class="navbar-toggler d-lg-none" type="button" (click)="toggleCollapse()" [attr.aria-expanded]="!isCollapsed" aria-label="Toggle navigation">
@@ -11,11 +11,11 @@
         <li *ngIf="navItem.children" class="nav-item dropdown" ngbDropdown>
           <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ navItem.display }}</a>
           <div class="dropdown-menu" ngbDropdownMenu>
-            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [routerLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
+            <a *ngFor="let childItem of navItem.children" class="dropdown-item" [tmRouterLink]="childItem.url" (click)="toggleCollapse();closeModal()">{{ childItem.display}}</a>
           </div>
         </li>
         <li *ngIf="!navItem.children" class="nav-item">
-          <a class="nav-link" [routerLink]="navItem.url" (click)="toggleCollapse();closeModal()">{{ navItem.display }}</a>
+          <a class="nav-link" [tmRouterLink]="navItem.url" (click)="toggleCollapse();closeModal()">{{ navItem.display }}</a>
         </li>
       </ng-template>
     </ul>
@@ -31,9 +31,9 @@
       <li class="nav-item dropdown" ngbDropdown placement="bottom-right" *ngIf="user">
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" ngbDropdownToggle>{{ user }}</a>
         <div class="dropdown-menu-right" ngbDropdownMenu>
-          <a class="dropdown-item" routerLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
-          <a class="dropdown-item" routerLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
-          <a class="dropdown-item" routerLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
+          <a class="dropdown-item" tmRouterLink="/web/student" *ngIf="isStudent" (click)="closeModal()">To student pages</a>
+          <a class="dropdown-item" tmRouterLink="/web/instructor" *ngIf="isInstructor" (click)="closeModal()">To instructor pages</a>
+          <a class="dropdown-item" tmRouterLink="/web/admin" *ngIf="isAdmin" (click)="closeModal()">To admin pages</a>
           <div class="dropdown-divider" *ngIf="isStudent || isInstructor || isAdmin"></div>
           <a class="dropdown-item" id="logout-btn" [href]="logoutUrl">Log Out</a>
         </div>
@@ -95,7 +95,7 @@
                 </li>
                 <li>
                   You changed the primary email from a non-Gmail address to a Gmail address recently. In that case,
-                  <a routerLink="/web/front/contact">
+                  <a tmRouterLink="/web/front/contact">
                     email us
                   </a>
                   so that we can reconfigure your account to use the new Gmail address.
@@ -118,16 +118,16 @@
     <div class="container footer">
       <div class="row text-center">
         <div class="col-sm-4 text-md-left">
-          <i class="fas fa-bolt"></i><a routerLink="/web/front/home"> TEAMMATES</a> V{{ version }}
+          <i class="fas fa-bolt"></i><a tmRouterLink="/web/front/home"> TEAMMATES</a> V{{ version }}
         </div>
         <div class="col-sm-4 text-md-center">
           <span *ngIf="institute"><i class="fas fa-university"></i> for {{ institute }}</span>
         </div>
         <div class="col-sm-4 text-md-right">
-          <i class="far fa-comments"></i> Send <a routerLink="/web/front/contact" target="_blank">Feedback</a>
+          <i class="far fa-comments"></i> Send <a tmRouterLink="/web/front/contact" target="_blank">Feedback</a>
         </div>
         <div class="col-sm-12">
-          Sponsored by School of Computing, National University of Singapore. (<a routerLink="/web/front/contact">Become a sponsor</a>)
+          Sponsored by School of Computing, National University of Singapore. (<a tmRouterLink="/web/front/contact" target="_blank">Become a sponsor</a>)
         </div>
       </div>
     </div>

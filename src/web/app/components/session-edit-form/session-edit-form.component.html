@@ -17,7 +17,7 @@
             </select>
           </div>
           <div class="col-1 col-md-1">
-            <button type="button" class="btn btn-link" (click)="sessionHelpHandler()"><i class="fas fa-info-circle"></i></button>
+            <a type="button" class="btn btn-link" tmRouterLink="/web/instructor/help" [queryParams]="{ questionId: 'sessions', section: 'sessions' }" target="_blank"><i class="fas fa-info-circle"></i></a>
           </div>
         </div>
       </div>
@@ -34,11 +34,11 @@
     </div>
     <div class="row" *ngIf="formMode === SessionEditFormMode.EDIT">
       <div class="col-12 text-center text-md-right session-form-buttons">
-        <button id="btn-fs-edit" type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" [disabled]="model.isSaving" *ngIf="formMode == SessionEditFormMode.EDIT && !model.isEditable"><i class="fas fa-pencil-alt"></i> Edit</button>
-        <button id="btn-fs-save" type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable"><i *ngIf="!model.isSaving" class="fas fa-check"></i><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save </button>
+        <button id="btn-fs-edit" type="button" class="btn btn-primary" (click)="triggerModelChange('isEditable', true)" *ngIf="formMode == SessionEditFormMode.EDIT && !model.isEditable && !model.isSaving"><i class="fas fa-pencil-alt"></i> Edit</button>
+        <button id="btn-fs-save" type="button" class="btn btn-primary" (click)="submitFormHandler()" [disabled]="model.isSaving" *ngIf="model.isEditable || model.isSaving"><tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> <i class="fas fa-check"></i>Save </button>
         <button type="button" class="btn btn-primary" ngbTooltip="Discard changes to the feedback session" (click)="cancelHandler()" *ngIf="model.isEditable" [disabled]="model.isSaving"><i class="fas fa-ban"></i> Cancel </button>
-        <button id="btn-fs-delete" type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()" [disabled]="model.isSaving"><i class="fas fa-trash"></i> Delete</button>
-        <button id="btn-fs-copy" type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()" [disabled]="model.isSaving"><i class="far fa-copy"></i> Copy</button>
+        <button id="btn-fs-delete" type="button" class="btn btn-primary" ngbTooltip="Delete the feedback session" (click)="deleteHandler()" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isDeleting"></tm-ajax-loading><i class="fas fa-trash"></i> Delete</button>
+        <button id="btn-fs-copy" type="button" class="btn btn-primary" ngbTooltip="Copy this feedback session to other courses" (click)="copyHandler()" [disabled]="model.isSaving"><tm-ajax-loading *ngIf="model.isCopying"></tm-ajax-loading><i class="far fa-copy"></i> Copy</button>
       </div>
     </div>
 
@@ -130,15 +130,9 @@
               </div>
             </div>
             <div class="row text-center align-items-center">
-              <div class="col-md-7 col-xs-center">
-                <div class="input-group">
-                  <input id="submission-start-date" type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionStartDate" (ngModelChange)="triggerModelChange('submissionStartDate', $event)"  #startTimeDp="ngbDatepicker" [disabled]="!model.isEditable"/>
-                  <div class="input-group-append" *ngIf="model.isEditable">
-                    <button class="btn btn-light" (click)="startTimeDp.toggle()" type="button">
-                      <i class="fas fa-calendar-alt"></i>
-                    </button>
-                  </div>
-                </div>
+              <div id="submission-start-date" class="col-md-7 col-xs-center">
+                <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('submissionStartDate', $event)"
+                                     [date]="model.submissionStartDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
                 <tm-time-picker id="submission-start-time" [time]="model.submissionStartTime" (timeChange)="triggerModelChange('submissionStartTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
@@ -154,16 +148,9 @@
               </div>
             </div>
             <div class="row align-items-center">
-              <div class="col-md-7 col-xs-center">
-                <div class="input-group">
-                  <input id="submission-end-date" type="text" class="form-control" ngbDatepicker [ngModel]="model.submissionEndDate" (ngModelChange)="triggerModelChange('submissionEndDate', $event)"
-                         #endTimeDp="ngbDatepicker" [disabled]="!model.isEditable" [minDate]="model.submissionStartDate"/>
-                  <div class="input-group-append" *ngIf="model.isEditable">
-                    <button class="btn btn-light" (click)="endTimeDp.toggle()" type="button">
-                      <i class="fas fa-calendar-alt"></i>
-                    </button>
-                  </div>
-                </div>
+              <div id="submission-end-date" class="col-md-7 col-xs-center">
+                <tm-datepicker [disabled]="!model.isEditable" (dateChangeCallback)="triggerModelChange('submissionEndDate', $event)"
+                                     [minDate]="model.submissionStartDate" [date]="model.submissionEndDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
                 <tm-time-picker id="submission-end-time" [time]="model.submissionEndTime" (timeChange)="triggerModelChange('submissionEndTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
@@ -212,16 +199,10 @@
                   </label>
                 </div>
               </div>
-              <div class="col-md-6">
-                <div class="input-group">
-                  <input id="session-visibility-date" type="text" class="form-control" ngbDatepicker #sessionVisibleTimeDp="ngbDatepicker" [maxDate]="maxDateForSessionVisible"
-                         [ngModel]="model.customSessionVisibleDate" (ngModelChange)="triggerModelChange('customSessionVisibleDate', $event)" [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"/>
-                  <div class="input-group-append" *ngIf="model.sessionVisibleSetting === SessionVisibleSetting.CUSTOM && model.isEditable">
-                    <button class="btn btn-light" (click)="sessionVisibleTimeDp.toggle()" type="button">
-                      <i class="fas fa-calendar-alt"></i>
-                    </button>
-                  </div>
-                </div>
+              <div id="session-visibility-date" class="col-md-6">
+                <tm-datepicker [disabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"
+                                     (dateChangeCallback)="triggerModelChange('customSessionVisibleDate', $event)"
+                                     [maxDate]="maxDateForSessionVisible" [date]="model.customSessionVisibleDate"></tm-datepicker>
               </div>
               <div class="col-md-4">
                 <tm-time-picker id="session-visibility-time" [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
@@ -251,16 +232,10 @@
                     </label>
                   </div>
                 </div>
-                <div class="col-md-6">
-                  <div class="input-group">
-                    <input id="response-visibility-date" type="text" class="form-control" ngbDatepicker #responseVisibleTimeDp="ngbDatepicker" [minDate]="minDateForResponseVisible"
-                           [ngModel]="model.customResponseVisibleDate" (ngModelChange)="triggerModelChange('customResponseVisibleDate', $event)" [disabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"/>
-                    <div class="input-group-append" *ngIf="model.responseVisibleSetting === ResponseVisibleSetting.CUSTOM && model.isEditable">
-                      <button class="btn btn-light" (click)="responseVisibleTimeDp.toggle()" type="button">
-                        <i class="fas fa-calendar-alt"></i>
-                      </button>
-                    </div>
-                  </div>
+                <div id="response-visibility-date" class="col-md-6">
+                  <tm-datepicker [disabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"
+                                       (dateChangeCallback)="triggerModelChange('customResponseVisibleDate', $event)"
+                                       [minDate]="minDateForResponseVisible" [date]="model.customResponseVisibleDate"></tm-datepicker>
                 </div>
                 <div class="col-md-4">
                   <tm-time-picker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
@@ -329,13 +304,13 @@
         <span class="loader"></span>
         <div *ngIf="formMode === SessionEditFormMode.ADD">
           <button id="btn-create-session" type="button" class="btn btn-primary" [disabled]="courseCandidates.length === 0 || model.isSaving" (click)="submitFormHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Create Feedback Session
+            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Create Feedback Session
           </button>
           <p class="text-danger margin-top-20px" *ngIf="courseCandidates.length === 0"><b>You need to have an active(unarchived) course to create a session!</b></p>
         </div>
         <div *ngIf="formMode === SessionEditFormMode.EDIT">
           <button type="button" class="btn btn-success" [disabled]="model.isSaving || !model.isEditable" *ngIf="formMode === SessionEditFormMode.EDIT" (click)="submitFormHandler()">
-            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading> Save Changes
+            <tm-ajax-loading *ngIf="model.isSaving"></tm-ajax-loading>Save Changes
           </button>
         </div>
       </div>

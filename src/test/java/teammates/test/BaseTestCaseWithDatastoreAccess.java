@@ -11,12 +11,9 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.retry.RetryManager;
 
 /**
  * Base class for all test cases which are allowed to access the Datastore.
@@ -27,8 +24,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
-
-    protected abstract RetryManager getPersistenceRetryManager();
 
     protected void verifyPresentInDatastore(DataBundle data) {
         data.accounts.values().forEach(this::verifyPresentInDatastore);
@@ -184,8 +179,6 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
     }
 
     private void equalizeIrrelevantData(FeedbackSessionAttributes expected, FeedbackSessionAttributes actual) {
-        expected.setRespondingInstructorList(actual.getRespondingInstructorList());
-        expected.setRespondingStudentList(actual.getRespondingStudentList());
         expected.setCreatedTime(actual.getCreatedTime());
         // Not available in FeedbackSessionData and thus ignored
         expected.setCreatorEmail(actual.getCreatorEmail());
@@ -236,35 +229,30 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
 
     protected void removeAndRestoreDataBundle(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
-        String backDoorOperationStatus = Const.StatusCodes.BACKDOOR_STATUS_FAILURE;
-        while (retryLimit > 0) {
-            try {
-                backDoorOperationStatus = doRemoveAndRestoreDataBundle(testData);
-                break;
-            } catch (HttpRequestFailedException e) {
-                print("Re-trying removeAndRestoreDataBundle - " + e);
-                retryLimit--;
-                ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-                continue;
-            }
+        boolean isOperationSuccess = doRemoveAndRestoreDataBundle(testData);
+        while (!isOperationSuccess && retryLimit > 0) {
+            retryLimit--;
+            print("Re-trying removeAndRestoreDataBundle");
+            ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
+            isOperationSuccess = doRemoveAndRestoreDataBundle(testData);
         }
-        assertFalse(Const.StatusCodes.BACKDOOR_STATUS_FAILURE.equals(backDoorOperationStatus));
+        assertTrue(isOperationSuccess);
     }
 
-    protected abstract String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException;
+    protected abstract boolean doRemoveAndRestoreDataBundle(DataBundle testData);
 
     protected void putDocuments(DataBundle testData) {
         int retryLimit = OPERATION_RETRY_COUNT;
-        String backDoorOperationStatus = doPutDocuments(testData);
-        while (!backDoorOperationStatus.equals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS) && retryLimit > 0) {
+        boolean isOperationSuccess = doPutDocuments(testData);
+        while (!isOperationSuccess && retryLimit > 0) {
             retryLimit--;
-            print("Re-trying putDocuments - " + backDoorOperationStatus);
+            print("Re-trying putDocuments");
             ThreadHelper.waitFor(OPERATION_RETRY_DELAY_IN_MS);
-            backDoorOperationStatus = doPutDocuments(testData);
+            isOperationSuccess = doPutDocuments(testData);
         }
-        assertEquals(Const.StatusCodes.BACKDOOR_STATUS_SUCCESS, backDoorOperationStatus);
+        assertTrue(isOperationSuccess);
     }
 
-    protected abstract String doPutDocuments(DataBundle testData);
+    protected abstract boolean doPutDocuments(DataBundle testData);
 
 }

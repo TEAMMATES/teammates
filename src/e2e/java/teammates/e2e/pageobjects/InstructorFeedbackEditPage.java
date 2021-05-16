@@ -50,9 +50,6 @@ public class InstructorFeedbackEditPage extends AppPage {
     @FindBy(id = "btn-fs-save")
     private WebElement fsSaveButton;
 
-    @FindBy(id = "btn-fs-delete")
-    private WebElement fsDeleteButton;
-
     @FindBy(id = "btn-fs-copy")
     private WebElement fsCopyButton;
 
@@ -290,7 +287,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public void deleteSession() {
-        clickAndConfirm(fsDeleteButton);
+        clickAndConfirm(waitForElementPresence(By.id("btn-fs-delete")));
     }
 
     public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
@@ -324,13 +321,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        assertEquals(feedbackQuestion.getGiverType().toDisplayGiverName(), getFeedbackGiver(questionNum));
+        assertEquals(getDisplayGiverName(feedbackQuestion.getGiverType()), getFeedbackGiver(questionNum));
         String feedbackReceiver = getFeedbackReceiver(questionNum);
-        assertEquals(feedbackQuestion.getRecipientType().toDisplayRecipientName(), feedbackReceiver);
+        assertEquals(getDisplayRecipientName(feedbackQuestion.getRecipientType()), feedbackReceiver);
 
-        if (feedbackReceiver.equals(FeedbackParticipantType.INSTRUCTORS.toDisplayRecipientName())
-                || feedbackReceiver.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toDisplayRecipientName())
-                || feedbackReceiver.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toDisplayRecipientName())) {
+        if (feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.INSTRUCTORS))
+                || feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF))
+                || feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))) {
             verifyNumberOfEntitiesToGiveFeedbackTo(questionNum, feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo());
         }
     }
@@ -548,7 +545,9 @@ public class InstructorFeedbackEditPage extends AppPage {
 
     public void editTextQuestion(int questionNum, FeedbackTextQuestionDetails textQuestionDetails) {
         clickEditQuestionButton(questionNum);
-        fillTextBox(getRecommendedTextLengthField(questionNum), textQuestionDetails.getRecommendedLength().toString());
+        WebElement recommendedTextLengthField = getRecommendedTextLengthField(questionNum);
+        waitForElementToBeClickable(recommendedTextLengthField);
+        fillTextBox(recommendedTextLengthField, textQuestionDetails.getRecommendedLength().toString());
         clickSaveQuestionButton(questionNum);
     }
 
@@ -805,7 +804,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getStartDate() {
-        return startDateBox.getAttribute("value");
+        return startDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getStartTime() {
@@ -813,7 +812,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getEndDate() {
-        return endDateBox.getAttribute("value");
+        return endDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getEndTime() {
@@ -821,7 +820,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getSessionVisibilityDate() {
-        return sessionVisibilityDateBox.getAttribute("value");
+        return sessionVisibilityDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getSessionVisibilityTime() {
@@ -829,7 +828,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getResponseVisibilityDate() {
-        return responseVisibilityDateBox.getAttribute("value");
+        return responseVisibilityDateBox.findElement(By.tagName("input"))
+                .getAttribute("value");
     }
 
     private String getResponseVisibilityTime() {
@@ -869,19 +869,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant, timeZone);
     }
 
     private void setSessionEndDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(endDateBox, endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant, timeZone);
     }
 
     private void setVisibilityDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(sessionVisibilityDateBox, sessionVisibilityTimeDropdown, startInstant, timeZone);
+        setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
+                sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
     private void setResponseDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(responseVisibilityDateBox, responseVisibilityTimeDropdown, endInstant, timeZone);
+        setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
+                responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {
@@ -1039,9 +1041,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
-                FeedbackParticipantType.STUDENTS.toDisplayGiverName());
+                getDisplayGiverName(FeedbackParticipantType.STUDENTS));
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                FeedbackParticipantType.STUDENTS.toDisplayRecipientName());
+                getDisplayRecipientName(FeedbackParticipantType.STUDENTS));
         if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
             click(questionForm.findElement(By.id("unlimited-recipients")));
         } else {
@@ -1050,9 +1052,9 @@ public class InstructorFeedbackEditPage extends AppPage {
                     Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
         }
 
-        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), newGiver.toDisplayGiverName());
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), getDisplayGiverName(newGiver));
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                newRecipient.toDisplayRecipientName());
+                getDisplayRecipientName(newRecipient));
     }
 
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
@@ -1141,7 +1143,12 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void addNewQuestion(int optionNumber) {
         click(addNewQuestionButton);
         WebElement newQuestionDropdown = waitForElementPresence(By.id("new-question-dropdown"));
-        click(newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1));
+        WebElement optionButton = newQuestionDropdown.findElements(By.tagName("button")).get(optionNumber - 1);
+        if (optionNumber == 1) {
+            click(optionButton);
+        } else {
+            clickAndWaitForNewQuestion(optionButton);
+        }
     }
 
     private void clickSaveNewQuestionButton() {
@@ -1334,7 +1341,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyMaxOptions(int questionNum, int maxOptions) {
-        if (maxOptions == Integer.MIN_VALUE) {
+        if (maxOptions == Const.POINTS_NO_VALUE) {
             assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
         } else {
             assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
@@ -1344,7 +1351,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyMinOptions(int questionNum, int minOptions) {
-        if (minOptions == Integer.MIN_VALUE) {
+        if (minOptions == Const.POINTS_NO_VALUE) {
             assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
         } else {
             assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
@@ -1366,7 +1373,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputMaxOptions(int questionNum, int maxOptions) {
-        if (maxOptions == Integer.MIN_VALUE) {
+        if (maxOptions == Const.POINTS_NO_VALUE) {
             markOptionAsUnselected(getMaxOptionsCheckbox(questionNum));
         } else {
             markOptionAsSelected(getMaxOptionsCheckbox(questionNum));
@@ -1375,7 +1382,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputMinOptions(int questionNum, int minOptions) {
-        if (minOptions == Integer.MIN_VALUE) {
+        if (minOptions == Const.POINTS_NO_VALUE) {
             markOptionAsUnselected(getMinOptionsCheckbox(questionNum));
         } else {
             markOptionAsSelected(getMinOptionsCheckbox(questionNum));
@@ -1512,12 +1519,12 @@ public class InstructorFeedbackEditPage extends AppPage {
             List<WebElement> textAreas = getRubricTextareas(questionNum, i + 2);
             fillTextBox(textAreas.get(0), subQuestions.get(i));
             for (int j = 0; j < numChoices; j++) {
+                fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
                 if (descriptions.get(i).get(j).isEmpty()) {
-                    // using clear does not work here
-                    textAreas.get(j + 1).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-                    textAreas.get(j + 1).sendKeys(Keys.DELETE);
-                } else {
-                    fillTextBox(textAreas.get(j + 1), descriptions.get(i).get(j));
+                    // using clear does not send the required event
+                    // as a workaround, after clearing without event, enter a random character and delete it
+                    textAreas.get(j + 1).sendKeys("a");
+                    textAreas.get(j + 1).sendKeys(Keys.BACK_SPACE);
                 }
             }
         }

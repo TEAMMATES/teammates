@@ -36,7 +36,6 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         testActionWithInvalidParameters(student1);
         testActionWithScriptInjection(student2);
         testActionSuccess(student1, "Typical Case");
-        testActionForbidden(student1, student2, "Forbidden Case");
         testActionInMasqueradeMode(student1);
 
         student1 = typicalBundle.accounts.get("student1InTestingSanitizationCourse");
@@ -130,24 +129,10 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
     }
 
-    private void testActionForbidden(AccountAttributes student1, AccountAttributes student2,
-                                     String caseDescription) {
-        String[] submissionParams = createValidParam(student1.googleId);
-        StudentProfileUpdateRequest req = createValidRequestForProfile();
-        loginAsStudent(student2.googleId);
-
-        ______TS(caseDescription);
-
-        UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_FORBIDDEN, result.getStatusCode());
-    }
-
     private void testActionInMasqueradeMode(AccountAttributes student) {
 
         ______TS("Typical case: masquerade mode");
-        gaeSimulation.loginAsAdmin("admin.user");
+        loginAsAdmin();
 
         String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
         StudentProfileUpdateRequest req = createValidRequestForProfile();
@@ -215,5 +200,18 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
     protected void testAccessControl() {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
+        testActionForbidden();
+    }
+
+    private void testActionForbidden() {
+        AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
+        AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
+
+        loginAsStudent(student2.googleId);
+
+        ______TS("Forbidden case: updating another student's profile");
+
+        String[] submissionParams = createValidParam(student1.googleId);
+        verifyCannotAccess(submissionParams);
     }
 }

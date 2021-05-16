@@ -1,7 +1,7 @@
 <div *ngIf="groupByTeam">
-  <div *ngFor="let teamInfo of teamsToUsers | keyvalue">
+  <div id="team-panel" *ngFor="let teamInfo of teamsToUsers | keyvalue">
     <div class="card top-padded">
-      <div class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
+      <div id="team-header" class="card-header alert-warning cursor-pointer" (click)="teamExpanded[teamInfo.key] = !teamExpanded[teamInfo.key]">
         {{ teamInfo.key == '-' ? 'No Specific Team': teamInfo.key }}
         <div class="card-header-btn-toolbar">
           <tm-panel-chevron [isExpanded]="teamExpanded[teamInfo.key]"></tm-panel-chevron>
@@ -11,7 +11,7 @@
         <div class="card-body background-color-warning">
           <div *ngIf="teamsToQuestions[teamInfo.key] && teamsToQuestions[teamInfo.key].length && showStatistics">
             <h3>{{ teamInfo.key }} Statistics for {{ isGqr ? 'Given' : 'Received' }} Responses</h3>
-            <div class="card top-padded alert-primary-border" *ngFor="let question of teamsToQuestions[teamInfo.key]">
+            <div id="team-statistics" class="card top-padded alert-primary-border" *ngFor="let question of teamsToQuestions[teamInfo.key]">
               <div class="card-header alert-primary">
                 <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber"
                                             [questionDetails]="question.feedbackQuestion.questionDetails"
@@ -52,8 +52,8 @@
 </div>
 
 <ng-template #userTab let-userInfo='userInfo'>
-  <div class="card top-padded border-primary">
-    <div class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
+  <div id="user-panel" class="card top-padded border-primary">
+    <div id="user-header" class="card-header bg-primary text-white cursor-pointer" (click)="userExpanded[userInfo] = !userExpanded[userInfo]">
       <div>
         {{ isGqr ? 'From' : 'To' }}:
         <tm-student-name-with-photo [name]="userInfo"
@@ -73,8 +73,8 @@
     </div>
     <div *ngIf="userExpanded[userInfo]" @collapseAnim>
       <div class="card-body top-padded-0">
-        <div class="card top-padded alert-primary-border" *ngFor="let question of responsesToShow[userInfo]">
-          <div class="card-header alert-primary cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
+        <div id="question-panel" class="card top-padded alert-primary-border" *ngFor="let question of responsesToShow[userInfo]">
+          <div id="question-header" class="card-header alert-primary cursor-pointer" (click)="question.isTabExpanded = !question.isTabExpanded">
             <tm-question-text-with-info [questionNumber]="question.questionOutput.feedbackQuestion.questionNumber"
                                         [questionDetails]="question.questionOutput.feedbackQuestion.questionDetails"
             ></tm-question-text-with-info>

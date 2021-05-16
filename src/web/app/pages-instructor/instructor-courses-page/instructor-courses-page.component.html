@@ -4,7 +4,7 @@
   </button>
 </div>
 
-<div class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
+<div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
   ></tm-add-course-form>
@@ -68,7 +68,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -78,7 +78,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" id="show-statistics-{{ i }}" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -88,7 +88,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -98,7 +98,7 @@
             </td>
             <td>
               <span *ngIf="!courseStats[course.course.courseId]">
-                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [routerLink]="">
+                <a *ngIf="!course.isLoadingCourseStats; else loadingSpinner" (click)="getCourseStats(i)" [tmRouterLink]="">
                   Show
                 </a>
               </span>
@@ -109,7 +109,7 @@
             <td class="text-center actions-cell">
               <a id="btn-enroll-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyStudent"
                       ngbTooltip="Enroll student into the course"
-                      routerLink="/web/instructor/courses/enroll"
+                      tmRouterLink="/web/instructor/courses/enroll"
                       [queryParams]="{courseid: course.course.courseId}">
                 Enroll
               </a>
@@ -120,12 +120,12 @@
                 <button id="btn-other-actions-{{ i }}" class="btn btn-light btn-sm" ngbDropdownToggle>Other Actions</button>
                 <div ngbDropdownMenu>
                   <a class="btn btn-primary btn-sm dropdown-item clickable"
-                          routerLink="/web/instructor/courses/details"
+                          tmRouterLink="/web/instructor/courses/details"
                           [queryParams]="{courseid: course.course.courseId}">
                     View
                   </a>
                   <a class="btn btn-primary btn-sm dropdown-item clickable"
-                          routerLink="/web/instructor/courses/edit"
+                          tmRouterLink="/web/instructor/courses/edit"
                           [queryParams]="{courseid: course.course.courseId}">
                     Edit
                   </a>
@@ -219,7 +219,7 @@
                 ngbTooltip="Delete the course and its corresponding students and sessions">
               Delete
             </button>
-            <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+            <button id="btn-soft-delete-archived-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
               Delete
             </button>
           </td>
@@ -315,7 +315,7 @@
                         ngbTooltip="Restore the deleted course and its corresponding students and sessions">
                   Restore
                 </button>
-                <button class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+                <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
                   Restore
                 </button>
                 <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger" *ngIf="course.canModifyCourse"
@@ -323,7 +323,7 @@
                         ngbTooltip="Permanently delete the course and its corresponding students and sessions">
                   Delete Permanently
                 </button>
-                <button class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
+                <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
                   Delete Permanently
                 </button>
               </td>

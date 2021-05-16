@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.InstructorData;
@@ -26,7 +27,7 @@ class GetInstructorsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (userInfo.isAdmin) {
             return;
         }
@@ -80,7 +81,7 @@ class GetInstructorsAction extends Action {
             // get all instructors of a course without information hiding
             // adds googleId if caller is admin or has the appropriate privilege to modify instructor
             if (userInfo.isAdmin || logic.getInstructorForGoogleId(courseId, userInfo.getId()).getPrivileges()
-                    .isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+                    .isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 data = new InstructorsData();
                 for (InstructorAttributes instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);

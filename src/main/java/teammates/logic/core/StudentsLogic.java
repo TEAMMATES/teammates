@@ -24,12 +24,21 @@ import teammates.storage.api.StudentsDb;
  * @see StudentsDb
  */
 public final class StudentsLogic {
+
+    static final String ERROR_INVALID_TEAM_NAME =
+            "Team \"%s\" is detected in both Section \"%s\" and Section \"%s\".";
+    static final String ERROR_INVALID_TEAM_NAME_INSTRUCTION =
+            "Please use different team names in different sections.";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT =
+            "You are trying enroll more than %s students in section \"%s\".";
+    static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
+            "To avoid performance problems, please do not enroll more than %s students in a single section.";
+
     private static StudentsLogic instance = new StudentsLogic();
 
     private static final StudentsDb studentsDb = new StudentsDb();
 
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private StudentsLogic() {
         // prevent initialization
@@ -152,7 +161,6 @@ public final class StudentsLogic {
         if (!originalStudent.email.equals(updatedStudent.email)) {
             frLogic.updateFeedbackResponsesForChangingEmail(
                     updatedStudent.course, originalStudent.email, updatedStudent.email);
-            fsLogic.updateRespondentsForStudent(originalStudent.email, updatedStudent.email, updatedStudent.course);
         }
 
         // adjust submissions if moving to a different team
@@ -263,13 +271,13 @@ public final class StudentsLogic {
             if (currentStudent.section.equals(previousStudent.section)) {
                 studentsCount++;
             } else {
-                if (studentsCount > Const.StudentsLogicConst.SECTION_SIZE_LIMIT) {
+                if (studentsCount > Const.SECTION_SIZE_LIMIT) {
                     invalidSectionList.add(previousStudent.section);
                 }
                 studentsCount = 1;
             }
 
-            if (i == mergedList.size() - 1 && studentsCount > Const.StudentsLogicConst.SECTION_SIZE_LIMIT) {
+            if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
                 invalidSectionList.add(currentStudent.section);
             }
         }
@@ -277,14 +285,14 @@ public final class StudentsLogic {
         StringJoiner errorMessage = new StringJoiner(" ");
         for (String section : invalidSectionList) {
             errorMessage.add(String.format(
-                    Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
-                    Const.StudentsLogicConst.SECTION_SIZE_LIMIT, section));
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT,
+                    Const.SECTION_SIZE_LIMIT, section));
         }
 
         if (!invalidSectionList.isEmpty()) {
             errorMessage.add(String.format(
-                    Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
-                    Const.StudentsLogicConst.SECTION_SIZE_LIMIT));
+                    ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
+                    Const.SECTION_SIZE_LIMIT));
         }
 
         return errorMessage.toString();
@@ -302,7 +310,7 @@ public final class StudentsLogic {
                     && !currentStudent.section.equals(previousStudent.section)
                     && !invalidTeamList.contains(currentStudent.team)) {
 
-                errorMessage.add(String.format(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME,
+                errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
                         currentStudent.team,
                         previousStudent.section,
                         currentStudent.section));
@@ -312,7 +320,7 @@ public final class StudentsLogic {
         }
 
         if (!invalidTeamList.isEmpty()) {
-            errorMessage.add(Const.StudentsLogicConst.ERROR_INVALID_TEAM_NAME_INSTRUCTION);
+            errorMessage.add(ERROR_INVALID_TEAM_NAME_INSTRUCTION);
         }
 
         return errorMessage.toString();
@@ -339,10 +347,10 @@ public final class StudentsLogic {
             return;
         }
 
-        frLogic.deleteFeedbackResponsesInvolvedStudentOfCourseCascade(courseId, studentEmail);
+        frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(courseId, studentEmail);
         if (studentsDb.getStudentsForTeam(student.getTeam(), student.getCourse()).size() == 1) {
-            // the student is the only student in the team
-            frLogic.deleteFeedbackResponsesInvolvedTeamOfCourseCascade(student.getCourse(), student.getTeam());
+            // the student is the only student in the team, delete responses related to the team
+            frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(student.getCourse(), student.getTeam());
         }
         studentsDb.deleteStudent(courseId, studentEmail);
     }

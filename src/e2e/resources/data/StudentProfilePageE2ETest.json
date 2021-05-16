@@ -1,16 +1,16 @@
 {
   "accounts": {
     "studentWithExistingProfile": {
-      "googleId": "SProfUiT.student",
+      "googleId": "tm.e2e.SProf.student",
       "name": "Benny C",
       "isInstructor": false,
-      "email": "SProfUiT.student@gmail.tmt",
+      "email": "SProf.student@gmail.tmt",
       "institute": "TEAMMATES Test Institute 7"
     }
   },
   "courses": {
-    "SProfUiT.CS2104": {
-      "id": "SProfUiT.CS2104",
+    "SProf.CS2104": {
+      "id": "tm.e2e.SProf.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
@@ -18,9 +18,9 @@
   "instructors": {},
   "students": {
     "studentWithExistingProfile": {
-      "googleId": "SProfUiT.student",
-      "email": "SProfUiT.student@gmail.tmt",
-      "course": "SProfUiT.CS2104",
+      "googleId": "tm.e2e.SProf.student",
+      "email": "SProf.student@gmail.tmt",
+      "course": "tm.e2e.SProf.CS2104",
       "name": "Benny C",
       "comments": "This student's name is BC",
       "team": "Team 1",
@@ -33,14 +33,13 @@
   "feedbackResponseComments": {},
   "profiles": {
     "studentWithExistingProfile": {
-      "googleId": "SProfUiT.student",
+      "googleId": "tm.e2e.SProf.student",
       "shortName": "Ben",
       "email": "i.m.benny@gmail.tmt",
       "institute": "TEAMMATES Test Institute 4",
       "nationality": "Singaporean",
       "gender": "MALE",
-      "moreInfo": "I am just another student :P",
-      "pictureKey": ""
+      "moreInfo": "I am just another student :P"
     }
   }
 }

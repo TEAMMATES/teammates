@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
 import { finalize } from 'rxjs/operators';
 import { CourseService, CourseStatistics } from '../../../services/course.service';
 import { InstructorService } from '../../../services/instructor.service';
-import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -65,16 +64,16 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
   hasLoadingStudentsFailed: boolean = false;
+  isDeleting: boolean = false;
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
 
-  constructor(private route: ActivatedRoute, private router: Router,
+  constructor(private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private ngbModal: NgbModal,
               private simpleModalService: SimpleModalService,
-              private navigationService: NavigationService,
               private studentService: StudentService,
               private instructorService: InstructorService,
               private tableComparatorService: TableComparatorService) { }
@@ -207,7 +206,10 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Delete all the students in a course.
    */
   deleteAllStudentsFromCourse(courseId: string): void {
+    this.isDeleting = true;
+
     this.studentService.deleteAllStudentsFromCourse({ courseId })
+      .pipe(finalize(() => this.isDeleting = false))
       .subscribe((resp: MessageOutput) => {
         // Reset list of students and course stats
         this.students = [];
@@ -245,8 +247,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    */
   remindAllStudentsFromCourse(courseId: string): void {
     this.courseService.remindUnregisteredStudentsForJoin(courseId).subscribe((resp: MessageOutput) => {
-      this.navigationService.navigateWithSuccessMessagePreservingParams(this.router,
-        '/web/instructor/courses/details', resp.message);
+      this.statusMessageService.showSuccessToast(resp.message);
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });

@@ -74,9 +74,9 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
-        verifyNumberOfEmailsSent(updateAction, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper email = getEmailsSent(updateAction).get(0);
+        EmailWrapper email = getEmailsSent().get(0);
         String courseName = logic.getCourse(instructor1OfCourse1.courseId).getName();
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 instructor1OfCourse1.courseId), email.getSubject());
@@ -100,7 +100,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_OK, outputToBeTrimmed.getStatusCode());
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
-        verifyNoEmailsSent(actionToBeTrimmed);
+        verifyNoEmailsSent();
 
         ______TS("Error case, invalid email parameter (email has too many characters)");
 
@@ -169,8 +169,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_NOT_FOUND, nonExistentStudentOuput.getStatusCode());
         invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
 
-        assertEquals(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT,
-                invalidParamsOutput.getMessage());
+        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, invalidParamsOutput.getMessage());
     }
 
     @Test
@@ -212,7 +211,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         logic.createStudent(studentToJoinMaxSection);
 
-        for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
+        for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
             StudentAttributes addedStudent = StudentAttributes
                     .builder(courseId, i + "email@test.com")
                     .withName("Name " + i)
@@ -226,7 +225,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
 
-        assertEquals(Const.StudentsLogicConst.SECTION_SIZE_LIMIT,
+        assertEquals(Const.SECTION_SIZE_LIMIT,
                 studentList.stream().filter(student -> student.section.equals(sectionInMaxCapacity)).count());
         assertEquals(courseId, studentToJoinMaxSection.getCourse());
 
@@ -268,7 +267,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(HttpStatus.SC_OK, emptySectionActionOutput.getStatusCode());
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
         assertEquals("Student has been updated", emptySectionMsgOutput.getMessage());
-        verifyNoEmailsSent(updateEmptySectionAction);
+        verifyNoEmailsSent();
 
         // verify student in database
         StudentAttributes actualStudent =
@@ -293,6 +292,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
     }
 }

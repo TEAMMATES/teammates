@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SessionEditFormModule } from './session-edit-form.module';
 
@@ -13,6 +15,8 @@ describe('SessionEditFormComponent', () => {
       imports: [
         SessionEditFormModule,
         HttpClientTestingModule,
+        RouterTestingModule,
+        TeammatesRouterModule,
       ],
     })
     .compileComponents();

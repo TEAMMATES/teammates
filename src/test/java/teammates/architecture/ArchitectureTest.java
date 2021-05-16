@@ -41,6 +41,11 @@ public class ArchitectureTest {
     private static final String E2E_PAGEOBJECTS_PACKAGE = E2E_PACKAGE + ".pageobjects";
     private static final String E2E_UTIL_PACKAGE = E2E_PACKAGE + ".util";
 
+    private static final String LNP_PACKAGE = "teammates.lnp";
+
+    private static final String LNP_CASES_PACKAGE = LNP_PACKAGE + ".cases";
+    private static final String LNP_UTIL_PACKAGE = LNP_PACKAGE + ".util";
+
     private static final String CLIENT_PACKAGE = "teammates.client";
     private static final String CLIENT_REMOTEAPI_PACKAGE = CLIENT_PACKAGE + ".remoteapi";
     private static final String CLIENT_SCRIPTS_PACKAGE = CLIENT_PACKAGE + ".scripts";
@@ -283,7 +288,7 @@ public class ArchitectureTest {
                 .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
                     @Override
                     public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(UI_PACKAGE)
+                        return input.getPackageName().startsWith(UI_WEBAPI_PACKAGE)
                                 && !"Action".equals(input.getSimpleName())
                                 && !"ActionFactory".equals(input.getSimpleName());
                     }
@@ -299,18 +304,12 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_e2e_e2eShouldNotTouchProductionCodeExceptCommonAndRequests() {
+    public void testArchitecture_e2e_e2eShouldNotTouchProductionCodeExceptCommon() {
         noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
                 .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
-                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return input.getPackageName().startsWith(UI_PACKAGE)
-                                && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
-                                && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
-                    }
-                }).check(forClasses(E2E_PACKAGE));
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .check(forClasses(E2E_PACKAGE));
 
         noClasses().that().resideInAPackage(includeSubpackages(E2E_PACKAGE))
                 .should().accessClassesThat().haveSimpleName("Config")
@@ -353,6 +352,57 @@ public class ArchitectureTest {
                                 && !input.getPackageName().equals(E2E_UTIL_PACKAGE);
                     }
                 }).check(forClasses(E2E_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpShouldBeSelfContained() {
+        noClasses().that().resideOutsideOfPackage(includeSubpackages(LNP_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(LNP_PACKAGE))
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpShouldNotTouchProductionCodeExceptCommonAndRequests() {
+        noClasses().that().resideInAPackage(includeSubpackages(LNP_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(STORAGE_PACKAGE))
+                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(UI_PACKAGE)
+                                && !input.getPackageName().equals(UI_OUTPUT_PACKAGE)
+                                && !input.getPackageName().equals(UI_REQUEST_PACKAGE);
+                    }
+                }).check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpTestCasesShouldBeIndependentOfEachOther() {
+        noClasses().that(new DescribedPredicate<JavaClass>("") {
+            @Override
+            public boolean apply(JavaClass input) {
+                return input.getPackageName().startsWith(LNP_CASES_PACKAGE) && !input.isInnerClass();
+            }
+        }).should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+            @Override
+            public boolean apply(JavaClass input) {
+                return input.getPackageName().startsWith(LNP_CASES_PACKAGE)
+                        && !input.getSimpleName().startsWith("Base")
+                        && !input.isInnerClass();
+            }
+        }).check(forClasses(LNP_CASES_PACKAGE));
+    }
+
+    @Test
+    public void testArchitecture_lnp_lnpShouldNotHaveAnyDependency() {
+        noClasses().that().resideInAPackage(includeSubpackages(LNP_UTIL_PACKAGE))
+                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(LNP_PACKAGE)
+                                && !input.getPackageName().equals(LNP_UTIL_PACKAGE);
+                    }
+                }).check(forClasses(LNP_PACKAGE));
     }
 
     @Test
@@ -405,34 +455,32 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_externalApi_gcsApiCanOnlyBeAccessedByGcsHelper() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
+    public void testArchitecture_externalApi_usersApiCanOnlyBeAccessedByUserProvision() {
+        noClasses().that().doNotHaveSimpleName("UserProvision")
+                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.users..")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_cloudStorageApiCanOnlyBeAccessedByGcsService() {
+        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageService")
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.tools.cloudstorage..")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.storage..")
                 .check(ALL_CLASSES);
     }
 
     @Test
-    public void testArchitecture_externalApi_blobstoreApiCanOnlyBeAccessedByGcsHelper() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
-                .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.blobstore..")
+    public void testArchitecture_externalApi_cloudTasksApiCanOnlyBeAccessedByCloudTasksService() {
+        noClasses().that().doNotHaveSimpleName("GoogleCloudTasksService")
+                .should().accessClassesThat().resideInAPackage("com.google.cloud.tasks.v2..")
                 .check(ALL_CLASSES);
-
-        noClasses().that().resideInAPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
-                .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {
-                    @Override
-                    public boolean apply(JavaClass input) {
-                        return !"BlobKey".equals(input.getSimpleName())
-                                && input.getPackageName().startsWith("com.google.appengine.api.blobstore");
-                    }
-                }).check(ALL_CLASSES);
     }
 
     @Test
-    public void testArchitecture_externalApi_taskQueueApiCanOnlyBeAccessedByTaskQueueLogic() {
-        noClasses().that().doNotHaveSimpleName("TaskQueuesLogic")
-                .should().accessClassesThat().resideInAPackage("com.google.appengine.api.taskqueue..")
+    public void testArchitecture_externalApi_cloudLoggingApiCanOnlyBeAccessedByCloudLoggingService() {
+        noClasses().that().doNotHaveSimpleName("GoogleCloudLoggingService")
+                .should().accessClassesThat().resideInAPackage("com.google.appengine.logging.v1..")
+                .orShould().accessClassesThat().resideInAPackage("com.google.cloud.logging..")
                 .check(ALL_CLASSES);
     }
 
@@ -463,8 +511,7 @@ public class ArchitectureTest {
 
     @Test
     public void testArchitecture_externalApi_servletApiCanOnlyBeAccessedBySomePackages() {
-        noClasses().that().doNotHaveSimpleName("GoogleCloudStorageHelper")
-                .and().doNotHaveSimpleName("HttpRequestHelper")
+        noClasses().that().doNotHaveSimpleName("HttpRequestHelper")
                 .and().doNotHaveSimpleName("OfyHelper")
                 .and().doNotHaveSimpleName("GaeSimulation")
                 .and().doNotHaveSimpleName("MockFilterChain")
@@ -483,6 +530,13 @@ public class ArchitectureTest {
                 .and().doNotHaveSimpleName("AssertHelper")
                 .and().doNotHaveSimpleName("EmailChecker")
                 .should().accessClassesThat().haveFullyQualifiedName("org.junit.Assert")
+                .check(ALL_CLASSES);
+    }
+
+    @Test
+    public void testArchitecture_externalApi_seleniumApiCanOnlyBeAccessedByPageObjects() {
+        noClasses().that().resideOutsideOfPackage(E2E_PAGEOBJECTS_PACKAGE)
+                .should().accessClassesThat().resideInAPackage("org.openqa.selenium..")
                 .check(ALL_CLASSES);
     }
 

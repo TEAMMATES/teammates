@@ -1,7 +1,7 @@
 {
   "accounts": {
-    "SCDetailsE2eT.instr": {
-      "googleId": "SCDetailsE2eT.instr",
+    "SCDet.instr": {
+      "googleId": "tm.e2e.SCDet.instr",
       "name": "Instructor",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -9,19 +9,19 @@
     }
   },
   "courses": {
-    "SCDetailsE2eT.CS2104": {
-      "id": "SCDetailsE2eT.CS2104",
+    "SCDet.CS2104": {
+      "id": "tm.e2e.SCDet.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC",
       "createdAt": "2012-04-02T11:00:00Z"
     }
   },
   "instructors": {
-    "SCDetailsE2eT.instr": {
-      "googleId": "SCDetailsE2eT.instr",
-      "courseId": "SCDetailsE2eT.CS2104",
+    "SCDet.instr": {
+      "googleId": "tm.e2e.SCDet.instr",
+      "courseId": "tm.e2e.SCDet.CS2104",
       "name": "Teammates Test",
-      "email": "SCDetailsE2eT.instr@gmail.tmt",
+      "email": "SCDet.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -40,11 +40,11 @@
         "sessionLevel": {}
       }
     },
-    "SCDetailsE2eT.instr2": {
-      "googleId": "SCDetailsE2eT.instr2",
-      "courseId": "SCDetailsE2eT.CS2104",
+    "SCDet.instr2": {
+      "googleId": "tm.e2e.SCDet.instr2",
+      "courseId": "tm.e2e.SCDet.CS2104",
       "name": "Teammates Test 2",
-      "email": "SCDetailsE2eT2.instr@gmail.tmt",
+      "email": "SCDet.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -65,28 +65,28 @@
     }
   },
   "students": {
-    "SCDetailsE2eT.alice": {
-      "googleId": "SCDetailsE2eT.alice",
-      "email": "SCDetailsE2eT.alice@gmail.tmt",
-      "course": "SCDetailsE2eT.CS2104",
+    "SCDet.alice": {
+      "googleId": "tm.e2e.SCDet.alice",
+      "email": "SCDet.alice@gmail.tmt",
+      "course": "tm.e2e.SCDet.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "SCDetailsE2eT.benny": {
-      "googleId": "SCDetailsE2eT.benny",
-      "email": "SCDetailsE2eT.benny@gmail.tmt",
-      "course": "SCDetailsE2eT.CS2104",
+    "SCDet.benny": {
+      "googleId": "tm.e2e.SCDet.benny",
+      "email": "SCDet.benny@gmail.tmt",
+      "course": "tm.e2e.SCDet.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "SCDetailsE2eT.charlie": {
-      "googleId": "SCDetailsE2eT.charlie",
-      "email": "SCDetailsE2eT.charlie@gmail.tmt",
-      "course": "SCDetailsE2eT.CS2104",
+    "SCDet.charlie": {
+      "googleId": "tm.e2e.SCDet.charlie",
+      "email": "SCDet.charlie@gmail.tmt",
+      "course": "tm.e2e.SCDet.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 1",
@@ -98,25 +98,23 @@
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "profiles": {
-    "SCDetailsE2eT.benny": {
-      "googleId": "SCDetailsE2eT.benny",
+    "SCDet.benny": {
+      "googleId": "tm.e2e.SCDet.benny",
       "shortName": "Benny",
-      "email": "SCDetailsE2eT.benny@gmail.tmt",
+      "email": "SCDet.benny@gmail.tmt",
       "institute": "inst",
       "nationality": "American",
       "gender": "OTHER",
-      "moreInfo": "I am just a student :P",
-      "pictureKey": ""
+      "moreInfo": "I am just a student :P"
     },
-    "SCDetailsE2eT.charlie": {
-      "googleId": "SCDetailsE2eT.charlie",
+    "SCDet.charlie": {
+      "googleId": "tm.e2e.SCDet.charlie",
       "shortName": "Charlie",
-      "email": "SCDetailsE2eT.charlie@gmail.tmt",
+      "email": "SCDet.charlie@gmail.tmt",
       "institute": "inst",
       "nationality": "Singaporean",
       "gender": "OTHER",
-      "moreInfo": "I am also a student :P",
-      "pictureKey": ""
+      "moreInfo": "I am also a student :P"
     }
   }
 }

@@ -36,6 +36,8 @@ import teammates.storage.api.FeedbackQuestionsDb;
  */
 public final class FeedbackQuestionsLogic {
 
+    static final String USER_NAME_FOR_SELF = "Myself";
+
     private static final Logger log = Logger.getLogger();
 
     private static FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
@@ -272,7 +274,7 @@ public final class FeedbackQuestionsLogic {
             if (question.giverType == FeedbackParticipantType.TEAMS) {
                 recipients.put(studentGiver.team, studentGiver.team);
             } else {
-                recipients.put(giver, Const.USER_NAME_FOR_SELF);
+                recipients.put(giver, USER_NAME_FOR_SELF);
             }
             break;
         case STUDENTS:
@@ -367,7 +369,7 @@ public final class FeedbackQuestionsLogic {
             if (question.giverType == FeedbackParticipantType.TEAMS) {
                 recipients.put(giverTeam, giverTeam);
             } else {
-                recipients.put(giverEmail, Const.USER_NAME_FOR_SELF);
+                recipients.put(giverEmail, USER_NAME_FOR_SELF);
             }
             break;
         case STUDENTS:
@@ -380,7 +382,7 @@ public final class FeedbackQuestionsLogic {
             for (StudentAttributes student : studentsInCourse) {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         student.section, question.getFeedbackSessionName(),
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see students in allowed sections for him/her
                     continue;
                 }
@@ -420,7 +422,7 @@ public final class FeedbackQuestionsLogic {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
                         team.getValue().iterator().next().getSection(),
                         question.getFeedbackSessionName(),
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS)) {
+                        Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see teams in allowed sections for him/her
                     continue;
                 }
@@ -591,7 +593,6 @@ public final class FeedbackQuestionsLogic {
         case NONE:
             break;
         case STUDENTS:
-            //fallthrough
         case STUDENTS_EXCLUDING_SELF:
             List<StudentAttributes> studentList =
                     studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -607,7 +608,6 @@ public final class FeedbackQuestionsLogic {
             optionList.sort(null);
             break;
         case TEAMS:
-            //fallthrough
         case TEAMS_EXCLUDING_SELF:
             try {
                 List<String> teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -623,6 +623,21 @@ public final class FeedbackQuestionsLogic {
                 optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
+            }
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+        case OWN_TEAM_MEMBERS:
+            if (teamOfEntityDoingQuestion != null) {
+                List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
+                        feedbackQuestionAttributes.getCourseId());
+
+                if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                }
+
+                teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
+
+                optionList.sort(null);
             }
             break;
         case INSTRUCTORS:
@@ -762,8 +777,6 @@ public final class FeedbackQuestionsLogic {
      * Deletes a feedback question cascade its responses and comments.
      *
      * <p>Silently fail if question does not exist.
-     *
-     * <p>The respondent lists will also be updated due the deletion of question.
      */
     public void deleteFeedbackQuestionCascade(String feedbackQuestionId) {
         FeedbackQuestionAttributes questionToDelete =

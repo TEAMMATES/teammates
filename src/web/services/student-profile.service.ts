@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { MessageOutput, StudentProfile } from '../types/api-output';
 import { StudentProfileUpdateRequest } from '../types/api-request';
 import { HttpRequestService } from './http-request.service';
@@ -57,7 +57,7 @@ export class StudentProfileService {
   }
 
   /**
-   * Deletes the profile picture and the profile picture key
+   * Deletes the profile picture.
    */
   deleteProfilePicture(paramMap: Record<string, string>): Observable<any> {
     return this.httpRequestService.delete(ResourceEndpoints.STUDENT_PROFILE_PICTURE, paramMap);

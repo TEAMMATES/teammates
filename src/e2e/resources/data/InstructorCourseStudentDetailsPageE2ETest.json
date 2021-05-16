@@ -1,26 +1,26 @@
 {
   "accounts": {
-    "ICSDetailsE2eT.instr": {
-      "googleId": "ICSDetailsE2eT.instr.veryLongGoogleId",
+    "ICSDet.instr": {
+      "googleId": "tm.e2e.ICSDet.instr",
       "name": "Teammates Test",
       "isInstructor": true,
-      "email": "ICSDetailsE2eT.instr@gmail.tmt",
+      "email": "ICSDet.instr@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "ICSDetailsE2eT.CS2104": {
-      "id": "ICSDetailsE2eT.CS2104",
+    "ICSDet.CS2104": {
+      "id": "tm.e2e.ICSDet.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "ICSDetailsE2eT.instr": {
-      "googleId": "ICSDetailsE2eT.instr",
-      "courseId": "ICSDetailsE2eT.CS2104",
+    "ICSDet.instr": {
+      "googleId": "tm.e2e.ICSDet.instr",
+      "courseId": "tm.e2e.ICSDet.CS2104",
       "name": "Teammates Test",
-      "email": "ICSDetailsE2eT.instr@gmail.tmt",
+      "email": "ICSDet.instr@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -41,19 +41,19 @@
     }
   },
   "students": {
-    "ICSDetailsE2eT.jose.tmms": {
-      "googleId": "ICSDetailsE2eT.jose.tmms",
-      "email": "ICSDetailsE2eT.jose.tmms@gmail.tmt",
-      "course": "ICSDetailsE2eT.CS2104",
+    "ICSDet.jose.tmms": {
+      "googleId": "tm.e2e.ICSDet.jose.tmms",
+      "email": "ICSDet.jose.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDet.CS2104",
       "name": "José Gómez",
       "comments": "This student's name is José Gómez",
       "team": "Team 1",
       "section": "None"
     },
-    "ICSDetailsE2eT.benny.c": {
-      "googleId": "ICSDetailsE2eT.benny.c",
-      "email": "ICSDetailsE2eT.benny.c.tmms@gmail.tmt",
-      "course": "ICSDetailsE2eT.CS2104",
+    "ICSDet.benny.c": {
+      "googleId": "tm.e2e.ICSDet.benny.c",
+      "email": "ICSDet.benny.c.tmms@gmail.tmt",
+      "course": "tm.e2e.ICSDet.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
@@ -65,15 +65,14 @@
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "profiles": {
-    "ICSDetailsE2eT.jose.tmms": {
-      "googleId": "ICSDetailsE2eT.jose.tmms",
+    "ICSDet.jose.tmms": {
+      "googleId": "tm.e2e.ICSDet.jose.tmms",
       "shortName": "José",
       "email": "jose@e.tmt",
       "institute": "TEAMMATES Test Institute 7",
       "nationality": "Laotian",
       "gender": "MALE",
-      "moreInfo": "This is a lot of info...",
-      "pictureKey": ""
+      "moreInfo": "This is a lot of info..."
     }
   }
 }

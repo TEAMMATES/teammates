@@ -1,36 +1,36 @@
 {
   "accounts": {
-    "AAMgtE2eT.instr2": {
-      "googleId": "AAMgtE2eT.instr2",
+    "AAccounts.instr2": {
+      "googleId": "tm.e2e.AAccounts.instr2",
       "name": "Teammates Instr2",
       "isInstructor": true,
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "email": "AAccounts.instr2@gmail.tmt",
       "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
-    "AAMgtE2eT.CS2104": {
-      "id": "AAMgtE2eT.CS2104",
+    "AAccounts.CS2104": {
+      "id": "tm.e2e.AAccounts.CS2104",
       "name": "Programming Languages",
       "timeZone": "UTC"
     },
-    "AAMgtE2eT.CS2103": {
-      "id": "AAMgtE2eT.CS2103",
+    "AAccounts.CS2103": {
+      "id": "tm.e2e.AAccounts.CS2103",
       "name": "Software Engineering",
       "timeZone": "UTC"
     },
-    "AAMgtE2eT.CS1101": {
-      "id": "AAMgtE2eT.CS1101",
+    "AAccounts.CS1101": {
+      "id": "tm.e2e.AAccounts.CS1101",
       "name": "Programming Methodology",
       "timeZone": "UTC"
     }
   },
   "instructors": {
-    "AAMgtE2eT.instr2-AAMgtE2eT.CS2104": {
-      "googleId": "AAMgtE2eT.instr2",
-      "courseId": "AAMgtE2eT.CS2104",
+    "AAccounts.instr2-AAccounts.CS2104": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "courseId": "tm.e2e.AAccounts.CS2104",
       "name": "Teammates Instr2",
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "email": "AAccounts.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -49,11 +49,11 @@
         "sessionLevel": {}
       }
     },
-    "AAMgtE2eT.instr2-AAMgtE2eT.CS2103": {
-      "googleId": "AAMgtE2eT.instr2",
-      "courseId": "AAMgtE2eT.CS2103",
+    "AAccounts.instr2-AAccounts.CS2103": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "courseId": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr2",
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "email": "AAccounts.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -72,11 +72,11 @@
         "sessionLevel": {}
       }
     },
-    "AAMgtE2eT.instr2-AAMgtE2eT.CS1101": {
-      "googleId": "AAMgtE2eT.instr2",
-      "courseId": "AAMgtE2eT.CS1101",
+    "AAccounts.instr2-AAccounts.CS1101": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "courseId": "tm.e2e.AAccounts.CS1101",
       "name": "Teammates Instr2",
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
+      "email": "AAccounts.instr2@gmail.tmt",
       "role": "Co-owner",
       "isDisplayedToStudents": false,
       "displayedName": "Co-owner",
@@ -97,28 +97,28 @@
     }
   },
   "students": {
-    "AAMgtE2eT.instr2-student-CS2104": {
-      "googleId": "AAMgtE2eT.instr2",
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
-      "course": "AAMgtE2eT.CS2104",
+    "AAccounts.instr2-student-CS2104": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "course": "tm.e2e.AAccounts.CS2104",
       "name": "Teammates Instr2",
       "comments": "This is an instructor",
       "team": "Team 1",
       "section": "None"
     },
-    "AAMgtE2eT.instr2-student-CS2103": {
-      "googleId": "AAMgtE2eT.instr2",
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
-      "course": "AAMgtE2eT.CS2103",
+    "AAccounts.instr2-student-CS2103": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "course": "tm.e2e.AAccounts.CS2103",
       "name": "Teammates Instr2",
       "comments": "This is an instructor",
       "team": "Team 1",
       "section": "None"
     },
-    "AAMgtE2eT.instr2-student-CS1101": {
-      "googleId": "AAMgtE2eT.instr2",
-      "email": "AAMgtE2eT.instr2@gmail.tmt",
-      "course": "AAMgtE2eT.CS1101",
+    "AAccounts.instr2-student-CS1101": {
+      "googleId": "tm.e2e.AAccounts.instr2",
+      "email": "AAccounts.instr2@gmail.tmt",
+      "course": "tm.e2e.AAccounts.CS1101",
       "name": "Teammates Instr2",
       "comments": "This is an instructor",
       "team": "Team 1",

@@ -1,7 +1,7 @@
 {
   "accounts": {
     "instructorWithSessions": {
-      "googleId": "FMsqQuestionE2eT.instructor",
+      "googleId": "tm.e2e.FMsqQn.instructor",
       "name": "Teammates Test",
       "isInstructor": true,
       "email": "tmms.test@gmail.tmt",
@@ -10,20 +10,20 @@
   },
   "courses": {
     "course": {
-      "id": "FMsqQuestionE2eT.CS2104",
+      "id": "tm.e2e.FMsqQn.CS2104",
       "name": "Programming Language Concepts",
       "timeZone": "Africa/Johannesburg"
     },
     "course2": {
-      "id": "FMsqQuestionE2eT.CS1101",
+      "id": "tm.e2e.FMsqQn.CS1101",
       "name": "Programming Methodology",
       "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
     "instructor": {
-      "googleId": "FMsqQuestionE2eT.instructor",
-      "courseId": "FMsqQuestionE2eT.CS2104",
+      "googleId": "tm.e2e.FMsqQn.instructor",
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -45,8 +45,8 @@
       }
     },
     "instructor2": {
-      "googleId": "FMsqQuestionE2eT.instructor",
-      "courseId": "FMsqQuestionE2eT.CS1101",
+      "googleId": "tm.e2e.FMsqQn.instructor",
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "name": "Teammates Test",
       "email": "tmms.test@gmail.tmt",
       "role": "Co-owner",
@@ -69,37 +69,37 @@
     }
   },
   "students": {
-    "alice.tmms@FMsqQuestionE2eT.CS2104": {
-      "googleId": "FMsqQuestionE2eT.alice.tmms",
+    "alice.tmms@FMsqQn.CS2104": {
+      "googleId": "tm.e2e.FMsqQn.alice.tmms",
       "email": "alice.b.tmms@gmail.tmt",
-      "course": "FMsqQuestionE2eT.CS2104",
+      "course": "tm.e2e.FMsqQn.CS2104",
       "name": "Alice Betsy",
       "comments": "This student's name is Alice Betsy",
       "team": "Team 1",
       "section": "None"
     },
-    "benny.tmms@FMsqQuestionE2eT.CS2104": {
-      "googleId": "FMsqQuestionE2eT.benny.tmms",
+    "benny.tmms@FMsqQn.CS2104": {
+      "googleId": "tm.e2e.FMsqQn.benny.tmms",
       "email": "benny.tmms@gmail.tmt",
-      "course": "FMsqQuestionE2eT.CS2104",
+      "course": "tm.e2e.FMsqQn.CS2104",
       "name": "Benny Charles",
       "comments": "This student's name is Benny Charles",
       "team": "Team 1",
       "section": "None"
     },
-    "charlie.tmms@FMsqQuestionE2eT.CS2104": {
-      "googleId": "charlie.tmms",
-      "email": "FMsqQuestionE2eT.charlie.tmms@gmail.tmt",
-      "course": "FMsqQuestionE2eT.CS2104",
+    "charlie.tmms@FMsqQn.CS2104": {
+      "googleId": "tm.e2e.FMsqQn.charlie.tmms",
+      "email": "FMsqQn.charlie.tmms@gmail.tmt",
+      "course": "tm.e2e.FMsqQn.CS2104",
       "name": "Charlie Davis",
       "comments": "This student's name is Charlie Davis",
       "team": "Team 2",
       "section": "None"
     },
-    "danny.tmms@FMsqQuestionE2eT.CS1101": {
-      "googleId": "danny.tmms",
-      "email": "FMsqQuestionE2eT.danny.tmms@gmail.tmt",
-      "course": "FMsqQuestionE2eT.CS1101",
+    "danny.tmms@FMsqQn.CS1101": {
+      "googleId": "tm.e2e.FMsqQn.danny.tmms",
+      "email": "FMsqQn.danny.tmms@gmail.tmt",
+      "course": "tm.e2e.FMsqQn.CS1101",
       "name": "Danny Engrid",
       "comments": "This student's name is Danny Engrid",
       "team": "Team 2",
@@ -109,7 +109,7 @@
   "feedbackSessions": {
     "openSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FMsqQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for first session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -129,7 +129,7 @@
     },
     "openSession2": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FMsqQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "creatorEmail": "tmms.test@gmail.tmt",
       "instructions": "<p>Instructions for Second session</p>",
       "createdTime": "2012-04-01T23:59:00Z",
@@ -151,7 +151,7 @@
   "feedbackQuestions": {
     "qn1ForFirstSession": {
       "feedbackSessionName": "First Session",
-      "courseId": "FMsqQuestionE2eT.CS2104",
+      "courseId": "tm.e2e.FMsqQn.CS2104",
       "questionDetails": {
         "questionType": "MSQ",
         "questionText": "Which area did this student work well in?",
@@ -190,7 +190,7 @@
     },
     "qn1ForSecondSession": {
       "feedbackSessionName": "Second Session",
-      "courseId": "FMsqQuestionE2eT.CS1101",
+      "courseId": "tm.e2e.FMsqQn.CS1101",
       "questionDetails": {
         "numOfMsqChoices": 0,
         "msqChoices": [],

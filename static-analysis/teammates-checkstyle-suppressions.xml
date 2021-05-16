@@ -3,6 +3,9 @@
     "-//Checkstyle//DTD SuppressionFilter Configuration 1.1//EN"
     "https://checkstyle.org/dtds/suppressions_1_1.dtd">
 <suppressions>
+    <!-- Ignore auto-generated code -->
+    <suppress checks="." files="com[/\\]google[/\\]appengine[/\\]logging[/\\]v1[/\\].*\.java"/>
+
     <!-- Most variables in scripts are constants -->
     <suppress checks="ConstantName" files="client[/\\]scripts[/\\].*\.java"/>
 

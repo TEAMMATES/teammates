@@ -4,10 +4,8 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
@@ -37,8 +35,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
-    private transient Set<String> respondingInstructorList;
-    private transient Set<String> respondingStudentList;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
@@ -50,9 +46,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isOpeningEmailEnabled = true;
         this.isClosingEmailEnabled = true;
         this.isPublishedEmailEnabled = true;
-
-        this.respondingInstructorList = new HashSet<>();
-        this.respondingStudentList = new HashSet<>();
 
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.gracePeriod = Duration.ZERO;
@@ -82,12 +75,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
-        if (fs.getRespondingStudentList() != null) {
-            feedbackSessionAttributes.respondingStudentList = new HashSet<>(fs.getRespondingStudentList());
-        }
-        if (fs.getRespondingInstructorList() != null) {
-            feedbackSessionAttributes.respondingInstructorList = new HashSet<>(fs.getRespondingInstructorList());
-        }
 
         return feedbackSessionAttributes;
     }
@@ -125,8 +112,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone.getId(), getGracePeriodMinutes(),
                 sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled,
-                respondingInstructorList, respondingStudentList);
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
     }
 
     @Override
@@ -487,22 +473,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public Set<String> getRespondingInstructorList() {
-        return respondingInstructorList;
-    }
-
-    public void setRespondingInstructorList(Set<String> respondingInstructorList) {
-        this.respondingInstructorList = respondingInstructorList;
-    }
-
-    public Set<String> getRespondingStudentList() {
-        return respondingStudentList;
-    }
-
-    public void setRespondingStudentList(Set<String> respondingStudentList) {
-        this.respondingStudentList = respondingStudentList;
-    }
-
     /**
      * Updates with {@link UpdateOptions}.
      */
@@ -520,25 +490,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.sentPublishedEmailOption.ifPresent(s -> sentPublishedEmail = s);
         updateOptions.isClosingEmailEnabledOption.ifPresent(s -> isClosingEmailEnabled = s);
         updateOptions.isPublishedEmailEnabledOption.ifPresent(s -> isPublishedEmailEnabled = s);
-
-        updateOptions.addingStudentRespondentOption.ifPresent(s -> respondingStudentList.add(s));
-        updateOptions.removingStudentRespondentOption.ifPresent(s -> respondingStudentList.remove(s));
-        updateOptions.addingInstructorRespondentOption.ifPresent(s -> respondingInstructorList.add(s));
-        updateOptions.removingInstructorRespondentOption.ifPresent(s -> respondingInstructorList.remove(s));
-
-        updateOptions.updatingStudentRespondentOption.ifPresent(s -> {
-            if (respondingStudentList.contains(s.getOldEmail())) {
-                respondingStudentList.remove(s.getOldEmail());
-                respondingStudentList.add(s.getNewEmail());
-            }
-        });
-
-        updateOptions.updatingInstructorRespondentOption.ifPresent(s -> {
-            if (respondingInstructorList.contains(s.getOldEmail())) {
-                respondingInstructorList.remove(s.getOldEmail());
-                respondingInstructorList.add(s.getNewEmail());
-            }
-        });
     }
 
     /**
@@ -569,7 +520,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withCreatorEmail(String creatorEmail) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, creatorEmail);
+            Assumption.assertNotNull(creatorEmail);
 
             feedbackSessionAttributes.creatorEmail = creatorEmail;
 
@@ -605,16 +556,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> isClosingEmailEnabledOption = UpdateOption.empty();
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
 
-        private UpdateOption<String> addingStudentRespondentOption = UpdateOption.empty();
-        private UpdateOption<String> removingStudentRespondentOption = UpdateOption.empty();
-        private UpdateOption<String> addingInstructorRespondentOption = UpdateOption.empty();
-        private UpdateOption<String> removingInstructorRespondentOption = UpdateOption.empty();
-        private UpdateOption<EmailChange> updatingStudentRespondentOption = UpdateOption.empty();
-        private UpdateOption<EmailChange> updatingInstructorRespondentOption = UpdateOption.empty();
-
         private UpdateOptions(String feedbackSessionName, String courseId) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, feedbackSessionName);
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, courseId);
+            Assumption.assertNotNull(feedbackSessionName);
+            Assumption.assertNotNull(courseId);
 
             this.feedbackSessionName = feedbackSessionName;
             this.courseId = courseId;
@@ -646,12 +590,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                     + ", sentPublishedEmail = " + sentPublishedEmailOption
                     + ", isClosingEmailEnabled = " + isClosingEmailEnabledOption
                     + ", isPublishedEmailEnabled = " + isPublishedEmailEnabledOption
-                    + ", addingStudentRespondent = " + addingStudentRespondentOption
-                    + ", removingStudentRespondent = " + removingStudentRespondentOption
-                    + ", addingInstructorRespondent = " + addingInstructorRespondentOption
-                    + ", removingInstructorRespondent = " + removingInstructorRespondentOption
-                    + ", updatingStudentRespondent = " + updatingStudentRespondentOption
-                    + ", updatingInstructorRespondent = " + updatingInstructorRespondentOption
                     + "]";
         }
 
@@ -684,7 +622,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, updateOptions);
+                Assumption.assertNotNull(updateOptions);
                 thisBuilder = this;
             }
 
@@ -713,50 +651,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 return this;
             }
 
-            public Builder withAddingStudentRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-                updateOptions.addingStudentRespondentOption = UpdateOption.of(email);
-                return this;
-            }
-
-            public Builder withRemovingStudentRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-                updateOptions.removingStudentRespondentOption = UpdateOption.of(email);
-                return this;
-            }
-
-            public Builder withAddingInstructorRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-                updateOptions.addingInstructorRespondentOption = UpdateOption.of(email);
-                return this;
-            }
-
-            public Builder withRemovingInstructorRespondent(String email) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, email);
-
-                updateOptions.removingInstructorRespondentOption = UpdateOption.of(email);
-                return this;
-            }
-
-            public Builder withUpdatingStudentRespondent(String oldEmail, String newEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, oldEmail);
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newEmail);
-
-                updateOptions.updatingStudentRespondentOption = UpdateOption.of(new EmailChange(oldEmail, newEmail));
-                return this;
-            }
-
-            public Builder withUpdatingInstructorRespondent(String oldEmail, String newEmail) {
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, oldEmail);
-                Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, newEmail);
-
-                updateOptions.updatingInstructorRespondentOption = UpdateOption.of(new EmailChange(oldEmail, newEmail));
-                return this;
-            }
-
             @Override
             public UpdateOptions build() {
                 return updateOptions;
@@ -782,49 +676,49 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public B withInstructions(String instruction) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, instruction);
+            Assumption.assertNotNull(instruction);
 
             updateOptions.instructionsOption = UpdateOption.of(instruction);
             return thisBuilder;
         }
 
         public B withStartTime(Instant startTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, startTime);
+            Assumption.assertNotNull(startTime);
 
             updateOptions.startTimeOption = UpdateOption.of(startTime);
             return thisBuilder;
         }
 
         public B withEndTime(Instant endTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, endTime);
+            Assumption.assertNotNull(endTime);
 
             updateOptions.endTimeOption = UpdateOption.of(endTime);
             return thisBuilder;
         }
 
         public B withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, sessionVisibleFromTime);
+            Assumption.assertNotNull(sessionVisibleFromTime);
 
             updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
             return thisBuilder;
         }
 
         public B withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, resultsVisibleFromTime);
+            Assumption.assertNotNull(resultsVisibleFromTime);
 
             updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
             return thisBuilder;
         }
 
         public B withTimeZone(ZoneId timeZone) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, timeZone);
+            Assumption.assertNotNull(timeZone);
 
             updateOptions.timeZoneOption = UpdateOption.of(timeZone);
             return thisBuilder;
         }
 
         public B withGracePeriod(Duration gracePeriod) {
-            Assumption.assertNotNull(Const.StatusCodes.NULL_PARAMETER, gracePeriod);
+            Assumption.assertNotNull(gracePeriod);
 
             updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
             return thisBuilder;
