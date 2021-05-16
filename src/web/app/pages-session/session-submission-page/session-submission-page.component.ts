@@ -313,7 +313,9 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.loadFeedbackQuestions();
 
         // Display note on submission on mobile device
-        if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN && window.innerWidth < 768) {
+        const mobileDeviceWidth: number = 768;
+        if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN
+          && window.innerWidth < mobileDeviceWidth) {
           const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
 answer remaining questions after that. You may also edit your submission any number of times before the closing time of
 this session.`;
