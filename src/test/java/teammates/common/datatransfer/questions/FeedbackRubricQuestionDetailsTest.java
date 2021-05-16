@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.testng.annotations.Test;
 
-import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
 /**
@@ -37,7 +36,7 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         List<String> errors = rubricDetails.validateQuestionDetails();
         assertEquals(1, errors.size());
-        assertEquals(Const.FeedbackQuestion.RUBRIC_ERROR_INVALID_WEIGHT, errors.get(0));
+        assertEquals(FeedbackRubricQuestionDetails.RUBRIC_ERROR_INVALID_WEIGHT, errors.get(0));
     }
 
     @Test
@@ -68,10 +67,10 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
 
         FeedbackRubricResponseDetails responseDetails = new FeedbackRubricResponseDetails();
 
-        responseDetails.setAnswer(Arrays.asList(1, Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN));
+        responseDetails.setAnswer(Arrays.asList(1, FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN));
         assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
-        responseDetails.setAnswer(Arrays.asList(Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN, 0));
+        responseDetails.setAnswer(Arrays.asList(FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN, 0));
         assertTrue(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, 0));
@@ -97,8 +96,8 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         responseDetails.setAnswer(Arrays.asList(0));
         assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
-        responseDetails.setAnswer(Arrays.asList(
-                Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN, Const.FeedbackQuestion.RUBRIC_ANSWER_NOT_CHOSEN));
+        responseDetails.setAnswer(Arrays.asList(FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN,
+                FeedbackRubricQuestionDetails.RUBRIC_ANSWER_NOT_CHOSEN));
         assertFalse(rubricQuestionDetails.validateResponsesDetails(Collections.singletonList(responseDetails), 0).isEmpty());
 
         responseDetails.setAnswer(Arrays.asList(0, -2));

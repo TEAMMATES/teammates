@@ -3,15 +3,14 @@ package teammates.common.util;
 import java.lang.reflect.Field;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.zone.ZoneRulesProvider;
-import java.util.Locale;
 
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Const.SystemParams;
 
 /**
  * A helper class to hold time-related functions (e.g., converting dates to strings etc.).
@@ -71,6 +70,16 @@ public final class TimeHelper {
     }
 
     /**
+     * Returns an Instant that is offset by a number of days before now.
+     *
+     * @param offsetInDays integer number of days to offset by
+     * @return an Instant offset by {@code offsetInDays} days
+     */
+    public static Instant getInstantDaysOffsetBeforeNow(long offsetInDays) {
+        return Instant.now().minus(Duration.ofDays(offsetInDays));
+    }
+
+    /**
      * Formats a datetime stamp from an {@code instant} using a formatting pattern.
      *
      * <p>Note: a formatting pattern containing 'a' (for the period; AM/PM) is treated differently at noon/midday.
@@ -115,16 +124,15 @@ public final class TimeHelper {
     }
 
     /**
-     * Parses an {@code Instant} object from a datetime string in the {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}.
+     * Parses an {@code Instant} object from a datetime string in the ISO 8601 format.
      *
-     * @param dateTimeString should be in the format {@link SystemParams#DEFAULT_DATE_TIME_FORMAT}
      * @return the parsed {@code Instant} object
      * @throws AssertionError if there is a parsing error
+     * @see <a href="https://www.w3.org/TR/NOTE-datetime">https://www.w3.org/TR/NOTE-datetime</a>
      */
     public static Instant parseInstant(String dateTimeString) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(SystemParams.DEFAULT_DATE_TIME_FORMAT, Locale.ROOT);
         try {
-            return ZonedDateTime.parse(dateTimeString, formatter).toInstant();
+            return OffsetDateTime.parse(dateTimeString).toInstant();
         } catch (DateTimeParseException e) {
             Assumption.fail("Date in String is in wrong format.");
             return null;

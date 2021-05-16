@@ -97,6 +97,15 @@ public final class Assumption {
     }
 
     /**
+     * <em>Asserts</em> that {@code actuals} are all not {@code null}.
+     */
+    public static void assertNotNull(Object... objects) {
+        for (Object object : objects) {
+            assertNotNull(object);
+        }
+    }
+
+    /**
      * <em>Asserts</em> that {@code objects} are all not {@code null}.
      *
      * <p>Fails with the supplied failure {@code message}.

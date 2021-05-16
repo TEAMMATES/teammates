@@ -10,19 +10,19 @@
         <div class="float-right">
           <strong class="d-inline"> Sort By: </strong>
           <div class="btn-group">
-            <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_ID" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
-            <button class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_NAME" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
+            <button id="sort-course-id-btn" class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_ID" (click)="sortCoursesBy(SortBy.COURSE_ID)">Course ID</button>
+            <button id="sort-course-name-btn" class="btn btn-light" [disabled]="sortBy === SortBy.COURSE_NAME" (click)="sortCoursesBy(SortBy.COURSE_NAME)">Course Name</button>
           </div>
         </div>
       </div>
     </div>
-    <ng-container *ngFor="let studentCourse of courses">
+    <ng-container *ngFor="let studentCourse of courses; index as i">
       <div class="card bg-light top-padded">
         <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
           <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
           <div class="card-header-btn-toolbar">
             <a tmRouterLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
-               class="btn btn-primary btn-sm button">
+               id="view-team-btn-{{i}}" class="btn btn-primary btn-sm button">
               View team
             </a>
           </div>
@@ -40,7 +40,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let session of studentCourse.feedbackSessions">
+            <tr *ngFor="let session of studentCourse.feedbackSessions; index as i">
               <ng-container>
                 <td>{{ session.session.feedbackSessionName }}</td>
                 <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
@@ -57,28 +57,30 @@
                 <td>
                   <a [ngClass]="{'disabled' : !session.isPublished}"
                      tmRouterLink="/web/student/sessions/result" [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                     class="btn btn-light btn-sm btn-margin-right">
+                     id="view-responses-btn-{{i}}" class="btn btn-light btn-sm btn-margin-right">
                     View Responses
                   </a>
-                  <a *ngIf="session.isWaitingToOpen" class="btn btn-light btn-sm disabled">
+                  <a *ngIf="session.isWaitingToOpen" id="disabled-start-submit-btn-{{i}}" class="btn btn-light btn-sm disabled">
                     Start Submission
                   </a>
                   <a *ngIf="session.isOpened && !session.isSubmitted"
                      tmRouterLink="/web/student/sessions/submission"
                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     id="start-submit-btn-{{i}}"
                      class="btn btn-light btn-sm">
                     Start Submission
                   </a>
                   <a *ngIf="session.isOpened && session.isSubmitted"
                      tmRouterLink="/web/student/sessions/submission"
                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
+                     id="edit-submit-btn-{{i}}"
                      class="btn btn-light btn-sm">
                     Edit Submission
                   </a>
                   <a *ngIf="!session.isOpened && !session.isWaitingToOpen"
                      tmRouterLink="/web/student/sessions/submission"
                      [queryParams]="{courseid: session.session.courseId, fsname: session.session.feedbackSessionName}"
-                     class="btn btn-light btn-sm">
+                     id="view-submit-btn-{{i}}" class="btn btn-light btn-sm">
                     View Submission
                   </a>
                 </td>

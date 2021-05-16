@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.UserProvision;
 
 /**
  * Servlet that handles logout.
@@ -20,7 +20,7 @@ public class LogoutServlet extends HttpServlet {
         if (frontendUrl == null) {
             frontendUrl = "";
         }
-        String logoutUrl = new GateKeeper().getLogoutUrl(frontendUrl + "/web");
+        String logoutUrl = new UserProvision().getLogoutUrl(frontendUrl + "/web");
         resp.sendRedirect(logoutUrl);
     }
 

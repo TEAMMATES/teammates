@@ -36,7 +36,7 @@ public class LegacyUrlMapperTest extends BaseTestCase {
 
         String newInstructorJoinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey("regkey")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toString();
         assertEquals(newInstructorJoinUrl, mockResponse.getRedirectUrl());
 
@@ -49,7 +49,7 @@ public class LegacyUrlMapperTest extends BaseTestCase {
 
         String newStudentJoinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey("regkey")
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT)
+                .withEntityType(Const.EntityType.STUDENT)
                 .toString();
         assertEquals(newStudentJoinUrl, mockResponse.getRedirectUrl());
 

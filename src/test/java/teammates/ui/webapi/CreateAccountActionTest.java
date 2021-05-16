@@ -80,14 +80,14 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                 .withInstructorInstitution(institute)
                 .withInstitutionMac(StringHelper.generateSignature(institute))
-                .withParam(Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR)
+                .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         JoinLinkData output = (JoinLinkData) r.getOutput();
         assertEquals(joinLink, output.getJoinLink());
 
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
                 emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
@@ -109,7 +109,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
             assertEquals(expectedError, e.getMessage());
         }
 
-        verifyNoEmailsSent(finalA);
+        verifyNoEmailsSent();
     }
 
     @Override

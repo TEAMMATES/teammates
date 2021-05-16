@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { default as timezone } from '../data/timezone.json';
 import { HttpRequestService } from './http-request.service';
 
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import { LocalDateTimeAmbiguityStatus, LocalDateTimeInfo, TimeZones } from '../types/api-output';
 
 /**

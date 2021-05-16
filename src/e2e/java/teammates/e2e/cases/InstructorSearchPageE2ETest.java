@@ -35,18 +35,18 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         InstructorSearchPage searchPage = loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
 
-        ______TS("cannot click search button if no checkbox is selected");
+        ______TS("cannot click search button if no search term is entered");
 
-        searchPage.search(false, false, "anykeyword");
+        searchPage.search("");
 
         ______TS("search with no result");
 
-        searchPage.search(true, true, "thiswillnothitanything");
+        searchPage.search("thiswillnothitanything");
         searchPage.verifyStatusMessage("No results found.");
 
         ______TS("search for students");
 
-        searchPage.search(true, false, "student2");
+        searchPage.search("student2");
 
         CourseAttributes course1 = testData.courses.get("typicalCourse1");
         CourseAttributes course2 = testData.courses.get("typicalCourse2");
@@ -96,18 +96,16 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
 
         ______TS("action: delete student");
 
-        StudentAttributes studentToDelete = testData.students.get("student2InCourse1");
+        StudentAttributes studentToDelete = testData.students.get("student2InCourse2");
 
-        searchPage.deleteStudent(course1, studentToDelete.getEmail());
+        searchPage.deleteStudent(course2, studentToDelete.getEmail());
 
         StudentAttributes[] studentsAfterDelete = {
-                testData.students.get("student2.2InCourse1"),
+                testData.students.get("student2.2InCourse2"),
         };
 
-        searchPage.verifyStudentDetails(course1, studentsAfterDelete);
+        searchPage.verifyStudentDetails(course2, studentsAfterDelete);
         verifyAbsentInDatastore(studentToDelete);
-
-        // TODO add tests for search response comments
 
     }
 

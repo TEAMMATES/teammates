@@ -65,9 +65,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(newInstructorEmail, instructorAdded.email);
         assertEquals(newInstructorEmail, response.getEmail());
 
-        verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
-        TaskWrapper taskAdded = createInstructorAction.getTaskQueuer().getTasksAdded().get(0);
+        TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
 
         assertEquals(courseId, taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
         assertEquals(instructorAdded.email, reqBody.getEmail());
@@ -84,7 +84,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals("An instructor with the same email address already exists in the course.",
                 msg.getMessage());
 
-        verifyNoTasksAdded(createInstructorAction);
+        verifyNoTasksAdded();
 
         ______TS("Error: try to add an instructor with invalid email");
 
@@ -104,7 +104,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 FieldValidator.EMAIL_MAX_LENGTH),
                 msg.getMessage());
 
-        verifyNoTasksAdded(createInstructorAction);
+        verifyNoTasksAdded();
 
         ______TS("Masquerade mode: add an instructor");
 
@@ -133,9 +133,9 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertEquals(newInstructorEmail, instructorAdded.email);
         assertEquals(newInstructorEmail, response.getEmail());
 
-        verifySpecifiedTasksAdded(createInstructorAction, Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
-        taskAdded = createInstructorAction.getTaskQueuer().getTasksAdded().get(0);
+        taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         Map<String, String> paramMap = taskAdded.getParamMap();
 
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
@@ -152,7 +152,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         ______TS("only instructors of the same course can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
 
         // remove the newly added instructor
         logic.deleteInstructorCascade("idOfTypicalCourse1", "instructor@email.tmt");

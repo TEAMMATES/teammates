@@ -180,7 +180,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         verifyCannotAccess(params);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section 1"});
         verifyCanAccess(params);
         verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, params);
@@ -189,7 +189,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.email);
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
     @Test
@@ -207,7 +207,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Only instructor with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS, params
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, params
         );
 
         ______TS("Instructor moderates instructor submission with correct privilege will pass");
@@ -216,7 +216,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.email, "");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
 
         ______TS("Instructor preview instructor result with correct privilege will pass");
 
@@ -224,7 +224,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION,
                         "", "", instructor1OfCourse1.email);
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, previewInstructorSubmissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorSubmissionParams);
     }
 
     private String[] generateParameters(FeedbackSessionAttributes session, Intent intent,

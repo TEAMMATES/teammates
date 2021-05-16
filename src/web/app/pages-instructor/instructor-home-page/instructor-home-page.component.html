@@ -1,17 +1,4 @@
 <h1>Home</h1>
-<div class="card no-border bg-light mb-4">
-  <div class="card-body">
-    <div class="form-row">
-      <div class="input-group">
-        <input id="search-input" type="text" class="form-control" [(ngModel)]="studentSearchkey" (keyup.enter)="search()"
-               placeholder="e.g. Charles Shultz, charles@gmail.com">
-        <div class="input-group-append">
-          <button id="btn-search" class="btn btn-primary" (click)="search()">Search</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 <div class="card bg-light" style="margin-bottom: 20px;" *ngIf="isNewUser">
   <div class="card-body">
@@ -42,7 +29,7 @@
   <div *tmIsLoading="!hasCoursesLoaded">
     <div *ngIf="courseTabModels.length > 0">
       <div id="course-tab" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
-        <div class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
+        <div id="course-tab-header" class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
           <b id="course-details">[{{ courseTabModel.course.courseId }}]: {{ courseTabModel.course.courseName }}</b>
           <div class="card-header-btn-toolbar" *ngIf="courseTabModel.isAjaxSuccess">
             <span ngbDropdown>

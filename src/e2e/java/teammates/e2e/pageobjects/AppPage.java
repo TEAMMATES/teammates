@@ -2,6 +2,7 @@ package teammates.e2e.pageobjects;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -26,6 +27,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.Url;
 import teammates.common.util.retry.MaximumRetriesExceededException;
@@ -177,10 +179,6 @@ public abstract class AppPage {
 
     public void waitUntilAnimationFinish() {
         waitUntilAnimationFinish(browser);
-    }
-
-    public void waitForLoadingElement() {
-        waitForElementStaleness(waitForElementPresence(By.className("loading-container")));
     }
 
     /**
@@ -395,7 +393,18 @@ public abstract class AppPage {
      */
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
-        return select.getFirstSelectedOption().getText();
+        try {
+            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Wait for dropdown text to load") {
+                @Override
+                public void run() {
+                    String txt = select.getFirstSelectedOption().getText();
+                    assertNotEquals("", txt);
+                }
+            }, WebDriverException.class, AssertionError.class);
+            return select.getFirstSelectedOption().getText();
+        } catch (MaximumRetriesExceededException e) {
+            return select.getFirstSelectedOption().getText();
+        }
     }
 
     /**
@@ -594,6 +603,46 @@ public abstract class AppPage {
      */
     public void closeCurrentWindowAndSwitchToParentWindow() {
         browser.closeCurrentWindowAndSwitchToParentWindow();
+    }
+
+    String getDisplayGiverName(FeedbackParticipantType type) {
+        switch (type) {
+        case SELF:
+            return "Feedback session creator (i.e., me)";
+        case STUDENTS:
+            return "Students in this course";
+        case INSTRUCTORS:
+            return "Instructors in this course";
+        case TEAMS:
+            return "Teams in this course";
+        default:
+            throw new IllegalArgumentException("Unknown FeedbackParticipantType: " + type);
+        }
+    }
+
+    String getDisplayRecipientName(FeedbackParticipantType type) {
+        switch (type) {
+        case SELF:
+            return "Giver (Self feedback)";
+        case STUDENTS:
+        case STUDENTS_EXCLUDING_SELF:
+            return "Other students in the course";
+        case INSTRUCTORS:
+            return "Instructors in the course";
+        case TEAMS:
+        case TEAMS_EXCLUDING_SELF:
+            return "Other teams in the course";
+        case OWN_TEAM:
+            return "Giver's team";
+        case OWN_TEAM_MEMBERS:
+            return "Giver's team members";
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+            return "Giver's team members and Giver";
+        case NONE:
+            return "Nobody specific (For general class feedback)";
+        default:
+            throw new IllegalArgumentException("Unknown FeedbackParticipantType: " + type);
+        }
     }
 
 }
