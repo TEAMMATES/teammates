@@ -188,7 +188,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, params);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, params);
     }
 
 }

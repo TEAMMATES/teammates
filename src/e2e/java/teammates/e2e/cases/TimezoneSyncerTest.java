@@ -42,7 +42,12 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         ______TS("ensure the front-end and the back-end have the same timezone database version");
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
         String momentOffsets = timezonePage.getMomentTimezoneOffsets();
-        assertEquals(timezonePage.getJavaTimezoneVersion(), timezonePage.getMomentTimezoneVersion());
+        assertEquals(
+                "The timezone database versions are not in sync. For information on updating the timezone databases, "
+                + "see the maintainer guide in the TEAMMATES ops repository.",
+                timezonePage.getJavaTimezoneVersion(),
+                timezonePage.getMomentTimezoneVersion()
+        );
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
             assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
@@ -53,6 +58,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
         IanaTimezonePage ianaPage = getNewPageInstance(
                 new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
+        ianaPage.waitForPageToLoad();
         String latestTzVersion = ianaPage.getVersion();
 
         if (!currentTzVersion.equals(latestTzVersion)) {

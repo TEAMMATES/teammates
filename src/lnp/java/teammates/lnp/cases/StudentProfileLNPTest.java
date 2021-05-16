@@ -30,7 +30,7 @@ import teammates.lnp.util.LNPTestData;
  */
 public final class StudentProfileLNPTest extends BaseLNPTestCase {
 
-    private static final int NUMBER_OF_USER_ACCOUNTS = 500;
+    private static final int NUMBER_OF_USER_ACCOUNTS = 10;
     private static final int RAMP_UP_PERIOD = 2;
 
     private static final String STUDENT_NAME = "LnPStudent";
@@ -120,7 +120,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                             .withShortName(String.valueOf(i))
                             .withInstitute("TEAMMATES Test Institute 222")
                             .withMoreInfo("I am " + i)
-                            .withPictureKey("")
                             .withGender(StudentProfileAttributes.Gender.MALE)
                             .withNationality("American")
                             .build()

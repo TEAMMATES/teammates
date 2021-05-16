@@ -321,13 +321,13 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyFeedbackPathSettings(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        assertEquals(feedbackQuestion.getGiverType().toDisplayGiverName(), getFeedbackGiver(questionNum));
+        assertEquals(getDisplayGiverName(feedbackQuestion.getGiverType()), getFeedbackGiver(questionNum));
         String feedbackReceiver = getFeedbackReceiver(questionNum);
-        assertEquals(feedbackQuestion.getRecipientType().toDisplayRecipientName(), feedbackReceiver);
+        assertEquals(getDisplayRecipientName(feedbackQuestion.getRecipientType()), feedbackReceiver);
 
-        if (feedbackReceiver.equals(FeedbackParticipantType.INSTRUCTORS.toDisplayRecipientName())
-                || feedbackReceiver.equals(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF.toDisplayRecipientName())
-                || feedbackReceiver.equals(FeedbackParticipantType.TEAMS_EXCLUDING_SELF.toDisplayRecipientName())) {
+        if (feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.INSTRUCTORS))
+                || feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.STUDENTS_EXCLUDING_SELF))
+                || feedbackReceiver.equals(getDisplayRecipientName(FeedbackParticipantType.TEAMS_EXCLUDING_SELF))) {
             verifyNumberOfEntitiesToGiveFeedbackTo(questionNum, feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo());
         }
     }
@@ -804,7 +804,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getStartDate() {
-        return startDateBox.getAttribute("value");
+        return startDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getStartTime() {
@@ -812,7 +812,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getEndDate() {
-        return endDateBox.getAttribute("value");
+        return endDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getEndTime() {
@@ -820,7 +820,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getSessionVisibilityDate() {
-        return sessionVisibilityDateBox.getAttribute("value");
+        return sessionVisibilityDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getSessionVisibilityTime() {
@@ -828,7 +828,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getResponseVisibilityDate() {
-        return responseVisibilityDateBox.getAttribute("value");
+        return responseVisibilityDateBox.findElement(By.tagName("input"))
+                .getAttribute("value");
     }
 
     private String getResponseVisibilityTime() {
@@ -868,19 +869,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant, timeZone);
     }
 
     private void setSessionEndDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(endDateBox, endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant, timeZone);
     }
 
     private void setVisibilityDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(sessionVisibilityDateBox, sessionVisibilityTimeDropdown, startInstant, timeZone);
+        setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
+                sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
     private void setResponseDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(responseVisibilityDateBox, responseVisibilityTimeDropdown, endInstant, timeZone);
+        setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
+                responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {
@@ -1038,9 +1041,9 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
         // Set to type STUDENT first to adjust NumberOfEntitiesToGiveFeedbackTo
         selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")),
-                FeedbackParticipantType.STUDENTS.toDisplayGiverName());
+                getDisplayGiverName(FeedbackParticipantType.STUDENTS));
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                FeedbackParticipantType.STUDENTS.toDisplayRecipientName());
+                getDisplayRecipientName(FeedbackParticipantType.STUDENTS));
         if (feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo() == Const.MAX_POSSIBLE_RECIPIENTS) {
             click(questionForm.findElement(By.id("unlimited-recipients")));
         } else {
@@ -1049,9 +1052,9 @@ public class InstructorFeedbackEditPage extends AppPage {
                     Integer.toString(feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo()));
         }
 
-        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), newGiver.toDisplayGiverName());
+        selectDropdownOptionByText(questionForm.findElement(By.id("giver-type")), getDisplayGiverName(newGiver));
         selectDropdownOptionByText(questionForm.findElement(By.id("receiver-type")),
-                newRecipient.toDisplayRecipientName());
+                getDisplayRecipientName(newRecipient));
     }
 
     private void selectFeedbackPathDropdownOption(int questionNum, String text) {
@@ -1338,7 +1341,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyMaxOptions(int questionNum, int maxOptions) {
-        if (maxOptions == Integer.MIN_VALUE) {
+        if (maxOptions == Const.POINTS_NO_VALUE) {
             assertFalse(getMaxOptionsCheckbox(questionNum).isSelected());
         } else {
             assertTrue(getMaxOptionsCheckbox(questionNum).isSelected());
@@ -1348,7 +1351,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void verifyMinOptions(int questionNum, int minOptions) {
-        if (minOptions == Integer.MIN_VALUE) {
+        if (minOptions == Const.POINTS_NO_VALUE) {
             assertFalse(getMinOptionsCheckbox(questionNum).isSelected());
         } else {
             assertTrue(getMinOptionsCheckbox(questionNum).isSelected());
@@ -1370,7 +1373,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputMaxOptions(int questionNum, int maxOptions) {
-        if (maxOptions == Integer.MIN_VALUE) {
+        if (maxOptions == Const.POINTS_NO_VALUE) {
             markOptionAsUnselected(getMaxOptionsCheckbox(questionNum));
         } else {
             markOptionAsSelected(getMaxOptionsCheckbox(questionNum));
@@ -1379,7 +1382,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputMinOptions(int questionNum, int minOptions) {
-        if (minOptions == Integer.MIN_VALUE) {
+        if (minOptions == Const.POINTS_NO_VALUE) {
             markOptionAsUnselected(getMinOptionsCheckbox(questionNum));
         } else {
             markOptionAsSelected(getMinOptionsCheckbox(questionNum));

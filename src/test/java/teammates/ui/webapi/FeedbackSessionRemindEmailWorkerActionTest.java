@@ -57,7 +57,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         action.execute();
 
         // 1 student and 4 instructors sent reminder, 1 instructor notified
-        verifySpecifiedTasksAdded(action, Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEND_EMAIL_QUEUE_NAME, 6);
 
         Set<String> giverSet =
                 logic.getGiverSetThatAnswerFeedbackSession(session1.getCourseId(), session1.getFeedbackSessionName());
@@ -80,7 +80,7 @@ public class FeedbackSessionRemindEmailWorkerActionTest
                 instructor1.getGoogleId()).email);
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
-        List<TaskWrapper> tasksAdded = action.getTaskQueuer().getTasksAdded();
+        List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();
         for (TaskWrapper task : tasksAdded) {
             SendEmailRequest requestBody = (SendEmailRequest) task.getRequestBody();
             EmailWrapper email = requestBody.getEmail();

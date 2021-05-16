@@ -44,7 +44,6 @@ public final class FileHelper {
         try (BufferedWriter fw = Files.newBufferedWriter(Paths.get(filePath))) {
             fw.write(content);
         }
-
     }
 
     /**

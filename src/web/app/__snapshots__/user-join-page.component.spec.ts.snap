@@ -1,0 +1,229 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`UserJoinPageComponent should snap if user is not logged in and has a valid url 1`] = `
+<tm-user-join-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  hasJoined="false"
+  institute={[Function String]}
+  isLoading="false"
+  key={[Function String]}
+  mac={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  router={[Function Router]}
+  userId=""
+  validUrl={[Function Boolean]}
+>
+  <div>
+    
+    <div
+      class="card bg-light mx-auto"
+      style="max-width: 800px;"
+    >
+      <div
+        class="card-header bg-warning"
+      >
+        <h3
+          style="margin-bottom: 0;"
+        >
+          Not logged in
+        </h3>
+      </div>
+      <div
+        class="card-body"
+      >
+         You are not logged in. Please log in first. 
+      </div>
+    </div>
+    
+    
+  </div>
+</tm-user-join-page>
+`;
+
+exports[`UserJoinPageComponent should snap with default fields 1`] = `
+<tm-user-join-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  hasJoined="false"
+  institute={[Function String]}
+  isLoading={[Function Boolean]}
+  key={[Function String]}
+  mac={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  router={[Function Router]}
+  userId=""
+  validUrl={[Function Boolean]}
+>
+  
+</tm-user-join-page>
+`;
+
+exports[`UserJoinPageComponent should snap with invalid course join link 1`] = `
+<tm-user-join-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  hasJoined="false"
+  institute={[Function String]}
+  isLoading="false"
+  key={[Function String]}
+  mac={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  router={[Function Router]}
+  userId=""
+  validUrl="false"
+>
+  <div>
+    
+    
+    <div
+      class="card bg-light mx-auto"
+      style="max-width: 800px;"
+    >
+      <div
+        class="card-header bg-warning"
+      >
+        <h3
+          style="margin-bottom: 0;"
+        >
+          Invalid course join link
+        </h3>
+      </div>
+      
+      <div
+        class="card-body"
+      >
+         Please check that you copied the entire join link URL, or have it resent to you if this message persists. 
+      </div>
+      
+    </div>
+    
+  </div>
+</tm-user-join-page>
+`;
+
+exports[`UserJoinPageComponent should snap with valid course join link that has been used 1`] = `
+<tm-user-join-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  hasJoined={[Function Boolean]}
+  institute={[Function String]}
+  isLoading="false"
+  key={[Function String]}
+  mac={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  router={[Function Router]}
+  userId=""
+  validUrl={[Function Boolean]}
+>
+  <div>
+    
+    
+    <div
+      class="card bg-light mx-auto"
+      style="max-width: 800px;"
+    >
+      <div
+        class="card-header bg-warning"
+      >
+        <h3
+          style="margin-bottom: 0;"
+        >
+          Invalid course join link
+        </h3>
+      </div>
+      
+      
+      <div
+        class="card-body"
+      >
+         The course join link has been used and is no longer valid. 
+      </div>
+    </div>
+    
+  </div>
+</tm-user-join-page>
+`;
+
+exports[`UserJoinPageComponent should snap with valid course join link that has not been used 1`] = `
+<tm-user-join-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseService={[Function CourseService]}
+  entityType={[Function String]}
+  hasJoined="false"
+  institute={[Function String]}
+  isLoading="false"
+  key={[Function String]}
+  mac={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  route={[Function Object]}
+  router={[Function Router]}
+  userId={[Function String]}
+  validUrl={[Function Boolean]}
+>
+  <div>
+    
+    
+    
+    <div
+      class="card bg-light mx-auto"
+      style="max-width: 800px;"
+    >
+      <div
+        class="card-header bg-primary text-white"
+      >
+        <h3
+          style="margin-bottom: 0;"
+        >
+          Confirm your Google account
+        </h3>
+      </div>
+      <div
+        class="card-body"
+      >
+         You are currently logged in as 
+        <strong
+          id="user-id"
+        >
+          user
+        </strong>
+        . 
+        <br />
+        If this is not you, please log out and log in using your own Google account. 
+        <br />
+        If this is you, please confirm below to complete your registration.
+        <br />
+        <div
+          class="text-center"
+          style="margin-top: 20px;"
+        >
+          <button
+            class="btn btn-success"
+            id="btn-confirm"
+          >
+            Register for course
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-user-join-page>
+`;

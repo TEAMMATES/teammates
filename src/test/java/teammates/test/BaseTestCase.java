@@ -145,6 +145,10 @@ public class BaseTestCase {
         Assert.assertEquals(message, expected, actual);
     }
 
+    protected static void assertArrayEquals(byte[] expected, byte[] actual) {
+        Assert.assertArrayEquals(expected, actual);
+    }
+
     protected static void assertNotEquals(Object first, Object second) {
         Assert.assertNotEquals(first, second);
     }

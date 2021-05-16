@@ -1,5 +1,5 @@
+import { QuestionTypeStructures } from './api-const';
 import {
-  FeedbackConstantSumDistributePointsType,
   FeedbackConstantSumQuestionDetails,
   FeedbackConstantSumResponseDetails,
   FeedbackContributionQuestionDetails,
@@ -10,8 +10,6 @@ import {
   FeedbackMsqResponseDetails,
   FeedbackNumericalScaleQuestionDetails,
   FeedbackNumericalScaleResponseDetails,
-  FeedbackParticipantType,
-  FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsQuestionDetails,
@@ -21,22 +19,13 @@ import {
   FeedbackTextQuestionDetails,
   FeedbackTextResponseDetails,
 } from './api-output';
-import {
-  CONTRIBUTION_POINT_NOT_SUBMITTED,
-  NO_VALUE,
-  NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED, RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
-} from './feedback-response-details';
 
 /**
  * Structure for default text question details.
  */
 export const DEFAULT_TEXT_QUESTION_DETAILS: () => FeedbackTextQuestionDetails =
     (): FeedbackTextQuestionDetails => {
-      return {
-        questionType: FeedbackQuestionType.TEXT,
-        questionText: '',
-        shouldAllowRichText: true,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_TEXT_QUESTION_DETAILS);
     };
 
 /**
@@ -44,10 +33,7 @@ export const DEFAULT_TEXT_QUESTION_DETAILS: () => FeedbackTextQuestionDetails =
  */
 export const DEFAULT_TEXT_RESPONSE_DETAILS: () => FeedbackTextResponseDetails =
     (): FeedbackTextResponseDetails => {
-      return {
-        answer: '',
-        questionType: FeedbackQuestionType.TEXT,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_TEXT_RESPONSE_DETAILS);
     };
 
 /**
@@ -55,11 +41,7 @@ export const DEFAULT_TEXT_RESPONSE_DETAILS: () => FeedbackTextResponseDetails =
  */
 export const DEFAULT_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQuestionDetails =
     (): FeedbackContributionQuestionDetails => {
-      return {
-        isNotSureAllowed: true,
-        questionType: FeedbackQuestionType.CONTRIB,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_CONTRIBUTION_QUESTION_DETAILS);
     };
 
 /**
@@ -67,10 +49,7 @@ export const DEFAULT_CONTRIBUTION_QUESTION_DETAILS: () => FeedbackContributionQu
  */
 export const DEFAULT_CONTRIBUTION_RESPONSE_DETAILS: () => FeedbackContributionResponseDetails =
     (): FeedbackContributionResponseDetails => {
-      return {
-        answer: CONTRIBUTION_POINT_NOT_SUBMITTED,
-        questionType: FeedbackQuestionType.CONTRIB,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_CONTRIBUTION_RESPONSE_DETAILS);
     };
 
 /**
@@ -78,17 +57,7 @@ export const DEFAULT_CONTRIBUTION_RESPONSE_DETAILS: () => FeedbackContributionRe
  */
 export const DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
     (): FeedbackConstantSumQuestionDetails => {
-      return {
-        numOfConstSumOptions: 2,
-        constSumOptions: ['', ''],
-        distributeToRecipients: false,
-        pointsPerOption: false,
-        forceUnevenDistribution: false,
-        distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
-        points: 100,
-        questionType: FeedbackQuestionType.CONSTSUM_OPTIONS,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS);
     };
 
 /**
@@ -96,17 +65,7 @@ export const DEFAULT_CONSTSUM_OPTIONS_QUESTION_DETAILS: () => FeedbackConstantSu
  */
 export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstantSumQuestionDetails =
     (): FeedbackConstantSumQuestionDetails => {
-      return {
-        numOfConstSumOptions: 0,
-        constSumOptions: [],
-        distributeToRecipients: true,
-        pointsPerOption: false,
-        forceUnevenDistribution: false,
-        distributePointsFor: FeedbackConstantSumDistributePointsType.NONE,
-        points: 100,
-        questionType: FeedbackQuestionType.CONSTSUM_RECIPIENTS,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS);
     };
 
 /**
@@ -114,10 +73,7 @@ export const DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS: () => FeedbackConstan
  */
 export const DEFAULT_CONSTSUM_RESPONSE_DETAILS: () => FeedbackConstantSumResponseDetails =
     (): FeedbackConstantSumResponseDetails => {
-      return {
-        answers: [],
-        questionType: FeedbackQuestionType.CONSTSUM,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_CONSTSUM_RESPONSE_DETAILS);
     };
 
 /**
@@ -125,13 +81,7 @@ export const DEFAULT_CONSTSUM_RESPONSE_DETAILS: () => FeedbackConstantSumRespons
  */
 export const DEFAULT_NUMSCALE_QUESTION_DETAILS: () => FeedbackNumericalScaleQuestionDetails =
     (): FeedbackNumericalScaleQuestionDetails => {
-      return {
-        minScale: 1,
-        maxScale: 5,
-        step: 0.5,
-        questionType: FeedbackQuestionType.NUMSCALE,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_NUMSCALE_QUESTION_DETAILS);
     };
 
 /**
@@ -139,10 +89,7 @@ export const DEFAULT_NUMSCALE_QUESTION_DETAILS: () => FeedbackNumericalScaleQues
  */
 export const DEFAULT_NUMSCALE_RESPONSE_DETAILS: () => FeedbackNumericalScaleResponseDetails =
     (): FeedbackNumericalScaleResponseDetails => {
-      return {
-        answer: NUMERICAL_SCALE_ANSWER_NOT_SUBMITTED,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_NUMSCALE_RESPONSE_DETAILS);
     };
 
 /**
@@ -150,17 +97,7 @@ export const DEFAULT_NUMSCALE_RESPONSE_DETAILS: () => FeedbackNumericalScaleResp
  */
 export const DEFAULT_MCQ_QUESTION_DETAILS: () => FeedbackMcqQuestionDetails =
     (): FeedbackMcqQuestionDetails => {
-      return {
-        hasAssignedWeights: false,
-        mcqWeights: [],
-        mcqOtherWeight: 0,
-        numOfMcqChoices: 0,
-        mcqChoices: [],
-        otherEnabled: false,
-        generateOptionsFor: FeedbackParticipantType.NONE,
-        questionType: FeedbackQuestionType.MCQ,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_MCQ_QUESTION_DETAILS);
     };
 
 /**
@@ -168,12 +105,7 @@ export const DEFAULT_MCQ_QUESTION_DETAILS: () => FeedbackMcqQuestionDetails =
  */
 export const DEFAULT_MCQ_RESPONSE_DETAILS: () => FeedbackMcqResponseDetails =
     (): FeedbackMcqResponseDetails => {
-      return {
-        answer: '',
-        isOther: false,
-        otherFieldContent: '',
-        questionType: FeedbackQuestionType.MCQ,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_MCQ_RESPONSE_DETAILS);
     };
 
 /**
@@ -181,18 +113,7 @@ export const DEFAULT_MCQ_RESPONSE_DETAILS: () => FeedbackMcqResponseDetails =
  */
 export const DEFAULT_MSQ_QUESTION_DETAILS: () => FeedbackMsqQuestionDetails =
     (): FeedbackMsqQuestionDetails => {
-      return {
-        msqChoices: [],
-        otherEnabled: false,
-        generateOptionsFor: FeedbackParticipantType.NONE,
-        maxSelectableChoices: Number.MIN_VALUE,
-        minSelectableChoices: Number.MIN_VALUE,
-        hasAssignedWeights: false,
-        msqWeights: [],
-        msqOtherWeight: 0,
-        questionType: FeedbackQuestionType.MSQ,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_MSQ_QUESTION_DETAILS);
     };
 
 /**
@@ -200,12 +121,7 @@ export const DEFAULT_MSQ_QUESTION_DETAILS: () => FeedbackMsqQuestionDetails =
  */
 export const DEFAULT_MSQ_RESPONSE_DETAILS: () => FeedbackMsqResponseDetails =
     (): FeedbackMsqResponseDetails => {
-      return {
-        answers: [],
-        isOther: false,
-        otherFieldContent: '',
-        questionType: FeedbackQuestionType.MSQ,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_MSQ_RESPONSE_DETAILS);
     };
 
 /**
@@ -213,17 +129,7 @@ export const DEFAULT_MSQ_RESPONSE_DETAILS: () => FeedbackMsqResponseDetails =
  */
 export const DEFAULT_RUBRIC_QUESTION_DETAILS: () => FeedbackRubricQuestionDetails =
     (): FeedbackRubricQuestionDetails => {
-      return {
-        hasAssignedWeights: false,
-        numOfRubricChoices: 0,
-        rubricChoices: [],
-        numOfRubricSubQuestions: 0,
-        rubricSubQuestions: [],
-        rubricWeightsForEachCell: [],
-        rubricDescriptions: [],
-        questionType: FeedbackQuestionType.RUBRIC,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_RUBRIC_QUESTION_DETAILS);
     };
 
 /**
@@ -231,10 +137,7 @@ export const DEFAULT_RUBRIC_QUESTION_DETAILS: () => FeedbackRubricQuestionDetail
  */
 export const DEFAULT_RUBRIC_RESPONSE_DETAILS: () => FeedbackRubricResponseDetails =
     (): FeedbackRubricResponseDetails => {
-      return {
-        answer: [],
-        questionType: FeedbackQuestionType.RUBRIC,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_RUBRIC_RESPONSE_DETAILS);
     };
 
 /**
@@ -242,14 +145,7 @@ export const DEFAULT_RUBRIC_RESPONSE_DETAILS: () => FeedbackRubricResponseDetail
  */
 export const DEFAULT_RANK_OPTIONS_QUESTION_DETAILS: () => FeedbackRankOptionsQuestionDetails =
     (): FeedbackRankOptionsQuestionDetails => {
-      return {
-        minOptionsToBeRanked: NO_VALUE,
-        maxOptionsToBeRanked: NO_VALUE,
-        areDuplicatesAllowed: false,
-        options: [],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_RANK_OPTIONS_QUESTION_DETAILS);
     };
 
 /**
@@ -257,10 +153,7 @@ export const DEFAULT_RANK_OPTIONS_QUESTION_DETAILS: () => FeedbackRankOptionsQue
  */
 export const DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS: () => FeedbackRankOptionsResponseDetails =
     (): FeedbackRankOptionsResponseDetails => {
-      return {
-        answers: [],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS);
     };
 
 /**
@@ -268,13 +161,7 @@ export const DEFAULT_RANK_OPTIONS_RESPONSE_DETAILS: () => FeedbackRankOptionsRes
  */
 export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipientsQuestionDetails =
     (): FeedbackRankRecipientsQuestionDetails => {
-      return {
-        minOptionsToBeRanked: NO_VALUE,
-        maxOptionsToBeRanked: NO_VALUE,
-        areDuplicatesAllowed: false,
-        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-        questionText: '',
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS);
     };
 
 /**
@@ -282,8 +169,5 @@ export const DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS: () => FeedbackRankRecipie
  */
 export const DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS: () => FeedbackRankRecipientsResponseDetails =
     (): FeedbackRankRecipientsResponseDetails => {
-      return {
-        answer: RANK_RECIPIENTS_ANSWER_NOT_SUBMITTED,
-        questionType: FeedbackQuestionType.RANK_RECIPIENTS,
-      };
+      return JSON.parse(QuestionTypeStructures.DEFAULT_RANK_RECIPIENTS_RESPONSE_DETAILS);
     };

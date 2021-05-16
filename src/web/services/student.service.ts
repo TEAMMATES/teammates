@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { JoinStatePipe } from '../app/components/student-list/join-state.pipe';
-import { ResourceEndpoints } from '../types/api-endpoints';
-import { Course, MessageOutput, Student, Students } from '../types/api-output';
+import { ResourceEndpoints } from '../types/api-const';
+import { Course, EnrollStudents, MessageOutput, Student, Students } from '../types/api-output';
 import { StudentsEnrollRequest, StudentUpdateRequest } from '../types/api-request';
 import { SortBy, SortOrder } from '../types/sort-properties';
 import { CourseService } from './course.service';
@@ -105,7 +105,7 @@ export class StudentService {
    * Enroll a list of students to a course by calling API.
    * Students who are enrolled successfully will be returned.
    */
-  enrollStudents(courseId: string, requestBody: StudentsEnrollRequest): Observable<Students> {
+  enrollStudents(courseId: string, requestBody: StudentsEnrollRequest): Observable<EnrollStudents> {
     const paramsMap: Record<string, string> = {
       courseid: courseId,
     };

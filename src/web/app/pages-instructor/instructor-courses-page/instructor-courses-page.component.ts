@@ -249,14 +249,14 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Moves an active/archived course to Recycle Bin.
    */
-  onDelete(courseId: string): void {
+  onDelete(courseId: string): Promise<void> {
     if (!courseId) {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
-      return;
+      return Promise.resolve();
     }
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal('Warning: The course will be moved to the recycle bin.',
             SimpleModalType.WARNING, 'Are you sure you want to continue?');
-    modalRef.result.then(() => {
+    return modalRef.result.then(() => {
       this.courseService.binCourse(courseId).subscribe((course: Course) => {
         this.moveCourseToRecycleBin(courseId, course.deletionTimestamp);
         this.statusMessageService.showSuccessToast(
@@ -264,7 +264,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    });
+    }).catch(() => {});
   }
 
   /**
@@ -292,10 +292,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Permanently deletes a soft-deleted course in Recycle Bin.
    */
-  onDeletePermanently(courseId: string): void {
+  onDeletePermanently(courseId: string): Promise<void> {
     if (!courseId) {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
-      return;
+      return Promise.resolve();
     }
     const modalContent: string = `<strong>Are you sure you want to permanently delete ${courseId}?</strong><br>
         This operation will delete all students and sessions in these courses.
@@ -304,14 +304,14 @@ export class InstructorCoursesPageComponent implements OnInit {
     const modalRef: NgbModalRef = this.simpleModalService.openConfirmationModal(
         `Delete course <strong>${ courseId }</strong> permanently?`, SimpleModalType.DANGER, modalContent);
     modalRef.componentInstance.courseId = courseId;
-    modalRef.result.then(() => {
+    return modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
         this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
-    });
+    }).catch(() => {});
   }
 
   /**
@@ -354,7 +354,7 @@ export class InstructorCoursesPageComponent implements OnInit {
         this.statusMessageService.showErrorToast(resp.error.message);
       });
 
-    });
+    }).catch(() => {});
   }
 
   /**

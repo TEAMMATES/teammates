@@ -21,10 +21,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.retry.RetryManager;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -157,7 +157,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.goToUrl(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
+        browser.goToUrl(createUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
@@ -253,11 +253,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // Not necessary as BackDoor API is used instead
     }
 
-    @Override
-    protected RetryManager getPersistenceRetryManager() {
-        return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
-    }
-
     protected AccountAttributes getAccount(String googleId) {
         return BACKDOOR.getAccount(googleId);
     }
@@ -349,13 +344,25 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException {
-        return BACKDOOR.removeAndRestoreDataBundle(testData);
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle testData) {
+        try {
+            BACKDOOR.removeAndRestoreDataBundle(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
+        }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle testData) {
-        return BACKDOOR.putDocuments(testData);
+    protected boolean doPutDocuments(DataBundle testData) {
+        try {
+            BACKDOOR.putDocuments(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
+        }
     }
 
 }

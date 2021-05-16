@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelperExtension;
@@ -75,8 +74,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.createEntity(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.createEntity(null));
 
     }
 
@@ -96,8 +94,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: get null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.getCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.getCourse(null));
 
     }
 
@@ -121,8 +118,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: get null parameters");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.getCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.getCourse(null));
 
     }
 
@@ -153,8 +149,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.updateCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.updateCourse(null));
 
         ______TS("fail: non-existing course");
 
@@ -238,8 +233,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("Failure: null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
 
     }
 
@@ -260,8 +254,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesDb.deleteCourse(null));
 
     }
 

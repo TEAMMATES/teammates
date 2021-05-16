@@ -24,7 +24,7 @@ class SearchStudentsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         // Only instructors and admins can search for student
         if (!userInfo.isInstructor && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Instructor or Admin privilege is required to access this resource.");
@@ -61,7 +61,7 @@ class SearchStudentsAction extends Action {
         for (InstructorAttributes instructor : instructorList) {
             if (instructor.isRegistered()
                     && (instructor.hasCoownerPrivileges()
-                    || instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR))) {
+                    || instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR))) {
                 return instructor.googleId;
             }
 
