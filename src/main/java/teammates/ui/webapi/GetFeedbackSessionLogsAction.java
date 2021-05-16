@@ -46,11 +46,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
         gateKeeper.verifyAccessible(instructor, courseAttributes);
 
-        if (!instructor.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT)) {
-            throw new UnauthorizedAccessException("Instructor permission for modifying students is"
-                    + " required to access this resource.");
-        }
-
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override

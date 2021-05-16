@@ -76,7 +76,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   searchResults: FeedbackSessionLogModel[] = [];
   isLoading: boolean = true;
   isSearching: boolean = false;
-  searchErrorMessage: string = '';
 
   constructor(private courseService: CourseService,
               private studentService: StudentService,
@@ -137,7 +136,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
         .subscribe((logs: FeedbackSessionLogs) => {
           logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
               this.searchResults.push(this.toFeedbackSessionLogModel(log)));
-        }, (resp: ErrorMessageOutput) => this.searchErrorMessage = resp.error.message);
+        }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   /**
@@ -150,10 +149,12 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.courseService
         .getAllCoursesAsInstructor('active')
         .pipe(
-            concatMap((courses: Courses) => courses.courses.map((course: Course) => {
-              this.courses.push(course);
-              return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
-            })),
+            concatMap((courses: Courses) => courses.courses
+                .filter((course: Course) => course.privileges?.canModifyStudent)
+                .map((course: Course) => {
+                  this.courses.push(course);
+                  return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
+                })),
             mergeAll(),
             finalize(() => this.isLoading = false))
         .subscribe(((student: Students) =>

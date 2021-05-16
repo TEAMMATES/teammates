@@ -45,6 +45,16 @@ describe('InstructorAuditLogsPageComponent', () => {
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
+    privileges: {
+      canModifyCourse: true,
+      canModifySession: true,
+      canModifyStudent: true,
+      canModifyInstructor: true,
+      canViewStudentInSections: true,
+      canModifySessionCommentsInSections: true,
+      canViewSessionInSections: true,
+      canSubmitSessionInSections: true,
+    },
   };
   const testCourse2: Course = {
     courseId: 'MA1234',
@@ -52,6 +62,16 @@ describe('InstructorAuditLogsPageComponent', () => {
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 0,
+    privileges: {
+      canModifyCourse: true,
+      canModifySession: true,
+      canModifyStudent: true,
+      canModifyInstructor: true,
+      canViewStudentInSections: true,
+      canModifySessionCommentsInSections: true,
+      canViewSessionInSections: true,
+      canSubmitSessionInSections: true,
+    },
   };
   const emptyStudent: Student = {
     courseId: '', email: '', name: '', sectionName: '', teamName: '',
