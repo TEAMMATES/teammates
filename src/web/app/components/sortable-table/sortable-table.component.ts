@@ -118,6 +118,6 @@ export class SortableTableComponent implements OnInit {
       return 'left';
     }
 
-    return 'right';
+    return cellData.alignment;
   }
 }
