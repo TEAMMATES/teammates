@@ -106,7 +106,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         }
         assertTrue(feedbackContributionQuestionDetails.validateResponsesDetails(responses, 0).isEmpty());
 
-        ______TS("faliure: all answers of all responses are either not in range or are not multiple of 10");
+        ______TS("failure: all answers of all responses are either not in range or are not multiple of 10");
         responses.clear();
         for (int answer : INVALID_CONTRIBUTION_RESPONSE_ANSWERS) {
             FeedbackContributionResponseDetails details = new FeedbackContributionResponseDetails();
@@ -190,11 +190,43 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
 
         ______TS("failure: recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF");
+        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
+                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
+
+        ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF");
+        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
         feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
 
         ______TS("failure: invalid restrictions on visibility options");
+        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
+
+        ______TS("failure: giver type is not STUDENT and invalid restrictions on visibility options");
+        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
+        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
+
+        ______TS("failure: recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF and invalid restrictions on "
+                + "visibility options");
+        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
+        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
+        feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
+        assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
+                details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
+
+        ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF"
+                + " and invalid restrictions on visibility options");
+        feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
+        feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
         feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
