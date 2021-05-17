@@ -1,13 +1,15 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
-import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
-import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
-import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
+import { of } from 'rxjs';
+import { CourseService } from '../../../services/course.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
+import { StudentService } from '../../../services/student.service';
 import {
   Course,
   FeedbackParticipantType,
@@ -28,14 +30,12 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FeedbackSessionsService } from 'src/web/services/feedback-sessions.service';
-import { CourseService } from 'src/web/services/course.service';
-import { of } from 'rxjs';
-import { FeedbackQuestionsService } from 'src/web/services/feedback-questions.service';
-import { StudentService } from 'src/web/services/student.service';
-import { InstructorService } from 'src/web/services/instructor.service';
+import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
+import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
+import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 
 describe('InstructorSessionEditPageComponent', () => {
 
@@ -270,10 +270,10 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should load correct feedback session questions', () => {
     const feedbackQuestions: FeedbackQuestions = {
-      questions: [testFeedbackQuestion1, testFeedbackQuestion2]
+      questions: [testFeedbackQuestion1, testFeedbackQuestion2],
     };
     spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of(feedbackQuestions));
-    
+
     component.loadFeedbackQuestions();
     expect(component.questionEditFormModels.length).toBe(2);
     expect(component.questionEditFormModels[0].feedbackQuestionId).toBe('feedback-question-1');
@@ -296,7 +296,7 @@ describe('InstructorSessionEditPageComponent', () => {
       sectionName: 'Section 1',
     };
     const students: Students = {
-      students: [testStudent1, testStudent2]
+      students: [testStudent1, testStudent2],
     };
     spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of(students));
 
@@ -309,19 +309,19 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should get all instructors of the course', () => {
     const testInstructor1: Instructor = {
       courseId: 'testId',
-      email: 'test@example.com',
+      email: 'testB@example.com',
       name: 'Instructor A',
       joinState: JoinState.JOINED,
     };
     const testInstructor2: Instructor = {
       courseId: 'testId',
-      email: 'test@example.com',
+      email: 'testA@example.com',
       name: 'Instructor B',
       joinState: JoinState.JOINED,
     };
     const instructors: Instructors = {
-      instructors: [testInstructor1, testInstructor2]
-    }
+      instructors: [testInstructor1, testInstructor2],
+    };
     spyOn(instructorService, 'loadInstructors').and.returnValue(of(instructors));
 
     component.getAllInstructorsCanBePreviewedAs();
@@ -349,7 +349,7 @@ describe('InstructorSessionEditPageComponent', () => {
     component.questionEditFormModels = [testQuestionEditFormModel1, testQuestionEditFormModel2];
     component.isLoadingFeedbackQuestions = false;
     fixture.detectChanges();
-    
+
     const button: any = fixture.debugElement.nativeElement.querySelector('#btn-collapse-expand');
     button.click();
 
@@ -365,5 +365,5 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.cancelEditingSessionHandler();
     expect(component.sessionEditFormModel.instructions).toBe('Instructions');
-  })
+  });
 });
