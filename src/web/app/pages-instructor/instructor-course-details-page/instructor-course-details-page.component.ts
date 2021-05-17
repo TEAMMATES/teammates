@@ -64,6 +64,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
   hasLoadingStudentsFailed: boolean = false;
+  isDeleting: boolean = false;
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
@@ -205,7 +206,10 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
    * Delete all the students in a course.
    */
   deleteAllStudentsFromCourse(courseId: string): void {
+    this.isDeleting = true;
+
     this.studentService.deleteAllStudentsFromCourse({ courseId })
+      .pipe(finalize(() => this.isDeleting = false))
       .subscribe((resp: MessageOutput) => {
         // Reset list of students and course stats
         this.students = [];

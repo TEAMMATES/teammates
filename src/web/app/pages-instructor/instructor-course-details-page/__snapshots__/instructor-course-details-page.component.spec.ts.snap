@@ -7,6 +7,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
@@ -50,6 +51,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
@@ -226,6 +228,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
@@ -405,9 +408,11 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
                   type="button"
                   value="Delete All Students"
                 >
+                  
                   <i
                     class="fa fa-trash"
                   />
+                  
                    Delete All Students 
                 </button>
               </div>
@@ -629,6 +634,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   hasLoadingStudentsFailed="false"
   instructorService={[Function InstructorService]}
   instructors={[Function Array]}
+  isDeleting="false"
   isLoadingCsv="false"
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
