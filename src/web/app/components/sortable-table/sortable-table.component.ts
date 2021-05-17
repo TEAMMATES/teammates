@@ -21,6 +21,7 @@ export interface ColumnData {
 export interface SortableTableCellData {
   value?: any; // Optional value used for sorting with sortBy provided in ColumnData
   displayValue?: string; // Raw string to be display in the cell
+  alignment?: string;
   customComponent?: {
     component: Type<any>;
     componentData: Record<string, any>; // @Input values for component
@@ -110,5 +111,13 @@ export class SortableTableComponent implements OnInit {
 
     this.columnToSortBy = this.columns[indexOfColumnToSort].header;
     this.sortRows();
+  }
+
+  getAlignment(cellData: SortableTableCellData): String {
+    if (cellData.alignment === undefined) {
+      return 'left';
+    }
+
+    return 'right';
   }
 }

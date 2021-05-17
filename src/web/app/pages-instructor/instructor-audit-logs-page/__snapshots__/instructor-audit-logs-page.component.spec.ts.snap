@@ -1171,42 +1171,54 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   
                   <tr>
                     
-                    <td>
+                    <td
+                      style="text-align: left;"
+                    >
                       
                       
                       
                       
                       15 January 2021
                     </td>
-                    <td>
+                    <td
+                      style="text-align: left;"
+                    >
                       
                       
                       
                       
                       Doe John
                     </td>
-                    <td>
+                    <td
+                      style="text-align: left;"
+                    >
                       
                       
                       
                       
                       Viewed the submission page
                     </td>
-                    <td>
+                    <td
+                      style="text-align: left;"
+                    >
                       
                       
                       
                       
                       doejohn@email.com
                     </td>
-                    <td>
+                    <td
+                      style="text-align: left;"
+                    >
                       
                       
                       
                       
                       section 1
                     </td>
-                    <td>
+                    <td
+                      style="text-align: left;"
+                    >
                       
                       
                       
