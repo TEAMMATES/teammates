@@ -21,9 +21,13 @@ class AdminExceptionTestAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+        }
+        String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
+        if (error.equals(UnauthorizedAccessException.class.getSimpleName())) {
+            throw new UnauthorizedAccessException("UnauthorizedAccessException testing");
         }
     }
 
@@ -45,9 +49,6 @@ class AdminExceptionTestAction extends Action {
         }
         if (error.equals(InvalidHttpParameterException.class.getSimpleName())) {
             throw new InvalidHttpParameterException("InvalidHttpParameterException testing");
-        }
-        if (error.equals(UnauthorizedAccessException.class.getSimpleName())) {
-            throw new UnauthorizedAccessException("UnauthorizedAccessException testing");
         }
         if (error.equals(EntityNotFoundException.class.getSimpleName())) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("EntityNotFoundException testing"));
