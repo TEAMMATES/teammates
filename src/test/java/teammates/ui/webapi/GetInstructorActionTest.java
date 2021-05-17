@@ -110,7 +110,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
                     Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
             };
 
-            getAction(new GetInstructorAction(), invalidIntentParams).execute();
+            getAction(invalidIntentParams).execute();
         });
 
         ______TS("Intent is specified as something new");
@@ -122,7 +122,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
                     Const.ParamsNames.INTENT, "RANDOM INTENT",
             };
 
-            getAction(new GetInstructorAction(), invalidIntentParams).execute();
+            getAction(invalidIntentParams).execute();
         });
     }
 
