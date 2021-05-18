@@ -38,21 +38,21 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
@@ -91,21 +91,21 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
 
     @Test
@@ -113,13 +113,13 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes helper1OfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, helper1OfCourse1.getEmail(),
@@ -156,11 +156,11 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes helper1OfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege("Tutorial1", "Session1",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege("Tutorial1", "Session1",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertFalse(helper1OfCourse1.privileges.isAllowedForPrivilege("Tutorial1", "Session1",
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, helper1OfCourse1.getEmail(),
@@ -197,13 +197,13 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                "TUT1", Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                "TUT1", Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail(),
@@ -237,26 +237,26 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
 
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_MODIFY_COURSE));
         assertFalse(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR));
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT));
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_SUBMIT_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_SESSION_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION_COMMENT_IN_SECTIONS));
+                Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
 
         List<InstructorAttributes> instructorsWithModifyInstructorPrivilege =
                 logic.getInstructorsForCourse(instructor1OfCourse4.courseId).stream().filter(
                         instructor -> instructor.privileges.isAllowedForPrivilege(
-                        Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)).collect(Collectors.toList());
+                        Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)).collect(Collectors.toList());
         assertEquals(1, instructorsWithModifyInstructorPrivilege.size());
         assertEquals(instructor1OfCourse4.getGoogleId(), instructorsWithModifyInstructorPrivilege.get(0).getGoogleId());
 
@@ -398,7 +398,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
 
         ______TS("invalid course id cannot access");
 

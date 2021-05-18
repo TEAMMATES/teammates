@@ -11,8 +11,11 @@ class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
     JsonResult execute() {
-        String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
-        logic.deleteAccountCascade(instructorId);
+        String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
+        if (fileStorage.doesFileExist(googleId)) {
+            fileStorage.delete(googleId);
+        }
+        logic.deleteAccountCascade(googleId);
         return new JsonResult("Account is successfully deleted.", HttpStatus.SC_OK);
     }
 

@@ -8,6 +8,7 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
@@ -23,14 +24,14 @@ class CreateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
         gateKeeper.verifyAccessible(instructorDetailForCourse,
                 getNonNullFeedbackSession(feedbackSessionName, courseId),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
     }
 
     @Override

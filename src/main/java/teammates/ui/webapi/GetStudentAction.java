@@ -27,7 +27,7 @@ class GetStudentAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
 
@@ -44,7 +44,7 @@ class GetStudentAction extends Action {
 
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
             gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
-                    Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS);
+                    Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else if (regKey != null) {
             getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
         } else {

@@ -25,7 +25,7 @@ class GetStudentProfileAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (studentEmail == null || courseId == null) {
@@ -39,7 +39,7 @@ class GetStudentProfileAction extends Action {
             if (student == null) {
                 throw new UnauthorizedAccessException(MESSAGE_STUDENT_NOT_FOUND);
             }
-            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(userInfo.id, courseId,
+            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(userInfo.id, courseId,
                     student.section, studentEmail);
         }
     }

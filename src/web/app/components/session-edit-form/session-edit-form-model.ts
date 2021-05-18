@@ -61,6 +61,10 @@ export interface SessionEditFormModel {
 
   isSaving: boolean;
   isEditable: boolean;
+<<<<<<< HEAD
+=======
+  isDeleting: boolean;
+>>>>>>> 5860891af24fba934e965b560a0f68504c553865
   isCopying: boolean;
 }
 

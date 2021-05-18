@@ -18,7 +18,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.test.AssertHelper;
@@ -101,8 +100,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         coursesDb.deleteCourse(c.getId());
         ______TS("Null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.getCourse(null));
     }
 
     private void testGetSoftDeletedCoursesForInstructors() {
@@ -130,8 +128,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getSoftDeletedCoursesForInstructors(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.getSoftDeletedCoursesForInstructors(null));
     }
 
     private void testIsCoursePresent() {
@@ -158,8 +155,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.isCoursePresent(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.isCoursePresent(null));
     }
 
     private void testVerifyCourseIsPresent() throws Exception {
@@ -187,8 +183,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.verifyCourseIsPresent(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.verifyCourseIsPresent(null));
     }
 
     private void testGetSectionsNameForCourse() throws Exception {
@@ -213,8 +208,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Failure case: null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getSectionsNameForCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.getSectionsNameForCourse(null));
     }
 
     private void testGetTeamsForCourse() throws Exception {
@@ -256,8 +250,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getTeamsForCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.getTeamsForCourse(null));
     }
 
     private void testGetCoursesForStudentAccount() throws Exception {
@@ -305,8 +298,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.getCoursesForStudentAccount(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.getCoursesForStudentAccount(null));
     }
 
     private void testCreateCourse() throws Exception {
@@ -328,9 +320,8 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> coursesLogic.createCourse(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testCreateCourseAndInstructor() throws Exception {
@@ -466,13 +457,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("Null parameter");
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> coursesLogic.createCourseAndInstructor(null,
                         CourseAttributes.builder(courseWithDuplicateInstructor.getId())
                                 .withName(courseWithDuplicateInstructor.getName())
                                 .withTimezone(courseWithDuplicateInstructor.getTimeZone())
                                 .build()));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     private void testMoveCourseToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
@@ -506,8 +496,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.moveCourseToRecycleBin(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.moveCourseToRecycleBin(null));
     }
 
     private void testRestoreCourseFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
@@ -540,8 +529,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.restoreCourseFromRecycleBin(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.restoreCourseFromRecycleBin(null));
     }
 
     @Test
@@ -600,8 +588,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> coursesLogic.deleteCourseCascade(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> coursesLogic.deleteCourseCascade(null));
     }
 
     private void testUpdateCourseCascade() throws Exception {

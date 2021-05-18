@@ -11,18 +11,16 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
 import com.google.appengine.tools.development.testing.LocalDatastoreServiceTestConfig;
-import com.google.appengine.tools.development.testing.LocalLogServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalMailServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalModulesServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalSearchServiceTestConfig;
 import com.google.appengine.tools.development.testing.LocalServiceTestHelper;
-import com.google.appengine.tools.development.testing.LocalTaskQueueTestConfig;
 import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.RecaptchaVerifier;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.UserProvision;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
 
@@ -37,9 +35,7 @@ public class GaeSimulation {
     // This can be any valid URL; it is not used beyond validation
     private static final String SIMULATION_BASE_URL = "http://localhost:8080";
 
-    private static final String QUEUE_XML_PATH = "src/main/webapp/WEB-INF/queue.xml";
-
-    private static GateKeeper gateKeeper = new GateKeeper();
+    private static UserProvision userProvision = new UserProvision();
     private static GaeSimulation instance = new GaeSimulation();
 
     private LocalServiceTestHelper helper;
@@ -58,18 +54,13 @@ public class GaeSimulation {
         synchronized (this) {
             System.out.println("Setting up GAE simulation");
 
-            LocalTaskQueueTestConfig localTasks = new LocalTaskQueueTestConfig();
-            localTasks.setQueueXmlPath(QUEUE_XML_PATH);
-
             LocalUserServiceTestConfig localUserServices = new LocalUserServiceTestConfig();
             LocalDatastoreServiceTestConfig localDatastore = new LocalDatastoreServiceTestConfig();
             LocalMailServiceTestConfig localMail = new LocalMailServiceTestConfig();
             LocalSearchServiceTestConfig localSearch = new LocalSearchServiceTestConfig();
             localSearch.setPersistent(false);
             LocalModulesServiceTestConfig localModules = new LocalModulesServiceTestConfig();
-            LocalLogServiceTestConfig localLog = new LocalLogServiceTestConfig();
-            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices,
-                                                localTasks, localSearch, localModules, localLog);
+            helper = new LocalServiceTestHelper(localDatastore, localMail, localUserServices, localSearch, localModules);
 
             helper.setEnvAttributes(getEnvironmentAttributesWithApplicationHostname());
             helper.setUp();
@@ -81,7 +72,7 @@ public class GaeSimulation {
         helper.setEnvEmail(userId);
         helper.setEnvAuthDomain("gmail.com");
         helper.setEnvIsAdmin(isAdmin);
-        return gateKeeper.getCurrentUser();
+        return userProvision.getCurrentUser();
     }
 
     /**
@@ -121,7 +112,9 @@ public class GaeSimulation {
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
     public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
-                                  List<Cookie> cookies, String... params) {
+                                  List<Cookie> cookies, MockTaskQueuer taskQueuer, MockEmailSender emailSender,
+                                  MockFileStorage fileStorage, MockLogsProcessor logsProcessor,
+                                  MockUserProvision userProvision, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -145,9 +138,13 @@ public class GaeSimulation {
                 }
             }
             Action action = new ActionFactory().getAction(req, method);
-            action.setTaskQueuer(new MockTaskQueuer());
-            action.setEmailSender(new MockEmailSender());
+            action.setTaskQueuer(taskQueuer);
+            action.setEmailSender(emailSender);
+            action.setFileStorage(fileStorage);
+            action.setLogsProcessor(logsProcessor);
+            action.setUserProvision(userProvision);
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
+            action.init(req);
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);

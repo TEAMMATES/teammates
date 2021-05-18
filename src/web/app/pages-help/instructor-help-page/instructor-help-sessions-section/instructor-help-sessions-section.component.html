@@ -62,15 +62,15 @@
         <ul>
           <li>
             Session with your own questions: you'll start with an empty template to which you can add your own
-            questions
+            questions.
           </li>
           <li>
             Session using template: TEAMMATES will provide you with a template of a typical session that you can
-            add to and customize to suit your needs
+            add to and customize to suit your needs.
           </li>
           <li>
             Copy from previous feedback sessions: you can reuse questions and settings from a survey you created
-            in the past
+            in the past.
           </li>
         </ul>
       </li>
@@ -89,29 +89,29 @@
       </li>
       <ul>
         <li>
-          Set a custom time zone
+          Set a custom time zone.
         </li>
         <li>
-          Give students more specific instructions
+          Give students more specific instructions.
         </li>
         <li>
-          Set a grace period during which students can still submit responses if the session closes
+          Set a grace period during which students can still submit responses if the session closes.
         </li>
         <li>
           Choose when you want this session to be visible to students. After this time, students can see the questions,
-          but they cannot submit their responses until the session is <i>open</i>
+          but they cannot submit their responses until the session is <i>open</i>.
         </li>
         <li>
           Choose when you want to make this session's responses visible. At this time, TEAMMATES will automatically
-          publish the results for students to view
+          publish the results for students to view.
         </li>
         <li>
-          Choose whether TEAMMATES should send reminder or announcement emails to students about this session
+          Choose whether TEAMMATES should send reminder or announcement emails to students about this session.
         </li>
         <li>
           Make the session private. A private session is a session that is never visible to others.
           This is for you to record your feedback about students. If you want to create a private session,
-          set "Make session visible" to <code>Never</code>
+          set "Make session visible" to <code>Never</code>.
         </li>
       </ul>
       <li>
@@ -152,9 +152,6 @@
       <li>
         Save changes to the question when you have finished creating the question
       </li>
-      <li>
-        When you are finished adding questions, click <button class="btn btn-primary">Done Editing</button>.
-      </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
       <div class="card">
@@ -166,8 +163,7 @@
             </div>
           </div>
           <button type="button" class="btn btn-link"><i class="fas fa-info-circle"></i></button>
-          <button class="btn btn-primary">Copy Question</button>&nbsp;
-          <button class="btn btn-primary">Done Editing</button>
+          <button class="btn btn-primary">Copy Question</button>
         </div>
       </div>
     </tm-example-box>
@@ -431,7 +427,7 @@
   </tm-instructor-help-panel>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(7, 10)">Adding Comments to Responses</h4>
+  <h4 *ngIf="displaySubsection(7, 9)">Adding Comments to Responses</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_ADD_COMMENTS)"
                             [id]="SessionsSectionQuestions.SESSION_ADD_COMMENTS"
@@ -445,16 +441,16 @@
     </p>
     <ol>
       <li>
-        View the results of a session
+        View the results of a session.
       </li>
       <li>
-        Click <button class="btn btn-light btn-s dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &gt; Recipient &gt; Question</b> or <b>Group by - Recipient &gt; Giver &gt; Question</b>
+        Click <button class="btn btn-light btn-s dropdown-toggle">View</button> dropdown and change the view type to <b>Group by - Giver &gt; Recipient &gt; Question</b> or <b>Group by - Recipient &gt; Giver &gt; Question</b>.
       </li>
       <li>
-        Click the <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i></button> icon on the right-hand side of the response you would like to comment on
+        Click the <button type="button" class="btn btn-secondary btn-sm"><i class="fas fa-comment"></i>&nbsp;<i class="fas fa-plus"></i></button> icon on the right-hand side of the response you would like to comment on.
       </li>
       <li>
-        Fill in the form, which will appear similar to the example below
+        Fill in the form, which will appear similar to the example below.
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_ADD_COMMENTS]" @collapseAnim>
@@ -500,36 +496,9 @@
       </li>
     </ol>
   </tm-instructor-help-panel>
-  <!--Question-->
-  <tm-instructor-help-panel class="instr-help-qn-last" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.SESSION_SEARCH)"
-                            [id]="SessionsSectionQuestions.SESSION_SEARCH"
-                            headerText="How do I search for a feedback session question, response or comment on a response?"
-                            [(isPanelExpanded)]="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]">
-    You can search for questions, responses to a question and comments on responses in any of your courses. To do so:
-    <ol>
-      <li>
-        Go to the <b>Search</b> page using the top navigation bar.
-      </li>
-      <li>
-        Tick the option <b>Questions, responses, comments on responses</b> below the search bar.
-      </li>
-      <li>
-        Type in the keywords of your search.
-      </li>
-      <li>
-        Click <button class="btn btn-primary btn-sm">Search</button>.
-      </li>
-    </ol>
-    <p>
-      Assuming the relevant data exists, the results for a search with the keyword <code>good</code> would look something similar to this:
-    </p>
-    <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_SEARCH]" @collapseAnim>
-      <tm-comment-result-table [commentTables]="exampleCommentSearchResult"></tm-comment-result-table>
-    </tm-example-box>
-  </tm-instructor-help-panel>
 
   <!--Section-->
-  <h4 *ngIf="displaySubsection(10, 14)">Restoring Deleted Sessions</h4>
+  <h4 *ngIf="displaySubsection(9, 13)">Restoring Deleted Sessions</h4>
   <!-- Question -->
   <tm-instructor-help-panel class="instr-help-qn-first" #question [hidden]="key && !showQuestion.includes(SessionsSectionQuestions.VIEW_DELETED_SESSION)"
                             [id]="SessionsSectionQuestions.VIEW_DELETED_SESSION"

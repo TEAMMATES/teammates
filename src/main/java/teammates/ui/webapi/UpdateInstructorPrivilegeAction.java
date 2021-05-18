@@ -8,6 +8,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
@@ -23,12 +24,12 @@ class UpdateInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -124,7 +125,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         int numOfInstrCanModifyInstructor = 0;
         InstructorAttributes instrWithModifyInstructorPrivilege = null;
         for (InstructorAttributes instructor : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR)) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
                 numOfInstrCanModifyInstructor++;
                 instrWithModifyInstructorPrivilege = instructor;
             }
@@ -135,7 +136,7 @@ class UpdateInstructorPrivilegeAction extends Action {
                 || instrWithModifyInstructorPrivilege.googleId
                 .equals(instructorToEdit.googleId));
         if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.privileges.updatePrivilege(Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_INSTRUCTOR, true);
+            instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
 }

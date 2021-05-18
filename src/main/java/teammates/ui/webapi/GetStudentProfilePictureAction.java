@@ -22,7 +22,7 @@ class GetStudentProfilePictureAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -38,7 +38,7 @@ class GetStudentProfilePictureAction extends Action {
                 throw new UnauthorizedAccessException(UNAUTHORIZED_ACCESS);
             }
 
-            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMemberOrAdmin(userInfo.id,
+            gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(userInfo.id,
                     courseId, student.getSection(), student.getEmail());
         }
     }
@@ -63,10 +63,11 @@ class GetStudentProfilePictureAction extends Action {
             }
         }
 
-        if (studentProfile == null || studentProfile.pictureKey.equals("")) {
+        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.googleId)) {
             return new ImageResult();
         }
 
-        return new ImageResult(studentProfile.pictureKey);
+        byte[] bytes = fileStorage.getContent(studentProfile.googleId);
+        return new ImageResult(bytes);
     }
 }

@@ -115,8 +115,13 @@ const routes: Routes = [
     loadChildren: () => import('./instructor-search-page/instructor-search-page.module')
         .then((m: any) => m.InstructorSearchPageModule),
     data: {
-      pageTitle: 'Search',
+      pageTitle: 'Search Students',
     },
+  },
+  {
+    path: 'logs',
+    loadChildren: () => import('./instructor-audit-logs-page/instructor-audit-logs-page.module')
+        .then((m: any) => m.InstructorAuditLogsPageModule),
   },
   {
     path: 'help',

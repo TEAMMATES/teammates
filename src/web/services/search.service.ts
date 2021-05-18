@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import {
-  CommentSearchResult,
-  CommentSearchResults,
   Course, FeedbackSession,
   FeedbackSessions,
   Instructor,
@@ -50,21 +48,6 @@ export class SearchService {
     );
   }
 
-  /**
-   * Search session, response, comments on response with {@code searchKey} and
-   * parses the results
-   */
-  searchComment(searchKey: string): Observable<InstructorSearchResult> {
-    return this.searchComments(searchKey).pipe(
-      map((commentsRes: CommentSearchResults) => {
-        return {
-          students: [],
-          comments: commentsRes.searchResults,
-        };
-      }),
-    );
-  }
-
   searchAdmin(searchKey: string): Observable<AdminSearchResult> {
     return forkJoin([
       this.searchStudents(searchKey, 'admin'),
@@ -103,17 +86,6 @@ export class SearchService {
       searchkey: searchKey,
     };
     return this.httpRequestService.get(ResourceEndpoints.SEARCH_INSTRUCTORS, paramMap);
-  }
-
-  /**
-   * Searches sessions, responses, and comments for any matches against the {@code searchKey}.
-   * Only responses with comments will be searched.
-   */
-  searchComments(searchKey: string): Observable<CommentSearchResults> {
-    const paramMap: { [key: string]: string } = {
-      searchkey: searchKey,
-    };
-    return this.httpRequestService.get(ResourceEndpoints.SEARCH_COMMENTS, paramMap);
   }
 
   searchInstructorPrivilege(courseId: string, sectionName: string): Observable<InstructorPrivilege> {
@@ -396,7 +368,6 @@ export class SearchService {
  */
 export interface InstructorSearchResult {
   students: Student[];
-  comments: CommentSearchResult[];
 }
 
 /**

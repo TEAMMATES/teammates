@@ -21,6 +21,9 @@ import teammates.ui.request.StudentUpdateRequest;
  * Action: Edits details of a student in a course.
  */
 class UpdateStudentAction extends Action {
+    static final String STUDENT_NOT_FOUND_FOR_EDIT = "The student you tried to edit does not exist. "
+            + "If the student was created during the last few minutes, "
+            + "try again in a few more minutes as the student may still be being saved.";
     private static final String SUCCESSFUL_UPDATE = "Student has been updated";
     private static final String SUCCESSFUL_UPDATE_WITH_EMAIL = SUCCESSFUL_UPDATE + " and email sent";
     private static final String SUCCESSFUL_UPDATE_BUT_EMAIL_FAILED = SUCCESSFUL_UPDATE + " but email failed to send";
@@ -31,7 +34,7 @@ class UpdateStudentAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -39,7 +42,7 @@ class UpdateStudentAction extends Action {
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
         gateKeeper.verifyAccessible(
-                instructor, logic.getCourse(courseId), Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT);
+                instructor, logic.getCourse(courseId), Const.InstructorPermissions.CAN_MODIFY_STUDENT);
     }
 
     @Override
@@ -49,7 +52,7 @@ class UpdateStudentAction extends Action {
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            return new JsonResult(Const.StatusMessages.STUDENT_NOT_FOUND_FOR_EDIT, HttpStatus.SC_NOT_FOUND);
+            return new JsonResult(STUDENT_NOT_FOUND_FOR_EDIT, HttpStatus.SC_NOT_FOUND);
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);

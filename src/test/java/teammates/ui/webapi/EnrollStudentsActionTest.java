@@ -11,8 +11,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
-import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**
@@ -195,7 +195,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String randomSectionName = "randomSectionName";
         List<StudentAttributes> studentList = new ArrayList<>();
 
-        for (int i = 0; i < Const.StudentsLogicConst.SECTION_SIZE_LIMIT; i++) {
+        for (int i = 0; i < Const.SECTION_SIZE_LIMIT; i++) {
             StudentAttributes addedStudent = StudentAttributes
                     .builder(courseId, i + "email@test.com")
                     .withName("Name " + i)
@@ -230,11 +230,11 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 () -> action.execute());
 
         String expectedErrorMessage = String.format(
-                Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT,
-                Const.StudentsLogicConst.SECTION_SIZE_LIMIT, randomSectionName)
+                "You are trying enroll more than %d students in section \"%s\".",
+                Const.SECTION_SIZE_LIMIT, randomSectionName)
                 + " "
-                + String.format(Const.StudentsLogicConst.ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION,
-                Const.StudentsLogicConst.SECTION_SIZE_LIMIT);
+                + String.format("To avoid performance problems, "
+                        + "please do not enroll more than %d students in a single section.", Const.SECTION_SIZE_LIMIT);
 
         assertEquals(expectedErrorMessage, ee.getMessage());
     }
@@ -280,7 +280,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         JsonResult result = action.execute();
         assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
-        return ((StudentsData) result.getOutput()).getStudents();
+        return ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
     }
 
     private void verifyStudentInDatabase(StudentAttributes expectedStudent,
@@ -312,10 +312,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
-                Const.ParamsNames.STUDENTS_ENROLLMENT_INFO, "",
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_STUDENT, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
     }
 }

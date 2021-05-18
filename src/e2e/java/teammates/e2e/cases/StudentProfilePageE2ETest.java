@@ -34,7 +34,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
 
         profilePage.fillProfilePic("src/test/resources/images/profile_pic.png");
         profilePage.uploadPicture();
-        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_PICTURE_SAVED);
+        profilePage.verifyStatusMessage("Your profile picture has been saved successfully");
 
         profilePage.showPictureEditor();
         profilePage.waitForUploadEditModalVisible();
@@ -45,7 +45,7 @@ public class StudentProfilePageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: edit profile page");
         profilePage.editProfileThroughUi("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");
-        profilePage.verifyStatusMessage(Const.StatusMessages.STUDENT_PROFILE_EDITED);
+        profilePage.verifyStatusMessage("Your profile has been edited successfully");
 
         profilePage.ensureProfileContains("short.name", "e@email.tmt", "inst", "American",
                 StudentProfileAttributes.Gender.FEMALE, "this is enough!$%&*</>");

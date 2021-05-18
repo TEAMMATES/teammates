@@ -6,15 +6,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Const;
 
 public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetails {
+
+    static final String QUESTION_TYPE_NAME = "Numerical-scale question";
+    static final String NUMSCALE_ERROR_MIN_MAX = "Minimum value must be < maximum value for " + QUESTION_TYPE_NAME + ".";
+    static final String NUMSCALE_ERROR_STEP = "Step value must be > 0 for " + QUESTION_TYPE_NAME + ".";
+    static final String NUMSCALE_ERROR_OUT_OF_RANGE = " is out of the range for " + QUESTION_TYPE_NAME + ".";
+
     private int minScale;
     private int maxScale;
     private double step;
 
     public FeedbackNumericalScaleQuestionDetails() {
-        super(FeedbackQuestionType.NUMSCALE);
+        this(null);
+    }
+
+    public FeedbackNumericalScaleQuestionDetails(String questionText) {
+        super(FeedbackQuestionType.NUMSCALE, questionText);
         this.minScale = 1;
         this.maxScale = 5;
         this.step = 0.5;
@@ -35,10 +44,10 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
     public List<String> validateQuestionDetails() {
         List<String> errors = new ArrayList<>();
         if (minScale >= maxScale) {
-            errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_MIN_MAX);
+            errors.add(NUMSCALE_ERROR_MIN_MAX);
         }
         if (step <= 0) {
-            errors.add(Const.FeedbackQuestion.NUMSCALE_ERROR_STEP);
+            errors.add(NUMSCALE_ERROR_STEP);
         }
         return errors;
     }
@@ -53,7 +62,7 @@ public class FeedbackNumericalScaleQuestionDetails extends FeedbackQuestionDetai
             // out of range
             boolean isAnswerOutOfRange = details.getAnswer() < minScale || details.getAnswer() > maxScale;
             if (isAnswerOutOfRange) {
-                errors.add(details.getAnswerString() + Const.FeedbackQuestion.NUMSCALE_ERROR_OUT_OF_RANGE
+                errors.add(details.getAnswerString() + NUMSCALE_ERROR_OUT_OF_RANGE
                         + "(min=" + minScale + ", max=" + maxScale + ")");
             }
 

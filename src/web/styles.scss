@@ -103,6 +103,10 @@ h6,
   }
 }
 
+.modal-large .modal-dialog {
+  width: 1000px;
+}
+
 .close:focus {
   outline: 0;
 }
@@ -200,6 +204,12 @@ h6,
   }
 }
 
+.modal-window-class {
+  color: #000;
+  text-decoration: underline dashed #000;
+  cursor: pointer;
+}
+
 @media print {
   .no-print {
     display: none;
@@ -257,4 +267,19 @@ h6,
 
 .fa-stack {
   width: auto;
+}
+
+.ngb-dp-today > .btn-light {
+  font-weight: bold;
+  color: blue;
+}
+
+.handsontable .invalid-row {
+  background: red;
+  color: white;
+}
+
+.handsontable .valid-row {
+  background: white;
+  color: black;
 }

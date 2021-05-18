@@ -51,7 +51,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         ______TS("Normal case: No logged in user for a used regkey; should be valid/used/disallowed");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, student1Key,
@@ -105,7 +105,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         logic.resetStudentGoogleId("student1InCourse1@gmail.tmt", "idOfTypicalCourse1");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         a = getAction(params);
         r = getJsonResult(a);
@@ -162,7 +162,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
 
         ______TS("Normal case: Invalid intent; should be invalid/unused/disallowed");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, student1Key,

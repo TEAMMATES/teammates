@@ -75,6 +75,16 @@ public final class JsonUtils {
     }
 
     /**
+     * Serializes the specified object into its equivalent JSON string and stream into a writer.
+     * This is done to reduce the memory consumption when creating object across call stack.
+     *
+     * @see Gson#toJson(Object, Appendable)
+     */
+    public static void toCompactJson(Object src, Appendable writer) {
+        getGsonInstance(false).toJson(src, writer);
+    }
+
+    /**
      * Deserializes the specified JSON string into an object of the specified type.
      *
      * @see Gson#fromJson(String, Type)
