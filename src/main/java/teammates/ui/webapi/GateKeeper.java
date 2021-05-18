@@ -22,7 +22,7 @@ class GateKeeper {
     /**
      * Verifies the user is logged in.
      */
-    void verifyLoggedInUserPrivileges(UserInfo userInfo) {
+    void verifyLoggedInUserPrivileges(UserInfo userInfo) throws UnauthorizedAccessException {
         if (userInfo != null) {
             return;
         }
@@ -35,7 +35,7 @@ class GateKeeper {
     /**
      * Verifies that the specified student can access the specified course.
      */
-    void verifyAccessible(StudentAttributes student, CourseAttributes course) {
+    void verifyAccessible(StudentAttributes student, CourseAttributes course) throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(course, "course");
@@ -50,7 +50,8 @@ class GateKeeper {
     /**
      * Verifies that the specified student can access the specified feedback session.
      */
-    void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbackSession) {
+    void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbackSession)
+            throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
         verifyNotNull(student.course, "student's course ID");
         verifyNotNull(feedbackSession, "feedback session");
@@ -69,7 +70,8 @@ class GateKeeper {
     /**
      * Verifies that the specified instructor can access the specified course.
      */
-    void verifyAccessible(InstructorAttributes instructor, CourseAttributes course) {
+    void verifyAccessible(InstructorAttributes instructor, CourseAttributes course)
+            throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
@@ -86,7 +88,8 @@ class GateKeeper {
      * the course and the instructor has the privilege specified by
      * privilegeName.
      */
-    void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName) {
+    void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String privilegeName)
+            throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
@@ -109,7 +112,8 @@ class GateKeeper {
      * privilegeName for sectionName.
      */
     void verifyAccessible(InstructorAttributes instructor, CourseAttributes course, String sectionName,
-                                 String privilegeName) {
+                                 String privilegeName)
+            throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(course, "course");
@@ -131,7 +135,8 @@ class GateKeeper {
     /**
      * Verifies that the specified instructor can access the specified feedback session.
      */
-    void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession) {
+    void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession)
+            throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbackSession, "feedback session");
@@ -149,7 +154,8 @@ class GateKeeper {
      * privilegeName for feedbackSession.
      */
     void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbacksession,
-                                 String privilegeName) {
+                                 String privilegeName)
+            throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbacksession, "feedback session");
@@ -171,7 +177,8 @@ class GateKeeper {
      * Verifies that the specified instructor has specified privilege for a section in the specified feedback session.
      */
     void verifyAccessible(InstructorAttributes instructor, FeedbackSessionAttributes feedbackSession,
-                                 String sectionName, String privilegeName) {
+                                 String sectionName, String privilegeName)
+            throws UnauthorizedAccessException {
         verifyNotNull(instructor, "instructor");
         verifyNotNull(instructor.courseId, "instructor's course ID");
         verifyNotNull(feedbackSession, "feedback session");
@@ -193,7 +200,8 @@ class GateKeeper {
     /**
      * Verifies that the feedback question is for student to answer.
      */
-    void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+    void verifyAnswerableForStudent(FeedbackQuestionAttributes feedbackQuestionAttributes)
+            throws UnauthorizedAccessException {
         verifyNotNull(feedbackQuestionAttributes, "feedback question");
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS
@@ -205,7 +213,8 @@ class GateKeeper {
     /**
      * Verifies that the feedback question is for instructor to answer.
      */
-    void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes) {
+    void verifyAnswerableForInstructor(FeedbackQuestionAttributes feedbackQuestionAttributes)
+            throws UnauthorizedAccessException {
         verifyNotNull(feedbackQuestionAttributes, "feedback question");
 
         if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.INSTRUCTORS
@@ -218,7 +227,8 @@ class GateKeeper {
      * Verifies that an instructor has submission privilege of a feedback session.
      */
     void verifySessionSubmissionPrivilegeForInstructor(
-            FeedbackSessionAttributes session, InstructorAttributes instructor) {
+            FeedbackSessionAttributes session, InstructorAttributes instructor)
+            throws UnauthorizedAccessException {
         verifyNotNull(session, "feedback session");
         verifyNotNull(instructor, "instructor");
 
@@ -241,7 +251,8 @@ class GateKeeper {
      * @param frc comment to be accessed
      * @param feedbackParticipant email or team of feedback participant
      */
-    void verifyOwnership(FeedbackResponseCommentAttributes frc, String feedbackParticipant) {
+    void verifyOwnership(FeedbackResponseCommentAttributes frc, String feedbackParticipant)
+            throws UnauthorizedAccessException {
         verifyNotNull(frc, "feedback response comment");
         verifyNotNull(frc.commentGiver, "feedback response comment giver");
         verifyNotNull(feedbackParticipant, "comment giver");
@@ -254,7 +265,8 @@ class GateKeeper {
 
     // These methods ensures that the nominal user specified can perform the specified action on a given entity.
 
-    private void verifyNotNull(Object object, String typeName) {
+    private void verifyNotNull(Object object, String typeName)
+            throws UnauthorizedAccessException {
         if (object == null) {
             throw new UnauthorizedAccessException("Trying to access system using a non-existent " + typeName + " entity");
         }
@@ -265,7 +277,8 @@ class GateKeeper {
      * or his/her team member.
      */
     void verifyAccessibleForCurrentUserAsInstructorOrTeamMember(String googleId, String courseId,
-            String section, String email) {
+            String section, String email)
+            throws UnauthorizedAccessException {
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, googleId);
         if (instructor != null) {
             verifyInstructorCanViewProfile(instructor, section);
@@ -281,13 +294,15 @@ class GateKeeper {
         throw new UnauthorizedAccessException("User is not in the course that student belongs to");
     }
 
-    private void verifyInstructorCanViewProfile(InstructorAttributes instructor, String section) {
+    private void verifyInstructorCanViewProfile(InstructorAttributes instructor, String section)
+            throws UnauthorizedAccessException {
         if (!instructor.isAllowedForPrivilege(section, Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS)) {
             throw new UnauthorizedAccessException("Instructor does not have enough privileges to view the profile.");
         }
     }
 
-    private void verifyStudentCanViewProfile(StudentAttributes student, String courseId, String email) {
+    private void verifyStudentCanViewProfile(StudentAttributes student, String courseId, String email)
+            throws UnauthorizedAccessException {
         if (!logic.isStudentsInSameTeam(courseId, email, student.email)) {
             throw new UnauthorizedAccessException("Student does not have enough privileges to view the profile.");
         }
