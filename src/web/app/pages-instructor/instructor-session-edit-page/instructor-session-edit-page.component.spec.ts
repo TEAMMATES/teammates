@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { NavigationService } from 'src/web/services/navigation.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
@@ -36,6 +37,7 @@ import { SessionEditFormModel } from '../../components/session-edit-form/session
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
+import Spy = jasmine.Spy;
 
 describe('InstructorSessionEditPageComponent', () => {
 
@@ -198,6 +200,7 @@ describe('InstructorSessionEditPageComponent', () => {
   let courseService: CourseService;
   let studentService: StudentService;
   let instructorService: InstructorService;
+  let navigationService: NavigationService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -222,6 +225,7 @@ describe('InstructorSessionEditPageComponent', () => {
     feedbackQuestionsService = TestBed.inject(FeedbackQuestionsService);
     studentService = TestBed.inject(StudentService);
     instructorService = TestBed.inject(InstructorService);
+    navigationService = TestBed.inject(NavigationService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -359,11 +363,34 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should cancel edit session', () => {
     component.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(sessionEditFormModel));
-    sessionEditFormModel.instructions = 'New instructions';
+    const testSessionEditFormModel: SessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));
+    testSessionEditFormModel.instructions = 'New instructions';
     component.sessionEditFormModel = sessionEditFormModel;
     component.isLoadingFeedbackSession = false;
 
     component.cancelEditingSessionHandler();
     expect(component.sessionEditFormModel.instructions).toBe('Instructions');
+  });
+
+  it('should edit existing session', () => {
+    component.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(sessionEditFormModel));
+    sessionEditFormModel.instructions = 'New instructions';
+    component.sessionEditFormModel = sessionEditFormModel;
+    component.isLoadingFeedbackSession = false;
+
+    component.editExistingSessionHandler();
+    expect(component.feedbackSessionModelBeforeEditing.instructions).toBe('New instructions');
+  });
+
+  it('should delete current session', () => {
+    component.sessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));;
+    const navSpy: Spy = spyOn(navigationService, 'navigateWithSuccessMessage');
+    spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').and.returnValue(of(true));
+    component.deleteExistingSessionHandler();
+
+    expect(navSpy.calls.count()).toEqual(1);
+    expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/instructor/sessions');
+    expect(navSpy.calls.mostRecent().args[2]).toEqual('The feedback session has been deleted. '
+      + 'You can restore it from the deleted sessions table below.');
   });
 });
