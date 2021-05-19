@@ -65,7 +65,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   }
 
   private isUsingResponsesToSelf(): boolean {
-    return this.isStudent 
+    return this.isStudent
       && (this.question.questionType === FeedbackQuestionType.NUMSCALE
       || this.question.questionType === FeedbackQuestionType.CONSTSUM_RECIPIENTS
       || this.question.questionType === FeedbackQuestionType.CONSTSUM_OPTIONS);
