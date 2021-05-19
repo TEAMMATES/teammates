@@ -271,14 +271,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
              this.showCopyStatusMessage();
            });
         }
-<<<<<<< HEAD
         //this.sessionEditFormModel.isCopying = false;
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message).pipe(finalize(() => this.sessionEditFormModel.isCopying = false)); });
+      // }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message).pipe(finalize(() => this.sessionEditFormModel.isCopying = false)); });
       //.catch(() => this.sessionEditFormModel.isCopying = false);
-=======
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
->>>>>>> 5860891af24fba934e965b560a0f68504c553865
     });
   }
 
@@ -294,7 +291,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     const model: SessionEditFormModel = {
       isEditable,
-      isCopying: false,
       courseId: feedbackSession.courseId,
       timeZone: feedbackSession.timeZone,
       courseName: this.courseName,

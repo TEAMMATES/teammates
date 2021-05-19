@@ -68,10 +68,7 @@ export class SessionEditFormComponent implements OnInit {
 
     isSaving: false,
     isEditable: true,
-<<<<<<< HEAD
-=======
     isDeleting: false,
->>>>>>> 5860891af24fba934e965b560a0f68504c553865
     isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
