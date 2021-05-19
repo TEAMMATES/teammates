@@ -281,8 +281,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
              this.showCopyStatusMessage();
            });
         }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message);})
-      .catch( () => this.sessionEditFormModel.isCopying = false );
+      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
+      .catch(() => this.sessionEditFormModel.isCopying = false);
     });
   }
 
