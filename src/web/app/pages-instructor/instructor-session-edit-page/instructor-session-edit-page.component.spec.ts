@@ -5,11 +5,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
-import { NavigationService } from 'src/web/services/navigation.service';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { NavigationService } from '../../../services/navigation.service';
 import { StudentService } from '../../../services/student.service';
 import {
   Course,
@@ -383,7 +383,7 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should delete current session', () => {
-    component.sessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));;
+    component.sessionEditFormModel = JSON.parse(JSON.stringify(sessionEditFormModel));
     const navSpy: Spy = spyOn(navigationService, 'navigateWithSuccessMessage');
     spyOn(feedbackSessionsService, 'moveSessionToRecycleBin').and.returnValue(of(true));
     component.deleteExistingSessionHandler();
@@ -392,5 +392,15 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/instructor/sessions');
     expect(navSpy.calls.mostRecent().args[2]).toEqual('The feedback session has been deleted. '
       + 'You can restore it from the deleted sessions table below.');
+  });
+
+  it('should create new question', () => {
+    component.isAddingQuestionPanelExpanded = true;
+    component.questionEditFormModels = [testQuestionEditFormModel1];
+    component.feedbackQuestionModels = new Map().set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
+    spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion2));
+    component.createNewQuestionHandler();
+    expect(component.questionEditFormModels.length).toEqual(2);
+    expect(component.feedbackQuestionModels.has(testFeedbackQuestion2.feedbackQuestionId)).toEqual(true);
   });
 });
