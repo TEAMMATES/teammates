@@ -221,7 +221,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and
         .returnValue(of({
           courses: [
-            testCourse1, testCourse2, testCourse3
+            testCourse1, testCourse2, testCourse3,
           ],
         }));
     const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
