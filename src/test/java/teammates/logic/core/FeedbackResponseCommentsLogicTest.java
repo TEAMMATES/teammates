@@ -3,9 +3,9 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -358,12 +358,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
         CourseRoster roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()),
                 new ArrayList<>(dataBundle.instructors.values()));
-        Set<String> studentsEmailInTeam = new HashSet<>();
         List<StudentAttributes> studentsInTeam =
                 roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
-        for (StudentAttributes teammates : studentsInTeam) {
-            studentsEmailInTeam.add(teammates.getEmail());
-        }
+        Set<String> studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes relatedQuestion = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         FeedbackResponseCommentAttributes relatedComment = FeedbackResponseCommentAttributes.builder()
@@ -375,10 +375,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .withFeedbackResponseId("2%student2InCourse1@gmail.tmt%student5InCourse1@gmail.tmt")
                 .withShowCommentTo(Arrays.asList(FeedbackParticipantType.STUDENTS))
                 .build();
-
-        for (String s : studentsEmailInTeam) {
-            System.out.println(s);
-        }
 
         ______TS("success: giver is instructor; show comment to student; comment is visible to recipient");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
@@ -455,7 +451,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .withShowCommentTo(Collections.emptyList())
                 .build();
 
-        ______TS("success: giver is instructor; showCommentTo is empty; comment is visible to instructor");
+        ______TS("success: giver is instructor; showCommentTo is empty; comment is visible to giver by default");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
                 student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
 
