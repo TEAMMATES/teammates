@@ -218,7 +218,7 @@ describe('InstructorCourseEditPageComponent', () => {
 
   it('should add instructor details', () => {
     spyOn(instructorService, 'createInstructor').and
-      .callFake(({ courseId, requestBody }: { courseId: string, requestBody: InstructorEditPanel }) => of({
+      .callFake(({ courseId, requestBody }: { courseId: string, requestBody: InstructorCreateRequest }) => of({
         courseId,
         email: requestBody.email,
         joinState: JoinState.NOT_JOINED,
