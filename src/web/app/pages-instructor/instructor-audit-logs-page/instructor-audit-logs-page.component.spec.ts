@@ -73,6 +73,23 @@ describe('InstructorAuditLogsPageComponent', () => {
       canSubmitSessionInSections: true,
     },
   };
+  const testCourse3: Course = {
+    courseId: 'EE1111',
+    courseName: 'EE1111',
+    timeZone: 'Asia/Singapore',
+    creationTimestamp: 0,
+    deletionTimestamp: 0,
+    privileges: {
+      canModifyCourse: false,
+      canModifySession: false,
+      canModifyStudent: false,
+      canModifyInstructor: false,
+      canViewStudentInSections: true,
+      canModifySessionCommentsInSections: true,
+      canViewSessionInSections: true,
+      canSubmitSessionInSections: true,
+    },
+  };
   const emptyStudent: Student = {
     courseId: '', email: '', name: '', sectionName: '', teamName: '',
   };
@@ -204,7 +221,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     const courseSpy: Spy = spyOn(courseService, 'getAllCoursesAsInstructor').and
         .returnValue(of({
           courses: [
-            testCourse1, testCourse2,
+            testCourse1, testCourse2, testCourse3
           ],
         }));
     const studentSpy: Spy = spyOn(studentService, 'getStudentsFromCourse').and
@@ -219,6 +236,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     expect(component.isLoading).toBeFalsy();
     expect(courseSpy).toBeCalledWith('active');
     expect(component.courses.length).toEqual(2);
+    expect(component.courses).not.toContainEqual(testCourse3);
     expect(component.courseToStudents[testCourse1.courseId][0]).toEqual(emptyStudent);
     expect(component.courseToStudents[testCourse1.courseId][1]).toEqual(testStudent);
     expect(studentSpy).toHaveBeenNthCalledWith(1, { courseId: testCourse1.courseId });
