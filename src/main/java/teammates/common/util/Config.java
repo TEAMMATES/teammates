@@ -103,7 +103,7 @@ public final class Config {
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
         } catch (IOException e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false : TeammatesException.toStringWithStackTrace(e);
         }
         APP_ID = properties.getProperty("app.id");
         APP_REGION = properties.getProperty("app.region");
