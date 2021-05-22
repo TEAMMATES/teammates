@@ -13,7 +13,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.exception.SearchNotImplementedException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.storage.api.StudentsDb;
 
@@ -193,7 +192,7 @@ public final class StudentsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resetting google ID shall not cause: " + e.getMessage());
+            assert false : "Resetting google ID shall not cause: " + e.getMessage();
         }
     }
 

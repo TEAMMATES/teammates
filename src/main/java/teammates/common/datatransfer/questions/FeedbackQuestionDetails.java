@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
 /**
@@ -121,12 +120,12 @@ public abstract class FeedbackQuestionDetails {
     }
 
     public String getJsonString() {
-        Assumption.assertNotNull(questionType);
+        assert questionType != null;
         return JsonUtils.toJson(this, questionType.getQuestionDetailsClass());
     }
 
     public FeedbackQuestionDetails getDeepCopy() {
-        Assumption.assertNotNull(questionType);
+        assert questionType != null;
         String serializedDetails = getJsonString();
         return JsonUtils.fromJson(serializedDetails, questionType.getQuestionDetailsClass());
     }

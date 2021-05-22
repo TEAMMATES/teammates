@@ -7,7 +7,7 @@ public class AppUrl extends Url {
 
     public AppUrl(String url) {
         super(url);
-        Assumption.assertTrue(url.startsWith("http")); // must either be http or https
+        assert url.startsWith("http"); // must either be http or https
     }
 
     public AppUrl withUserId(String userId) {

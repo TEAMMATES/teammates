@@ -19,7 +19,6 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.exception.SearchNotImplementedException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
@@ -141,8 +140,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         return makeAttributesOrNull(getCourseStudentEntityForEmail(courseId, email));
     }
@@ -151,7 +150,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets list of students by email.
      */
     public List<StudentAttributes> getAllStudentsForEmail(String email) {
-        Assumption.assertNotNull(email);
+        assert email != null;
 
         List<CourseStudent> students = getAllCourseStudentEntitiesForEmail(email);
         return students.stream().map(this::makeAttributes).collect(Collectors.toList());
@@ -161,8 +160,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique constraint courseId-googleId.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
+        assert googleId != null;
+        assert courseId != null;
 
         CourseStudent student = load()
                 .filter("courseId =", courseId)
@@ -176,7 +175,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique constraint encryptedKey.
      */
     public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
-        Assumption.assertNotNull(encryptedRegistrationKey);
+        assert encryptedRegistrationKey != null;
 
         try {
             String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
@@ -190,7 +189,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students associated with a googleId.
      */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return makeAttributes(getCourseStudentEntitiesForGoogleId(googleId));
     }
@@ -199,7 +198,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getCourseStudentEntitiesForCourse(courseId));
     }
@@ -208,8 +207,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students of a team of a course.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
-        Assumption.assertNotNull(teamName);
-        Assumption.assertNotNull(courseId);
+        assert teamName != null;
+        assert courseId != null;
 
         return makeAttributes(getCourseStudentEntitiesForTeam(teamName, courseId));
     }
@@ -218,7 +217,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         List<StudentAttributes> unregistered = new ArrayList<>();
@@ -244,7 +243,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      */
     public StudentAttributes updateStudent(StudentAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
@@ -306,8 +305,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * <p>Fails silently if there is no such student.
      */
     public void deleteStudent(String courseId, String email) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudentToDelete != null) {
@@ -327,7 +326,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
             deleteEntity(studentsToDelete.stream()
                     .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))
-                    .toArray(Key[]::new));
+                    .collect(Collectors.toList()));
         }
     }
 
@@ -397,7 +396,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     @Override
     StudentAttributes makeAttributes(CourseStudent entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return StudentAttributes.valueOf(entity);
     }

@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.output.LocalDateTimeInfo;
 
@@ -61,7 +60,7 @@ class GetLocalDateTimeInfoAction extends Action {
                     earlierInterpretation.toEpochMilli(), laterInterpretation.toEpochMilli());
             break;
         default:
-            Assumption.fail("Unreachable case");
+            assert false : "Unreachable case";
             break;
         }
 
