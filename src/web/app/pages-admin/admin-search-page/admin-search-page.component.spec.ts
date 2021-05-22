@@ -44,7 +44,7 @@ describe('AdminSearchPageComponent', () => {
       ],
       providers: [AccountService, SearchService, StatusMessageService, NgbModal],
     })
-        .compileComponents();
+    .compileComponents();
   }));
 
   beforeEach(() => {
@@ -127,10 +127,9 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
-        (args: string): void => {
-          expect(args).toEqual('This is the error message');
-        });
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message');
+    });
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#search-button');
     button.click();
@@ -144,8 +143,8 @@ describe('AdminSearchPageComponent', () => {
       instructors: [],
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showWarningToast').and.callFake(
-        (args: string): void => {
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showWarningToast')
+        .and.callFake((args: string) => {
           expect(args).toEqual('No results found.');
         });
 
@@ -329,8 +328,8 @@ describe('AdminSearchPageComponent', () => {
     });
 
     spyOn(accountService, 'resetInstructorAccount').and.returnValue(of('Success'));
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
-        (args: string): void => {
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast')
+        .and.callFake((args: string) => {
           expect(args).toEqual('The instructor\'s Google ID has been reset.');
         });
 
@@ -371,10 +370,9 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
-        (args: string): void => {
-          expect(args).toEqual('This is the error message');
-        });
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message');
+    });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-instructor-id-0');
     link.click();
@@ -417,8 +415,8 @@ describe('AdminSearchPageComponent', () => {
 
     spyOn(accountService, 'resetStudentAccount').and.returnValue(of('success'));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
-        (args: string): void => {
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast')
+        .and.callFake((args: string) => {
           expect(args).toEqual('The student\'s Google ID has been reset.');
         });
 
@@ -467,10 +465,9 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
-        (args: string): void => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     const link: any = fixture.debugElement.nativeElement.querySelector('#reset-student-id-0');
     link.click();
@@ -534,8 +531,8 @@ describe('AdminSearchPageComponent', () => {
       newRegistrationKey: 'newKey',
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast').and.callFake(
-        (args: string): void => {
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showSuccessToast')
+        .and.callFake((args: string) => {
           expect(args).toEqual('success');
         });
 
@@ -607,10 +604,9 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
-        (args: string): void => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     const regenerateButton: any = fixture.debugElement.nativeElement.querySelector('#regenerate-student-key-0');
     regenerateButton.click();
@@ -641,13 +637,14 @@ describe('AdminSearchPageComponent', () => {
     component.students = [studentResult];
     fixture.detectChanges();
 
-    const spyEmailGenerationService: any = spyOn(emailGenerationService, 'getCourseJoinEmail').and.callFake(
-        (): Observable<Email> => of({
-          recipient: 'Jacky Chan',
-          subject: 'Course join email',
-          content: 'Course join email content',
-        }),
-    );
+    const spyEmailGenerationService: any = spyOn(emailGenerationService, 'getCourseJoinEmail')
+        .and.callFake(
+            (): Observable<Email> => of({
+              recipient: 'Jacky Chan',
+              subject: 'Course join email',
+              content: 'Course join email content',
+            }),
+            );
 
     const sendButton: any = fixture.debugElement.nativeElement.querySelector('#send-course-join-button');
     sendButton.click();
@@ -684,10 +681,9 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
-        (args: string): void => {
-          expect(args).toEqual('This is the error message.');
-        });
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake((args: string) => {
+      expect(args).toEqual('This is the error message.');
+    });
 
     const sendButton: any = fixture.debugElement.nativeElement.querySelector('#send-course-join-button');
     sendButton.click();
@@ -725,7 +721,7 @@ describe('AdminSearchPageComponent', () => {
               subject: 'Feedback reminder email',
               content: 'Feedback reminder email content',
             }),
-        );
+            );
 
     const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
     sendOpenSessionReminderButton.click();
@@ -773,8 +769,8 @@ describe('AdminSearchPageComponent', () => {
       },
     }));
 
-    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast').and.callFake(
-        (args: string): void => {
+    const spyStatusMessageService: any = spyOn(statusMessageService, 'showErrorToast')
+        .and.callFake((args: string) => {
           expect(args).toEqual('This is the error message.');
         });
 
