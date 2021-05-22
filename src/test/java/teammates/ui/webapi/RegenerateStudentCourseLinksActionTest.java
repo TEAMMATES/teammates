@@ -120,9 +120,9 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
         assertEquals(RegenerateStudentCourseLinksAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, output.getMessage());
         assertNotEquals(student1InCourse1.key, output.getNewRegistrationKey());
 
-        verifyNumberOfEmailsSent(a, 1);
+        verifyNumberOfEmailsSent(1);
 
-        EmailWrapper emailSent = a.getEmailSender().getEmailsSent().get(0);
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(),
                                     typicalBundle.courses.get("typicalCourse1").getName(), student1InCourse1.course),
                      emailSent.getSubject());

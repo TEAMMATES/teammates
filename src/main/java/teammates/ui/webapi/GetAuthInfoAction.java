@@ -40,15 +40,15 @@ class GetAuthInfoAction extends Action {
         if (userInfo == null) {
             if (nextUrl == null) {
                 output = new AuthInfo(
-                        gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
-                        gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
-                        gateKeeper.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
+                        userProvision.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
+                        userProvision.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                        userProvision.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
                 );
             } else {
                 output = new AuthInfo(
-                        gateKeeper.getLoginUrl(frontendUrl + nextUrl),
-                        gateKeeper.getLoginUrl(frontendUrl + nextUrl),
-                        gateKeeper.getLoginUrl(frontendUrl + nextUrl)
+                        userProvision.getLoginUrl(frontendUrl + nextUrl),
+                        userProvision.getLoginUrl(frontendUrl + nextUrl),
+                        userProvision.getLoginUrl(frontendUrl + nextUrl)
                 );
             }
         } else {

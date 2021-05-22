@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import teammates.common.util.Config;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.Const.TaskQueue;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.TaskWrapper;
-import teammates.logic.core.TaskQueuesLogic;
+import teammates.logic.core.GoogleCloudTasksService;
+import teammates.logic.core.LocalTaskQueueService;
+import teammates.logic.core.TaskQueueService;
 import teammates.ui.request.FeedbackSessionRemindRequest;
 import teammates.ui.request.SendEmailRequest;
 
@@ -20,39 +23,28 @@ public class TaskQueuer {
 
     private static final Logger log = Logger.getLogger();
 
+    private final TaskQueueService service;
+
+    public TaskQueuer() {
+        if (Config.isDevServer()) {
+            service = new LocalTaskQueueService();
+        } else {
+            service = new GoogleCloudTasksService();
+        }
+    }
+
     // The following methods are facades to the actual logic for adding tasks to the queue.
     // Using this method, the actual logic can still be black-boxed
     // while at the same time allowing this API to be mocked during test.
 
     protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
-        TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
-        new TaskQueuesLogic().addTask(task);
+        addDeferredTask(queueName, workerUrl, paramMap, requestBody, 0);
     }
 
     protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
                                    long countdownTime) {
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
-        new TaskQueuesLogic().addDeferredTask(task, countdownTime);
-    }
-
-    /**
-     * Gets the tasks added to the queue.
-     * This method is used only for testing, where it is overridden.
-     *
-     * @throws UnsupportedOperationException if used in production, where it is not meant to be
-     */
-    public List<TaskWrapper> getTasksAdded() {
-        throw new UnsupportedOperationException("Method is used only for testing");
-    }
-
-    /**
-     * Gets the number of tasks added for each queue name.
-     * This method is used only for testing, where it is overridden.
-     *
-     * @throws UnsupportedOperationException if used in production, where it is not meant to be
-     */
-    public Map<String, Integer> getNumberOfTasksAdded() {
-        throw new UnsupportedOperationException("Method is used only for testing");
+        service.addDeferredTask(task, countdownTime);
     }
 
     // The following methods are the actual API methods to be used by the client classes

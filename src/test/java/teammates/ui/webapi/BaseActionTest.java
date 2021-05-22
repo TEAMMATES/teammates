@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.io.IOException;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,7 +32,13 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.test.BaseComponentTestCase;
+import teammates.test.FileHelper;
+import teammates.test.MockEmailSender;
+import teammates.test.MockFileStorage;
+import teammates.test.MockLogsProcessor;
 import teammates.test.MockPart;
+import teammates.test.MockTaskQueuer;
+import teammates.test.MockUserProvision;
 import teammates.ui.request.BasicRequest;
 
 /**
@@ -47,6 +54,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     protected DataBundle typicalBundle = getTypicalDataBundle();
+    protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
+    protected MockEmailSender mockEmailSender = new MockEmailSender();
+    protected MockFileStorage mockFileStorage = new MockFileStorage();
+    protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
+    protected MockUserProvision mockUserProvision = new MockUserProvision();
 
     protected abstract String getActionUri();
 
@@ -62,15 +74,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Gets an action with request body.
      */
-    protected T getAction(Object requestBody, String... params) {
-        return getAction(JsonUtils.toJson(requestBody), params);
-    }
-
-    /**
-     * Gets an action with request body.
-     */
-    protected T getAction(String body, String... params) {
-        return getAction(body, null, null, params);
+    protected T getAction(BasicRequest requestBody, String... params) {
+        return getAction(JsonUtils.toCompactJson(requestBody), null, null, params);
     }
 
     /**
@@ -78,7 +83,10 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies, params);
+        mockTaskQueuer.clearTasks();
+        mockEmailSender.clearEmails();
+        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies,
+                mockTaskQueuer, mockEmailSender, mockFileStorage, mockLogsProcessor, mockUserProvision, params);
     }
 
     /**
@@ -129,7 +137,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Logs in the user to the GAE simulation environment as an admin.
      */
     protected void loginAsAdmin() {
-        UserInfo user = gaeSimulation.loginAsAdmin("admin.user");
+        UserInfo user = mockUserProvision.loginAsAdmin("admin.user");
         assertTrue(user.isAdmin);
     }
 
@@ -138,7 +146,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertFalse(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -149,7 +157,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertFalse(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -160,7 +168,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertTrue(user.isStudent);
         assertFalse(user.isInstructor);
         assertFalse(user.isAdmin);
@@ -171,10 +179,17 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * (without admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
-        UserInfo user = gaeSimulation.loginUser(userId);
+        UserInfo user = mockUserProvision.loginUser(userId);
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
+    }
+
+    /**
+     * Logs the current user out of the GAE simulation environment.
+     */
+    protected void logoutUser() {
+        mockUserProvision.logoutUser();
     }
 
     protected void grantInstructorWithSectionPrivilege(
@@ -250,7 +265,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("Non-logged-in users can access");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCanAccess(params);
 
     }
@@ -259,7 +274,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("Non-logged-in users cannot access");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCannotAccess(params);
 
     }
@@ -462,12 +477,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected void verifyCanAccess(String... params) {
         Action c = getAction(params);
-        c.checkAccessControl();
-    }
-
-    protected void verifyCanAccess(BasicRequest request, String... params) {
-        Action c = getAction(request, params);
-        c.checkAccessControl();
+        try {
+            c.checkAccessControl();
+        } catch (UnauthorizedAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -475,11 +489,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
-    }
-
-    protected void verifyCannotAccess(BasicRequest request, String... params) {
-        Action c = getAction(request, params);
         assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
@@ -496,7 +505,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * accessible to the logged in user masquerading as another user with {@code userId}.
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(addUserIdToParams(userId, params)));
+        assertThrows(UnauthorizedAccessException.class,
+                () -> getAction(addUserIdToParams(userId, params)).checkAccessControl());
     }
 
     // The next few methods are for parsing results
@@ -530,30 +540,45 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertThrows(InvalidHttpParameterException.class, c::execute);
     }
 
-    protected void verifyNoTasksAdded(Action action) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
+    protected void verifyNoTasksAdded() {
+        Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(0, tasksAdded.keySet().size());
     }
 
-    protected void verifySpecifiedTasksAdded(Action action, String taskName, int taskCount) {
-        Map<String, Integer> tasksAdded = action.getTaskQueuer().getNumberOfTasksAdded();
+    protected void verifySpecifiedTasksAdded(String taskName, int taskCount) {
+        Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
-    protected void verifyNoEmailsSent(Action action) {
-        assertTrue(getEmailsSent(action).isEmpty());
+    protected void verifyNoEmailsSent() {
+        assertTrue(getEmailsSent().isEmpty());
     }
 
-    protected List<EmailWrapper> getEmailsSent(Action action) {
-        return action.getEmailSender().getEmailsSent();
+    protected List<EmailWrapper> getEmailsSent() {
+        return mockEmailSender.getEmailsSent();
     }
 
-    protected void verifyNumberOfEmailsSent(Action action, int emailCount) {
-        assertEquals(emailCount, action.getEmailSender().getEmailsSent().size());
+    protected void verifyNumberOfEmailsSent(int emailCount) {
+        assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
     protected void verifyEntityNotFound(String... params) {
         Action c = getAction(params);
         assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
+
+    protected void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
+        byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
+        String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
+        mockFileStorage.create(targetFileName, bytes, contentType);
+    }
+
+    protected void deleteFile(String fileName) {
+        mockFileStorage.delete(fileName);
+    }
+
+    protected boolean doesFileExist(String fileName) {
+        return mockFileStorage.doesFileExist(fileName);
+    }
+
 }

@@ -16,6 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -33,7 +34,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
@@ -80,7 +81,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             gateKeeper.verifyOwnership(frc, instructorAsFeedbackParticipant.getEmail());
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             if (instructor != null && frc.getCommentGiver().equals(instructor.getEmail())) { // giver, allowed by default
                 return;

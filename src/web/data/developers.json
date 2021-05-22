@@ -64,6 +64,11 @@
     },
     {
       "multiple": true,
+      "name": "Adithya Narayan",
+      "username": "AdithyaNarayan"
+    },
+    {
+      "multiple": true,
       "name": "Aditya Hegde",
       "username": "adityavhegde"
     },
@@ -134,6 +139,10 @@
     {
       "name": "Alexandr Kolymago",
       "username": "justtimki"
+    },
+    {
+      "name": "Alice",
+      "username": "Alicewillbe"
     },
     {
       "multiple": true,
@@ -374,6 +383,11 @@
       "name": "Chong Kok Wei"
     },
     {
+      "multiple": true,
+      "name": "Christian Ellwood",
+      "username": "Jellwood"
+    },
+    {
       "name": "Christopher Kang",
       "username": "brandedcow"
     },
@@ -416,10 +430,15 @@
       "username": "desponda"
     },
     {
+      "name": "Daniel McBane",
+      "username": "DanielMcBane"
+    },
+    {
       "name": "Dante Radovani",
       "username": "dRadest"
     },
     {
+      "multiple": true,
       "name": "Dao Ngoc Hieu",
       "username": "daongochieu2810"
     },
@@ -928,6 +947,11 @@
     {
       "name": "Lim Jia Yee",
       "username": "jia1"
+    },
+    {
+      "multiple": true,
+      "name": "Lim Zi Wei",
+      "username": "halfwhole"
     },
     {
       "name": "Liu Jia Hao",
@@ -1454,6 +1478,11 @@
       "username": "shivakrishna9"
     },
     {
+      "multiple": true,
+      "name": "Shivam Deotarse",
+      "username": "srdeotarse"
+    },
+    {
       "name": "Shivang Tripathi",
       "username": "shivangg"
     },
@@ -1589,6 +1618,10 @@
       "username": "SvetaNesterenko"
     },
     {
+      "name": "Syasya Azman",
+      "username": "Syasyazman"
+    },
+    {
       "name": "Tainan Valentim",
       "username": "tainansv"
     },
@@ -1649,6 +1682,11 @@
     {
       "name": "Tatiana Pascal",
       "username": "josephinex"
+    },
+    {
+      "multiple": true,
+      "name": "Teik Jun",
+      "username": "teikjun"
     },
     {
       "name": "Telvin Zhong",
@@ -1759,6 +1797,11 @@
       "name": "Wu Lifu"
     },
     {
+      "multiple": true,
+      "name": "Wu Qirui",
+      "username": "hhdqirui"
+    },
+    {
       "name": "Wu Xiao Xiao",
       "username": "a0129998"
     },
@@ -1855,6 +1898,19 @@
     {
       "name": "Zhu Yilun",
       "username": "yilun-zhu"
+    },
+    {
+      "name": "sofefr",
+      "username": "sofefr"
+    },
+    {
+      "multiple": true,
+      "name": "stapletonce",
+      "username": "stapletonce"
+    },
+    {
+      "name": "tlhuynh",
+      "username": "tlhuynh"
     }
   ],
   "committers": [

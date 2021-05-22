@@ -12,11 +12,13 @@ import { FeedbackResponseCommentService } from '../../../services/feedback-respo
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
   FeedbackParticipantType,
@@ -123,6 +125,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private authService: AuthService,
               private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
+              private logService: LogService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -214,7 +217,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Loads the name of the person invovled in the submission.
+   * Loads the name of the person involved in the submission.
    */
   loadPersonName(): void {
     switch (this.intent) {
@@ -226,6 +229,18 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         ).subscribe((student: Student) => {
           this.personName = student.name;
           this.personEmail = student.email;
+
+          this.logService.createFeedbackSessionLog({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            studentEmail: this.personEmail,
+            logType: LogType.FEEDBACK_SESSION_ACCESS,
+          }).subscribe(() => {
+
+          }, () => {
+            this.statusMessageService.showWarningToast('Failed to log feedback session access');
+          });
+
         });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
@@ -538,6 +553,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     const answers: Record<string, FeedbackResponse[]> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
+
+    this.logService.createFeedbackSessionLog({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+      studentEmail: this.personEmail,
+      logType: LogType.FEEDBACK_SESSION_SUBMISSION,
+    }).subscribe(() => {
+
+    }, () => {
+      this.statusMessageService.showWarningToast('Failed to log feedback session submission');
+    });
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;

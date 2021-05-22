@@ -84,6 +84,8 @@ export class TableComparatorService {
       case SortBy.RANK_RECIPIENTS_SELF_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
       case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
+      case SortBy.RANK_RECIPIENTS_TEAM_RANK:
+      case SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF:
       case SortBy.RANK_OPTIONS_OPTION:
       case SortBy.MCQ_CHOICE:
       case SortBy.MCQ_TEAM:
@@ -111,6 +113,8 @@ export class TableComparatorService {
       case SortBy.GIVER_NAME:
       case SortBy.RECIPIENT_TEAM:
       case SortBy.RECIPIENT_NAME:
+      case SortBy.LOG_TYPE:
+      case SortBy.LOG_DATE:
         return this.compareLexicographically(strA, strB, order);
       case SortBy.CONSTSUM_OPTIONS_POINTS:
       case SortBy.CONSTSUM_RECIPIENTS_POINTS:

@@ -246,15 +246,26 @@ export class QuestionEditFormComponent implements OnInit {
     if (allowedRecipientTypes.indexOf(recipientType) === -1) {
       newRecipientType = allowedRecipientTypes[0];
     }
-    this.triggerModelChangeBatch({
-      giverType,
-      recipientType: newRecipientType,
-      commonVisibilitySettingName: 'Please select a visibility option',
-      isUsingOtherVisibilitySetting: false,
-      showResponsesTo: [],
-      showGiverNameTo: [],
-      showRecipientNameTo: [],
-    });
+    if (this.model.giverType === giverType && this.model.recipientType === newRecipientType) {
+      // do not reset the visibility settings if reverting feedback path to preset template provided
+      if (this.model.isUsingOtherFeedbackPath) {
+        // remove the custom feedback if selecting a common feedback path
+        this.triggerModelChangeBatch({
+          isUsingOtherFeedbackPath: false,
+        });
+      }
+    } else {
+      this.triggerModelChangeBatch({
+        giverType,
+        recipientType: newRecipientType,
+        commonVisibilitySettingName: 'Please select a visibility option',
+        isUsingOtherFeedbackPath: false,
+        isUsingOtherVisibilitySetting: false,
+        showResponsesTo: [],
+        showGiverNameTo: [],
+        showRecipientNameTo: [],
+      });
+    }
   }
 
   /**
