@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -314,14 +313,14 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             super(new UpdateOptions());
             thisBuilder = this;
 
-            Assumption.assertNotNull(courseId);
-            Assumption.assertNotNull(email);
+            assert courseId != null;
+            assert email != null;
 
             instructorAttributes = new InstructorAttributes(courseId, email);
         }
 
         public Builder withGoogleId(String googleId) {
-            Assumption.assertNotNull(googleId);
+            assert googleId != null;
             instructorAttributes.googleId = googleId;
 
             return this;
@@ -348,8 +347,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithEmail(String courseId, String email) {
             super();
-            Assumption.assertNotNull(courseId);
-            Assumption.assertNotNull(email);
+            assert courseId != null;
+            assert email != null;
 
             this.courseId = courseId;
             this.email = email;
@@ -409,8 +408,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
         private UpdateOptionsWithGoogleId(String courseId, String googleId) {
             super();
-            Assumption.assertNotNull(courseId);
-            Assumption.assertNotNull(googleId);
+            assert courseId != null;
+            assert googleId != null;
 
             this.courseId = courseId;
             this.googleId = googleId;
@@ -447,7 +446,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             }
 
             public Builder withEmail(String email) {
-                Assumption.assertNotNull(email);
+                assert email != null;
 
                 updateOptionsWithGoogleId.emailOption = UpdateOption.of(email);
                 return this;
@@ -501,28 +500,28 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withRole(String role) {
-            Assumption.assertNotNull(role);
+            assert role != null;
 
             updateOptions.roleOption = UpdateOption.of(role);
             return thisBuilder;
         }
 
         public B withDisplayedName(String displayedName) {
-            Assumption.assertNotNull(displayedName);
+            assert displayedName != null;
 
             updateOptions.displayedNameOption = UpdateOption.of(displayedName);
             return thisBuilder;
         }
 
         public B withPrivileges(InstructorPrivileges instructorPrivileges) {
-            Assumption.assertNotNull(instructorPrivileges);
+            assert instructorPrivileges != null;
 
             updateOptions.instructorPrivilegesOption = UpdateOption.of(instructorPrivileges);
             return thisBuilder;

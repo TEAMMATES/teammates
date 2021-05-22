@@ -262,19 +262,6 @@ public class ArchitectureTest {
     }
 
     @Test
-    public void testArchitecture_common_assumptionClassCanOnlyBeAccessedByProductionCode() {
-        noClasses().that().resideInAPackage(includeSubpackages(TEST_DRIVER_PACKAGE))
-                .and().resideInAPackage(includeSubpackages(E2E_PACKAGE))
-                .and().resideInAPackage(includeSubpackages(CLIENT_PACKAGE))
-                .should().accessClassesThat().haveSimpleName("Assumption")
-                .check(ALL_CLASSES);
-
-        noClasses().that().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
-                .should().accessClassesThat().haveSimpleName("Assumption")
-                .check(ALL_CLASSES);
-    }
-
-    @Test
     public void testArchitecture_testClasses_testCasesShouldBeIndependent() {
         noClasses().that().haveSimpleNameEndingWith(TEST_FILE_SUFFIX)
                 .should().accessClassesThat(new DescribedPredicate<JavaClass>("") {

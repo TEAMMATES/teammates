@@ -32,7 +32,7 @@ class AdminExceptionTestAction extends Action {
     JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
-            throw new AssertionError("AssertionError testing");
+            assert false : "AssertionError testing";
         }
         if (error.equals(NullPointerException.class.getSimpleName())) {
             throw new NullPointerException("NullPointerException testing");

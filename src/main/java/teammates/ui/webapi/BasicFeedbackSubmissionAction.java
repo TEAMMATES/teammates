@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 
@@ -176,7 +175,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
                 StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
                 return student == null ? Const.DEFAULT_SECTION : student.section;
             default:
-                Assumption.fail("Invalid giver type " + giverType + " for recipient type " + recipientType);
+                assert false : "Invalid giver type " + giverType + " for recipient type " + recipientType;
                 return null;
             }
         case INSTRUCTORS:
@@ -191,7 +190,7 @@ abstract class BasicFeedbackSubmissionAction extends Action {
             StudentAttributes student = logic.getStudentForEmail(courseId, recipientIdentifier);
             return student == null ? Const.DEFAULT_SECTION : student.section;
         default:
-            Assumption.fail("Unknown recipient type " + recipientType);
+            assert false : "Unknown recipient type " + recipientType;
             return null;
         }
     }

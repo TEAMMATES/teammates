@@ -258,6 +258,7 @@ task copyDistToExplodedWar {
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     main = "teammates.main.Application"
+    jvmArgs "-ea"
     dependsOn explodeWar, copyDistToExplodedWar
 }
 
@@ -495,7 +496,7 @@ task componentTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {
