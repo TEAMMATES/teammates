@@ -31,6 +31,11 @@ export class RichTextEditorComponent implements OnInit {
 
   render: boolean = false;
 
+  defaultToolbar: string = 'styleselect | forecolor backcolor '
+      + '| bold italic underline strikethrough subscript superscript '
+      + '| alignleft aligncenter alignright alignjustify '
+      + '| bullist numlist | link image charmap emoticons';
+
   constructor() { }
 
   ngOnInit(): void {
@@ -59,10 +64,7 @@ export class RichTextEditorComponent implements OnInit {
       menubar: false,
       autoresize_bottom_margin: 50,
 
-      toolbar1: 'styleselect | forecolor backcolor '
-          + '| bold italic underline strikethrough subscript superscript '
-          + '| alignleft aligncenter alignright alignjustify '
-          + '| bullist numlist | link image charmap emoticons',
+      toolbar1: this.defaultToolbar,
     };
   }
 
