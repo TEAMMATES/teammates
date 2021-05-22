@@ -5,7 +5,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.util.Assumption;
 
 /**
  * The API output format of {@link teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes}.
@@ -56,7 +55,7 @@ public class FeedbackResponseCommentData extends ApiOutput {
             case RECEIVER_TEAM_MEMBERS:
                 return CommentVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                Assumption.fail("Unknown feedbackParticipantType" + feedbackParticipantType);
+                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
                 break;
             }
             return null;

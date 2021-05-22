@@ -4,6 +4,7 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,6 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
@@ -59,7 +59,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
     private A createEntity(A entityToAdd, boolean shouldCheckExistence)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(entityToAdd);
+        assert entityToAdd != null;
 
         entityToAdd.sanitizeForSaving();
 
@@ -97,7 +97,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
         try {
             return createEntity(entityToAdd, false);
         } catch (EntityAlreadyExistsException e) {
-            Assumption.fail("Unreachable branch");
+            assert false : "Unreachable branch";
             return null;
         }
     }
@@ -111,7 +111,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * @throws InvalidParametersException if any of entity to add is not valid
      */
     public List<A> putEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
-        Assumption.assertNotNull(entitiesToAdd);
+        assert entitiesToAdd != null;
 
         List<E> entities = new ArrayList<>();
 
@@ -145,7 +145,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Saves an entity.
      */
     void saveEntity(E entityToSave) {
-        Assumption.assertNotNull(entityToSave);
+        assert entityToSave != null;
 
         log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
 
@@ -166,11 +166,19 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     /**
      * Deletes entity by key.
      */
-    void deleteEntity(Key<?>... keys) {
-        Assumption.assertNotNull((Object) keys);
-        Assumption.assertNotNull((Object[]) keys);
+    void deleteEntity(Key<E> key) {
+        assert key != null;
+        deleteEntity(Collections.singletonList(key));
+    }
 
-        for (Key<?> key : keys) {
+    /**
+     * Deletes entities by keys.
+     */
+    void deleteEntity(List<Key<E>> keys) {
+        assert keys != null;
+        assert !keys.contains(null);
+
+        for (Key<E> key : keys) {
             log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
                     key.getKind(), key.getRaw().getId(), key.getName()));
         }
