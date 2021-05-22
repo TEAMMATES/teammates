@@ -804,7 +804,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getStartDate() {
-        return startDateBox.getAttribute("value");
+        return startDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getStartTime() {
@@ -812,7 +812,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getEndDate() {
-        return endDateBox.getAttribute("value");
+        return endDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getEndTime() {
@@ -820,7 +820,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getSessionVisibilityDate() {
-        return sessionVisibilityDateBox.getAttribute("value");
+        return sessionVisibilityDateBox.findElement(By.tagName("input")).getAttribute("value");
     }
 
     private String getSessionVisibilityTime() {
@@ -828,7 +828,8 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getResponseVisibilityDate() {
-        return responseVisibilityDateBox.getAttribute("value");
+        return responseVisibilityDateBox.findElement(By.tagName("input"))
+                .getAttribute("value");
     }
 
     private String getResponseVisibilityTime() {
@@ -868,19 +869,21 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void setSessionStartDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(startDateBox, startTimeDropdown, startInstant, timeZone);
+        setDateTime(startDateBox.findElement(By.tagName("input")), startTimeDropdown, startInstant, timeZone);
     }
 
     private void setSessionEndDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(endDateBox, endTimeDropdown, endInstant, timeZone);
+        setDateTime(endDateBox.findElement(By.tagName("input")), endTimeDropdown, endInstant, timeZone);
     }
 
     private void setVisibilityDateTime(Instant startInstant, ZoneId timeZone) {
-        setDateTime(sessionVisibilityDateBox, sessionVisibilityTimeDropdown, startInstant, timeZone);
+        setDateTime(sessionVisibilityDateBox.findElement(By.tagName("input")),
+                sessionVisibilityTimeDropdown, startInstant, timeZone);
     }
 
     private void setResponseDateTime(Instant endInstant, ZoneId timeZone) {
-        setDateTime(responseVisibilityDateBox, responseVisibilityTimeDropdown, endInstant, timeZone);
+        setDateTime(responseVisibilityDateBox.findElement(By.tagName("input")),
+                responseVisibilityTimeDropdown, endInstant, timeZone);
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {

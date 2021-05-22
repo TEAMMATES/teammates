@@ -1,12 +1,14 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { from, Observable, of } from 'rxjs';
-import { catchError, concatMap, finalize, last, switchMap } from 'rxjs/operators';
+import { concat, from, Observable, of } from 'rxjs';
+import { catchError, concatMap, finalize, last, switchMap, takeWhile } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
+import { ProgressBarService } from '../../services/progress-bar.service';
+import { SimpleModalService } from '../../services/simple-modal.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
 import {
@@ -21,6 +23,7 @@ import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -41,7 +44,9 @@ export abstract class InstructorSessionBasePageComponent {
                         protected feedbackSessionsService: FeedbackSessionsService,
                         protected feedbackQuestionsService: FeedbackQuestionsService,
                         protected tableComparatorService: TableComparatorService,
-                        protected ngbModal: NgbModal) { }
+                        protected ngbModal: NgbModal,
+                        protected simpleModalService: SimpleModalService,
+                        protected progressBarService: ProgressBarService) { }
 
   /**
    * Copies a feedback session.
@@ -278,23 +283,68 @@ export abstract class InstructorSessionBasePageComponent {
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
+    this.feedbackQuestionsService.getFeedbackQuestions({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      intent: Intent.INSTRUCTOR_RESULT,
+    }).subscribe((feedbackQuestions: FeedbackQuestions) => {
+      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
+      this.downloadSessionResultHelper(questions, model);
+    });
+  }
+
+  downloadSessionResultHelper(questions: FeedbackQuestion[], model: SessionsTableRowModel): void {
     this.isResultActionLoading = true;
     const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
+    let downloadAborted: boolean = false;
+    const outputData: string[] = [];
 
-    this.feedbackSessionsService.downloadSessionResults(
-      model.feedbackSession.courseId,
-      model.feedbackSession.feedbackSessionName,
-      Intent.INSTRUCTOR_RESULT,
-      true,
-      true,
-    ) .pipe(finalize(() => this.isResultActionLoading = false))
-      .subscribe((resp: string) => {
-        blob = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+    const modalContent: string = 'Downloading the results of your feedback session...';
+    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
+        'Download Progress', SimpleModalType.LOAD, modalContent);
+    loadingModal.result.then(() => {
+      this.isResultActionLoading = false;
+      downloadAborted = true;
+    });
+
+    outputData.push(`Course,${model.feedbackSession.courseId}\n`);
+    outputData.push(`Session Name,${model.feedbackSession.feedbackSessionName}\n`);
+
+    concat(
+      ...questions.map((question: FeedbackQuestion) =>
+        this.feedbackSessionsService.downloadSessionResults(
+            model.feedbackSession.courseId,
+            model.feedbackSession.feedbackSessionName,
+            Intent.INSTRUCTOR_RESULT,
+            true,
+            true,
+            question.feedbackQuestionId,
+        ),
+      ),
+    ).pipe(finalize(() => this.isResultActionLoading = false))
+      .pipe(takeWhile(() => this.isResultActionLoading && !downloadAborted))
+      .subscribe({
+        next: (resp: string) => {
+          outputData.push(resp);
+          const numberOfQuestionsDownloaded: number = outputData.length;
+          const totalNumberOfQuestions: number = questions.length;
+          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
+          this.progressBarService.updateProgress(progressPercentage);
+        },
+        complete: () => {
+          if (downloadAborted) {
+            return;
+          }
+          loadingModal.close();
+          blob = new Blob(outputData, { type: 'text/csv' });
+          saveAs(blob, filename);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          loadingModal.close();
+        },
       });
   }
 

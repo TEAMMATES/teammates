@@ -27,9 +27,6 @@ import {
 import {
   RecycleBinFeedbackSessionRowModel,
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
-import {
-  SearchCommentsTable,
-} from '../../../pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
 import { SectionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 
@@ -411,12 +408,4 @@ export const EXAMPLE_QUESTIONS_WITH_RESPONSES: QuestionOutput[] = [{
     },
   ],
   otherResponses: [],
-}];
-
-/**
- * Structure of example comment search result
- */
-export const EXAMPLE_COMMENT_SEARCH_RESULT: SearchCommentsTable[] = [{
-  feedbackSession: EXAMPLE_FEEDBACK_SESSION,
-  questions: EXAMPLE_QUESTIONS_WITH_RESPONSES,
 }];

@@ -17,9 +17,6 @@ public final class TestProperties {
     /** The directory where JSON files used to create data bundles are stored. */
     public static final String TEST_DATA_FOLDER = "src/test/resources/data";
 
-    /** The value of "test.persistence.timeout" in test.properties file. */
-    public static final int PERSISTENCE_RETRY_PERIOD_IN_S;
-
     /** Indicates whether auto-update snapshot mode is activated. */
     public static final boolean IS_SNAPSHOT_UPDATE;
 
@@ -35,8 +32,6 @@ public final class TestProperties {
             }
 
             IS_SNAPSHOT_UPDATE = Boolean.parseBoolean(prop.getProperty("test.snapshot.update", "false"));
-
-            PERSISTENCE_RETRY_PERIOD_IN_S = Integer.parseInt(prop.getProperty("test.persistence.timeout"));
 
         } catch (IOException | NumberFormatException e) {
             throw new RuntimeException(e);
