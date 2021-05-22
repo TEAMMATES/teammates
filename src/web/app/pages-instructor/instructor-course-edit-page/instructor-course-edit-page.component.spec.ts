@@ -34,14 +34,14 @@ const testCourse: Course = {
 const testInstructor1: Instructor = {
   courseId: 'exampleId',
   email: 'instructor1@gmail.com',
-  joinState: JoinState.NOT_JOINED,
+  joinState: JoinState.JOINED,
   name: 'Instructor 1',
 };
 
 const testInstructor2: Instructor = {
   courseId: 'exampleId',
   email: 'instructor2@gmail.com',
-  joinState: JoinState.JOINED,
+  joinState: JoinState.NOT_JOINED,
   name: 'Instructor 2',
 };
 
@@ -284,6 +284,39 @@ describe('InstructorCourseEditPageComponent', () => {
 
     expect(component.instructorDetailPanels.length).toBe(1);
     expect(component.instructorDetailPanels[0].originalInstructor).toEqual(testInstructor2);
+  });
+
+  it('should re-send reminder email for new instructors', () => {
+    const mockReminderFunction: jest.MockedFunction<any> = jest.fn((_: string, email: string) => of({
+      message: `An email has been sent to ${email}`,
+    }));
+    spyOn(courseService, 'remindInstructorForJoin').and.callFake(mockReminderFunction);
+
+    component.course = testCourse;
+    component.isCourseLoading = false;
+    component.instructorDetailPanels = [
+      {
+        originalInstructor: Object.assign({}, testInstructor1),
+        originalPanel: component.getInstructorEditPanelModel(testInstructor1),
+        editPanel: component.getInstructorEditPanelModel(testInstructor1),
+      },
+      {
+        originalInstructor: Object.assign({}, testInstructor2),
+        originalPanel: component.getInstructorEditPanelModel(testInstructor2),
+        editPanel: component.getInstructorEditPanelModel(testInstructor2),
+      },
+    ];
+    fixture.detectChanges();
+
+    let button: any = fixture.debugElement.nativeElement
+        .querySelector(`#btn-resend-invite-${ component.instructorDetailPanels.length }`);
+    button.click();
+
+    // using document instead of fixture as modal gets added into the dom outside the viewRef
+    button = document.getElementsByClassName('modal-btn-ok').item(0);
+    button.click();
+
+    expect(mockReminderFunction).toBeCalledWith(testCourse.courseId, testInstructor2.email);
   });
 
   it('should snap with default fields', () => {
