@@ -35,9 +35,6 @@ export class SessionResultCsvService {
       sectionName?: string, sectionDetail?: InstructorSessionResultSectionType): string {
     const csvRows: string[][] = [];
 
-    csvRows.push(['Course', result.feedbackSession.courseId]);
-    csvRows.push(['Session Name', result.feedbackSession.feedbackSessionName]);
-
     if (sectionName) {
       csvRows.push(['Section Name', sectionName]);
     }

@@ -471,6 +471,9 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       downloadAborted = true;
     });
 
+    out.push(`Course,${this.session.courseId}\n`);
+    out.push(`Session Name,${this.session.feedbackSessionName}\n`);
+
     concat(
         ...Object.keys(this.questionsModel).map((k: string) =>
           this.feedbackSessionsService.downloadSessionResults(
