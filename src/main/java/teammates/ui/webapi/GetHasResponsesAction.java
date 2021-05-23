@@ -25,7 +25,7 @@ class GetHasResponsesAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
 
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 

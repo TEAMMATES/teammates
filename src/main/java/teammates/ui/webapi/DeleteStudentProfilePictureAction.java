@@ -16,7 +16,7 @@ class DeleteStudentProfilePictureAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isStudent) {
             throw new UnauthorizedAccessException("Student privilege is required to update this resource.");
         }

@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`SessionResultCsvService should display student last name displayed properly for feedbackSessionResultsC1S1NewLastName 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -39,9 +37,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should generate results for CONSTSUM question (restricted responses) 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,CONSTSUM Session
-
+"
 
 Question 1,How important are the following factors to you? Give points accordingly.
 
@@ -61,9 +57,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should generate results for CONSTSUM question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,CONSTSUM Session
-
+"
 
 Question 1,How important are the following factors to you? Give points accordingly.
 
@@ -126,9 +120,7 @@ Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Team 1.2,student
 `;
 
 exports[`SessionResultCsvService should generate results for CONTRIB question (restricted section) 1`] = `
-"Course,FSQTT.idOfCourseWithSections
-Session Name,CONTRIB Session Section Restricted
-
+"
 
 Question 1,\\"How much has each team member including yourself, contributed to the project?\\"
 
@@ -148,9 +140,7 @@ Team 3,student4 In Course With Sections,Sections,student4InCourseWithSections@gm
 `;
 
 exports[`SessionResultCsvService should generate results for CONTRIB question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,CONTRIB Session
-
+"
 
 Question 1,\\"How much has each team member including yourself, contributed to the project?\\"
 
@@ -188,9 +178,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,studen
 `;
 
 exports[`SessionResultCsvService should generate results for MCQ question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,MCQ Session
-
+"
 
 Question 1,What do you like best about our product?
 
@@ -263,9 +251,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,studen
 `;
 
 exports[`SessionResultCsvService should generate results for MSQ question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,MSQ Session
-
+"
 
 Question 1,What do you like best about our product?
 
@@ -324,9 +310,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,studen
 `;
 
 exports[`SessionResultCsvService should generate results for NUMSCALE question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,NUMSCALE Session
-
+"
 
 Question 1,Rate our product.
 
@@ -361,9 +345,7 @@ Instructors,Instructor3 Course1,Course1,instructor3@course1.tmt,Instructors,Inst
 `;
 
 exports[`SessionResultCsvService should generate results for RANK question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,RANK Session
-
+"
 
 Question 1,Rank the other students.
 
@@ -424,9 +406,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,Team 1
 `;
 
 exports[`SessionResultCsvService should generate results for RUBRIC question 1`] = `
-"Course,FSQTT.idOfTypicalCourse1
-Session Name,RUBRIC Session
-
+"
 
 Question 1,Please choose the best choice for the following sub-questions.
 
@@ -514,9 +494,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,Team 1.2,studen
 `;
 
 exports[`SessionResultCsvService should generate results for a specific question (question 1) 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -528,9 +506,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should generate results for a specific question (question 2) 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 2,Rate 1 other student's product
 
@@ -560,9 +536,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td
 `;
 
 exports[`SessionResultCsvService should generate results for a specific question from/to section 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response if either the giver or evaluee is in the selected section
 
 
@@ -577,9 +551,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td
 `;
 
 exports[`SessionResultCsvService should generate results for a specific question with responses from and to section 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response only if both are in the selected section
 
 
@@ -592,9 +564,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should generate results for a specific question with responses from section 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response if the giver is in the selected section
 
 
@@ -608,9 +578,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should generate results for a specific question with responses to section 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response if the evaluee is in the selected section
 
 
@@ -624,9 +592,7 @@ Team 1.2,student5 In Course1,Course1,student5InCourse1@gmail.tmt,\\"Team 1.1</td
 `;
 
 exports[`SessionResultCsvService should hide missing responses 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -662,9 +628,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should hide stats 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,Session with MCQ
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -675,9 +639,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should only show responses from and to section for feedbackSessionResultsC1S1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response only if both are in the selected section
 
 
@@ -712,9 +674,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should only show responses from section for feedbackSessionResultsC1S1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response if the giver is in the selected section
 
 
@@ -750,9 +710,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should only show responses to section for feedbackSessionResultsC1S1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response if the evaluee is in the selected section
 
 
@@ -788,9 +746,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should show missing responses 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -852,9 +808,7 @@ Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Respons
 `;
 
 exports[`SessionResultCsvService should show missing responses for feedbackSessionResultsC1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -916,9 +870,7 @@ Instructors,Instructor1 Course1,Course1,instructor1@course1.tmt,-,-,,,No Respons
 `;
 
 exports[`SessionResultCsvService should show responses along with stats for feedbackSessionResultsC1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -954,9 +906,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should show responses for feedbackSessionResultsC1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-
+"
 
 Question 1,What is the best selling point of your product?
 
@@ -992,9 +942,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should show responses from/to section for feedbackSessionResultsC1S1S1 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,First feedback session
-Section Name,Section 1
+"Section Name,Section 1
 Section View Detail,Show response if either the giver or evaluee is in the selected section
 
 
@@ -1031,9 +979,7 @@ Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipien
 `;
 
 exports[`SessionResultCsvService should show stats 1`] = `
-"Course,idOfTypicalCourse1
-Session Name,Session with MCQ
-
+"
 
 Question 1,What is the best selling point of your product?
 
