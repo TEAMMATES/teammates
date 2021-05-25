@@ -39,8 +39,7 @@
 
 <div *tmIsLoading="isSearching">
   <div *ngIf="hasResult">
-    <p>[{{formModel.courseId}}]: {{formModel.sessionName}}</p>
-    <p>Session published at: </p>
+    <p>[{{searchResult.courseId}}]: {{searchResult.feedbackSessionName}}</p>
     <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
   </div>
 </div>

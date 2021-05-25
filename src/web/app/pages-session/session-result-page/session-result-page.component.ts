@@ -125,6 +125,7 @@ export class SessionResultPageComponent implements OnInit {
           });
         } else if (this.loggedInUser) {
           // Load information based on logged in user
+          this.loadPersonName();
           this.loadFeedbackSession();
         } else {
           this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
@@ -138,10 +139,23 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadPersonName(): void {
-    this.studentService.getStudent(this.courseId, '', this.regKey).subscribe((student: Student) => {
-      this.personName = student.name;
-      this.personEmail = student.email;
-    });
+    this.studentService
+      .getStudent(this.courseId, '', this.regKey)
+      .subscribe((student: Student) => {
+        this.personName = student.name;
+        this.personEmail = student.email;
+
+        this.logService.createFeedbackSessionLog({
+          courseId: this.courseId,
+          feedbackSessionName: this.feedbackSessionName,
+          studentEmail: this.personEmail,
+          logType: LogType.FEEDBACK_SESSION_VIEW,
+        }).subscribe(() => {
+    
+        }, () => {
+          this.statusMessageService.showWarningToast('Failed to log feedback session view');
+        });
+      });
   }
 
   private loadFeedbackSession(): void {
@@ -175,17 +189,6 @@ export class SessionResultPageComponent implements OnInit {
     }, (resp: ErrorMessageOutput) => {
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);
-    });
-
-    this.logService.createFeedbackSessionLog({
-      courseId: this.courseId,
-      feedbackSessionName: this.feedbackSessionName,
-      studentEmail: this.personEmail,
-      logType: LogType.FEEDBACK_SESSION_VIEW,
-    }).subscribe(() => {
-
-    }, () => {
-      this.statusMessageService.showWarningToast('Failed to log feedback session view');
     });
   }
 

@@ -53,7 +53,7 @@ export class LogService {
     }
 
     if (queryParams.sessionName) {
-      paramMap.sessionName = queryParams.sessionName;
+      paramMap.fsname = queryParams.sessionName;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);

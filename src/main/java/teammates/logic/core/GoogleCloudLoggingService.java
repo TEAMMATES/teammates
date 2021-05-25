@@ -156,7 +156,8 @@ public class GoogleCloudLoggingService implements LogService {
                 continue;
             }
             if (!fslType.equals(Const.FeedbackSessionLogTypes.ACCESS)
-                    && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)) {
+                    && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)
+                    && !fslType.equals(Const.FeedbackSessionLogTypes.VIEW)) {
                 // If the feedback session log type retrieved from the logs is invalid, discard it
                 continue;
             }

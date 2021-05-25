@@ -14,7 +14,7 @@ import {
   Course,
   Courses,
   FeedbackSession,
-  FeedbackSessionLog, 
+  FeedbackSessionLog,
   FeedbackSessionLogEntry,
   FeedbackSessionLogs, 
   FeedbackSessions, 
@@ -45,7 +45,9 @@ import { ErrorMessageOutput } from '../../error-message-output';
  * Model for displaying of feedback session logs
  */
 interface FeedbackSessionLogModel {
+  courseId: string;
   feedbackSessionName: string;
+  publishedTime: string;
   logColumnsData: ColumnData[];
   logRowsData: SortableTableCellData[][];
 }
@@ -73,15 +75,16 @@ export class InstructorTrackViewPageComponent implements OnInit {
   courses: Course[] = [];
   courseToFeedbackSession: Record<string, FeedbackSession[]> = {};
   searchResult: FeedbackSessionLogModel = {
+    courseId: '',
     feedbackSessionName: '',
+    publishedTime: '',
     logColumnsData: [],
     logRowsData: [],
   };
   students: Student[] = [];
+  studentToLog: Record<string, FeedbackSessionLogEntry> = {};
   isLoading: boolean = true;
   isSearching: boolean = false;
-  isStudentsLoading: boolean = false;
-  hasLoadingStudentsFailed: boolean = false;
   hasResult: boolean = false;
 
   constructor(private courseService: CourseService,
@@ -129,6 +132,8 @@ export class InstructorTrackViewPageComponent implements OnInit {
    */
   search(): void {
     this.isSearching = true;
+    this.students = [];
+    this.studentToLog = {};
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
@@ -149,8 +154,16 @@ export class InstructorTrackViewPageComponent implements OnInit {
               this.hasResult = true; 
             }))
         .subscribe((logs: FeedbackSessionLogs) => {
-          logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-              this.searchResult = this.toFeedbackSessionLogModel(log));
+          this.studentService
+              .getStudentsFromCourse({ courseId: this.formModel.courseId })
+              .subscribe((students: Students) => {
+                students.students.map((student: Student) => this.students.push(student));
+
+                logs.feedbackSessionLogs[0].feedbackSessionLogEntries
+                  .filter(entry => LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType] === LogType.FEEDBACK_SESSION_VIEW)
+                  .map((entry: FeedbackSessionLogEntry) => this.studentToLog[entry.studentData.email] = entry);
+                this.searchResult = this.toFeedbackSessionLogModel(logs.feedbackSessionLogs[0]);
+              })
         }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
@@ -168,9 +181,10 @@ export class InstructorTrackViewPageComponent implements OnInit {
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
-    this.loadStudents(this.formModel.courseId);
     return {
-      feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
+      courseId: this.formModel.courseId,
+      feedbackSessionName: this.formModel.sessionName,
+      publishedTime: '',
       logColumnsData: [
         { header: 'Status', sortBy: SortBy.LOG_DATE },
         { header: 'Name', sortBy: SortBy.GIVER_NAME },
@@ -178,29 +192,23 @@ export class InstructorTrackViewPageComponent implements OnInit {
         { header: 'Section', sortBy: SortBy.SECTION_NAME },
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
-      logRowsData: log.feedbackSessionLogEntries
-        .filter(entry => LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType] === LogType.FEEDBACK_SESSION_VIEW)
-        .map((entry: FeedbackSessionLogEntry) => {
+      logRowsData: this.students
+        .map((student: Student) => {
+          let status: string;
+          if (student.email in this.studentToLog) {
+            const entry = this.studentToLog[student.email];
+            status = `Viewed last at ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A')}`;
+          } else {
+            status = 'Not viewed since ';
+          }
           return [
-            { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A') },
-            { value: entry.studentData.name },
-            { value: entry.studentData.email },
-            { value: entry.studentData.sectionName },
-            { value: entry.studentData.teamName },
+            { value: status },
+            { value: student.name },
+            { value: student.email },
+            { value: student.sectionName },
+            { value: student.teamName },
           ];
-        }),
+        })
     };
-  }
-
-  loadStudents(courseid: string): void {
-    this.hasLoadingStudentsFailed = false;
-    this.isStudentsLoading = true;
-    this.students = [];
-    this.studentService
-        .getStudentsFromCourse({ courseId: courseid })
-        .pipe(finalize(() => this.isLoading = false))
-        .subscribe(
-            (students: Students) => students.students.map((student: Student) => this.students.push(student)),
-            (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }
