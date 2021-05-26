@@ -170,7 +170,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes helper = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = instructor.getCourseId();
 
         ______TS("Only instructors of the same course can access");
@@ -179,16 +180,18 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 
-        ______TS("Only instructors with owner or manager privileges can access");
+        ______TS("Only instructors with modify student privilege can access");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
-        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
+
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(helper.googleId);
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
     }
 
 }
