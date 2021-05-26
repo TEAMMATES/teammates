@@ -140,7 +140,10 @@ export class InstructorAuditLogsPageComponent implements OnInit {
         .getAllCoursesAsInstructor('active')
         .pipe(
             concatMap((courses: Courses) => courses.courses
-                .filter((course: Course) => course.privileges?.canModifyStudent)
+                .filter((course: Course) =>
+                    course.privileges?.canModifyStudent
+                    && course.privileges?.canModifySession
+                    && course.privileges?.canModifySession)
                 .map((course: Course) => {
                   this.courses.push(course);
                   return this.studentService.getStudentsFromCourse({ courseId: course.courseId });

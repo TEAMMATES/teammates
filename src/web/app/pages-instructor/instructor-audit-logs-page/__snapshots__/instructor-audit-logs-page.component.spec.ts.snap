@@ -21,7 +21,11 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
   <h1>
     Student Activity Logs
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is 
+    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    <b>
+      owner or manager privileges
+    </b>
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -67,7 +71,11 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
   <h1>
     Student Activity Logs
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is 
+    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    <b>
+      owner or manager privileges
+    </b>
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -540,7 +548,11 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
   <h1>
     Student Activity Logs
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is 
+    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    <b>
+      owner or manager privileges
+    </b>
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>
@@ -586,7 +598,11 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
   <h1>
     Student Activity Logs
   </h1><p>
-    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is 
+    This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have 
+    <b>
+      owner or manager privileges
+    </b>
+     for the course. The earliest date you can search for is 
     <b>
       30 days
     </b>

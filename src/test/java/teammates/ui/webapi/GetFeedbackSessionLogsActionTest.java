@@ -179,12 +179,16 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 
-        ______TS("Only instructors with modify student privilege can access");
+        ______TS("Only instructors with owner or manager privileges can access");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
+        verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);
     }
 
 }
