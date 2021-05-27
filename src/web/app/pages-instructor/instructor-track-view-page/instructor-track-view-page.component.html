@@ -20,10 +20,10 @@
       </div>
       <div class="col-5">
         <div class="col-12">
-          <label for="session-dropdown" class="font-weight-bold">Session Name</label>
+          <label for="session-dropdown" class="font-weight-bold">Feedback Session Name</label>
         </div>
         <div class="col-12">
-          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.sessionName">
+          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
             <option *ngFor="let session of courseToFeedbackSession[formModel.courseId]" [value]="session.feedbackSessionName">
               {{session.feedbackSessionName}}
             </option>
@@ -31,7 +31,7 @@
         </div>
       </div>
       <div class="col-1 mt-4">
-        <button id="view-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || !formModel.sessionName || isSearching">View</button>
+        <button id="view-button" class="float-right btn btn-primary" (click)="getFeedbackSession()" [disabled]="!formModel.courseId || !formModel.feedbackSessionName || isSearching">View</button>
       </div>
     </div>
   </div>
@@ -40,6 +40,14 @@
 <div *tmIsLoading="isSearching">
   <div *ngIf="hasResult">
     <p>[{{searchResult.courseId}}]: {{searchResult.feedbackSessionName}}</p>
-    <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+    <div *ngIf="isPublished; else notPublishedTemplate">
+      <p>Feedback session published at: {{searchResult.publishedTime}}</p>
+      <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+    </div>
+    <ng-template #notPublishedTemplate>
+      <div class="not-published-body">
+        <p>This feedback session is not published</p>
+      </div>
+    </ng-template>
   </div>
 </div>
