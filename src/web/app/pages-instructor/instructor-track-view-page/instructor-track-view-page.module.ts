@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Routes } from '@angular/router';
-import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
+import { RouterModule, Routes } from '@angular/router';
 import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import { PanelChevronModule } from '../../components/panel-chevron/panel-chevron.module';
+import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import { SortableTableModule } from '../../components/sortable-table/sortable-table.module';
+import { InstructorTrackViewPageComponent } from './instructor-track-view-page.component';
 
 const routes: Routes = [
   {
@@ -19,7 +19,7 @@ const routes: Routes = [
 /**
  * Module for instructor audit logs page
  */
- @NgModule({
+@NgModule({
   declarations: [InstructorTrackViewPageComponent],
   exports: [InstructorTrackViewPageComponent],
   imports: [

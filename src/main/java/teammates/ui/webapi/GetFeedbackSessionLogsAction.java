@@ -86,7 +86,7 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         try {
             List<FeedbackSessionLogEntry> fsLogEntries =
-                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
             Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries =
                     groupFeedbackSessionLogEntries(courseId, fsLogEntries);
             FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries);

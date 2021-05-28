@@ -41,8 +41,8 @@
   <div *ngIf="hasResult">
     <p>[{{searchResult.courseId}}]: {{searchResult.feedbackSessionName}}</p>
     <div *ngIf="isPublished; else notPublishedTemplate">
-      <p>Feedback session published at: {{searchResult.publishedTime}}</p>
-      <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+      <p>Feedback session published at: {{searchResult.publishedDate}}</p>
+      <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.RESULT_VIEW_STATUS"></tm-sortable-table>
     </div>
     <ng-template #notPublishedTemplate>
       <div class="not-published-body">
