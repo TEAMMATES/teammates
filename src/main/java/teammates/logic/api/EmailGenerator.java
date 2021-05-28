@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -269,17 +268,19 @@ public class EmailGenerator {
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         Instant endTime = Instant.now();
-        Instant startTime = endTime.minus(Duration.ofDays(180));
+        Instant searchStartTime = endTime.minus(Duration.ofDays(180));
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 
-        List<FeedbackSessionAttributes> sessions = fsLogic.getAllFeedbackSessionsWithinTimeRange(startTime, endTime);
+        for (StudentAttributes student : studentsForEmail) {
+            // Refactored as discussed in [#11143] to query students' courses first
+            // as a student will likely be in only a small number of courses.
+            CourseAttributes course = coursesLogic.getCourse(student.getCourse());
+            if (course.getCreatedAt().isBefore(searchStartTime)) {
+                continue;
+            }
+            String courseId = course.getId();
 
-        for (FeedbackSessionAttributes session : sessions) {
-            String courseId = session.getCourseId();
-            CourseAttributes course = coursesLogic.getCourse(courseId);
-            List<StudentAttributes> students = studentsForEmail.stream().filter(
-                    each -> each.course.equals(courseId)).collect(Collectors.toList());
             StringBuilder linksFragmentValue;
             if (linkFragmentsMap.containsKey(courseId)) {
                 linksFragmentValue = linkFragmentsMap.get(courseId);
@@ -287,42 +288,49 @@ public class EmailGenerator {
                 linksFragmentValue = new StringBuilder(5000);
             }
 
-            if (students.size() != 1) {
-                continue;
-            }
-
-            StudentAttributes student = students.get(0);
             studentName = student.getName();
-            String submitUrlHtml = "";
-            String reportUrlHtml = "";
 
-            if (session.isOpened() || session.isClosed()) {
-                String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(session.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.key))
-                        .withStudentEmail(student.email)
-                        .toAbsoluteString();
-                submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
+            for (FeedbackSessionAttributes session : fsLogic.getFeedbackSessionsForCourse(courseId)) {
+                if (session.getStartTime().isBefore(searchStartTime)
+                        && session.getSessionVisibleFromTime().isBefore(searchStartTime)) {
+                    continue;
+                }
+
+                String sessionName = session.getFeedbackSessionName();
+                String registrationKey = StringHelper.encrypt(student.getKey());
+                String studentEmail = student.getEmail();
+
+                String submitUrlHtml = "";
+                String reportUrlHtml = "";
+
+                if (session.isOpened() || session.isClosed()) {
+                    submitUrlHtml = String.format("[<a href=\"%s\"submission link</a>]",
+                            Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
+                                    .withCourseId(courseId)
+                                    .withSessionName(sessionName)
+                                    .withRegistrationKey(registrationKey)
+                                    .withStudentEmail(studentEmail)
+                                    .toAbsoluteString());
+                }
+
+                if (session.isPublished()) {
+                    reportUrlHtml = String.format("[<a href=\"%s\">result link</a>]",
+                            Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
+                                    .withCourseId(courseId)
+                                    .withSessionName(sessionName)
+                                    .withRegistrationKey(registrationKey)
+                                    .withStudentEmail(studentEmail)
+                                    .toAbsoluteString());
+                }
+
+                linksFragmentValue.append(Templates.populateTemplate(
+                        EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
+                        "${sessionName}", sessionName,
+                        "${submitUrl}", submitUrlHtml,
+                        "${reportUrl}", reportUrlHtml));
+
+                linkFragmentsMap.putIfAbsent(courseId, linksFragmentValue);
             }
-
-            if (session.isPublished()) {
-                String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                        .withCourseId(course.getId())
-                        .withSessionName(session.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.key))
-                        .withStudentEmail(student.email)
-                        .toAbsoluteString();
-                reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
-            }
-
-            linksFragmentValue.append(Templates.populateTemplate(
-                    EmailTemplates.FRAGMENT_SESSION_LINKS_RECOVERY_ACCESS_LINKS_BY_SESSION,
-                    "${sessionName}", session.getFeedbackSessionName(),
-                    "${submitUrl}", submitUrlHtml,
-                    "${reportUrl}", reportUrlHtml));
-
-            linkFragmentsMap.putIfAbsent(courseId, linksFragmentValue);
         }
 
         String recoveryUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSIONS_LINK_RECOVERY_PAGE).toAbsoluteString();

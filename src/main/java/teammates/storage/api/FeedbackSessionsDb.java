@@ -3,8 +3,6 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.time.Instant;
-import java.util.Comparator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -82,40 +80,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
             return null;
         }
         return feedbackSession;
-    }
-
-    /**
-     * Gets a list of feedback sessions within the given time range.
-     */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
-
-        List<FeedbackSession> feedbackSessionList = new LinkedList<>();
-
-        List<FeedbackSession> startEntities = load()
-                .filter("startTime >=", rangeStart)
-                .filter("startTime <", rangeEnd)
-                .list();
-        List<FeedbackSession> endEntities = load()
-                .filter("endTime >=", rangeStart)
-                .filter("endTime <", rangeEnd)
-                .list();
-        List<FeedbackSession> resultsVisibleEntities = load()
-                .filter("resultsVisibleFromTime >", rangeStart)
-                .filter("resultsVisibleFromTime <=", rangeEnd)
-                .list();
-
-        endEntities.removeAll(startEntities);
-        resultsVisibleEntities.removeAll(startEntities);
-        resultsVisibleEntities.removeAll(endEntities);
-
-        feedbackSessionList.addAll(startEntities);
-        feedbackSessionList.addAll(endEntities);
-        feedbackSessionList.addAll(resultsVisibleEntities);
-
-        return makeAttributes(feedbackSessionList).stream()
-                .sorted(Comparator.comparing(FeedbackSessionAttributes::getStartTime))
-                .filter(fs -> !fs.isSessionDeleted())
-                .collect(Collectors.toList());
     }
 
     /**
