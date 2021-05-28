@@ -61,6 +61,8 @@ public class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
+    private static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(90);
+
     /**
      * Generates the feedback session opening emails for the given {@code session}.
      */
@@ -269,7 +271,7 @@ public class EmailGenerator {
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
         Instant endTime = Instant.now();
-        Instant startTime = endTime.minus(Duration.ofDays(180));
+        Instant startTime = endTime.minus(SESSION_LINK_RECOVERY_DURATION);
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 
