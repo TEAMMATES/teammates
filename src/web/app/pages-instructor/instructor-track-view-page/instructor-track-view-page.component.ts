@@ -87,7 +87,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
   hasResult: boolean = false;
   publishedTime: number = 0;
   notViewedSince: number = 0;
-  isPublished: boolean = false;
   logsDateFrom: DateFormat = { year: 0, month: 0, day: 0 };
   logsTimeFrom: TimeFormat = { hour: 23, minute: 59 };
   logsDateTo: DateFormat = { year: 0, month: 0, day: 0 };
@@ -144,8 +143,9 @@ export class InstructorTrackViewPageComponent implements OnInit {
 
         if (!(feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED)) {
           // Feedback session is not published, do not need to search.
-          this.isPublished = false;
-          this.emptyResult();
+          this.isSearching = false;
+          this.statusMessageService.showErrorToast('This feedback session is not published');
+          // this.emptyResult();
         } else if (this.publishedTime < Date.now() - this.LOGS_RETENTION_PERIOD * 24 * 60 * 60 * 1000) {
           // Feedback session is published more than 30 days ago, open a dialog.
           this.openModal(feedbackSession);
@@ -163,7 +163,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
             hour: publishedDate.getHours(),
             minute: publishedDate.getMinutes(),
           };
-          this.isPublished = true;
           this.search();
         }
       });
@@ -208,7 +207,10 @@ export class InstructorTrackViewPageComponent implements OnInit {
               .subscribe((students: Students) => {
                 students.students.map((student: Student) => this.students.push(student));
 
-                logs.feedbackSessionLogs[0].feedbackSessionLogEntries
+                logs.feedbackSessionLogs
+                  .filter((fsLog: FeedbackSessionLog) =>
+                    fsLog.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName)[0]
+                    .feedbackSessionLogEntries
                   .filter((entry: FeedbackSessionLogEntry) =>
                     LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
                       === LogType.FEEDBACK_SESSION_VIEW)
@@ -226,23 +228,23 @@ export class InstructorTrackViewPageComponent implements OnInit {
   /**
    * Return an empty search result for feedback sessions that is not published
    */
-  private emptyResult(): void {
-    this.searchResult = {
-      courseId: this.formModel.courseId,
-      feedbackSessionName: this.formModel.feedbackSessionName,
-      publishedDate: '',
-      logColumnsData: [],
-      logRowsData: [],
-    };
-    this.hasResult = true;
-    this.isSearching = false;
-  }
+  // private emptyResult(): void {
+  //   this.searchResult = {
+  //     courseId: this.formModel.courseId,
+  //     feedbackSessionName: this.formModel.feedbackSessionName,
+  //     publishedDate: '',
+  //     logColumnsData: [],
+  //     logRowsData: [],
+  //   };
+  //   this.hasResult = true;
+  //   this.isSearching = false;
+  // }
 
   private openModal(feedbackSession: FeedbackSession): void {
     const modalContent: string = 'Published date of selected feedback session is more than 30 days ago. '
-      + 'Only activities within the last 30 days will be captured.';
+      + 'Only activities within the last 30 days will be shown.';
     const modalRef: NgbModalRef =
-      this.simpleModalService.openConfirmationModal('Continue the operation?', SimpleModalType.NEUTRAL, modalContent);
+      this.simpleModalService.openConfirmationModal('Continue the operation?', SimpleModalType.WARNING, modalContent);
     modalRef.result.then(
       () => {
         const earliestSearchDate: Date =
@@ -257,7 +259,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
           minute: earliestSearchDate.getMinutes(),
         };
 
-        this.isPublished = true;
         this.notViewedSince = earliestSearchDate.getTime();
         if (feedbackSession.resultVisibleFromTimestamp) {
           this.publishedTime = feedbackSession.resultVisibleFromTimestamp;
