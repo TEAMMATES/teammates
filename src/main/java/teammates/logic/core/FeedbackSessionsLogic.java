@@ -241,10 +241,8 @@ public final class FeedbackSessionsLogic {
 
         String feedbackSessionName = fsa.getFeedbackSessionName();
         String courseId = fsa.getCourseId();
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
         // if there is no question for students, session is complete
-        return allQuestions.isEmpty();
+        return !fqLogic.sessionHasQuestions(feedbackSessionName, courseId);
     }
 
     /**
