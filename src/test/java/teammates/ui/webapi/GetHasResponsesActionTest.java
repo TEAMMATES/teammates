@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
