@@ -41,7 +41,7 @@
     </div>
   </div>
 </div>
-<div class="row" *ngIf="feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN">
+<div class="row mobile-invisible" *ngIf="feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN">
   <div class="col-12">
     <div class="alert alert-primary" role="alert">
       <i class="fas fa-exclamation-circle"></i> Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session.
@@ -51,32 +51,32 @@
 
 <div class="card card-plain" *tmIsLoading="isFeedbackSessionLoading">
   <div class="card-body">
-    <br/>
+    <br class="mobile-invisible"/>
     <div class="row text-center">
       <div class="col-md-3"><b>Course ID:</b></div>
       <div id="course-id" class="col-md-6">{{ courseId }}</div>
     </div>
-    <br/>
+    <br class="mobile-invisible"/>
     <div class="row text-center">
       <div class="col-md-3"><b>Session:</b></div>
       <div id="fs-name" class="col-md-6">{{ feedbackSessionName }}</div>
     </div>
-    <br/>
+    <br class="mobile-invisible"/>
     <div class="row text-center">
       <div class="col-md-3"><b>Opening time:</b></div>
       <div id="opening-time" class="col-md-6">{{ formattedSessionOpeningTime }}</div>
     </div>
-    <br/>
+    <br class="mobile-invisible"/>
     <div class="row text-center">
       <div class="col-md-3"><b>Closing time:</b></div>
       <div id="closing-time" class="col-md-6">{{ formattedSessionClosingTime }}</div>
     </div>
-    <br/>
+    <br class="mobile-invisible"/>
     <div class="row text-center">
       <div class="col-md-3"><b>Instructions:</b></div>
       <div id="instructions" class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
-    <br/>
+    <br class="mobile-invisible"/>
   </div>
 </div>
 
@@ -89,7 +89,7 @@
                                  (deleteCommentEvent)="deleteParticipantComment(i, $event)"
     ></tm-question-submission-form>
 
-    <br/>
+    <br class="mobile-invisible"/>
     <div class="row" *ngIf="!hasAnyResponseToSubmit">
       <div class="col-12 text-center">
         <div class="alert alert-info" role="alert">

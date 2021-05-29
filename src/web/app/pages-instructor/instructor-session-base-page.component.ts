@@ -309,6 +309,9 @@ export abstract class InstructorSessionBasePageComponent {
       downloadAborted = true;
     });
 
+    outputData.push(`Course,${model.feedbackSession.courseId}\n`);
+    outputData.push(`Session Name,${model.feedbackSession.feedbackSessionName}\n`);
+
     concat(
       ...questions.map((question: FeedbackQuestion) =>
         this.feedbackSessionsService.downloadSessionResults(
