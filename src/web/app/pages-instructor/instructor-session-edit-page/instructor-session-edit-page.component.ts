@@ -13,6 +13,7 @@ import {
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -189,14 +190,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               feedbackQuestionsService: FeedbackQuestionsService,
               tableComparatorService: TableComparatorService,
               ngbModal: NgbModal,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private simpleModalService: SimpleModalService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
+        ngbModal, simpleModalService, progressBarService);
   }
 
   ngOnInit(): void {
@@ -785,6 +788,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
         this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
+        this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting =
+          lastQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting;
+        this.newQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo =
+          lastQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo;
       }
 
       const newQuestionVisibilityStateMachine: VisibilityStateMachine =

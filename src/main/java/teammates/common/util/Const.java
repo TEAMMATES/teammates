@@ -30,6 +30,7 @@ public final class Const {
     public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
+    public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -112,6 +113,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_LOG_TYPE = "fsltype";
+        public static final String FEEDBACK_SESSION_LOG_STARTTIME = "fslstarttime";
+        public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
 
@@ -182,6 +186,11 @@ public final class Const {
 
     }
 
+    public static class FeedbackSessionLogTypes {
+        public static final String ACCESS = "access";
+        public static final String SUBMISSION = "submission";
+    }
+
     @Deprecated
     public static class LegacyURIs {
 
@@ -227,6 +236,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/student/edit";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = INSTRUCTOR_PAGE + "/students";
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE + "/students/records";
+        public static final String INSTRUCTOR_AUDIT_LOGS_PAGE = INSTRUCTOR_PAGE + "/logs";
 
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
@@ -286,6 +296,7 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
+        public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";

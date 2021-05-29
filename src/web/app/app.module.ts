@@ -1,10 +1,11 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, Provider } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes, UrlSerializer } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
-import { NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDatepickerModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPageScrollCoreModule } from 'ngx-page-scroll-core';
 import { environment } from '../environments/environment';
 import { Intent } from '../types/api-request';
@@ -12,6 +13,7 @@ import { AppComponent } from './app.component';
 import { ErrorReportModule } from './components/error-report/error-report.module';
 import { LoaderBarModule } from './components/loader-bar/loader-bar.module';
 import { LoadingSpinnerModule } from './components/loading-spinner/loading-spinner.module';
+import { SessionEditFormModule } from './components/session-edit-form/session-edit-form.module';
 import { SimpleModalModule } from './components/simple-modal/simple-modal.module';
 import { TeammatesRouterModule } from './components/teammates-router/teammates-router.module';
 import { ToastModule } from './components/toast/toast.module';
@@ -150,6 +152,9 @@ if (environment.maintenance) {
     }),
     LoadingSpinnerModule,
     TeammatesRouterModule,
+    FormsModule,
+    NgbDatepickerModule,
+    SessionEditFormModule,
   ],
   providers: [customUrlSerializerProvider],
   bootstrap: [AppComponent],

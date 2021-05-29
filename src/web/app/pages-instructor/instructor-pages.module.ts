@@ -119,6 +119,11 @@ const routes: Routes = [
     },
   },
   {
+    path: 'logs',
+    loadChildren: () => import('./instructor-audit-logs-page/instructor-audit-logs-page.module')
+        .then((m: any) => m.InstructorAuditLogsPageModule),
+  },
+  {
     path: 'help',
     loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-page.module')
         .then((m: any) => m.InstructorHelpPageModule),

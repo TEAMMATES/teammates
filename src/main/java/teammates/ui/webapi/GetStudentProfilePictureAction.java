@@ -22,7 +22,7 @@ class GetStudentProfilePictureAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 

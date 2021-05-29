@@ -110,14 +110,21 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.allStudentChunks = [];
     this.invalidRowsIndex = new Set();
 
+    const lastColIndex: number = 4;
     const newStudentsHOTInstance: Handsontable =
         this.hotRegisterer.getInstance(this.newStudentsHOT);
     const hotInstanceColHeaders: string[] = (newStudentsHOTInstance.getColHeader() as string[]);
 
+    // Reset error highlighting on a new submission
+    this.resetTableStyle(newStudentsHOTInstance, 0,
+        newStudentsHOTInstance.getData().length - 1,
+        0,
+        hotInstanceColHeaders.indexOf(this.colHeaders[lastColIndex]));
+
     // Remove error highlight on click
     newStudentsHOTInstance.addHook('afterSelectionEnd', (row: number, column: number,
                                                          row2: number, column2: number) => {
-      this.resetTableStyleOnClick(newStudentsHOTInstance, row, row2, column, column2);
+      this.resetTableStyle(newStudentsHOTInstance, row, row2, column, column2);
     });
 
     // Record the row with its index on the table
@@ -319,7 +326,7 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     }
   }
 
-  private resetTableStyleOnClick(newStudentsHOTInstance: Handsontable,
+  private resetTableStyle(newStudentsHOTInstance: Handsontable,
                                  startRow: number, endRow: number, startCol: number, endCol: number): void {
     for (let row: number = startRow; row <= endRow; row += 1) {
       for (let col: number = startCol; col <= endCol; col += 1) {
@@ -555,13 +562,18 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.courseService.hasResponsesForCourse(courseid).subscribe((resp: HasResponses) => {
       this.coursePresent = true;
       this.courseId = courseid;
-      if (resp.hasResponses) {
-        const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
+      if (resp.hasResponsesBySession === undefined) {
+        return;
+      }
+      for (const sessionName of Object.keys(resp.hasResponsesBySession)) {
+        if (resp.hasResponsesBySession[sessionName]) {
+          const modalContent: string = `<p><strong>There are existing feedback responses for this course.</strong></p>
           Modifying records of enrolled students will result in some existing responses
           from those modified students to be deleted. You may wish to download the data
           before you make the changes.`;
-        this.simpleModalService.openInformationModal(
+          this.simpleModalService.openInformationModal(
             'Existing feedback responses', SimpleModalType.WARNING, modalContent);
+        }
       }
     }, (resp: ErrorMessageOutput) => {
       this.coursePresent = false;
