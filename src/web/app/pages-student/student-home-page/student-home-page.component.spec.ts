@@ -277,7 +277,7 @@ describe('StudentHomePageComponent', () => {
         TeammatesRouterModule,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -311,6 +311,78 @@ describe('StudentHomePageComponent', () => {
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
         },
+        {
+          feedbackSessionName: 'Second Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 1,
+          submissionEndTimestamp: 1549095331000, // Saturday, 2 February 2019 16:15:31 GMT+08:00
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+      ],
+    };
+
+    const hasRes: HasResponses = {
+      hasResponses: false,
+      hasResponsesBySession: { 'First Session': false, 'Second Session': true },
+    };
+
+    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
+    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+
+    component.loadStudentCourses();
+
+    expect(component.courses.length).toEqual(1);
+    expect(component.courses[0].course.courseId).toEqual('CS1231');
+    expect(component.courses[0].course.courseName).toEqual('Discrete Structures');
+    expect(component.courses[0].feedbackSessions[0].session.feedbackSessionName).toEqual('First Session');
+    expect(component.isCoursesLoading).toBeFalsy();
+  });
+
+  it('should load the courses and feedback sessions but fail if sessions are not loaded correctly', () => {
+    const studentFeedbackSessions1: FeedbackSessions = {
+      feedbackSessions: [
+        {
+          feedbackSessionName: 'First Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+        {
+          feedbackSessionName: 'Second Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 1,
+          submissionEndTimestamp: 1549095331000, // Saturday, 2 February 2019 16:15:31 GMT+08:00
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
       ],
     };
 
@@ -325,11 +397,7 @@ describe('StudentHomePageComponent', () => {
 
     component.loadStudentCourses();
 
-    expect(component.courses.length).toEqual(1);
-    expect(component.courses[0].course.courseId).toEqual('CS1231');
-    expect(component.courses[0].course.courseName).toEqual('Discrete Structures');
-    expect(component.courses[0].feedbackSessions[0].session.feedbackSessionName).toEqual('First Session');
-    expect(component.isCoursesLoading).toBeFalsy();
+    expect(component.hasCoursesLoadingFailed).toBeTruthy();
   });
 
   it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
