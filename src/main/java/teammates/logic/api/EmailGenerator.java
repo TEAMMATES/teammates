@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Predicate;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -269,8 +270,9 @@ public class EmailGenerator {
         String emailBody;
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-        Instant endTime = Instant.now();
-        Instant searchStartTime = endTime.minus(SESSION_LINK_RECOVERY_DURATION);
+        Instant searchEndTime = Instant.now();
+        Instant searchStartTime = searchEndTime.minus(SESSION_LINK_RECOVERY_DURATION);
+        Predicate<Instant> isOutsideSearchRange = time -> time.isBefore(searchStartTime) || time.isAfter(searchEndTime);
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 
@@ -278,9 +280,6 @@ public class EmailGenerator {
             // Refactored as discussed in [#11143] to query students' courses first
             // as a student will likely be in only a small number of courses.
             CourseAttributes course = coursesLogic.getCourse(student.getCourse());
-            if (course.getCreatedAt().isBefore(searchStartTime)) {
-                continue;
-            }
             String courseId = course.getId();
 
             StringBuilder linksFragmentValue;
@@ -293,8 +292,10 @@ public class EmailGenerator {
             studentName = student.getName();
 
             for (FeedbackSessionAttributes session : fsLogic.getFeedbackSessionsForCourse(courseId)) {
-                if (session.getStartTime().isBefore(searchStartTime)
-                        && session.getSessionVisibleFromTime().isBefore(searchStartTime)) {
+                if (session.isSessionDeleted()
+                        || isOutsideSearchRange.test(session.getStartTime())
+                        && isOutsideSearchRange.test(session.getEndTime())
+                        && isOutsideSearchRange.test(session.getSessionVisibleFromTime())) {
                     continue;
                 }
 
@@ -306,7 +307,7 @@ public class EmailGenerator {
                 String reportUrlHtml = "";
 
                 if (session.isOpened() || session.isClosed()) {
-                    submitUrlHtml = String.format("[<a href=\"%s\"submission link</a>]",
+                    submitUrlHtml = String.format("[<a href=\"%s\">submission link</a>]",
                             Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                                     .withCourseId(courseId)
                                     .withSessionName(sessionName)
