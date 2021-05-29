@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
@@ -252,6 +254,42 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
+    }
+
+    @Test
+    protected void testExecute_asStudentGetHasRespondedForSessionWithoutFsParam_shouldPass() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(student1InCourse1.googleId);
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        GetHasResponsesAction getHasResponsesAction = getAction(params);
+        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
+        HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
+
+        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
+
+        Map<String, Boolean> responseStats = hasResponsesData.getHasResponsesBySessions();
+
+        // we gathered expected from typical bundle
+        Map<String, Boolean> expectedResponseStats = new HashMap<>();
+
+        // student has responded here
+        expectedResponseStats.put("First feedback session", true);
+        expectedResponseStats.put("Second feedback session", true);
+
+        // no questions here for student
+        expectedResponseStats.put("Closed Session", true);
+        expectedResponseStats.put("Empty session", true);
+
+        // no response here
+        expectedResponseStats.put("Grace Period Session", false);
+
+        assertEquals(expectedResponseStats, responseStats);
     }
 
     @Test
