@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.JoinState;
@@ -69,7 +68,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         ______TS("Failure Case: Unregistered Student with no RegKey");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         StudentAttributes unregStudent =
                 logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt");
@@ -92,10 +91,12 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.REGKEY, "RANDOM_KEY",
         };
 
-        assertThrows(UnauthorizedAccessException.class, () -> {
-            GetStudentAction actionRandomRegKey = getAction(submissionParamsRandomRegKey);
-            getJsonResult(actionRandomRegKey);
-        });
+        action = getAction(submissionParamsRandomRegKey);
+        result = getJsonResult(action);
+        message = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
 
         ______TS("Success Case: Unregistered Student");
 
@@ -114,7 +115,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         ______TS("Failure Case: Student - Logged In with no params");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student1InCourse1.googleId);
 
         verifyHttpParameterFailure();
@@ -148,7 +149,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         ______TS("Failure Case: Instructor - Incomplete Params");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         verifyHttpParameterFailure();

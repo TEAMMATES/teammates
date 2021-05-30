@@ -13,6 +13,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -31,7 +32,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
@@ -81,7 +82,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);

@@ -23,7 +23,7 @@ import teammates.common.util.EmailWrapper;
  * @see <a href="https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid">https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid</a>
  * @see SendGrid
  */
-public class SendgridService extends EmailSenderService {
+public class SendgridService implements EmailSenderService {
 
     /**
      * {@inheritDoc}

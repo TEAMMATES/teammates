@@ -498,7 +498,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     protected void testAccessControl_logOut_shouldFail() {
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),

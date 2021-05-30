@@ -1,5 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -21,7 +25,7 @@ class GetHasResponsesAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
 
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
@@ -47,19 +51,41 @@ class GetHasResponsesAction extends Action {
             }
 
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            if (courseId != null) {
-                gateKeeper.verifyAccessible(
-                        logic.getInstructorForGoogleId(courseId, userInfo.getId()),
-                        logic.getCourse(courseId));
+            if (courseId == null) {
+                return;
             }
-        } else {
-            //An student can check whether he has submitted responses for a feedback session in his course.
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
+            gateKeeper.verifyAccessible(
+                    logic.getInstructorForGoogleId(courseId, userInfo.getId()),
+                    logic.getCourse(courseId));
+            return;
+        }
+
+        //An student can check whether he has submitted responses for a feedback session in his course.
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        if (feedbackSessionName != null) {
             gateKeeper.verifyAccessible(
                     logic.getStudentForGoogleId(courseId, userInfo.getId()),
                     getNonNullFeedbackSession(feedbackSessionName, courseId));
+        }
+
+        List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
+        if (feedbackSessions.isEmpty()) {
+            // Course has no sessions and therefore no response; access to responses is safe for all.
+            return;
+        }
+
+        // Verify that all sessions are accessible to the user.
+        for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+            if (!feedbackSession.isVisible()) {
+                // Skip invisible sessions.
+                continue;
+            }
+
+            gateKeeper.verifyAccessible(
+                    logic.getStudentForGoogleId(courseId, userInfo.getId()),
+                    feedbackSession);
         }
     }
 
@@ -68,36 +94,57 @@ class GetHasResponsesAction extends Action {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
-            String feedbackQuestionID = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
-            if (feedbackQuestionID != null) {
-                if (logic.getFeedbackQuestion(feedbackQuestionID) == null) {
-                    return new JsonResult("No feedback question with id: " + feedbackQuestionID, HttpStatus.SC_NOT_FOUND);
-                }
+            return handleInstructorReq();
+        }
 
-                boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
-                return new JsonResult(new HasResponsesData(hasResponses));
-            }
-
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            if (logic.getCourse(courseId) == null) {
-                return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
-            }
-
-            boolean hasResponses = logic.hasResponsesForCourse(courseId);
-            return new JsonResult(new HasResponsesData(hasResponses));
-        } else {
-            String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
-            String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
-            FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-            if (feedbackSession == null) {
-                return new JsonResult("No feedback session found with name: " + feedbackSessionName,
-                        HttpStatus.SC_NOT_FOUND);
-            }
-
+        // Default path for student and admin
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        if (feedbackSessionName == null) {
+            // check all sessions in the course
+            List<FeedbackSessionAttributes> feedbackSessions = logic.getFeedbackSessionsForCourse(courseId);
             StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
 
-            boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
+            Map<String, Boolean> sessionsHasResponses = new HashMap<>();
+            for (FeedbackSessionAttributes feedbackSession : feedbackSessions) {
+                if (!feedbackSession.isVisible()) {
+                    // Skip invisible sessions.
+                    continue;
+                }
+                boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
+                sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
+            }
+            return new JsonResult(new HasResponsesData(sessionsHasResponses));
+        }
+
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        if (feedbackSession == null) {
+            return new JsonResult("No feedback session found with name: " + feedbackSessionName,
+                    HttpStatus.SC_NOT_FOUND);
+        }
+
+        StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
+        return new JsonResult(new HasResponsesData(
+                logic.hasStudentSubmittedFeedback(feedbackSession, student.email)));
+    }
+
+    private JsonResult handleInstructorReq() {
+        String feedbackQuestionID = getRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
+        if (feedbackQuestionID != null) {
+            if (logic.getFeedbackQuestion(feedbackQuestionID) == null) {
+                return new JsonResult("No feedback question with id: " + feedbackQuestionID, HttpStatus.SC_NOT_FOUND);
+            }
+
+            boolean hasResponses = logic.areThereResponsesForQuestion(feedbackQuestionID);
             return new JsonResult(new HasResponsesData(hasResponses));
         }
+
+        String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
+        if (logic.getCourse(courseId) == null) {
+            return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
+        }
+
+        boolean hasResponses = logic.hasResponsesForCourse(courseId);
+        return new JsonResult(new HasResponsesData(hasResponses));
     }
 }

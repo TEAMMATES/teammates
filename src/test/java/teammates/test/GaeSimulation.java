@@ -20,7 +20,7 @@ import com.google.appengine.tools.development.testing.LocalUserServiceTestConfig
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.util.RecaptchaVerifier;
-import teammates.logic.api.GateKeeper;
+import teammates.logic.api.UserProvision;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
 
@@ -35,7 +35,7 @@ public class GaeSimulation {
     // This can be any valid URL; it is not used beyond validation
     private static final String SIMULATION_BASE_URL = "http://localhost:8080";
 
-    private static GateKeeper gateKeeper = new GateKeeper();
+    private static UserProvision userProvision = new UserProvision();
     private static GaeSimulation instance = new GaeSimulation();
 
     private LocalServiceTestHelper helper;
@@ -72,7 +72,7 @@ public class GaeSimulation {
         helper.setEnvEmail(userId);
         helper.setEnvAuthDomain("gmail.com");
         helper.setEnvIsAdmin(isAdmin);
-        return gateKeeper.getCurrentUser();
+        return userProvision.getCurrentUser();
     }
 
     /**
@@ -112,7 +112,9 @@ public class GaeSimulation {
      * @param params Parameters that appear in a HttpServletRequest received by the app
      */
     public Action getActionObject(String uri, String method, String body, Map<String, Part> parts,
-                                  List<Cookie> cookies, String... params) {
+                                  List<Cookie> cookies, MockTaskQueuer taskQueuer, MockEmailSender emailSender,
+                                  MockFileStorage fileStorage, MockLogsProcessor logsProcessor,
+                                  MockUserProvision userProvision, String... params) {
         try {
             MockHttpServletRequest req = new MockHttpServletRequest(method, uri);
             for (int i = 0; i < params.length; i = i + 2) {
@@ -136,9 +138,13 @@ public class GaeSimulation {
                 }
             }
             Action action = new ActionFactory().getAction(req, method);
-            action.setTaskQueuer(new MockTaskQueuer());
-            action.setEmailSender(new MockEmailSender());
+            action.setTaskQueuer(taskQueuer);
+            action.setEmailSender(emailSender);
+            action.setFileStorage(fileStorage);
+            action.setLogsProcessor(logsProcessor);
+            action.setUserProvision(userProvision);
             action.setRecaptchaVerifier(new RecaptchaVerifier(null));
+            action.init(req);
             return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);

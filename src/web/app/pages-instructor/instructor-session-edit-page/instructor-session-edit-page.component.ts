@@ -13,6 +13,7 @@ import {
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -115,6 +116,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isSaving: false,
     isEditable: false,
+    isDeleting: false,
+    isCopying: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -187,14 +190,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               feedbackQuestionsService: FeedbackQuestionsService,
               tableComparatorService: TableComparatorService,
               ngbModal: NgbModal,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private studentService: StudentService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService,
-              private simpleModalService: SimpleModalService,
               private changeDetectorRef: ChangeDetectorRef) {
     super(router, instructorService, statusMessageService, navigationService,
-        feedbackSessionsService, feedbackQuestionsService, tableComparatorService, ngbModal);
+        feedbackSessionsService, feedbackQuestionsService, tableComparatorService,
+        ngbModal, simpleModalService, progressBarService);
   }
 
   ngOnInit(): void {
@@ -244,6 +249,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
+    this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
@@ -259,9 +265,11 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
           this.copySingleSession(requestList[0]);
         }
         if (requestList.length > 1) {
-          forkJoin(requestList).subscribe(() => {
-            this.showCopyStatusMessage();
-          });
+          forkJoin(requestList)
+           .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+           .subscribe(() => {
+             this.showCopyStatusMessage();
+           });
         }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
@@ -309,6 +317,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
 
       isSaving: false,
+      isDeleting: false,
+      isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
@@ -440,12 +450,16 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Handles deleting current feedback session.
    */
   deleteExistingSessionHandler(): void {
-    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName).subscribe(() => {
-      this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
-          'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    this.sessionEditFormModel.isDeleting = true;
+    this.feedbackSessionsService.moveSessionToRecycleBin(this.courseId, this.feedbackSessionName)
+     .pipe(finalize(() => this.sessionEditFormModel.isDeleting = false))
+     .subscribe(() => {
+       this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions',
+      'The feedback session has been deleted. You can restore it from the deleted sessions table below.');
+     },
+     (resp: ErrorMessageOutput) => {
+       this.statusMessageService.showErrorToast(resp.error.message);
+     });
   }
 
   /**
@@ -774,6 +788,10 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               .indexOf(lastQuestionEditFormModel.recipientType) !== -1) {
         this.newQuestionEditFormModel.giverType = lastQuestionEditFormModel.giverType;
         this.newQuestionEditFormModel.recipientType = lastQuestionEditFormModel.recipientType;
+        this.newQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting =
+          lastQuestionEditFormModel.numberOfEntitiesToGiveFeedbackToSetting;
+        this.newQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo =
+          lastQuestionEditFormModel.customNumberOfEntitiesToGiveFeedbackTo;
       }
 
       const newQuestionVisibilityStateMachine: VisibilityStateMachine =

@@ -43,7 +43,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {

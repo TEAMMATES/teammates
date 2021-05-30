@@ -257,6 +257,14 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
+    /**
+     * Returns true if a session has question in either STUDENTS type or TEAMS type.
+     */
+    public boolean sessionHasQuestions(String feedbackSessionName, String courseId) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+    }
+
     Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
@@ -593,7 +601,6 @@ public final class FeedbackQuestionsLogic {
         case NONE:
             break;
         case STUDENTS:
-            //fallthrough
         case STUDENTS_EXCLUDING_SELF:
             List<StudentAttributes> studentList =
                     studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -609,7 +616,6 @@ public final class FeedbackQuestionsLogic {
             optionList.sort(null);
             break;
         case TEAMS:
-            //fallthrough
         case TEAMS_EXCLUDING_SELF:
             try {
                 List<String> teams = coursesLogic.getTeamsForCourse(feedbackQuestionAttributes.getCourseId());
@@ -625,6 +631,21 @@ public final class FeedbackQuestionsLogic {
                 optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
                 Assumption.fail("Course disappeared");
+            }
+            break;
+        case OWN_TEAM_MEMBERS_INCLUDING_SELF:
+        case OWN_TEAM_MEMBERS:
+            if (teamOfEntityDoingQuestion != null) {
+                List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(teamOfEntityDoingQuestion,
+                        feedbackQuestionAttributes.getCourseId());
+
+                if (generateOptionsFor == FeedbackParticipantType.OWN_TEAM_MEMBERS) {
+                    teamMembers.removeIf(teamMember -> teamMember.getEmail().equals(emailOfEntityDoingQuestion));
+                }
+
+                teamMembers.forEach(teamMember -> optionList.add(teamMember.getName()));
+
+                optionList.sort(null);
             }
             break;
         case INSTRUCTORS:

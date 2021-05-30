@@ -202,7 +202,7 @@ export class StudentProfilePageComponent implements OnInit {
   }
 
   /**
-   * Deletes the profile picture and the profile picture key
+   * Deletes the profile picture.
    */
   deleteProfilePicture(): void {
     const paramMap: Record<string, string> = {

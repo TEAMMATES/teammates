@@ -25,7 +25,7 @@ class GetLocalDateTimeInfoAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Only instructor can get local date time information");
         }

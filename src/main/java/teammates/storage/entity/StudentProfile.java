@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
@@ -43,8 +42,6 @@ public class StudentProfile extends BaseEntity {
     @Unindex
     private Text moreInfo;
 
-    private BlobKey pictureKey;
-
     @Index
     @Translate(InstantTranslatorFactory.class)
     private Instant modifiedDate;
@@ -75,7 +72,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, String moreInfo, String pictureKey) {
+                          String nationality, String gender, String moreInfo) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -84,7 +81,6 @@ public class StudentProfile extends BaseEntity {
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
         this.setModifiedDate(Instant.now());
-        this.setPictureKey(pictureKey);
     }
 
     public StudentProfile(String googleId) {
@@ -95,7 +91,6 @@ public class StudentProfile extends BaseEntity {
         this.setNationality("");
         this.setGender("other");
         this.setMoreInfo("");
-        this.setPictureKey("");
         this.setModifiedDate(Instant.now());
     }
 
@@ -157,14 +152,6 @@ public class StudentProfile extends BaseEntity {
 
     public void setMoreInfo(String moreInfo) {
         this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
-    }
-
-    public String getPictureKey() {
-        return this.pictureKey == null ? null : this.pictureKey.getKeyString();
-    }
-
-    public void setPictureKey(String pictureKey) {
-        this.pictureKey = pictureKey == null ? null : new BlobKey(pictureKey);
     }
 
     public Instant getModifiedDate() {

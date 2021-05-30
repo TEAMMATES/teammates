@@ -72,3 +72,12 @@
   width: 50%;
   display: inline-block;
 }
+
+table {
+  table-layout: fixed;
+}
+
+table td {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
