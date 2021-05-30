@@ -24,7 +24,7 @@ class GetSessionResultsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -37,7 +37,7 @@ class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, fs);
             break;
@@ -58,7 +58,9 @@ class GetSessionResultsAction extends Action {
 
     private StudentAttributes getStudent(String courseId) {
         return getUnregisteredStudent().orElseGet(() -> {
-            gateKeeper.verifyLoggedInUserPrivileges();
+            if (userInfo == null) {
+                return null;
+            }
             return logic.getStudentForGoogleId(courseId, userInfo.getId());
         });
     }

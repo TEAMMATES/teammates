@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from '../../../environments/environment';
 import { ErrorReportService } from '../../../services/error-report.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { ErrorReportRequest } from '../../../types/api-request';
@@ -20,13 +21,19 @@ export class ErrorReportComponent implements OnInit {
   content: string = '';
   requestId: string = '';
   sendButtonEnabled: boolean = true;
+  errorReportEnabled: boolean = true;
   errorReportSubmitted: boolean = false;
+  csrfErrorMessages: string[] = ['Missing CSRF token.', 'Invalid CSRF token.'];
+  readonly supportEmail: string = environment.supportEmail;
 
   constructor(private errorReportService: ErrorReportService,
               private ngbActiveModal: NgbActiveModal,
               private statusMessageService: StatusMessageService) {}
 
   ngOnInit(): void {
+    if (this.csrfErrorMessages.includes(this.errorMessage)) {
+      this.errorReportEnabled = false;
+    }
   }
 
   /**

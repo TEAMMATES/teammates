@@ -61,6 +61,5 @@ src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
 filestorage-dev/*
-src/test/resources/filestorage/**/*
 
 !.gitkeep

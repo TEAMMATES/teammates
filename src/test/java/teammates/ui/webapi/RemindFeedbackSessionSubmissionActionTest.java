@@ -80,8 +80,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        verifySpecifiedTasksAdded(action,
-                Const.TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME, 1);
     }
 
     @Test

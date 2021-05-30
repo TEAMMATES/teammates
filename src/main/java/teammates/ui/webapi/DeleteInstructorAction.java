@@ -20,7 +20,7 @@ class DeleteInstructorAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         //allow access to admins or instructor with modify permission
         if (userInfo.isAdmin) {
             return;

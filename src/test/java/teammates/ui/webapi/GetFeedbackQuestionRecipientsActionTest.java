@@ -232,7 +232,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                         StringHelper.encrypt(registeredStudent.getKey()), "", "");
         verifyCannotAccess(registeredStudentSubmissionParams);
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyCannotAccess(registeredStudentSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");

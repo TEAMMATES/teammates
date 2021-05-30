@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { StringHelper } from '../../../../services/string-helper';
 
 /**
  * Display student name with photo popover
@@ -26,6 +27,7 @@ export class StudentNameWithPhotoComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.name = StringHelper.removeAnonymousHash(this.name);
   }
 
   handleMouseover(t: NgbTooltip): void {
