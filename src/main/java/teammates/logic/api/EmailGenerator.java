@@ -61,7 +61,7 @@ public class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
-    private static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(90);
+    private static final long SESSION_LINK_RECOVERY_DURATION_IN_DAYS = 90;
 
     /**
      * Generates the feedback session opening emails for the given {@code session}.
@@ -270,9 +270,7 @@ public class EmailGenerator {
         String emailBody;
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
-        Instant searchEndTime = Instant.now();
-        Instant searchStartTime = searchEndTime.minus(SESSION_LINK_RECOVERY_DURATION);
-        Predicate<Instant> isOutsideSearchRange = time -> time.isBefore(searchStartTime) || time.isAfter(searchEndTime);
+        Instant searchStartTime = TimeHelper.getInstantDaysOffsetFromNow(-SESSION_LINK_RECOVERY_DURATION_IN_DAYS);
         Map<String, StringBuilder> linkFragmentsMap = new HashMap<>();
         String studentName = null;
 
@@ -291,11 +289,9 @@ public class EmailGenerator {
 
             studentName = student.getName();
 
-            for (FeedbackSessionAttributes session : fsLogic.getFeedbackSessionsForCourse(courseId)) {
-                if (session.isSessionDeleted()
-                        || isOutsideSearchRange.test(session.getStartTime())
-                        && isOutsideSearchRange.test(session.getEndTime())
-                        && isOutsideSearchRange.test(session.getSessionVisibleFromTime())) {
+            for (FeedbackSessionAttributes session
+                    : fsLogic.getFeedbackSessionsForCourseAfter(courseId, searchStartTime)) {
+                if (session.isSessionDeleted()) {
                     continue;
                 }
 

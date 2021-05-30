@@ -114,6 +114,17 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
+     * Gets a list of all sessions starting from some date for the given course except those are soft-deleted.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourseAfter(String courseId, Instant after) {
+        Assumption.assertNotNull(courseId);
+
+        return makeAttributes(getFeedbackSessionEntitiesForCourseAfter(courseId, after)).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Gets a list of sessions for the given course that are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
@@ -331,6 +342,13 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesForCourseAfter(String courseId, Instant after) {
+        return load()
+                .filter("courseId =", courseId)
+                .filter("startTime >=", after)
+                .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
