@@ -823,7 +823,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     <div>
       
       <tm-question-submission-form
-        id="feedback-question-id-1"
+        id="feedback-question-id-mcq"
       >
         <div
           class="card"
@@ -971,7 +971,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-1recipient-identifier"
+                                name="mcq-feedback-question-id-mcqrecipient-identifier"
                                 type="radio"
                               />
                               <span
@@ -989,7 +989,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-1recipient-identifier"
+                                name="mcq-feedback-question-id-mcqrecipient-identifier"
                                 type="radio"
                               />
                               <span
@@ -1007,7 +1007,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-1recipient-identifier"
+                                name="mcq-feedback-question-id-mcqrecipient-identifier"
                                 type="radio"
                               />
                               <span
@@ -1125,7 +1125,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-2"
+        id="feedback-question-id-text"
       >
         <div
           class="card"
@@ -1138,7 +1138,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               id="question-details"
             >
               <b>
-                Question 2: 
+                Question 3: 
               </b>
               question brief
             </span>
@@ -1308,7 +1308,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-3"
+        id="feedback-question-id-mcq-2"
       >
         <div
           class="card"
@@ -1321,7 +1321,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               id="question-details"
             >
               <b>
-                Question 3: 
+                Question 2: 
               </b>
               question brief
             </span>
@@ -1456,7 +1456,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-3barry-harris-id"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
                                 type="radio"
                               />
                               <span
@@ -1474,7 +1474,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-3barry-harris-id"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
                                 type="radio"
                               />
                               <span
@@ -1492,7 +1492,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-3barry-harris-id"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
                                 type="radio"
                               />
                               <span
@@ -1577,7 +1577,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-3gene-harris-id"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
                                 type="radio"
                               />
                               <span
@@ -1595,7 +1595,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-3gene-harris-id"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
                                 type="radio"
                               />
                               <span
@@ -1613,7 +1613,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <input
                                 class="margin-right-15px"
-                                name="mcq-feedback-question-id-3gene-harris-id"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
                                 type="radio"
                               />
                               <span
@@ -1670,7 +1670,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-4"
+        id="feedback-question-id-msq"
       >
         <div
           class="card"
@@ -1918,7 +1918,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-5"
+        id="feedback-question-id-numscale"
       >
         <div
           class="card"
@@ -2116,7 +2116,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-6"
+        id="feedback-question-id-constsum"
       >
         <div
           class="card"
@@ -2338,7 +2338,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-7"
+        id="feedback-question-id-contrib"
       >
         <div
           class="card"
@@ -2660,7 +2660,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-8"
+        id="feedback-question-id-rubric"
       >
         <div
           class="card"
@@ -2830,7 +2830,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
                                 />
                                  description 1 
@@ -2841,7 +2841,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
                                 />
                                  description 2 
@@ -2860,7 +2860,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
                                 />
                                  description 3 
@@ -2871,7 +2871,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             >
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
                                 />
                                  description 4 
@@ -2899,7 +2899,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             <div>
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id0-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
                                   type="radio"
                                 />
                                  choice 1 - description 1 
@@ -2908,7 +2908,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             <div>
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id0-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
                                   type="radio"
                                 />
                                  choice 2 - description 2 
@@ -2931,7 +2931,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             <div>
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id1-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
                                   type="radio"
                                 />
                                  choice 1 - description 3 
@@ -2940,7 +2940,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                             <div>
                               <label>
                                 <input
-                                  name="feedback-question-id-8barry-harris-id1-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
                                   type="radio"
                                 />
                                  choice 2 - description 4 
@@ -2968,7 +2968,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-9"
+        id="feedback-question-id-rank-options"
       >
         <div
           class="card"
@@ -3239,7 +3239,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-10"
+        id="feedback-question-id-rank-recipients"
       >
         <div
           class="card"
@@ -3698,7 +3698,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
     <div>
       
       <tm-question-submission-form
-        id="feedback-question-id-1"
+        id="feedback-question-id-mcq"
       >
         <div
           class="card"
@@ -3847,7 +3847,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-1recipient-identifier"
+                                name="mcq-feedback-question-id-mcqrecipient-identifier"
                                 type="radio"
                               />
                               <span
@@ -3866,7 +3866,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-1recipient-identifier"
+                                name="mcq-feedback-question-id-mcqrecipient-identifier"
                                 type="radio"
                               />
                               <span
@@ -3885,7 +3885,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-1recipient-identifier"
+                                name="mcq-feedback-question-id-mcqrecipient-identifier"
                                 type="radio"
                               />
                               <span
@@ -4005,7 +4005,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-2"
+        id="feedback-question-id-text"
       >
         <div
           class="card"
@@ -4018,7 +4018,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               id="question-details"
             >
               <b>
-                Question 2: 
+                Question 3: 
               </b>
               question brief
             </span>
@@ -4188,7 +4188,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-3"
+        id="feedback-question-id-mcq-2"
       >
         <div
           class="card"
@@ -4201,7 +4201,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
               id="question-details"
             >
               <b>
-                Question 3: 
+                Question 2: 
               </b>
               question brief
             </span>
@@ -4337,7 +4337,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-3barry-harris-id"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
                                 type="radio"
                               />
                               <span
@@ -4356,7 +4356,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-3barry-harris-id"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
                                 type="radio"
                               />
                               <span
@@ -4375,7 +4375,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-3barry-harris-id"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
                                 type="radio"
                               />
                               <span
@@ -4462,7 +4462,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-3gene-harris-id"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
                                 type="radio"
                               />
                               <span
@@ -4481,7 +4481,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-3gene-harris-id"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
                                 type="radio"
                               />
                               <span
@@ -4500,7 +4500,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <input
                                 class="margin-right-15px"
                                 disabled=""
-                                name="mcq-feedback-question-id-3gene-harris-id"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
                                 type="radio"
                               />
                               <span
@@ -4558,7 +4558,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-4"
+        id="feedback-question-id-msq"
       >
         <div
           class="card"
@@ -4809,7 +4809,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-5"
+        id="feedback-question-id-numscale"
       >
         <div
           class="card"
@@ -5007,7 +5007,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-6"
+        id="feedback-question-id-constsum"
       >
         <div
           class="card"
@@ -5229,7 +5229,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-7"
+        id="feedback-question-id-contrib"
       >
         <div
           class="card"
@@ -5551,7 +5551,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-8"
+        id="feedback-question-id-rubric"
       >
         <div
           class="card"
@@ -5722,7 +5722,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
                                 />
                                  description 1 
@@ -5734,7 +5734,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id0-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
                                   type="radio"
                                 />
                                  description 2 
@@ -5754,7 +5754,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
                                 />
                                  description 3 
@@ -5766,7 +5766,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id1-desktop"
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
                                   type="radio"
                                 />
                                  description 4 
@@ -5795,7 +5795,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id0-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
                                   type="radio"
                                 />
                                  choice 1 - description 1 
@@ -5805,7 +5805,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id0-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
                                   type="radio"
                                 />
                                  choice 2 - description 2 
@@ -5829,7 +5829,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id1-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
                                   type="radio"
                                 />
                                  choice 1 - description 3 
@@ -5839,7 +5839,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                               <label>
                                 <input
                                   disabled=""
-                                  name="feedback-question-id-8barry-harris-id1-mobile"
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
                                   type="radio"
                                 />
                                  choice 2 - description 4 
@@ -5867,7 +5867,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-9"
+        id="feedback-question-id-rank-options"
       >
         <div
           class="card"
@@ -6138,7 +6138,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         </div>
       </tm-question-submission-form>
       <tm-question-submission-form
-        id="feedback-question-id-10"
+        id="feedback-question-id-rank-recipients"
       >
         <div
           class="card"

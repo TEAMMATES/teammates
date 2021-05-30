@@ -104,41 +104,7 @@ describe('SessionSubmissionPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
-  const testClosedFeedbackSession: FeedbackSession = {
-    feedbackSessionName: 'Second Session',
-    courseId: 'CFG1010',
-    timeZone: 'Asia/Singapore',
-    instructions: 'Roots and Shoots',
-    submissionStartTimestamp: 1500000000000,
-    submissionEndTimestamp: 2000000000000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.CLOSED,
-    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
-
-  const testVisibleNotOpenFeedbackSession: FeedbackSession = {
-    feedbackSessionName: 'Third Session',
-    courseId: 'IS1103',
-    timeZone: 'Asia/Singapore',
-    instructions: 'Utilitarianism 101',
-    submissionStartTimestamp: 2000000000000,
-    submissionEndTimestamp: 2500000000000,
-    gracePeriod: 0,
-    sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
-    responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
-    submissionStatus: FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN,
-    publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
-    isClosingEmailEnabled: true,
-    isPublishedEmailEnabled: true,
-    createdAtTimestamp: 0,
-  };
-
-  const testRecipientSubmissionForm1: FeedbackResponseRecipientSubmissionFormModel = {
+  const testMcqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-1',
     recipientIdentifier: 'recipient-identifier',
     responseDetails: {
@@ -168,27 +134,8 @@ describe('SessionSubmissionPageComponent', () => {
     },
   };
 
-  const testRecipientSubmissionForm2: FeedbackResponseRecipientSubmissionFormModel = {
+  const testMcqRecipientSubmissionForm2: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-2',
-    recipientIdentifier: 'recipient-identifier',
-    responseDetails: {
-      answer: 'answer',
-      questionType: FeedbackQuestionType.TEXT,
-    } as FeedbackTextResponseDetails,
-    isValid: true,
-    commentByGiver: {
-      commentEditFormModel: {
-        commentText: 'comment text here',
-        isUsingCustomVisibilities: false,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
-      isEditing: false,
-    },
-  };
-
-  const testRecipientSubmissionForm3: FeedbackResponseRecipientSubmissionFormModel = {
-    responseId: 'response-id-3',
     recipientIdentifier: 'recipient-identifier',
     responseDetails: {
       answer: 'answer',
@@ -217,7 +164,26 @@ describe('SessionSubmissionPageComponent', () => {
     },
   };
 
-  const testRecipientSubmissionForm4: FeedbackResponseRecipientSubmissionFormModel = {
+  const testTextRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
+    responseId: 'response-id-3',
+    recipientIdentifier: 'recipient-identifier',
+    responseDetails: {
+      answer: 'answer',
+      questionType: FeedbackQuestionType.TEXT,
+    } as FeedbackTextResponseDetails,
+    isValid: true,
+    commentByGiver: {
+      commentEditFormModel: {
+        commentText: 'comment text here',
+        isUsingCustomVisibilities: false,
+        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+      },
+      isEditing: false,
+    },
+  };
+
+  const testMcqRecipientSubmissionForm3: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-4',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -227,7 +193,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm5: FeedbackResponseRecipientSubmissionFormModel = {
+  const testMcqRecipientSubmissionForm4: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-5',
     recipientIdentifier: 'gene-harris-id',
     responseDetails: {
@@ -237,7 +203,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm6: FeedbackResponseRecipientSubmissionFormModel = {
+  const testMsqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-6',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -249,7 +215,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm7: FeedbackResponseRecipientSubmissionFormModel = {
+  const testNumscaleRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-7',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -258,7 +224,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm8: FeedbackResponseRecipientSubmissionFormModel = {
+  const testConstsumRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-8',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -267,7 +233,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm9: FeedbackResponseRecipientSubmissionFormModel = {
+  const testContribRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-9',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -276,7 +242,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm10: FeedbackResponseRecipientSubmissionFormModel = {
+  const testRubricRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-10',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -285,7 +251,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm11: FeedbackResponseRecipientSubmissionFormModel = {
+  const testRankOptionsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-11',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -294,7 +260,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testRecipientSubmissionForm12: FeedbackResponseRecipientSubmissionFormModel = {
+  const testRankRecipientsRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-12',
     recipientIdentifier: 'barry-harris-id',
     responseDetails: {
@@ -325,9 +291,8 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqResponseDetails,
   };
 
-  // MCQ
-  const testQuestionSubmissionForm1: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-1',
+  const testMcqQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-mcq',
     questionNumber: 1,
     questionBrief: 'question brief',
     questionDescription: 'question description',
@@ -340,7 +305,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.OWN_TEAM,
     recipientList: [],
-    recipientSubmissionForms: [testRecipientSubmissionForm1],
+    recipientSubmissionForms: [testMcqRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.STUDENTS, FeedbackVisibilityType.INSTRUCTORS],
@@ -348,32 +313,9 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [],
   };
 
-  // TEXT
-  const testQuestionSubmissionForm2: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-2',
+  const testMcqQuestionSubmissionForm2: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-mcq-2',
     questionNumber: 2,
-    questionBrief: 'question brief',
-    questionDescription: 'question description',
-    questionType: FeedbackQuestionType.TEXT,
-    questionDetails: {
-      questionType: FeedbackQuestionType.TEXT,
-      questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
-    giverType: FeedbackParticipantType.STUDENTS,
-    recipientType: FeedbackParticipantType.INSTRUCTORS,
-    recipientList: [],
-    recipientSubmissionForms: [testRecipientSubmissionForm2],
-    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
-    customNumberOfEntitiesToGiveFeedbackTo: 5,
-    showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
-    showGiverNameTo: [],
-    showRecipientNameTo: [],
-  };
-
-  // MCQ
-  const testQuestionSubmissionForm3: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-3',
-    questionNumber: 3,
     questionBrief: 'question brief',
     questionDescription: 'question description',
     questionType: FeedbackQuestionType.MCQ,
@@ -394,7 +336,7 @@ describe('SessionSubmissionPageComponent', () => {
         recipientIdentifier: 'gene-harris-id',
       },
     ],
-    recipientSubmissionForms: [testRecipientSubmissionForm4, testRecipientSubmissionForm5],
+    recipientSubmissionForms: [testMcqRecipientSubmissionForm3, testMcqRecipientSubmissionForm4],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -402,9 +344,29 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // MSQ
-  const testQuestionSubmissionForm4: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-4',
+  const testTextQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-text',
+    questionNumber: 3,
+    questionBrief: 'question brief',
+    questionDescription: 'question description',
+    questionType: FeedbackQuestionType.TEXT,
+    questionDetails: {
+      questionType: FeedbackQuestionType.TEXT,
+      questionText: 'question text',
+    } as FeedbackTextQuestionDetails,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.INSTRUCTORS,
+    recipientList: [],
+    recipientSubmissionForms: [testTextRecipientSubmissionForm],
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
+  };
+
+  const testMsqQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-msq',
     questionNumber: 4,
     questionBrief: 'MSQ question',
     questionDescription: 'question description',
@@ -420,7 +382,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm6],
+    recipientSubmissionForms: [testMsqRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -428,9 +390,8 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // NUMSCALE
-  const testQuestionSubmissionForm5: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-5',
+  const testNumscaleQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-numscale',
     questionNumber: 5,
     questionBrief: 'numerical scale question',
     questionDescription: 'question description',
@@ -443,7 +404,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm7],
+    recipientSubmissionForms: [testNumscaleRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -451,9 +412,8 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // CONSTSUM
-  const testQuestionSubmissionForm6: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-6',
+  const testConstsumQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-constsum',
     questionNumber: 6,
     questionBrief: 'constant sum question',
     questionDescription: 'question description',
@@ -470,7 +430,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm8],
+    recipientSubmissionForms: [testConstsumRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -478,9 +438,8 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // CONTRIB
-  const testQuestionSubmissionForm7: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-7',
+  const testContribQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-contrib',
     questionNumber: 7,
     questionBrief: 'contribution question',
     questionDescription: 'question description',
@@ -491,7 +450,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm9],
+    recipientSubmissionForms: [testContribRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -499,9 +458,8 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // RUBRIC
-  const testQuestionSubmissionForm8: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-8',
+  const testRubricQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-rubric',
     questionNumber: 8,
     questionBrief: 'question brief',
     questionDescription: 'question description',
@@ -518,7 +476,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm10],
+    recipientSubmissionForms: [testRubricRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -526,9 +484,8 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // RANK_OPTIONS
-  const testQuestionSubmissionForm9: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-9',
+  const testRankOptionsQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-rank-options',
     questionNumber: 9,
     questionBrief: 'question brief',
     questionDescription: 'question description',
@@ -539,7 +496,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm11],
+    recipientSubmissionForms: [testRankOptionsRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -547,9 +504,8 @@ describe('SessionSubmissionPageComponent', () => {
     showRecipientNameTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
   };
 
-  // RANK_RECIPIENTS
-  const testQuestionSubmissionForm10: QuestionSubmissionFormModel = {
-    feedbackQuestionId: 'feedback-question-id-10',
+  const testRankRecipientsQuestionSubmissionForm: QuestionSubmissionFormModel = {
+    feedbackQuestionId: 'feedback-question-id-rank-recipients',
     questionNumber: 10,
     questionBrief: 'question brief',
     questionDescription: 'question description',
@@ -562,7 +518,7 @@ describe('SessionSubmissionPageComponent', () => {
     giverType: FeedbackParticipantType.INSTRUCTORS,
     recipientType: FeedbackParticipantType.STUDENTS,
     recipientList: [{ recipientName: 'Barry Harris', recipientIdentifier: 'barry-harris-id' }],
-    recipientSubmissionForms: [testRecipientSubmissionForm12],
+    recipientSubmissionForms: [testRankRecipientsRecipientSubmissionForm],
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
     customNumberOfEntitiesToGiveFeedbackTo: 5,
     showResponsesTo: [FeedbackVisibilityType.RECIPIENT, FeedbackVisibilityType.INSTRUCTORS],
@@ -711,16 +667,16 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap with feedback session question submission forms', () => {
     component.questionSubmissionForms = [
-      testQuestionSubmissionForm1,
-      testQuestionSubmissionForm2,
-      testQuestionSubmissionForm3,
-      testQuestionSubmissionForm4,
-      testQuestionSubmissionForm5,
-      testQuestionSubmissionForm6,
-      testQuestionSubmissionForm7,
-      testQuestionSubmissionForm8,
-      testQuestionSubmissionForm9,
-      testQuestionSubmissionForm10,
+      testMcqQuestionSubmissionForm,
+      testTextQuestionSubmissionForm,
+      testMcqQuestionSubmissionForm2,
+      testMsqQuestionSubmissionForm,
+      testNumscaleQuestionSubmissionForm,
+      testConstsumQuestionSubmissionForm,
+      testContribQuestionSubmissionForm,
+      testRubricQuestionSubmissionForm,
+      testRankOptionsQuestionSubmissionForm,
+      testRankRecipientsQuestionSubmissionForm,
     ];
     component.isFeedbackSessionLoading = false;
     component.isFeedbackSessionQuestionsLoading = false;
@@ -731,16 +687,16 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should snap with feedback session question submission forms when disabled', () => {
     component.questionSubmissionForms = [
-      testQuestionSubmissionForm1,
-      testQuestionSubmissionForm2,
-      testQuestionSubmissionForm3,
-      testQuestionSubmissionForm4,
-      testQuestionSubmissionForm5,
-      testQuestionSubmissionForm6,
-      testQuestionSubmissionForm7,
-      testQuestionSubmissionForm8,
-      testQuestionSubmissionForm9,
-      testQuestionSubmissionForm10,
+      testMcqQuestionSubmissionForm,
+      testTextQuestionSubmissionForm,
+      testMcqQuestionSubmissionForm2,
+      testMsqQuestionSubmissionForm,
+      testNumscaleQuestionSubmissionForm,
+      testConstsumQuestionSubmissionForm,
+      testContribQuestionSubmissionForm,
+      testRubricQuestionSubmissionForm,
+      testRankOptionsQuestionSubmissionForm,
+      testRankRecipientsQuestionSubmissionForm,
     ];
     component.isSubmissionFormsDisabled = true;
     component.isFeedbackSessionLoading = false;
@@ -850,6 +806,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load a closed feedback session', () => {
+    const testClosedFeedbackSession: FeedbackSession = deepCopy(testOpenFeedbackSession);
+    testClosedFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.CLOSED;
     const fsSpy: Spy = spyOn(feedbackSessionsService, 'getFeedbackSession')
         .and.returnValue(of(testClosedFeedbackSession));
     const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
@@ -867,6 +825,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should load a visible not open feedback session', () => {
+    const testVisibleNotOpenFeedbackSession: FeedbackSession = deepCopy(testOpenFeedbackSession);
+    testVisibleNotOpenFeedbackSession.submissionStatus = FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
     const fsSpy: Spy = spyOn(feedbackSessionsService, 'getFeedbackSession')
         .and.returnValue(of(testVisibleNotOpenFeedbackSession));
     const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
@@ -903,19 +863,20 @@ describe('SessionSubmissionPageComponent', () => {
     const testFeedbackQuestions: any = {
       questions: [
         {
-          feedbackQuestionId: testQuestionSubmissionForm3.feedbackQuestionId,
-          questionNumber: testQuestionSubmissionForm3.questionNumber,
-          questionBrief: testQuestionSubmissionForm3.questionBrief,
-          questionDescription: testQuestionSubmissionForm3.questionDescription,
-          questionDetails: testQuestionSubmissionForm3.questionDetails,
-          questionType: testQuestionSubmissionForm3.questionType,
-          giverType: testQuestionSubmissionForm3.giverType,
-          recipientType: testQuestionSubmissionForm3.recipientType,
-          numberOfEntitiesToGiveFeedbackToSetting: testQuestionSubmissionForm3.numberOfEntitiesToGiveFeedbackToSetting,
-          customNumberOfEntitiesToGiveFeedbackTo: testQuestionSubmissionForm3.customNumberOfEntitiesToGiveFeedbackTo,
-          showResponsesTo: testQuestionSubmissionForm3.showResponsesTo,
-          showGiverNameTo: testQuestionSubmissionForm3.showGiverNameTo,
-          showRecipientNameTo: testQuestionSubmissionForm3.showRecipientNameTo,
+          feedbackQuestionId: testMcqQuestionSubmissionForm2.feedbackQuestionId,
+          questionNumber: testMcqQuestionSubmissionForm2.questionNumber,
+          questionBrief: testMcqQuestionSubmissionForm2.questionBrief,
+          questionDescription: testMcqQuestionSubmissionForm2.questionDescription,
+          questionDetails: testMcqQuestionSubmissionForm2.questionDetails,
+          questionType: testMcqQuestionSubmissionForm2.questionType,
+          giverType: testMcqQuestionSubmissionForm2.giverType,
+          recipientType: testMcqQuestionSubmissionForm2.recipientType,
+          numberOfEntitiesToGiveFeedbackToSetting:
+            testMcqQuestionSubmissionForm2.numberOfEntitiesToGiveFeedbackToSetting,
+          customNumberOfEntitiesToGiveFeedbackTo: testMcqQuestionSubmissionForm2.customNumberOfEntitiesToGiveFeedbackTo,
+          showResponsesTo: testMcqQuestionSubmissionForm2.showResponsesTo,
+          showGiverNameTo: testMcqQuestionSubmissionForm2.showGiverNameTo,
+          showRecipientNameTo: testMcqQuestionSubmissionForm2.showRecipientNameTo,
         },
       ],
     };
@@ -943,7 +904,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.loadFeedbackQuestions();
 
     expect(component.questionSubmissionForms.length).toEqual(1);
-    expect(component.questionSubmissionForms[0]).toEqual(testQuestionSubmissionForm3);
+    expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
   });
 
   it('should get comment model', () => {
@@ -974,12 +935,12 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should check that there are responses to submit', () => {
-    component.questionSubmissionForms = [testQuestionSubmissionForm1];
+    component.questionSubmissionForms = [testMcqQuestionSubmissionForm];
     expect(component.hasAnyResponseToSubmit).toEqual(true);
   });
 
   it('should check that there are no responses to submit', () => {
-    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testQuestionSubmissionForm2);
+    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
     testSubmissionForm.recipientSubmissionForms = [];
     component.questionSubmissionForms = [testSubmissionForm];
     expect(component.hasAnyResponseToSubmit).toEqual(false);
@@ -990,16 +951,16 @@ describe('SessionSubmissionPageComponent', () => {
     component.personEmail = 'john@email.com';
     component.personName = 'john-wick';
     component.questionSubmissionForms = [
-      deepCopy(testQuestionSubmissionForm1),
-      deepCopy(testQuestionSubmissionForm2),
-      deepCopy(testQuestionSubmissionForm3),
+      deepCopy(testMcqQuestionSubmissionForm),
+      deepCopy(testTextQuestionSubmissionForm),
+      deepCopy(testMcqQuestionSubmissionForm2),
     ];
     spyOn(feedbackResponsesService, 'isFeedbackResponseDetailsEmpty').and.returnValue(false);
     spyOn(feedbackResponsesService, 'submitFeedbackResponses').and.callFake((responseId: string) => {
-      if (responseId === testQuestionSubmissionForm1.feedbackQuestionId) {
+      if (responseId === testMcqQuestionSubmissionForm.feedbackQuestionId) {
         return of({ responses: [testResponse4] });
       }
-      if (responseId === testQuestionSubmissionForm2.feedbackQuestionId) {
+      if (responseId === testTextQuestionSubmissionForm.feedbackQuestionId) {
         return of({ responses: [testResponse5] });
       }
       return of({ responses: [] });
@@ -1010,18 +971,18 @@ describe('SessionSubmissionPageComponent', () => {
     component.saveFeedbackResponses();
 
     expect(fakeModalRef.componentInstance.requestIds).toEqual({
-      'feedback-question-id-1': '',
-      'feedback-question-id-2': '',
-      'feedback-question-id-3': '',
+      'feedback-question-id-mcq': '',
+      'feedback-question-id-mcq-2': '',
+      'feedback-question-id-text': '',
     });
     expect(fakeModalRef.componentInstance.courseId).toEqual('CS3281');
     expect(fakeModalRef.componentInstance.feedbackSessionName).toEqual('Feedback Session Name');
     expect(fakeModalRef.componentInstance.feedbackSessionTimezone).toEqual('');
     expect(fakeModalRef.componentInstance.personEmail).toEqual('john@email.com');
     expect(fakeModalRef.componentInstance.personName).toEqual('john-wick');
-    const expectedQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testQuestionSubmissionForm1);
-    const expectedQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testQuestionSubmissionForm2);
-    const expectedQuestionSubmissionForm3: QuestionSubmissionFormModel = deepCopy(testQuestionSubmissionForm3);
+    const expectedQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    const expectedQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    const expectedQuestionSubmissionForm3: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm2);
     expectedQuestionSubmissionForm1.recipientSubmissionForms[0].commentByGiver = undefined;
     expectedQuestionSubmissionForm1.recipientSubmissionForms[0].responseId = '';
     expectedQuestionSubmissionForm2.recipientSubmissionForms[0].commentByGiver = undefined;
@@ -1036,8 +997,8 @@ describe('SessionSubmissionPageComponent', () => {
       expectedQuestionSubmissionForm3,
     ]);
     expect(fakeModalRef.componentInstance.answers).toEqual({
-      'feedback-question-id-1': [testResponse4],
-      'feedback-question-id-2': [testResponse5],
+      'feedback-question-id-mcq': [testResponse4],
+      'feedback-question-id-text': [testResponse5],
     });
     expect(fakeModalRef.componentInstance.notYetAnsweredQuestions).toEqual([]);
     expect(fakeModalRef.componentInstance.failToSaveQuestions).toEqual({});
@@ -1055,7 +1016,7 @@ describe('SessionSubmissionPageComponent', () => {
       showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
       showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
     };
-    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testRecipientSubmissionForm2);
+    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testTextRecipientSubmissionForm);
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'createComment').and.returnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
@@ -1068,7 +1029,7 @@ describe('SessionSubmissionPageComponent', () => {
       showCommentTo: [],
       showGiverNameTo: [],
     });
-    expect(commentSpy.calls.mostRecent().args[1]).toEqual(testRecipientSubmissionForm2.responseId);
+    expect(commentSpy.calls.mostRecent().args[1]).toEqual(testTextRecipientSubmissionForm.responseId);
     expect(commentSpy.calls.mostRecent().args[2]).toEqual(Intent.STUDENT_SUBMISSION);
     expect(commentSpy.calls.mostRecent().args[3]).toEqual({ key: testQueryParams.key, moderatedperson: '' });
   });
@@ -1085,8 +1046,8 @@ describe('SessionSubmissionPageComponent', () => {
       showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
       showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
     };
-    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testRecipientSubmissionForm1);
-    const expectedId: any = testRecipientSubmissionForm1.commentByGiver?.originalComment?.feedbackResponseCommentId;
+    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
+    const expectedId: any = testMcqRecipientSubmissionForm.commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'updateComment').and.returnValue(of(testComment));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
@@ -1105,8 +1066,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should create comment request to delete existing comment when text is empty', () => {
-    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testRecipientSubmissionForm3);
-    const expectedId: any = testRecipientSubmissionForm3.commentByGiver?.originalComment?.feedbackResponseCommentId;
+    const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm2);
+    const expectedId: any = testMcqRecipientSubmissionForm2.commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'deleteComment').and.returnValue(of({}));
 
     component.createCommentRequest(testSubmissionForm).subscribe(() => {
@@ -1120,8 +1081,8 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should delete participant comment', () => {
-    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testQuestionSubmissionForm1);
-    const expectedId: any = testQuestionSubmissionForm1.recipientSubmissionForms[0]
+    const testSubmissionForm: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    const expectedId: any = testMcqQuestionSubmissionForm.recipientSubmissionForms[0]
         .commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'deleteComment').and.returnValue(of(true));
 
