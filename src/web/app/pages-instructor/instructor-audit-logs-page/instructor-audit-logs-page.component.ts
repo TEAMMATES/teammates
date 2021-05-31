@@ -177,16 +177,13 @@ export class InstructorAuditLogsPageComponent implements OnInit {
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
       logRowsData: log.feedbackSessionLogEntries
+        .filter((entry: FeedbackSessionLogEntry) =>
+          LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType] !== LogType.FEEDBACK_SESSION_VIEW)
         .map((entry: FeedbackSessionLogEntry) => {
-          let activity: string;
+          let activity: string = 'Submitted responses';
           if (LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
               === LogType.FEEDBACK_SESSION_ACCESS) {
             activity = 'Viewed the submission page';
-          } else if (LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-              === LogType.FEEDBACK_SESSION_VIEW) {
-            activity = 'Viewed the results page';
-          } else {
-            activity = 'Submitted responses';
           }
           return [
             { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A') },

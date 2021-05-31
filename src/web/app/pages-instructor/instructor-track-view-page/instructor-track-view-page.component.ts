@@ -62,7 +62,8 @@ interface FeedbackSessionLogModel {
   styleUrls: ['./instructor-track-view-page.component.scss'],
 })
 export class InstructorTrackViewPageComponent implements OnInit {
-  LOGS_RETENTION_PERIOD: number = ApiConst.LOGS_RETENTION_PERIOD;
+  LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -117,10 +118,13 @@ export class InstructorTrackViewPageComponent implements OnInit {
           })),
           mergeAll(),
           finalize(() => this.isLoading = false))
-      .subscribe(((feedbackSession: FeedbackSessions) =>
+      .subscribe(((feedbackSession: FeedbackSessions) => {
+        if (feedbackSession.feedbackSessions.length > 0) {
           this.courseToFeedbackSession[feedbackSession.feedbackSessions[0].courseId]
-            = [...feedbackSession.feedbackSessions]),
-        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            = [...feedbackSession.feedbackSessions];
+        }
+      }),
+      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   /**
@@ -137,34 +141,35 @@ export class InstructorTrackViewPageComponent implements OnInit {
         intent: Intent.INSTRUCTOR_RESULT,
       })
       .subscribe((feedbackSession: FeedbackSession) => {
-        if (feedbackSession.resultVisibleFromTimestamp) {
-          this.publishedTime = feedbackSession.resultVisibleFromTimestamp;
-        }
+        this.publishedTime = feedbackSession.resultVisibleFromTimestamp || this.publishedTime;
 
-        if (!(feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED)) {
-          // Feedback session is not published, do not need to search.
+        // Feedback session is not published, do not need to search.
+        if (feedbackSession.publishStatus !== FeedbackSessionPublishStatus.PUBLISHED) {
           this.isSearching = false;
           this.statusMessageService.showErrorToast('This feedback session is not published');
-          // this.emptyResult();
-        } else if (this.publishedTime < Date.now() - this.LOGS_RETENTION_PERIOD * 24 * 60 * 60 * 1000) {
-          // Feedback session is published more than 30 days ago, open a dialog.
-          this.openModal(feedbackSession);
-        } else {
-          // Published time of the feedback session is less than 30 days ago, update the form model to
-          // search only up till the publish date.
-          const publishedDate: Date = new Date(this.publishedTime);
-          this.notViewedSince = publishedDate.getTime();
-          this.logsDateFrom = {
-            year: publishedDate.getFullYear(),
-            month: publishedDate.getMonth() + 1,
-            day: publishedDate.getDate(),
-          };
-          this.logsTimeFrom = {
-            hour: publishedDate.getHours(),
-            minute: publishedDate.getMinutes(),
-          };
-          this.search();
+          return;
         }
+
+        // Feedback session is published more than 30 days ago, open a dialog.
+        if (this.publishedTime < Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS) {
+          this.openModal();
+          return;
+        }
+
+        // Published time of the feedback session is less than 30 days ago, update the form model to
+        // search only up till the publish date.
+        const publishedDate: Date = new Date(this.publishedTime);
+        this.notViewedSince = publishedDate.getTime();
+        this.logsDateFrom = {
+          year: publishedDate.getFullYear(),
+          month: publishedDate.getMonth() + 1,
+          day: publishedDate.getDate(),
+        };
+        this.logsTimeFrom = {
+          hour: publishedDate.getHours(),
+          minute: publishedDate.getMinutes(),
+        };
+        this.search();
       });
   }
 
@@ -189,11 +194,11 @@ export class InstructorTrackViewPageComponent implements OnInit {
 
     forkJoin(localDateTime)
         .pipe(
-            concatMap((timestamp: number[]) => {
+            concatMap(([timestampFrom, timestampUntil]: number[]) => {
               return this.logsService.searchFeedbackSessionLog({
                 courseId: this.formModel.courseId,
-                searchFrom: timestamp[0].toString(),
-                searchUntil: timestamp[1].toString(),
+                searchFrom: timestampFrom.toString(),
+                searchUntil: timestampUntil.toString(),
                 sessionName: this.formModel.feedbackSessionName,
               });
             }),
@@ -205,42 +210,30 @@ export class InstructorTrackViewPageComponent implements OnInit {
           this.studentService
               .getStudentsFromCourse({ courseId: this.formModel.courseId })
               .subscribe((students: Students) => {
-                students.students.map((student: Student) => this.students.push(student));
+                this.students.push(...students.students);
 
-                logs.feedbackSessionLogs
-                  .filter((fsLog: FeedbackSessionLog) =>
-                    fsLog.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName)[0]
-                    .feedbackSessionLogEntries
+                const targetFeedbackSessionLog: FeedbackSessionLog | undefined = logs.feedbackSessionLogs
+                  .find((fsLog: FeedbackSessionLog) =>
+                    fsLog.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
+
+                if (!targetFeedbackSessionLog) {
+                  return;
+                }
+
+                targetFeedbackSessionLog.feedbackSessionLogEntries
                   .filter((entry: FeedbackSessionLogEntry) =>
                     LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-                      === LogType.FEEDBACK_SESSION_VIEW)
-                  .map((entry: FeedbackSessionLogEntry) => {
-                    if (!(entry.studentData.email in this.studentToLog)
-                      || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp) {
-                      this.studentToLog[entry.studentData.email] = entry;
-                    }
-                  });
-                this.searchResult = this.toFeedbackSessionLogModel(logs.feedbackSessionLogs[0]);
+                      === LogType.FEEDBACK_SESSION_VIEW
+                    && (!(entry.studentData.email in this.studentToLog)
+                        || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp))
+                  .forEach((entry: FeedbackSessionLogEntry) => this.studentToLog[entry.studentData.email] = entry);
+
+                this.searchResult = this.toFeedbackSessionLogModel(targetFeedbackSessionLog);
               });
         }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
-  /**
-   * Return an empty search result for feedback sessions that is not published
-   */
-  // private emptyResult(): void {
-  //   this.searchResult = {
-  //     courseId: this.formModel.courseId,
-  //     feedbackSessionName: this.formModel.feedbackSessionName,
-  //     publishedDate: '',
-  //     logColumnsData: [],
-  //     logRowsData: [],
-  //   };
-  //   this.hasResult = true;
-  //   this.isSearching = false;
-  // }
-
-  private openModal(feedbackSession: FeedbackSession): void {
+  private openModal(): void {
     const modalContent: string = 'Published date of selected feedback session is more than 30 days ago. '
       + 'Only activities within the last 30 days will be shown.';
     const modalRef: NgbModalRef =
@@ -248,7 +241,7 @@ export class InstructorTrackViewPageComponent implements OnInit {
     modalRef.result.then(
       () => {
         const earliestSearchDate: Date =
-          new Date(Date.now() - this.LOGS_RETENTION_PERIOD * 24 * 60 * 60 * 1000 + 60 * 1000);
+          new Date(Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS + 60 * 1000);
         this.logsDateFrom = {
           year: earliestSearchDate.getFullYear(),
           month: earliestSearchDate.getMonth() + 1,
@@ -260,9 +253,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
         };
 
         this.notViewedSince = earliestSearchDate.getTime();
-        if (feedbackSession.resultVisibleFromTimestamp) {
-          this.publishedTime = feedbackSession.resultVisibleFromTimestamp;
-        }
         this.search();
       },
       () => { this.isSearching = false; },
@@ -297,7 +287,7 @@ export class InstructorTrackViewPageComponent implements OnInit {
       logRowsData: this.students
         .map((student: Student) => {
           let status: string;
-          let dataStyle: string = 'font-family:monospace; white-space:pre; ';
+          let dataStyle: string = 'font-family:monospace; white-space:pre;';
           if (student.email in this.studentToLog) {
             const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
             status = `Viewed last at   ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A')}`;

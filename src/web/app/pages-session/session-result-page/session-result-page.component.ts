@@ -150,11 +150,10 @@ export class SessionResultPageComponent implements OnInit {
           feedbackSessionName: this.feedbackSessionName,
           studentEmail: this.personEmail,
           logType: LogType.FEEDBACK_SESSION_VIEW,
-        }).subscribe(() => {
-
-        }, () => {
-          this.statusMessageService.showWarningToast('Failed to log feedback session view');
-        });
+        }).subscribe(
+          // No action needed if log is successfully created
+          () => {},
+          () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
       });
   }
 

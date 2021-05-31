@@ -113,11 +113,7 @@ export class SortableTableComponent implements OnInit {
     this.sortRows();
   }
 
-  getStyle(cellData: SortableTableCellData): string {
-    if (cellData.style) {
-      return cellData.style;
-    }
-
-    return '';
+  getStyle(cellData: SortableTableCellData): string | undefined {
+    return cellData.style;
   }
 }
