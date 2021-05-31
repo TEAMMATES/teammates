@@ -447,6 +447,7 @@ public class ArchitectureTest {
     @Test
     public void testArchitecture_externalApi_loggingApiCanOnlyBeAccessedByLogger() {
         noClasses().that().doNotHaveSimpleName("Logger")
+                .and().doNotHaveSimpleName("StdOutConsoleHandler")
                 .should().accessClassesThat().resideInAPackage("java.util.logging..")
                 .check(ALL_CLASSES);
     }
