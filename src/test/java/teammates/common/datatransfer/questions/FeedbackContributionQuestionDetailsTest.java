@@ -499,6 +499,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         ______TS("failure: mix of answers of all responses that are 1) either not in range or not multiple of"
                 + "10, 2) POINTS_NOT_SURE and notSure is not allowed");
         responses.clear();
+        expectedResponsesValidationResults.clear();
         for (int answer : INVALID_CONTRIBUTION_RESPONSE_ANSWERS) {
             FeedbackContributionResponseDetails details1 = new FeedbackContributionResponseDetails();
             details1.setAnswer(answer);
@@ -506,8 +507,9 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
             FeedbackContributionResponseDetails details2 = new FeedbackContributionResponseDetails();
             details2.setAnswer(Const.POINTS_NOT_SURE);
             responses.add(details2);
-            expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION);
         }
+        responses.forEach(s ->
+                expectedResponsesValidationResults.add(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_OPTION));
         assertEquals(expectedResponsesValidationResults,
                 feedbackContributionQuestionDetails.validateResponsesDetails(responses, 0));
 
