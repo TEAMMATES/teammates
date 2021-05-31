@@ -24,6 +24,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -67,6 +68,16 @@ public class OriginCheckFilter implements Filter {
 
         if (Config.CSRF_KEY.equals(request.getHeader("CSRF-Key"))) {
             // Can bypass CSRF check with the correct key
+            chain.doFilter(req, res);
+            return;
+        }
+
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
+
+        if (isRequestFromAppEngineQueue) {
+            // Requests from App Engine are allowed to bypass CSRF check
             chain.doFilter(req, res);
             return;
         }
@@ -168,7 +179,7 @@ public class OriginCheckFilter implements Filter {
         log.info("Request failed origin check: [" + request.getMethod() + "] " + request.getRequestURL().toString()
                 + ", Params: " + HttpRequestHelper.getRequestParametersAsString(request)
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(request)
-                + ", Request ID: " + request.getHeader("X-Cloud-Trace-Context"));
+                + ", Request ID: " + RequestTracer.getRequestId());
 
         JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
         result.send(response);

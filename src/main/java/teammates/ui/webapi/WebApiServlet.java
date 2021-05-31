@@ -20,6 +20,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -77,7 +78,7 @@ public class WebApiServlet extends HttpServlet {
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + requestParametersAsString
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
-                + ", Request ID: " + req.getHeader("X-Cloud-Trace-Context"));
+                + ", Request ID: " + RequestTracer.getRequestId());
 
         if (Config.MAINTENANCE) {
             throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,
@@ -92,7 +93,6 @@ public class WebApiServlet extends HttpServlet {
             action.checkAccessControl();
 
             ActionResult result = action.execute();
-            result.setRequestId(req.getHeader("X-Cloud-Trace-Context"));
             result.send(resp);
         } catch (ActionMappingException e) {
             throwErrorBasedOnRequester(req, resp, e, e.getStatusCode());
