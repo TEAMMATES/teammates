@@ -58,11 +58,10 @@ public class InstructorAuditLogsPage extends AppPage {
         logsOutput
                 .findElements(By.className("card"))
                 .forEach(card -> {
-                    if (card.findElements(By.className("fa-chevron-down")).isEmpty()) {
-                        return;
+                    if (!card.findElements(By.className("fa-chevron-down")).isEmpty()) {
+                        click(card.findElement(By.className("fa-chevron-down")));
                     }
                     String sessionName = card.getText().trim();
-                    click(card.findElement(By.className("fa-chevron-down")));
                     isLogPresentForSession.put(sessionName, !card.findElements(By.className("card-body")).isEmpty());
                 });
     }
