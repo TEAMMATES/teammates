@@ -69,6 +69,18 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
     }
 
     /**
+     * Checks if there is any feedback questions in a session in a course for the given giver type.
+     */
+    public boolean hasFeedbackQuestionsForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverType);
+
+        return hasFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType);
+    }
+
+    /**
      * Updates a feedback question by {@code FeedbackQuestionAttributes.UpdateOptions}.
      *
      * @return updated feedback question
@@ -193,6 +205,17 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
                 .filter("courseId =", courseId)
                 .filter("giverType =", giverType)
                 .list();
+    }
+
+    private boolean hasFeedbackQuestionEntitiesForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        return load()
+                .filter("feedbackSessionName =", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .filter("giverType =", giverType)
+                .keys()
+                .list()
+                .size() != 0;
     }
 
     @Override
