@@ -5,6 +5,12 @@
   box-shadow: 0 0 0 0;
 }
 
+@media (max-width: 768px) {
+  .mobile-invisible {
+    display: none;
+  }
+}
+
 @media (min-width: 768px) {
   .col-md-3 {
     text-align: right;

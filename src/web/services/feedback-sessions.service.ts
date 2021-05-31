@@ -203,6 +203,18 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Checks if there is response of a student for an array of feedback sessions (request sent by student).
+   */
+  hasStudentResponseForAllFeedbackSessionsInCourse(courseId: string): Observable<HasResponses> {
+    const paramMap: Record<string, string> = {
+      entitytype: 'student',
+      courseid: courseId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
+  }
+
+  /**
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   remindFeedbackSessionSubmissionForRespondents(
