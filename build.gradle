@@ -258,7 +258,7 @@ task copyDistToExplodedWar {
 task serverRun(type: JavaExec) {
     classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
     main = "teammates.main.Application"
-    jvmArgs "-ea"
+    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties"
     dependsOn explodeWar, copyDistToExplodedWar
 }
 
