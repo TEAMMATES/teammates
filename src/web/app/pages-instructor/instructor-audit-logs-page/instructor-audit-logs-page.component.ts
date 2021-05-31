@@ -178,7 +178,8 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       ],
       logRowsData: log.feedbackSessionLogEntries.map((entry: FeedbackSessionLogEntry) => {
         return [
-          { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A') },
+          { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
+            font: 'monospace' },
           { value: entry.studentData.name },
           { value: LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
             === LogType.FEEDBACK_SESSION_ACCESS ? 'Viewed the submission page' : 'Submitted responses' },
