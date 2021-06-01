@@ -1,5 +1,8 @@
 package teammates.ui.webapi;
 
+import static java.net.URLConnection.guessContentTypeFromStream;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
@@ -29,7 +32,11 @@ class ImageResult extends ActionResult {
 
     @Override
     void send(HttpServletResponse resp) throws IOException {
-        resp.setContentType("image/png");
+        String contentType = guessContentTypeFromStream(new ByteArrayInputStream(bytes));
+        if ("application/xml".equals(contentType)) {
+            contentType = "image/svg+xml";
+        }
+        resp.setContentType(contentType);
         resp.getOutputStream().write(bytes);
     }
 
