@@ -4,6 +4,7 @@ exports[`InstructorTrackViewPageComponent should snap when page is still loading
 <tm-instructor-track-view-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseToFeedbackSession={[Function Object]}
@@ -60,6 +61,7 @@ exports[`InstructorTrackViewPageComponent should snap when searching for details
 <tm-instructor-track-view-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseToFeedbackSession={[Function Object]}
@@ -203,6 +205,7 @@ exports[`InstructorTrackViewPageComponent should snap with default fields 1`] = 
 <tm-instructor-track-view-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseToFeedbackSession={[Function Object]}
@@ -259,6 +262,7 @@ exports[`InstructorTrackViewPageComponent should snap with results of a search 1
 <tm-instructor-track-view-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
   SortBy={[Function Object]}
   courseService={[Function CourseService]}
   courseToFeedbackSession={[Function Object]}

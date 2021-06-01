@@ -64,6 +64,7 @@ interface FeedbackSessionLogModel {
 export class InstructorTrackViewPageComponent implements OnInit {
   LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
+  ONE_MINUTE_IN_MILLISECONDS: number = 60 * 1000;
 
   // enum
   SortBy: typeof SortBy = SortBy;
@@ -118,10 +119,10 @@ export class InstructorTrackViewPageComponent implements OnInit {
           })),
           mergeAll(),
           finalize(() => this.isLoading = false))
-      .subscribe(((feedbackSession: FeedbackSessions) => {
-        if (feedbackSession.feedbackSessions.length > 0) {
-          this.courseToFeedbackSession[feedbackSession.feedbackSessions[0].courseId]
-            = [...feedbackSession.feedbackSessions];
+      .subscribe(((feedbackSessions: FeedbackSessions) => {
+        if (feedbackSessions.feedbackSessions.length > 0) {
+          this.courseToFeedbackSession[feedbackSessions.feedbackSessions[0].courseId]
+            = [...feedbackSessions.feedbackSessions];
         }
       }),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
@@ -150,8 +151,9 @@ export class InstructorTrackViewPageComponent implements OnInit {
           return;
         }
 
+        const earliestSearchTime: number = Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS;
         // Feedback session is published more than 30 days ago, open a dialog.
-        if (this.publishedTime < Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS) {
+        if (this.publishedTime < earliestSearchTime) {
           this.openModal();
           return;
         }
@@ -215,7 +217,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
                 const targetFeedbackSessionLog: FeedbackSessionLog | undefined = logs.feedbackSessionLogs
                   .find((fsLog: FeedbackSessionLog) =>
                     fsLog.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
-
                 if (!targetFeedbackSessionLog) {
                   return;
                 }
@@ -223,9 +224,10 @@ export class InstructorTrackViewPageComponent implements OnInit {
                 targetFeedbackSessionLog.feedbackSessionLogEntries
                   .filter((entry: FeedbackSessionLogEntry) =>
                     LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-                      === LogType.FEEDBACK_SESSION_VIEW
-                    && (!(entry.studentData.email in this.studentToLog)
-                        || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp))
+                      === LogType.FEEDBACK_SESSION_VIEW)
+                  .filter((entry: FeedbackSessionLogEntry) =>
+                    !(entry.studentData.email in this.studentToLog)
+                      || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp)
                   .forEach((entry: FeedbackSessionLogEntry) => this.studentToLog[entry.studentData.email] = entry);
 
                 this.searchResult = this.toFeedbackSessionLogModel(targetFeedbackSessionLog);
@@ -241,7 +243,7 @@ export class InstructorTrackViewPageComponent implements OnInit {
     modalRef.result.then(
       () => {
         const earliestSearchDate: Date =
-          new Date(Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS + 60 * 1000);
+          new Date(Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS + this.ONE_MINUTE_IN_MILLISECONDS);
         this.logsDateFrom = {
           year: earliestSearchDate.getFullYear(),
           month: earliestSearchDate.getMonth() + 1,
