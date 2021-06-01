@@ -13,14 +13,14 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
    * Transforms {@link FeedbackSessionSubmissionStatus} to a tooltip description.
    */
   transform(status: FeedbackSessionSubmissionStatus): string {
-    let msg: string = 'The feedback session has been created';
+    let msg: string = 'The feedback session ';
 
     switch (status) {
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
       case FeedbackSessionSubmissionStatus.OPEN:
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
       case FeedbackSessionSubmissionStatus.CLOSED:
-        msg += ', is visible';
+        msg += ' is visible';
         break;
       default:
     }
@@ -33,7 +33,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
         msg += ', and is open for submissions';
         break;
       case FeedbackSessionSubmissionStatus.CLOSED:
-        msg += ', and has ended';
+        msg += ', and is closed for submissions';
         break;
       default:
     }
