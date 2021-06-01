@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
@@ -13,10 +13,12 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StudentService } from '../../../services/student.service';
 import {
   Course,
+  FeedbackMcqQuestionDetails,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestions,
   FeedbackQuestionType,
+  FeedbackRankRecipientsQuestionDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
@@ -32,6 +34,7 @@ import {
   Students,
 } from '../../../types/api-output';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
+import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
 import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
@@ -39,18 +42,35 @@ import { InstructorSessionEditPageComponent } from './instructor-session-edit-pa
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 import Spy = jasmine.Spy;
 
+class MockNgbModalRef {
+  componentInstance: any = {
+    newFeedbackSessionName: '',
+    courseCandidates: [],
+    sessionToCopyCourseId: '',
+  };
+  result: Promise<any> = Promise.resolve();
+}
+
 describe('InstructorSessionEditPageComponent', () => {
 
-  const testCourse: Course = {
-    courseId: 'testId',
-    courseName: 'Test Course',
+  const testCourse1: Course = {
+    courseId: 'testId1',
+    courseName: 'Test Course 1',
+    timeZone: 'Asia/Singapore',
+    creationTimestamp: 0,
+    deletionTimestamp: 1000,
+  };
+
+  const testCourse2: Course = {
+    courseId: 'testId2',
+    courseName: 'Test Course 2',
     timeZone: 'Asia/Singapore',
     creationTimestamp: 0,
     deletionTimestamp: 1000,
   };
 
   const testFeedbackSession: FeedbackSession = {
-    courseId: 'testId',
+    courseId: 'testId1',
     timeZone: 'Asia/Singapore',
     feedbackSessionName: 'Test Session',
     instructions: 'Instructions',
@@ -90,11 +110,35 @@ describe('InstructorSessionEditPageComponent', () => {
     questionNumber: 2,
     questionBrief: 'question brief',
     questionDescription: 'description',
-    questionType: FeedbackQuestionType.TEXT,
+    questionType: FeedbackQuestionType.MCQ,
     questionDetails: {
-      questionType: FeedbackQuestionType.TEXT,
+      questionType: FeedbackQuestionType.MCQ,
       questionText: 'question text',
-    } as FeedbackTextQuestionDetails,
+      numOfMcqChoices: 3,
+      mcqChoices: ['choice 1', 'choice 2', 'choice 3'],
+    } as FeedbackMcqQuestionDetails,
+    giverType: FeedbackParticipantType.STUDENTS,
+    recipientType: FeedbackParticipantType.INSTRUCTORS,
+    numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
+    customNumberOfEntitiesToGiveFeedbackTo: 5,
+    showResponsesTo: [FeedbackVisibilityType.GIVER_TEAM_MEMBERS, FeedbackVisibilityType.INSTRUCTORS],
+    showGiverNameTo: [],
+    showRecipientNameTo: [],
+  };
+
+  const testFeedbackQuestion3: FeedbackQuestion = {
+    feedbackQuestionId: 'feedback-question-3',
+    questionNumber: 3,
+    questionBrief: 'question brief',
+    questionDescription: 'description',
+    questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+    questionDetails: {
+      questionType: FeedbackQuestionType.RANK_RECIPIENTS,
+      questionText: 'question text',
+      minOptionsToBeRanked: 5,
+      maxOptionsToBeRanked: 5,
+      areDuplicatesAllowed: true,
+    } as FeedbackRankRecipientsQuestionDetails,
     giverType: FeedbackParticipantType.STUDENTS,
     recipientType: FeedbackParticipantType.INSTRUCTORS,
     numberOfEntitiesToGiveFeedbackToSetting: NumberOfEntitiesToGiveFeedbackToSetting.UNLIMITED,
@@ -201,6 +245,8 @@ describe('InstructorSessionEditPageComponent', () => {
   let studentService: StudentService;
   let instructorService: InstructorService;
   let navigationService: NavigationService;
+  let ngbModal: NgbModal;
+  const mockModalRef: MockNgbModalRef = new MockNgbModalRef();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -226,6 +272,7 @@ describe('InstructorSessionEditPageComponent', () => {
     studentService = TestBed.inject(StudentService);
     instructorService = TestBed.inject(InstructorService);
     navigationService = TestBed.inject(NavigationService);
+    ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -242,6 +289,10 @@ describe('InstructorSessionEditPageComponent', () => {
     component.questionEditFormModels = [testQuestionEditFormModel1, testQuestionEditFormModel2];
     component.isLoadingFeedbackSession = false;
     component.isLoadingFeedbackQuestions = false;
+    component.courseId = testCourse1.courseId;
+    component.courseName = testCourse1.courseName;
+    component.feedbackSessionName = testFeedbackSession.feedbackSessionName;
+    component.sessionEditFormModel = sessionEditFormModel;
     fixture.detectChanges();
     expect(fixture).toMatchSnapshot();
   });
@@ -260,28 +311,47 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap when feedback question failed to load', () => {
+    component.hasLoadingFeedbackQuestionsFailed = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when feedback session is loading', () => {
+    component.isLoadingFeedbackSession = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
+  it('should snap when feedback questions are loading', () => {
+    component.isLoadingFeedbackQuestions = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should load correct feedback session for a given API output', () => {
-    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of(testCourse));
+    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of(testCourse1));
     spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(of(testFeedbackSession));
 
     component.loadFeedbackSession();
 
-    expect(component.courseName).toBe('Test Course');
-    expect(component.sessionEditFormModel.courseId).toBe('testId');
-    expect(component.sessionEditFormModel.courseName).toBe('Test Course');
+    expect(component.courseName).toBe('Test Course 1');
+    expect(component.sessionEditFormModel.courseId).toBe('testId1');
+    expect(component.sessionEditFormModel.courseName).toBe('Test Course 1');
     expect(component.sessionEditFormModel.feedbackSessionName).toBe('Test Session');
   });
 
   it('should load correct feedback session questions', () => {
     const feedbackQuestions: FeedbackQuestions = {
-      questions: [testFeedbackQuestion1, testFeedbackQuestion2],
+      questions: [testFeedbackQuestion1, testFeedbackQuestion2, testFeedbackQuestion3],
     };
     spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of(feedbackQuestions));
 
     component.loadFeedbackQuestions();
-    expect(component.questionEditFormModels.length).toBe(2);
+    expect(component.questionEditFormModels.length).toBe(3);
     expect(component.questionEditFormModels[0].feedbackQuestionId).toBe('feedback-question-1');
     expect(component.questionEditFormModels[1].feedbackQuestionId).toBe('feedback-question-2');
+    expect(component.questionEditFormModels[2].feedbackQuestionId).toBe('feedback-question-3');
   });
 
   it('should get all students of the course', () => {
@@ -402,5 +472,19 @@ describe('InstructorSessionEditPageComponent', () => {
     component.createNewQuestionHandler();
     expect(component.questionEditFormModels.length).toEqual(2);
     expect(component.feedbackQuestionModels.has(testFeedbackQuestion2.feedbackQuestionId)).toEqual(true);
+  });
+
+  it('should open modal and copy current session', () => {
+    component.feedbackSessionName = testFeedbackSession.feedbackSessionName;
+    component.courseId = testCourse1.courseId;
+    spyOn(courseService, 'getInstructorCoursesThatAreActive').and.returnValue(of({ courses: [testCourse2] }));
+    spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+
+    component.copyCurrentSession();
+
+    expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
+    expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
+    expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
+    expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
   });
 });

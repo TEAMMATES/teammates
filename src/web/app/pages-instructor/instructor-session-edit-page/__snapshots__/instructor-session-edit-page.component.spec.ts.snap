@@ -1,5 +1,186 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`InstructorSessionEditPageComponent should snap when feedback question failed to load 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed={[Function Boolean]}
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load feedback questions
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap when feedback questions are loading 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <br />
+    
+    
+    <br />
+    
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
 exports[`InstructorSessionEditPageComponent should snap when feedback session failed to load 1`] = `
 <tm-instructor-session-edit-page
   FeedbackQuestionType={[Function Object]}
@@ -63,6 +244,99 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
          Retry
       </button>
     </div>
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <br />
+    
+    
+    <br />
+    
+    
+    
+  </tm-loading-retry>
+</tm-instructor-session-edit-page>
+`;
+
+exports[`InstructorSessionEditPageComponent should snap when feedback session is loading 1`] = `
+<tm-instructor-session-edit-page
+  FeedbackQuestionType={[Function Object]}
+  QuestionEditFormMode={[Function Object]}
+  SessionEditFormMode={[Function Object]}
+  changeDetectorRef={[Function ViewRef_]}
+  courseId="undefined"
+  courseName=""
+  courseService={[Function CourseService]}
+  emailOfInstructorToPreview=""
+  emailOfStudentToPreview=""
+  failedToCopySessions={[Function Object]}
+  feedbackQuestionModels={[Function Map]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackSessionModelBeforeEditing={[Function Object]}
+  feedbackSessionName="undefined"
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  hasLoadingFeedbackQuestionsFailed="false"
+  hasLoadingFeedbackSessionFailed="false"
+  instructorService={[Function InstructorService]}
+  instructorsCanBePreviewedAs={[Function Array]}
+  isAddingQuestionPanelExpanded="false"
+  isCopyingQuestion="false"
+  isEditingMode="false"
+  isLoadingFeedbackQuestions={[Function Boolean]}
+  isLoadingFeedbackSession={[Function Boolean]}
+  isResultActionLoading="false"
+  navigationService={[Function NavigationService]}
+  newQuestionEditFormModel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
+  publishUnpublishRetryAttempts={[Function Number]}
+  questionEditFormModels={[Function Array]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  sessionEditFormModel={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentsOfCourse={[Function Array]}
+  tableComparatorService={[Function TableComparatorService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
     
   </tm-loading-retry><tm-loading-retry>
     
@@ -193,8 +467,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   QuestionEditFormMode={[Function Object]}
   SessionEditFormMode={[Function Object]}
   changeDetectorRef={[Function ViewRef_]}
-  courseId="undefined"
-  courseName=""
+  courseId={[Function String]}
+  courseName={[Function String]}
   courseService={[Function CourseService]}
   emailOfInstructorToPreview=""
   emailOfStudentToPreview=""
@@ -202,7 +476,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   feedbackQuestionModels={[Function Map]}
   feedbackQuestionsService={[Function FeedbackQuestionsService]}
   feedbackSessionModelBeforeEditing={[Function Object]}
-  feedbackSessionName="undefined"
+  feedbackSessionName={[Function String]}
   feedbackSessionsService={[Function FeedbackSessionsService]}
   hasLoadingFeedbackQuestionsFailed="false"
   hasLoadingFeedbackSessionFailed="false"
@@ -315,7 +589,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     id="edit-course-id"
                   >
-                      
+                     testId 
                   </div>
                 </div>
                 <div
@@ -331,7 +605,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     class="ngb-tooltip-class"
                     ngbtooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time."
                   >
-                    UTC
+                    Asia/Singapore
                   </span>
                 </div>
               </div>
@@ -348,7 +622,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   class="col-md-4 text-md-left"
                   id="course-name"
                 >
-                    
+                   Test Course 
                 </div>
               </div>
               <br />
@@ -372,7 +646,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   <div
                     id="edit-session-name"
                   >
-                      
+                     test session 
                   </div>
                 </div>
               </div>
