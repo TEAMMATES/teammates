@@ -9,6 +9,8 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackSessionsService, TemplateSession } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
@@ -152,11 +154,14 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private courseService: CourseService,
               private route: ActivatedRoute,
               private timezoneService: TimezoneService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, ngbModalService, studentService);
+        feedbackQuestionsService, tableComparatorService, ngbModalService,
+        simpleModalService, progressBarService, studentService);
   }
 
   ngOnInit(): void {

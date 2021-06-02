@@ -74,15 +74,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Gets an action with request body.
      */
-    protected T getAction(Object requestBody, String... params) {
-        return getAction(JsonUtils.toJson(requestBody), params);
-    }
-
-    /**
-     * Gets an action with request body.
-     */
-    protected T getAction(String body, String... params) {
-        return getAction(body, null, null, params);
+    protected T getAction(BasicRequest requestBody, String... params) {
+        return getAction(JsonUtils.toCompactJson(requestBody), null, null, params);
     }
 
     /**
@@ -484,12 +477,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected void verifyCanAccess(String... params) {
         Action c = getAction(params);
-        c.checkAccessControl();
-    }
-
-    protected void verifyCanAccess(BasicRequest request, String... params) {
-        Action c = getAction(request, params);
-        c.checkAccessControl();
+        try {
+            c.checkAccessControl();
+        } catch (UnauthorizedAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -497,11 +489,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      */
     protected void verifyCannotAccess(String... params) {
         Action c = getAction(params);
-        assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
-    }
-
-    protected void verifyCannotAccess(BasicRequest request, String... params) {
-        Action c = getAction(request, params);
         assertThrows(UnauthorizedAccessException.class, c::checkAccessControl);
     }
 
@@ -518,7 +505,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * accessible to the logged in user masquerading as another user with {@code userId}.
      */
     protected void verifyCannotMasquerade(String userId, String... params) {
-        assertThrows(UnauthorizedAccessException.class, () -> getAction(addUserIdToParams(userId, params)));
+        assertThrows(UnauthorizedAccessException.class,
+                () -> getAction(addUserIdToParams(userId, params)).checkAccessControl());
     }
 
     // The next few methods are for parsing results

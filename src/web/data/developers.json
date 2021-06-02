@@ -430,6 +430,10 @@
       "username": "desponda"
     },
     {
+      "name": "Daniel McBane",
+      "username": "DanielMcBane"
+    },
+    {
       "name": "Dante Radovani",
       "username": "dRadest"
     },
@@ -980,6 +984,10 @@
       "multiple": true,
       "name": "Luk Ming Kit",
       "username": "lmk1988"
+    },
+    {
+      "name": "Lye Yi Xian",
+      "username": "lyeyixian"
     },
     {
       "name": "Mac Knight",
@@ -1614,6 +1622,10 @@
       "username": "SvetaNesterenko"
     },
     {
+      "name": "Syasya Azman",
+      "username": "Syasyazman"
+    },
+    {
       "name": "Tainan Valentim",
       "username": "tainansv"
     },
@@ -1676,6 +1688,7 @@
       "username": "josephinex"
     },
     {
+      "multiple": true,
       "name": "Teik Jun",
       "username": "teikjun"
     },
@@ -1837,6 +1850,11 @@
     },
     {
       "multiple": true,
+      "name": "Yen Pinhsuan",
+      "username": "ypinhsuan"
+    },
+    {
+      "multiple": true,
       "name": "Yen Zi Shyun"
     },
     {
@@ -1891,8 +1909,17 @@
       "username": "yilun-zhu"
     },
     {
+      "name": "sofefr",
+      "username": "sofefr"
+    },
+    {
+      "multiple": true,
       "name": "stapletonce",
       "username": "stapletonce"
+    },
+    {
+      "name": "tlhuynh",
+      "username": "tlhuynh"
     }
   ],
   "committers": [

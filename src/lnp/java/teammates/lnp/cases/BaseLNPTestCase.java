@@ -52,9 +52,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String POST = HttpPost.METHOD_NAME;
     protected static final String PUT = HttpPut.METHOD_NAME;
     protected static final String DELETE = HttpDelete.METHOD_NAME;
+    protected static final Logger log = Logger.getLogger();
 
     private static final BackDoor BACKDOOR = BackDoor.getInstance();
-    private static final Logger log = Logger.getLogger();
 
     private static final int RESULT_COUNT = 3;
 
@@ -115,7 +115,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
                         this.getClass().getSimpleName(), this.timeStamp);
     }
 
-    private String createFileAndDirectory(String directory, String fileName) throws IOException {
+    protected String createFileAndDirectory(String directory, String fileName) throws IOException {
         File dir = new File(directory);
         if (!dir.exists()) {
             dir.mkdir();
@@ -135,7 +135,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Creates the JSON data and writes it to the file specified by {@link #getJsonDataPath()}.
      */
-    private void createJsonDataFile(LNPTestData testData) throws IOException {
+    void createJsonDataFile(LNPTestData testData) throws IOException {
         DataBundle jsonData = testData.generateJsonData();
 
         String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
@@ -169,7 +169,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      * Converts the list of {@code values} to a CSV row.
      * @return A single string containing {@code values} separated by pipelines and ending with newline.
      */
-    private String convertToCsv(List<String> values) {
+    String convertToCsv(List<String> values) {
         StringJoiner csvRow = new StringJoiner("|", "", "\n");
         for (String value : values) {
             csvRow.add(value);

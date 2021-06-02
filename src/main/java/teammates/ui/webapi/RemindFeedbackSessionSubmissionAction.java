@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 
@@ -17,7 +18,7 @@ class RemindFeedbackSessionSubmissionAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
