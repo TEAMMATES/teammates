@@ -12,6 +12,7 @@ public class UserInfo {
     public boolean isAdmin;
     public boolean isInstructor;
     public boolean isStudent;
+    public boolean isSeniorDeveloper;
 
     public UserInfo(String googleId) {
         this.id = googleId;
@@ -31,6 +32,10 @@ public class UserInfo {
 
     public boolean getIsStudent() {
         return isStudent;
+    }
+
+    public boolean getIsSeniorDeveloper() {
+        return isSeniorDeveloper;
     }
 
 }

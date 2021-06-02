@@ -5,6 +5,7 @@ import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.util.Config;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -61,6 +62,7 @@ public class UserProvision {
 
         UserInfo userInfo = new UserInfo(user.getNickname());
         userInfo.isAdmin = userService.isUserAdmin();
+        userInfo.isSeniorDeveloper = this.isUserSeniorDeveloper(userInfo.getId());
         return userInfo;
     }
 
@@ -82,6 +84,13 @@ public class UserProvision {
         UserInfo userInfo = new UserInfo(userId);
         userInfo.isAdmin = true;
         return userInfo;
+    }
+
+    /**
+     * Checks whether the given id is in the list of senior developers' id.
+     */
+    public boolean isUserSeniorDeveloper(String id) {
+        return Config.SENIOR_DEVELOPERS.contains(id);
     }
 
 }

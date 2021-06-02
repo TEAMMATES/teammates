@@ -2,6 +2,8 @@ package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
 
 import com.google.appengine.api.utils.SystemProperty;
@@ -84,6 +86,8 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
+    public static final List<String> SENIOR_DEVELOPERS;
+
     static {
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
@@ -114,6 +118,7 @@ public final class Config {
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
+        SENIOR_DEVELOPERS = Arrays.asList(properties.getProperty("app.seniorDeveloper.ids").split(","));
     }
 
     private Config() {
