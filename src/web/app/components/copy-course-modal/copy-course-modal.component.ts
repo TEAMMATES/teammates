@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { FeedbackSession } from '../../../types/api-output';
+import { Course, FeedbackSession } from '../../../types/api-output';
 import { COURSE_ID_MAX_LENGTH } from '../../../types/field-validator';
 
 interface Timezone {
@@ -10,15 +10,10 @@ interface Timezone {
   offset: string;
 }
 
-const formatTwoDigits: Function = (n: number): string => {
-  if (n < 10) {
-    return `0${n}`;
-  }
-  return String(n);
-};
+const zeroPad = (num: number) => String(num).padStart(2, '0');
 
 /**
- * Copy current course modal.
+ * Copy course modal.
  */
 @Component({
   selector: 'tm-copy-course-modal',
@@ -31,8 +26,12 @@ export class CopyCourseModalComponent implements OnInit {
   COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
 
   @Input()
-  sessionsInCourse: FeedbackSession[] = [];
+  courseToFeedbackSession: Record<string, FeedbackSession[]> = {};
+  
+  @Input()
+  courses: Course[] = [];
 
+  isCopyFromOtherSession: boolean = false;
   timezones: Timezone[] = [];
   newTimezone: string = '';
   newCourseId: string = '';
@@ -53,7 +52,7 @@ export class CopyCourseModalComponent implements OnInit {
       const sign: string = offset < 0 ? '-' : '+';
       this.timezones.push({
         id,
-        offset: offset === 0 ? 'UTC' : `UTC ${sign}${formatTwoDigits(hourOffset)}:${formatTwoDigits(minOffset)}`,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}`,
       });
     }
     this.newTimezone = this.timezoneService.guessTimezone();
@@ -88,8 +87,8 @@ export class CopyCourseModalComponent implements OnInit {
    * Clear selected sessions
    */
   toggleSelection(): void {
-    if (this.chosenFeedbackSessions.size !== this.sessionsInCourse.length) {
-      this.chosenFeedbackSessions = new Set(this.sessionsInCourse);
+    if (this.chosenFeedbackSessions.size !== this.courseToFeedbackSession[this.oldCourseId].length) {
+      this.chosenFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
     } else {
       this.chosenFeedbackSessions = new Set<FeedbackSession>();
     }

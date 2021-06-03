@@ -1,8 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
+import { CopyCourseModalResult } from '../../../components/copy-course-modal/copy-course-modal-model';
 import { CourseService } from '../../../../services/course.service';
+import { FeedbackSessionsService } from '../../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
+import { Course, Courses, FeedbackSessions } from '../../../../types/api-output';
+import { CopyCourseModalComponent } from '../../../components/copy-course-modal/copy-course-modal.component';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
 interface Timezone {
@@ -30,6 +35,7 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() copyCourseEvent: EventEmitter<any> = new EventEmitter<any>();
 
   timezones: Timezone[] = [];
   timezone: string = '';
@@ -39,7 +45,9 @@ export class AddCourseFormComponent implements OnInit {
 
   constructor(private statusMessageService: StatusMessageService,
               private courseService: CourseService,
-              private timezoneService: TimezoneService) { }
+              private timezoneService: TimezoneService,
+              private feedbackSessionsService: FeedbackSessionsService,
+              private ngbModal: NgbModal) { }
 
   ngOnInit(): void {
     for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
@@ -99,5 +107,29 @@ export class AddCourseFormComponent implements OnInit {
    */
   closeEditFormHandler(): void {
     this.closeCourseFormEvent.emit();
+  }
+
+  /**
+   * Handles copying from other courses event
+   */
+  onCopy(): void {
+    this.courseService
+      .getAllCoursesAsInstructor('active')
+      .subscribe((courses: Courses) => {
+        const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+        modalRef.componentInstance.isCopyFromOtherSession = true;
+        modalRef.componentInstance.courses = courses.courses;
+        
+        courses.courses.forEach((course: Course) => {
+          this.feedbackSessionsService
+            .getFeedbackSessionsForInstructor(course.courseId)
+            .subscribe((feedbackSessions: FeedbackSessions) => {
+              modalRef.componentInstance.courseToFeedbackSession[course.courseId] = [...feedbackSessions.feedbackSessions];
+              modalRef.result.then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result), () => {});
+            });
+        }, (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        });
+      });
   }
 }

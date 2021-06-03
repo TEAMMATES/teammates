@@ -7,6 +7,7 @@
 <div id="add-course-section" class="course-section" *ngIf="isAddNewCourseFormExpanded" @collapseAnim>
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
+                      (copyCourseEvent)="createCourse($event)"
   ></tm-add-course-form>
 </div>
 

@@ -13,7 +13,11 @@ import { TableComparatorService } from '../../../services/table-comparator.servi
 import {
   Course,
   CourseArchive,
-  Courses, FeedbackQuestion, FeedbackQuestions, FeedbackSession, FeedbackSessions,
+  Courses,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackSession,
+  FeedbackSessions,
   JoinState,
   MessageOutput,
   Student,
@@ -265,24 +269,34 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
       return;
     }
+
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
-      modalRef.componentInstance.newCourseId = courseId;
       modalRef.componentInstance.oldCourseId = courseId;
-      modalRef.componentInstance.newCourseName = courseName;
       modalRef.componentInstance.oldCourseName = courseName;
       modalRef.componentInstance.newTimeZone = timeZone;
-      modalRef.componentInstance.sessionsInCourse = response.feedbackSessions;
+      modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
       modalRef.componentInstance.chosenFeedbackSessions = new Set(response.feedbackSessions);
-      modalRef.result.then((result: CopyCourseModalResult) => {
-        this.isLoading = true;
-        this.courseService.createCourse({
-          courseName: result.newCourseName,
-          timeZone: result.newTimeZone,
-          courseId: result.newCourseId,
-        }).subscribe(() => {
-          this.statusMessageService.showSuccessToast('The course has been added.');
-          this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
+      modalRef.result.then((result: CopyCourseModalResult) => { this.createCourse(result) }, () => {});
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  /**
+   * Creates a new course with selected feedback sessions
+   */
+  createCourse(result: CopyCourseModalResult): void {
+    this.isLoading = true;
+    this.courseService.createCourse({
+      courseName: result.newCourseName,
+      timeZone: result.newTimeZone,
+      courseId: result.newCourseId,
+    }).subscribe(() => {
+      this.statusMessageService.showSuccessToast('The course has been added.');
+      this.courseService
+        .getAllCoursesAsInstructor('active')
+        .subscribe((resp: Courses) => {
             const course: Course = resp.courses.find((c: Course) => c.courseId === result.newCourseId) as Course;
             this.activeCourses.push(this.getCourseModelFromCourse(course));
             this.activeCoursesDefaultSort();
@@ -296,10 +310,6 @@ export class InstructorCoursesPageComponent implements OnInit {
           this.isLoading = false;
           this.hasLoadingFailed = true;
         });
-      }, () => {});
-    }, (resp: ErrorMessageOutput) => {
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
   }
 
   /**
