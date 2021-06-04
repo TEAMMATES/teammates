@@ -1,12 +1,21 @@
 package teammates.logic.core;
 
+import static teammates.common.datatransfer.FeedbackParticipantType.GIVER;
+import static teammates.common.datatransfer.FeedbackParticipantType.INSTRUCTORS;
+import static teammates.common.datatransfer.FeedbackParticipantType.OWN_TEAM_MEMBERS;
+import static teammates.common.datatransfer.FeedbackParticipantType.RECEIVER;
+import static teammates.common.datatransfer.FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
+import static teammates.common.datatransfer.FeedbackParticipantType.STUDENTS;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
+import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -30,7 +39,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
     @BeforeMethod
     public void refreshTestData() {
-        dataBundle = getTypicalDataBundle();
+        dataBundle = loadDataBundle("/FeedbackResponseCommentsLogicTest.json");
         removeAndRestoreTypicalDataBundle();
     }
 
@@ -96,7 +105,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     @Test
     public void testCreateFeedbackResponseComment_unknownFeedbackParticipant_exceptionShouldBeThrown() {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-        frComment.commentGiverType = FeedbackParticipantType.STUDENTS;
+        frComment.commentGiverType = STUDENTS;
         frComment.isCommentFromFeedbackParticipant = true;
         frComment.commentGiver = "XYZ";
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
@@ -344,6 +353,118 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         comments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, "not_exist");
         assertEquals(0, comments.size());
+    }
+
+    @Test
+    public void testIsNameVisibleToUser() {
+        FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
+        FeedbackResponseAttributes relatedResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        CourseRoster roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()),
+                new ArrayList<>(dataBundle.instructors.values()));
+
+        ______TS("success: the list that comment giver's name shown to is null; always return true");
+        comment.showGiverNameTo = null;
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "", roster));
+
+        ______TS("success: comment's visibility follows feedback question; always return ture");
+        comment.isVisibilityFollowingFeedbackQuestion = true;
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "", roster));
+
+        ______TS("success: comment is always visible to its giver");
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor1@course1.tmt", roster));
+
+        comment = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S2C2");
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor3@course.tmt", roster));
+
+        // test user's participant type is in the list that comment giver's name is shown to
+        comment = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q2S1C1");
+        relatedResponse = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
+        relatedResponse.giver = "student1InCourse1@gmail.tmt";
+
+        ______TS("success: comment is only visible to instructors");
+        comment.commentGiver = "student6@course1.tmt";
+        comment.commentGiverType = STUDENTS;
+        comment.showGiverNameTo = Arrays.asList(INSTRUCTORS);
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5@course1.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to response recipient");
+        comment.commentGiver = "student4@course1.tmt";
+        comment.commentGiverType = STUDENTS;
+        comment.showGiverNameTo = Arrays.asList(RECEIVER);
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to response recipient team");
+        comment.showGiverNameTo = Arrays.asList(RECEIVER_TEAM_MEMBERS);
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to response giver team");
+        comment.showGiverNameTo = Arrays.asList(OWN_TEAM_MEMBERS);
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to students");
+        comment.showGiverNameTo = Arrays.asList(STUDENTS);
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to response giver");
+        comment.showGiverNameTo = Arrays.asList(GIVER);
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to instructor, response giver and recipient's team");
+        comment.showGiverNameTo = Arrays.asList(INSTRUCTORS, GIVER, RECEIVER_TEAM_MEMBERS);
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is only visible to response giver's team and recipient");
+        comment.showGiverNameTo = Arrays.asList(OWN_TEAM_MEMBERS, RECEIVER);
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
+
+        ______TS("success: comment is visible to everyone");
+        comment.showGiverNameTo = Arrays.asList(INSTRUCTORS, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, RECEIVER,
+                STUDENTS, GIVER);
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "instructor2@course1.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student5InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student6InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student3InCourse1@gmail.tmt", roster));
+        assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "student1InCourse2@gmail.tmt", roster));
     }
 
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
