@@ -51,6 +51,12 @@ To stop the dev server, press `Ctrl + C`.
 
 Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
 
+### Pre-requisites
+
+In order for the back-end to properly work, you need to have a running database instance and a full-text search service instance (if you are supporting one). The instances can either be a local emulator or a running production instance.
+
+The details on how to run them locally can be found [here (for local Datastore emulator)](#running-the-datastore-emulator) and [here (for full-text search service)](search.md).
+
 ### Starting the dev server
 
 To start the server in the background, run the following command
