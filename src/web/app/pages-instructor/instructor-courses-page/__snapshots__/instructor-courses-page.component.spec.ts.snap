@@ -896,6 +896,34 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               </div>
             </div>
           </div>
+          <div
+            class="col-md-6"
+          >
+            <div
+              class="row text-center align-items-center mt-1"
+            >
+              <div
+                class="col-md-3"
+              >
+                <h5
+                  class="text-md-right"
+                >
+                  Or: 
+                </h5>
+              </div>
+              <div
+                class="col-md-9 text-md-left"
+              >
+                <button
+                  class="btn btn-info"
+                  id="btn-copy-course"
+                  type="button"
+                >
+                  Copy from previous courses
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
         <div
           class="card-body text-center"

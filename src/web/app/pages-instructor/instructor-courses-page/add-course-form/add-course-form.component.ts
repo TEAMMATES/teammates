@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
-import { CopyCourseModalResult } from '../../../components/copy-course-modal/copy-course-modal-model';
 import { CourseService } from '../../../../services/course.service';
 import { FeedbackSessionsService } from '../../../../services/feedback-sessions.service';
 import { StatusMessageService } from '../../../../services/status-message.service';
 import { TimezoneService } from '../../../../services/timezone.service';
 import { Course, Courses, FeedbackSessions } from '../../../../types/api-output';
+import { CopyCourseModalResult } from '../../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../../components/copy-course-modal/copy-course-modal.component';
 import { ErrorMessageOutput } from '../../../error-message-output';
 
@@ -35,7 +35,7 @@ export class AddCourseFormComponent implements OnInit {
   @Input() isEnabled: boolean = true;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
-  @Output() copyCourseEvent: EventEmitter<any> = new EventEmitter<any>();
+  @Output() copyCourseEvent: EventEmitter<CopyCourseModalResult> = new EventEmitter<CopyCourseModalResult>();
 
   timezones: Timezone[] = [];
   timezone: string = '';
@@ -119,17 +119,19 @@ export class AddCourseFormComponent implements OnInit {
         const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
         modalRef.componentInstance.isCopyFromOtherSession = true;
         modalRef.componentInstance.courses = courses.courses;
-        
+
         courses.courses.forEach((course: Course) => {
           this.feedbackSessionsService
             .getFeedbackSessionsForInstructor(course.courseId)
             .subscribe((feedbackSessions: FeedbackSessions) => {
-              modalRef.componentInstance.courseToFeedbackSession[course.courseId] = [...feedbackSessions.feedbackSessions];
-              modalRef.result.then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result), () => {});
+              modalRef.componentInstance.courseToFeedbackSession[course.courseId]
+                = [...feedbackSessions.feedbackSessions];
             });
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
+
+        modalRef.result.then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result), () => {});
       });
   }
 }

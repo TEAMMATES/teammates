@@ -3,12 +3,15 @@
 exports[`AddCourseFormComponent should snap when not enabled 1`] = `
 <tm-add-course-form
   closeCourseFormEvent={[Function EventEmitter]}
+  copyCourseEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
   courseService={[Function Object]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   isAddingCourse="false"
   isEnabled="false"
   newCourseId=""
   newCourseName=""
+  ngbModal={[Function NgbModal]}
   statusMessageService={[Function Object]}
   timezone={[Function String]}
   timezoneService={[Function Object]}
@@ -49,6 +52,34 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
             >
               Create new Course
             </h5>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-6"
+      >
+        <div
+          class="row text-center align-items-center mt-1"
+        >
+          <div
+            class="col-md-3"
+          >
+            <h5
+              class="text-md-right"
+            >
+              Or: 
+            </h5>
+          </div>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <button
+              class="btn btn-info"
+              id="btn-copy-course"
+              type="button"
+            >
+              Copy from previous courses
+            </button>
           </div>
         </div>
       </div>
@@ -163,12 +194,15 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
 exports[`AddCourseFormComponent should snap with default fields 1`] = `
 <tm-add-course-form
   closeCourseFormEvent={[Function EventEmitter]}
+  copyCourseEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
   courseService={[Function Object]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
   isAddingCourse="false"
   isEnabled={[Function Boolean]}
   newCourseId=""
   newCourseName=""
+  ngbModal={[Function NgbModal]}
   statusMessageService={[Function Object]}
   timezone={[Function String]}
   timezoneService={[Function Object]}
@@ -209,6 +243,34 @@ exports[`AddCourseFormComponent should snap with default fields 1`] = `
             >
               Create new Course
             </h5>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-md-6"
+      >
+        <div
+          class="row text-center align-items-center mt-1"
+        >
+          <div
+            class="col-md-3"
+          >
+            <h5
+              class="text-md-right"
+            >
+              Or: 
+            </h5>
+          </div>
+          <div
+            class="col-md-9 text-md-left"
+          >
+            <button
+              class="btn btn-info"
+              id="btn-copy-course"
+              type="button"
+            >
+              Copy from previous courses
+            </button>
           </div>
         </div>
       </div>

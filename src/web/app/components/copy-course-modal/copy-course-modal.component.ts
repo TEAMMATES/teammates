@@ -10,7 +10,7 @@ interface Timezone {
   offset: string;
 }
 
-const zeroPad = (num: number) => String(num).padStart(2, '0');
+const zeroPad: any = (num: number) => String(num).padStart(2, '0');
 
 /**
  * Copy course modal.
@@ -27,7 +27,7 @@ export class CopyCourseModalComponent implements OnInit {
 
   @Input()
   courseToFeedbackSession: Record<string, FeedbackSession[]> = {};
-  
+
   @Input()
   courses: Course[] = [];
 
@@ -99,5 +99,12 @@ export class CopyCourseModalComponent implements OnInit {
    */
   onAutoDetectTimezone(): void {
     this.newTimezone = this.timezoneService.guessTimezone();
+  }
+
+  /**
+   * Clears all selected feedback sessions.
+   */
+  clearSelectedFeedbackSession(): void {
+    this.chosenFeedbackSessions = new Set<FeedbackSession>();
   }
 }

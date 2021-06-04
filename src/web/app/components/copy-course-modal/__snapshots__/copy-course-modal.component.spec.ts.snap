@@ -5,12 +5,14 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   COURSE_ID_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   chosenFeedbackSessions={[Function Set]}
+  courseToFeedbackSession={[Function Object]}
+  courses={[Function Array]}
+  isCopyFromOtherSession="false"
   newCourseId=""
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
-  sessionsInCourse={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
   timezones={[Function Array]}
@@ -24,6 +26,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
       <div>
         Copy course
       </div>
+      
       <small>
         Copy from: [] 
         <b>
@@ -66,6 +69,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
             maxlength="40"
+            placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
@@ -82,6 +86,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
+            placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
@@ -186,7 +191,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Africa/Ceuta"
               >
-                Africa/Ceuta (UTC +01:00)
+                Africa/Ceuta (UTC +02:00)
               </option>
               <option
                 value="Africa/Conakry"
@@ -241,7 +246,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Africa/Juba"
               >
-                Africa/Juba (UTC +03:00)
+                Africa/Juba (UTC +02:00)
               </option>
               <option
                 value="Africa/Kampala"
@@ -381,12 +386,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Adak"
               >
-                America/Adak (UTC -10:00)
+                America/Adak (UTC -09:00)
               </option>
               <option
                 value="America/Anchorage"
               >
-                America/Anchorage (UTC -09:00)
+                America/Anchorage (UTC -08:00)
               </option>
               <option
                 value="America/Anguilla"
@@ -476,7 +481,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Asuncion"
               >
-                America/Asuncion (UTC -03:00)
+                America/Asuncion (UTC -04:00)
               </option>
               <option
                 value="America/Atikokan"
@@ -486,7 +491,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Atka"
               >
-                America/Atka (UTC -10:00)
+                America/Atka (UTC -09:00)
               </option>
               <option
                 value="America/Bahia"
@@ -496,7 +501,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Bahia_Banderas"
               >
-                America/Bahia_Banderas (UTC -06:00)
+                America/Bahia_Banderas (UTC -05:00)
               </option>
               <option
                 value="America/Barbados"
@@ -531,7 +536,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Boise"
               >
-                America/Boise (UTC -07:00)
+                America/Boise (UTC -06:00)
               </option>
               <option
                 value="America/Buenos_Aires"
@@ -541,7 +546,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Cambridge_Bay"
               >
-                America/Cambridge_Bay (UTC -07:00)
+                America/Cambridge_Bay (UTC -06:00)
               </option>
               <option
                 value="America/Campo_Grande"
@@ -576,12 +581,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Chicago"
               >
-                America/Chicago (UTC -06:00)
+                America/Chicago (UTC -05:00)
               </option>
               <option
                 value="America/Chihuahua"
               >
-                America/Chihuahua (UTC -07:00)
+                America/Chihuahua (UTC -06:00)
               </option>
               <option
                 value="America/Coral_Harbour"
@@ -631,12 +636,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Denver"
               >
-                America/Denver (UTC -07:00)
+                America/Denver (UTC -06:00)
               </option>
               <option
                 value="America/Detroit"
               >
-                America/Detroit (UTC -05:00)
+                America/Detroit (UTC -04:00)
               </option>
               <option
                 value="America/Dominica"
@@ -646,7 +651,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Edmonton"
               >
-                America/Edmonton (UTC -07:00)
+                America/Edmonton (UTC -06:00)
               </option>
               <option
                 value="America/Eirunepe"
@@ -661,7 +666,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Ensenada"
               >
-                America/Ensenada (UTC -08:00)
+                America/Ensenada (UTC -07:00)
               </option>
               <option
                 value="America/Fort_Nelson"
@@ -671,7 +676,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Fort_Wayne"
               >
-                America/Fort_Wayne (UTC -05:00)
+                America/Fort_Wayne (UTC -04:00)
               </option>
               <option
                 value="America/Fortaleza"
@@ -681,22 +686,22 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Glace_Bay"
               >
-                America/Glace_Bay (UTC -04:00)
+                America/Glace_Bay (UTC -03:00)
               </option>
               <option
                 value="America/Godthab"
               >
-                America/Godthab (UTC -03:00)
+                America/Godthab (UTC -02:00)
               </option>
               <option
                 value="America/Goose_Bay"
               >
-                America/Goose_Bay (UTC -04:00)
+                America/Goose_Bay (UTC -03:00)
               </option>
               <option
                 value="America/Grand_Turk"
               >
-                America/Grand_Turk (UTC -05:00)
+                America/Grand_Turk (UTC -04:00)
               </option>
               <option
                 value="America/Grenada"
@@ -726,12 +731,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Halifax"
               >
-                America/Halifax (UTC -04:00)
+                America/Halifax (UTC -03:00)
               </option>
               <option
                 value="America/Havana"
               >
-                America/Havana (UTC -05:00)
+                America/Havana (UTC -04:00)
               </option>
               <option
                 value="America/Hermosillo"
@@ -741,57 +746,57 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Indiana/Indianapolis"
               >
-                America/Indiana/Indianapolis (UTC -05:00)
+                America/Indiana/Indianapolis (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Knox"
               >
-                America/Indiana/Knox (UTC -06:00)
+                America/Indiana/Knox (UTC -05:00)
               </option>
               <option
                 value="America/Indiana/Marengo"
               >
-                America/Indiana/Marengo (UTC -05:00)
+                America/Indiana/Marengo (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Petersburg"
               >
-                America/Indiana/Petersburg (UTC -05:00)
+                America/Indiana/Petersburg (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Tell_City"
               >
-                America/Indiana/Tell_City (UTC -06:00)
+                America/Indiana/Tell_City (UTC -05:00)
               </option>
               <option
                 value="America/Indiana/Vevay"
               >
-                America/Indiana/Vevay (UTC -05:00)
+                America/Indiana/Vevay (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Vincennes"
               >
-                America/Indiana/Vincennes (UTC -05:00)
+                America/Indiana/Vincennes (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Winamac"
               >
-                America/Indiana/Winamac (UTC -05:00)
+                America/Indiana/Winamac (UTC -04:00)
               </option>
               <option
                 value="America/Indianapolis"
               >
-                America/Indianapolis (UTC -05:00)
+                America/Indianapolis (UTC -04:00)
               </option>
               <option
                 value="America/Inuvik"
               >
-                America/Inuvik (UTC -07:00)
+                America/Inuvik (UTC -06:00)
               </option>
               <option
                 value="America/Iqaluit"
               >
-                America/Iqaluit (UTC -05:00)
+                America/Iqaluit (UTC -04:00)
               </option>
               <option
                 value="America/Jamaica"
@@ -806,22 +811,22 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Juneau"
               >
-                America/Juneau (UTC -09:00)
+                America/Juneau (UTC -08:00)
               </option>
               <option
                 value="America/Kentucky/Louisville"
               >
-                America/Kentucky/Louisville (UTC -05:00)
+                America/Kentucky/Louisville (UTC -04:00)
               </option>
               <option
                 value="America/Kentucky/Monticello"
               >
-                America/Kentucky/Monticello (UTC -05:00)
+                America/Kentucky/Monticello (UTC -04:00)
               </option>
               <option
                 value="America/Knox_IN"
               >
-                America/Knox_IN (UTC -06:00)
+                America/Knox_IN (UTC -05:00)
               </option>
               <option
                 value="America/Kralendijk"
@@ -841,12 +846,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Los_Angeles"
               >
-                America/Los_Angeles (UTC -08:00)
+                America/Los_Angeles (UTC -07:00)
               </option>
               <option
                 value="America/Louisville"
               >
-                America/Louisville (UTC -05:00)
+                America/Louisville (UTC -04:00)
               </option>
               <option
                 value="America/Lower_Princes"
@@ -881,12 +886,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Matamoros"
               >
-                America/Matamoros (UTC -06:00)
+                America/Matamoros (UTC -05:00)
               </option>
               <option
                 value="America/Mazatlan"
               >
-                America/Mazatlan (UTC -07:00)
+                America/Mazatlan (UTC -06:00)
               </option>
               <option
                 value="America/Mendoza"
@@ -896,37 +901,37 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Menominee"
               >
-                America/Menominee (UTC -06:00)
+                America/Menominee (UTC -05:00)
               </option>
               <option
                 value="America/Merida"
               >
-                America/Merida (UTC -06:00)
+                America/Merida (UTC -05:00)
               </option>
               <option
                 value="America/Metlakatla"
               >
-                America/Metlakatla (UTC -09:00)
+                America/Metlakatla (UTC -08:00)
               </option>
               <option
                 value="America/Mexico_City"
               >
-                America/Mexico_City (UTC -06:00)
+                America/Mexico_City (UTC -05:00)
               </option>
               <option
                 value="America/Miquelon"
               >
-                America/Miquelon (UTC -03:00)
+                America/Miquelon (UTC -02:00)
               </option>
               <option
                 value="America/Moncton"
               >
-                America/Moncton (UTC -04:00)
+                America/Moncton (UTC -03:00)
               </option>
               <option
                 value="America/Monterrey"
               >
-                America/Monterrey (UTC -06:00)
+                America/Monterrey (UTC -05:00)
               </option>
               <option
                 value="America/Montevideo"
@@ -936,7 +941,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Montreal"
               >
-                America/Montreal (UTC -05:00)
+                America/Montreal (UTC -04:00)
               </option>
               <option
                 value="America/Montserrat"
@@ -946,22 +951,22 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Nassau"
               >
-                America/Nassau (UTC -05:00)
+                America/Nassau (UTC -04:00)
               </option>
               <option
                 value="America/New_York"
               >
-                America/New_York (UTC -05:00)
+                America/New_York (UTC -04:00)
               </option>
               <option
                 value="America/Nipigon"
               >
-                America/Nipigon (UTC -05:00)
+                America/Nipigon (UTC -04:00)
               </option>
               <option
                 value="America/Nome"
               >
-                America/Nome (UTC -09:00)
+                America/Nome (UTC -08:00)
               </option>
               <option
                 value="America/Noronha"
@@ -971,27 +976,27 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/North_Dakota/Beulah"
               >
-                America/North_Dakota/Beulah (UTC -06:00)
+                America/North_Dakota/Beulah (UTC -05:00)
               </option>
               <option
                 value="America/North_Dakota/Center"
               >
-                America/North_Dakota/Center (UTC -06:00)
+                America/North_Dakota/Center (UTC -05:00)
               </option>
               <option
                 value="America/North_Dakota/New_Salem"
               >
-                America/North_Dakota/New_Salem (UTC -06:00)
+                America/North_Dakota/New_Salem (UTC -05:00)
               </option>
               <option
                 value="America/Nuuk"
               >
-                America/Nuuk (UTC -03:00)
+                America/Nuuk (UTC -02:00)
               </option>
               <option
                 value="America/Ojinaga"
               >
-                America/Ojinaga (UTC -07:00)
+                America/Ojinaga (UTC -06:00)
               </option>
               <option
                 value="America/Panama"
@@ -1001,7 +1006,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Pangnirtung"
               >
-                America/Pangnirtung (UTC -05:00)
+                America/Pangnirtung (UTC -04:00)
               </option>
               <option
                 value="America/Paramaribo"
@@ -1016,7 +1021,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Port-au-Prince"
               >
-                America/Port-au-Prince (UTC -05:00)
+                America/Port-au-Prince (UTC -04:00)
               </option>
               <option
                 value="America/Port_of_Spain"
@@ -1046,12 +1051,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Rainy_River"
               >
-                America/Rainy_River (UTC -06:00)
+                America/Rainy_River (UTC -05:00)
               </option>
               <option
                 value="America/Rankin_Inlet"
               >
-                America/Rankin_Inlet (UTC -06:00)
+                America/Rankin_Inlet (UTC -05:00)
               </option>
               <option
                 value="America/Recife"
@@ -1066,7 +1071,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Resolute"
               >
-                America/Resolute (UTC -06:00)
+                America/Resolute (UTC -05:00)
               </option>
               <option
                 value="America/Rio_Branco"
@@ -1081,7 +1086,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Santa_Isabel"
               >
-                America/Santa_Isabel (UTC -08:00)
+                America/Santa_Isabel (UTC -07:00)
               </option>
               <option
                 value="America/Santarem"
@@ -1091,7 +1096,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Santiago"
               >
-                America/Santiago (UTC -03:00)
+                America/Santiago (UTC -04:00)
               </option>
               <option
                 value="America/Santo_Domingo"
@@ -1106,17 +1111,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Scoresbysund"
               >
-                America/Scoresbysund (UTC -01:00)
+                America/Scoresbysund (UTC)
               </option>
               <option
                 value="America/Shiprock"
               >
-                America/Shiprock (UTC -07:00)
+                America/Shiprock (UTC -06:00)
               </option>
               <option
                 value="America/Sitka"
               >
-                America/Sitka (UTC -09:00)
+                America/Sitka (UTC -08:00)
               </option>
               <option
                 value="America/St_Barthelemy"
@@ -1126,7 +1131,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/St_Johns"
               >
-                America/St_Johns (UTC -03:30)
+                America/St_Johns (UTC -02:30)
               </option>
               <option
                 value="America/St_Kitts"
@@ -1161,22 +1166,22 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Thule"
               >
-                America/Thule (UTC -04:00)
+                America/Thule (UTC -03:00)
               </option>
               <option
                 value="America/Thunder_Bay"
               >
-                America/Thunder_Bay (UTC -05:00)
+                America/Thunder_Bay (UTC -04:00)
               </option>
               <option
                 value="America/Tijuana"
               >
-                America/Tijuana (UTC -08:00)
+                America/Tijuana (UTC -07:00)
               </option>
               <option
                 value="America/Toronto"
               >
-                America/Toronto (UTC -05:00)
+                America/Toronto (UTC -04:00)
               </option>
               <option
                 value="America/Tortola"
@@ -1186,7 +1191,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Vancouver"
               >
-                America/Vancouver (UTC -08:00)
+                America/Vancouver (UTC -07:00)
               </option>
               <option
                 value="America/Virgin"
@@ -1201,17 +1206,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="America/Winnipeg"
               >
-                America/Winnipeg (UTC -06:00)
+                America/Winnipeg (UTC -05:00)
               </option>
               <option
                 value="America/Yakutat"
               >
-                America/Yakutat (UTC -09:00)
+                America/Yakutat (UTC -08:00)
               </option>
               <option
                 value="America/Yellowknife"
               >
-                America/Yellowknife (UTC -07:00)
+                America/Yellowknife (UTC -06:00)
               </option>
               <option
                 value="Antarctica/Casey"
@@ -1231,7 +1236,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Antarctica/Macquarie"
               >
-                Antarctica/Macquarie (UTC +11:00)
+                Antarctica/Macquarie (UTC +10:00)
               </option>
               <option
                 value="Antarctica/Mawson"
@@ -1241,7 +1246,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Antarctica/McMurdo"
               >
-                Antarctica/McMurdo (UTC +13:00)
+                Antarctica/McMurdo (UTC +12:00)
               </option>
               <option
                 value="Antarctica/Palmer"
@@ -1256,7 +1261,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Antarctica/South_Pole"
               >
-                Antarctica/South_Pole (UTC +13:00)
+                Antarctica/South_Pole (UTC +12:00)
               </option>
               <option
                 value="Antarctica/Syowa"
@@ -1266,7 +1271,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Antarctica/Troll"
               >
-                Antarctica/Troll (UTC)
+                Antarctica/Troll (UTC +02:00)
               </option>
               <option
                 value="Antarctica/Vostok"
@@ -1276,7 +1281,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Arctic/Longyearbyen"
               >
-                Arctic/Longyearbyen (UTC +01:00)
+                Arctic/Longyearbyen (UTC +02:00)
               </option>
               <option
                 value="Asia/Aden"
@@ -1291,7 +1296,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Amman"
               >
-                Asia/Amman (UTC +02:00)
+                Asia/Amman (UTC +03:00)
               </option>
               <option
                 value="Asia/Anadyr"
@@ -1351,7 +1356,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Beirut"
               >
-                Asia/Beirut (UTC +02:00)
+                Asia/Beirut (UTC +03:00)
               </option>
               <option
                 value="Asia/Bishkek"
@@ -1401,7 +1406,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Damascus"
               >
-                Asia/Damascus (UTC +02:00)
+                Asia/Damascus (UTC +03:00)
               </option>
               <option
                 value="Asia/Dhaka"
@@ -1426,12 +1431,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Famagusta"
               >
-                Asia/Famagusta (UTC +02:00)
+                Asia/Famagusta (UTC +03:00)
               </option>
               <option
                 value="Asia/Gaza"
               >
-                Asia/Gaza (UTC +02:00)
+                Asia/Gaza (UTC +03:00)
               </option>
               <option
                 value="Asia/Harbin"
@@ -1441,7 +1446,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Hebron"
               >
-                Asia/Hebron (UTC +02:00)
+                Asia/Hebron (UTC +03:00)
               </option>
               <option
                 value="Asia/Ho_Chi_Minh"
@@ -1481,7 +1486,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Jerusalem"
               >
-                Asia/Jerusalem (UTC +02:00)
+                Asia/Jerusalem (UTC +03:00)
               </option>
               <option
                 value="Asia/Kabul"
@@ -1576,7 +1581,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Nicosia"
               >
-                Asia/Nicosia (UTC +02:00)
+                Asia/Nicosia (UTC +03:00)
               </option>
               <option
                 value="Asia/Novokuznetsk"
@@ -1691,12 +1696,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Asia/Tehran"
               >
-                Asia/Tehran (UTC +03:30)
+                Asia/Tehran (UTC +04:30)
               </option>
               <option
                 value="Asia/Tel_Aviv"
               >
-                Asia/Tel_Aviv (UTC +02:00)
+                Asia/Tel_Aviv (UTC +03:00)
               </option>
               <option
                 value="Asia/Thimbu"
@@ -1776,17 +1781,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Atlantic/Azores"
               >
-                Atlantic/Azores (UTC -01:00)
+                Atlantic/Azores (UTC)
               </option>
               <option
                 value="Atlantic/Bermuda"
               >
-                Atlantic/Bermuda (UTC -04:00)
+                Atlantic/Bermuda (UTC -03:00)
               </option>
               <option
                 value="Atlantic/Canary"
               >
-                Atlantic/Canary (UTC)
+                Atlantic/Canary (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Cape_Verde"
@@ -1796,22 +1801,22 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Atlantic/Faeroe"
               >
-                Atlantic/Faeroe (UTC)
+                Atlantic/Faeroe (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Faroe"
               >
-                Atlantic/Faroe (UTC)
+                Atlantic/Faroe (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Jan_Mayen"
               >
-                Atlantic/Jan_Mayen (UTC +01:00)
+                Atlantic/Jan_Mayen (UTC +02:00)
               </option>
               <option
                 value="Atlantic/Madeira"
               >
-                Atlantic/Madeira (UTC)
+                Atlantic/Madeira (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Reykjavik"
@@ -1836,12 +1841,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Australia/ACT"
               >
-                Australia/ACT (UTC +11:00)
+                Australia/ACT (UTC +10:00)
               </option>
               <option
                 value="Australia/Adelaide"
               >
-                Australia/Adelaide (UTC +10:30)
+                Australia/Adelaide (UTC +09:30)
               </option>
               <option
                 value="Australia/Brisbane"
@@ -1851,17 +1856,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Australia/Broken_Hill"
               >
-                Australia/Broken_Hill (UTC +10:30)
+                Australia/Broken_Hill (UTC +09:30)
               </option>
               <option
                 value="Australia/Canberra"
               >
-                Australia/Canberra (UTC +11:00)
+                Australia/Canberra (UTC +10:00)
               </option>
               <option
                 value="Australia/Currie"
               >
-                Australia/Currie (UTC +11:00)
+                Australia/Currie (UTC +10:00)
               </option>
               <option
                 value="Australia/Darwin"
@@ -1876,12 +1881,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Australia/Hobart"
               >
-                Australia/Hobart (UTC +11:00)
+                Australia/Hobart (UTC +10:00)
               </option>
               <option
                 value="Australia/LHI"
               >
-                Australia/LHI (UTC +11:00)
+                Australia/LHI (UTC +10:30)
               </option>
               <option
                 value="Australia/Lindeman"
@@ -1891,17 +1896,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Australia/Lord_Howe"
               >
-                Australia/Lord_Howe (UTC +11:00)
+                Australia/Lord_Howe (UTC +10:30)
               </option>
               <option
                 value="Australia/Melbourne"
               >
-                Australia/Melbourne (UTC +11:00)
+                Australia/Melbourne (UTC +10:00)
               </option>
               <option
                 value="Australia/NSW"
               >
-                Australia/NSW (UTC +11:00)
+                Australia/NSW (UTC +10:00)
               </option>
               <option
                 value="Australia/North"
@@ -1921,22 +1926,22 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Australia/South"
               >
-                Australia/South (UTC +10:30)
+                Australia/South (UTC +09:30)
               </option>
               <option
                 value="Australia/Sydney"
               >
-                Australia/Sydney (UTC +11:00)
+                Australia/Sydney (UTC +10:00)
               </option>
               <option
                 value="Australia/Tasmania"
               >
-                Australia/Tasmania (UTC +11:00)
+                Australia/Tasmania (UTC +10:00)
               </option>
               <option
                 value="Australia/Victoria"
               >
-                Australia/Victoria (UTC +11:00)
+                Australia/Victoria (UTC +10:00)
               </option>
               <option
                 value="Australia/West"
@@ -1946,7 +1951,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Australia/Yancowinna"
               >
-                Australia/Yancowinna (UTC +10:30)
+                Australia/Yancowinna (UTC +09:30)
               </option>
               <option
                 value="Brazil/Acre"
@@ -1971,42 +1976,42 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="CET"
               >
-                CET (UTC +01:00)
+                CET (UTC +02:00)
               </option>
               <option
                 value="CST6CDT"
               >
-                CST6CDT (UTC -06:00)
+                CST6CDT (UTC -05:00)
               </option>
               <option
                 value="Canada/Atlantic"
               >
-                Canada/Atlantic (UTC -04:00)
+                Canada/Atlantic (UTC -03:00)
               </option>
               <option
                 value="Canada/Central"
               >
-                Canada/Central (UTC -06:00)
+                Canada/Central (UTC -05:00)
               </option>
               <option
                 value="Canada/Eastern"
               >
-                Canada/Eastern (UTC -05:00)
+                Canada/Eastern (UTC -04:00)
               </option>
               <option
                 value="Canada/Mountain"
               >
-                Canada/Mountain (UTC -07:00)
+                Canada/Mountain (UTC -06:00)
               </option>
               <option
                 value="Canada/Newfoundland"
               >
-                Canada/Newfoundland (UTC -03:30)
+                Canada/Newfoundland (UTC -02:30)
               </option>
               <option
                 value="Canada/Pacific"
               >
-                Canada/Pacific (UTC -08:00)
+                Canada/Pacific (UTC -07:00)
               </option>
               <option
                 value="Canada/Saskatchewan"
@@ -2021,27 +2026,27 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Chile/Continental"
               >
-                Chile/Continental (UTC -03:00)
+                Chile/Continental (UTC -04:00)
               </option>
               <option
                 value="Chile/EasterIsland"
               >
-                Chile/EasterIsland (UTC -05:00)
+                Chile/EasterIsland (UTC -06:00)
               </option>
               <option
                 value="Cuba"
               >
-                Cuba (UTC -05:00)
+                Cuba (UTC -04:00)
               </option>
               <option
                 value="EET"
               >
-                EET (UTC +02:00)
+                EET (UTC +03:00)
               </option>
               <option
                 value="EST5EDT"
               >
-                EST5EDT (UTC -05:00)
+                EST5EDT (UTC -04:00)
               </option>
               <option
                 value="Egypt"
@@ -2051,7 +2056,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Eire"
               >
-                Eire (UTC)
+                Eire (UTC +01:00)
               </option>
               <option
                 value="Etc/GMT"
@@ -2231,12 +2236,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Amsterdam"
               >
-                Europe/Amsterdam (UTC +01:00)
+                Europe/Amsterdam (UTC +02:00)
               </option>
               <option
                 value="Europe/Andorra"
               >
-                Europe/Andorra (UTC +01:00)
+                Europe/Andorra (UTC +02:00)
               </option>
               <option
                 value="Europe/Astrakhan"
@@ -2246,82 +2251,82 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Athens"
               >
-                Europe/Athens (UTC +02:00)
+                Europe/Athens (UTC +03:00)
               </option>
               <option
                 value="Europe/Belfast"
               >
-                Europe/Belfast (UTC)
+                Europe/Belfast (UTC +01:00)
               </option>
               <option
                 value="Europe/Belgrade"
               >
-                Europe/Belgrade (UTC +01:00)
+                Europe/Belgrade (UTC +02:00)
               </option>
               <option
                 value="Europe/Berlin"
               >
-                Europe/Berlin (UTC +01:00)
+                Europe/Berlin (UTC +02:00)
               </option>
               <option
                 value="Europe/Bratislava"
               >
-                Europe/Bratislava (UTC +01:00)
+                Europe/Bratislava (UTC +02:00)
               </option>
               <option
                 value="Europe/Brussels"
               >
-                Europe/Brussels (UTC +01:00)
+                Europe/Brussels (UTC +02:00)
               </option>
               <option
                 value="Europe/Bucharest"
               >
-                Europe/Bucharest (UTC +02:00)
+                Europe/Bucharest (UTC +03:00)
               </option>
               <option
                 value="Europe/Budapest"
               >
-                Europe/Budapest (UTC +01:00)
+                Europe/Budapest (UTC +02:00)
               </option>
               <option
                 value="Europe/Busingen"
               >
-                Europe/Busingen (UTC +01:00)
+                Europe/Busingen (UTC +02:00)
               </option>
               <option
                 value="Europe/Chisinau"
               >
-                Europe/Chisinau (UTC +02:00)
+                Europe/Chisinau (UTC +03:00)
               </option>
               <option
                 value="Europe/Copenhagen"
               >
-                Europe/Copenhagen (UTC +01:00)
+                Europe/Copenhagen (UTC +02:00)
               </option>
               <option
                 value="Europe/Dublin"
               >
-                Europe/Dublin (UTC)
+                Europe/Dublin (UTC +01:00)
               </option>
               <option
                 value="Europe/Gibraltar"
               >
-                Europe/Gibraltar (UTC +01:00)
+                Europe/Gibraltar (UTC +02:00)
               </option>
               <option
                 value="Europe/Guernsey"
               >
-                Europe/Guernsey (UTC)
+                Europe/Guernsey (UTC +01:00)
               </option>
               <option
                 value="Europe/Helsinki"
               >
-                Europe/Helsinki (UTC +02:00)
+                Europe/Helsinki (UTC +03:00)
               </option>
               <option
                 value="Europe/Isle_of_Man"
               >
-                Europe/Isle_of_Man (UTC)
+                Europe/Isle_of_Man (UTC +01:00)
               </option>
               <option
                 value="Europe/Istanbul"
@@ -2331,7 +2336,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Jersey"
               >
-                Europe/Jersey (UTC)
+                Europe/Jersey (UTC +01:00)
               </option>
               <option
                 value="Europe/Kaliningrad"
@@ -2341,7 +2346,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Kiev"
               >
-                Europe/Kiev (UTC +02:00)
+                Europe/Kiev (UTC +03:00)
               </option>
               <option
                 value="Europe/Kirov"
@@ -2351,37 +2356,37 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Lisbon"
               >
-                Europe/Lisbon (UTC)
+                Europe/Lisbon (UTC +01:00)
               </option>
               <option
                 value="Europe/Ljubljana"
               >
-                Europe/Ljubljana (UTC +01:00)
+                Europe/Ljubljana (UTC +02:00)
               </option>
               <option
                 value="Europe/London"
               >
-                Europe/London (UTC)
+                Europe/London (UTC +01:00)
               </option>
               <option
                 value="Europe/Luxembourg"
               >
-                Europe/Luxembourg (UTC +01:00)
+                Europe/Luxembourg (UTC +02:00)
               </option>
               <option
                 value="Europe/Madrid"
               >
-                Europe/Madrid (UTC +01:00)
+                Europe/Madrid (UTC +02:00)
               </option>
               <option
                 value="Europe/Malta"
               >
-                Europe/Malta (UTC +01:00)
+                Europe/Malta (UTC +02:00)
               </option>
               <option
                 value="Europe/Mariehamn"
               >
-                Europe/Mariehamn (UTC +02:00)
+                Europe/Mariehamn (UTC +03:00)
               </option>
               <option
                 value="Europe/Minsk"
@@ -2391,7 +2396,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Monaco"
               >
-                Europe/Monaco (UTC +01:00)
+                Europe/Monaco (UTC +02:00)
               </option>
               <option
                 value="Europe/Moscow"
@@ -2401,37 +2406,37 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Nicosia"
               >
-                Europe/Nicosia (UTC +02:00)
+                Europe/Nicosia (UTC +03:00)
               </option>
               <option
                 value="Europe/Oslo"
               >
-                Europe/Oslo (UTC +01:00)
+                Europe/Oslo (UTC +02:00)
               </option>
               <option
                 value="Europe/Paris"
               >
-                Europe/Paris (UTC +01:00)
+                Europe/Paris (UTC +02:00)
               </option>
               <option
                 value="Europe/Podgorica"
               >
-                Europe/Podgorica (UTC +01:00)
+                Europe/Podgorica (UTC +02:00)
               </option>
               <option
                 value="Europe/Prague"
               >
-                Europe/Prague (UTC +01:00)
+                Europe/Prague (UTC +02:00)
               </option>
               <option
                 value="Europe/Riga"
               >
-                Europe/Riga (UTC +02:00)
+                Europe/Riga (UTC +03:00)
               </option>
               <option
                 value="Europe/Rome"
               >
-                Europe/Rome (UTC +01:00)
+                Europe/Rome (UTC +02:00)
               </option>
               <option
                 value="Europe/Samara"
@@ -2441,12 +2446,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/San_Marino"
               >
-                Europe/San_Marino (UTC +01:00)
+                Europe/San_Marino (UTC +02:00)
               </option>
               <option
                 value="Europe/Sarajevo"
               >
-                Europe/Sarajevo (UTC +01:00)
+                Europe/Sarajevo (UTC +02:00)
               </option>
               <option
                 value="Europe/Saratov"
@@ -2461,32 +2466,32 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Skopje"
               >
-                Europe/Skopje (UTC +01:00)
+                Europe/Skopje (UTC +02:00)
               </option>
               <option
                 value="Europe/Sofia"
               >
-                Europe/Sofia (UTC +02:00)
+                Europe/Sofia (UTC +03:00)
               </option>
               <option
                 value="Europe/Stockholm"
               >
-                Europe/Stockholm (UTC +01:00)
+                Europe/Stockholm (UTC +02:00)
               </option>
               <option
                 value="Europe/Tallinn"
               >
-                Europe/Tallinn (UTC +02:00)
+                Europe/Tallinn (UTC +03:00)
               </option>
               <option
                 value="Europe/Tirane"
               >
-                Europe/Tirane (UTC +01:00)
+                Europe/Tirane (UTC +02:00)
               </option>
               <option
                 value="Europe/Tiraspol"
               >
-                Europe/Tiraspol (UTC +02:00)
+                Europe/Tiraspol (UTC +03:00)
               </option>
               <option
                 value="Europe/Ulyanovsk"
@@ -2496,62 +2501,62 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Europe/Uzhgorod"
               >
-                Europe/Uzhgorod (UTC +02:00)
+                Europe/Uzhgorod (UTC +03:00)
               </option>
               <option
                 value="Europe/Vaduz"
               >
-                Europe/Vaduz (UTC +01:00)
+                Europe/Vaduz (UTC +02:00)
               </option>
               <option
                 value="Europe/Vatican"
               >
-                Europe/Vatican (UTC +01:00)
+                Europe/Vatican (UTC +02:00)
               </option>
               <option
                 value="Europe/Vienna"
               >
-                Europe/Vienna (UTC +01:00)
+                Europe/Vienna (UTC +02:00)
               </option>
               <option
                 value="Europe/Vilnius"
               >
-                Europe/Vilnius (UTC +02:00)
+                Europe/Vilnius (UTC +03:00)
               </option>
               <option
                 value="Europe/Volgograd"
               >
-                Europe/Volgograd (UTC +04:00)
+                Europe/Volgograd (UTC +03:00)
               </option>
               <option
                 value="Europe/Warsaw"
               >
-                Europe/Warsaw (UTC +01:00)
+                Europe/Warsaw (UTC +02:00)
               </option>
               <option
                 value="Europe/Zagreb"
               >
-                Europe/Zagreb (UTC +01:00)
+                Europe/Zagreb (UTC +02:00)
               </option>
               <option
                 value="Europe/Zaporozhye"
               >
-                Europe/Zaporozhye (UTC +02:00)
+                Europe/Zaporozhye (UTC +03:00)
               </option>
               <option
                 value="Europe/Zurich"
               >
-                Europe/Zurich (UTC +01:00)
+                Europe/Zurich (UTC +02:00)
               </option>
               <option
                 value="GB"
               >
-                GB (UTC)
+                GB (UTC +01:00)
               </option>
               <option
                 value="GB-Eire"
               >
-                GB-Eire (UTC)
+                GB-Eire (UTC +01:00)
               </option>
               <option
                 value="GMT"
@@ -2636,12 +2641,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Iran"
               >
-                Iran (UTC +03:30)
+                Iran (UTC +04:30)
               </option>
               <option
                 value="Israel"
               >
-                Israel (UTC +02:00)
+                Israel (UTC +03:00)
               </option>
               <option
                 value="Jamaica"
@@ -2666,42 +2671,42 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="MET"
               >
-                MET (UTC +01:00)
+                MET (UTC +02:00)
               </option>
               <option
                 value="MST7MDT"
               >
-                MST7MDT (UTC -07:00)
+                MST7MDT (UTC -06:00)
               </option>
               <option
                 value="Mexico/BajaNorte"
               >
-                Mexico/BajaNorte (UTC -08:00)
+                Mexico/BajaNorte (UTC -07:00)
               </option>
               <option
                 value="Mexico/BajaSur"
               >
-                Mexico/BajaSur (UTC -07:00)
+                Mexico/BajaSur (UTC -06:00)
               </option>
               <option
                 value="Mexico/General"
               >
-                Mexico/General (UTC -06:00)
+                Mexico/General (UTC -05:00)
               </option>
               <option
                 value="NZ"
               >
-                NZ (UTC +13:00)
+                NZ (UTC +12:00)
               </option>
               <option
                 value="NZ-CHAT"
               >
-                NZ-CHAT (UTC +13:45)
+                NZ-CHAT (UTC +12:45)
               </option>
               <option
                 value="Navajo"
               >
-                Navajo (UTC -07:00)
+                Navajo (UTC -06:00)
               </option>
               <option
                 value="PRC"
@@ -2711,17 +2716,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="PST8PDT"
               >
-                PST8PDT (UTC -08:00)
+                PST8PDT (UTC -07:00)
               </option>
               <option
                 value="Pacific/Apia"
               >
-                Pacific/Apia (UTC +14:00)
+                Pacific/Apia (UTC +13:00)
               </option>
               <option
                 value="Pacific/Auckland"
               >
-                Pacific/Auckland (UTC +13:00)
+                Pacific/Auckland (UTC +12:00)
               </option>
               <option
                 value="Pacific/Bougainville"
@@ -2731,7 +2736,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Pacific/Chatham"
               >
-                Pacific/Chatham (UTC +13:45)
+                Pacific/Chatham (UTC +12:45)
               </option>
               <option
                 value="Pacific/Chuuk"
@@ -2741,7 +2746,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Pacific/Easter"
               >
-                Pacific/Easter (UTC -05:00)
+                Pacific/Easter (UTC -06:00)
               </option>
               <option
                 value="Pacific/Efate"
@@ -2841,7 +2846,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Pacific/Norfolk"
               >
-                Pacific/Norfolk (UTC +12:00)
+                Pacific/Norfolk (UTC +11:00)
               </option>
               <option
                 value="Pacific/Noumea"
@@ -2931,12 +2936,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="Poland"
               >
-                Poland (UTC +01:00)
+                Poland (UTC +02:00)
               </option>
               <option
                 value="Portugal"
               >
-                Portugal (UTC)
+                Portugal (UTC +01:00)
               </option>
               <option
                 value="ROK"
@@ -2961,12 +2966,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="US/Alaska"
               >
-                US/Alaska (UTC -09:00)
+                US/Alaska (UTC -08:00)
               </option>
               <option
                 value="US/Aleutian"
               >
-                US/Aleutian (UTC -10:00)
+                US/Aleutian (UTC -09:00)
               </option>
               <option
                 value="US/Arizona"
@@ -2976,17 +2981,17 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="US/Central"
               >
-                US/Central (UTC -06:00)
+                US/Central (UTC -05:00)
               </option>
               <option
                 value="US/East-Indiana"
               >
-                US/East-Indiana (UTC -05:00)
+                US/East-Indiana (UTC -04:00)
               </option>
               <option
                 value="US/Eastern"
               >
-                US/Eastern (UTC -05:00)
+                US/Eastern (UTC -04:00)
               </option>
               <option
                 value="US/Hawaii"
@@ -2996,27 +3001,27 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="US/Indiana-Starke"
               >
-                US/Indiana-Starke (UTC -06:00)
+                US/Indiana-Starke (UTC -05:00)
               </option>
               <option
                 value="US/Michigan"
               >
-                US/Michigan (UTC -05:00)
+                US/Michigan (UTC -04:00)
               </option>
               <option
                 value="US/Mountain"
               >
-                US/Mountain (UTC -07:00)
+                US/Mountain (UTC -06:00)
               </option>
               <option
                 value="US/Pacific"
               >
-                US/Pacific (UTC -08:00)
+                US/Pacific (UTC -07:00)
               </option>
               <option
                 value="US/Pacific-New"
               >
-                US/Pacific-New (UTC -08:00)
+                US/Pacific-New (UTC -07:00)
               </option>
               <option
                 value="US/Samoa"
@@ -3041,7 +3046,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               <option
                 value="WET"
               >
-                WET (UTC)
+                WET (UTC +01:00)
               </option>
               <option
                 value="Zulu"
@@ -3061,20 +3066,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             </span>
           </div>
         </div>
-        <div
-          class="form-check"
-        >
-          <input
-            class="form-check-input"
-            name="copyCourseChooseSessions"
-            type="checkbox"
-          />
-          <span>
-            <b>
-              Sessions to copy:
-            </b>
-          </span>
-        </div>
+        
         
       </div>
     </div>
@@ -3104,12 +3096,14 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   COURSE_ID_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
   chosenFeedbackSessions={[Function Set]}
+  courseToFeedbackSession={[Function Object]}
+  courses={[Function Array]}
+  isCopyFromOtherSession="false"
   newCourseId={[Function String]}
   newCourseName=""
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
-  sessionsInCourse={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
   timezones={[Function Array]}
@@ -3123,6 +3117,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
       <div>
         Copy course
       </div>
+      
       <small>
         Copy from: [] 
         <b>
@@ -3165,6 +3160,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
             maxlength="40"
+            placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
@@ -3181,6 +3177,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             class="form-control ng-untouched ng-pristine ng-valid"
             id="new-course-name"
             maxlength="64"
+            placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
@@ -3285,7 +3282,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Africa/Ceuta"
               >
-                Africa/Ceuta (UTC +01:00)
+                Africa/Ceuta (UTC +02:00)
               </option>
               <option
                 value="Africa/Conakry"
@@ -3340,7 +3337,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Africa/Juba"
               >
-                Africa/Juba (UTC +03:00)
+                Africa/Juba (UTC +02:00)
               </option>
               <option
                 value="Africa/Kampala"
@@ -3480,12 +3477,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Adak"
               >
-                America/Adak (UTC -10:00)
+                America/Adak (UTC -09:00)
               </option>
               <option
                 value="America/Anchorage"
               >
-                America/Anchorage (UTC -09:00)
+                America/Anchorage (UTC -08:00)
               </option>
               <option
                 value="America/Anguilla"
@@ -3575,7 +3572,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Asuncion"
               >
-                America/Asuncion (UTC -03:00)
+                America/Asuncion (UTC -04:00)
               </option>
               <option
                 value="America/Atikokan"
@@ -3585,7 +3582,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Atka"
               >
-                America/Atka (UTC -10:00)
+                America/Atka (UTC -09:00)
               </option>
               <option
                 value="America/Bahia"
@@ -3595,7 +3592,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Bahia_Banderas"
               >
-                America/Bahia_Banderas (UTC -06:00)
+                America/Bahia_Banderas (UTC -05:00)
               </option>
               <option
                 value="America/Barbados"
@@ -3630,7 +3627,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Boise"
               >
-                America/Boise (UTC -07:00)
+                America/Boise (UTC -06:00)
               </option>
               <option
                 value="America/Buenos_Aires"
@@ -3640,7 +3637,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Cambridge_Bay"
               >
-                America/Cambridge_Bay (UTC -07:00)
+                America/Cambridge_Bay (UTC -06:00)
               </option>
               <option
                 value="America/Campo_Grande"
@@ -3675,12 +3672,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Chicago"
               >
-                America/Chicago (UTC -06:00)
+                America/Chicago (UTC -05:00)
               </option>
               <option
                 value="America/Chihuahua"
               >
-                America/Chihuahua (UTC -07:00)
+                America/Chihuahua (UTC -06:00)
               </option>
               <option
                 value="America/Coral_Harbour"
@@ -3730,12 +3727,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Denver"
               >
-                America/Denver (UTC -07:00)
+                America/Denver (UTC -06:00)
               </option>
               <option
                 value="America/Detroit"
               >
-                America/Detroit (UTC -05:00)
+                America/Detroit (UTC -04:00)
               </option>
               <option
                 value="America/Dominica"
@@ -3745,7 +3742,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Edmonton"
               >
-                America/Edmonton (UTC -07:00)
+                America/Edmonton (UTC -06:00)
               </option>
               <option
                 value="America/Eirunepe"
@@ -3760,7 +3757,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Ensenada"
               >
-                America/Ensenada (UTC -08:00)
+                America/Ensenada (UTC -07:00)
               </option>
               <option
                 value="America/Fort_Nelson"
@@ -3770,7 +3767,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Fort_Wayne"
               >
-                America/Fort_Wayne (UTC -05:00)
+                America/Fort_Wayne (UTC -04:00)
               </option>
               <option
                 value="America/Fortaleza"
@@ -3780,22 +3777,22 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Glace_Bay"
               >
-                America/Glace_Bay (UTC -04:00)
+                America/Glace_Bay (UTC -03:00)
               </option>
               <option
                 value="America/Godthab"
               >
-                America/Godthab (UTC -03:00)
+                America/Godthab (UTC -02:00)
               </option>
               <option
                 value="America/Goose_Bay"
               >
-                America/Goose_Bay (UTC -04:00)
+                America/Goose_Bay (UTC -03:00)
               </option>
               <option
                 value="America/Grand_Turk"
               >
-                America/Grand_Turk (UTC -05:00)
+                America/Grand_Turk (UTC -04:00)
               </option>
               <option
                 value="America/Grenada"
@@ -3825,12 +3822,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Halifax"
               >
-                America/Halifax (UTC -04:00)
+                America/Halifax (UTC -03:00)
               </option>
               <option
                 value="America/Havana"
               >
-                America/Havana (UTC -05:00)
+                America/Havana (UTC -04:00)
               </option>
               <option
                 value="America/Hermosillo"
@@ -3840,57 +3837,57 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Indiana/Indianapolis"
               >
-                America/Indiana/Indianapolis (UTC -05:00)
+                America/Indiana/Indianapolis (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Knox"
               >
-                America/Indiana/Knox (UTC -06:00)
+                America/Indiana/Knox (UTC -05:00)
               </option>
               <option
                 value="America/Indiana/Marengo"
               >
-                America/Indiana/Marengo (UTC -05:00)
+                America/Indiana/Marengo (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Petersburg"
               >
-                America/Indiana/Petersburg (UTC -05:00)
+                America/Indiana/Petersburg (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Tell_City"
               >
-                America/Indiana/Tell_City (UTC -06:00)
+                America/Indiana/Tell_City (UTC -05:00)
               </option>
               <option
                 value="America/Indiana/Vevay"
               >
-                America/Indiana/Vevay (UTC -05:00)
+                America/Indiana/Vevay (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Vincennes"
               >
-                America/Indiana/Vincennes (UTC -05:00)
+                America/Indiana/Vincennes (UTC -04:00)
               </option>
               <option
                 value="America/Indiana/Winamac"
               >
-                America/Indiana/Winamac (UTC -05:00)
+                America/Indiana/Winamac (UTC -04:00)
               </option>
               <option
                 value="America/Indianapolis"
               >
-                America/Indianapolis (UTC -05:00)
+                America/Indianapolis (UTC -04:00)
               </option>
               <option
                 value="America/Inuvik"
               >
-                America/Inuvik (UTC -07:00)
+                America/Inuvik (UTC -06:00)
               </option>
               <option
                 value="America/Iqaluit"
               >
-                America/Iqaluit (UTC -05:00)
+                America/Iqaluit (UTC -04:00)
               </option>
               <option
                 value="America/Jamaica"
@@ -3905,22 +3902,22 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Juneau"
               >
-                America/Juneau (UTC -09:00)
+                America/Juneau (UTC -08:00)
               </option>
               <option
                 value="America/Kentucky/Louisville"
               >
-                America/Kentucky/Louisville (UTC -05:00)
+                America/Kentucky/Louisville (UTC -04:00)
               </option>
               <option
                 value="America/Kentucky/Monticello"
               >
-                America/Kentucky/Monticello (UTC -05:00)
+                America/Kentucky/Monticello (UTC -04:00)
               </option>
               <option
                 value="America/Knox_IN"
               >
-                America/Knox_IN (UTC -06:00)
+                America/Knox_IN (UTC -05:00)
               </option>
               <option
                 value="America/Kralendijk"
@@ -3940,12 +3937,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Los_Angeles"
               >
-                America/Los_Angeles (UTC -08:00)
+                America/Los_Angeles (UTC -07:00)
               </option>
               <option
                 value="America/Louisville"
               >
-                America/Louisville (UTC -05:00)
+                America/Louisville (UTC -04:00)
               </option>
               <option
                 value="America/Lower_Princes"
@@ -3980,12 +3977,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Matamoros"
               >
-                America/Matamoros (UTC -06:00)
+                America/Matamoros (UTC -05:00)
               </option>
               <option
                 value="America/Mazatlan"
               >
-                America/Mazatlan (UTC -07:00)
+                America/Mazatlan (UTC -06:00)
               </option>
               <option
                 value="America/Mendoza"
@@ -3995,37 +3992,37 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Menominee"
               >
-                America/Menominee (UTC -06:00)
+                America/Menominee (UTC -05:00)
               </option>
               <option
                 value="America/Merida"
               >
-                America/Merida (UTC -06:00)
+                America/Merida (UTC -05:00)
               </option>
               <option
                 value="America/Metlakatla"
               >
-                America/Metlakatla (UTC -09:00)
+                America/Metlakatla (UTC -08:00)
               </option>
               <option
                 value="America/Mexico_City"
               >
-                America/Mexico_City (UTC -06:00)
+                America/Mexico_City (UTC -05:00)
               </option>
               <option
                 value="America/Miquelon"
               >
-                America/Miquelon (UTC -03:00)
+                America/Miquelon (UTC -02:00)
               </option>
               <option
                 value="America/Moncton"
               >
-                America/Moncton (UTC -04:00)
+                America/Moncton (UTC -03:00)
               </option>
               <option
                 value="America/Monterrey"
               >
-                America/Monterrey (UTC -06:00)
+                America/Monterrey (UTC -05:00)
               </option>
               <option
                 value="America/Montevideo"
@@ -4035,7 +4032,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Montreal"
               >
-                America/Montreal (UTC -05:00)
+                America/Montreal (UTC -04:00)
               </option>
               <option
                 value="America/Montserrat"
@@ -4045,22 +4042,22 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Nassau"
               >
-                America/Nassau (UTC -05:00)
+                America/Nassau (UTC -04:00)
               </option>
               <option
                 value="America/New_York"
               >
-                America/New_York (UTC -05:00)
+                America/New_York (UTC -04:00)
               </option>
               <option
                 value="America/Nipigon"
               >
-                America/Nipigon (UTC -05:00)
+                America/Nipigon (UTC -04:00)
               </option>
               <option
                 value="America/Nome"
               >
-                America/Nome (UTC -09:00)
+                America/Nome (UTC -08:00)
               </option>
               <option
                 value="America/Noronha"
@@ -4070,27 +4067,27 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/North_Dakota/Beulah"
               >
-                America/North_Dakota/Beulah (UTC -06:00)
+                America/North_Dakota/Beulah (UTC -05:00)
               </option>
               <option
                 value="America/North_Dakota/Center"
               >
-                America/North_Dakota/Center (UTC -06:00)
+                America/North_Dakota/Center (UTC -05:00)
               </option>
               <option
                 value="America/North_Dakota/New_Salem"
               >
-                America/North_Dakota/New_Salem (UTC -06:00)
+                America/North_Dakota/New_Salem (UTC -05:00)
               </option>
               <option
                 value="America/Nuuk"
               >
-                America/Nuuk (UTC -03:00)
+                America/Nuuk (UTC -02:00)
               </option>
               <option
                 value="America/Ojinaga"
               >
-                America/Ojinaga (UTC -07:00)
+                America/Ojinaga (UTC -06:00)
               </option>
               <option
                 value="America/Panama"
@@ -4100,7 +4097,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Pangnirtung"
               >
-                America/Pangnirtung (UTC -05:00)
+                America/Pangnirtung (UTC -04:00)
               </option>
               <option
                 value="America/Paramaribo"
@@ -4115,7 +4112,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Port-au-Prince"
               >
-                America/Port-au-Prince (UTC -05:00)
+                America/Port-au-Prince (UTC -04:00)
               </option>
               <option
                 value="America/Port_of_Spain"
@@ -4145,12 +4142,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Rainy_River"
               >
-                America/Rainy_River (UTC -06:00)
+                America/Rainy_River (UTC -05:00)
               </option>
               <option
                 value="America/Rankin_Inlet"
               >
-                America/Rankin_Inlet (UTC -06:00)
+                America/Rankin_Inlet (UTC -05:00)
               </option>
               <option
                 value="America/Recife"
@@ -4165,7 +4162,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Resolute"
               >
-                America/Resolute (UTC -06:00)
+                America/Resolute (UTC -05:00)
               </option>
               <option
                 value="America/Rio_Branco"
@@ -4180,7 +4177,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Santa_Isabel"
               >
-                America/Santa_Isabel (UTC -08:00)
+                America/Santa_Isabel (UTC -07:00)
               </option>
               <option
                 value="America/Santarem"
@@ -4190,7 +4187,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Santiago"
               >
-                America/Santiago (UTC -03:00)
+                America/Santiago (UTC -04:00)
               </option>
               <option
                 value="America/Santo_Domingo"
@@ -4205,17 +4202,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Scoresbysund"
               >
-                America/Scoresbysund (UTC -01:00)
+                America/Scoresbysund (UTC)
               </option>
               <option
                 value="America/Shiprock"
               >
-                America/Shiprock (UTC -07:00)
+                America/Shiprock (UTC -06:00)
               </option>
               <option
                 value="America/Sitka"
               >
-                America/Sitka (UTC -09:00)
+                America/Sitka (UTC -08:00)
               </option>
               <option
                 value="America/St_Barthelemy"
@@ -4225,7 +4222,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/St_Johns"
               >
-                America/St_Johns (UTC -03:30)
+                America/St_Johns (UTC -02:30)
               </option>
               <option
                 value="America/St_Kitts"
@@ -4260,22 +4257,22 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Thule"
               >
-                America/Thule (UTC -04:00)
+                America/Thule (UTC -03:00)
               </option>
               <option
                 value="America/Thunder_Bay"
               >
-                America/Thunder_Bay (UTC -05:00)
+                America/Thunder_Bay (UTC -04:00)
               </option>
               <option
                 value="America/Tijuana"
               >
-                America/Tijuana (UTC -08:00)
+                America/Tijuana (UTC -07:00)
               </option>
               <option
                 value="America/Toronto"
               >
-                America/Toronto (UTC -05:00)
+                America/Toronto (UTC -04:00)
               </option>
               <option
                 value="America/Tortola"
@@ -4285,7 +4282,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Vancouver"
               >
-                America/Vancouver (UTC -08:00)
+                America/Vancouver (UTC -07:00)
               </option>
               <option
                 value="America/Virgin"
@@ -4300,17 +4297,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="America/Winnipeg"
               >
-                America/Winnipeg (UTC -06:00)
+                America/Winnipeg (UTC -05:00)
               </option>
               <option
                 value="America/Yakutat"
               >
-                America/Yakutat (UTC -09:00)
+                America/Yakutat (UTC -08:00)
               </option>
               <option
                 value="America/Yellowknife"
               >
-                America/Yellowknife (UTC -07:00)
+                America/Yellowknife (UTC -06:00)
               </option>
               <option
                 value="Antarctica/Casey"
@@ -4330,7 +4327,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Antarctica/Macquarie"
               >
-                Antarctica/Macquarie (UTC +11:00)
+                Antarctica/Macquarie (UTC +10:00)
               </option>
               <option
                 value="Antarctica/Mawson"
@@ -4340,7 +4337,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Antarctica/McMurdo"
               >
-                Antarctica/McMurdo (UTC +13:00)
+                Antarctica/McMurdo (UTC +12:00)
               </option>
               <option
                 value="Antarctica/Palmer"
@@ -4355,7 +4352,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Antarctica/South_Pole"
               >
-                Antarctica/South_Pole (UTC +13:00)
+                Antarctica/South_Pole (UTC +12:00)
               </option>
               <option
                 value="Antarctica/Syowa"
@@ -4365,7 +4362,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Antarctica/Troll"
               >
-                Antarctica/Troll (UTC)
+                Antarctica/Troll (UTC +02:00)
               </option>
               <option
                 value="Antarctica/Vostok"
@@ -4375,7 +4372,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Arctic/Longyearbyen"
               >
-                Arctic/Longyearbyen (UTC +01:00)
+                Arctic/Longyearbyen (UTC +02:00)
               </option>
               <option
                 value="Asia/Aden"
@@ -4390,7 +4387,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Amman"
               >
-                Asia/Amman (UTC +02:00)
+                Asia/Amman (UTC +03:00)
               </option>
               <option
                 value="Asia/Anadyr"
@@ -4450,7 +4447,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Beirut"
               >
-                Asia/Beirut (UTC +02:00)
+                Asia/Beirut (UTC +03:00)
               </option>
               <option
                 value="Asia/Bishkek"
@@ -4500,7 +4497,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Damascus"
               >
-                Asia/Damascus (UTC +02:00)
+                Asia/Damascus (UTC +03:00)
               </option>
               <option
                 value="Asia/Dhaka"
@@ -4525,12 +4522,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Famagusta"
               >
-                Asia/Famagusta (UTC +02:00)
+                Asia/Famagusta (UTC +03:00)
               </option>
               <option
                 value="Asia/Gaza"
               >
-                Asia/Gaza (UTC +02:00)
+                Asia/Gaza (UTC +03:00)
               </option>
               <option
                 value="Asia/Harbin"
@@ -4540,7 +4537,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Hebron"
               >
-                Asia/Hebron (UTC +02:00)
+                Asia/Hebron (UTC +03:00)
               </option>
               <option
                 value="Asia/Ho_Chi_Minh"
@@ -4580,7 +4577,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Jerusalem"
               >
-                Asia/Jerusalem (UTC +02:00)
+                Asia/Jerusalem (UTC +03:00)
               </option>
               <option
                 value="Asia/Kabul"
@@ -4675,7 +4672,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Nicosia"
               >
-                Asia/Nicosia (UTC +02:00)
+                Asia/Nicosia (UTC +03:00)
               </option>
               <option
                 value="Asia/Novokuznetsk"
@@ -4790,12 +4787,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Asia/Tehran"
               >
-                Asia/Tehran (UTC +03:30)
+                Asia/Tehran (UTC +04:30)
               </option>
               <option
                 value="Asia/Tel_Aviv"
               >
-                Asia/Tel_Aviv (UTC +02:00)
+                Asia/Tel_Aviv (UTC +03:00)
               </option>
               <option
                 value="Asia/Thimbu"
@@ -4875,17 +4872,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Atlantic/Azores"
               >
-                Atlantic/Azores (UTC -01:00)
+                Atlantic/Azores (UTC)
               </option>
               <option
                 value="Atlantic/Bermuda"
               >
-                Atlantic/Bermuda (UTC -04:00)
+                Atlantic/Bermuda (UTC -03:00)
               </option>
               <option
                 value="Atlantic/Canary"
               >
-                Atlantic/Canary (UTC)
+                Atlantic/Canary (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Cape_Verde"
@@ -4895,22 +4892,22 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Atlantic/Faeroe"
               >
-                Atlantic/Faeroe (UTC)
+                Atlantic/Faeroe (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Faroe"
               >
-                Atlantic/Faroe (UTC)
+                Atlantic/Faroe (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Jan_Mayen"
               >
-                Atlantic/Jan_Mayen (UTC +01:00)
+                Atlantic/Jan_Mayen (UTC +02:00)
               </option>
               <option
                 value="Atlantic/Madeira"
               >
-                Atlantic/Madeira (UTC)
+                Atlantic/Madeira (UTC +01:00)
               </option>
               <option
                 value="Atlantic/Reykjavik"
@@ -4935,12 +4932,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Australia/ACT"
               >
-                Australia/ACT (UTC +11:00)
+                Australia/ACT (UTC +10:00)
               </option>
               <option
                 value="Australia/Adelaide"
               >
-                Australia/Adelaide (UTC +10:30)
+                Australia/Adelaide (UTC +09:30)
               </option>
               <option
                 value="Australia/Brisbane"
@@ -4950,17 +4947,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Australia/Broken_Hill"
               >
-                Australia/Broken_Hill (UTC +10:30)
+                Australia/Broken_Hill (UTC +09:30)
               </option>
               <option
                 value="Australia/Canberra"
               >
-                Australia/Canberra (UTC +11:00)
+                Australia/Canberra (UTC +10:00)
               </option>
               <option
                 value="Australia/Currie"
               >
-                Australia/Currie (UTC +11:00)
+                Australia/Currie (UTC +10:00)
               </option>
               <option
                 value="Australia/Darwin"
@@ -4975,12 +4972,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Australia/Hobart"
               >
-                Australia/Hobart (UTC +11:00)
+                Australia/Hobart (UTC +10:00)
               </option>
               <option
                 value="Australia/LHI"
               >
-                Australia/LHI (UTC +11:00)
+                Australia/LHI (UTC +10:30)
               </option>
               <option
                 value="Australia/Lindeman"
@@ -4990,17 +4987,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Australia/Lord_Howe"
               >
-                Australia/Lord_Howe (UTC +11:00)
+                Australia/Lord_Howe (UTC +10:30)
               </option>
               <option
                 value="Australia/Melbourne"
               >
-                Australia/Melbourne (UTC +11:00)
+                Australia/Melbourne (UTC +10:00)
               </option>
               <option
                 value="Australia/NSW"
               >
-                Australia/NSW (UTC +11:00)
+                Australia/NSW (UTC +10:00)
               </option>
               <option
                 value="Australia/North"
@@ -5020,22 +5017,22 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Australia/South"
               >
-                Australia/South (UTC +10:30)
+                Australia/South (UTC +09:30)
               </option>
               <option
                 value="Australia/Sydney"
               >
-                Australia/Sydney (UTC +11:00)
+                Australia/Sydney (UTC +10:00)
               </option>
               <option
                 value="Australia/Tasmania"
               >
-                Australia/Tasmania (UTC +11:00)
+                Australia/Tasmania (UTC +10:00)
               </option>
               <option
                 value="Australia/Victoria"
               >
-                Australia/Victoria (UTC +11:00)
+                Australia/Victoria (UTC +10:00)
               </option>
               <option
                 value="Australia/West"
@@ -5045,7 +5042,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Australia/Yancowinna"
               >
-                Australia/Yancowinna (UTC +10:30)
+                Australia/Yancowinna (UTC +09:30)
               </option>
               <option
                 value="Brazil/Acre"
@@ -5070,42 +5067,42 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="CET"
               >
-                CET (UTC +01:00)
+                CET (UTC +02:00)
               </option>
               <option
                 value="CST6CDT"
               >
-                CST6CDT (UTC -06:00)
+                CST6CDT (UTC -05:00)
               </option>
               <option
                 value="Canada/Atlantic"
               >
-                Canada/Atlantic (UTC -04:00)
+                Canada/Atlantic (UTC -03:00)
               </option>
               <option
                 value="Canada/Central"
               >
-                Canada/Central (UTC -06:00)
+                Canada/Central (UTC -05:00)
               </option>
               <option
                 value="Canada/Eastern"
               >
-                Canada/Eastern (UTC -05:00)
+                Canada/Eastern (UTC -04:00)
               </option>
               <option
                 value="Canada/Mountain"
               >
-                Canada/Mountain (UTC -07:00)
+                Canada/Mountain (UTC -06:00)
               </option>
               <option
                 value="Canada/Newfoundland"
               >
-                Canada/Newfoundland (UTC -03:30)
+                Canada/Newfoundland (UTC -02:30)
               </option>
               <option
                 value="Canada/Pacific"
               >
-                Canada/Pacific (UTC -08:00)
+                Canada/Pacific (UTC -07:00)
               </option>
               <option
                 value="Canada/Saskatchewan"
@@ -5120,27 +5117,27 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Chile/Continental"
               >
-                Chile/Continental (UTC -03:00)
+                Chile/Continental (UTC -04:00)
               </option>
               <option
                 value="Chile/EasterIsland"
               >
-                Chile/EasterIsland (UTC -05:00)
+                Chile/EasterIsland (UTC -06:00)
               </option>
               <option
                 value="Cuba"
               >
-                Cuba (UTC -05:00)
+                Cuba (UTC -04:00)
               </option>
               <option
                 value="EET"
               >
-                EET (UTC +02:00)
+                EET (UTC +03:00)
               </option>
               <option
                 value="EST5EDT"
               >
-                EST5EDT (UTC -05:00)
+                EST5EDT (UTC -04:00)
               </option>
               <option
                 value="Egypt"
@@ -5150,7 +5147,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Eire"
               >
-                Eire (UTC)
+                Eire (UTC +01:00)
               </option>
               <option
                 value="Etc/GMT"
@@ -5330,12 +5327,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Amsterdam"
               >
-                Europe/Amsterdam (UTC +01:00)
+                Europe/Amsterdam (UTC +02:00)
               </option>
               <option
                 value="Europe/Andorra"
               >
-                Europe/Andorra (UTC +01:00)
+                Europe/Andorra (UTC +02:00)
               </option>
               <option
                 value="Europe/Astrakhan"
@@ -5345,82 +5342,82 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Athens"
               >
-                Europe/Athens (UTC +02:00)
+                Europe/Athens (UTC +03:00)
               </option>
               <option
                 value="Europe/Belfast"
               >
-                Europe/Belfast (UTC)
+                Europe/Belfast (UTC +01:00)
               </option>
               <option
                 value="Europe/Belgrade"
               >
-                Europe/Belgrade (UTC +01:00)
+                Europe/Belgrade (UTC +02:00)
               </option>
               <option
                 value="Europe/Berlin"
               >
-                Europe/Berlin (UTC +01:00)
+                Europe/Berlin (UTC +02:00)
               </option>
               <option
                 value="Europe/Bratislava"
               >
-                Europe/Bratislava (UTC +01:00)
+                Europe/Bratislava (UTC +02:00)
               </option>
               <option
                 value="Europe/Brussels"
               >
-                Europe/Brussels (UTC +01:00)
+                Europe/Brussels (UTC +02:00)
               </option>
               <option
                 value="Europe/Bucharest"
               >
-                Europe/Bucharest (UTC +02:00)
+                Europe/Bucharest (UTC +03:00)
               </option>
               <option
                 value="Europe/Budapest"
               >
-                Europe/Budapest (UTC +01:00)
+                Europe/Budapest (UTC +02:00)
               </option>
               <option
                 value="Europe/Busingen"
               >
-                Europe/Busingen (UTC +01:00)
+                Europe/Busingen (UTC +02:00)
               </option>
               <option
                 value="Europe/Chisinau"
               >
-                Europe/Chisinau (UTC +02:00)
+                Europe/Chisinau (UTC +03:00)
               </option>
               <option
                 value="Europe/Copenhagen"
               >
-                Europe/Copenhagen (UTC +01:00)
+                Europe/Copenhagen (UTC +02:00)
               </option>
               <option
                 value="Europe/Dublin"
               >
-                Europe/Dublin (UTC)
+                Europe/Dublin (UTC +01:00)
               </option>
               <option
                 value="Europe/Gibraltar"
               >
-                Europe/Gibraltar (UTC +01:00)
+                Europe/Gibraltar (UTC +02:00)
               </option>
               <option
                 value="Europe/Guernsey"
               >
-                Europe/Guernsey (UTC)
+                Europe/Guernsey (UTC +01:00)
               </option>
               <option
                 value="Europe/Helsinki"
               >
-                Europe/Helsinki (UTC +02:00)
+                Europe/Helsinki (UTC +03:00)
               </option>
               <option
                 value="Europe/Isle_of_Man"
               >
-                Europe/Isle_of_Man (UTC)
+                Europe/Isle_of_Man (UTC +01:00)
               </option>
               <option
                 value="Europe/Istanbul"
@@ -5430,7 +5427,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Jersey"
               >
-                Europe/Jersey (UTC)
+                Europe/Jersey (UTC +01:00)
               </option>
               <option
                 value="Europe/Kaliningrad"
@@ -5440,7 +5437,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Kiev"
               >
-                Europe/Kiev (UTC +02:00)
+                Europe/Kiev (UTC +03:00)
               </option>
               <option
                 value="Europe/Kirov"
@@ -5450,37 +5447,37 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Lisbon"
               >
-                Europe/Lisbon (UTC)
+                Europe/Lisbon (UTC +01:00)
               </option>
               <option
                 value="Europe/Ljubljana"
               >
-                Europe/Ljubljana (UTC +01:00)
+                Europe/Ljubljana (UTC +02:00)
               </option>
               <option
                 value="Europe/London"
               >
-                Europe/London (UTC)
+                Europe/London (UTC +01:00)
               </option>
               <option
                 value="Europe/Luxembourg"
               >
-                Europe/Luxembourg (UTC +01:00)
+                Europe/Luxembourg (UTC +02:00)
               </option>
               <option
                 value="Europe/Madrid"
               >
-                Europe/Madrid (UTC +01:00)
+                Europe/Madrid (UTC +02:00)
               </option>
               <option
                 value="Europe/Malta"
               >
-                Europe/Malta (UTC +01:00)
+                Europe/Malta (UTC +02:00)
               </option>
               <option
                 value="Europe/Mariehamn"
               >
-                Europe/Mariehamn (UTC +02:00)
+                Europe/Mariehamn (UTC +03:00)
               </option>
               <option
                 value="Europe/Minsk"
@@ -5490,7 +5487,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Monaco"
               >
-                Europe/Monaco (UTC +01:00)
+                Europe/Monaco (UTC +02:00)
               </option>
               <option
                 value="Europe/Moscow"
@@ -5500,37 +5497,37 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Nicosia"
               >
-                Europe/Nicosia (UTC +02:00)
+                Europe/Nicosia (UTC +03:00)
               </option>
               <option
                 value="Europe/Oslo"
               >
-                Europe/Oslo (UTC +01:00)
+                Europe/Oslo (UTC +02:00)
               </option>
               <option
                 value="Europe/Paris"
               >
-                Europe/Paris (UTC +01:00)
+                Europe/Paris (UTC +02:00)
               </option>
               <option
                 value="Europe/Podgorica"
               >
-                Europe/Podgorica (UTC +01:00)
+                Europe/Podgorica (UTC +02:00)
               </option>
               <option
                 value="Europe/Prague"
               >
-                Europe/Prague (UTC +01:00)
+                Europe/Prague (UTC +02:00)
               </option>
               <option
                 value="Europe/Riga"
               >
-                Europe/Riga (UTC +02:00)
+                Europe/Riga (UTC +03:00)
               </option>
               <option
                 value="Europe/Rome"
               >
-                Europe/Rome (UTC +01:00)
+                Europe/Rome (UTC +02:00)
               </option>
               <option
                 value="Europe/Samara"
@@ -5540,12 +5537,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/San_Marino"
               >
-                Europe/San_Marino (UTC +01:00)
+                Europe/San_Marino (UTC +02:00)
               </option>
               <option
                 value="Europe/Sarajevo"
               >
-                Europe/Sarajevo (UTC +01:00)
+                Europe/Sarajevo (UTC +02:00)
               </option>
               <option
                 value="Europe/Saratov"
@@ -5560,32 +5557,32 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Skopje"
               >
-                Europe/Skopje (UTC +01:00)
+                Europe/Skopje (UTC +02:00)
               </option>
               <option
                 value="Europe/Sofia"
               >
-                Europe/Sofia (UTC +02:00)
+                Europe/Sofia (UTC +03:00)
               </option>
               <option
                 value="Europe/Stockholm"
               >
-                Europe/Stockholm (UTC +01:00)
+                Europe/Stockholm (UTC +02:00)
               </option>
               <option
                 value="Europe/Tallinn"
               >
-                Europe/Tallinn (UTC +02:00)
+                Europe/Tallinn (UTC +03:00)
               </option>
               <option
                 value="Europe/Tirane"
               >
-                Europe/Tirane (UTC +01:00)
+                Europe/Tirane (UTC +02:00)
               </option>
               <option
                 value="Europe/Tiraspol"
               >
-                Europe/Tiraspol (UTC +02:00)
+                Europe/Tiraspol (UTC +03:00)
               </option>
               <option
                 value="Europe/Ulyanovsk"
@@ -5595,62 +5592,62 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Europe/Uzhgorod"
               >
-                Europe/Uzhgorod (UTC +02:00)
+                Europe/Uzhgorod (UTC +03:00)
               </option>
               <option
                 value="Europe/Vaduz"
               >
-                Europe/Vaduz (UTC +01:00)
+                Europe/Vaduz (UTC +02:00)
               </option>
               <option
                 value="Europe/Vatican"
               >
-                Europe/Vatican (UTC +01:00)
+                Europe/Vatican (UTC +02:00)
               </option>
               <option
                 value="Europe/Vienna"
               >
-                Europe/Vienna (UTC +01:00)
+                Europe/Vienna (UTC +02:00)
               </option>
               <option
                 value="Europe/Vilnius"
               >
-                Europe/Vilnius (UTC +02:00)
+                Europe/Vilnius (UTC +03:00)
               </option>
               <option
                 value="Europe/Volgograd"
               >
-                Europe/Volgograd (UTC +04:00)
+                Europe/Volgograd (UTC +03:00)
               </option>
               <option
                 value="Europe/Warsaw"
               >
-                Europe/Warsaw (UTC +01:00)
+                Europe/Warsaw (UTC +02:00)
               </option>
               <option
                 value="Europe/Zagreb"
               >
-                Europe/Zagreb (UTC +01:00)
+                Europe/Zagreb (UTC +02:00)
               </option>
               <option
                 value="Europe/Zaporozhye"
               >
-                Europe/Zaporozhye (UTC +02:00)
+                Europe/Zaporozhye (UTC +03:00)
               </option>
               <option
                 value="Europe/Zurich"
               >
-                Europe/Zurich (UTC +01:00)
+                Europe/Zurich (UTC +02:00)
               </option>
               <option
                 value="GB"
               >
-                GB (UTC)
+                GB (UTC +01:00)
               </option>
               <option
                 value="GB-Eire"
               >
-                GB-Eire (UTC)
+                GB-Eire (UTC +01:00)
               </option>
               <option
                 value="GMT"
@@ -5735,12 +5732,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Iran"
               >
-                Iran (UTC +03:30)
+                Iran (UTC +04:30)
               </option>
               <option
                 value="Israel"
               >
-                Israel (UTC +02:00)
+                Israel (UTC +03:00)
               </option>
               <option
                 value="Jamaica"
@@ -5765,42 +5762,42 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="MET"
               >
-                MET (UTC +01:00)
+                MET (UTC +02:00)
               </option>
               <option
                 value="MST7MDT"
               >
-                MST7MDT (UTC -07:00)
+                MST7MDT (UTC -06:00)
               </option>
               <option
                 value="Mexico/BajaNorte"
               >
-                Mexico/BajaNorte (UTC -08:00)
+                Mexico/BajaNorte (UTC -07:00)
               </option>
               <option
                 value="Mexico/BajaSur"
               >
-                Mexico/BajaSur (UTC -07:00)
+                Mexico/BajaSur (UTC -06:00)
               </option>
               <option
                 value="Mexico/General"
               >
-                Mexico/General (UTC -06:00)
+                Mexico/General (UTC -05:00)
               </option>
               <option
                 value="NZ"
               >
-                NZ (UTC +13:00)
+                NZ (UTC +12:00)
               </option>
               <option
                 value="NZ-CHAT"
               >
-                NZ-CHAT (UTC +13:45)
+                NZ-CHAT (UTC +12:45)
               </option>
               <option
                 value="Navajo"
               >
-                Navajo (UTC -07:00)
+                Navajo (UTC -06:00)
               </option>
               <option
                 value="PRC"
@@ -5810,17 +5807,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="PST8PDT"
               >
-                PST8PDT (UTC -08:00)
+                PST8PDT (UTC -07:00)
               </option>
               <option
                 value="Pacific/Apia"
               >
-                Pacific/Apia (UTC +14:00)
+                Pacific/Apia (UTC +13:00)
               </option>
               <option
                 value="Pacific/Auckland"
               >
-                Pacific/Auckland (UTC +13:00)
+                Pacific/Auckland (UTC +12:00)
               </option>
               <option
                 value="Pacific/Bougainville"
@@ -5830,7 +5827,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Pacific/Chatham"
               >
-                Pacific/Chatham (UTC +13:45)
+                Pacific/Chatham (UTC +12:45)
               </option>
               <option
                 value="Pacific/Chuuk"
@@ -5840,7 +5837,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Pacific/Easter"
               >
-                Pacific/Easter (UTC -05:00)
+                Pacific/Easter (UTC -06:00)
               </option>
               <option
                 value="Pacific/Efate"
@@ -5940,7 +5937,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Pacific/Norfolk"
               >
-                Pacific/Norfolk (UTC +12:00)
+                Pacific/Norfolk (UTC +11:00)
               </option>
               <option
                 value="Pacific/Noumea"
@@ -6030,12 +6027,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="Poland"
               >
-                Poland (UTC +01:00)
+                Poland (UTC +02:00)
               </option>
               <option
                 value="Portugal"
               >
-                Portugal (UTC)
+                Portugal (UTC +01:00)
               </option>
               <option
                 value="ROK"
@@ -6060,12 +6057,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="US/Alaska"
               >
-                US/Alaska (UTC -09:00)
+                US/Alaska (UTC -08:00)
               </option>
               <option
                 value="US/Aleutian"
               >
-                US/Aleutian (UTC -10:00)
+                US/Aleutian (UTC -09:00)
               </option>
               <option
                 value="US/Arizona"
@@ -6075,17 +6072,17 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="US/Central"
               >
-                US/Central (UTC -06:00)
+                US/Central (UTC -05:00)
               </option>
               <option
                 value="US/East-Indiana"
               >
-                US/East-Indiana (UTC -05:00)
+                US/East-Indiana (UTC -04:00)
               </option>
               <option
                 value="US/Eastern"
               >
-                US/Eastern (UTC -05:00)
+                US/Eastern (UTC -04:00)
               </option>
               <option
                 value="US/Hawaii"
@@ -6095,27 +6092,27 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="US/Indiana-Starke"
               >
-                US/Indiana-Starke (UTC -06:00)
+                US/Indiana-Starke (UTC -05:00)
               </option>
               <option
                 value="US/Michigan"
               >
-                US/Michigan (UTC -05:00)
+                US/Michigan (UTC -04:00)
               </option>
               <option
                 value="US/Mountain"
               >
-                US/Mountain (UTC -07:00)
+                US/Mountain (UTC -06:00)
               </option>
               <option
                 value="US/Pacific"
               >
-                US/Pacific (UTC -08:00)
+                US/Pacific (UTC -07:00)
               </option>
               <option
                 value="US/Pacific-New"
               >
-                US/Pacific-New (UTC -08:00)
+                US/Pacific-New (UTC -07:00)
               </option>
               <option
                 value="US/Samoa"
@@ -6140,7 +6137,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               <option
                 value="WET"
               >
-                WET (UTC)
+                WET (UTC +01:00)
               </option>
               <option
                 value="Zulu"
@@ -6160,20 +6157,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             </span>
           </div>
         </div>
-        <div
-          class="form-check"
-        >
-          <input
-            class="form-check-input"
-            name="copyCourseChooseSessions"
-            type="checkbox"
-          />
-          <span>
-            <b>
-              Sessions to copy:
-            </b>
-          </span>
-        </div>
+        
         
       </div>
     </div>

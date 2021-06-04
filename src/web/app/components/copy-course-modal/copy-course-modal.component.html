@@ -41,13 +41,13 @@
             <div class="form-group" *ngIf="isCopyFromOtherSession">
                 <label>Course to copy from:</label>
                 <div class="input-group">
-                    <select id="course-to-copy-from" class="form-control" [(ngModel)]="oldCourseId">
+                    <select id="course-to-copy-from" class="form-control" (change)="clearSelectedFeedbackSession()" [(ngModel)]="oldCourseId">
                         <option *ngFor="let course of courses" [value]="course.courseId">{{ course.courseId }}</option>
                     </select>
                 </div>
             </div>
             <div *ngIf="oldCourseId">
-                <div *ngIf="oldCourseId in courseToFeedbackSession && courseToFeedbackSession[oldCourseId].length > 0; else noSessionsTemplate">
+                <div *ngIf="courseToFeedbackSession[oldCourseId].length > 0; else noSessionsTemplate">
                     <div class="form-check">
                         <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
                             [checked]="chosenFeedbackSessions.size == courseToFeedbackSession[oldCourseId].length" (click)="toggleSelection()">

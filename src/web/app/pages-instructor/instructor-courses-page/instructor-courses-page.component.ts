@@ -277,14 +277,14 @@ export class InstructorCoursesPageComponent implements OnInit {
       modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
       modalRef.componentInstance.chosenFeedbackSessions = new Set(response.feedbackSessions);
-      modalRef.result.then((result: CopyCourseModalResult) => { this.createCourse(result) }, () => {});
+      modalRef.result.then((result: CopyCourseModalResult) => this.createCourse(result), () => {});
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
 
   /**
-   * Creates a new course with selected feedback sessions
+   * Creates a new course with the selected feedback sessions
    */
   createCourse(result: CopyCourseModalResult): void {
     this.isLoading = true;
@@ -297,19 +297,19 @@ export class InstructorCoursesPageComponent implements OnInit {
       this.courseService
         .getAllCoursesAsInstructor('active')
         .subscribe((resp: Courses) => {
-            const course: Course = resp.courses.find((c: Course) => c.courseId === result.newCourseId) as Course;
-            this.activeCourses.push(this.getCourseModelFromCourse(course));
-            this.activeCoursesDefaultSort();
-            result.chosenFeedbackSessionList.forEach((session: FeedbackSession) => {
-              this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
-            });
-            this.isLoading = false;
+          const course: Course = resp.courses.find((c: Course) => c.courseId === result.newCourseId) as Course;
+          this.activeCourses.push(this.getCourseModelFromCourse(course));
+          this.activeCoursesDefaultSort();
+          result.chosenFeedbackSessionList.forEach((session: FeedbackSession) => {
+            this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
           });
-        }, (resp: ErrorMessageOutput) => {
-          this.statusMessageService.showErrorToast(resp.error.message);
           this.isLoading = false;
-          this.hasLoadingFailed = true;
         });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.isLoading = false;
+      this.hasLoadingFailed = true;
+    });
   }
 
   /**
