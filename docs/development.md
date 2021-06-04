@@ -6,7 +6,7 @@ These are the common tasks involved when working on features, enhancements, bug 
 * [Managing the dev server: back-end](#managing-the-dev-server-back-end)
 * [Building front-end files](#building-front-end-files)
 * [Logging in to a TEAMMATES instance](#logging-in-to-a-teammates-instance)
-* [Running the Datastore Emulator](#running-the-datastore-emulator)
+* [Running the Datastore emulator](#running-the-datastore-emulator)
 * [Testing](#testing)
 * [Deploying to a staging server](#deploying-to-a-staging-server)
 * [Running client scripts](#running-client-scripts)
@@ -153,31 +153,41 @@ To "log out", submit the following API call:
 GET http://localhost:8080/logout
 ```
 
-## Running the Datastore Emulator
+## Running the Datastore emulator
 
-The Datastore Emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the datastore emulator, refer to Google's [official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator). 
+The Datastore emulator is an essential tool that we use to locally simulate production Datastore environment during development and testing of relevant features. For more information about the Datastore emulator, refer to [Google's official documentation](https://cloud.google.com/datastore/docs/tools/datastore-emulator).
 
-### Steps to local setup
-**1. Installing the Datastore Emulator**    
-Before proceeding, make sure you have downloaded and installed the Google Cloud SDK on your local machine (refer to the [Setting up guide](setting-up.md#step-2-install-necessary-tools-and-languages)).
-Once done, you can install the datastore emulator by running the following command:
-```
-gcloud components install cloud-datastore-emulator
+### Using quickstart script
+
+You can use the pre-provided quickstart script which will run a local Datastore emulator instance sufficient for development use cases. The script is run via the following command:
+```sh
+./gradlew runDatastoreEmulator
 ```
 
-**2. Running the Emulator**  
-Now run the emulator in a *free* localhost port, for example:
-```
-gcloud beta emulators datastore start --host-port=localhost:8484 --consistency=1.0
-```
-(setting immediate consistency is desired for unit testing)
+The Datastore emulator will be running in the port specified in the `build.properties` file.
 
-**Verification:** You should see something like this:
-```
-...
-[datastore] Dev App Server is now running.
-```
-If you encounter any errors, refer to our [troubleshooting guide](troubleshooting-guide.md).
+### Using Cloud SDK
+
+Alternatively, you can use `gcloud` command to manage the local Datastore emulator instance directly. For this, you need a working [Google Cloud SDK](https://cloud.google.com/sdk/docs) in your development environment.
+
+1. Install the Datastore emulator component if you have not done so:
+   ```sh
+   gcloud components install cloud-datastore-emulator
+   ```
+1. To run the emulator in port `8484`:
+   ```sh
+   gcloud beta emulators datastore start --host-port=localhost:8484
+   ```
+   Wait until you see the following message:
+   ```
+   [datastore] Dev App Server is now running.
+   ```
+
+### Stopping the emulator
+
+To stop the Datastore emulator, use any method available in your OS to locate and stop the process at the port used for the emulator.
+
+If you are using the Cloud SDK method, you can use `Ctrl + C` in the console to stop the process. If the emulator fails to stop gracefully, use the previously described method.
 
 ## Testing
 
