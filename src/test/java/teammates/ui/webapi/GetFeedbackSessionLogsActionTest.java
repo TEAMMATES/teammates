@@ -180,7 +180,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
 
-        ______TS("Only instructors with modify student privilege can access");
+        ______TS("Only instructors with modify student, session and instructor privilege can access");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
