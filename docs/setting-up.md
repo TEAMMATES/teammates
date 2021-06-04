@@ -42,19 +42,6 @@ These tools are necessary regardless of whether you are developing front-end or 
 
 1. Install JDK 1.8.
 1. Install Python 3 (recommended) or Python 2.7.
-1. Install Google Cloud SDK (minimum version 274.0.0). Follow the directions given [here](https://cloud.google.com/sdk/docs/install). Note that you *do not* need to [initialize the SDK](https://cloud.google.com/sdk/docs/initializing).
-
-   While you are in the root Google Cloud SDK directory, use the install script to add Cloud SDK tools to your `PATH`, by running the following command:
-   ```sh
-   # Linux/OS X
-   ./install.sh --path-update true
-
-   # Windows
-   install.bat --path-update true
-   ```
-   If you are installing in Red Hat, CentOS, Fedora, Debian or Ubuntu, refer to the quick start of Google Cloud SDK for [Debian/Ubuntu](https://cloud.google.com/sdk/docs/quickstart#deb) or [Red Hat/CentOS/Fedora](https://cloud.google.com/sdk/docs/quickstart#rpm) respectively.
-
-   **Verification:** Run a `gcloud` command (e.g. `gcloud version`) in order to verify that you can access the SDK from the command line.
 
 If you want to develop front-end, you need to install the following:
 

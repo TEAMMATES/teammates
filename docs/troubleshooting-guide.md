@@ -3,36 +3,9 @@
 This document can help you to fix the common problems encountered while contributing to TEAMMATES.
 Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
 
-* [Troubleshooting project setup](#troubleshooting-project-setup)
-    * [Common setup errors and solutions](#common-setup-errors-and-solutions)
 * [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Common test errors and solutions](#common-test-errors-and-solutions)
 * [Submitting help request](#submitting-help-request)
-
-## Troubleshooting project setup
-
-### Common setup errors and solutions
-
-* **ERROR**: After downloading and installing Google Cloud SDK, running any `gcloud` command results in `gcloud: command not found` or alike.
-
-  **REASON**: The `PATH` variable was not updated when installing the SDK.
-
-  **SOLUTION**: Make sure to update your `PATH` variable to include the `/bin` sub-folder in the SDK folder. Then re-run the install command again.
-  Alternatively, you can always navigate into the `/bin` folder and execute using `./gcloud`.
-  To verify, run `gcloud info` command should give you `Google Cloud SDK [version]`.
-
-* **ERROR**: The recommended emulator setup in [wiki](https://github.com/objectify/objectify/wiki/Setup#initialising-the-objectifyservice-to-work-with-emulator-applies-to-v6) gives `Exiting due to exception: java.io.IOException: Failed to bind`.
-
-  **REASON**: Emulator fails to shut down, leaving a dangling process in the connected port.
-
-  **SOLUTION**: Identify the process id and kill it manually before running the emulator again.
-  On macOS for example, you can run the following command in the terminal: `lsof -i tcp:<port-number>`.
-  To kill the process, simply run: `kill -9 <PID>`.
-  Finally, run `gcloud beta emulators datastore start --host-port=localhost:<port-number>` to restart the emulator.
-
-* **ERROR**: Get `java.lang.IllegalStateException: Must use project ID as app ID if project ID is provided` when trying to connect the backend with the emulator.
-
-  **SOLUTION**: Before running `./gradlew appengineRun` in the session, run the following command: `export DATASTORE_USE_PROJECT_ID_AS_APP_ID=true`.
 
 ## Troubleshooting test failures
 
