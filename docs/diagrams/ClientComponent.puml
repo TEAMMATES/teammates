@@ -1,0 +1,31 @@
+@startuml
+!include style.puml
+skinparam componentBackgroundColor MODEL_COLOR_T1
+skinparam componentFontColor #FFFFFF
+skinparam packageBackgroundColor #FFFFFF
+skinparam rectangleBackgroundColor MODEL_COLOR
+skinparam rectangleFontColor #FFFFFF
+skinparam arrowColor #000000
+
+component Client {
+    package client::scripts {
+        folder ::scripts {
+            rectangle ClientScripts
+        }
+    }
+
+    package client::remoteapi {
+        rectangle RemoteApiClient
+    }
+}
+
+database "GoogleCloud\nDatastore" as GCD STORAGE_COLOR_T1
+rectangle LogicAPI
+rectangle StorageAPI
+
+ClientScripts -> RemoteApiClient
+ClientScripts ..> LogicAPI
+ClientScripts ..> StorageAPI
+RemoteApiClient ..> GCD
+
+@enduml

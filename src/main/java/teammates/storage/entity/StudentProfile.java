@@ -2,8 +2,6 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -41,9 +39,7 @@ public class StudentProfile extends BaseEntity {
     private String gender;
 
     @Unindex
-    private Text moreInfo;
-
-    private BlobKey pictureKey;
+    private String moreInfo;
 
     @Index
     @Translate(InstantTranslatorFactory.class)
@@ -75,7 +71,7 @@ public class StudentProfile extends BaseEntity {
      *            Miscellaneous information, including external profile
      */
     public StudentProfile(String googleId, String shortName, String email, String institute,
-                          String nationality, String gender, String moreInfo, String pictureKey) {
+                          String nationality, String gender, String moreInfo) {
         this.setGoogleId(googleId);
         this.setShortName(shortName);
         this.setEmail(email);
@@ -84,7 +80,6 @@ public class StudentProfile extends BaseEntity {
         this.setGender(gender);
         this.setMoreInfo(moreInfo);
         this.setModifiedDate(Instant.now());
-        this.setPictureKey(pictureKey);
     }
 
     public StudentProfile(String googleId) {
@@ -95,7 +90,6 @@ public class StudentProfile extends BaseEntity {
         this.setNationality("");
         this.setGender("other");
         this.setMoreInfo("");
-        this.setPictureKey("");
         this.setModifiedDate(Instant.now());
     }
 
@@ -152,19 +146,11 @@ public class StudentProfile extends BaseEntity {
     }
 
     public String getMoreInfo() {
-        return this.moreInfo == null ? null : this.moreInfo.getValue();
+        return moreInfo;
     }
 
     public void setMoreInfo(String moreInfo) {
-        this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
-    }
-
-    public String getPictureKey() {
-        return this.pictureKey == null ? null : this.pictureKey.getKeyString();
-    }
-
-    public void setPictureKey(String pictureKey) {
-        this.pictureKey = pictureKey == null ? null : new BlobKey(pictureKey);
+        this.moreInfo = moreInfo;
     }
 
     public Instant getModifiedDate() {

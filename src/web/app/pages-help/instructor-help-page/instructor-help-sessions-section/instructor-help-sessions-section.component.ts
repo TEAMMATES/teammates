@@ -21,9 +21,6 @@ import {
 } from '../../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.component';
 import { collapseAnim } from '../../../components/teammates-common/collapse-anim';
 import {
-  SearchCommentsTable,
-} from '../../../pages-instructor/instructor-search-page/comment-result-table/comment-result-table.component';
-import {
   SectionTabModel,
 } from '../../../pages-instructor/instructor-session-result-page/instructor-session-result-page.component';
 import {
@@ -35,7 +32,6 @@ import {
 import { InstructorHelpSectionComponent } from '../instructor-help-section.component';
 import {
   EXAMPLE_COMMENT_EDIT_FORM_MODEL,
-  EXAMPLE_COMMENT_SEARCH_RESULT,
   EXAMPLE_COURSE_CANDIDATES,
   EXAMPLE_FEEDBACK_SESSION,
   EXAMPLE_GRQ_RESPONSES,
@@ -84,7 +80,6 @@ export class InstructorHelpSessionsSectionComponent extends InstructorHelpSectio
     = EXAMPLE_INSTRUCTOR_COMMENT_TABLE_MODEL;
   readonly exampleGrqResponses: Record<string, SectionTabModel> = EXAMPLE_GRQ_RESPONSES;
   readonly exampleQuestionsWithResponses: QuestionOutput[] = EXAMPLE_QUESTIONS_WITH_RESPONSES;
-  readonly exampleCommentSearchResult: SearchCommentsTable[] = EXAMPLE_COMMENT_SEARCH_RESULT;
 
   readonly questionsOrder: string[] = [
     SessionsSectionQuestions.TIPS_FOR_CONDUCTION_PEER_EVAL,

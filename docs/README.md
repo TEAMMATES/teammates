@@ -26,8 +26,6 @@ Here are some documents important for TEAMMATES developers.
   * [Testing](best-practices/testing.md)
   * [Data migration](best-practices/data-migration.md)
 
-* How to [**set up IDEs for development**](ide-setup.md). _(not actively supported/maintained; use at your own risk)_
-
 ## How-to documents
 
 * [Static analysis](static-analysis.md): Performing code quality check.

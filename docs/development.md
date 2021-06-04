@@ -49,30 +49,27 @@ To stop the dev server, press `Ctrl + C`.
 
 ## Managing the dev server: back-end
 
-Back-end dev server is the Google App Engine-based server handling all the business logic, including data storage.
+Back-end dev server is the Jetty-based server handling all the business logic, including data storage.
 
 ### Starting the dev server
 
 To start the server in the background, run the following command
 and wait until the task exits with a `BUILD SUCCESSFUL`:
 ```sh
-./gradlew appengineStart
+./gradlew serverRun &
 ```
 
 To start the server in the foreground (e.g. if you want the console output to be visible),
 run the following command instead:
 ```sh
-./gradlew appengineRun
+./gradlew serverRun
 ```
 
-The dev server URL will be `http://localhost:8080` as specified in `build.gradle`.
+The dev server URL will be `http://localhost:8080`.
 
 ### Stopping the dev server
 
-If you started the server in the background, run the following command to stop it:
-```sh
-./gradlew appengineStop
-```
+If you started the server in the background, use any method available in your OS to stop the process at port `8080`.
 
 If the server is running in the foreground, press `Ctrl + C` (or equivalent in your OS) to stop it or run the above command in a new console.
 
@@ -102,7 +99,7 @@ This instruction set applies for both dev server and production server, with sli
 
 1. Go to any administrator page, e.g `/web/admin/home`.
 1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
-1. On the production server, you will be granted the access only if your account has administrator permission to the application.
+1. On the production server, you will be granted the access only if your account has admin permission as defined in `build.properties`.
 1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
  e.g `http://localhost:8080/web/student/home?user=johnKent`.
 
@@ -143,7 +140,7 @@ The steps for adding a student is almost identical to the steps for adding instr
 In dev server, it is also possible to "log in" without UI (e.g. when only testing API endpoints). In order to do that, you need to submit the following API call:
 
 ```sh
-POST http://localhost:8080/_ah/login?action=Log+In&email=test@example.com&isAdmin=on
+POST http://localhost:8080/devServerLogin?email=test@example.com&isAdmin=on
 ```
 
 where `email=test@example.com` and `isAdmin=on` can be replaced as appropriate.
@@ -153,7 +150,7 @@ The back-end server will return cookies which will subsequently be used to authe
 To "log out", submit the following API call:
 
 ```sh
-POST http://localhost:8080/_ah/login?action=Log+Out
+GET http://localhost:8080/logout
 ```
 
 ## Running the Datastore Emulator
@@ -226,7 +223,7 @@ If you need to deploy your application to a staging server, refer to [this guide
 
 ## Running client scripts
 
-> Client scripts are scripts that remotely manipulate data on GAE via its Remote API. They are run as standard Java applications.
+> Client scripts are scripts that remotely manipulate data on a Google Cloud Datastore instance. They are run as standard Java applications.
 
 Most of developers may not need to write and/or run client scripts but if you are to do so, take note of the following:
 
@@ -243,7 +240,7 @@ There are several files used to configure various aspects of the system.
 * `test.properties`: Contains the configuration values for the test driver.
   * There are two separate `test.properties`; one for component tests and one for E2E tests.
 * `client.properties`: Contains some configuration values used in client scripts.
-* `appengine-web.xml`: Contains the configuration for deploying the application on GAE.
+* `app.yaml`: Contains the configuration for deploying the application on GAE.
 
 **Tasks**: These do not concern the application directly, but rather the development process.
 * `build.gradle`: Contains the back-end third-party dependencies specification, as well as configurations for automated tasks/routines to be run via Gradle.
@@ -261,6 +258,6 @@ There are several files used to configure various aspects of the system.
 **Other**: These are rarely, if ever will be, subjected to changes.
 * `logging.properties`: Contains the java.util.logging configuration.
 * `web.xml`: Contains the web server configuration, e.g servlets to run, mapping from URLs to servlets, security constraints, etc.
-* `cron.xml`: Contains the cron jobs specification.
-* `queue.xml`: Contains the task queues configuration.
-* `datastore-indexes.xml`: Contains the Datastore indexes configuration.
+* `cron.yaml`: Contains the cron jobs specification.
+* `queue.yaml`: Contains the task queues configuration.
+* `index.yaml`: Contains the Google Cloud Datastore indexes configuration.

@@ -10,7 +10,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -518,14 +517,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(feedbackSessionName);
+            assert feedbackSessionName != null;
 
             feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
             return this;
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(courseId);
+            assert courseId != null;
 
             feedbackQuestionAttributes.courseId = courseId;
             return this;
@@ -557,7 +556,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         private UpdateOption<List<FeedbackParticipantType>> showRecipientNameToOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackQuestionId) {
-            Assumption.assertNotNull(feedbackQuestionId);
+            assert feedbackQuestionId != null;
 
             this.feedbackQuestionId = feedbackQuestionId;
         }
@@ -617,7 +616,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withQuestionDetails(FeedbackQuestionDetails questionDetails) {
-            Assumption.assertNotNull(questionDetails);
+            assert questionDetails != null;
 
             updateOptions.questionDetailsOption = UpdateOption.of(questionDetails.getDeepCopy());
             return thisBuilder;
@@ -636,14 +635,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withGiverType(FeedbackParticipantType giverType) {
-            Assumption.assertNotNull(giverType);
+            assert giverType != null;
 
             updateOptions.giverTypeOption = UpdateOption.of(giverType);
             return thisBuilder;
         }
 
         public B withRecipientType(FeedbackParticipantType recipientType) {
-            Assumption.assertNotNull(recipientType);
+            assert recipientType != null;
 
             updateOptions.recipientTypeOption = UpdateOption.of(recipientType);
             return thisBuilder;
@@ -655,24 +654,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withShowResponsesTo(List<FeedbackParticipantType> showResponsesTo) {
-            Assumption.assertNotNull(showResponsesTo);
-            Assumption.assertNotNull((Object[]) showResponsesTo.toArray());
+            assert showResponsesTo != null;
+            assert !showResponsesTo.contains(null);
 
             updateOptions.showResponsesToOption = UpdateOption.of(new ArrayList<>(showResponsesTo));
             return thisBuilder;
         }
 
         public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            Assumption.assertNotNull(showGiverNameTo);
-            Assumption.assertNotNull((Object[]) showGiverNameTo.toArray());
+            assert showGiverNameTo != null;
+            assert !showGiverNameTo.contains(null);
 
             updateOptions.showGiverNameToOption = UpdateOption.of(new ArrayList<>(showGiverNameTo));
             return thisBuilder;
         }
 
         public B withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
-            Assumption.assertNotNull(showRecipientNameTo);
-            Assumption.assertNotNull((Object[]) showRecipientNameTo.toArray());
+            assert showRecipientNameTo != null;
+            assert !showRecipientNameTo.contains(null);
 
             updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
             return thisBuilder;

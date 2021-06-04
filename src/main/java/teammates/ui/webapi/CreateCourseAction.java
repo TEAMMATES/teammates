@@ -23,7 +23,7 @@ class CreateCourseAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -52,7 +52,9 @@ class CreateCourseAction extends Action {
         try {
             logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_CONFLICT);
+            return new JsonResult("The course ID " + courseAttributes.getId()
+                    + " has been used by another course, possibly by some other user."
+                    + " Please try again with a different course ID.", HttpStatus.SC_CONFLICT);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

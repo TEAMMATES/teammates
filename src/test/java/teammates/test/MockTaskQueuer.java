@@ -19,24 +19,23 @@ public class MockTaskQueuer extends TaskQueuer {
     private List<TaskWrapper> tasksAdded = new ArrayList<>();
 
     @Override
-    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
+    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
+                                   long countdownTime) {
+        // countdown time not tested
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         tasksAdded.add(task);
     }
 
-    @Override
-    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
-                                   long countdownTime) {
-        // countdown time not tested, thus fallback to another method
-        addTask(queueName, workerUrl, paramMap, requestBody);
-    }
-
-    @Override
+    /**
+     * Gets the tasks added to the queue.
+     */
     public List<TaskWrapper> getTasksAdded() {
         return tasksAdded;
     }
 
-    @Override
+    /**
+     * Gets the number of tasks added for each queue name.
+     */
     public Map<String, Integer> getNumberOfTasksAdded() {
         Map<String, Integer> numberOfTasksAdded = new HashMap<>();
         for (TaskWrapper task : tasksAdded) {
@@ -46,6 +45,13 @@ public class MockTaskQueuer extends TaskQueuer {
             numberOfTasksAdded.put(queueName, oldTaskCount + 1);
         }
         return numberOfTasksAdded;
+    }
+
+    /**
+     * Clears the list of tasks added.
+     */
+    public void clearTasks() {
+        tasksAdded.clear();
     }
 
 }

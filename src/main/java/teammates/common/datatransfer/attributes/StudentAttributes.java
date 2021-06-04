@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -165,8 +164,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
-        Assumption.assertNotNull(team);
-        Assumption.assertNotNull(comments);
+        assert team != null;
+        assert comments != null;
 
         List<String> errors = new ArrayList<>();
 
@@ -302,8 +301,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
-            Assumption.assertNotNull(courseId);
-            Assumption.assertNotNull(email);
+            assert courseId != null;
+            assert email != null;
 
             this.courseId = courseId;
             this.email = email;
@@ -343,7 +342,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             }
 
             public Builder withNewEmail(String email) {
-                Assumption.assertNotNull(email);
+                assert email != null;
 
                 updateOptions.newEmailOption = UpdateOption.of(email);
                 return thisBuilder;
@@ -374,21 +373,21 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withLastName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             updateOptions.lastNameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withComment(String comment) {
-            Assumption.assertNotNull(comment);
+            assert comment != null;
 
             updateOptions.commentOption = UpdateOption.of(comment);
             return thisBuilder;
@@ -401,14 +400,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public B withTeamName(String teamName) {
-            Assumption.assertNotNull(teamName);
+            assert teamName != null;
 
             updateOptions.teamNameOption = UpdateOption.of(teamName);
             return thisBuilder;
         }
 
         public B withSectionName(String sectionName) {
-            Assumption.assertNotNull(sectionName);
+            assert sectionName != null;
 
             updateOptions.sectionNameOption = UpdateOption.of(sectionName);
             return thisBuilder;

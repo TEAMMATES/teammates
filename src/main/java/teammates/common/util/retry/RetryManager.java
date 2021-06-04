@@ -1,6 +1,5 @@
 package teammates.common.util.retry;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.common.util.ThreadHelper;
 
@@ -46,9 +45,9 @@ public final class RetryManager {
         NOT_NULL {
             @Override
             public <T, E extends Throwable> boolean isSuccessful(Retryable<T, E> task) throws E {
-                Assumption.assertTrue("Success condition " + NOT_NULL + " is only applicable to subclasses of "
-                        + RetryableTaskReturnsThrows.class.getSimpleName(),
-                        RetryableTaskReturnsThrows.class.isInstance(task));
+                assert RetryableTaskReturnsThrows.class.isInstance(task)
+                        : "Success condition " + NOT_NULL + " is only applicable to subclasses of "
+                        + RetryableTaskReturnsThrows.class.getSimpleName();
 
                 return !((RetryableTaskReturnsThrows<T, E>) task).isResultNull();
             }

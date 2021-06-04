@@ -49,7 +49,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         JoinCourseAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        verifyNoEmailsSent(a);
+        verifyNoEmailsSent();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
@@ -66,7 +66,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         a = getAction(params);
         r = getJsonResult(a);
 
-        verifyNoEmailsSent(a);
+        verifyNoEmailsSent();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
@@ -83,8 +83,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         a = getAction(params);
         r = getJsonResult(a);
 
-        verifyNumberOfEmailsSent(a, 1);
-        EmailWrapper email = a.getEmailSender().getEmailsSent().get(0);
+        verifyNumberOfEmailsSent(1);
+        EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
         assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Unregistered Course", "idOfUnregisteredCourse"),
                 email.getSubject());
@@ -103,7 +103,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         a = getAction(params);
         r = getJsonResult(a);
 
-        verifyNoEmailsSent(a);
+        verifyNoEmailsSent();
 
         assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
@@ -120,7 +120,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         a = getAction(params);
         r = getJsonResult(a);
 
-        verifyNoEmailsSent(a);
+        verifyNoEmailsSent();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
@@ -137,8 +137,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         a = getAction(params);
         r = getJsonResult(a);
 
-        verifyNumberOfEmailsSent(a, 1);
-        email = a.getEmailSender().getEmailsSent().get(0);
+        verifyNumberOfEmailsSent(1);
+        email = mockEmailSender.getEmailsSent().get(0);
         assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                         "Typical Course 1 with 2 Evals", "idOfTypicalCourse1"),
@@ -156,7 +156,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         a = getAction(params);
         r = getJsonResult(a);
 
-        verifyNoEmailsSent(a);
+        verifyNoEmailsSent();
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 

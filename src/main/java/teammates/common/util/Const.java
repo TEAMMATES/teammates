@@ -30,6 +30,7 @@ public final class Const {
     public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
+    public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
     /*
      * These constants are used as variable values to mean that the variable
@@ -112,6 +113,9 @@ public final class Const {
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
         public static final String FEEDBACK_SESSION_MODERATED_PERSON = "moderatedperson";
+        public static final String FEEDBACK_SESSION_LOG_TYPE = "fsltype";
+        public static final String FEEDBACK_SESSION_LOG_STARTTIME = "fslstarttime";
+        public static final String FEEDBACK_SESSION_LOG_ENDTIME = "fslendtime";
 
         public static final String FEEDBACK_QUESTION_ID = "questionid";
 
@@ -147,20 +151,6 @@ public final class Const {
         public static final String INTENT = "intent";
     }
 
-    public static class SearchIndex {
-        public static final String FEEDBACK_RESPONSE_COMMENT = "feedbackresponsecomment";
-        public static final String STUDENT = "student";
-        public static final String INSTRUCTOR = "instructor";
-    }
-
-    public static class SearchDocumentField {
-        public static final String FEEDBACK_RESPONSE_COMMENT_GIVER_NAME = "frCommentGiverName";
-        public static final String FEEDBACK_RESPONSE_GIVER_NAME = "feedbackResponseGiverName";
-        public static final String FEEDBACK_RESPONSE_RECEIVER_NAME = "feedbackResponseReceiverName";
-        public static final String SEARCHABLE_TEXT = "searchableText";
-        public static final String COURSE_ID = "courseId";
-    }
-
     /**
      * The course status respect to the instructor's point of view.
      * This parameter is used to get a course list for instructor.
@@ -179,11 +169,17 @@ public final class Const {
 
     }
 
-    public static class CsrfConfig {
+    public static class SecurityConfig {
 
-        public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
-        public static final String TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
+        public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
+    }
+
+    public static class FeedbackSessionLogTypes {
+        public static final String ACCESS = "access";
+        public static final String SUBMISSION = "submission";
     }
 
     @Deprecated
@@ -202,6 +198,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
+        public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
@@ -231,6 +228,7 @@ public final class Const {
         public static final String INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE = INSTRUCTOR_PAGE + "/courses/student/edit";
         public static final String INSTRUCTOR_STUDENT_LIST_PAGE = INSTRUCTOR_PAGE + "/students";
         public static final String INSTRUCTOR_STUDENT_RECORDS_PAGE = INSTRUCTOR_PAGE + "/students/records";
+        public static final String INSTRUCTOR_AUDIT_LOGS_PAGE = INSTRUCTOR_PAGE + "/logs";
 
         public static final String STUDENT_HOME_PAGE = STUDENT_PAGE + "/home";
         public static final String STUDENT_COURSE_DETAILS_PAGE = STUDENT_PAGE + "/course";
@@ -275,7 +273,6 @@ public final class Const {
         public static final String SESSION_STATS = URI_PREFIX + "/session/stats";
         public static final String SESSION_SUBMITTED_GIVER_SET = URI_PREFIX + "/session/submitted/giverset";
         public static final String SESSIONS = URI_PREFIX + "/sessions";
-        public static final String SEARCH_COMMENTS = URI_PREFIX + "/search/comments";
         public static final String SEARCH_INSTRUCTORS = URI_PREFIX + "/search/instructors";
         public static final String SEARCH_STUDENTS = URI_PREFIX + "/search/students";
         public static final String BIN_SESSION = URI_PREFIX + "/bin/session";
@@ -291,6 +288,7 @@ public final class Const {
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
+        public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";

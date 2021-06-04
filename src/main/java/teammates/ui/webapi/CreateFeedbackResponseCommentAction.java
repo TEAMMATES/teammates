@@ -11,9 +11,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -31,7 +32,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(
@@ -40,7 +41,10 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
         }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        if (response == null) {
+            throw new EntityNotFoundException(
+                    new EntityDoesNotExistException("The feedback response does not exist."));
+        }
 
         String courseId = response.courseId;
         String feedbackSessionName = response.feedbackSessionName;
@@ -52,7 +56,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(studentAttributes);
+            if (studentAttributes == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session);
@@ -67,7 +73,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(instructorAsFeedbackParticipant);
+            if (instructorAsFeedbackParticipant == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session);
@@ -81,7 +89,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:
-            gateKeeper.verifyLoggedInUserPrivileges();
+            gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, session, response.giverSection,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
@@ -107,7 +115,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         }
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        if (response == null) {
+            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
+        }
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 
         String commentText = comment.getCommentText();

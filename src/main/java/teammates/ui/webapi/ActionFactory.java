@@ -13,7 +13,6 @@ import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
@@ -77,7 +76,6 @@ public class ActionFactory {
         map(ResourceURIs.STUDENT, PUT, UpdateStudentAction.class);
 
         //SEARCH APIs
-        map(ResourceURIs.SEARCH_COMMENTS, GET, SearchCommentsAction.class);
         map(ResourceURIs.SEARCH_INSTRUCTORS, GET, SearchInstructorsAction.class);
         map(ResourceURIs.SEARCH_STUDENTS, GET, SearchStudentsAction.class);
         map(ResourceURIs.EMAIL, GET, GenerateEmailAction.class);
@@ -118,8 +116,12 @@ public class ActionFactory {
         map(ResourceURIs.INSTRUCTOR, PUT, UpdateInstructorAction.class);
         map(ResourceURIs.INSTRUCTOR, POST, CreateInstructorAction.class);
 
+        // Logging and tracking
+        map(ResourceURIs.SESSION_LOGS, POST, CreateFeedbackSessionLogAction.class);
+        map(ResourceURIs.SESSION_LOGS, GET, GetFeedbackSessionLogsAction.class);
+
         // Cron jobs; use GET request
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/config/cron
+        // Reference: https://cloud.google.com/appengine/docs/standard/java11/scheduling-jobs-with-cron-yaml
 
         map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
         map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
@@ -129,7 +131,7 @@ public class ActionFactory {
         map(CronJobURIs.AUTOMATED_FEEDBACK_PUBLISHED_REMINDERS, GET, FeedbackSessionPublishedRemindersAction.class);
 
         // Task queue workers; use POST request
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
 
         map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,
@@ -157,9 +159,7 @@ public class ActionFactory {
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
         }
-        Action action = getAction(uri, method);
-        action.init(req);
-        return action;
+        return getAction(uri, method);
     }
 
     private Action getAction(String uri, String method) throws ActionMappingException {
@@ -178,8 +178,8 @@ public class ActionFactory {
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            Assumption.fail("Could not create the action for " + uri + ": "
-                    + TeammatesException.toStringWithStackTrace(e));
+            assert false : "Could not create the action for " + uri + ": "
+                    + TeammatesException.toStringWithStackTrace(e);
             return null;
         }
     }

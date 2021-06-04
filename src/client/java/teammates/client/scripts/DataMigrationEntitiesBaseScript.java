@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.client.remoteapi.RemoteApiClient;
+import teammates.client.connector.DatastoreClient;
 import teammates.storage.entity.BaseEntity;
 import teammates.test.FileHelper;
 
@@ -33,7 +33,7 @@ import teammates.test.FileHelper;
  *
  * @param <T> The entity type to be migrated by the script.
  */
-public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends RemoteApiClient {
+public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends DatastoreClient {
 
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
@@ -96,8 +96,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
      * <p>Transaction is useful for data consistency. However, there are some limitations on operations
      * inside a transaction. In addition, the performance of the script will also be affected.
      *
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/datastore/transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi#transaction-efficiency">Transactions are less efficient</a>
+     * @see <a href="https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
      */
     protected boolean shouldUseTransaction() {
         return false;
@@ -156,7 +155,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         if (cursor == null) {
             log("Start from the beginning");
         } else {
-            log("Start from cursor position: " + cursor.toWebSafeString());
+            log("Start from cursor position: " + cursor.toUrlSafe());
         }
 
         boolean shouldContinue = true;
@@ -166,7 +165,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             if (cursor != null) {
                 filterQueryKeys = filterQueryKeys.startAt(cursor);
             }
-            QueryResultIterator<?> iterator;
+            QueryResults<?> iterator;
             if (shouldUseTransaction()) {
                 iterator = filterQueryKeys.keys().iterator();
             } else {
@@ -187,10 +186,10 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             }
 
             if (shouldContinue) {
-                cursor = iterator.getCursor();
+                cursor = iterator.getCursorAfter();
                 flushEntitiesSavingBuffer();
                 savePositionOfCursorToFile(cursor);
-                log(String.format("Cursor Position: %s", cursor.toWebSafeString()));
+                log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
                 log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
                 log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
                 log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
@@ -231,7 +230,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     private void savePositionOfCursorToFile(Cursor cursor) {
         try {
             FileHelper.saveFile(
-                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toWebSafeString());
+                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toUrlSafe());
         } catch (IOException e) {
             logError("Fail to save cursor position " + e.getMessage());
         }
@@ -246,7 +245,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         try {
             String cursorPosition =
                     FileHelper.readFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
-            return Optional.of(Cursor.fromWebSafeString(cursorPosition));
+            return Optional.of(Cursor.fromUrlSafe(cursorPosition));
         } catch (IOException | IllegalArgumentException e) {
             return Optional.empty();
         }

@@ -21,7 +21,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
@@ -165,13 +164,6 @@ public final class DataBundleLogic {
                     instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
             instructorsDb.putDocument(instructorInDb);
         }
-
-        Map<String, FeedbackResponseCommentAttributes> responseComments = dataBundle.feedbackResponseComments;
-        for (FeedbackResponseCommentAttributes responseComment : responseComments.values()) {
-            FeedbackResponseCommentAttributes fcInDb = fcDb.getFeedbackResponseComment(
-                    responseComment.courseId, responseComment.createdAt, responseComment.commentGiver);
-            fcDb.putDocument(fcInDb);
-        }
     }
 
     private void processInstructors(
@@ -296,26 +288,26 @@ public final class DataBundleLogic {
         switch (instructor.getRole()) {
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            Assumption.assertTrue(privileges.hasCoownerPrivileges());
+            assert privileges.hasCoownerPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            Assumption.assertTrue(privileges.hasManagerPrivileges());
+            assert privileges.hasManagerPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            Assumption.assertTrue(privileges.hasObserverPrivileges());
+            assert privileges.hasObserverPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            Assumption.assertTrue(privileges.hasTutorPrivileges());
+            assert privileges.hasTutorPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
             break;
 
         default:
-            Assumption.fail("Invalid instructor permission role name");
+            assert false : "Invalid instructor permission role name";
             break;
         }
     }

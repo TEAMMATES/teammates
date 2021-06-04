@@ -120,7 +120,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                             .withShortName(String.valueOf(i))
                             .withInstitute("TEAMMATES Test Institute 222")
                             .withMoreInfo("I am " + i)
-                            .withPictureKey("")
                             .withGender(StudentProfileAttributes.Gender.MALE)
                             .withNationality("American")
                             .build()

@@ -105,7 +105,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
 
         ______TS("User need to be logged in");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         verifyInaccessibleWithoutLogin(params);
 
         ______TS("Only user who is instructor can access");

@@ -2,16 +2,16 @@ package teammates.common.util;
 
 import org.testng.annotations.Test;
 
-import teammates.test.BaseTestCaseWithMinimalGaeEnvironment;
+import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@link Config}.
  */
-public class BuildPropertiesTest extends BaseTestCaseWithMinimalGaeEnvironment {
+public class BuildPropertiesTest extends BaseTestCase {
 
     @Test
     public void checkPresence() {
-        assertNotNull(Config.APP_URL);
+        assertNotNull(Config.getBaseAppUrl());
     }
 
 }
