@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.test.AssertHelper;
 import teammates.test.BaseComponentTestCase;
@@ -117,17 +116,14 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseComment(null, "", Instant.now()));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseComment("", null, Instant.now()));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseComment("", "", null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
@@ -157,13 +153,11 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseCommentForGiver(null, frcaData.commentGiver));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseCommentForGiver(frcaData.courseId, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
@@ -222,8 +216,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.updateFeedbackResponseComment(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> frcDb.updateFeedbackResponseComment(null));
 
         ______TS("typical success case");
 
@@ -355,13 +348,11 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseCommentsForSession(null, ""));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.getFeedbackResponseCommentsForSession("", null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
         ______TS("typical success case");
 
@@ -408,17 +399,14 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.updateGiverEmailOfFeedbackResponseComments(null, giverEmail, updatedEmail));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, null, updatedEmail));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
     }
 
     @Test
@@ -427,8 +415,6 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("delete non-existent comment");
 
         assertNull(frcDb.getFeedbackResponseComment(-123L));
-
-        frcDb.deleteDocumentByCommentId(-123L);
 
         ______TS("typical success case");
 
@@ -601,8 +587,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
     @Test
     public void testDeleteFeedbackResponseComments_nullInput_shouldThrowException() {
-        AssertionError ae = assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComments(null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComments(null));
     }
 
     private void verifyListsContainSameResponseCommentAttributes(

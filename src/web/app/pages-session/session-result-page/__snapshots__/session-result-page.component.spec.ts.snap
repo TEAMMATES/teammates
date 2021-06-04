@@ -1,0 +1,1891 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionResultPageComponent should snap when session results failed to load 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load results
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with an open feedback session with no questions 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          CS3281
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          Peer Review 1
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with default fields 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with feedback session with questions 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          CS1231
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          First Session
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+      <div
+        class="card bg-light mt-4"
+      >
+        <div
+          class="card-body"
+          id="question-1-responses"
+        >
+          <tm-question-text-with-info
+            class="question-text"
+          >
+            <span
+              class="d-inline-flex row align-items-center no-gutters"
+            >
+              
+              
+              <span
+                class="col-auto"
+              >
+                <b>
+                  Question 1: 
+                </b>
+              </span>
+              <span
+                class="col-auto"
+                id="question-text"
+              >
+                 How well did team member perform?
+              </span>
+              
+              <a
+                class="info-font-size ml-1"
+                href="/"
+                id="additional-info-link"
+                queryparamshandling="merge"
+              >
+                 [more] 
+              </a>
+            </span>
+            
+          </tm-question-text-with-info>
+          <tm-single-statistics>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-mcq-question-statistics>
+              
+            </tm-mcq-question-statistics>
+          </tm-single-statistics>
+          
+          
+          <div>
+            
+          </div>
+          
+          <div
+            class="mt-4"
+            id="given-responses"
+          >
+            <strong>
+              Your own responses (to others):
+            </strong>
+            
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient1
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card bg-light mt-4"
+      >
+        <div
+          class="card-body"
+          id="question-2-responses"
+        >
+          <tm-question-text-with-info
+            class="question-text"
+          >
+            <span
+              class="d-inline-flex row align-items-center no-gutters"
+            >
+              
+              
+              <span
+                class="col-auto"
+              >
+                <b>
+                  Question 2: 
+                </b>
+              </span>
+              <span
+                class="col-auto"
+                id="question-text"
+              >
+                 Rate your teammates in contribution
+              </span>
+              
+              <a
+                class="info-font-size ml-1"
+                href="/"
+                id="additional-info-link"
+                queryparamshandling="merge"
+              >
+                 [more] 
+              </a>
+            </span>
+            
+          </tm-question-text-with-info>
+          <tm-single-statistics>
+            
+            <tm-contribution-question-statistics>
+              
+              <div>
+                <div
+                  class="card"
+                  style="margin-top: 20px;"
+                >
+                  <div
+                    class="card-header bg-primary text-white"
+                  >
+                     Comparison of Work Distribution 
+                  </div>
+                  <div
+                    class="card-body"
+                  >
+                    <div
+                      class="row"
+                      style="margin-bottom: 5px;"
+                    >
+                      <div
+                        class="col-sm-2"
+                      >
+                        <span
+                          class="ngb-tooltip-class"
+                          ngbtooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception"
+                        >
+                          <strong>
+                            My view:
+                          </strong>
+                        </span>
+                      </div>
+                      <div
+                        class="col-sm-2"
+                        id="own-view-me"
+                      >
+                        <strong>
+                          of me:
+                        </strong>
+                         
+                        <tm-contribution>
+                          
+                          
+                          <span>
+                            
+                            
+                            
+                            <span
+                              class="negative"
+                            >
+                              E -100%
+                            </span>
+                            
+                          </span>
+                        </tm-contribution>
+                      </div>
+                      <div
+                        class="col-sm-8"
+                        id="own-view-others"
+                      >
+                        <strong>
+                          of others:
+                        </strong>
+                          
+                        
+                          
+                        <a
+                          href="/"
+                          queryparamshandling="preserve"
+                        >
+                          <i
+                            class="fas fa-info-circle"
+                          />
+                        </a>
+                      </div>
+                    </div>
+                    <div
+                      class="row"
+                    >
+                      <div
+                        class="col-sm-2"
+                      >
+                        <strong>
+                          Team view:
+                        </strong>
+                      </div>
+                      <div
+                        class="col-sm-2"
+                        id="team-view-me"
+                      >
+                        <span
+                          class="ngb-tooltip-class"
+                          ngbtooltip="The average contribution the other members of your team attributed to you"
+                        >
+                          <strong>
+                            of me: 
+                          </strong>
+                        </span>
+                        <tm-contribution>
+                          
+                          
+                          <span>
+                            
+                            
+                            
+                            <span
+                              class="negative"
+                            >
+                              E -100%
+                            </span>
+                            
+                          </span>
+                        </tm-contribution>
+                      </div>
+                      <div
+                        class="col-sm-8"
+                        id="team-view-others"
+                      >
+                        <strong>
+                          of others:
+                        </strong>
+                          
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              
+            </tm-contribution-question-statistics>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          </tm-single-statistics>
+          
+          <tm-student-view-responses>
+            <div
+              class="card border-primary mt-4"
+            >
+              <div
+                class="card-header bg-primary text-white"
+              >
+                <span
+                  id="response-recipient"
+                >
+                  <b>
+                    To:
+                  </b>
+                   giver1
+                </span>
+              </div>
+              <div
+                class="card-body"
+                style="padding: 0;"
+              >
+                <table
+                  class="table"
+                >
+                  <tbody>
+                    
+                    
+                    <tr>
+                      <td
+                        id="response-giver"
+                      >
+                        <strong>
+                          From:
+                        </strong>
+                         giver1 
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <tm-single-response>
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                          
+                        </tm-single-response>
+                      </td>
+                    </tr>
+                    
+                    
+                    
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </tm-student-view-responses>
+          
+          <div>
+            
+          </div>
+          
+          <div
+            class="mt-4"
+            id="given-responses"
+          >
+            <strong>
+              Your own responses (to others):
+            </strong>
+            
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient2
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient3
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="card bg-light mt-4"
+      >
+        <div
+          class="card-body"
+          id="question-3-responses"
+        >
+          <tm-question-text-with-info
+            class="question-text"
+          >
+            <span
+              class="d-inline-flex row align-items-center no-gutters"
+            >
+              
+              
+              <span
+                class="col-auto"
+              >
+                <b>
+                  Question 3: 
+                </b>
+              </span>
+              <span
+                class="col-auto"
+                id="question-text"
+              >
+                 Rate your teammates proficiency
+              </span>
+              
+              <a
+                class="info-font-size ml-1"
+                href="/"
+                id="additional-info-link"
+                queryparamshandling="merge"
+              >
+                 [more] 
+              </a>
+            </span>
+            
+          </tm-question-text-with-info>
+          <tm-single-statistics>
+            
+            
+            
+            
+            
+            
+            <tm-rubric-question-statistics>
+              <div>
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-sm-4 text-color-gray mt-2"
+                  >
+                    <strong>
+                       Response Summary 
+                      
+                      <span>
+                        (of received responses)
+                      </span>
+                    </strong>
+                    <span
+                      class="fa fa-info-circle"
+                      container="body"
+                    />
+                  </div>
+                  <div
+                    class="col-sm-8"
+                    style="text-align: right;"
+                  >
+                    <label
+                      class="form-check-label"
+                    >
+                      <input
+                        class="form-check-input ng-untouched ng-pristine ng-valid"
+                        id="exclude-self-checkbox"
+                        type="checkbox"
+                      />
+                      <span
+                        class="ngb-tooltip-class"
+                        container="body"
+                        ngbtooltip="Excludes giver's responses to himself/herself from statistics"
+                      >
+                        Exclude self evaluation
+                      </span>
+                    </label>
+                  </div>
+                </div>
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-sm-12 table-responsive"
+                    id="rubric-statistics"
+                  >
+                    <tm-sortable-table>
+                      <table
+                        class="table table-bordered table-striped margin-bottom-20px"
+                      >
+                        <thead>
+                          <tr>
+                            
+                            <th
+                              class="sortable-header"
+                            >
+                              <span
+                                container="body"
+                              >
+                                Question
+                              </span>
+                              
+                              <span
+                                class="fa-stack"
+                              >
+                                <i
+                                  class="fas fa-sort"
+                                />
+                                
+                                
+                              </span>
+                            </th>
+                            <th
+                              class="sortable-header"
+                            >
+                              <span
+                                container="body"
+                              >
+                                Poor
+                              </span>
+                              
+                              <span
+                                class="fa-stack"
+                              >
+                                <i
+                                  class="fas fa-sort"
+                                />
+                                
+                                
+                              </span>
+                            </th>
+                            <th
+                              class="sortable-header"
+                            >
+                              <span
+                                container="body"
+                              >
+                                Average
+                              </span>
+                              
+                              <span
+                                class="fa-stack"
+                              >
+                                <i
+                                  class="fas fa-sort"
+                                />
+                                
+                                
+                              </span>
+                            </th>
+                            <th
+                              class="sortable-header"
+                            >
+                              <span
+                                container="body"
+                              >
+                                Good
+                              </span>
+                              
+                              <span
+                                class="fa-stack"
+                              >
+                                <i
+                                  class="fas fa-sort"
+                                />
+                                
+                                
+                              </span>
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          
+                        </tbody>
+                      </table>
+                    </tm-sortable-table>
+                  </div>
+                </div>
+                
+              </div>
+            </tm-rubric-question-statistics>
+            
+            
+            
+            
+          </tm-single-statistics>
+          
+          
+          <div>
+            
+          </div>
+          
+          <div
+            class="mt-4"
+            id="given-responses"
+          >
+            <strong>
+              Your own responses (to others):
+            </strong>
+            
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient3
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        <tr>
+                          <td>
+                            <tm-comment-table>
+                              <div
+                                class="card"
+                              >
+                                
+                                <ul
+                                  class="list-group list-group-flush"
+                                >
+                                  
+                                  <li
+                                    class="list-group-item"
+                                  >
+                                    
+                                    <tm-comment-row>
+                                      
+                                      
+                                      <div
+                                        class="card"
+                                      >
+                                        <div
+                                          class="card-body"
+                                        >
+                                          <div
+                                            class="row comment-row"
+                                          >
+                                            <div
+                                              class="col-12"
+                                            >
+                                              
+                                              
+                                              <span
+                                                class="text-secondary"
+                                              >
+                                                <span
+                                                  id="comment-giver-name"
+                                                >
+                                                  comment-giver-1 commented at 
+                                                </span>
+                                                <span
+                                                  class="ngb-tooltip-class"
+                                                  style="margin-right: .25rem;"
+                                                >
+                                                   17 Jan 1:09 PM
+                                                </span>
+                                                
+                                              </span>
+                                              <i
+                                                aria-hidden="true"
+                                                class="fa fa-eye"
+                                              />
+                                              <div
+                                                class="float-right"
+                                              >
+                                                
+                                                
+                                              </div>
+                                            </div>
+                                            <div
+                                              class="col-12"
+                                              id="comment-text"
+                                            >
+                                              this is a text
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </tm-comment-row>
+                                  </li>
+                                  
+                                </ul>
+                              </div>
+                            </tm-comment-table>
+                          </td>
+                        </tr>
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with session results are loading 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading={[Function Boolean]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with user that is logged in and using session link 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser={[Function String]}
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName={[Function String]}
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        <div>
+           You are viewing feedback results as alice. If you wish to link your Google account (alice) with this user, 
+          <a
+            href="#"
+            id="join-course-btn"
+          >
+            click here
+          </a>
+          . 
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
+exports[`SessionResultPageComponent should snap with user that is not logged in and using session link 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsLoading="false"
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personName={[Function String]}
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as alice. You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;

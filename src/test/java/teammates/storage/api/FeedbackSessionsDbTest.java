@@ -20,7 +20,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelperExtension;
@@ -157,8 +156,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.createEntity(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fsDb.createEntity(null));
 
         ______TS("invalid params");
 
@@ -213,15 +211,13 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null fsName");
 
-        AssertionError ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fsDb.getFeedbackSession("idOfTypicalCourse1", null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
         ______TS("null courseId");
 
-        ae = assertThrows(AssertionError.class,
+        assertThrows(AssertionError.class,
                 () -> fsDb.getFeedbackSession(null, "First feedback session"));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
 
     }
 
@@ -246,8 +242,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.getFeedbackSessionsForCourse(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fsDb.getFeedbackSessionsForCourse(null));
 
         ______TS("non-existant course");
 
@@ -275,8 +270,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null params");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.getSoftDeletedFeedbackSessionsForCourse(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fsDb.getSoftDeletedFeedbackSessionsForCourse(null));
 
         ______TS("non-existant course");
 
@@ -309,8 +303,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         ______TS("null parameter");
 
-        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.softDeleteFeedbackSession(null, null));
-        assertEquals(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getMessage());
+        assertThrows(AssertionError.class, () -> fsDb.softDeleteFeedbackSession(null, null));
 
     }
 
@@ -448,8 +441,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
     public void testUpdateFeedbackSession() throws Exception {
 
         ______TS("null params");
-        AssertionError ae = assertThrows(AssertionError.class, () -> fsDb.updateFeedbackSession(null));
-        AssertHelper.assertContains(Const.StatusCodes.DBLEVEL_NULL_INPUT, ae.getLocalizedMessage());
+        assertThrows(AssertionError.class, () -> fsDb.updateFeedbackSession(null));
 
         ______TS("invalid feedback session attributes");
         FeedbackSessionAttributes invalidFs = getNewFeedbackSession();

@@ -6,8 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-import teammates.common.util.UrlExtension;
-
 /**
  * Represents properties in test.properties file.
  */
@@ -31,6 +29,12 @@ public final class TestProperties {
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
 
+    /** The value of "test.app.domain" in test.properties file. */
+    public static final String TEAMMATES_DOMAIN;
+
+    /** The value of "test.app.port" in test.properties file. */
+    public static final String TEAMMATES_PORT;
+
     /** The value of "test.csrf.key" in test.properties file. */
     public static final String CSRF_KEY;
 
@@ -43,7 +47,9 @@ public final class TestProperties {
             try (InputStream testPropStream = Files.newInputStream(Paths.get("src/lnp/resources/test.properties"))) {
                 prop.load(testPropStream);
             }
-            TEAMMATES_URL = UrlExtension.trimTrailingSlash(prop.getProperty("test.app.url"));
+            TEAMMATES_URL = prop.getProperty("test.app.url");
+            TEAMMATES_DOMAIN = prop.getProperty("test.app.domain");
+            TEAMMATES_PORT = prop.getProperty("test.app.port");
             CSRF_KEY = prop.getProperty("test.csrf.key");
             BACKDOOR_KEY = prop.getProperty("test.backdoor.key");
 

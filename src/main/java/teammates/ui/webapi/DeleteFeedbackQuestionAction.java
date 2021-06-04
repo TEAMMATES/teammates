@@ -15,7 +15,7 @@ class DeleteFeedbackQuestionAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -25,7 +25,7 @@ class DeleteFeedbackQuestionAction extends Action {
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(questionAttributes.getCourseId(), userInfo.getId()),
                 getNonNullFeedbackSession(questionAttributes.getFeedbackSessionName(), questionAttributes.getCourseId()),
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION);
 
     }
 

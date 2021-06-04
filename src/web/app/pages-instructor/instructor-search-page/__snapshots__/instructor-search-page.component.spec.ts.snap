@@ -2,10 +2,8 @@
 
 exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
-  commentTables={[Function Array]}
   courseService={[Function CourseService]}
   isSearching="false"
-  route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
@@ -18,6 +16,11 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
       <div
         class="card-body"
       >
+        <div
+          class="text-muted"
+        >
+           You can search for students from all your courses here. 
+        </div>
         <div
           class="text-muted"
         >
@@ -59,59 +62,10 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
               </button>
             </div>
           </div>
-          <div
-            class="input-group mt-md-1"
-          >
-            <div
-              class="col-md-3"
-            >
-              <input
-                class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="students-checkbox"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="students-checkbox"
-              >
-                <b>
-                  Students
-                </b>
-              </label>
-            </div>
-            <div
-              class="col-md-9"
-            >
-              <input
-                class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="comment-checkbox"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="comment-checkbox"
-              >
-                <b>
-                  Questions, responses, comments on responses
-                </b>
-              </label>
-            </div>
-            <div
-              class="invalid-field mt-md-1"
-              hidden=""
-            >
-              <i
-                aria-hidden="true"
-                class="fa fa-exclamation-circle"
-              />
-                 Please select at least one search type. 
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </tm-instructor-search-bar><div>
-    
     
   </div>
 </tm-instructor-search-page>
@@ -119,10 +73,8 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 
 exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
-  commentTables={[Function Array]}
   courseService={[Function CourseService]}
   isSearching="false"
-  route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
@@ -135,6 +87,11 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
       <div
         class="card-body"
       >
+        <div
+          class="text-muted"
+        >
+           You can search for students from all your courses here. 
+        </div>
         <div
           class="text-muted"
         >
@@ -175,54 +132,6 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
               >
                 Search
               </button>
-            </div>
-          </div>
-          <div
-            class="input-group mt-md-1"
-          >
-            <div
-              class="col-md-3"
-            >
-              <input
-                class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="students-checkbox"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="students-checkbox"
-              >
-                <b>
-                  Students
-                </b>
-              </label>
-            </div>
-            <div
-              class="col-md-9"
-            >
-              <input
-                class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="comment-checkbox"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="comment-checkbox"
-              >
-                <b>
-                  Questions, responses, comments on responses
-                </b>
-              </label>
-            </div>
-            <div
-              class="invalid-field mt-md-1"
-              hidden=""
-            >
-              <i
-                aria-hidden="true"
-                class="fa fa-exclamation-circle"
-              />
-                 Please select at least one search type. 
             </div>
           </div>
         </div>
@@ -687,17 +596,14 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
         </div>
       </div>
     </tm-student-result-table>
-    
   </div>
 </tm-instructor-search-page>
 `;
 
 exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
-  commentTables={[Function Array]}
   courseService={[Function CourseService]}
   isSearching="false"
-  route={[Function ActivatedRoute]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
@@ -710,6 +616,11 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
       <div
         class="card-body"
       >
+        <div
+          class="text-muted"
+        >
+           You can search for students from all your courses here. 
+        </div>
         <div
           class="text-muted"
         >
@@ -752,59 +663,10 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
               </button>
             </div>
           </div>
-          <div
-            class="input-group mt-md-1"
-          >
-            <div
-              class="col-md-3"
-            >
-              <input
-                class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="students-checkbox"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="students-checkbox"
-              >
-                <b>
-                  Students
-                </b>
-              </label>
-            </div>
-            <div
-              class="col-md-9"
-            >
-              <input
-                class="form-check-inline ng-untouched ng-pristine ng-valid"
-                id="comment-checkbox"
-                type="checkbox"
-              />
-              <label
-                class="form-check-label"
-                for="comment-checkbox"
-              >
-                <b>
-                  Questions, responses, comments on responses
-                </b>
-              </label>
-            </div>
-            <div
-              class="invalid-field mt-md-1"
-              hidden=""
-            >
-              <i
-                aria-hidden="true"
-                class="fa fa-exclamation-circle"
-              />
-                 Please select at least one search type. 
-            </div>
-          </div>
         </div>
       </div>
     </div>
   </tm-instructor-search-bar><div>
-    
     
   </div>
 </tm-instructor-search-page>

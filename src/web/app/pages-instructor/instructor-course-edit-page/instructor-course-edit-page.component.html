@@ -10,7 +10,6 @@
           Edit
         </button>
         <button id="btn-cancel-course" *ngIf="isEditingCourse" class="btn btn-primary btn-sm"
-
                 [disabled]="isSavingCourseEdit"
                 (click)="cancelEditingCourse()">
           <i class="fa fa-times" aria-hidden="true"></i>
@@ -77,7 +76,7 @@
     </div>
   </div>
   <div class="right top-padded">
-    <a class="small" routerLink="/web/instructor/help" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}" rel="noopener noreferrer" target="_blank">
+    <a class="small" tmRouterLink="/web/instructor/help" [queryParams]="{questionId: CoursesSectionQuestions.COURSE_INSTRUCTOR_ACCESS, section: Sections.courses}" rel="noopener noreferrer" target="_blank">
       <i class="fa fa-info-circle" aria-hidden="true"></i>
       More about configuring access permissions
     </a>

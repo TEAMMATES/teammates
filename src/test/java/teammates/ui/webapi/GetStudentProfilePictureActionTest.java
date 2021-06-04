@@ -5,8 +5,8 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.Const;
+import teammates.test.FileHelper;
 import teammates.ui.output.MessageOutput;
 
 /**
@@ -27,19 +27,21 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
     @Override
     @Test
     public void testExecute() throws Exception {
+        String student1PicPath = "src/test/resources/images/profile_pic.png";
+        byte[] student1PicBytes = FileHelper.readFileAsBytes(student1PicPath);
+
         ______TS("Success case: student gets his own image");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(student1InCourse1.googleId);
 
+        writeFileToStorage(student1InCourse1.googleId, student1PicPath);
+
         GetStudentProfilePictureAction action = getAction();
         ImageResult imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
-
-        // check image key is the same as well
-        StudentProfileAttributes student1Profile = logic.getStudentProfile(student1InCourse1.googleId);
-        assertEquals(student1Profile.pictureKey, imageResult.getBlobKey());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: student passes in incomplete params but still gets his own image");
 
@@ -60,11 +62,11 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
-        assertEquals(student1Profile.pictureKey, imageResult.getBlobKey());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: student gets his teammate's image");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student2InCourse1.googleId);
 
         submissionParams = new String[] {
@@ -76,10 +78,10 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
-        assertEquals(student1Profile.pictureKey, imageResult.getBlobKey());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: instructor with privilege views image of his student");
-        gaeSimulation.logoutUser();
+        logoutUser();
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.googleId);
 
@@ -92,7 +94,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
-        assertEquals(student1Profile.pictureKey, imageResult.getBlobKey());
+        assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Failure case: requesting image of an unregistered student");
 
@@ -107,6 +109,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, imageResult.getStatusCode());
+        assertEquals(0, imageResult.getBytes().length);
 
         ______TS("Success case: requested student has no profile picture");
 
@@ -119,6 +122,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         imageResult = getImageResult(action);
 
         assertEquals(HttpStatus.SC_NO_CONTENT, imageResult.getStatusCode());
+        assertEquals(0, imageResult.getBytes().length);
 
         ______TS("Failure case: requesting image of a non-existing student");
 
@@ -134,6 +138,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
         assertEquals("No student found", message.getMessage());
 
+        deleteFile(student1InCourse1.googleId);
     }
 
     @Test
@@ -147,7 +152,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Failure case: student can only view his own team in the course");
 
         //student from another team
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student5InCourse1.googleId);
 
         String[] submissionParams = new String[] {
@@ -158,7 +163,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         verifyCannotAccess(submissionParams);
 
         //student from another course
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student1InCourse3.googleId);
 
         submissionParams = new String[] {
@@ -170,7 +175,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success case: student can only view his own team in the course");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student2InCourse1.googleId);
 
         submissionParams = new String[] {
@@ -182,7 +187,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success case: student can view his own photo but instructor or admin cannot");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
         loginAsStudent(student1InCourse1.googleId);
 
         verifyCanAccess();
@@ -191,7 +196,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         ______TS("Success/Failure case: only instructors with privilege can view photo");
 
-        gaeSimulation.logoutUser();
+        logoutUser();
 
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 
@@ -200,7 +205,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_VIEW_STUDENT_IN_SECTIONS,
+                Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS,
                 new String[] {"Section 1"});
         verifyCanAccess(submissionParams);
 

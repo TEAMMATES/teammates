@@ -21,6 +21,8 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
@@ -33,13 +35,15 @@ import teammates.ui.request.Intent;
  */
 class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.PUBLIC;
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
@@ -78,7 +82,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
 
         for (String recipient : submitRequest.getRecipients()) {
             if (!recipientsOfTheQuestion.containsKey(recipient)) {
-                throw new UnauthorizedAccessException("The recipient is not a valid recipient of the question");
+                throw new UnauthorizedAccessException(
+                        "The recipient " + recipient + " is not a valid recipient of the question", true);
             }
         }
     }
@@ -130,6 +135,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         List<FeedbackResponseAttributes.UpdateOptions> feedbackResponsesToUpdate = new ArrayList<>();
 
         FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
+        log.info(JsonUtils.toCompactJson(submitRequest));
 
         submitRequest.getResponses().forEach(responseRequest -> {
             String recipient = responseRequest.getRecipient();

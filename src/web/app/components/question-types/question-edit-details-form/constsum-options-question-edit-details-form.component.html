@@ -3,15 +3,18 @@
   <div class="col-sm-6">
     <div class="row">
       <div id="options-section" class="col-sm-9" cdkDropList (cdkDropListDropped)="onConstsumOptionDropped($event)" [cdkDropListDisabled]="!isEditable">
-        <div *ngFor="let option of model.constSumOptions; let i = index;
+        <div class="row margin-bottom-20px padding-left-12px" *ngFor="let option of model.constSumOptions; let i = index;
         trackBy: trackConstsumOption" cdkDrag cdkDragLockAxis="y">
-          <br>
-          <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
-                                 [isEditable]="isEditable"
-                                 (textChange)="onConstsumOptionEntered($event, i)"
-                                 [text]="option"></tm-constsum-options-field>
+          <div cdkDragHandle>
+            <span class="input-group-addon">&#8597; </span>
+          </div>
+          <div class="flex-grow-1">
+            <tm-constsum-options-field (elementDeleted)="onConstsumOptionDeleted(i)"
+                                  [isEditable]="isEditable"
+                                  (textChange)="onConstsumOptionEntered($event, i)"
+                                  [text]="option"></tm-constsum-options-field>
+          </div>
         </div>
-        <br>
       </div>
     </div>
     <div class="row">
@@ -44,7 +47,7 @@
                    (ngModelChange)="triggerModelChange('pointsPerOption', $event)" [disabled]="!isEditable">
             <input id="per-option-points" type="number" class="form-control" min="1" step="1"
                    [ngModel]="model.pointsPerOption ? model.points : ''" (ngModelChange)="triggerModelChange('points', $event)" [disabled]="!isEditable || !model.pointsPerOption">
-            <b class="ngb-tooltip-class" ngbTooltip="The number of points to distribute will vary based on the number of recipients, e.g. if you specify 100 points here and there are 3 recipients, the total number of points to distribute among 3 recipients will be 300 (i.e. 100 x 3).">X (number of options)</b>
+            <b class="ngb-tooltip-class" ngbTooltip="The number of points to distribute will vary based on the number of options, e.g. if you specify 100 points here and there are 3 options, the total number of points to distribute among 3 options will be 300 (i.e. 100 x 3).">X (number of options)</b>
           </label>
         </div>
       </div>

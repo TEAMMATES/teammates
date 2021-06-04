@@ -21,10 +21,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
+import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.retry.RetryManager;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -47,8 +47,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     static final BackDoor BACKDOOR = BackDoor.getInstance();
     private static Browser sharedBrowser;
 
-    protected Browser browser;
     protected DataBundle testData;
+    private Browser browser;
 
     @BeforeSuite
     protected void determineEnvironment(ITestContext context) {
@@ -106,7 +106,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
             return;
         }
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
-            browser.driver.close();
+            browser.close();
         }
     }
 
@@ -128,12 +128,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // Refer to teammates.e2e.pageobjects.Browser for more information.
         if (!TestProperties.isDevServer()) {
             // skip login and navigate to the desired page.
-            return AppPage.getNewPageInstance(browser, url, typeOfPage);
+            return getNewPageInstance(url, typeOfPage);
         }
 
         if (browser.isAdminLoggedIn) {
             try {
-                return AppPage.getNewPageInstance(browser, url, typeOfPage);
+                return getNewPageInstance(url, typeOfPage);
             } catch (Exception e) {
                 //ignore and try to logout and login again if fail.
             }
@@ -142,30 +142,22 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         // logout and attempt to load the requested URL. This will be
         // redirected to a dev-server login page
         logout();
-        browser.driver.get(url.toAbsoluteString());
+        browser.goToUrl(url.toAbsoluteString());
 
         // In dev server, any username is acceptable as admin
         String adminUsername = "devserver.admin.account";
 
-        String userId = url.get(Const.ParamsNames.USER_ID);
-
-        if (userId != null) {
-            // This workaround is necessary because the front-end has not been optimized
-            // to enable masquerade mode yet
-            adminUsername = userId;
-        }
-
         DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
         loginPage.loginAsAdmin(adminUsername);
 
-        return AppPage.getNewPageInstance(browser, url, typeOfPage);
+        return getNewPageInstance(url, typeOfPage);
     }
 
     /**
      * Equivalent to clicking the 'logout' link in the top menu of the page.
      */
     protected void logout() {
-        browser.driver.get(createUrl(Const.ResourceURIs.LOGOUT).toAbsoluteString());
+        browser.goToUrl(createUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
         browser.isAdminLoggedIn = false;
     }
@@ -204,6 +196,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
+        return AppPage.getNewPageInstance(browser, url, typeOfPage);
     }
 
     /**
@@ -255,11 +251,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void tearDownGae() {
         // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    protected RetryManager getPersistenceRetryManager() {
-        return new RetryManager(TestProperties.PERSISTENCE_RETRY_PERIOD_IN_S / 2);
     }
 
     protected AccountAttributes getAccount(String googleId) {
@@ -353,13 +344,25 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     @Override
-    protected String doRemoveAndRestoreDataBundle(DataBundle testData) throws HttpRequestFailedException {
-        return BACKDOOR.removeAndRestoreDataBundle(testData);
+    protected boolean doRemoveAndRestoreDataBundle(DataBundle testData) {
+        try {
+            BACKDOOR.removeAndRestoreDataBundle(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
+        }
     }
 
     @Override
-    protected String doPutDocuments(DataBundle testData) {
-        return BACKDOOR.putDocuments(testData);
+    protected boolean doPutDocuments(DataBundle testData) {
+        try {
+            BACKDOOR.putDocuments(testData);
+            return true;
+        } catch (HttpRequestFailedException e) {
+            print(TeammatesException.toStringWithStackTrace(e));
+            return false;
+        }
     }
 
 }

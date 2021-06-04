@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { NgbDatepickerModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../ajax-loading/ajax-loading.module';
+import { DatepickerModule } from '../datepicker/datepicker.module';
 import { RichTextEditorModule } from '../rich-text-editor/rich-text-editor.module';
 import { TeammatesCommonModule } from '../teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../teammates-router/teammates-router.module';
 import { SessionEditFormComponent } from './session-edit-form.component';
 import { SubmissionStatusNamePipe } from './submission-status-name.pipe';
 import { TimePickerComponent } from './time-picker/time-picker.component';
@@ -16,11 +18,12 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
   imports: [
     CommonModule,
     FormsModule,
-    NgbDatepickerModule,
     NgbTooltipModule,
     AjaxLoadingModule,
     TeammatesCommonModule,
     RichTextEditorModule,
+    TeammatesRouterModule,
+    DatepickerModule,
   ],
   declarations: [
     SessionEditFormComponent,
@@ -29,6 +32,7 @@ import { TimePickerComponent } from './time-picker/time-picker.component';
   ],
   exports: [
     SessionEditFormComponent,
+    TimePickerComponent,
   ],
 })
 export class SessionEditFormModule { }

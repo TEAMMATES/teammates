@@ -82,6 +82,6 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         ______TS("only instructors of the same course with correct privilege can access");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.ParamsNames.INSTRUCTOR_PERMISSION_MODIFY_SESSION, submissionParams);
+                Const.InstructorPermissions.CAN_MODIFY_SESSION, submissionParams);
     }
 }

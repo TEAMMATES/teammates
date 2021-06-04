@@ -40,6 +40,11 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * This is used to bypass login by using previous login data.
   * You can enter `about:profiles` into Firefox address bar to identify the profile being used.
 
+* If the test suite or any test leaves the browser open (e.g. due to failure), you will have a dangling geckodriver process.<br>
+  You may want to manually kill these processes after the tests are done.
+  * On Windows, use the Task Manager or `taskkill /f /im geckodriver.exe` command.
+  * On OS X, use the Activity Monitor or `sudo killall geckodriver` command.
+
 #### Using Chrome
 
 * You need to use chromedriver for testing with Chrome.
@@ -51,8 +56,8 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * This is used to bypass login by using previous login data.
   * You can enter `chrome://version` into Chrome address bar to identify the profile path (specified under `Profile Path`).
 
-* The chromedriver process started by the test suite will not automatically get killed after the tests have finished executing.<br>
-  You will need to manually kill these processes after the tests are done.
+* If the test suite or any test leaves the browser open (e.g. due to failure), you will have a dangling chromedriver process.<br>
+  You may want to manually kill these processes after the tests are done.
   * On Windows, use the Task Manager or `taskkill /f /im chromedriver.exe` command.
   * On OS X, use the Activity Monitor or `sudo killall chromedriver` command.
 

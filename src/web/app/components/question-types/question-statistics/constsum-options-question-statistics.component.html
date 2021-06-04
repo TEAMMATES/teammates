@@ -1,9 +1,8 @@
-<div *ngIf="responses.length && !isStudent">
+<div *ngIf="responses.length">
   <div class="row">
     <div class="col-sm-4 text-color-gray mt-2">
-      <strong>
-        Response Summary
-      </strong>
+      <strong *ngIf="isStudent">Summary of responses received by you</strong>
+      <strong *ngIf="!isStudent">Response Summary</strong>
     </div>
   </div>
   <div class="row">

@@ -18,6 +18,5 @@ export class TextQuestionEditDetailsFormComponent extends QuestionEditDetailsFor
     super(DEFAULT_TEXT_QUESTION_DETAILS());
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

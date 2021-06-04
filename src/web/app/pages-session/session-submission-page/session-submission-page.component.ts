@@ -12,15 +12,15 @@ import { FeedbackResponseCommentService } from '../../../services/feedback-respo
 import { FeedbackResponsesService } from '../../../services/feedback-responses.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
+import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
-  ConfirmationResponse,
-  ConfirmationResult,
   FeedbackParticipantType,
   FeedbackQuestion,
   FeedbackQuestionRecipient,
@@ -84,6 +84,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   // the name of the person involved
   // (e.g. the student name for unregistered student, the name of instructor being moderated)
   personName: string = '';
+  personEmail: string = '';
 
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
@@ -94,8 +95,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   intent: Intent = Intent.STUDENT_SUBMISSION;
 
   questionSubmissionForms: QuestionSubmissionFormModel[] = [];
-
-  shouldSendConfirmationEmail: boolean = true;
 
   isSavingResponses: boolean = false;
   isSubmissionFormsDisabled: boolean = false;
@@ -126,6 +125,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               private authService: AuthService,
               private navigationService: NavigationService,
               private commentService: FeedbackResponseCommentService,
+              private logService: LogService,
               @Inject(DOCUMENT) private document: any) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -217,7 +217,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   /**
-   * Loads the name of the person invovled in the submission.
+   * Loads the name of the person involved in the submission.
    */
   loadPersonName(): void {
     switch (this.intent) {
@@ -228,6 +228,19 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             this.regKey,
         ).subscribe((student: Student) => {
           this.personName = student.name;
+          this.personEmail = student.email;
+
+          this.logService.createFeedbackSessionLog({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            studentEmail: this.personEmail,
+            logType: LogType.FEEDBACK_SESSION_ACCESS,
+          }).subscribe(() => {
+
+          }, () => {
+            this.statusMessageService.showWarningToast('Failed to log feedback session access');
+          });
+
         });
         break;
       case Intent.INSTRUCTOR_SUBMISSION:
@@ -240,6 +253,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           previewAs: this.previewAsPerson,
         }).subscribe((instructor: Instructor) => {
           this.personName = instructor.name;
+          this.personEmail = instructor.email;
         });
         break;
       default:
@@ -250,7 +264,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Redirects to join course link for unregistered student.
    */
   joinCourseForUnregisteredStudent(): void {
-    this.router.navigateByUrl(`/web/join?entitytype=student&key=${this.regKey}`);
+    this.navigationService.navigateByURL(this.router, '/web/join', { entitytype: 'student', key: this.regKey });
   }
 
   /**
@@ -312,12 +326,22 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         }
 
         this.loadFeedbackQuestions();
+
+        // Display note on submission on mobile device
+        const mobileDeviceWidth: number = 768;
+        if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN
+          && window.innerWidth < mobileDeviceWidth) {
+          const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
+answer remaining questions after that. You may also edit your submission any number of times before the closing time of
+this session.`;
+          this.simpleModalService.openInformationModal(
+              'Note On Submission', SimpleModalType.INFO, modalContent);
+        }
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
             'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-          this.statusMessageService.showErrorToast(resp.error.message);
-          this.router.navigateByUrl('web/student/home');
+          this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
         }
       });
   }
@@ -454,9 +478,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
       moderatedPerson: this.moderatedPerson,
     }).pipe(finalize(() => this.isFeedbackSessionQuestionResponsesLoading = false))
       .subscribe((existingResponses: FeedbackResponsesResponse) => {
-        // if student does not have any responses (i.e. first time answering), then enable sending of confirmation email
-        this.shouldSendConfirmationEmail = this.shouldSendConfirmationEmail && existingResponses.responses.length === 0;
-
         if (this.getQuestionSubmissionFormMode(model) === QuestionSubmissionFormMode.FIXED_RECIPIENT) {
           // need to generate a full list of submission forms
           model.recipientList.forEach((recipient: FeedbackResponseRecipient) => {
@@ -539,8 +560,21 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    */
   saveFeedbackResponses(): void {
     const notYetAnsweredQuestions: Set<number> = new Set();
+    const requestIds: Record<string, string> = {};
+    const answers: Record<string, FeedbackResponse[]> = {};
     const failToSaveQuestions: Record<number, string> = {}; // Map of question number to error message
     const savingRequests: Observable<any>[] = [];
+
+    this.logService.createFeedbackSessionLog({
+      courseId: this.courseId,
+      feedbackSessionName: this.feedbackSessionName,
+      studentEmail: this.personEmail,
+      logType: LogType.FEEDBACK_SESSION_SUBMISSION,
+    }).subscribe(() => {
+
+    }, () => {
+      this.statusMessageService.showWarningToast('Failed to log feedback session submission');
+    });
 
     this.questionSubmissionForms.forEach((questionSubmissionFormModel: QuestionSubmissionFormModel) => {
       let isQuestionFullyAnswered: boolean = true;
@@ -579,7 +613,11 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 const responsesMap: Record<string, FeedbackResponse> = {};
                 resp.responses.forEach((response: FeedbackResponse) => {
                   responsesMap[response.recipientIdentifier] = response;
+                  answers[questionSubmissionFormModel.feedbackQuestionId] =
+                      answers[questionSubmissionFormModel.feedbackQuestionId] || [];
+                  answers[questionSubmissionFormModel.feedbackQuestionId].push(response);
                 });
+                requestIds[questionSubmissionFormModel.feedbackQuestionId] = resp.requestId || '';
 
                 questionSubmissionFormModel.recipientSubmissionForms
                     .forEach((recipientSubmissionFormModel: FeedbackResponseRecipientSubmissionFormModel) => {
@@ -613,44 +651,23 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     });
 
     this.isSavingResponses = true;
-    let hasSubmissionConfirmationError: boolean = false;
     forkJoin(savingRequests).pipe(
-        switchMap(() => {
-          return this.feedbackSessionsService.confirmSubmission({
-            courseId: this.courseId,
-            feedbackSessionName: this.feedbackSessionName,
-            sendSubmissionEmail: String(this.shouldSendConfirmationEmail),
-            intent: this.intent,
-            key: this.regKey,
-            moderatedPerson: this.moderatedPerson,
-          });
-        }),
-    ).pipe(
         finalize(() => {
           this.isSavingResponses = false;
 
           const modalRef: NgbModalRef = this.ngbModal.open(SavingCompleteModalComponent);
-          modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values()).join(', ');
+          modalRef.componentInstance.requestIds = requestIds;
+          modalRef.componentInstance.courseId = this.courseId;
+          modalRef.componentInstance.feedbackSessionName = this.feedbackSessionName;
+          modalRef.componentInstance.feedbackSessionTimezone = this.feedbackSessionTimezone;
+          modalRef.componentInstance.personEmail = this.personEmail;
+          modalRef.componentInstance.personName = this.personName;
+          modalRef.componentInstance.questions = this.questionSubmissionForms;
+          modalRef.componentInstance.answers = answers;
+          modalRef.componentInstance.notYetAnsweredQuestions = Array.from(notYetAnsweredQuestions.values());
           modalRef.componentInstance.failToSaveQuestions = failToSaveQuestions;
-          modalRef.componentInstance.hasSubmissionConfirmationError = hasSubmissionConfirmationError;
         }),
-    ).subscribe((response: ConfirmationResponse) => {
-      switch (response.result) {
-        case ConfirmationResult.SUCCESS:
-          break;
-        case ConfirmationResult.SUCCESS_BUT_EMAIL_FAIL_TO_SEND:
-          this.statusMessageService.showErrorToast(
-              `Submission confirmation email failed to send: ${response.message}`);
-          break;
-        default:
-          this.statusMessageService.showErrorToast(`Unknown result ${response.result}`);
-      }
-      hasSubmissionConfirmationError = false;
-      this.shouldSendConfirmationEmail = false;
-    }, (resp: ErrorMessageOutput) => {
-      hasSubmissionConfirmationError = true;
-      this.statusMessageService.showErrorToast(resp.error.message);
-    });
+    ).subscribe();
   }
 
   /**

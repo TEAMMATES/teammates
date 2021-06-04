@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Assumption;
-import teammates.common.util.Const;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -29,7 +28,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Gets a feedback question by using {@code feedbackQuestionId}.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        Assumption.assertNotNull(feedbackQuestionId);
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId));
     }
@@ -39,9 +38,9 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
             String feedbackSessionName, String courseId, int questionNumber) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, questionNumber);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(questionNumber);
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber));
     }
@@ -51,8 +50,8 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
             String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
 
         return makeAttributes(getFeedbackQuestionEntitiesForSession(feedbackSessionName, courseId));
     }
@@ -62,11 +61,23 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackSessionName);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, courseId);
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, giverType);
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverType);
 
         return makeAttributes(getFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType));
+    }
+
+    /**
+     * Checks if there is any feedback questions in a session in a course for the given giver type.
+     */
+    public boolean hasFeedbackQuestionsForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(giverType);
+
+        return hasFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType);
     }
 
     /**
@@ -78,7 +89,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public FeedbackQuestionAttributes updateFeedbackQuestion(FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, updateOptions);
+        Assumption.assertNotNull(updateOptions);
 
         FeedbackQuestion feedbackQuestion = getFeedbackQuestionEntity(updateOptions.getFeedbackQuestionId());
         if (feedbackQuestion == null) {
@@ -143,7 +154,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Deletes questions using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, query);
+        Assumption.assertNotNull(query);
 
         Query<FeedbackQuestion> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
@@ -160,7 +171,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Gets a question entity if its string key can be decoded.
      */
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, feedbackQuestionId);
+        Assumption.assertNotNull(feedbackQuestionId);
 
         return makeKeyFromWebSafeString(feedbackQuestionId)
                 .map(key -> ofy().load().key(key).now())
@@ -196,6 +207,17 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
                 .list();
     }
 
+    private boolean hasFeedbackQuestionEntitiesForGiverType(
+            String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
+        return load()
+                .filter("feedbackSessionName =", feedbackSessionName)
+                .filter("courseId =", courseId)
+                .filter("giverType =", giverType)
+                .keys()
+                .list()
+                .size() != 0;
+    }
+
     @Override
     LoadType<FeedbackQuestion> load() {
         return ofy().load().type(FeedbackQuestion.class);
@@ -214,7 +236,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
     @Override
     FeedbackQuestionAttributes makeAttributes(FeedbackQuestion entity) {
-        Assumption.assertNotNull(Const.StatusCodes.DBLEVEL_NULL_INPUT, entity);
+        Assumption.assertNotNull(entity);
 
         return FeedbackQuestionAttributes.valueOf(entity);
     }

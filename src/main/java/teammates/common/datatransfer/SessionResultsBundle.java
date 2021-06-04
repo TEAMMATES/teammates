@@ -22,24 +22,27 @@ public class SessionResultsBundle {
     private final Map<String, List<FeedbackResponseAttributes>> questionResponseMap;
     private final Map<String, List<FeedbackResponseAttributes>> questionMissingResponseMap;
     private final Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap;
-    private final Map<String, boolean[]> responseVisibilityTable;
-    private final Map<Long, boolean[]> commentVisibilityTable;
+    private final Map<String, Boolean> responseGiverVisibilityTable;
+    private final Map<String, Boolean> responseRecipientVisibilityTable;
+    private final Map<Long, Boolean> commentGiverVisibilityTable;
     private final CourseRoster roster;
 
     public SessionResultsBundle(FeedbackSessionAttributes feedbackSession,
                                 Map<String, FeedbackQuestionAttributes> questionsMap,
                                 List<FeedbackResponseAttributes> responses,
                                 List<FeedbackResponseAttributes> missingResponses,
-                                Map<String, boolean[]> responseVisibilityTable,
+                                Map<String, Boolean> responseGiverVisibilityTable,
+                                Map<String, Boolean> responseRecipientVisibilityTable,
                                 Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap,
-                                Map<Long, boolean[]> commentVisibilityTable,
+                                Map<Long, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
 
         this.feedbackSession = feedbackSession;
         this.questionsMap = questionsMap;
         this.responseCommentsMap = responseCommentsMap;
-        this.responseVisibilityTable = responseVisibilityTable;
-        this.commentVisibilityTable = commentVisibilityTable;
+        this.responseGiverVisibilityTable = responseGiverVisibilityTable;
+        this.responseRecipientVisibilityTable = responseRecipientVisibilityTable;
+        this.commentGiverVisibilityTable = commentGiverVisibilityTable;
         this.roster = roster;
         this.questionResponseMap = buildQuestionToResponseMap(responses);
         this.questionMissingResponseMap = buildQuestionToResponseMap(missingResponses);
@@ -87,10 +90,10 @@ public class SessionResultsBundle {
 
         boolean isVisible;
         if (isGiver) {
-            isVisible = responseVisibilityTable.get(responseId)[Const.VISIBILITY_TABLE_GIVER];
+            isVisible = responseGiverVisibilityTable.get(responseId);
             participantType = question.giverType;
         } else {
-            isVisible = responseVisibilityTable.get(responseId)[Const.VISIBILITY_TABLE_RECIPIENT];
+            isVisible = responseRecipientVisibilityTable.get(responseId);
             participantType = question.recipientType;
         }
         boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
@@ -103,7 +106,7 @@ public class SessionResultsBundle {
      * Returns false otherwise.
      */
     public boolean isCommentGiverVisible(FeedbackResponseCommentAttributes comment) {
-        return commentVisibilityTable.get(comment.getId())[Const.VISIBILITY_TABLE_GIVER];
+        return commentGiverVisibilityTable.get(comment.getId());
     }
 
     /**
@@ -150,11 +153,15 @@ public class SessionResultsBundle {
         return roster;
     }
 
-    public Map<String, boolean[]> getResponseVisibilityTable() {
-        return responseVisibilityTable;
+    public Map<String, Boolean> getResponseGiverVisibilityTable() {
+        return responseGiverVisibilityTable;
     }
 
-    public Map<Long, boolean[]> getCommentVisibilityTable() {
-        return commentVisibilityTable;
+    public Map<String, Boolean> getResponseRecipientVisibilityTable() {
+        return responseRecipientVisibilityTable;
+    }
+
+    public Map<Long, Boolean> getCommentGiverVisibilityTable() {
+        return commentGiverVisibilityTable;
     }
 }

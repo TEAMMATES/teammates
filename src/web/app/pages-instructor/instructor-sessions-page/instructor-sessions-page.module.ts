@@ -11,6 +11,7 @@ import {
 } from '../../components/sessions-recycle-bin-table/sessions-recycle-bin-table.module';
 import { SessionsTableModule } from '../../components/sessions-table/sessions-table.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
+import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import {
   CopyFromOtherSessionsModalComponent,
 } from './copy-from-other-sessions-modal/copy-from-other-sessions-modal.component';
@@ -43,6 +44,7 @@ const routes: Routes = [
     RouterModule.forChild(routes),
     LoadingSpinnerModule,
     LoadingRetryModule,
+    TeammatesRouterModule,
   ],
   declarations: [
     InstructorSessionsPageComponent,

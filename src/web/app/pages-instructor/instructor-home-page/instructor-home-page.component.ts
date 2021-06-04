@@ -8,6 +8,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -33,7 +34,10 @@ import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionModalPageComponent } from '../instructor-session-modal-page.component';
 
-interface CourseTabModel {
+/**
+ * Data model for the course tab.
+ */
+export interface CourseTabModel {
   course: Course;
   instructorPrivilege: InstructorPrivilege;
   sessionsTableRowModels: SessionsTableRowModel[];
@@ -63,7 +67,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
   SortBy: typeof SortBy = SortBy;
 
-  studentSearchkey: string = '';
   instructorCoursesSortBy: SortBy = SortBy.COURSE_CREATION_DATE;
 
   // data
@@ -82,10 +85,12 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
               studentService: StudentService,
               instructorService: InstructorService,
               tableComparatorService: TableComparatorService,
-              private simpleModalService: SimpleModalService,
+              simpleModalService: SimpleModalService,
+              progressBarService: ProgressBarService,
               private courseService: CourseService) {
     super(router, instructorService, statusMessageService, navigationService, feedbackSessionsService,
-        feedbackQuestionsService, tableComparatorService, ngbModal, studentService);
+        feedbackQuestionsService, tableComparatorService, ngbModal, simpleModalService,
+        progressBarService, studentService);
   }
 
   ngOnInit(): void {
@@ -108,15 +113,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       return !courseTabModel.isTabExpanded;
     }
     return courseTabModel.isTabExpanded;
-  }
-
-  /**
-   * Redirect to the search page and query the search
-   */
-  search(): void {
-    this.router.navigate(['web/instructor/search'], {
-      queryParams: { studentSearchkey: this.studentSearchkey },
-    });
   }
 
   /**

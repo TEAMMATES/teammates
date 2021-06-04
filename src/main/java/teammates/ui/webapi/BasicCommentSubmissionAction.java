@@ -13,6 +13,9 @@ import teammates.common.exception.UnauthorizedAccessException;
  * Basic action class for feedback response comment related operation.
  */
 abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionAction {
+
+    static final String FEEDBACK_RESPONSE_COMMENT_EMPTY = "Comment cannot be empty";
+
     /**
      * Validates the questionType of the corresponding question.
      */
@@ -39,7 +42,8 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Verify response ownership for student.
      */
     void verifyResponseOwnerShipForStudent(StudentAttributes student, FeedbackResponseAttributes response,
-                                           FeedbackQuestionAttributes question) {
+                                           FeedbackQuestionAttributes question)
+            throws UnauthorizedAccessException {
 
         if (question.getGiverType() == FeedbackParticipantType.TEAMS
                 && !response.getGiver().equals(student.getTeam())) {
@@ -56,7 +60,8 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Verify response ownership for instructor.
      */
     void verifyResponseOwnerShipForInstructor(InstructorAttributes instructor,
-                                              FeedbackResponseAttributes response) {
+                                              FeedbackResponseAttributes response)
+            throws UnauthorizedAccessException {
         if (!response.getGiver().equals(instructor.getEmail())) {
             throw new UnauthorizedAccessException("Response [" + response.getId() + "] is not accessible to "
                     + instructor.getName());

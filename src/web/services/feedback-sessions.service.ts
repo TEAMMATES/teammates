@@ -5,9 +5,8 @@ import {
   InstructorSessionResultSectionType,
 } from '../app/pages-instructor/instructor-session-result-page/instructor-session-result-section-type.enum';
 import { default as templateSessions } from '../data/template-sessions.json';
-import { ResourceEndpoints } from '../types/api-endpoints';
+import { ResourceEndpoints } from '../types/api-const';
 import {
-  ConfirmationResponse,
   FeedbackQuestion,
   FeedbackSession,
   FeedbackSessionPublishStatus,
@@ -204,6 +203,18 @@ export class FeedbackSessionsService {
   }
 
   /**
+   * Checks if there is response of a student for an array of feedback sessions (request sent by student).
+   */
+  hasStudentResponseForAllFeedbackSessionsInCourse(courseId: string): Observable<HasResponses> {
+    const paramMap: Record<string, string> = {
+      entitytype: 'student',
+      courseid: courseId,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
+  }
+
+  /**
    * Sends e-mails to remind respondents who have not submitted their feedback.
    */
   remindFeedbackSessionSubmissionForRespondents(
@@ -215,29 +226,6 @@ export class FeedbackSessionsService {
     };
 
     return this.httpRequestService.post(ResourceEndpoints.SESSION_REMIND_SUBMISSION, paramMap, request);
-  }
-
-  /**
-   * Saves and confirms a submission by posting it using API.
-   */
-  confirmSubmission(queryParams: {
-    courseId: string,
-    feedbackSessionName: string,
-    sendSubmissionEmail: string,
-    intent: string,
-    key: string,
-    moderatedPerson: string,
-  }): Observable<ConfirmationResponse> {
-    const paramMap: Record<string, string> = {
-      courseid: queryParams.courseId,
-      fsname: queryParams.feedbackSessionName,
-      sendsubmissionemail: queryParams.sendSubmissionEmail,
-      intent: queryParams.intent,
-      key: queryParams.key,
-      moderatedperson: queryParams.moderatedPerson,
-    };
-
-    return this.httpRequestService.post(ResourceEndpoints.SUBMISSION_CONFIRMATION, paramMap);
   }
 
   /**
@@ -390,7 +378,7 @@ export class FeedbackSessionsService {
     captchaResponse: string,
   }): Observable<SessionLinksRecoveryResponse> {
     const paramMap: Record<string, string> = {
-      sessionlinksrecoveryemail: queryParam.sessionLinksRecoveryEmail,
+      studentemail: queryParam.sessionLinksRecoveryEmail,
       captcharesponse: queryParam.captchaResponse,
     };
 
