@@ -61,17 +61,19 @@ class EnrollStudentsAction extends Action {
                     .build());
         });
 
+        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
+        List<StudentAttributes> enrolmentTargetList = logic.getEnrolmentTargetList(studentsToEnroll, existingStudents);
+
         try {
-            logic.validateSectionsAndTeams(studentsToEnroll, courseId);
+            logic.validateSectionsAndTeamsFromMergedList(enrolmentTargetList);
         } catch (EnrollException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 
-        List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
-
         Set<String> existingStudentsEmail =
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
+        List<StudentAttributes> studentsToCreateInBatch = new ArrayList<>();
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
         studentsToEnroll.forEach(student -> {
             if (existingStudentsEmail.contains(student.email)) {
@@ -93,17 +95,16 @@ class EnrollStudentsAction extends Action {
                             exception.getMessage()));
                 }
             } else {
-                // The student is new.
-                try {
-                    StudentAttributes newStudent = logic.createStudent(student);
-                    enrolledStudents.add(newStudent);
-                } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
-                    // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
-                            exception.getMessage()));
-                }
+                // The student is new; defer its creation for batch processing.
+                studentsToCreateInBatch.add(student);
             }
         });
+
+        // Batch process new students.
+        enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
+        logic.getFailedStudentUpdatesInfo(studentsToCreateInBatch).forEach((studentEmail, error) ->
+                failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(studentEmail, error)));
+
         return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
     }
 }

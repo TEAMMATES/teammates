@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -58,6 +59,19 @@ public final class StudentsLogic {
     public StudentAttributes createStudent(StudentAttributes studentData)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return studentsDb.createEntity(studentData);
+    }
+
+    /**
+     * Creates a batch of students.
+     *
+     * @return the created students.
+     */
+    public List<StudentAttributes> createStudents(List<StudentAttributes> students) {
+        return studentsDb.createEntitiesSilent(students);
+    }
+
+    public Map<String, String> getFailedStudentUpdatesInfo(List<StudentAttributes> students) {
+        return studentsDb.getFailedStudentUpdatesInfo(students);
     }
 
     public StudentAttributes getStudentForEmail(String courseId, String email) {
@@ -221,6 +235,16 @@ public final class StudentsLogic {
 
         List<StudentAttributes> mergedList = getMergedList(studentList, courseId);
 
+        validateSectionsAndTeamsFromMergedList(mergedList);
+    }
+
+    /**
+     * Validates merged list of students of their sections for any limit violations and teams for any team name
+     * violations.
+     *
+     * <p>Built as a way to reduce the datastore access when the data is readily available.
+     */
+    public void validateSectionsAndTeamsFromMergedList(List<StudentAttributes> mergedList) throws EnrollException {
         if (mergedList.size() < 2) { // no conflicts
             return;
         }
@@ -230,24 +254,36 @@ public final class StudentsLogic {
         if (!errorMessage.isEmpty()) {
             throw new EnrollException(errorMessage);
         }
-
     }
 
     private List<StudentAttributes> getMergedList(List<StudentAttributes> studentList, String courseId) {
 
-        List<StudentAttributes> mergedList = new ArrayList<>();
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
 
-        for (StudentAttributes student : studentList) {
-            mergedList.add(student);
-        }
+        return getEnrollmentTargetList(studentList, studentsInCourse);
+    }
 
-        for (StudentAttributes student : studentsInCourse) {
+    /**
+     * Merge all the students expected to be enrolled with the students currently in the course from input.
+     *
+     * @param studentsToEnroll the students to be enrolled or updated
+     * @param studentsAlreadyInCourse the students already in the course
+     * @return list of students expected in a course after enrolment
+     */
+    public List<StudentAttributes> getEnrollmentTargetList(
+            List<StudentAttributes> studentsToEnroll, List<StudentAttributes> studentsAlreadyInCourse) {
+
+        List<StudentAttributes> mergedList = new ArrayList<>();
+
+        mergedList.addAll(studentsToEnroll);
+
+        for (StudentAttributes student : studentsAlreadyInCourse) {
             if (!isInEnrollList(student, mergedList)) {
                 mergedList.add(student);
             }
         }
         return mergedList;
+
     }
 
     public String getSectionForTeam(String courseId, String teamName) {
