@@ -10,7 +10,8 @@ import teammates.common.util.Const;
 public enum LogType {
     // CHECKSTYLE.OFF:JavadocVariable
     FEEDBACK_SESSION_ACCESS(Const.FeedbackSessionLogTypes.ACCESS),
-    FEEDBACK_SESSION_SUBMISSION(Const.FeedbackSessionLogTypes.SUBMISSION);
+    FEEDBACK_SESSION_SUBMISSION(Const.FeedbackSessionLogTypes.SUBMISSION),
+    FEEDBACK_SESSION_VIEW_RESULT(Const.FeedbackSessionLogTypes.VIEW_RESULT);
     // CHECKSTYLE.ON:JavadocVariable
 
     @JsonValue
