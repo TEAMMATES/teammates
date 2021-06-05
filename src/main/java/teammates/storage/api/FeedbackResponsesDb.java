@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -90,7 +89,32 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(feedbackQuestionId);
         Assumption.assertNotNull(section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(
+                feedbackQuestionId, section));
+    }
+
+    /**
+     * Gets all feedback responses of a question in a specific giver's section.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInGiverSection(
+            String feedbackQuestionId, String section) {
+        Assumption.assertNotNull(feedbackQuestionId);
+        Assumption.assertNotNull(section);
+
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInGiverSection(
+                feedbackQuestionId, section));
+    }
+
+    /**
+     * Gets all feedback responses of a question in a specific receiver's section.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInReceiverSection(
+            String feedbackQuestionId, String section) {
+        Assumption.assertNotNull(feedbackQuestionId);
+        Assumption.assertNotNull(section);
+
+        return makeAttributes(getFeedbackResponseEntitiesForQuestionInReceiverSection(
+                feedbackQuestionId, section));
     }
 
     /**
@@ -135,7 +159,34 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(section);
 
-        return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
+        return makeAttributes(
+                getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
+    }
+
+    /**
+     * Gets all responses given to/from a section in a feedback session in a course.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInGiverSection(
+            String feedbackSessionName, String courseId, String section) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(section);
+
+        return makeAttributes(
+                getFeedbackResponseEntitiesForSessionInGiverSection(feedbackSessionName, courseId, section));
+    }
+
+    /**
+     * Gets all responses given to/from a section in a feedback session in a course.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInReceiverSection(
+            String feedbackSessionName, String courseId, String section) {
+        Assumption.assertNotNull(feedbackSessionName);
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(section);
+
+        return makeAttributes(
+                getFeedbackResponseEntitiesForSessionInReceiverSection(feedbackSessionName, courseId, section));
     }
 
     /**
@@ -312,19 +363,34 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
     }
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInSection(
-                String feedbackQuestionId, String section) {
-        List<FeedbackResponse> allResponses = new ArrayList<>();
+            String feedbackQuestionId, String section) {
+        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
 
-        allResponses.addAll(load()
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForQuestionInGiverSection(feedbackQuestionId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForQuestionInReceiverSection(feedbackQuestionId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+        return uniqueResponses.values();
+    }
+
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInGiverSection(
+            String feedbackQuestionId, String section) {
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("giverSection =", section)
-                .list());
-        allResponses.addAll(load()
+                .list();
+    }
+
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForQuestionInReceiverSection(
+            String feedbackQuestionId, String section) {
+        return load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
                 .filter("receiverSection =", section)
-                .list());
-
-        return removeDuplicates(allResponses);
+                .list();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesForQuestion(String feedbackQuestionId) {
@@ -342,29 +408,36 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
-        List<FeedbackResponse> allResponse = new ArrayList<>();
+        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
 
-        allResponse.addAll(load()
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForSessionInGiverSection(feedbackSessionName, courseId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+        for (FeedbackResponse feedbackResponse
+                : getFeedbackResponseEntitiesForSessionInReceiverSection(feedbackSessionName, courseId, section)) {
+            uniqueResponses.put(feedbackResponse.getId(), feedbackResponse);
+        }
+
+        return uniqueResponses.values();
+    }
+
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInGiverSection(
+            String feedbackSessionName, String courseId, String section) {
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("giverSection =", section)
-                .list());
+                .list();
+    }
 
-        allResponse.addAll(load()
+    private Collection<FeedbackResponse> getFeedbackResponseEntitiesForSessionInReceiverSection(
+            String feedbackSessionName, String courseId, String section) {
+        return load()
                 .filter("feedbackSessionName =", feedbackSessionName)
                 .filter("courseId =", courseId)
                 .filter("receiverSection =", section)
-                .list());
-
-        return removeDuplicates(allResponse);
-    }
-
-    private Collection<FeedbackResponse> removeDuplicates(Collection<FeedbackResponse> responses) {
-        Map<String, FeedbackResponse> uniqueResponses = new HashMap<>();
-        for (FeedbackResponse response : responses) {
-            uniqueResponses.put(response.getId(), response);
-        }
-        return uniqueResponses.values();
+                .list();
     }
 
     private List<FeedbackResponse> getFeedbackResponseEntitiesFromGiverForQuestion(

@@ -11,6 +11,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -98,10 +99,20 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
-            String feedbackSessionName, String courseId, @Nullable String section) {
+            String feedbackSessionName, String courseId, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return getFeedbackResponsesForSession(feedbackSessionName, courseId);
         }
+
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frDb.getFeedbackResponsesForSessionInGiverSection(feedbackSessionName, courseId, section);
+        case RECEIVER_ONLY:
+            return frDb.getFeedbackResponsesForSessionInReceiverSection(feedbackSessionName, courseId, section);
+        case BOTH:
+        default:
+        }
+
         return frDb.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
     }
 
@@ -127,10 +138,20 @@ public final class FeedbackResponsesLogic {
      * @return a list of responses
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
-            String feedbackQuestionId, @Nullable String section) {
+            String feedbackQuestionId, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return getFeedbackResponsesForQuestion(feedbackQuestionId);
         }
+
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frDb.getFeedbackResponsesForQuestionInGiverSection(feedbackQuestionId, section);
+        case RECEIVER_ONLY:
+            return frDb.getFeedbackResponsesForQuestionInReceiverSection(feedbackQuestionId, section);
+        case BOTH:
+        default:
+        }
+
         return frDb.getFeedbackResponsesForQuestionInSection(feedbackQuestionId, section);
     }
 

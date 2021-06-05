@@ -9,6 +9,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -94,13 +95,24 @@ public final class FeedbackResponseCommentsLogic {
      * @param courseId the course ID of the feedback session
      * @param feedbackSessionName the feedback session name
      * @param section if null, will retrieve all comments in the session
+     * @param resultFetchType whether the comments fetched are by the giver's, the receiver's or both section
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForSessionInSection(
-            String courseId, String feedbackSessionName, @Nullable String section) {
+            String courseId, String feedbackSessionName, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return frcDb.getFeedbackResponseCommentsForSession(courseId, feedbackSessionName);
         }
+
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForSessionInGiverSection(courseId, feedbackSessionName, section);
+        case RECEIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForSessionInReceiverSection(courseId, feedbackSessionName, section);
+        case BOTH:
+        default:
+        }
+
         return frcDb.getFeedbackResponseCommentsForSessionInSection(courseId, feedbackSessionName, section);
     }
 
@@ -109,13 +121,24 @@ public final class FeedbackResponseCommentsLogic {
      *
      * @param questionId the ID of the question
      * @param section if null, will retrieve all comments for the question
+     * @param resultFetchType whether the comments fetched are by the giver's, the receiver's or both section
      * @return a list of feedback response comments
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForQuestionInSection(
-            String questionId, @Nullable String section) {
+            String questionId, @Nullable String section, ResultFetchType resultFetchType) {
         if (section == null) {
             return frcDb.getFeedbackResponseCommentsForQuestion(questionId);
         }
+
+        switch (resultFetchType) {
+        case GIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForQuestionInGiverSection(questionId, section);
+        case RECEIVER_ONLY:
+            return frcDb.getFeedbackResponseCommentsForQuestionInReceiverSection(questionId, section);
+        case BOTH:
+        default:
+        }
+
         return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
     }
 

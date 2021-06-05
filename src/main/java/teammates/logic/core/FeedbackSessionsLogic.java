@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -512,7 +513,7 @@ public final class FeedbackSessionsLogic {
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, ResultFetchType resultFetchType) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
                 instructorsLogic.getInstructorsForCourse(courseId));
@@ -540,9 +541,11 @@ public final class FeedbackSessionsLogic {
         if (isInstructor(role)) {
             // load all response for instructors and passively filter them later
             if (questionId == null) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+                allResponses = frLogic.getFeedbackResponsesForSessionInSection(
+                        feedbackSessionName, courseId, section, resultFetchType);
             } else {
-                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
+                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(
+                        questionId, section, resultFetchType);
             }
         } else {
             if (section != null) {
@@ -561,9 +564,11 @@ public final class FeedbackSessionsLogic {
         // load comment(s)
         List<FeedbackResponseCommentAttributes> allComments;
         if (questionId == null) {
-            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
+            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(
+                    courseId, feedbackSessionName, section, resultFetchType);
         } else {
-            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
+            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(
+                    questionId, section, resultFetchType);
         }
 
         // related questions, responses, and comment

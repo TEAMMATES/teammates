@@ -326,6 +326,7 @@ export class FeedbackSessionsService {
     intent: Intent
     questionId?: string,
     groupBySection?: string,
+    sectionByGiverOrReceiver?: string,
     key?: string,
   }): Observable<SessionResults> {
     const paramMap: Record<string, string> = {
@@ -340,6 +341,10 @@ export class FeedbackSessionsService {
 
     if (queryParams.groupBySection) {
       paramMap.frgroupbysection = queryParams.groupBySection;
+    }
+
+    if (queryParams.sectionByGiverOrReceiver) {
+      paramMap.frsessionbygiverorreceiver = queryParams.sectionByGiverOrReceiver;
     }
 
     if (queryParams.key) {

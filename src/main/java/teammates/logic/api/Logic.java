@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorSearchResultBundle;
+import teammates.common.datatransfer.ResultFetchType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.UserRole;
@@ -1109,18 +1110,19 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String)
+     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String, ResultFetchType)
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
-            @Nullable String questionId, @Nullable String section) {
+            @Nullable String questionId, @Nullable String section, ResultFetchType resultFetchType) {
         Assumption.assertNotNull(feedbackSessionName);
         Assumption.assertNotNull(courseId);
         Assumption.assertNotNull(userEmail);
         Assumption.assertNotNull(role);
+        Assumption.assertNotNull(resultFetchType);
 
         return feedbackSessionsLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, role, questionId, section);
+                feedbackSessionName, courseId, userEmail, role, questionId, section, resultFetchType);
     }
 
     /**
