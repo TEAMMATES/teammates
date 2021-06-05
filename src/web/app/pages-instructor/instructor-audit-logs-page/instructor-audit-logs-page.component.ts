@@ -171,7 +171,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     return {
-      isTabExpanded: false,
+      isTabExpanded: log.feedbackSessionLogEntries.length === 0,
       feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
       logColumnsData: [
         { header: 'Time', sortBy: SortBy.LOG_DATE },
