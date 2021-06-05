@@ -7,6 +7,7 @@ import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
+import { TableComparatorService } from '../../../services/table-comparator.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
@@ -17,7 +18,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { SortBy } from '../../../types/sort-properties';
+import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
 import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
@@ -79,6 +80,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
 
   constructor(private courseService: CourseService,
               private studentService: StudentService,
+              private tableComparatorService: TableComparatorService,
               private logsService: LogService,
               private timezoneService: TimezoneService,
               private statusMessageService: StatusMessageService) { }
@@ -150,9 +152,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
                 })),
             mergeAll(),
             finalize(() => this.isLoading = false))
-        .subscribe(((student: Students) =>
+        .subscribe(((student: Students) => {
+          const studentList: Student[] = [...student.students].sort(this.sortStudentList(SortBy.GIVER_NAME));
                 // Student with no name is selectable to search for all students since the field is optional
-                this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students]),
+          this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...studentList];
+        }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
@@ -198,5 +202,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
           ];
         }),
     };
+  }
+
+  sortStudentList(by: SortBy): ((stdA: Student, stdB: Student) => number) {
+    return ((stdA: Student, stdB: Student): number => {
+      return this.tableComparatorService.compare(by, SortOrder.ASC, stdA.name, stdB.name);
+    });
   }
 }
