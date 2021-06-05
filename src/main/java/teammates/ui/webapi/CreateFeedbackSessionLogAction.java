@@ -25,7 +25,7 @@ class CreateFeedbackSessionLogAction extends Action {
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         if (!fslType.equals(Const.FeedbackSessionLogTypes.ACCESS)
                 && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)
-                && !fslType.equals(Const.FeedbackSessionLogTypes.VIEW)) {
+                && !fslType.equals(Const.FeedbackSessionLogTypes.VIEW_RESULT)) {
             return new JsonResult("Invalid log type", HttpStatus.SC_BAD_REQUEST);
         }
 

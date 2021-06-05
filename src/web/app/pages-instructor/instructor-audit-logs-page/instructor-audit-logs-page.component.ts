@@ -178,7 +178,8 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       ],
       logRowsData: log.feedbackSessionLogEntries
         .filter((entry: FeedbackSessionLogEntry) =>
-          LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType] !== LogType.FEEDBACK_SESSION_VIEW)
+          LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
+            !== LogType.FEEDBACK_SESSION_VIEW_RESULT)
         .map((entry: FeedbackSessionLogEntry) => {
           return [
             { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),

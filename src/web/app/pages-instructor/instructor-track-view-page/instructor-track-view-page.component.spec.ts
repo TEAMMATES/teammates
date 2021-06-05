@@ -109,12 +109,12 @@ describe('InstructorTrackViewPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW,
+        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
         timestamp: 0,
       },
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW,
+        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
         timestamp: 1000,
       },
     ],

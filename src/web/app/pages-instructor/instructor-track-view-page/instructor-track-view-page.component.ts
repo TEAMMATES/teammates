@@ -224,7 +224,7 @@ export class InstructorTrackViewPageComponent implements OnInit {
                 targetFeedbackSessionLog.feedbackSessionLogEntries
                   .filter((entry: FeedbackSessionLogEntry) =>
                     LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-                      === LogType.FEEDBACK_SESSION_VIEW)
+                      === LogType.FEEDBACK_SESSION_VIEW_RESULT)
                   .filter((entry: FeedbackSessionLogEntry) =>
                     !(entry.studentData.email in this.studentToLog)
                       || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp)
