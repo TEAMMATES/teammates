@@ -115,6 +115,7 @@ export class TableComparatorService {
       case SortBy.RECIPIENT_NAME:
       case SortBy.LOG_TYPE:
       case SortBy.LOG_DATE:
+      case SortBy.RESULT_VIEW_STATUS:
         return this.compareLexicographically(strA, strB, order);
       case SortBy.CONSTSUM_OPTIONS_POINTS:
       case SortBy.CONSTSUM_RECIPIENTS_POINTS:

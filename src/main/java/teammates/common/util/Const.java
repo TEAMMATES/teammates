@@ -189,6 +189,7 @@ public final class Const {
     public static class FeedbackSessionLogTypes {
         public static final String ACCESS = "access";
         public static final String SUBMISSION = "submission";
+        public static final String VIEW_RESULT = "view result";
     }
 
     @Deprecated
