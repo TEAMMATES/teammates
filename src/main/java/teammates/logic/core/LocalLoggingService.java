@@ -42,11 +42,12 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) {
+            Instant startTime, Instant endTime, String fsName) {
         return feedbackSessionLogEntriesDb
                 .stream()
                 .filter(log -> log.getFeedbackSession().getCourseId().equals(courseId))
                 .filter(log -> email == null || log.getStudent().getEmail().equals(email))
+                .filter(log -> fsName == null || log.getFeedbackSession().getFeedbackSessionName().equals(fsName))
                 .filter(log -> startTime == null || log.getTimestamp() >= startTime.toEpochMilli())
                 .filter(log -> endTime == null || log.getTimestamp() <= endTime.toEpochMilli())
                 .collect(Collectors.toList());
