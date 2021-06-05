@@ -13,7 +13,7 @@
   </thead>
   <tbody>
     <tr *ngFor="let row of tableRows;">
-      <td *ngFor="let item of row" [style.font-family]="getFont(item)">
+      <td *ngFor="let item of row" [style]="getStyle(item)">
         <ndc-dynamic *ngIf="item.customComponent"
                      [ngComponentOutlet]="item.customComponent.component"
                      [ndcDynamicInputs]="item.customComponent.componentData"

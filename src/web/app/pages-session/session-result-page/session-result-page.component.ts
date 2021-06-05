@@ -5,10 +5,12 @@ import { finalize } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
+import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
   FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
@@ -52,6 +54,7 @@ export class SessionResultPageComponent implements OnInit {
   formattedSessionOpeningTime: string = '';
   formattedSessionClosingTime: string = '';
   personName: string = '';
+  personEmail: string = '';
   courseId: string = '';
   feedbackSessionName: string = '';
   regKey: string = '';
@@ -71,6 +74,7 @@ export class SessionResultPageComponent implements OnInit {
               private authService: AuthService,
               private studentService: StudentService,
               private statusMessageService: StatusMessageService,
+              private logService: LogService,
               private ngbModal: NgbModal) {
     this.timezoneService.getTzVersion(); // import timezone service to load timezone data
   }
@@ -121,6 +125,7 @@ export class SessionResultPageComponent implements OnInit {
           });
         } else if (this.loggedInUser) {
           // Load information based on logged in user
+          this.loadPersonName();
           this.loadFeedbackSession();
         } else {
           this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
@@ -134,9 +139,23 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadPersonName(): void {
-    this.studentService.getStudent(this.courseId, '', this.regKey).subscribe((student: Student) => {
-      this.personName = student.name;
-    });
+    this.studentService
+      .getStudent(this.courseId, '', this.regKey)
+      .subscribe((student: Student) => {
+        this.personName = student.name;
+        this.personEmail = student.email;
+
+        this.logService.createFeedbackSessionLog({
+          courseId: this.courseId,
+          feedbackSessionName: this.feedbackSessionName,
+          studentEmail: this.personEmail,
+          logType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+        }).subscribe(
+          () => {
+            // No action needed if log is successfully created.
+          },
+          () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
+      });
   }
 
   private loadFeedbackSession(): void {
