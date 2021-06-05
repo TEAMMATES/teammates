@@ -502,11 +502,80 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
 
+        ______TS("failure: giver is student; show comment to own team members, instructors; "
+                + "comment is not visible to student not from same team");
+        student = dataBundle.students.get("student5InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student5InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
+
         ______TS("success: giver is student; show comment to own team members, instructors; comment is visible"
                 + "to instructor");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
                 student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
 
+        // test comment visibility to recipient's team
+        response = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
+        response.recipient = "student1InCourse1@gmail.tmt";
+        relatedComment = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student5InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.GIVER)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS))
+                .build();
+
+        ______TS("success: giver is student; show comment to comment recipient's team; comment is visible"
+                + "to recipient");
+        student = dataBundle.students.get("student1InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
+
+        ______TS("success: giver is student; show comment to comment recipient's team; comment is visible"
+                + "to recipient's team members");
+        student = dataBundle.students.get("student3InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
+
+        student = dataBundle.students.get("student4InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
+
+        ______TS("failure: giver is student; show comment to comment recipient's team; comment is not visible"
+                + "to students not from recipient's team");
+        student = dataBundle.students.get("student1InCourse2");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse2@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
+
+        student = dataBundle.students.get("student1InUnregisteredCourse");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InUnregisteredCourse@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, relatedComment));
+
+        // comment visibility follows feedback question's visibility
         relatedComment = FeedbackResponseCommentAttributes.builder()
                 .withCommentGiver("student4InCourse1@gmail.tmt")
                 .withCommentGiverType(FeedbackParticipantType.OWN_TEAM_MEMBERS)
@@ -515,6 +584,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .withFeedbackSessionName("First feedback session")
                 .build();
         relatedQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        student = dataBundle.students.get("student1InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
 
         ______TS("success: question is visible to instructor; visibility follows feedback question;"
                 + "comment is visible to receiver by default");
