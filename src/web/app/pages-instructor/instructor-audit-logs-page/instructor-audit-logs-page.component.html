@@ -1,5 +1,5 @@
 <h1>Student Activity Logs</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -29,7 +29,7 @@
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
-          <div class="col-md-3">
+          <div id="logs-from-timepicker" class="col-md-3">
             <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
           </div>
         </div>
@@ -59,7 +59,7 @@
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
-          <div class="col-md-3">
+          <div id="logs-to-timepicker" class="col-md-3">
             <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
           </div>
           <div class="col-md-2">
@@ -70,25 +70,26 @@
     </div>
   </div>
 </div>
-
-<div *tmIsLoading="isSearching">
-  <div *ngFor="let results of searchResults">
-    <div class="card mb-3 alert-success-border">
-      <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">
-        {{results.feedbackSessionName}}
-        <div class="card-header-btn-toolbar">
-          <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
-        </div>
-      </div>
-      <div *ngIf="results.isTabExpanded">
-        <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
-          <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
-        </div>
-        <ng-template #noActivityTemplate>
-          <div class="no-activity-body">
-            <i>No activity for this feedback session in selected search period</i>
+<div id="logs-output">
+  <div *tmIsLoading="isSearching">
+    <div *ngFor="let results of searchResults">
+      <div class="card mb-3 alert-success-border">
+        <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">
+          {{results.feedbackSessionName}}
+          <div class="card-header-btn-toolbar">
+            <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
           </div>
-        </ng-template>
+        </div>
+        <div *ngIf="results.isTabExpanded">
+          <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
+            <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+          </div>
+          <ng-template #noActivityTemplate>
+            <div class="no-activity-body">
+              <i>No activity for this feedback session in selected search period</i>
+            </div>
+          </ng-template>
+        </div>
       </div>
     </div>
   </div>

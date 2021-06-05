@@ -44,7 +44,9 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        gateKeeper.verifyAccessible(instructor, courseAttributes);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override

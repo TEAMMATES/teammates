@@ -66,7 +66,13 @@ class UpdateStudentAction extends Action {
         boolean emailSent = false;
 
         try {
+            //we swap out email before we validate
+            //TODO: this is duct tape at the moment, need to refactor how we do the validation
+            String newEmail = studentToUpdate.getEmail();
+            studentToUpdate.email = student.getEmail();
             logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.course);
+            studentToUpdate.email = newEmail;
+
             logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())
