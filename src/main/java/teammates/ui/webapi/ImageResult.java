@@ -32,6 +32,10 @@ class ImageResult extends ActionResult {
     @Override
     void send(HttpServletResponse resp) throws IOException {
         String contentType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(bytes));
+
+        // Replaces "application/xml" with "image/svg+xml" as guessContentTypeFromStream only guesses the former.
+        // We can do this conversion because "image/svg+xml" is the only MIME type based around XML for
+        // image files we accept.
         if ("application/xml".equals(contentType)) {
             contentType = "image/svg+xml";
         }
