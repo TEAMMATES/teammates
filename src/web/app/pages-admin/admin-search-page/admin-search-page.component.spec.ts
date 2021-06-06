@@ -23,6 +23,26 @@ const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
   },
 };
 
+const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
+  name: 'name',
+  email: 'email',
+  googleId: 'googleId',
+  courseId: 'courseId',
+  courseName: 'courseName',
+  institute: 'institute',
+  courseJoinLink: 'courseJoinLink',
+  homePageLink: 'homePageLink',
+  manageAccountLink: 'manageAccountLink',
+  showLinks: false,
+  section: 'section',
+  team: 'team',
+  comments: 'comments',
+  recordsPageLink: 'recordsPageLink',
+  openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+  publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
+};
+
 describe('AdminSearchPageComponent', () => {
   let component: AdminSearchPageComponent;
   let fixture: ComponentFixture<AdminSearchPageComponent>;
@@ -275,25 +295,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show student links when expand all button clicked', () => {
-    const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const studentResult: StudentAccountSearchResult = DEFAULT_STUDENT_SEARCH_RESULT;
     component.students = [studentResult];
     fixture.detectChanges();
 
@@ -381,26 +383,7 @@ describe('AdminSearchPageComponent', () => {
   });
 
   it('should show success message if successfully reset student google id', () => {
-    const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-    };
+    const studentResult: StudentAccountSearchResult = DEFAULT_STUDENT_SEARCH_RESULT;
     component.students = [studentResult];
     fixture.detectChanges();
 
@@ -477,21 +460,8 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show success message and update all keys if successfully regenerated student registration key', () => {
     const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
       courseJoinLink: 'courseJoinLink?key=oldKey',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
@@ -549,21 +519,8 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show error message if fail to regenerate registration key for student in a course', () => {
     const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
       courseJoinLink: 'courseJoinLink?key=oldKey',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
-      showLinks: false,
-
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
@@ -616,23 +573,8 @@ describe('AdminSearchPageComponent', () => {
 
   it('should generate email when course join email button clicked', () => {
     const studentResult: StudentAccountSearchResult = {
-      name: 'jack',
-      email: 'email@test.com',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
       showLinks: true,
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
@@ -640,9 +582,9 @@ describe('AdminSearchPageComponent', () => {
     const spyEmailGenerationService: any = spyOn(emailGenerationService, 'getCourseJoinEmail')
         .and.callFake(
             (): Observable<Email> => of({
-              recipient: 'Jacky Chan',
-              subject: 'Course join email',
-              content: 'Course join email content',
+              recipient: 'recipient',
+              subject: 'subject',
+              content: 'content',
             }),
             );
 
@@ -654,23 +596,8 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show error message if fail to send course join email', () => {
     const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
       showLinks: true,
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
@@ -693,23 +620,8 @@ describe('AdminSearchPageComponent', () => {
 
   it('should generate email when send session reminder email button clicked', () => {
     const studentResult: StudentAccountSearchResult = {
-      name: 'Jack Chan',
-      email: 'email@test.com',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
       showLinks: true,
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
@@ -717,9 +629,9 @@ describe('AdminSearchPageComponent', () => {
     const spyEmailGenerationService: any = spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail')
         .and.callFake(
             (): Observable<Email> => of({
-              recipient: 'Jacky Chan',
-              subject: 'Feedback reminder email',
-              content: 'Feedback reminder email content',
+              recipient: 'recipient',
+              subject: 'subject',
+              content: 'content',
             }),
             );
 
@@ -742,23 +654,8 @@ describe('AdminSearchPageComponent', () => {
 
   it('should show error message if fail to send session reminder email', () => {
     const studentResult: StudentAccountSearchResult = {
-      name: 'name',
-      email: 'email',
-      googleId: 'googleId',
-      courseId: 'courseId',
-      courseName: 'courseName',
-      institute: 'institute',
-      courseJoinLink: 'courseJoinLink',
-      homePageLink: 'homePageLink',
-      manageAccountLink: 'manageAccountLink',
+      ...DEFAULT_STUDENT_SEARCH_RESULT,
       showLinks: true,
-      section: 'section',
-      team: 'team',
-      comments: 'comments',
-      recordsPageLink: 'recordsPageLink',
-      openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
-      publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
     };
     component.students = [studentResult];
     fixture.detectChanges();
