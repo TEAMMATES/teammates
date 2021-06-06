@@ -153,7 +153,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             mergeAll(),
             finalize(() => this.isLoading = false))
         .subscribe(((student: Students) => {
-          const studentList: Student[] = [...student.students].sort(this.sortStudentList(SortBy.GIVER_NAME));
+          const studentList: Student[] = [...student.students].sort(this.compareStudentsLexicallyBy(SortBy.GIVER_NAME));
                 // Student with no name is selectable to search for all students since the field is optional
           this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...studentList];
         }),
@@ -204,7 +204,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     };
   }
 
-  sortStudentList(by: SortBy): ((stdA: Student, stdB: Student) => number) {
+  compareStudentsLexicallyBy(by: SortBy): ((stdA: Student, stdB: Student) => number) {
     return ((stdA: Student, stdB: Student): number => {
       return this.tableComparatorService.compare(by, SortOrder.ASC, stdA.name, stdB.name);
     });
