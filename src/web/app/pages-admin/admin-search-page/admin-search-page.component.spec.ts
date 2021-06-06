@@ -3,7 +3,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModal, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { AccountService } from '../../../services/account.service';
 import { EmailGenerationService } from '../../../services/email-generation.service';
 import {
@@ -12,7 +12,6 @@ import {
 } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { Email } from '../../../types/api-output';
 import { AdminSearchPageComponent } from './admin-search-page.component';
 
 const DEFAULT_FEEDBACK_SESSION_GROUP: FeedbackSessionsGroup = {
@@ -571,29 +570,6 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toBeCalled();
   });
 
-  it('should generate email when course join email button clicked', () => {
-    const studentResult: StudentAccountSearchResult = {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      showLinks: true,
-    };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    const spyEmailGenerationService: any = spyOn(emailGenerationService, 'getCourseJoinEmail')
-        .and.callFake(
-            (): Observable<Email> => of({
-              recipient: 'recipient',
-              subject: 'subject',
-              content: 'content',
-            }),
-            );
-
-    const sendButton: any = fixture.debugElement.nativeElement.querySelector('#send-course-join-button');
-    sendButton.click();
-
-    expect(spyEmailGenerationService).toBeCalled();
-  });
-
   it('should show error message if fail to send course join email', () => {
     const studentResult: StudentAccountSearchResult = {
       ...DEFAULT_STUDENT_SEARCH_RESULT,
@@ -616,40 +592,6 @@ describe('AdminSearchPageComponent', () => {
     sendButton.click();
 
     expect(spyStatusMessageService).toBeCalled();
-  });
-
-  it('should generate email when send session reminder email button clicked', () => {
-    const studentResult: StudentAccountSearchResult = {
-      ...DEFAULT_STUDENT_SEARCH_RESULT,
-      showLinks: true,
-    };
-    component.students = [studentResult];
-    fixture.detectChanges();
-
-    const spyEmailGenerationService: any = spyOn(emailGenerationService, 'getFeedbackSessionReminderEmail')
-        .and.callFake(
-            (): Observable<Email> => of({
-              recipient: 'recipient',
-              subject: 'subject',
-              content: 'content',
-            }),
-            );
-
-    const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
-    sendOpenSessionReminderButton.click();
-
-    expect(spyEmailGenerationService).toBeCalled();
-
-    const sendNotOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-not-open-session-reminder-button');
-    sendNotOpenSessionReminderButton.click();
-
-    expect(spyEmailGenerationService).toBeCalled();
-
-    const sendPublishedSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-published-session-reminder-button');
-    sendPublishedSessionReminderButton.click();
-
-    expect(spyEmailGenerationService).toBeCalled();
-
   });
 
   it('should show error message if fail to send session reminder email', () => {
