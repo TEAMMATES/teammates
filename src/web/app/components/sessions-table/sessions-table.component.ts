@@ -56,9 +56,6 @@ export class SessionsTableComponent implements OnInit {
   loadResponseRateEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
-  editSessionEvent: EventEmitter<number> = new EventEmitter();
-
-  @Output()
   moveSessionToRecycleBinEvent: EventEmitter<number> = new EventEmitter();
 
   @Output()
