@@ -1,0 +1,45 @@
+<h1>Student Result View Tracking</h1>
+<p>This page allows you to track if the session results were viewed by students. The search will go only up to the date the session was published. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD_IN_DAYS}} days</b> before today.</p>
+<hr/>
+
+<div *tmIsLoading="isLoading" class="card bg-form no-border">
+  <div class="card-body">
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12">
+          <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
+        </div>
+        <div class="col-12">
+          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId">
+            <option value="" disabled selected hidden>Select Course ID</option>
+            <option *ngFor="let course of courses">
+              {{course.courseId}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="col-12">
+          <label for="session-dropdown" class="font-weight-bold">Feedback Session Name</label>
+        </div>
+        <div class="col-12">
+          <select id="session-dropdown" class="form-control col-md-12" [(ngModel)]="formModel.feedbackSessionName">
+            <option *ngFor="let session of courseToFeedbackSession[formModel.courseId]" [value]="session.feedbackSessionName">
+              {{session.feedbackSessionName}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-1 mt-4">
+        <button id="view-button" class="float-right btn btn-primary" (click)="getFeedbackSession()" [disabled]="!formModel.courseId || !formModel.feedbackSessionName || isSearching">View</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *tmIsLoading="isSearching">
+  <div *ngIf="hasResult">
+    <p class="font-weight-bold">{{searchResult.feedbackSessionName}} in {{searchResult.courseId}} (published on: {{searchResult.publishedDate}})</p>
+    <tm-sortable-table [rows]="searchResult.logRowsData" [columns]="searchResult.logColumnsData" [initialSortBy]="SortBy.RESULT_VIEW_STATUS"></tm-sortable-table>
+  </div>
+</div>
