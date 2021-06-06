@@ -170,7 +170,8 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes helper = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = instructor.getCourseId();
 
         ______TS("Only instructors of the same course can access");
@@ -178,6 +179,19 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.COURSE_ID, courseId,
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+
+        ______TS("Only instructors with modify student, session and instructor privilege can access");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(helper.googleId);
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(instructor.googleId);
+        verifyCanAccess(submissionParams);
     }
 
 }
