@@ -7,4 +7,5 @@ package teammates.common.util;
 public enum LogEvent {
     REQUEST_RECEIVED,
     RESPONSE_DISPATCHED,
+    EMAIL_SENT,
 }
