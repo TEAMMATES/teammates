@@ -18,7 +18,6 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
-import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
@@ -62,23 +61,6 @@ public class WebApiServlet extends HttpServlet {
         resp.setHeader("Strict-Transport-Security", "max-age=31536000");
         resp.setHeader("Cache-Control", "no-store");
         resp.setHeader("Pragma", "no-cache");
-
-        String requestParametersAsString;
-        try {
-            // Make sure that all parameters are valid UTF-8
-            requestParametersAsString = HttpRequestHelper.getRequestParametersAsString(req);
-        } catch (RuntimeException e) {
-            if (e.getClass().getSimpleName().equals("BadMessageException")) {
-                throwErrorBasedOnRequester(req, resp, e, HttpStatus.SC_BAD_REQUEST);
-                return;
-            }
-            throw e;
-        }
-
-        log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
-                + ", Params: " + requestParametersAsString
-                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
-                + ", Request ID: " + RequestTracer.getRequestId());
 
         if (Config.MAINTENANCE) {
             throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,

@@ -21,16 +21,9 @@ public final class HttpRequestHelper {
     }
 
     /**
-     * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping string.
+     * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping.
      */
-    public static String getRequestParametersAsString(HttpServletRequest req) {
-        return getDisplayedJsonInOneLine(req.getParameterMap());
-    }
-
-    /**
-     * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping string.
-     */
-    public static String getRequestHeadersAsString(HttpServletRequest req) {
+    public static Map<String, String[]> getRequestHeaders(HttpServletRequest req) {
         Map<String, String[]> headers = new HashMap<>();
         Collections.list(req.getHeaderNames()).stream()
                 // Do not include cookie header in production for privacy reasons
@@ -40,17 +33,7 @@ public final class HttpRequestHelper {
                             Collections.list(req.getHeaders(headerName)).toArray(new String[0]));
                 });
 
-        return getDisplayedJsonInOneLine(headers);
-    }
-
-    private static String getDisplayedJsonInOneLine(Map<String, String[]> map) {
-        Map<String, Object> transformed = new HashMap<>();
-        map.forEach((key, values) -> {
-            if (values.length != 0) {
-                transformed.put(key, values.length == 1 ? values[0] : values);
-            }
-        });
-        return JsonUtils.toCompactJson(transformed);
+        return headers;
     }
 
     /**

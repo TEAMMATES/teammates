@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 
@@ -39,6 +43,17 @@ public class RequestTraceFilter implements Filter {
         HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
 
+        try {
+            // Make sure that all parameters are valid UTF-8
+            request.getParameterMap();
+        } catch (RuntimeException e) {
+            if (e.getClass().getSimpleName().equals("BadMessageException")) {
+                throwError(response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+                return;
+            }
+            throw e;
+        }
+
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
         // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
         boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
@@ -54,6 +69,16 @@ public class RequestTraceFilter implements Filter {
         ExecutorService es = Executors.newSingleThreadExecutor();
         Future<Void> f = es.submit(() -> {
             RequestTracer.init(request.getHeader("X-Cloud-Trace-Context"), timeoutInSeconds);
+
+            Map<String, Object> requestDetails = new HashMap<>();
+            requestDetails.put("requestMethod", request.getMethod());
+            requestDetails.put("requestUrl", request.getRequestURI());
+            requestDetails.put("userAgent", request.getHeader("User-Agent"));
+            requestDetails.put("requestParams", request.getParameterMap());
+            requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
+
+            log.event(LogEvent.REQUEST_RECEIVED, "Request received", requestDetails);
+
             chain.doFilter(req, resp);
             return null;
         });
