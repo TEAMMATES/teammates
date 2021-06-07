@@ -124,6 +124,11 @@ const routes: Routes = [
         .then((m: any) => m.InstructorAuditLogsPageModule),
   },
   {
+    path: 'track-result-view',
+    loadChildren: () => import('./instructor-track-view-page/instructor-track-view-page.module')
+        .then((m: any) => m.InstructorTrackViewPageModule),
+  },
+  {
     path: 'help',
     loadChildren: () => import('../pages-help/instructor-help-page/instructor-help-page.module')
         .then((m: any) => m.InstructorHelpPageModule),

@@ -134,7 +134,7 @@ public final class TimeHelper {
         try {
             return OffsetDateTime.parse(dateTimeString).toInstant();
         } catch (DateTimeParseException e) {
-            Assumption.fail("Date in String is in wrong format.");
+            assert false : "Date in String is in wrong format.";
             return null;
         }
     }

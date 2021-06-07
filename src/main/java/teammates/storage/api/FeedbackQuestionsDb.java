@@ -4,7 +4,6 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.List;
 
-import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
@@ -13,7 +12,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.storage.entity.FeedbackQuestion;
 
 /**
@@ -28,7 +26,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Gets a feedback question by using {@code feedbackQuestionId}.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
-        Assumption.assertNotNull(feedbackQuestionId);
+        assert feedbackQuestionId != null;
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackQuestionId));
     }
@@ -38,9 +36,8 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(
             String feedbackSessionName, String courseId, int questionNumber) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(questionNumber);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return makeAttributesOrNull(getFeedbackQuestionEntity(feedbackSessionName, courseId, questionNumber));
     }
@@ -50,8 +47,8 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(
             String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return makeAttributes(getFeedbackQuestionEntitiesForSession(feedbackSessionName, courseId));
     }
@@ -61,9 +58,9 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverType);
+        assert feedbackSessionName != null;
+        assert courseId != null;
+        assert giverType != null;
 
         return makeAttributes(getFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType));
     }
@@ -73,9 +70,9 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public boolean hasFeedbackQuestionsForGiverType(
             String feedbackSessionName, String courseId, FeedbackParticipantType giverType) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverType);
+        assert feedbackSessionName != null;
+        assert courseId != null;
+        assert giverType != null;
 
         return hasFeedbackQuestionEntitiesForGiverType(feedbackSessionName, courseId, giverType);
     }
@@ -89,7 +86,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      */
     public FeedbackQuestionAttributes updateFeedbackQuestion(FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         FeedbackQuestion feedbackQuestion = getFeedbackQuestionEntity(updateOptions.getFeedbackQuestionId());
         if (feedbackQuestion == null) {
@@ -154,7 +151,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
      * Deletes questions using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackQuestions(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(query);
+        assert query != null;
 
         Query<FeedbackQuestion> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
@@ -164,14 +161,14 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
             entitiesToDelete = entitiesToDelete.filter("feedbackSessionName =", query.getFeedbackSessionName());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     /**
      * Gets a question entity if its string key can be decoded.
      */
     private FeedbackQuestion getFeedbackQuestionEntity(String feedbackQuestionId) {
-        Assumption.assertNotNull(feedbackQuestionId);
+        assert feedbackQuestionId != null;
 
         return makeKeyFromWebSafeString(feedbackQuestionId)
                 .map(key -> ofy().load().key(key).now())
@@ -236,7 +233,7 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
 
     @Override
     FeedbackQuestionAttributes makeAttributes(FeedbackQuestion entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return FeedbackQuestionAttributes.valueOf(entity);
     }
