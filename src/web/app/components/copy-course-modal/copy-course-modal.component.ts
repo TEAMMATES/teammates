@@ -10,8 +10,6 @@ interface Timezone {
   offset: string;
 }
 
-const zeroPad: any = (num: number) => String(num).padStart(2, '0');
-
 /**
  * Copy course modal.
  */
@@ -52,7 +50,7 @@ export class CopyCourseModalComponent implements OnInit {
       const sign: string = offset < 0 ? '-' : '+';
       this.timezones.push({
         id,
-        offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}`,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${this.zeroPad(hourOffset)}:${this.zeroPad(minOffset)}`,
       });
     }
     this.newTimezone = this.timezoneService.guessTimezone();
@@ -79,18 +77,22 @@ export class CopyCourseModalComponent implements OnInit {
    * Toggles selection of course to copy to in set.
    */
   select(session: FeedbackSession): void {
-    this.chosenFeedbackSessions.has(session) ? this.chosenFeedbackSessions.delete(session) :
-        this.chosenFeedbackSessions.add(session);
+    this.chosenFeedbackSessions.has(session)
+      ? this.chosenFeedbackSessions.delete(session)
+      : this.chosenFeedbackSessions.add(session);
   }
 
   /**
-   * Clear selected sessions
+   * Select all sessions or clear all sessions
    */
   toggleSelection(): void {
-    if (this.chosenFeedbackSessions.size !== this.courseToFeedbackSession[this.oldCourseId].length) {
-      this.chosenFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
+    const isAllSessionsSelceted: boolean =
+      this.chosenFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId].length;
+    if (isAllSessionsSelceted) {
+      this.clearSelectedFeedbackSession();
     } else {
-      this.chosenFeedbackSessions = new Set<FeedbackSession>();
+      // Select all sessions
+      this.chosenFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
     }
   }
 
@@ -105,6 +107,8 @@ export class CopyCourseModalComponent implements OnInit {
    * Clears all selected feedback sessions.
    */
   clearSelectedFeedbackSession(): void {
-    this.chosenFeedbackSessions = new Set<FeedbackSession>();
+    this.chosenFeedbackSessions.clear();
   }
+
+  private zeroPad: any = (num: number) => String(num).padStart(2, '0');
 }

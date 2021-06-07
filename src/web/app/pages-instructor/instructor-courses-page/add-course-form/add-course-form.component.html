@@ -18,7 +18,10 @@
           <h5 class="text-md-right">Or: </h5>
         </div>
         <div class="col-md-9 text-md-left">
-          <button id="btn-copy-course" type="button" class="btn btn-info" (click)="onCopy()">Copy from previous courses</button>
+          <button id="btn-copy-course" type="button" class="btn btn-info" (click)="onCopy()" [disabled]="isCopyingCourse">
+            <tm-ajax-loading *ngIf="isCopyingCourse"></tm-ajax-loading>
+            Copy from previous courses
+          </button>
         </div>
       </div>
     </div>

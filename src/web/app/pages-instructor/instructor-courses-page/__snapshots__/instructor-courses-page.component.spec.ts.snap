@@ -22,6 +22,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded={[Function Boolean]}
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
@@ -276,6 +277,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
@@ -343,6 +345,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
@@ -831,6 +834,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded={[Function Boolean]}
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
@@ -919,7 +923,8 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
                   id="btn-copy-course"
                   type="button"
                 >
-                  Copy from previous courses
+                  
+                   Copy from previous courses 
                 </button>
               </div>
             </div>
@@ -1096,6 +1101,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
@@ -1590,6 +1596,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
@@ -1657,6 +1664,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   hasLoadingFailed="false"
   isAddNewCourseFormExpanded="false"
   isArchivedCourseExpanded="false"
+  isCopyingCourse="false"
   isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}

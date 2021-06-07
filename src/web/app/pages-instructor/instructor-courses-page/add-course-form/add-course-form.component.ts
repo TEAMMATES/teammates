@@ -33,6 +33,7 @@ const formatTwoDigits: Function = (n: number): string => {
 export class AddCourseFormComponent implements OnInit {
 
   @Input() isEnabled: boolean = true;
+  @Input() isCopyingCourse: boolean = false;
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
   @Output() closeCourseFormEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() copyCourseEvent: EventEmitter<CopyCourseModalResult> = new EventEmitter<CopyCourseModalResult>();
@@ -115,7 +116,7 @@ export class AddCourseFormComponent implements OnInit {
   onCopy(): void {
     this.courseService
       .getAllCoursesAsInstructor('active')
-      .subscribe((courses: Courses) => {
+      .subscribe(async (courses: Courses) => {
         const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
         modalRef.componentInstance.isCopyFromOtherSession = true;
         modalRef.componentInstance.courses = courses.courses;
@@ -131,7 +132,9 @@ export class AddCourseFormComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
 
-        modalRef.result.then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result), () => {});
+        await modalRef.result
+          .then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result),
+            (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
       });
   }
 }

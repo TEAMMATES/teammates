@@ -8,6 +8,7 @@
   <tm-add-course-form (courseAdded)="loadInstructorCourses()"
                       (closeCourseFormEvent)="isAddNewCourseFormExpanded = false"
                       (copyCourseEvent)="createCourse($event)"
+                      [isCopyingCourse]="isCopyingCourse"
   ></tm-add-course-form>
 </div>
 
@@ -131,7 +132,7 @@
                     Edit
                   </a>
                   <button id="btn-copy-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onCopy(course.course.courseId, course.course.courseName, course.course.timeZone)"
-                          ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body">
+                          ngbTooltip="Copy the course and its corresponding sessions" placement="left" container="body" [disabled]="isCopyingCourse">
                     Copy
                   </button>
                   <button id="btn-archive-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" (click)="changeArchiveStatus(course.course.courseId, true)"

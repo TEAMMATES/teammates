@@ -3,6 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import {
+  FeedbackSession,
+  FeedbackSessionPublishStatus,
+  FeedbackSessionSubmissionStatus,
+  ResponseVisibleSetting,
+  SessionVisibleSetting,
+} from '../../../types/api-output';
 import { CopyCourseModalComponent } from './copy-course-modal.component';
 
 describe('CopyCourseModalComponent', () => {
@@ -41,6 +48,12 @@ describe('CopyCourseModalComponent', () => {
     expect(fixture).toMatchSnapshot();
   });
 
+  it('should snap when copying from other sessions', () => {
+    component.isCopyFromOtherSession = true;
+    fixture.detectChanges();
+    expect(fixture).toMatchSnapshot();
+  });
+
   it('should enable copy button after new courseId is provided', () => {
     component.newCourseId = 'Test02';
     component.newCourseName = 'TestName02';
@@ -57,4 +70,26 @@ describe('CopyCourseModalComponent', () => {
     expect(copyButton.nativeElement.disabled).toBeTruthy();
   });
 
+  it('should toggle selection', () => {
+    const testFeedbackSession: FeedbackSession = {
+      courseId: 'testId',
+      timeZone: 'Asia/Singapore',
+      feedbackSessionName: 'Test Session',
+      instructions: 'Instructions',
+      submissionStartTimestamp: 1000000000000,
+      submissionEndTimestamp: 1500000000000,
+      gracePeriod: 0,
+      sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+      responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+      submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+      publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+      isClosingEmailEnabled: true,
+      isPublishedEmailEnabled: true,
+      createdAtTimestamp: 0,
+    };
+    component.chosenFeedbackSessions.add(testFeedbackSession);
+    fixture.detectChanges();
+    component.select(testFeedbackSession);
+    expect(component.chosenFeedbackSessions.has(testFeedbackSession)).toEqual(false);
+  });
 });

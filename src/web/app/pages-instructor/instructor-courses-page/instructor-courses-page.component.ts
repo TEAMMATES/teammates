@@ -23,7 +23,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
+import { FeedbackQuestionCreateRequest, FeedbackSessionCreateRequest, Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
@@ -72,6 +72,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   canRestoreAll: boolean = true;
   isAddNewCourseFormExpanded: boolean = false;
   isArchivedCourseExpanded: boolean = false;
+  isCopyingCourse: boolean = false;
 
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
@@ -262,14 +263,9 @@ export class InstructorCoursesPageComponent implements OnInit {
   }
 
   /**
-   * Creates a copy of a course including all sessions.
+   * Creates a copy of a course including the selected sessions.
    */
   onCopy(courseId: string, courseName: string, timeZone: string): void {
-    if (!courseId) {
-      this.statusMessageService.showErrorToast(`Course ${courseId} is not found!`);
-      return;
-    }
-
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
       modalRef.componentInstance.oldCourseId = courseId;
@@ -287,6 +283,7 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Creates a new course with the selected feedback sessions
    */
   createCourse(result: CopyCourseModalResult): void {
+    this.isCopyingCourse = true;
     this.isLoading = true;
     this.courseService.createCourse({
       courseName: result.newCourseName,
@@ -304,10 +301,12 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
           });
           this.isLoading = false;
+          this.isCopyingCourse = false;
         });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
       this.isLoading = false;
+      this.isCopyingCourse = false;
       this.hasLoadingFailed = true;
     });
   }
@@ -334,7 +333,43 @@ export class InstructorCoursesPageComponent implements OnInit {
   private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
       Observable<FeedbackSession> {
     let createdFeedbackSession!: FeedbackSession;
-    return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
+    return this.feedbackSessionsService
+      .createFeedbackSession(newCourseId, this.fbSessionCreationReqWithName(newSessionName, fromFeedbackSession))
+      .pipe(
+        switchMap((feedbackSession: FeedbackSession) => {
+          createdFeedbackSession = feedbackSession;
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+            courseId: fromFeedbackSession.courseId,
+            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          });
+        }),
+        switchMap((response: FeedbackQuestions) => {
+          if (response.questions.length === 0) {
+            // no questions to copy
+            return of(createdFeedbackSession);
+          }
+          return from(response.questions).pipe(
+            concatMap((feedbackQuestion: FeedbackQuestion) => {
+              return this.feedbackQuestionsService.createFeedbackQuestion(
+                createdFeedbackSession.courseId,
+                createdFeedbackSession.feedbackSessionName,
+                this.fbQuestionCreationReq(feedbackQuestion),
+              );
+            }),
+            last(),
+            switchMap(() => of(createdFeedbackSession)),
+          );
+        }),
+    );
+  }
+
+  /**
+   * Creates a FeedbackSessionCreateRequest with the provided name.
+   */
+  private fbSessionCreationReqWithName(newSessionName: string, fromFeedbackSession: FeedbackSession):
+      FeedbackSessionCreateRequest {
+    return {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
 
@@ -350,47 +385,31 @@ export class InstructorCoursesPageComponent implements OnInit {
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
-    }).pipe(
-      switchMap((feedbackSession: FeedbackSession) => {
-        createdFeedbackSession = feedbackSession;
-        return this.feedbackQuestionsService.getFeedbackQuestions({
-          courseId: fromFeedbackSession.courseId,
-          feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-          intent: Intent.FULL_DETAIL,
-        });
-      }),
-      switchMap((response: FeedbackQuestions) => {
-        if (response.questions.length === 0) {
-          // no questions to copy
-          return of(createdFeedbackSession);
-        }
-        return from(response.questions).pipe(
-          concatMap((feedbackQuestion: FeedbackQuestion) => {
-            return this.feedbackQuestionsService.createFeedbackQuestion(
-              createdFeedbackSession.courseId, createdFeedbackSession.feedbackSessionName, {
-                questionNumber: feedbackQuestion.questionNumber,
-                questionBrief: feedbackQuestion.questionBrief,
-                questionDescription: feedbackQuestion.questionDescription,
+    };
+  }
 
-                questionDetails: feedbackQuestion.questionDetails,
-                questionType: feedbackQuestion.questionType,
+  /**
+   * Creates a FeedbackQuestionCreateRequest by cloning the given feedback question.
+   */
+  private fbQuestionCreationReq(feedbackQuestion: FeedbackQuestion): FeedbackQuestionCreateRequest {
+    return {
+      questionNumber: feedbackQuestion.questionNumber,
+      questionBrief: feedbackQuestion.questionBrief,
+      questionDescription: feedbackQuestion.questionDescription,
 
-                giverType: feedbackQuestion.giverType,
-                recipientType: feedbackQuestion.recipientType,
+      questionDetails: feedbackQuestion.questionDetails,
+      questionType: feedbackQuestion.questionType,
 
-                numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-                customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
+      giverType: feedbackQuestion.giverType,
+      recipientType: feedbackQuestion.recipientType,
 
-                showResponsesTo: feedbackQuestion.showResponsesTo,
-                showGiverNameTo: feedbackQuestion.showGiverNameTo,
-                showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-              });
-          }),
-          last(),
-          switchMap(() => of(createdFeedbackSession)),
-        );
-      }),
-    );
+      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
+
+      showResponsesTo: feedbackQuestion.showResponsesTo,
+      showGiverNameTo: feedbackQuestion.showGiverNameTo,
+      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+    };
   }
 
   /**
