@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
@@ -520,7 +519,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withCreatorEmail(String creatorEmail) {
-            Assumption.assertNotNull(creatorEmail);
+            assert creatorEmail != null;
 
             feedbackSessionAttributes.creatorEmail = creatorEmail;
 
@@ -557,8 +556,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
-            Assumption.assertNotNull(feedbackSessionName);
-            Assumption.assertNotNull(courseId);
+            assert feedbackSessionName != null;
+            assert courseId != null;
 
             this.feedbackSessionName = feedbackSessionName;
             this.courseId = courseId;
@@ -622,7 +621,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);
-                Assumption.assertNotNull(updateOptions);
+                assert updateOptions != null;
                 thisBuilder = this;
             }
 
@@ -676,49 +675,49 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public B withInstructions(String instruction) {
-            Assumption.assertNotNull(instruction);
+            assert instruction != null;
 
             updateOptions.instructionsOption = UpdateOption.of(instruction);
             return thisBuilder;
         }
 
         public B withStartTime(Instant startTime) {
-            Assumption.assertNotNull(startTime);
+            assert startTime != null;
 
             updateOptions.startTimeOption = UpdateOption.of(startTime);
             return thisBuilder;
         }
 
         public B withEndTime(Instant endTime) {
-            Assumption.assertNotNull(endTime);
+            assert endTime != null;
 
             updateOptions.endTimeOption = UpdateOption.of(endTime);
             return thisBuilder;
         }
 
         public B withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-            Assumption.assertNotNull(sessionVisibleFromTime);
+            assert sessionVisibleFromTime != null;
 
             updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
             return thisBuilder;
         }
 
         public B withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-            Assumption.assertNotNull(resultsVisibleFromTime);
+            assert resultsVisibleFromTime != null;
 
             updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
             return thisBuilder;
         }
 
         public B withTimeZone(ZoneId timeZone) {
-            Assumption.assertNotNull(timeZone);
+            assert timeZone != null;
 
             updateOptions.timeZoneOption = UpdateOption.of(timeZone);
             return thisBuilder;
         }
 
         public B withGracePeriod(Duration gracePeriod) {
-            Assumption.assertNotNull(gracePeriod);
+            assert gracePeriod != null;
 
             updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
             return thisBuilder;

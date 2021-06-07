@@ -151,16 +151,6 @@ public final class Const {
         public static final String INTENT = "intent";
     }
 
-    public static class SearchIndex {
-        public static final String STUDENT = "student";
-        public static final String INSTRUCTOR = "instructor";
-    }
-
-    public static class SearchDocumentField {
-        public static final String SEARCHABLE_TEXT = "searchableText";
-        public static final String COURSE_ID = "courseId";
-    }
-
     /**
      * The course status respect to the instructor's point of view.
      * This parameter is used to get a course list for instructor.
@@ -179,16 +169,18 @@ public final class Const {
 
     }
 
-    public static class CsrfConfig {
+    public static class SecurityConfig {
 
-        public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
-        public static final String TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
+        public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
     }
 
     public static class FeedbackSessionLogTypes {
         public static final String ACCESS = "access";
         public static final String SUBMISSION = "submission";
+        public static final String VIEW_RESULT = "view result";
     }
 
     @Deprecated
@@ -207,6 +199,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
+        public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 

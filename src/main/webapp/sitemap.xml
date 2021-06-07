@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  <url>
+    <loc>http://teammatesv4.appspot.com</loc>
+    <changefreq>yearly</changefreq>
+    <priority>1.0</priority>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
+      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/overview.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects[Home]</image:title>
+      <image:caption>Manage team projects, Provide anonymous peer feedback and confidential peer evaluations </image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/web/front/features</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
+      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/web/front/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
+      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/web/front/contact</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
+      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/web/front/terms</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
+      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>http://teammatesv4.appspot.com/web/front/request</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <image:image>
+      <image:loc>http://teammatesv4.appspot.com/assets/images/teammateslogo-black.png</image:loc>
+      <image:title>TEAMMATES Online Peer Feedback System for Student Team Projects</image:title>
+      <image:caption>TEAMMATES is an online peer feedback and peer evaluation tool for student projects</image:caption>
+    </image:image>
+  </url>
+</urlset>
+<!-- Sitemap protocol: http://www.sitemaps.org/protocol.html -->

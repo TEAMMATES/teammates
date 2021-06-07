@@ -17,10 +17,9 @@ The project differs from typical student projects in the following areas, which 
 + **Code**: Working with legacy code written by past developers is harder than writing from scratch.
 + **Data**: The data in the live system are confidential and developers are not allowed to see them. This makes troubleshooting harder.
 + **Releases**: Frequent releases to an active user database requires us to maintain "production quality" constantly.
-+ **Platform**: TEAMMATES is running on Google App Engine cloud platform, which adds the following challenges.
-  - It is an emerging platform evolving rapidly. We have to keep up.
-  - It imposes various restrictions on the application, e.g. each request to the app has to be served within 60 seconds.
-  - It charges us based on usage. We have to optimize usage.
++ **Platform**: TEAMMATES makes heavy use of Google Cloud Platform services, including Google App Engine, which adds the following challenges:
+  - It imposes various restrictions on the application, e.g. each request to the app has to be served within 10 minutes.
+  - It charges us based on usage (instances uptime, database reads/writes, bytes transferred, etc.). We have to optimize usage.
 + **Software Engineering**: As TEAMMATES serves as a model system for training students, it should also focus on applying good SE techniques.
 
 ## Principles
