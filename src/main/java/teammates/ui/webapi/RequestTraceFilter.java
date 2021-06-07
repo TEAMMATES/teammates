@@ -74,7 +74,7 @@ public class RequestTraceFilter implements Filter {
             requestDetails.put("requestMethod", request.getMethod());
             requestDetails.put("requestUrl", request.getRequestURI());
             requestDetails.put("userAgent", request.getHeader("User-Agent"));
-            requestDetails.put("requestParams", request.getParameterMap());
+            requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
             requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
 
             log.event(LogEvent.REQUEST_RECEIVED, "Request received", requestDetails);

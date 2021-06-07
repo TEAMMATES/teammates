@@ -2,9 +2,11 @@ package teammates.common.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -21,16 +23,35 @@ public final class HttpRequestHelper {
     }
 
     /**
+     * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping.
+     */
+    public static Map<String, Serializable> getRequestParameters(HttpServletRequest req) {
+        Map<String, Serializable> params = new HashMap<>();
+        req.getParameterMap().forEach((key, values) -> {
+            if (values.length == 1) {
+                params.put(key, values[0]);
+            } else {
+                params.put(key, values);
+            }
+        });
+        return params;
+    }
+
+    /**
      * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping.
      */
-    public static Map<String, String[]> getRequestHeaders(HttpServletRequest req) {
-        Map<String, String[]> headers = new HashMap<>();
+    public static Map<String, Serializable> getRequestHeaders(HttpServletRequest req) {
+        Map<String, Serializable> headers = new HashMap<>();
         Collections.list(req.getHeaderNames()).stream()
                 // Do not include cookie header in production for privacy reasons
                 .filter(headerName -> Config.isDevServer() || !"cookie".equalsIgnoreCase(headerName))
                 .forEach(headerName -> {
-                    headers.put(headerName,
-                            Collections.list(req.getHeaders(headerName)).toArray(new String[0]));
+                    List<String> headerValues = Collections.list(req.getHeaders(headerName));
+                    if (headerValues.size() == 1) {
+                        headers.put(headerName, headerValues.get(0));
+                    } else {
+                        headers.put(headerName, headerValues.toArray(new String[0]));
+                    }
                 });
 
         return headers;
