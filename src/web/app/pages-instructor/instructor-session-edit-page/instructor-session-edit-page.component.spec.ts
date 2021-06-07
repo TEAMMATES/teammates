@@ -42,15 +42,6 @@ import { InstructorSessionEditPageComponent } from './instructor-session-edit-pa
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 import Spy = jasmine.Spy;
 
-class MockNgbModalRef {
-  componentInstance: any = {
-    newFeedbackSessionName: '',
-    courseCandidates: [],
-    sessionToCopyCourseId: '',
-  };
-  result: Promise<any> = Promise.resolve();
-}
-
 describe('InstructorSessionEditPageComponent', () => {
 
   const testCourse1: Course = {
@@ -246,7 +237,6 @@ describe('InstructorSessionEditPageComponent', () => {
   let instructorService: InstructorService;
   let navigationService: NavigationService;
   let ngbModal: NgbModal;
-  const mockModalRef: MockNgbModalRef = new MockNgbModalRef();
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -475,13 +465,32 @@ describe('InstructorSessionEditPageComponent', () => {
   });
 
   it('should open modal and copy current session', () => {
+    class MockNgbModalRef {
+      componentInstance: any = {
+        newFeedbackSessionName: '',
+        courseCandidates: [],
+        sessionToCopyCourseId: '',
+      };
+      result: Promise<any> = Promise.resolve({
+        newFeedbackSessionName: 'new feedback session',
+        copyToCourseList: ['testId2'],
+      });
+    }
+    const mockModalRef: MockNgbModalRef = new MockNgbModalRef();
+    const copiedFeedbackSession: FeedbackSession = JSON.parse(JSON.stringify(testFeedbackSession));
+    copiedFeedbackSession.courseId = 'testId2';
+
     component.feedbackSessionName = testFeedbackSession.feedbackSessionName;
     component.courseId = testCourse1.courseId;
     spyOn(courseService, 'getInstructorCoursesThatAreActive').and.returnValue(of({ courses: [testCourse2] }));
+    spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(testFeedbackSession);
+    spyOn(feedbackSessionsService, 'createFeedbackSession').and.returnValue(of(copiedFeedbackSession));
+    spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of({ questions: [testFeedbackQuestion1] }));
+    spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
+    
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
 
-    component.copyCurrentSession();
-
+    expect(component.copyCurrentSession()).resolves.toBe(undefined);
     expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
     expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
