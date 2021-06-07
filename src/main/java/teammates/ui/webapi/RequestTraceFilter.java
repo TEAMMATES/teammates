@@ -77,7 +77,8 @@ public class RequestTraceFilter implements Filter {
             requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
             requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
 
-            log.event(LogEvent.REQUEST_RECEIVED, "Request received", requestDetails);
+            String message = "Request " + RequestTracer.getRequestId() + " received: " + request.getRequestURI();
+            log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
 
             chain.doFilter(req, resp);
             return null;
@@ -109,11 +110,14 @@ public class RequestTraceFilter implements Filter {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(resp);
 
+        long timeElapsed = RequestTracer.getTimeElapsedMillis();
         Map<String, Object> requestDetails = new HashMap<>();
         requestDetails.put("responseStatus", statusCode);
-        requestDetails.put("responseTime", RequestTracer.getTimeElapsedMillis());
+        requestDetails.put("responseTime", timeElapsed);
 
-        log.event(LogEvent.RESPONSE_DISPATCHED, "Response dispatched", requestDetails);
+        String logMessage = "Response " + RequestTracer.getRequestId() + " dispatched with "
+                + statusCode + " in " + timeElapsed + "ms";
+        log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
     }
 
 }

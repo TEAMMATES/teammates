@@ -178,14 +178,18 @@ public class OriginCheckFilter implements Filter {
     private void denyAccess(String message, HttpServletResponse response) throws IOException {
         response.setHeader("Strict-Transport-Security", "max-age=31536000");
 
-        JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
+        int statusCode = HttpStatus.SC_FORBIDDEN;
+        JsonResult result = new JsonResult(message, statusCode);
         result.send(response);
 
+        long timeElapsed = RequestTracer.getTimeElapsedMillis();
         Map<String, Object> requestDetails = new HashMap<>();
-        requestDetails.put("responseStatus", HttpStatus.SC_FORBIDDEN);
-        requestDetails.put("responseTime", RequestTracer.getTimeElapsedMillis());
+        requestDetails.put("responseStatus", statusCode);
+        requestDetails.put("responseTime", timeElapsed);
 
-        log.event(LogEvent.RESPONSE_DISPATCHED, "Response dispatched", requestDetails);
+        String logMessage = "Response " + RequestTracer.getRequestId() + " dispatched with "
+                + statusCode + " in " + timeElapsed + "ms";
+        log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
     }
 
     @Override

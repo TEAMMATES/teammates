@@ -110,14 +110,20 @@ public class WebApiServlet extends HttpServlet {
             throwError(resp, statusCode,
                     "The server encountered an error when processing your request.");
         } finally {
+            long timeElapsed = RequestTracer.getTimeElapsedMillis();
             Map<String, Object> responseDetails = new HashMap<>();
             responseDetails.put("responseStatus", statusCode);
-            responseDetails.put("responseTime", RequestTracer.getTimeElapsedMillis());
-            if (action != null) {
+            responseDetails.put("responseTime", timeElapsed);
+
+            String logMessage = "%s " + RequestTracer.getRequestId() + " %s with %s in " + timeElapsed + "ms";
+            if (action == null) {
+                logMessage = String.format(logMessage, "Response", "dispatched", statusCode);
+            } else {
                 responseDetails.put("actionClass", action.getClass().getSimpleName());
+                logMessage = String.format(logMessage, action.getClass().getSimpleName(), "finished", statusCode);
             }
 
-            log.event(LogEvent.RESPONSE_DISPATCHED, "Response dispatched", responseDetails);
+            log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, responseDetails);
         }
     }
 
