@@ -23,6 +23,7 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -31,10 +32,12 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.RecaptchaVerifier;
 import teammates.test.BaseComponentTestCase;
 import teammates.test.FileHelper;
 import teammates.test.MockEmailSender;
 import teammates.test.MockFileStorage;
+import teammates.test.MockHttpServletRequest;
 import teammates.test.MockLogsProcessor;
 import teammates.test.MockPart;
 import teammates.test.MockTaskQueuer;
@@ -85,8 +88,40 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies,
-                mockTaskQueuer, mockEmailSender, mockFileStorage, mockLogsProcessor, mockUserProvision, params);
+        MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
+        for (int i = 0; i < params.length; i = i + 2) {
+            req.addParam(params[i], params[i + 1]);
+        }
+        if (body != null) {
+            req.setBody(body);
+        }
+        if (parts != null) {
+            parts.forEach((key, part) -> {
+                try {
+                    req.addPart(key, part);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                req.addCookie(cookie);
+            }
+        }
+        try {
+            Action action = new ActionFactory().getAction(req, getRequestMethod());
+            action.setTaskQueuer(mockTaskQueuer);
+            action.setEmailSender(mockEmailSender);
+            action.setFileStorage(mockFileStorage);
+            action.setLogsProcessor(mockLogsProcessor);
+            action.setUserProvision(mockUserProvision);
+            action.setRecaptchaVerifier(new RecaptchaVerifier(null));
+            action.init(req);
+            return (T) action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -134,7 +169,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     // The next few methods are for logging in as various user
 
     /**
-     * Logs in the user to the GAE simulation environment as an admin.
+     * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
         UserInfo user = mockUserProvision.loginAsAdmin("admin.user");
@@ -142,7 +177,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as an unregistered user
+     * Logs in the user to the test environment as an unregistered user
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
@@ -153,7 +188,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as an instructor
+     * Logs in the user to the test environment as an instructor
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
@@ -164,7 +199,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as a student
+     * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
@@ -175,7 +210,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as a student-instructor
+     * Logs in the user to the test environment as a student-instructor
      * (without admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
@@ -186,7 +221,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs the current user out of the GAE simulation environment.
+     * Logs the current user out of the test environment.
      */
     protected void logoutUser() {
         mockUserProvision.logoutUser();

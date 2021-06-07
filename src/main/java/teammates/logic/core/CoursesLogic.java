@@ -17,7 +17,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.CoursesDb;
@@ -82,11 +81,9 @@ public final class CoursesLogic {
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         AccountAttributes courseCreator = accountsLogic.getAccount(instructorGoogleId);
-        Assumption.assertNotNull(
-                "Trying to create a course for a non-existent instructor :" + instructorGoogleId, courseCreator);
-        Assumption.assertTrue(
-                "Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId,
-                courseCreator.isInstructor());
+        assert courseCreator != null : "Trying to create a course for a non-existent instructor :" + instructorGoogleId;
+        assert courseCreator.isInstructor()
+                : "Trying to create a course for a person who doesn't have instructor privileges :" + instructorGoogleId;
 
         CourseAttributes createdCourse = createCourse(courseToCreate);
 
@@ -108,7 +105,7 @@ public final class CoursesLogic {
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "
                                   + System.lineSeparator() + instructor.toString() + System.lineSeparator()
                                   + TeammatesException.toStringWithStackTrace(e);
-            Assumption.fail(errorMessage);
+            assert false : errorMessage;
         }
     }
 
@@ -199,7 +196,7 @@ public final class CoursesLogic {
      * except for courses in Recycle Bin.
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
+        assert instructorList != null;
 
         List<String> courseIdList = instructorList.stream()
                 .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
@@ -224,7 +221,7 @@ public final class CoursesLogic {
      * Returns a list of {@link CourseAttributes} for soft-deleted courses for a given list of instructors.
      */
     public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
+        assert instructorList != null;
 
         List<String> softDeletedCourseIdList = instructorList.stream()
                 .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())

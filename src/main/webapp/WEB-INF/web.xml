@@ -2,32 +2,18 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-        version="3.1">
+        version="3.1" metadata-complete="true">
 
     <filter>
-        <filter-name>ObjectifyFilter</filter-name>
-        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+        <filter-name>RequestTraceFilter</filter-name>
+        <filter-class>teammates.ui.webapi.RequestTraceFilter</filter-class>
     </filter>
     <filter-mapping>
-        <filter-name>ObjectifyFilter</filter-name>
-        <url-pattern>/*</url-pattern>
+        <filter-name>RequestTraceFilter</filter-name>
+        <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
-    <listener>
-        <listener-class>teammates.storage.api.OfyHelper</listener-class>
-    </listener>
-
-    <!-- Reference: https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi -->
-    <servlet>
-        <display-name>Remote API Servlet</display-name>
-        <servlet-name>RemoteApiServlet</servlet-name>
-        <servlet-class>com.google.apphosting.utils.remoteapi.RemoteApiServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>RemoteApiServlet</servlet-name>
-        <url-pattern>/remote_api</url-pattern>
-    </servlet-mapping>
-
     <filter>
         <filter-name>OriginCheckFilter</filter-name>
         <filter-class>teammates.ui.webapi.OriginCheckFilter</filter-class>
@@ -35,21 +21,25 @@
     <filter-mapping>
         <filter-name>OriginCheckFilter</filter-name>
         <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
     </filter-mapping>
-
-    <welcome-file-list>
-        <welcome-file>web/front/home</welcome-file>
-    </welcome-file-list>
-    <servlet>
-        <description>Servlet that handles the single web page application</description>
-        <servlet-name>WebPageServlet</servlet-name>
-        <servlet-class>teammates.ui.webapi.WebPageServlet</servlet-class>
-        <load-on-startup>0</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>WebPageServlet</servlet-name>
-        <url-pattern>/web/*</url-pattern>
-    </servlet-mapping>
+    <filter>
+        <filter-name>ObjectifyFilter</filter-name>
+        <filter-class>com.googlecode.objectify.ObjectifyFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ObjectifyFilter</filter-name>
+        <url-pattern>/webapi/*</url-pattern>
+        <url-pattern>/auto/*</url-pattern>
+        <url-pattern>/worker/*</url-pattern>
+    </filter-mapping>
+    <listener>
+        <listener-class>teammates.storage.api.OfyHelper</listener-class>
+    </listener>
+    <listener>
+        <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
+    </listener>
 
     <servlet>
         <description>REST API Servlet</description>
@@ -62,6 +52,28 @@
         <url-pattern>/webapi/*</url-pattern>
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>Servlet that handles login requests</description>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.LoginServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <description>Servlet that handles OAuth2 callback</description>
+        <servlet-name>OAuth2CallbackServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.OAuth2CallbackServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>OAuth2CallbackServlet</servlet-name>
+        <url-pattern>/oauth2callback/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
@@ -85,46 +97,16 @@
         <url-pattern>/page/*</url-pattern>
     </servlet-mapping>
 
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AllResources</web-resource-name>
-            <url-pattern>/*</url-pattern>
-        </web-resource-collection>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AutomatedActions</web-resource-name>
-            <description>Servlets that trigger automated actions</description>
-            <url-pattern>/auto/*</url-pattern>
-            <url-pattern>/worker/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
-    <security-constraint>
-        <web-resource-collection>
-            <web-resource-name>AdminResources</web-resource-name>
-            <description>For admin use only</description>
-            <url-pattern>/web/admin/*</url-pattern>
-        </web-resource-collection>
-        <auth-constraint>
-            <role-name>admin</role-name>
-        </auth-constraint>
-        <user-data-constraint>
-            <transport-guarantee>CONFIDENTIAL</transport-guarantee>
-        </user-data-constraint>
-    </security-constraint>
+    <context-param>
+        <param-name>org.eclipse.jetty.servlet.Default.dirAllowed</param-name>
+        <param-value>false</param-value>
+    </context-param>
 
     <session-config>
         <cookie-config>
             <http-only>true</http-only>
         </cookie-config>
     </session-config>
+
+    <absolute-ordering />
 </web-app>

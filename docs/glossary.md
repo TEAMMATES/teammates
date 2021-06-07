@@ -41,7 +41,7 @@ This document lines out the common terms used in the project.
 + **CI server**: Continuous Integration server used for building/testing patches. We use GitHub Actions.
 + **Production server**: A server on Google App Engine. Can be a staging server or the live server.
 + **Staging server**: The server instance you created on Google App Engine for testing purpose.
-+ **Live server**: The server running the released public version of the app (i.e. http://teammatesv4.appspot.com).
++ **Live server**: The server running the released public version of the app (i.e. https://teammatesv4.appspot.com).
 
 `* tests`:
 
