@@ -41,6 +41,24 @@ public final class Logger {
     }
 
     /**
+     * Logs a particular event at INFO level.
+     */
+    public void event(LogEvent event, String message, Map<String, Object> details) {
+        String logMessage;
+        if (Config.isDevServer()) {
+            logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
+                    + JsonUtils.toCompactJson(details);
+        } else {
+            Map<String, Object> payload = getBaseCloudLoggingPayload(message, "INFO");
+            payload.putAll(details);
+            payload.put("event", event);
+
+            logMessage = JsonUtils.toCompactJson(payload);
+        }
+        standardLog.info(logMessage);
+    }
+
+    /**
      * Logs a message at WARNING level.
      */
     public void warning(String message) {
