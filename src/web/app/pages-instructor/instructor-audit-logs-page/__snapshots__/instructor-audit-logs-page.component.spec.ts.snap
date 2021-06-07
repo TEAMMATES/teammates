@@ -16,7 +16,6 @@ exports[`InstructorAuditLogsPageComponent should snap when page is still loading
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -72,7 +71,6 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -557,7 +555,6 @@ exports[`InstructorAuditLogsPageComponent should snap with default fields 1`] = 
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
@@ -613,7 +610,6 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
-  tableComparatorService={[Function TableComparatorService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
