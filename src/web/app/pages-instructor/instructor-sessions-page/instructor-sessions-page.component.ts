@@ -437,13 +437,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   /**
-   * Edits the feedback session.
-   */
-  editSessionEventHandler(rowIndex: number): void {
-    this.editSession(this.sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
    * Restores a recycle bin feedback session.
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {

@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
@@ -294,14 +293,14 @@ public final class InstructorPrivileges {
 
     private boolean isAllowedInCourseLevel(String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         return this.courseLevel.getOrDefault(privilegeName, false);
     }
 
     private boolean isAllowedInSectionLevel(String sectionName, String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         if (!this.sectionLevel.containsKey(sectionName)) {
             return isAllowedInCourseLevel(privilegeName);
@@ -312,7 +311,7 @@ public final class InstructorPrivileges {
 
     private boolean isAllowedInSessionLevel(String sectionName, String sessionName, String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         if (!this.sessionLevel.containsKey(sectionName)
                 || !this.sessionLevel.get(sectionName).containsKey(sessionName)) {
@@ -324,7 +323,7 @@ public final class InstructorPrivileges {
 
     private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         Set<String> sections = new LinkedHashSet<>(this.sessionLevel.keySet());
         sections.addAll(this.sectionLevel.keySet());

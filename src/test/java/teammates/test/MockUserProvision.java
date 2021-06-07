@@ -1,6 +1,7 @@
 package teammates.test;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.UserInfoCookie;
 import teammates.logic.api.UserProvision;
 
 /**
@@ -18,7 +19,7 @@ public class MockUserProvision extends UserProvision {
         isLoggedIn = true;
         mockUser.id = userId;
         mockUser.isAdmin = isAdmin;
-        return getCurrentUser();
+        return getCurrentUser(null);
     }
 
     /**
@@ -47,7 +48,7 @@ public class MockUserProvision extends UserProvision {
     }
 
     @Override
-    protected UserInfo getCurrentLoggedInUser() {
+    protected UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         return isLoggedIn ? mockUser : null;
     }
 
