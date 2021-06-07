@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -18,6 +20,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
+import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
@@ -68,36 +71,53 @@ public class WebApiServlet extends HttpServlet {
             return;
         }
 
-        // TODO need to handle the server timeout error
+        int statusCode = 0;
+        Action action = null;
         try {
-            Action action = new ActionFactory().getAction(req, req.getMethod());
+            action = new ActionFactory().getAction(req, req.getMethod());
             action.init(req);
             action.checkAccessControl();
 
             ActionResult result = action.execute();
+            statusCode = result.getStatusCode();
             result.send(resp);
         } catch (ActionMappingException e) {
-            throwErrorBasedOnRequester(req, resp, e, e.getStatusCode());
+            statusCode = e.getStatusCode();
+            throwErrorBasedOnRequester(req, resp, e, statusCode);
         } catch (InvalidHttpRequestBodyException | InvalidHttpParameterException e) {
-            throwErrorBasedOnRequester(req, resp, e, HttpStatus.SC_BAD_REQUEST);
+            statusCode = HttpStatus.SC_BAD_REQUEST;
+            throwErrorBasedOnRequester(req, resp, e, statusCode);
         } catch (UnauthorizedAccessException uae) {
+            statusCode = HttpStatus.SC_FORBIDDEN;
             log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(uae));
-            throwError(resp, HttpStatus.SC_FORBIDDEN,
+            throwError(resp, statusCode,
                     uae.isShowErrorMessage() ? uae.getMessage() : "You are not authorized to access this resource.");
         } catch (EntityNotFoundException enfe) {
+            statusCode = HttpStatus.SC_NOT_FOUND;
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(enfe));
-            throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
+            throwError(resp, statusCode, enfe.getMessage());
         } catch (DatastoreException e) {
+            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
-            throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
+            throwError(resp, statusCode, e.getMessage());
         } catch (Throwable t) {
+            statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
             log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(t));
-            throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR,
+            throwError(resp, statusCode,
                     "The server encountered an error when processing your request.");
+        } finally {
+            Map<String, Object> responseDetails = new HashMap<>();
+            responseDetails.put("responseStatus", statusCode);
+            responseDetails.put("responseTime", RequestTracer.getTimeElapsedMillis());
+            if (action != null) {
+                responseDetails.put("actionClass", action.getClass().getSimpleName());
+            }
+
+            log.event(LogEvent.RESPONSE_DISPATCHED, "Response dispatched", responseDetails);
         }
     }
 

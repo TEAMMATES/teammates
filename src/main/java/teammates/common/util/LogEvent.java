@@ -6,4 +6,5 @@ package teammates.common.util;
 // CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
 public enum LogEvent {
     REQUEST_RECEIVED,
+    RESPONSE_DISPATCHED,
 }

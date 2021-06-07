@@ -108,6 +108,12 @@ public class RequestTraceFilter implements Filter {
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(resp);
+
+        Map<String, Object> requestDetails = new HashMap<>();
+        requestDetails.put("responseStatus", statusCode);
+        requestDetails.put("responseTime", RequestTracer.getTimeElapsedMillis());
+
+        log.event(LogEvent.RESPONSE_DISPATCHED, "Response dispatched", requestDetails);
     }
 
 }
