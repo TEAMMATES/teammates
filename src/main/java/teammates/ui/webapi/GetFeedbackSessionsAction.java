@@ -28,7 +28,7 @@ class GetFeedbackSessionsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (userInfo.isAdmin) {
             return;
         }

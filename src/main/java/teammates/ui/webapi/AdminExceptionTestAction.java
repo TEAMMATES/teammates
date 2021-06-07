@@ -1,7 +1,7 @@
 package teammates.ui.webapi;
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-import com.google.apphosting.api.DeadlineExceededException;
+import com.google.cloud.datastore.DatastoreException;
+import com.google.rpc.Code;
 
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -21,9 +21,13 @@ class AdminExceptionTestAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!Config.isDevServer()) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
+        }
+        String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
+        if (error.equals(UnauthorizedAccessException.class.getSimpleName())) {
+            throw new UnauthorizedAccessException("UnauthorizedAccessException testing");
         }
     }
 
@@ -32,22 +36,17 @@ class AdminExceptionTestAction extends Action {
     JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
-            throw new AssertionError("AssertionError testing");
+            assert false : "AssertionError testing";
         }
         if (error.equals(NullPointerException.class.getSimpleName())) {
             throw new NullPointerException("NullPointerException testing");
         }
-        if (error.equals(DeadlineExceededException.class.getSimpleName())) {
-            throw new DeadlineExceededException("DeadlineExceededException testing");
-        }
-        if (error.equals(DatastoreTimeoutException.class.getSimpleName())) {
-            throw new DatastoreTimeoutException("DatastoreTimeoutException testing");
+        if (error.equals(DatastoreException.class.getSimpleName())) {
+            throw new DatastoreException(Code.DEADLINE_EXCEEDED_VALUE, "DatastoreException testing",
+                    Code.DEADLINE_EXCEEDED.name());
         }
         if (error.equals(InvalidHttpParameterException.class.getSimpleName())) {
             throw new InvalidHttpParameterException("InvalidHttpParameterException testing");
-        }
-        if (error.equals(UnauthorizedAccessException.class.getSimpleName())) {
-            throw new UnauthorizedAccessException("UnauthorizedAccessException testing");
         }
         if (error.equals(EntityNotFoundException.class.getSimpleName())) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("EntityNotFoundException testing"));

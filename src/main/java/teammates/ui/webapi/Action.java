@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -89,7 +90,13 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    void checkAccessControl() {
+    void checkAccessControl() throws UnauthorizedAccessException {
+        String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
+        if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
+            throw new UnauthorizedAccessException("User " + userInfo.id
+                    + " is trying to masquerade as " + userParam + " without admin permission.");
+        }
+
         if (authType.getLevel() < getMinAuthLevel().getLevel()) {
             // Access control level lower than required
             throw new UnauthorizedAccessException("Not authorized to access this resource.");
@@ -114,27 +121,23 @@ public abstract class Action {
         }
 
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         String queueNameHeader = req.getHeader("X-AppEngine-QueueName");
         boolean isRequestFromAppEngineQueue = queueNameHeader != null;
         if (isRequestFromAppEngineQueue) {
             userInfo = userProvision.getAdminOnlyUser("AppEngine-" + queueNameHeader);
         } else {
-            userInfo = userProvision.getCurrentUser();
+            String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
+            UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
+            userInfo = userProvision.getCurrentUser(uic);
         }
 
         authType = userInfo == null ? AuthType.PUBLIC : AuthType.LOGGED_IN;
 
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
-        if (userInfo != null && userParam != null) {
-            if (userInfo.isAdmin) {
-                userInfo = userProvision.getMasqueradeUser(userParam);
-                authType = AuthType.MASQUERADE;
-            } else if (!userInfo.id.equals(userParam)) {
-                throw new UnauthorizedAccessException("User " + userInfo.id
-                                                    + " is trying to masquerade as " + userParam
-                                                    + " without admin permission.");
-            }
+        if (userInfo != null && userParam != null && userInfo.isAdmin) {
+            userInfo = userProvision.getMasqueradeUser(userParam);
+            authType = AuthType.MASQUERADE;
         }
     }
 
@@ -216,18 +219,15 @@ public abstract class Action {
 
     /**
      * Gets the unregistered student by the HTTP param.
-     *
-     * @throws UnauthorizedAccessException if HTTP param is provided but student cannot be found
      */
     Optional<StudentAttributes> getUnregisteredStudent() {
         String key = getRequestParamValue(Const.ParamsNames.REGKEY);
         if (!StringHelper.isEmpty(key)) {
             StudentAttributes studentAttributes = logic.getStudentForRegistrationKey(key);
             if (studentAttributes == null) {
-                throw new UnauthorizedAccessException("RegKey is not valid.");
-            } else {
-                return Optional.of(studentAttributes);
+                return Optional.empty();
             }
+            return Optional.of(studentAttributes);
         }
         return Optional.empty();
     }
@@ -261,7 +261,7 @@ public abstract class Action {
     /**
      * Checks the specific access control needs for the resource.
      */
-    abstract void checkSpecificAccessControl();
+    abstract void checkSpecificAccessControl() throws UnauthorizedAccessException;
 
     /**
      * Executes the action.

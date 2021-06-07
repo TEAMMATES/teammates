@@ -31,7 +31,7 @@ public class GetFeedbackSessionLogsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -44,7 +44,9 @@ public class GetFeedbackSessionLogsAction extends Action {
         }
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        gateKeeper.verifyAccessible(instructor, courseAttributes);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
@@ -56,6 +58,10 @@ public class GetFeedbackSessionLogsAction extends Action {
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         if (email != null && logic.getStudentForEmail(courseId, email) == null) {
             return new JsonResult("Student not found", HttpStatus.SC_NOT_FOUND);
+        }
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            return new JsonResult("Feedback session not found", HttpStatus.SC_NOT_FOUND);
         }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
@@ -82,7 +88,7 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         try {
             List<FeedbackSessionLogEntry> fsLogEntries =
-                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
             Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries =
                     groupFeedbackSessionLogEntries(courseId, fsLogEntries);
             FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries);

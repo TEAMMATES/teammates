@@ -8,9 +8,9 @@ import java.util.List;
 import org.testng.ITestContext;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeSuite;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -24,6 +24,8 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
@@ -45,18 +47,9 @@ import teammates.test.FileHelper;
 public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     static final BackDoor BACKDOOR = BackDoor.getInstance();
-    private static Browser sharedBrowser;
 
     protected DataBundle testData;
     private Browser browser;
-
-    @BeforeSuite
-    protected void determineEnvironment(ITestContext context) {
-        if (!TestProperties.isDevServer()) {
-            // If testing against production server, run in single thread only
-            context.getSuite().getXmlSuite().setThreadCount(1);
-        }
-    }
 
     @BeforeClass
     public void baseClassSetup() throws Exception {
@@ -65,16 +58,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     protected void prepareBrowser() {
-        if (TestProperties.isDevServer()) {
-            browser = new Browser();
-        } else {
-            // As the tests are run in single thread, in order to reduce the time wasted on browser setup/teardown,
-            // use a single browser instance for all tests in the suite
-            if (sharedBrowser == null) {
-                sharedBrowser = new Browser();
-            }
-            browser = sharedBrowser;
-        }
+        browser = new Browser();
     }
 
     protected abstract void prepareTestData() throws Exception;
@@ -102,9 +86,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         if (browser == null) {
             return;
         }
-        if (!TestProperties.isDevServer()) {
-            return;
-        }
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
             browser.close();
         }
@@ -124,10 +105,16 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      */
     protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
         // When not using dev server, Google blocks log in by automation.
-        // To log in, log in manually to teammates in your browser before running e2e tests.
-        // Refer to teammates.e2e.pageobjects.Browser for more information.
+        // To work around that, we inject the user cookie directly into the browser session.
         if (!TestProperties.isDevServer()) {
-            // skip login and navigate to the desired page.
+            // In order for the cookie injection to work, we need to be in the domain.
+            // Use the home page to minimize the page load time.
+            browser.goToUrl(TestProperties.TEAMMATES_URL);
+
+            UserInfoCookie uic = new UserInfoCookie("devserver.admin.account", true);
+            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
+                    true, true);
+
             return getNewPageInstance(url, typeOfPage);
         }
 
@@ -231,6 +218,36 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void setupLocalDatastoreHelper() {
+        // Should be prepared separately
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void resetLocalDatastoreHelper() {
+        // Local datastore state should persist across e2e test suites
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void tearDownLocalDatastoreHelper() {
+        // Should be prepared separately
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void setupSearch() {
+        // Not necessary as BackDoor API is used instead
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void resetSearchService() {
+        // Not necessary as BackDoor API is used instead
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void setupObjectify() {
         // Not necessary as BackDoor API is used instead
     }
@@ -238,18 +255,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void tearDownObjectify() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setUpGae() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownGae() {
         // Not necessary as BackDoor API is used instead
     }
 

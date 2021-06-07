@@ -16,7 +16,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -33,7 +33,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
@@ -47,7 +47,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         String feedbackSessionName = frc.feedbackSessionName;
         FeedbackSessionAttributes session = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        Assumption.assertNotNull(response);
+        assert response != null;
         String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -55,7 +55,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(student);
+            if (student == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session);
@@ -69,7 +71,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(instructorAsFeedbackParticipant);
+            if (instructorAsFeedbackParticipant == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session);
@@ -108,7 +112,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         String feedbackResponseId = frc.feedbackResponseId;
         String courseId = frc.courseId;
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        assert response != null;
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String email;

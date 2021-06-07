@@ -134,11 +134,12 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) throws LogServiceException {
+            Instant startTime, Instant endTime, String fsName) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .setLogName(FEEDBACK_SESSION_LOG_NAME)
                 .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
                 .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
+                .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
         List<LogEntry> logEntries = getLogEntries(logSearchParams);
@@ -156,7 +157,8 @@ public class GoogleCloudLoggingService implements LogService {
                 continue;
             }
             if (!fslType.equals(Const.FeedbackSessionLogTypes.ACCESS)
-                    && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)) {
+                    && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)
+                    && !fslType.equals(Const.FeedbackSessionLogTypes.VIEW_RESULT)) {
                 // If the feedback session log type retrieved from the logs is invalid, discard it
                 continue;
             }

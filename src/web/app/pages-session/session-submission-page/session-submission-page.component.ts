@@ -326,6 +326,17 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         }
 
         this.loadFeedbackQuestions();
+
+        // Display note on submission on mobile device
+        const mobileDeviceWidth: number = 768;
+        if (this.feedbackSessionSubmissionStatus === FeedbackSessionSubmissionStatus.OPEN
+          && window.innerWidth < mobileDeviceWidth) {
+          const modalContent: string = `Note that you can use the Submit button to save responses already entered, and continue to
+answer remaining questions after that. You may also edit your submission any number of times before the closing time of
+this session.`;
+          this.simpleModalService.openInformationModal(
+              'Note On Submission', SimpleModalType.INFO, modalContent);
+        }
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,

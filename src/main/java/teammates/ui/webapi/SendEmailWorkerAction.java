@@ -17,7 +17,7 @@ class SendEmailWorkerAction extends AdminOnlyAction {
         EmailWrapper email = emailRequest.getEmail();
         EmailSendingStatus status = emailSender.sendEmail(email);
         if (!status.isSuccess()) {
-            // Set an arbitrary retry code outside of the range 200-299 so GAE will automatically retry upon failure
+            // Set an arbitrary retry code outside of the range 200-299 so Cloud Tasks will automatically retry upon failure
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);
         }
         return new JsonResult("Successful");

@@ -42,7 +42,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.AccountData;
@@ -632,10 +631,8 @@ public abstract class AbstractBackDoor {
                     case RECIPIENT_TEAM_MEMBERS:
                         return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
                     default:
-                        Assumption.fail("Unknown FeedbackVisibilityType " + feedbackParticipantType);
-                        break;
+                        throw new RuntimeException("Unknown FeedbackVisibilityType " + feedbackParticipantType);
                     }
-                    return null;
                 }).collect(Collectors.toList());
         Collections.sort(feedbackParticipantTypeList);
         return feedbackParticipantTypeList;

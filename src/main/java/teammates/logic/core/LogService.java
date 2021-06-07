@@ -16,6 +16,7 @@ public interface LogService {
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 
-    List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email, Instant startTime, Instant endTime)
+    List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
+            Instant startTime, Instant endTime, String fsName)
             throws LogServiceException;
 }

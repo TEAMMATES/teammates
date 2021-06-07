@@ -1,169 +1,237 @@
 package teammates.storage.search;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Index;
-import com.google.appengine.api.search.IndexSpec;
-import com.google.appengine.api.search.OperationResult;
-import com.google.appengine.api.search.PutException;
-import com.google.appengine.api.search.PutResponse;
-import com.google.appengine.api.search.Query;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchServiceFactory;
-import com.google.appengine.api.search.StatusCode;
+import org.apache.commons.lang.StringUtils;
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrClient;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrInputDocument;
 
+import teammates.common.datatransfer.attributes.EntityAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
 import teammates.common.util.Logger;
-import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTaskThrows;
+import teammates.common.util.StringHelper;
 
 /**
- * Manages {@link Document} and {@link Index} in the Datastore for use of search functions.
+ * Acts as a proxy to search service.
  *
- * @see <a href="https://cloud.google.com/appengine/docs/java/search/">https://cloud.google.com/appengine/docs/java/search/</a>
+ * @param <T> type of entity to be returned
  */
-public final class SearchManager {
+abstract class SearchManager<T extends EntityAttributes<?>> {
 
-    private static final String ERROR_NON_TRANSIENT_BACKEND_ISSUE =
-            "Failed to put document(s) %s into search index %s due to non-transient backend issue: ";
-    private static final String ERROR_MAXIMUM_RETRIES_EXCEEDED =
-            "Failed to put document(s) %s into search index %s after maximum retries: %s: ";
     private static final Logger log = Logger.getLogger();
-    private static final ThreadLocal<Map<String, Index>> PER_THREAD_INDICES_TABLE = new ThreadLocal<>();
 
-    private static final RetryManager RM = new RetryManager(8);
+    private static final String ERROR_DELETE_DOCUMENT =
+            "Failed to delete document(s) %s in Solr. Root cause: %s ";
+    private static final String ERROR_SEARCH_DOCUMENT =
+            "Failed to search for document(s) %s from Solr. Root cause: %s ";
+    private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
+            "Search service is not implemented";
+    private static final String ERROR_PUT_DOCUMENT =
+            "Failed to put document(s) %s into Solr. Root cause: %s ";
+    private static final String ERROR_RESET_COLLECTION =
+            "Failed to reset collections. Root cause: %s ";
 
-    private SearchManager() {
-        // utility class
+    private static final int START_INDEX = 0;
+    private static final int NUM_OF_RESULTS = 20;
+
+    private final HttpSolrClient client;
+    private final boolean isResetAllowed;
+
+    SearchManager(String searchServiceHost, boolean isResetAllowed) {
+        this.isResetAllowed = Config.isDevServer() && isResetAllowed;
+
+        if (StringHelper.isEmpty(searchServiceHost)) {
+            this.client = null;
+        } else {
+            this.client = new HttpSolrClient.Builder(searchServiceHost).build();
+        }
     }
 
-    /**
-     * Batch creates or updates the search documents for the given documents and index.
-     */
-    public static void putDocuments(String indexName, List<Document> documents) {
+    SolrQuery getBasicQuery(String queryString) {
+        SolrQuery query = new SolrQuery();
+
+        String cleanQueryString = cleanSpecialChars(queryString);
+        query.setQuery(cleanQueryString);
+
+        query.setStart(START_INDEX);
+        query.setRows(NUM_OF_RESULTS);
+
+        return query;
+    }
+
+    QueryResponse performQuery(SolrQuery query) throws SearchNotImplementedException {
+        if (client == null) {
+            throw new SearchNotImplementedException();
+        }
+
+        QueryResponse response = null;
+
         try {
-            putDocumentsWithRetry(indexName, documents);
-        } catch (PutException e) {
-            log.severe(String.format(ERROR_NON_TRANSIENT_BACKEND_ISSUE, documents, indexName)
+            response = client.query(getCollectionName(), query);
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
-        } catch (MaximumRetriesExceededException e) {
-            Object failedDocuments = e.finalData;
-            log.severe(String.format(ERROR_MAXIMUM_RETRIES_EXCEEDED, failedDocuments, indexName, e.finalMessage)
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
+
+        return response;
+    }
+
+    abstract String getCollectionName();
+
+    abstract SearchDocument<T> createDocument(T attribute);
+
+    /**
+     * Batch creates or updates search documents for the given entities.
+     */
+    public void putDocuments(List<T> attributes) {
+        if (client == null) {
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
+            return;
+        }
+
+        List<SolrInputDocument> documents = new ArrayList<>();
+
+        for (T attribute : attributes) {
+            if (attribute == null) {
+                continue;
+            }
+            Map<String, Object> searchableFields = createDocument(attribute).getSearchableFields();
+            SolrInputDocument document = new SolrInputDocument();
+            searchableFields.forEach((key, value) -> document.addField(key, value));
+            documents.add(document);
+        }
+
+        try {
+            client.add(getCollectionName(), documents);
+            client.commit(getCollectionName());
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
         }
     }
 
     /**
-     * Tries putting multiple documents, handling transient errors by retrying with exponential backoff.
-     *
-     * @throws PutException when only non-transient errors are encountered.
-     * @throws MaximumRetriesExceededException with list of failed {@link Document}s as final data and
-     *         final {@link OperationResult}'s message as final message, if operation fails after maximum retries.
+     * Removes search documents based on the given keys.
      */
-    private static void putDocumentsWithRetry(String indexName, List<Document> documents)
-            throws MaximumRetriesExceededException {
-        Index index = getIndex(indexName);
+    public void deleteDocuments(List<String> keys) {
+        if (client == null) {
+            log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
+            return;
+        }
 
-        /*
-         * The GAE Search API allows batch putting a List of Documents.
-         * Results for each document are reported via a List of OperationResults.
-         * We use RetryManager to retry putting a List of Documents, with each retry re-putting only
-         * the documents that failed in the previous retry.
-         * If we encounter one or more transient errors, we retry the operation.
-         * If all results are non-transient errors, we give up and throw a PutException upwards.
-         */
-        RM.runUntilSuccessful(new RetryableTaskThrows<PutException>("Put documents") {
+        if (keys.isEmpty()) {
+            return;
+        }
 
-            private List<Document> documentsToPut = documents;
-            private List<OperationResult> lastResults;
-            private List<String> lastIds;
-
-            @Override
-            public void run() {
-                try {
-                    PutResponse response = index.put(documentsToPut);
-                    lastResults = response.getResults();
-                    lastIds = response.getIds();
-
-                } catch (PutException e) {
-                    lastResults = e.getResults();
-                    lastIds = e.getIds();
-                }
-            }
-
-            @Override
-            public boolean isSuccessful() {
-                boolean hasTransientError = false;
-
-                List<Document> failedDocuments = new ArrayList<>();
-                for (int i = 0; i < documentsToPut.size(); i++) {
-                    StatusCode code = lastResults.get(i).getCode();
-                    if (!StatusCode.OK.equals(code)) {
-                        failedDocuments.add(documentsToPut.get(i));
-                        if (StatusCode.TRANSIENT_ERROR.equals(code)) {
-                            hasTransientError = true;
-                        }
-                    }
-                }
-
-                // Update the list of documents to be put during the next retry
-                documentsToPut = failedDocuments;
-
-                // Update the final message and data to be shown if the task fails after maximum retries
-                finalMessage = lastResults.get(0).getMessage();
-                finalData = documentsToPut;
-
-                if (documentsToPut.isEmpty()) {
-                    return true;
-                } else if (hasTransientError) {
-                    // If there is at least one transient error, continue retrying
-                    return false;
-                } else {
-                    // If all errors are non-transient, do not continue retrying
-                    throw new PutException(lastResults.get(0), lastResults, lastIds);
-                }
-            }
-        });
+        try {
+            client.deleteById(getCollectionName(), keys);
+            client.commit(getCollectionName());
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
     /**
-     * Searches document by the given query.
+     * Resets the data for all collections if, and only if called during component tests.
      */
-    public static Results<ScoredDocument> searchDocuments(String indexName, Query query) {
-        return getIndex(indexName).search(query);
-    }
-
-    /**
-     * Deletes document by documentId.
-     */
-    public static void deleteDocument(String indexName, String... documentIds) {
-        getIndex(indexName).deleteAsync(documentIds);
-    }
-
-    private static Index getIndex(String indexName) {
-        Map<String, Index> indicesTable = getIndicesTable();
-        Index index = indicesTable.get(indexName);
-        if (index == null) {
-            IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
-            index = SearchServiceFactory.getSearchService().getIndex(indexSpec);
-            indicesTable.put(indexName, index);
+    public void resetCollections() {
+        if (client == null || !isResetAllowed) {
+            return;
         }
-        return index;
+
+        try {
+            client.deleteByQuery(getCollectionName(), "*:*");
+        } catch (SolrServerException e) {
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        } catch (IOException e) {
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause())
+                    + TeammatesException.toStringWithStackTrace(e));
+        }
     }
 
-    private static Map<String, Index> getIndicesTable() {
-        Map<String, Index> indicesTable = PER_THREAD_INDICES_TABLE.get();
-        if (indicesTable == null) {
-            indicesTable = new HashMap<>();
-            PER_THREAD_INDICES_TABLE.set(indicesTable);
+    private String cleanSpecialChars(String queryString) {
+        String htmlTagStripPattern = "<[^>]*>";
+
+        // Solr special characters: + - && || ! ( ) { } [ ] ^ " ~ * ? : \ /
+        String res = queryString.replaceAll(htmlTagStripPattern, "")
+                .replace("\\", "\\\\")
+                .replace("+", "\\+")
+                .replace("-", "\\-")
+                .replace("&&", "\\&&")
+                .replace("||", "\\||")
+                .replace("!", "\\!")
+                .replace("(", "\\(")
+                .replace(")", "\\)")
+                .replace("{", "\\{")
+                .replace("}", "\\}")
+                .replace("[", "\\[")
+                .replace("]", "\\]")
+                .replace("^", "\\^")
+                .replace("~", "\\~")
+                .replace("?", "\\?")
+                .replace(":", "\\:")
+                .replace("/", "\\/");
+
+        // imbalanced double quotes are invalid
+        int count = StringUtils.countMatches(res, "\"");
+        if (count % 2 == 1) {
+            res = res.replace("\"", "");
         }
-        return indicesTable;
+
+        // use exact match only when there's email-like input
+        if (res.contains("@") && count == 0) {
+            return "\"" + res + "\"";
+        } else {
+            return res;
+        }
+    }
+
+    abstract T getAttributeFromDocument(SolrDocument document);
+
+    abstract void sortResult(List<T> result);
+
+    List<T> convertDocumentToAttributes(QueryResponse response) {
+        if (response == null) {
+            return new ArrayList<>();
+        }
+
+        List<T> result = new ArrayList<>();
+
+        for (SolrDocument document : response.getResults()) {
+            T attribute = getAttributeFromDocument(document);
+            if (attribute == null) {
+                // search engine out of sync as SearchManager may fail to delete documents
+                // the chance is low and it is generally not a big problem
+                String id = (String) document.getFirstValue("id");
+                deleteDocuments(Collections.singletonList(id));
+                continue;
+            }
+            result.add(attribute);
+        }
+        sortResult(result);
+
+        return result;
     }
 
 }
