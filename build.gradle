@@ -1,9 +1,5 @@
-apply plugin: "idea"
-
 apply plugin: "war"
-// apply plugin: "com.google.cloud.tools.appengine"
-// see https://github.com/GoogleCloudPlatform/app-gradle-plugin/issues/125
-project.pluginManager.apply com.google.cloud.tools.gradle.appengine.standard.AppEngineStandardPlugin
+apply plugin: "com.google.cloud.tools.appengine-appyaml"
 
 apply plugin: "checkstyle"
 apply plugin: "pmd"
@@ -11,7 +7,6 @@ apply plugin: "com.github.spotbugs"
 apply plugin: "jacoco"
 apply plugin: "cz.habarta.typescript-generator"
 
-def appengineVersion = "1.9.81"
 def checkstyleVersion = "8.33"
 def pmdVersion = "6.24.0"
 def spotbugsVersion = "4.0.6"
@@ -30,7 +25,7 @@ buildscript {
         classpath("cz.habarta.typescript-generator:typescript-generator-gradle-plugin:2.24.612") {
             exclude group: "org.gradle"
         }
-        classpath "com.google.guava:guava:30.1-jre"
+        classpath "com.google.guava:guava:30.1.1-jre"
     }
 }
 
@@ -42,7 +37,7 @@ repositories {
     jcenter()
 }
 
-def objectify = "com.googlecode.objectify:objectify:5.1.22"
+def objectify = "com.googlecode.objectify:objectify:6.0.7"
 def testng = "org.testng:testng:7.2.0"
 
 dependencies {
@@ -53,12 +48,13 @@ dependencies {
 
     annotationProcessor(objectify)
 
-    implementation("com.google.appengine:appengine-api-1.0-sdk:${appengineVersion}")
+    implementation("com.google.auth:google-auth-library-oauth2-http:0.24.1")
+    implementation("com.google.cloud:google-cloud-datastore:1.106.2")
     implementation("com.google.cloud:google-cloud-tasks:1.30.11")
     implementation("com.google.cloud:google-cloud-logging:2.1.2")
     implementation("com.google.cloud:google-cloud-storage:1.113.9")
     implementation("com.google.code.gson:gson:2.8.6")
-    implementation("com.google.guava:guava:30.1-jre")
+    implementation("com.google.guava:guava:30.1.1-jre")
     implementation(objectify)
     implementation("com.googlecode.owasp-java-html-sanitizer:owasp-java-html-sanitizer:20200615.1")
     implementation("com.mailjet:mailjet-client:4.5.0")
@@ -67,13 +63,14 @@ dependencies {
     implementation("com.sun.jersey:jersey-core:1.19.4")
     implementation("com.sun.jersey.contribs:jersey-multipart:1.19.4")
     implementation("javax.servlet:javax.servlet-api:3.1.0")
+    implementation("org.apache.solr:solr-solrj:8.8.1")
+    implementation("org.eclipse.jetty:jetty-server:9.4.39.v20210325")
+    implementation("org.eclipse.jetty:jetty-webapp:9.4.39.v20210325")
+    implementation("org.eclipse.jetty:jetty-annotations:9.4.39.v20210325")
     implementation("org.jsoup:jsoup:1.13.1")
 
     testAnnotationProcessor(testng)
 
-    testImplementation("com.google.appengine:appengine-api-stubs:${appengineVersion}")
-    testImplementation("com.google.appengine:appengine-remote-api:${appengineVersion}")
-    testImplementation("com.google.appengine:appengine-testing:${appengineVersion}")
     testImplementation("com.tngtech.archunit:archunit:0.11.0")
     testImplementation("org.seleniumhq.selenium:selenium-java:3.141.59")
     testImplementation(testng)
@@ -196,7 +193,7 @@ task createConfigs {
             "src/lnp/resources/test.template.properties",
             "src/e2e/resources/test.template.properties",
             "src/client/resources/client.template.properties",
-            "src/main/webapp/WEB-INF/appengine-web.template.xml"
+            "src/main/appengine/app.template.yaml"
         ]
         templatesToCopy.findAll {
             !(new File(it.replace(".template", ""))).exists()
@@ -207,23 +204,6 @@ task createConfigs {
                 rename '(.*).template(.*)', '$1$2'
             }
         }
-    }
-}
-
-// IDE SETUP TASKS (MAINTENANCE MODE ONLY)
-
-// Use a different buildDir for IntelliJ builds to avoid conflict with CLI builds.
-// IDE detection is achieved by checking `idea.paths.selector`, a system property that IntelliJ sets.
-// Note that this property is not documented and may change anytime.
-if (System.getProperty('idea.paths.selector') != null) {
-    // Nest the buildDir inside IntelliJ's default project compiler output directory
-    buildDir = new File(projectDir, 'out/build')
-}
-
-idea {
-    module {
-        // Exclude the CLI build directory
-        excludeDirs += [file('build')]
     }
 }
 
@@ -258,19 +238,40 @@ processTestResources {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
+task explodeWar(type: Sync) {
+    dependsOn war
+    into "${buildDir}/exploded-teammates"
+    from project.zipTree(war.archiveFile)
+    outputs.upToDateWhen { false }
+}
+
+task copyDistToExplodedWar {
+    doLast {
+        copy {
+            from "src/web/dist"
+            into explodeWar.destinationDir
+        }
+    }
+    mustRunAfter explodeWar
+}
+
+task serverRun(type: JavaExec) {
+    classpath "${explodeWar.destinationDir}/WEB-INF/lib/*", "${explodeWar.destinationDir}/WEB-INF/classes/."
+    main = "teammates.main.Application"
+    jvmArgs "-ea", "-Djava.util.logging.config.file=${explodeWar.destinationDir}/WEB-INF/logging-dev.properties"
+    dependsOn explodeWar, copyDistToExplodedWar
+}
+
+task runDatastoreEmulator(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    main = "teammates.storage.api.DatastoreEmulatorRunner"
+}
+
 appengine {
     tools {
         if (project.properties['cloud.sdk.home'] != null) {
             cloudSdkHome = project.properties['cloud.sdk.home']
         }
-    }
-    run {
-        port = 8080
-        jvmFlags = ["-Xss2m", "-Dfile.encoding=UTF-8",
-                // Absolute paths are not supported, the following is relative to the project directory
-                // These only specify the datastore paths, but search indexes are still generated in WEB-INF/appengine-generated
-                "-Ddatastore.backing_store=../../appengine-generated/local_db.bin"]
-        automaticRestart = true
     }
     deploy {
         String buildPropertiesPath = "${projectDir}/src/main/resources/build.properties"
@@ -286,6 +287,35 @@ appengine {
         stopPreviousVersion = false
         promote = false
     }
+}
+
+task removeWarFromStagedApp {
+    doLast {
+        delete "${buildDir}/staged-app/${war.archiveName}"
+    }
+}
+
+task copyExplodedWarToStagedApp {
+    doLast {
+        copy {
+            from explodeWar.destinationDir
+            into "${buildDir}/staged-app"
+        }
+    }
+}
+
+task copyDistToStagedApp {
+    doLast {
+        copy {
+            from "src/web/dist"
+            into "${buildDir}/staged-app/dist"
+        }
+    }
+}
+
+appengineStage {
+    dependsOn explodeWar
+    finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp, copyDistToStagedApp
 }
 
 // STATIC ANALYSIS TASKS
@@ -466,7 +496,7 @@ task componentTests(type: Test) {
     maxHeapSize = "1g"
     reports.html.enabled = false
     reports.junitXml.enabled = false
-    jvmArgs "-Xss2m", "-Dfile.encoding=UTF-8"
+    jvmArgs "-ea", "-Xss2m", "-Dfile.encoding=UTF-8"
     afterTest afterTestClosure
     afterSuite checkTestNgFailureClosure
     testLogging {

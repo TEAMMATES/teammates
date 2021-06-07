@@ -17,8 +17,7 @@ public final class Templates {
      * @return The populated template
      */
     public static String populateTemplate(String template, String... keyValuePairs) {
-        Assumption.assertTrue("The number of elements in keyValuePairs passed in must be even",
-                keyValuePairs.length % 2 == 0);
+        assert keyValuePairs.length % 2 == 0 : "The number of elements in keyValuePairs passed in must be even";
         String populatedTemplate = template;
         for (int i = 0; i < keyValuePairs.length; i += 2) {
             populatedTemplate = populatedTemplate.replace(keyValuePairs[i], keyValuePairs[i + 1]);

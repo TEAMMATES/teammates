@@ -49,8 +49,8 @@ public class LogsProcessor {
      * @param email Can be null
      */
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) throws LogServiceException {
-        return service.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+            Instant startTime, Instant endTime, String fsName) throws LogServiceException {
+        return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 
 }

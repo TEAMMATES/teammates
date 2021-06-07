@@ -11,6 +11,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
 import teammates.e2e.pageobjects.AdminSearchPage;
+import teammates.e2e.util.TestProperties;
 
 /**
  * SUT: {@link Const.WebPageURIs#ADMIN_SEARCH_PAGE}.
@@ -19,6 +20,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
+        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
+            return;
+        }
+
         testData = loadDataBundle("/AdminSearchPageE2ETest.json");
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
@@ -27,6 +32,10 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
+        if (!TestProperties.INCLUDE_SEARCH_TESTS) {
+            return;
+        }
+
         AppUrl url = createUrl(Const.WebPageURIs.ADMIN_SEARCH_PAGE);
         AdminSearchPage searchPage = loginAdminToPage(url, AdminSearchPage.class);
 

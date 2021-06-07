@@ -1,0 +1,37 @@
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/configuring-datastore-indexes-with-index-yaml
+
+indexes:
+- kind: Instructor
+  properties:
+  - direction: asc
+    name: googleId
+  - direction: asc
+    name: isArchived
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: isClosingEmailEnabled
+  - direction: asc
+    name: sentClosedEmail
+  - direction: asc
+    name: endTime
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: isClosingEmailEnabled
+  - direction: asc
+    name: sentClosingEmail
+  - direction: asc
+    name: endTime
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: sentOpenEmail
+  - direction: asc
+    name: startTime
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: isPublishedEmailEnabled
+  - direction: asc
+    name: sentPublishedEmail

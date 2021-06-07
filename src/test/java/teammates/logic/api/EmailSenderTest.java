@@ -1,9 +1,5 @@
 package teammates.logic.api;
 
-import javax.mail.Message;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -15,14 +11,12 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
 import teammates.common.util.EmailWrapper;
-import teammates.logic.core.JavamailService;
 import teammates.logic.core.MailgunService;
 import teammates.logic.core.MailjetService;
 import teammates.logic.core.SendgridService;
 
 /**
- * SUT: {@link JavamailService},
- *      {@link SendgridService},
+ * SUT: {@link SendgridService},
  *      {@link MailgunService},
  *      {@link MailjetService}.
  */
@@ -51,19 +45,6 @@ public class EmailSenderTest extends BaseLogicTest {
         wrapper.setSubject(subject);
         wrapper.setContent(content);
         return wrapper;
-    }
-
-    @Test
-    public void testConvertToMimeMessage() throws Exception {
-        EmailWrapper wrapper = getTypicalEmailWrapper();
-        MimeMessage email = new JavamailService().parseToEmail(wrapper);
-
-        assertEquals(new InternetAddress(wrapper.getSenderEmail(), wrapper.getSenderName()), email.getFrom()[0]);
-        assertEquals(new InternetAddress(wrapper.getReplyTo()), email.getReplyTo()[0]);
-        assertEquals(new InternetAddress(wrapper.getRecipient()), email.getRecipients(Message.RecipientType.TO)[0]);
-        assertEquals(new InternetAddress(wrapper.getBcc()), email.getRecipients(Message.RecipientType.BCC)[0]);
-        assertEquals(wrapper.getSubject(), email.getSubject());
-        assertEquals(wrapper.getContent(), email.getContent().toString());
     }
 
     @Test
