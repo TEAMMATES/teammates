@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Assumption;
 import teammates.ui.output.CommentVisibilityType;
 
 /**
@@ -62,7 +61,7 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
             case INSTRUCTORS:
                 return FeedbackParticipantType.INSTRUCTORS;
             default:
-                Assumption.fail("Unknown commentVisibilityType " + commentVisibilityType);
+                assert false : "Unknown commentVisibilityType " + commentVisibilityType;
                 break;
             }
             return null;

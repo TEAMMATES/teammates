@@ -9,8 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-import com.google.apphosting.api.DeadlineExceededException;
+import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityNotFoundException;
@@ -21,6 +20,7 @@ import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
 
 /**
@@ -78,7 +78,7 @@ public class WebApiServlet extends HttpServlet {
         log.info("Request received: [" + req.getMethod() + "] " + req.getRequestURL().toString()
                 + ", Params: " + requestParametersAsString
                 + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(req)
-                + ", Request ID: " + Config.getRequestId());
+                + ", Request ID: " + RequestTracer.getRequestId());
 
         if (Config.MAINTENANCE) {
             throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,
@@ -86,6 +86,7 @@ public class WebApiServlet extends HttpServlet {
             return;
         }
 
+        // TODO need to handle the server timeout error
         try {
             Action action = new ActionFactory().getAction(req, req.getMethod());
             action.init(req);
@@ -106,16 +107,10 @@ public class WebApiServlet extends HttpServlet {
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(enfe));
             throwError(resp, HttpStatus.SC_NOT_FOUND, enfe.getMessage());
-        } catch (DeadlineExceededException | DatastoreTimeoutException e) {
-
-            // This exception may not be caught because GAE kills the request soon after throwing it
-            // In that case, the error message in the log will be emailed to the admin by a separate cron job
-
+        } catch (DatastoreException e) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
-            throwError(resp, HttpStatus.SC_GATEWAY_TIMEOUT,
-                    "The request exceeded the server timeout limit. Please try again later.");
-
+            throwError(resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, e.getMessage());
         } catch (Throwable t) {
             log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(t));
@@ -127,14 +122,14 @@ public class WebApiServlet extends HttpServlet {
     private void throwErrorBasedOnRequester(HttpServletRequest req, HttpServletResponse resp, Exception e, int statusCode)
             throws IOException {
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
-        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        // Reference: https://cloud.google.com/tasks/docs/creating-appengine-handlers#reading_app_engine_task_request_headers
         boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
 
         if (isRequestFromAppEngineQueue) {
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(e));
 
-            // Response status is not set to 4XX to 5XX to prevent GAE retry mechanism because
+            // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
             // if the cause of the exception is improper request URL, no amount of retry is going to help.
             // The action will be inaccurately marked as "success", but the severe log can be used
             // to trace the origin of the problem.

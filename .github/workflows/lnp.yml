@@ -25,7 +25,9 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Create Config Files
         run: ./gradlew createConfigs
-      - name: Start App Engine
-        run: ./gradlew appengineStart
+      - name: Run local Datastore emulator
+        run: ./gradlew runDatastoreEmulator
+      - name: Start Server
+        run: ./gradlew serverRun &
       - name: Start Tests
         run: ./gradlew lnpTests

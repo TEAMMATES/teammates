@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.cmd.Query;
 
 /**
@@ -45,7 +45,7 @@ public class CursorIterator<T> implements Iterator<T> {
         if (this.cursor != null) {
             newQuery = newQuery.startAt(this.cursor);
         }
-        QueryResultIterator<T> iterator = newQuery.iterator();
+        QueryResults<T> iterator = newQuery.iterator();
 
         boolean shouldContinue = false;
         while (iterator.hasNext()) {
@@ -54,7 +54,7 @@ public class CursorIterator<T> implements Iterator<T> {
         }
 
         if (shouldContinue) {
-            this.cursor = iterator.getCursor();
+            this.cursor = iterator.getCursorAfter();
         }
     }
 
