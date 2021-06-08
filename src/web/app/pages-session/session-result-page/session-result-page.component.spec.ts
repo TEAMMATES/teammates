@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -139,6 +140,7 @@ describe('SessionResultPageComponent', () => {
   let navService: NavigationService;
   let studentService: StudentService;
   let feedbackSessionService: FeedbackSessionsService;
+  let logService: LogService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -157,6 +159,7 @@ describe('SessionResultPageComponent', () => {
         NavigationService,
         StudentService,
         FeedbackSessionsService,
+        LogService,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -178,6 +181,7 @@ describe('SessionResultPageComponent', () => {
     navService = TestBed.inject(NavigationService);
     studentService = TestBed.inject(StudentService);
     feedbackSessionService = TestBed.inject(FeedbackSessionsService);
+    logService = TestBed.inject(LogService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -390,7 +394,7 @@ describe('SessionResultPageComponent', () => {
         .toEqual('/web/student/sessions/result');
   });
 
-  it('should load info for unused reg key that is allowed', () => {
+  it('should load info and create log for unused reg key that is allowed', () => {
     const testValidity: RegkeyValidity = {
       isAllowedAccess: true,
       isUsed: false,
@@ -400,11 +404,13 @@ describe('SessionResultPageComponent', () => {
     spyOn(authService, 'getAuthRegkeyValidity').and.returnValue(of(testValidity));
     spyOn(studentService, 'getStudent').and.returnValue(of({ name: 'student-name' }));
     spyOn(feedbackSessionService, 'getFeedbackSession').and.returnValue(of(testFeedbackSession));
+    const logSpy: Spy = spyOn(logService, 'createFeedbackSessionLog').and.returnValue(of('log created'));
 
     component.ngOnInit();
 
     expect(component.personName).toEqual('student-name');
     expect(component.session.courseId).toEqual('CS1231');
+    expect(logSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should fetch session results when loading feedback session', () => {

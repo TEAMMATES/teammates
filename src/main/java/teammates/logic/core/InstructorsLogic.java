@@ -5,14 +5,13 @@ import java.util.List;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Logger;
 import teammates.storage.api.InstructorsDb;
 
@@ -61,7 +60,8 @@ public final class InstructorsLogic {
      * search instructors in the whole system.
      * @return null if no result found
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
+    public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
 
@@ -227,7 +227,7 @@ public final class InstructorsLogic {
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
@@ -302,7 +302,7 @@ public final class InstructorsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException e) {
-            Assumption.fail("Unexpected invalid parameter.");
+            assert false : "Unexpected invalid parameter.";
         }
     }
 

@@ -1,11 +1,14 @@
 package teammates.ui.webapi;
 
+import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
+import teammates.test.TestProperties;
 import teammates.ui.output.InstructorsData;
+import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link SearchInstructorsAction}.
@@ -44,6 +47,10 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     protected void testExecute_searchCourseId_shouldSucceed() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getCourseId() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -57,6 +64,10 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     protected void testExecute_searchDisplayedName_shouldSucceed() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getDisplayedName() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -70,6 +81,10 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     protected void testExecute_searchEmail_shouldSucceed() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getEmail() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -85,6 +100,10 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     protected void testExecute_searchGoogleId_shouldSucceed() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getGoogleId() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -100,6 +119,10 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     protected void testExecute_searchName_shouldSucceed() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, acc.getName() };
         SearchInstructorsAction action = getAction(submissionParams);
@@ -115,12 +138,34 @@ public class SearchInstructorsActionTest extends BaseActionTest<SearchInstructor
 
     @Test
     protected void testExecute_searchNoMatch_shouldBeEmpty() {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         loginAsAdmin();
         String[] submissionParams = new String[] { Const.ParamsNames.SEARCH_KEY, "noMatch" };
         SearchInstructorsAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
         InstructorsData response = (InstructorsData) result.getOutput();
         assertEquals(0, response.getInstructors().size());
+    }
+
+    @Test
+    public void testExecute_noSearchService_shouldReturn501() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        loginAsAdmin();
+        String[] params = new String[] {
+                Const.ParamsNames.SEARCH_KEY, "anything",
+        };
+        SearchInstructorsAction a = getAction(params);
+        JsonResult result = getJsonResult(a);
+        MessageOutput output = (MessageOutput) result.getOutput();
+
+        assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
+        assertEquals("Search service is not implemented.", output.getMessage());
     }
 
     @Override
