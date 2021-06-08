@@ -1,12 +1,12 @@
 package teammates.common.util;
 
+import teammates.common.exception.TeammatesException;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
-
-import teammates.common.exception.TeammatesException;
 
 /**
  * Represents the deployment-specific configuration values of the system.
@@ -98,6 +98,7 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
+    /** The value of the "app.seniorDeveloper.ids" in build.properties file. */
     public static final List<String> SENIOR_DEVELOPERS;
 
     static {
