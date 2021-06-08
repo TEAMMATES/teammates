@@ -487,7 +487,7 @@ describe('InstructorSessionEditPageComponent', () => {
     spyOn(feedbackSessionsService, 'createFeedbackSession').and.returnValue(of(copiedFeedbackSession));
     spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of({ questions: [testFeedbackQuestion1] }));
     spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
-    
+
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
 
     expect(component.copyCurrentSession()).resolves.toBe(undefined);
