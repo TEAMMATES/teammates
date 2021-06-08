@@ -1,8 +1,8 @@
 package teammates.logic.api;
 
 import teammates.common.datatransfer.UserInfo;
-import teammates.common.util.Config;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.util.Config;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 
