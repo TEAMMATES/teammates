@@ -104,7 +104,7 @@ public class WebApiServlet extends HttpServlet {
             responseDetails.put("responseStatus", statusCode);
             responseDetails.put("responseTime", timeElapsed);
 
-            String logMessage = "%s " + RequestTracer.getRequestId() + " %s with %s in " + timeElapsed + "ms";
+            String logMessage = "%s " + RequestTracer.getTraceId() + " %s with %s in " + timeElapsed + "ms";
             if (action == null) {
                 logMessage = String.format(logMessage, "Response", "dispatched", statusCode);
             } else {

@@ -90,10 +90,10 @@ public final class Logger {
         }
         prefix.append(' ');
 
-        if (RequestTracer.getRequestId() == null) {
+        if (RequestTracer.getTraceId() == null) {
             return prefix.toString() + message;
         }
-        return prefix.toString() + "[" + RequestTracer.getRequestId() + "] " + message;
+        return prefix.toString() + "[" + RequestTracer.getTraceId() + "] " + message;
     }
 
     private String formatLogMessageForCloudLogging(String message, String severity) {
@@ -115,12 +115,13 @@ public final class Logger {
             payload.put("logging.googleapis.com/sourceLocation", sourceLocation);
         }
 
-        if (RequestTracer.getRequestId() != null) {
-            String[] traceAndSpan = RequestTracer.getRequestId().split("/", 2);
-            payload.put("logging.googleapis.com/trace", "projects/" + Config.APP_ID + "/traces/" + traceAndSpan[0]);
-            if (traceAndSpan.length == 2) {
-                payload.put("logging.googleapis.com/spanId", traceAndSpan[1].split(";")[0]);
-            }
+        if (RequestTracer.getTraceId() != null) {
+            payload.put("logging.googleapis.com/trace",
+                    "projects/" + Config.APP_ID + "/traces/" + RequestTracer.getTraceId());
+        }
+
+        if (RequestTracer.getSpanId() != null) {
+            payload.put("logging.googleapis.com/spanId", RequestTracer.getSpanId());
         }
 
         return payload;

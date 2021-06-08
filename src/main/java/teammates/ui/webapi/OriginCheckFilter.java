@@ -185,7 +185,7 @@ public class OriginCheckFilter implements Filter {
         requestDetails.put("responseStatus", statusCode);
         requestDetails.put("responseTime", timeElapsed);
 
-        String logMessage = "Response " + RequestTracer.getRequestId() + " dispatched with "
+        String logMessage = "Response " + RequestTracer.getTraceId() + " dispatched with "
                 + statusCode + " in " + timeElapsed + "ms";
         log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
     }

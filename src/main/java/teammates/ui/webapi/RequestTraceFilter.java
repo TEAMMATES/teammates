@@ -18,6 +18,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
@@ -80,7 +81,20 @@ public class RequestTraceFilter implements Filter {
 
         ExecutorService es = Executors.newSingleThreadExecutor();
         Future<Void> f = es.submit(() -> {
-            RequestTracer.init(request.getHeader("X-Cloud-Trace-Context"), timeoutInSeconds);
+            String requestId = request.getHeader("X-Cloud-Trace-Context");
+            String traceId;
+            String spanId = null;
+            if (requestId == null) {
+                traceId = RandomStringUtils.randomAlphanumeric(32);
+            } else {
+                // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
+                String[] traceAndSpan = requestId.split("/", 2);
+                traceId = traceAndSpan[0];
+                if (traceAndSpan.length == 2) {
+                    spanId = traceAndSpan[1].split(";")[0];
+                }
+            }
+            RequestTracer.init(traceId, spanId, timeoutInSeconds);
 
             Map<String, Object> requestDetails = new HashMap<>();
             requestDetails.put("requestMethod", request.getMethod());
@@ -89,7 +103,7 @@ public class RequestTraceFilter implements Filter {
             requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
             requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
 
-            String message = "Request " + RequestTracer.getRequestId() + " received: " + request.getRequestURI();
+            String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
             log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
 
             chain.doFilter(req, resp);
@@ -127,7 +141,7 @@ public class RequestTraceFilter implements Filter {
         requestDetails.put("responseStatus", statusCode);
         requestDetails.put("responseTime", timeElapsed);
 
-        String logMessage = "Response " + RequestTracer.getRequestId() + " dispatched with "
+        String logMessage = "Response " + RequestTracer.getTraceId() + " dispatched with "
                 + statusCode + " in " + timeElapsed + "ms";
         log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
     }
