@@ -19,7 +19,6 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Config;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
@@ -61,16 +60,6 @@ public class WebApiServlet extends HttpServlet {
 
     @SuppressWarnings("PMD.AvoidCatchingThrowable") // used as fallback
     private void invokeServlet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        resp.setHeader("Strict-Transport-Security", "max-age=31536000");
-        resp.setHeader("Cache-Control", "no-store");
-        resp.setHeader("Pragma", "no-cache");
-
-        if (Config.MAINTENANCE) {
-            throwError(resp, HttpStatus.SC_SERVICE_UNAVAILABLE,
-                    "The server is currently undergoing some maintenance.");
-            return;
-        }
-
         int statusCode = 0;
         Action action = null;
         try {

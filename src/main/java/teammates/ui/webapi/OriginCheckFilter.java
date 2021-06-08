@@ -176,8 +176,6 @@ public class OriginCheckFilter implements Filter {
     }
 
     private void denyAccess(String message, HttpServletResponse response) throws IOException {
-        response.setHeader("Strict-Transport-Security", "max-age=31536000");
-
         int statusCode = HttpStatus.SC_FORBIDDEN;
         JsonResult result = new JsonResult(message, statusCode);
         result.send(response);

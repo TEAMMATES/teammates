@@ -21,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Config;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
@@ -40,8 +41,19 @@ public class RequestTraceFilter implements Filter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse resp, FilterChain chain) throws IOException {
-        HttpServletRequest request = (HttpServletRequest) req;
         HttpServletResponse response = (HttpServletResponse) resp;
+
+        response.setHeader("Strict-Transport-Security", "max-age=31536000");
+        response.setHeader("Cache-Control", "no-store");
+        response.setHeader("Pragma", "no-cache");
+
+        if (Config.MAINTENANCE) {
+            throwError(response, HttpStatus.SC_SERVICE_UNAVAILABLE,
+                    "The server is currently undergoing some maintenance.");
+            return;
+        }
+
+        HttpServletRequest request = (HttpServletRequest) req;
 
         try {
             // Make sure that all parameters are valid UTF-8
