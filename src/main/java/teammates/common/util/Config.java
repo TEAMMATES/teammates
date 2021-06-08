@@ -98,6 +98,8 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
+    public static final List<String> SENIOR_DEVELOPERS;
+
     static {
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
@@ -133,6 +135,7 @@ public final class Config {
         SEARCH_SERVICE_HOST = properties.getProperty("app.search.service.host");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
+        SENIOR_DEVELOPERS = Arrays.asList(properties.getProperty("app.seniorDeveloper.ids").split(","));
     }
 
     private Config() {
