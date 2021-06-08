@@ -1,12 +1,12 @@
 package teammates.common.util;
 
-import teammates.common.exception.TeammatesException;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
+
+import teammates.common.exception.TeammatesException;
 
 /**
  * Represents the deployment-specific configuration values of the system.
