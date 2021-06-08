@@ -11,12 +11,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
 import teammates.storage.entity.CourseStudent;
-import teammates.test.BaseTestCaseWithMinimalGaeEnvironment;
+import teammates.test.BaseTestCase;
 
 /**
  * SUT: {@link StudentAttributes}.
  */
-public class StudentAttributesTest extends BaseTestCaseWithMinimalGaeEnvironment {
+public class StudentAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValues() {

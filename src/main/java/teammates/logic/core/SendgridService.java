@@ -20,7 +20,7 @@ import teammates.common.util.EmailWrapper;
 /**
  * Email sender service provided by SendGrid.
  *
- * @see <a href="https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid">https://cloud.google.com/appengine/docs/flexible/java/sending-emails-with-sendgrid</a>
+ * @see <a href="https://cloud.google.com/appengine/docs/standard/java11/sending-messages#sendgrid">https://cloud.google.com/appengine/docs/standard/java11/sending-messages#sendgrid</a>
  * @see SendGrid
  */
 public class SendgridService implements EmailSenderService {

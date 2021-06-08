@@ -246,7 +246,7 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForEmail(String email) {
 
-        Assumption.assertNotNull("Non-null value expected", email);
+        assert email != null;
 
         if (email.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
@@ -284,9 +284,9 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForGoogleId(String googleId) {
 
-        Assumption.assertNotNull("Non-null value expected", googleId);
-        Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
-                !googleId.toLowerCase().endsWith("@gmail.com"));
+        assert googleId != null;
+        assert !googleId.toLowerCase().endsWith("@gmail.com")
+                : "\"" + googleId + "\"" + "is not expected to be a gmail address.";
 
         boolean isValidFullEmail = isValidEmailAddress(googleId);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
@@ -314,7 +314,7 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForCourseId(String courseId) {
 
-        Assumption.assertNotNull("Non-null value expected", courseId);
+        assert courseId != null;
 
         if (courseId.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
@@ -408,7 +408,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public static String getInvalidityInfoForNationality(String nationality) {
-        Assumption.assertNotNull("Non-null value expected", nationality);
+        assert nationality != null;
         if (!NationalityHelper.getNationalities().contains(nationality)) {
             return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
         }
@@ -443,7 +443,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
     public static String getInvalidityInfoForTimeZone(String timeZoneValue) {
-        Assumption.assertNotNull("Non-null value expected", timeZoneValue);
+        assert timeZoneValue != null;
         if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(TIME_ZONE_ERROR_MESSAGE,
                     timeZoneValue, TIME_ZONE_FIELD_NAME, REASON_UNAVAILABLE_AS_CHOICE);
@@ -458,7 +458,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code role} is acceptable.
      */
     public static String getInvalidityInfoForRole(String role) {
-        Assumption.assertNotNull("Non-null value expected", role);
+        assert role != null;
 
         if (!ROLE_ACCEPTED_VALUES.contains(role)) {
             return String.format(ROLE_ERROR_MESSAGE, role);
@@ -482,7 +482,7 @@ public final class FieldValidator {
      */
     static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
-        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
+        assert value != null : "Non-null value expected for " + fieldName;
 
         if (value.isEmpty()) {
             if (fieldName.equals(FEEDBACK_SESSION_NAME_FIELD_NAME)) {
@@ -534,7 +534,7 @@ public final class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
+        assert value != null : "Non-null value expected for " + fieldName;
 
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -580,8 +580,8 @@ public final class FieldValidator {
 
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
             Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
-        Assumption.assertNotNull("Non-null value expected", earlierTime);
-        Assumption.assertNotNull("Non-null value expected", laterTime);
+        assert earlierTime != null;
+        assert laterTime != null;
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
@@ -594,8 +594,8 @@ public final class FieldValidator {
     public static List<String> getValidityInfoForFeedbackParticipantType(
             FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
 
-        Assumption.assertNotNull("Non-null value expected", giverType);
-        Assumption.assertNotNull("Non-null value expected", recipientType);
+        assert giverType != null;
+        assert recipientType != null;
 
         List<String> errors = new LinkedList<>();
         if (!giverType.isValidGiver()) {
@@ -624,7 +624,7 @@ public final class FieldValidator {
      * @return Error string if type is invalid, otherwise empty string.
      */
     public static String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
-        Assumption.assertNotNull("Non-null value expected", commentGiverType);
+        assert commentGiverType != null;
         if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
                    && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
                    && !commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
@@ -654,12 +654,12 @@ public final class FieldValidator {
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo) {
 
-        Assumption.assertNotNull("Non-null value expected", showResponsesTo);
-        Assumption.assertNotNull("Non-null value expected", showGiverNameTo);
-        Assumption.assertNotNull("Non-null value expected", showRecipientNameTo);
-        Assumption.assertTrue("Non-null value expected", !showResponsesTo.contains(null));
-        Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
-        Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
+        assert showResponsesTo != null;
+        assert showGiverNameTo != null;
+        assert showRecipientNameTo != null;
+        assert !showResponsesTo.contains(null);
+        assert !showGiverNameTo.contains(null);
+        assert !showRecipientNameTo.contains(null);
 
         List<String> errors = new LinkedList<>();
 

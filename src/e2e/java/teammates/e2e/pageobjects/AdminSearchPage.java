@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.e2e.util.TestProperties;
 
 /**
  * Represents the admin home page of the website.
@@ -349,10 +348,8 @@ public class AdminSearchPage extends AppPage {
     }
 
     public void verifyRegenerateStudentCourseLinks(StudentAttributes student, String originalJoinLink) {
-        if (TestProperties.isDevServer() || TestProperties.INCLUDE_EMAIL_VERIFICATION) {
-            verifyStatusMessage("Student's links for this course have been successfully regenerated,"
-                    + " and the email has been sent.");
-        }
+        verifyStatusMessage("Student's links for this course have been successfully regenerated,"
+                + " and the email has been sent.");
 
         String regeneratedJoinLink = getStudentJoinLink(student);
         assertNotEquals(regeneratedJoinLink, originalJoinLink);

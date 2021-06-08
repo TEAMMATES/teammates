@@ -2,8 +2,7 @@ package teammates.e2e.cases;
 
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-import com.google.apphosting.api.DeadlineExceededException;
+import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -30,8 +29,7 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
     public void testAll() {
         testAssertionError();
         testNullPointerException();
-        testDeadlineExceededException();
-        testDatastoreTimeoutException();
+        testDatastoreException();
         testUnauthorizedAccessException();
         testInvalidHttpParameterException();
         testEntityNotFoundException();
@@ -65,31 +63,17 @@ public class SystemErrorEmailReportE2ETest extends BaseE2ETestCase {
 
     }
 
-    private void testDeadlineExceededException() {
+    private void testDatastoreException() {
 
-        ______TS("DeadlineExceededException testing");
+        ______TS("DatastoreException testing");
 
         String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName())
+                .withParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName())
                 .toString();
 
         BACKDOOR.executeGetRequest(url, null);
 
-        print("DeadlineExceededException triggered, verify that you have received error logs via email");
-
-    }
-
-    private void testDatastoreTimeoutException() {
-
-        ______TS("DatastoreTimeoutException testing");
-
-        String url = createUrl(Const.ResourceURIs.EXCEPTION)
-                .withParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName())
-                .toString();
-
-        BACKDOOR.executeGetRequest(url, null);
-
-        print("DatastoreTimeoutException triggered, verify that you have received error logs via email");
+        print("DatastoreException triggered, verify that you have received error logs via email");
 
     }
 

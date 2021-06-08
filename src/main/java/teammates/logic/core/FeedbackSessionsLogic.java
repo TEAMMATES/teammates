@@ -28,7 +28,6 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -319,8 +318,8 @@ public final class FeedbackSessionsLogic {
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
     public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(courseTimeZone);
+        assert courseId != null;
+        assert courseTimeZone != null;
 
         List<FeedbackSessionAttributes> fsForCourse = fsDb.getFeedbackSessionsForCourse(courseId);
         fsForCourse.forEach(fs -> {
