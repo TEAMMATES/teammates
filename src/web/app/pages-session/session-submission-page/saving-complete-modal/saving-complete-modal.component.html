@@ -25,19 +25,23 @@
       </li>
     </ul>
   </div>
+  <p *ngIf="hasFailToSaveQuestions">
+    Please try to submit your responses again.
+  </p>
   <p *ngIf="!hasFailToSaveQuestions">
     All your responses have been successfully recorded!
   </p>
   <p>
     Note that you can change your responses and submit them again any time before the session closes.
   </p>
-  <p>
+  <p *ngIf="!hasFailToSaveQuestions">
     You are encouraged to download the proof of submission, which will also contain your latest responses.
   </p>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-info"
-          (click)="downloadProofOfSubmission()">Download proof of submission</button>
+          (click)="downloadProofOfSubmission()"
+          [disabled]="hasFailToSaveQuestions">Download proof of submission</button>
   <button type="button" class="btn modal-btn-ok"
           [ngClass]="
                 {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"
