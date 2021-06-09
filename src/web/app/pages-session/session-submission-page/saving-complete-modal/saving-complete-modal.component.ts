@@ -98,7 +98,7 @@ export class SavingCompleteModalComponent implements OnInit {
           }
         }
       } else {
-        fileContent.push('WARNING: The response for this question is not saved');
+        fileContent.push('ERROR! The response submission to this question failed.');
       }
 
       fileContent.push('');
