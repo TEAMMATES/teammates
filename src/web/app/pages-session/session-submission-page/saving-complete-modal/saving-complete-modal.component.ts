@@ -26,6 +26,9 @@ export class SavingCompleteModalComponent implements OnInit {
   feedbackSessionTimezone: string = '';
 
   @Input()
+  numberOfQuestions: number = 0;
+
+  @Input()
   personEmail: string = '';
 
   @Input()
@@ -48,6 +51,10 @@ export class SavingCompleteModalComponent implements OnInit {
 
   get hasFailToSaveQuestions(): boolean {
     return Object.keys(this.failToSaveQuestions).length !== 0;
+  }
+
+  get isAllQuestionSavingFailed(): boolean {
+    return Object.keys(this.failToSaveQuestions).length === this.numberOfQuestions;
   }
 
   constructor(public activeModal: NgbActiveModal,
@@ -74,10 +81,11 @@ export class SavingCompleteModalComponent implements OnInit {
     ];
 
     for (const question of this.questions) {
+      fileContent.push(`${question.questionNumber}: ${question.questionBrief}`);
+      fileContent.push(question.feedbackQuestionId);
+
       if (this.requestIds[question.feedbackQuestionId]) {
         // Question is either answered or skipped
-        fileContent.push(`${question.questionNumber}: ${question.questionBrief}`);
-        fileContent.push(question.feedbackQuestionId);
         fileContent.push(this.requestIds[question.feedbackQuestionId]);
 
         if (this.answers[question.feedbackQuestionId]) {
@@ -89,10 +97,12 @@ export class SavingCompleteModalComponent implements OnInit {
                 .join(','));
           }
         }
-
-        fileContent.push('');
-        fileContent.push('');
+      } else {
+        fileContent.push('WARNING: The response for this question is not saved');
       }
+
+      fileContent.push('');
+      fileContent.push('');
     }
 
     const blob: Blob = new Blob([fileContent.join('\r\n')], { type: 'text/plain' });
