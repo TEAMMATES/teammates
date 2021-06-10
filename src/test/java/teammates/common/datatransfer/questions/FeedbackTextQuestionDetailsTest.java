@@ -1,12 +1,12 @@
 package teammates.common.datatransfer.questions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.test.BaseTestCase;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * SUT: {@link FeedbackTextQuestionDetails}.
@@ -82,7 +82,7 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, numRecipients).isEmpty());
 
-        for(int i = 0; i < 10; i++) {
+        for (int i = 0; i < 10; i++) {
             responses.add(new FeedbackTextResponseDetails());
         }
         numRecipients = 10;
