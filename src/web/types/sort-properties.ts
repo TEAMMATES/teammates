@@ -356,6 +356,11 @@ export enum SortBy {
      * The date of log
      */
     LOG_DATE,
+
+    /**
+     * The status of result view
+     */
+    RESULT_VIEW_STATUS,
 }
 
 /**

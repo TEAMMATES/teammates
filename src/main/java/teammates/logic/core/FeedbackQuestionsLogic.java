@@ -23,7 +23,6 @@ import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.FeedbackQuestionsDb;
@@ -257,6 +256,14 @@ public final class FeedbackQuestionsLogic {
         return questions;
     }
 
+    /**
+     * Returns true if a session has question in either STUDENTS type or TEAMS type.
+     */
+    public boolean sessionHasQuestions(String feedbackSessionName, String courseId) {
+        return fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.STUDENTS)
+                || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
+    }
+
     Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
@@ -345,7 +352,7 @@ public final class FeedbackQuestionsLogic {
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver,
             @Nullable CourseRoster courseRoster) {
-        Assumption.assertTrue(instructorGiver != null || studentGiver != null);
+        assert instructorGiver != null || studentGiver != null;
 
         Map<String, String> recipients = new HashMap<>();
 
@@ -622,7 +629,7 @@ public final class FeedbackQuestionsLogic {
 
                 optionList.sort(null);
             } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
+                assert false : "Course disappeared";
             }
             break;
         case OWN_TEAM_MEMBERS_INCLUDING_SELF:
@@ -651,7 +658,7 @@ public final class FeedbackQuestionsLogic {
             optionList.sort(null);
             break;
         default:
-            Assumption.fail("Trying to generate options for neither students, teams nor instructors");
+            assert false : "Trying to generate options for neither students, teams nor instructors";
             break;
         }
 
@@ -769,7 +776,7 @@ public final class FeedbackQuestionsLogic {
                 }
             }
         } catch (InvalidParametersException | EntityDoesNotExistException e) {
-            Assumption.fail("Adjusting question number should not cause: " + e.getMessage());
+            assert false : "Adjusting question number should not cause: " + e.getMessage();
         }
     }
 
@@ -819,7 +826,7 @@ public final class FeedbackQuestionsLogic {
                             .withQuestionNumber(question.questionNumber - 1)
                             .build());
                 } catch (InvalidParametersException | EntityDoesNotExistException e) {
-                    Assumption.fail("Shifting question number should not cause: " + e.getMessage());
+                    assert false : "Shifting question number should not cause: " + e.getMessage();
                 }
             }
         }
@@ -841,7 +848,7 @@ public final class FeedbackQuestionsLogic {
                 List<String> teams = coursesLogic.getTeamsForCourse(courseId);
                 return teams.size() - (participantType == FeedbackParticipantType.TEAMS ? 0 : 1);
             } catch (EntityDoesNotExistException e) {
-                Assumption.fail("Course disappeared");
+                assert false : "Course disappeared";
             }
         }
 

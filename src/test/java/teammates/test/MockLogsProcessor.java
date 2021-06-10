@@ -45,7 +45,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime) {
+            Instant startTime, Instant endTime, String fsName) {
         return feedbackSessionLogs;
     }
 

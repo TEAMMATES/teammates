@@ -7,6 +7,8 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import com.google.common.io.ByteStreams;
+
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
 
@@ -44,9 +46,9 @@ public final class LocalFileStorageService implements FileStorageService {
 
     @Override
     public byte[] getContent(String fileKey) {
-        byte[] buffer = new byte[1024 * 300];
+        byte[] buffer;
         try (InputStream fis = Files.newInputStream(Paths.get(constructFilePath(fileKey)))) {
-            fis.read(buffer);
+            buffer = ByteStreams.toByteArray(fis);
         } catch (IOException e) {
             log.warning(TeammatesException.toStringWithStackTrace(e));
             return new byte[0];

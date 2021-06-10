@@ -1,0 +1,101 @@
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref
+
+# Run/deploy with Java 11 runtime.
+runtime: java11
+
+# Command to run the application as how it would be done in command line.
+entrypoint: 'java -ea -Djava.util.logging.config.file=WEB-INF/logging.properties -cp "WEB-INF/lib/*:WEB-INF/classes/." teammates.main.Application'
+
+# GAE instance class that determines compute resources available to the application.
+instance_class: F1
+
+# VPC Access Connector is required in order to connect to VMs in Compute Engine, e.g. the search service.
+# For details on how to set this up, refer to the guide in teammates-ops repo or GCP's official documentation.
+# vpc_access_connector:
+#   name: projects/teammates-john/locations/us-central1/connectors/connector-name
+
+# Defines environment variables.
+# The following example enables Google Cloud Profiler agent to ingest application performance data.
+# env_variables:
+#   JAVA_TOOL_OPTIONS: "-agentpath:/opt/cprof/profiler_java_agent.so=-cprof_enable_heap_sampling=true"
+
+handlers:
+  # These are the handlers for static files. By specifying them as static files, requests pointing to these URLs will not add up to instance load.
+  # Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref#handlers_element
+
+  # Single HTML page. This will also be equipped with sufficient security headers such as CSP.
+  - url: /(index\.html|(web/.*)|)$
+    static_files: dist/index.html
+    upload: dist/index.html
+    expiration: 10m
+    secure: always
+    http_headers:
+      Content-Security-Policy: "default-src 'none'; script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net/; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/; frame-src 'self' docs.google.com https://www.google.com/recaptcha/; img-src 'self' data: https:; font-src 'self' https://cdn.jsdelivr.net/; connect-src 'self'; manifest-src 'self'; form-action 'none'; frame-ancestors 'self'; base-uri 'self'"
+      X-Content-Type-Options: nosniff
+      X-Frame-Options: SAMEORIGIN
+      X-XSS-Protection: 1; mode=block
+      Strict-Transport-Security: max-age=31536000
+
+  # Assets and front-end files
+  - url: /assets
+    static_dir: dist/assets
+    expiration: 90d
+  - url: /(.*\.(js|css))$
+    static_files: dist/\1
+    upload: dist/.*\.(js|css)$
+    expiration: 90d
+
+  # Progressive web app files
+  - url: /manifest.webmanifest
+    static_files: dist/manifest.webmanifest
+    upload: dist/manifest.webmanifest
+    expiration: 10m
+  - url: /ngsw.json
+    static_files: dist/ngsw.json
+    upload: dist/ngsw.json
+    expiration: 1d
+
+  # Crawler-related files
+  - url: /sitemap.xml
+    static_files: dist/sitemap.xml
+    upload: dist/sitemap.xml
+    expiration: 1d
+  - url: /robots.txt
+    static_files: dist/robots.txt
+    upload: dist/robots.txt
+    expiration: 1d
+
+  # Webmaster files
+  - url: /BingSiteAuth.xml
+    static_files: dist/BingSiteAuth.xml
+    upload: dist/BingSiteAuth.xml
+    expiration: 1d
+  - url: /google8c7ef1e995031e09.html
+    static_files: dist/google8c7ef1e995031e09.html
+    upload: dist/google8c7ef1e995031e09.html
+    expiration: 1d
+
+  # All incoming requests will be redirected to HTTPS.
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
+
+# Defines policy for automatic scaling (instance class F*).
+# If the application uses instance class B*, this part is not relevant.
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref#scaling_elements
+automatic_scaling:
+  # max_instances: 0
+  # min_instances: 0
+  # max_idle_instances: automatic
+  # min_idle_instances: 0
+  # max_pending_latency: automatic
+  # min_pending_latency: 0
+  max_concurrent_requests: 10
+  target_cpu_utilization: 0.6
+  target_throughput_utilization: 0.6
+
+# Enable warmup request to reduce latency when new instances are created.
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/configuring-warmup-requests
+inbound_services:
+  - warmup

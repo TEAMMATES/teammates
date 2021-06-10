@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import teammates.client.remoteapi.RemoteApiClient;
+import teammates.client.connector.DatastoreClient;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
@@ -30,7 +30,7 @@ import teammates.logic.api.Logic;
 /**
  * Script to mock a course and populate large number of responses.
  */
-public final class MockCourseWithLargeResponseScript extends RemoteApiClient {
+public final class MockCourseWithLargeResponseScript extends DatastoreClient {
     // Change the following params for different course setup
     private static final int NUMBER_OF_STUDENTS = 500;
     private static final int NUMBER_OF_TEAMS = 100;

@@ -1,0 +1,380 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorTrackViewPageComponent should snap when page is still loading 1`] = `
+<tm-instructor-track-view-page
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseToFeedbackSession={[Function Object]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formModel={[Function Object]}
+  hasResult="false"
+  isLoading={[Function Boolean]}
+  isSearching="false"
+  logsDateFrom={[Function Object]}
+  logsDateTo={[Function Object]}
+  logsService={[Function LogService]}
+  logsTimeFrom={[Function Object]}
+  logsTimeTo={[Function Object]}
+  notViewedSince="0"
+  publishedTime="0"
+  searchResult={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Student Result View Tracking
+  </h1><p>
+    This page allows you to track if the session results were viewed by students. The search will go only up to the date the session was published. The earliest date you can search for is 
+    <b>
+      30 days
+    </b>
+     before today.
+  </p><hr /><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div>
+    
+  </div>
+</tm-instructor-track-view-page>
+`;
+
+exports[`InstructorTrackViewPageComponent should snap when searching for details in search form 1`] = `
+<tm-instructor-track-view-page
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseToFeedbackSession={[Function Object]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formModel={[Function Object]}
+  hasResult="false"
+  isLoading="false"
+  isSearching={[Function Boolean]}
+  logsDateFrom={[Function Object]}
+  logsDateTo={[Function Object]}
+  logsService={[Function LogService]}
+  logsTimeFrom={[Function Object]}
+  logsTimeTo={[Function Object]}
+  notViewedSince="0"
+  publishedTime="0"
+  searchResult={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Student Result View Tracking
+  </h1><p>
+    This page allows you to track if the session results were viewed by students. The search will go only up to the date the session was published. The earliest date you can search for is 
+    <b>
+      30 days
+    </b>
+     before today.
+  </p><hr /><div
+    class="card bg-form no-border"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-5"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="course-id-dropdown"
+            >
+              Course ID
+            </label>
+          </div>
+          <div
+            class="col-12"
+          >
+            <select
+              class="form-control col-12 ng-untouched ng-pristine ng-valid"
+              id="course-id-dropdown"
+            >
+              <option
+                disabled=""
+                hidden=""
+                selected=""
+                value=""
+              >
+                Select Course ID
+              </option>
+              
+              <option>
+                 CS1234 
+              </option>
+              <option>
+                 MA1234 
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="col-5"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="session-dropdown"
+            >
+              Feedback Session Name
+            </label>
+          </div>
+          <div
+            class="col-12"
+          >
+            <select
+              class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
+              id="session-dropdown"
+            >
+              
+              <option
+                value="First Session"
+              >
+                 First Session 
+              </option>
+            </select>
+          </div>
+        </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            disabled=""
+            id="view-button"
+          >
+            View
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-instructor-track-view-page>
+`;
+
+exports[`InstructorTrackViewPageComponent should snap with default fields 1`] = `
+<tm-instructor-track-view-page
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseToFeedbackSession={[Function Object]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formModel={[Function Object]}
+  hasResult="false"
+  isLoading={[Function Boolean]}
+  isSearching="false"
+  logsDateFrom={[Function Object]}
+  logsDateTo={[Function Object]}
+  logsService={[Function LogService]}
+  logsTimeFrom={[Function Object]}
+  logsTimeTo={[Function Object]}
+  notViewedSince="0"
+  publishedTime="0"
+  searchResult={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Student Result View Tracking
+  </h1><p>
+    This page allows you to track if the session results were viewed by students. The search will go only up to the date the session was published. The earliest date you can search for is 
+    <b>
+      30 days
+    </b>
+     before today.
+  </p><hr /><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div>
+    
+  </div>
+</tm-instructor-track-view-page>
+`;
+
+exports[`InstructorTrackViewPageComponent should snap with results of a search 1`] = `
+<tm-instructor-track-view-page
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  ONE_MINUTE_IN_MILLISECONDS={[Function Number]}
+  SortBy={[Function Object]}
+  courseService={[Function CourseService]}
+  courseToFeedbackSession={[Function Object]}
+  courses={[Function Array]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formModel={[Function Object]}
+  hasResult="false"
+  isLoading="false"
+  isSearching="false"
+  logsDateFrom={[Function Object]}
+  logsDateTo={[Function Object]}
+  logsService={[Function LogService]}
+  logsTimeFrom={[Function Object]}
+  logsTimeTo={[Function Object]}
+  notViewedSince="0"
+  publishedTime="0"
+  searchResult={[Function Object]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  studentToLog={[Function Object]}
+  students={[Function Array]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Student Result View Tracking
+  </h1><p>
+    This page allows you to track if the session results were viewed by students. The search will go only up to the date the session was published. The earliest date you can search for is 
+    <b>
+      30 days
+    </b>
+     before today.
+  </p><hr /><div
+    class="card bg-form no-border"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-5"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="course-id-dropdown"
+            >
+              Course ID
+            </label>
+          </div>
+          <div
+            class="col-12"
+          >
+            <select
+              class="form-control col-12 ng-untouched ng-pristine ng-valid"
+              id="course-id-dropdown"
+            >
+              <option
+                disabled=""
+                hidden=""
+                selected=""
+                value=""
+              >
+                Select Course ID
+              </option>
+              
+            </select>
+          </div>
+        </div>
+        <div
+          class="col-5"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="session-dropdown"
+            >
+              Feedback Session Name
+            </label>
+          </div>
+          <div
+            class="col-12"
+          >
+            <select
+              class="form-control col-md-12 ng-untouched ng-pristine ng-valid"
+              id="session-dropdown"
+            >
+              
+            </select>
+          </div>
+        </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            disabled=""
+            id="view-button"
+          >
+            View
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div>
+    
+  </div>
+</tm-instructor-track-view-page>
+`;
