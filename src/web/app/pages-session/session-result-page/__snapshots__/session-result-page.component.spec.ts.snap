@@ -10,6 +10,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -168,6 +169,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -296,6 +298,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
     
     <div>
       
+      
     </div>
     
     
@@ -313,6 +316,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -441,6 +445,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
     
     <div>
       
+      
     </div>
     
     
@@ -458,6 +463,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -585,6 +591,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
     
     
     <div>
+      
       
       <div
         class="card bg-light mt-4"
@@ -1466,6 +1473,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading={[Function Boolean]}
   logService={[Function LogService]}
   loggedInUser=""
@@ -1623,6 +1631,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
@@ -1752,6 +1761,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
     
     <div>
       
+      
     </div>
     
     
@@ -1769,6 +1779,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1896,6 +1907,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
     
     
     <div>
+      
       
     </div>
     
