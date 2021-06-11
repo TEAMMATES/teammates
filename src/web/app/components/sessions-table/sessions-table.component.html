@@ -65,7 +65,7 @@
             <ng-container *ngTemplateOutlet="editSessionBtn"></ng-container>
           </a>
           <ng-template #editSessionBtn>
-            <button type="button" class="btn btn-light btn-sm" (click)="editSessionEvent.emit(idx)"
+            <button type="button" class="btn btn-light btn-sm"
                     [disabled]="!sessionsTableRowModel.instructorPrivilege.canModifySession">
               Edit
             </button>

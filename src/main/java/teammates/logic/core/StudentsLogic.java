@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
@@ -13,7 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Const;
 import teammates.storage.api.StudentsDb;
 
@@ -95,7 +94,8 @@ public final class StudentsLogic {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
 
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
+    public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
         return studentsDb.search(queryString, instructors);
     }
 
@@ -105,7 +105,8 @@ public final class StudentsLogic {
      * search students in the whole system.
      * @return null if no result found
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         return studentsDb.searchStudentsInWholeSystem(queryString);
     }
 
@@ -191,7 +192,7 @@ public final class StudentsLogic {
                             .withGoogleId(null)
                             .build());
         } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-            Assumption.fail("Resetting google ID shall not cause: " + e.getMessage());
+            assert false : "Resetting google ID shall not cause: " + e.getMessage();
         }
     }
 

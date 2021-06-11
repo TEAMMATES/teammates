@@ -19,7 +19,7 @@ public class Url {
         try {
             url = new URL(urlString);
         } catch (MalformedURLException e) {
-            Assumption.fail("MalformedURLException for [" + urlString + "]: " + e.getMessage());
+            assert false : "MalformedURLException for [" + urlString + "]: " + e.getMessage();
         }
 
         this.baseUrl = url.getProtocol() + "://" + url.getAuthority();

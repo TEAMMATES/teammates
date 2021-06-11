@@ -1,28 +1,33 @@
 package teammates.storage.search;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
+import teammates.test.TestProperties;
 
 /**
  * SUT: {@link InstructorsDb},
- *      {@link teammates.storage.search.InstructorSearchDocument},
- *      {@link teammates.storage.search.InstructorSearchQuery}.
+ *      {@link teammates.storage.search.InstructorSearchDocument}.
  */
 public class InstructorSearchTest extends BaseSearchTest {
 
-    private InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = new InstructorsDb();
 
     @Test
     public void allTests() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         InstructorAttributes ins1InCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes ins2InCourse1 = dataBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes helperInCourse1 = dataBundle.instructors.get("helperOfCourse1");
@@ -40,7 +45,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         ______TS("success: search for instructors in whole system; query string does not match anyone");
 
-        InstructorSearchResultBundle results =
+        List<InstructorAttributes> results =
                 instructorsDb.searchInstructorsInWholeSystem("non-existent");
         verifySearchResults(results);
 
@@ -136,12 +141,16 @@ public class InstructorSearchTest extends BaseSearchTest {
 
     @Test
     public void testSearchInstructor_createNewInstructor_instructorShouldBeSearchable() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
 
-        InstructorSearchResultBundle bundle =
+        List<InstructorAttributes> instructorList =
                 instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
 
-        assertEquals(0, bundle.numberOfResults);
+        assertEquals(0, instructorList.size());
 
         // create a new instructor
         instructorsDb.createEntity(
@@ -152,19 +161,23 @@ public class InstructorSearchTest extends BaseSearchTest {
                         .build());
 
         // the newly created instructor is searchable
-        bundle = instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
-        assertEquals(1, bundle.numberOfResults);
-        assertEquals("instructorABCDE", bundle.instructorList.get(0).getName());
+        instructorList = instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
+        assertEquals(1, instructorList.size());
+        assertEquals("instructorABCDE", instructorList.get(0).getName());
     }
 
     @Test
-    public void testSearchInstructor_deleteAfterSearch_shouldNotBeSearchable() {
+    public void testSearchInstructor_deleteAfterSearch_shouldNotBeSearchable() throws Exception {
+        if (!TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
         InstructorAttributes ins1InCourse2 = dataBundle.instructors.get("instructor1OfCourse2");
         InstructorAttributes ins2InCourse2 = dataBundle.instructors.get("instructor2OfCourse2");
         InstructorAttributes ins3InCourse2 = dataBundle.instructors.get("instructor3OfCourse2");
 
         // there is search result before deletion
-        InstructorSearchResultBundle results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
+        List<InstructorAttributes> results = instructorsDb.searchInstructorsInWholeSystem("idOfTypicalCourse2");
         verifySearchResults(results, ins1InCourse2, ins2InCourse2, ins3InCourse2);
 
         // delete a student
@@ -185,6 +198,16 @@ public class InstructorSearchTest extends BaseSearchTest {
         verifySearchResults(results);
     }
 
+    @Test
+    public void testSearchInstructor_noSearchService_shouldThrowException() {
+        if (TestProperties.isSearchServiceActive()) {
+            return;
+        }
+
+        assertThrows(SearchNotImplementedException.class,
+                () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
+    }
+
     /*
      * Verifies that search results match with expected output.
      * Parameters are modified to standardize {@link InstructorAttributes} for comparison.
@@ -192,14 +215,13 @@ public class InstructorSearchTest extends BaseSearchTest {
      * @param actual the results from the search query.
      * @param expected the expected results for the search query.
      */
-    private static void verifySearchResults(InstructorSearchResultBundle actual,
+    private static void verifySearchResults(List<InstructorAttributes> actual,
             InstructorAttributes... expected) {
-        assertEquals(expected.length, actual.numberOfResults);
-        assertEquals(expected.length, actual.instructorList.size());
+        assertEquals(expected.length, actual.size());
         standardizeInstructorsForComparison(expected);
         standardizeInstructorsForComparison(
-                actual.instructorList.toArray(new InstructorAttributes[0]));
-        AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual.instructorList);
+                actual.toArray(new InstructorAttributes[0]));
+        AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
 
     /*
