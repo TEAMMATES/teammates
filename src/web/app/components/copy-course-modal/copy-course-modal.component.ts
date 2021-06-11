@@ -37,7 +37,7 @@ export class CopyCourseModalComponent implements OnInit {
   oldCourseId: string = '';
   oldCourseName: string = '';
 
-  chosenFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
+  selectedFeedbackSessions: Set<FeedbackSession> = new Set<FeedbackSession>();
 
   constructor(public activeModal: NgbActiveModal,
               private statusMessageService: StatusMessageService,
@@ -50,7 +50,7 @@ export class CopyCourseModalComponent implements OnInit {
       const sign: string = offset < 0 ? '-' : '+';
       this.timezones.push({
         id,
-        offset: offset === 0 ? 'UTC' : `UTC ${sign}${this.zeroPad(hourOffset)}:${this.zeroPad(minOffset)}`,
+        offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}`,
       });
     }
     this.newTimezone = this.timezoneService.guessTimezone();
@@ -69,31 +69,27 @@ export class CopyCourseModalComponent implements OnInit {
       newCourseId: this.newCourseId,
       newCourseName: this.newCourseName,
       newTimeZone: this.newTimezone,
-      chosenFeedbackSessionList: Array.from(this.chosenFeedbackSessions),
+      selectedFeedbackSessionList: Array.from(this.selectedFeedbackSessions),
+      totalNumberOfSessions: this.selectedFeedbackSessions.size,
     });
   }
 
   /**
-   * Toggles selection of course to copy to in set.
+   * Toggles selection of a feedback session.
    */
-  select(session: FeedbackSession): void {
-    this.chosenFeedbackSessions.has(session)
-      ? this.chosenFeedbackSessions.delete(session)
-      : this.chosenFeedbackSessions.add(session);
+  toggleSelection(session: FeedbackSession): void {
+    this.selectedFeedbackSessions.has(session)
+      ? this.selectedFeedbackSessions.delete(session)
+      : this.selectedFeedbackSessions.add(session);
   }
 
   /**
    * Select all sessions or clear all sessions
    */
-  toggleSelection(): void {
-    const isAllSessionsSelceted: boolean =
-      this.chosenFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId].length;
-    if (isAllSessionsSelceted) {
-      this.clearSelectedFeedbackSession();
-    } else {
-      // Select all sessions
-      this.chosenFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
-    }
+  toggleSelectionForAll(): void {
+    this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId].length
+      ? this.clearSelectedFeedbackSession()
+      : this.selectedFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
   }
 
   /**
@@ -107,8 +103,9 @@ export class CopyCourseModalComponent implements OnInit {
    * Clears all selected feedback sessions.
    */
   clearSelectedFeedbackSession(): void {
-    this.chosenFeedbackSessions.clear();
+    this.selectedFeedbackSessions.clear();
   }
 
-  private zeroPad: any = (num: number) => String(num).padStart(2, '0');
 }
+
+const zeroPad: any = (num: number) => String(num).padStart(2, '0');

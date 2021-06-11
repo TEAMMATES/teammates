@@ -74,6 +74,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   isArchivedCourseExpanded: boolean = false;
   isCopyingCourse: boolean = false;
 
+  copyProgressPercentage: number = 0;
+  totalNumberOfSessionsToCopy: number = 0;
+  numberOfSessionsCopied: number = 0;
+
   @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(private ngbModal: NgbModal,
@@ -266,13 +270,18 @@ export class InstructorCoursesPageComponent implements OnInit {
    * Creates a copy of a course including the selected sessions.
    */
   onCopy(courseId: string, courseName: string, timeZone: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorToast('Course is not found!');
+      return;
+    }
+
     this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
       modalRef.componentInstance.oldCourseId = courseId;
       modalRef.componentInstance.oldCourseName = courseName;
       modalRef.componentInstance.newTimeZone = timeZone;
       modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
-      modalRef.componentInstance.chosenFeedbackSessions = new Set(response.feedbackSessions);
+      modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
       modalRef.result.then((result: CopyCourseModalResult) => this.createCourse(result), () => {});
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -284,28 +293,39 @@ export class InstructorCoursesPageComponent implements OnInit {
    */
   createCourse(result: CopyCourseModalResult): void {
     this.isCopyingCourse = true;
-    this.isLoading = true;
+    this.numberOfSessionsCopied = 0;
+    this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
+    this.copyProgressPercentage = 0;
+
     this.courseService.createCourse({
       courseName: result.newCourseName,
       timeZone: result.newTimeZone,
       courseId: result.newCourseId,
-    }).subscribe(() => {
-      this.statusMessageService.showSuccessToast('The course has been added.');
-      this.courseService
-        .getAllCoursesAsInstructor('active')
-        .subscribe((resp: Courses) => {
-          const course: Course = resp.courses.find((c: Course) => c.courseId === result.newCourseId) as Course;
-          this.activeCourses.push(this.getCourseModelFromCourse(course));
-          this.activeCoursesDefaultSort();
-          result.chosenFeedbackSessionList.forEach((session: FeedbackSession) => {
-            this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId).subscribe();
+    })
+    .pipe(
+      finalize(() => {
+        this.courseService
+          .getCourseAsInstructor(result.newCourseId)
+          .subscribe((course: Course) => {
+            this.activeCourses.push(this.getCourseModelFromCourse(course));
+            this.activeCoursesDefaultSort();
+            this.isCopyingCourse = false;
+            this.statusMessageService.showSuccessToast('The course has been added.');
           });
-          this.isLoading = false;
-          this.isCopyingCourse = false;
-        });
+      }),
+    )
+    .subscribe(() => {
+      result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+        this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId)
+          .pipe(finalize(() => {
+            this.numberOfSessionsCopied += 1;
+            this.copyProgressPercentage =
+              Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+          }))
+          .subscribe();
+      });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
-      this.isLoading = false;
       this.isCopyingCourse = false;
       this.hasLoadingFailed = true;
     });
@@ -334,7 +354,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       Observable<FeedbackSession> {
     let createdFeedbackSession!: FeedbackSession;
     return this.feedbackSessionsService
-      .createFeedbackSession(newCourseId, this.fbSessionCreationReqWithName(newSessionName, fromFeedbackSession))
+      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(newSessionName, fromFeedbackSession))
       .pipe(
         switchMap((feedbackSession: FeedbackSession) => {
           createdFeedbackSession = feedbackSession;
@@ -354,7 +374,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               return this.feedbackQuestionsService.createFeedbackQuestion(
                 createdFeedbackSession.courseId,
                 createdFeedbackSession.feedbackSessionName,
-                this.fbQuestionCreationReq(feedbackQuestion),
+                this.toFbQuestionCreationReq(feedbackQuestion),
               );
             }),
             last(),
@@ -367,7 +387,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
-  private fbSessionCreationReqWithName(newSessionName: string, fromFeedbackSession: FeedbackSession):
+  private toFbSessionCreationReqWithName(newSessionName: string, fromFeedbackSession: FeedbackSession):
       FeedbackSessionCreateRequest {
     return {
       feedbackSessionName: newSessionName,
@@ -391,7 +411,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Creates a FeedbackQuestionCreateRequest by cloning the given feedback question.
    */
-  private fbQuestionCreationReq(feedbackQuestion: FeedbackQuestion): FeedbackQuestionCreateRequest {
+  private toFbQuestionCreationReq(feedbackQuestion: FeedbackQuestion): FeedbackQuestionCreateRequest {
     return {
       questionNumber: feedbackQuestion.questionNumber,
       questionBrief: feedbackQuestion.questionBrief,

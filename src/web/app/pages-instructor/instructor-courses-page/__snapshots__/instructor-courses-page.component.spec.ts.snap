@@ -12,6 +12,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -26,12 +27,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -267,6 +270,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -281,12 +285,14 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -335,6 +341,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   archivedTableSortOrder={[Function Number]}
   canDeleteAll="false"
   canRestoreAll="false"
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -349,12 +356,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -824,6 +833,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -838,12 +848,14 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -1091,6 +1103,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -1105,12 +1118,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -1586,6 +1601,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -1600,12 +1616,14 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isLoading={[Function Boolean]}
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button
@@ -1654,6 +1672,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   archivedTableSortOrder={[Function Number]}
   canDeleteAll={[Function Boolean]}
   canRestoreAll={[Function Boolean]}
+  copyProgressPercentage="0"
   courseAdded={[Function EventEmitter]}
   courseService={[Function CourseService]}
   courseStats={[Function Object]}
@@ -1668,12 +1687,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isLoading="false"
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
+  numberOfSessionsCopied="0"
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   tableComparatorService={[Function TableComparatorService]}
+  totalNumberOfSessionsToCopy="0"
 >
   <div>
     <button

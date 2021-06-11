@@ -7,5 +7,6 @@ export interface CopyCourseModalResult {
   newCourseId: string;
   newCourseName: string;
   newTimeZone: string;
-  chosenFeedbackSessionList: Set<FeedbackSession>;
+  selectedFeedbackSessionList: Set<FeedbackSession>;
+  totalNumberOfSessions: number;
 }

@@ -132,9 +132,12 @@ export class AddCourseFormComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
 
-        await modalRef.result
-          .then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result),
-            (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
+        try {
+          const result: CopyCourseModalResult = await modalRef.result;
+          this.copyCourseEvent.emit(result);
+        } catch (resp) {
+          this.statusMessageService.showErrorToast(resp.error.message);
+        }
       });
   }
 }

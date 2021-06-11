@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
-import { NgbDropdownModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDropdownModule, NgbProgressbarModule, NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopyCourseModalModule } from '../../components/copy-course-modal/copy-course-modal.module';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
@@ -43,6 +43,7 @@ const routes: Routes = [
     PanelChevronModule,
     TeammatesRouterModule,
     CopyCourseModalModule,
+    NgbProgressbarModule,
   ],
 })
 export class InstructorCoursesPageModule { }

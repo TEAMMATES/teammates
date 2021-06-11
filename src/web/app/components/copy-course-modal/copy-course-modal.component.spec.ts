@@ -87,9 +87,9 @@ describe('CopyCourseModalComponent', () => {
       isPublishedEmailEnabled: true,
       createdAtTimestamp: 0,
     };
-    component.chosenFeedbackSessions.add(testFeedbackSession);
+    component.selectedFeedbackSessions.add(testFeedbackSession);
     fixture.detectChanges();
-    component.select(testFeedbackSession);
-    expect(component.chosenFeedbackSessions.has(testFeedbackSession)).toEqual(false);
+    component.toggleSelection(testFeedbackSession);
+    expect(component.selectedFeedbackSessions.has(testFeedbackSession)).toEqual(false);
   });
 });

@@ -4,7 +4,6 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
-  chosenFeedbackSessions={[Function Set]}
   courseToFeedbackSession={[Function Object]}
   courses={[Function Array]}
   isCopyFromOtherSession={[Function Boolean]}
@@ -13,10 +12,10 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
+  selectedFeedbackSessions={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
   timezones={[Function Array]}
-  zeroPad={[Function Function]}
 >
   <div
     class="modal-header"
@@ -3107,7 +3106,6 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
-  chosenFeedbackSessions={[Function Set]}
   courseToFeedbackSession={[Function Object]}
   courses={[Function Array]}
   isCopyFromOtherSession="false"
@@ -3116,10 +3114,10 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
+  selectedFeedbackSessions={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
   timezones={[Function Array]}
-  zeroPad={[Function Function]}
 >
   <div
     class="modal-header"
@@ -6199,7 +6197,6 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
   activeModal={[Function NgbActiveModal]}
-  chosenFeedbackSessions={[Function Set]}
   courseToFeedbackSession={[Function Object]}
   courses={[Function Array]}
   isCopyFromOtherSession="false"
@@ -6208,10 +6205,10 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
+  selectedFeedbackSessions={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
   timezones={[Function Array]}
-  zeroPad={[Function Function]}
 >
   <div
     class="modal-header"
