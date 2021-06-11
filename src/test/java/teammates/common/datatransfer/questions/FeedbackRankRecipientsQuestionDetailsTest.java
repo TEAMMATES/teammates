@@ -12,14 +12,16 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testShouldChangesRequireResponseDeletion_shouldReturnFalse() {
-        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
+        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
+                new FeedbackRankRecipientsQuestionDetails();
         FeedbackQuestionDetails newDetails = new FeedbackRankRecipientsQuestionDetails();
         assertFalse(feedbackRankRecipientsQuestionDetails.shouldChangesRequireResponseDeletion(newDetails));
     }
 
     @Test
     public void testValidateQuestionDetails_shouldReturnEmptyList() {
-        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
+        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
+                new FeedbackRankRecipientsQuestionDetails();
         assertTrue(feedbackRankRecipientsQuestionDetails.validateQuestionDetails().isEmpty());
     }
 
@@ -37,7 +39,8 @@ public class FeedbackRankRecipientsQuestionDetailsTest extends BaseTestCase {
 
     @Test
     public void testValidateGiverRecipientVisibility() {
-        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails = new FeedbackRankRecipientsQuestionDetails();
+        FeedbackRankRecipientsQuestionDetails feedbackRankRecipientsQuestionDetails =
+                new FeedbackRankRecipientsQuestionDetails();
         FeedbackQuestionAttributes feedbackQuestionAttributes = FeedbackQuestionAttributes.builder().build();
         assertEquals("", feedbackRankRecipientsQuestionDetails.validateGiverRecipientVisibility(feedbackQuestionAttributes));
     }
