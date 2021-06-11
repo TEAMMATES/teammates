@@ -30,12 +30,14 @@ import {
   FeedbackNumericalScaleResponseDetails,
   FeedbackParticipantType,
   FeedbackQuestionRecipients,
+  FeedbackQuestions,
   FeedbackQuestionType,
   FeedbackRankOptionsQuestionDetails,
   FeedbackRankOptionsResponseDetails,
   FeedbackRankRecipientsQuestionDetails,
   FeedbackResponse,
   FeedbackResponseComment,
+  FeedbackResponses,
   FeedbackRubricQuestionDetails,
   FeedbackRubricResponseDetails,
   FeedbackSession,
@@ -54,7 +56,6 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
-import { CommentRowModel } from '../../components/comment-box/comment-row/comment-row.component';
 import { LoadingRetryModule } from '../../components/loading-retry/loading-retry.module';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
 import {
@@ -66,7 +67,7 @@ import {
 } from '../../components/question-submission-form/question-submission-form.module';
 import { TeammatesCommonModule } from '../../components/teammates-common/teammates-common.module';
 import { SavingCompleteModalComponent } from './saving-complete-modal/saving-complete-modal.component';
-import { FeedbackResponsesResponse, SessionSubmissionPageComponent } from './session-submission-page.component';
+import { SessionSubmissionPageComponent } from './session-submission-page.component';
 import Spy = jasmine.Spy;
 
 describe('SessionSubmissionPageComponent', () => {
@@ -93,7 +94,7 @@ describe('SessionSubmissionPageComponent', () => {
     timeZone: 'Asia/Singapore',
     instructions: 'Instructions',
     submissionStartTimestamp: 1000000000000,
-    submissionEndTimestamp: 1500000000000,
+    submissionEndTimestamp: Date.now() + 10 * 60 * 1000,  // 10 minutes before closing
     gracePeriod: 0,
     sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
     responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
@@ -104,26 +105,28 @@ describe('SessionSubmissionPageComponent', () => {
     createdAtTimestamp: 0,
   };
 
+  const testComment: FeedbackResponseComment = {
+    commentGiver: 'comment giver',
+    lastEditorEmail: 'last-editor@email.com',
+    feedbackResponseCommentId: 1,
+    commentText: 'comment text',
+    createdAt: 10000000,
+    lastEditedAt: 20000000,
+    isVisibilityFollowingFeedbackQuestion: true,
+    showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+    showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
+  };
+
   const testMcqRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-1',
-    recipientIdentifier: 'recipient-identifier',
+    recipientIdentifier: 'barry-harris-id',
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.MCQ,
     } as FeedbackMcqResponseDetails,
     isValid: true,
     commentByGiver: {
-      originalComment: {
-        commentGiver: 'comment giver',
-        lastEditorEmail: 'last-editor@email.com',
-        feedbackResponseCommentId: 1,
-        commentText: 'comment text',
-        createdAt: 10000000,
-        lastEditedAt: 20000000,
-        isVisibilityFollowingFeedbackQuestion: true,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
+      originalComment: testComment,
       commentEditFormModel: {
         commentText: 'comment text here',
         isUsingCustomVisibilities: false,
@@ -143,17 +146,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqResponseDetails,
     isValid: true,
     commentByGiver: {
-      originalComment: {
-        commentGiver: 'comment giver',
-        lastEditorEmail: 'last-editor@email.com',
-        feedbackResponseCommentId: 1,
-        commentText: 'comment text',
-        createdAt: 10000000,
-        lastEditedAt: 20000000,
-        isVisibilityFollowingFeedbackQuestion: true,
-        showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-        showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.RECIPIENT],
-      },
+      originalComment: testComment,
       commentEditFormModel: {
         commentText: '',
         isUsingCustomVisibilities: false,
@@ -166,7 +159,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   const testTextRecipientSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = {
     responseId: 'response-id-3',
-    recipientIdentifier: 'recipient-identifier',
+    recipientIdentifier: 'gene-harris-id',
     responseDetails: {
       answer: 'answer',
       questionType: FeedbackQuestionType.TEXT,
@@ -271,7 +264,7 @@ describe('SessionSubmissionPageComponent', () => {
     isValid: true,
   };
 
-  const testResponse4: FeedbackResponse = {
+  const testResponse1: FeedbackResponse = {
     feedbackResponseId: 'response-id-4',
     giverIdentifier: 'giver-identifier',
     recipientIdentifier: 'barry-harris-id',
@@ -281,7 +274,7 @@ describe('SessionSubmissionPageComponent', () => {
     } as FeedbackMcqResponseDetails,
   };
 
-  const testResponse5: FeedbackResponse = {
+  const testResponse2: FeedbackResponse = {
     feedbackResponseId: 'response-id-5',
     giverIdentifier: 'giver-identifier',
     recipientIdentifier: 'gene-harris-id',
@@ -859,8 +852,8 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });
 
-  it('should load feedback questions and responses', () => {
-    const testFeedbackQuestions: any = {
+  it('should load feedback questions and recipients and responses', () => {
+    const testFeedbackQuestions: FeedbackQuestions = {
       questions: [
         {
           feedbackQuestionId: testMcqQuestionSubmissionForm2.feedbackQuestionId,
@@ -892,50 +885,26 @@ describe('SessionSubmissionPageComponent', () => {
         },
       ],
     };
-    const testExistingResponses: FeedbackResponsesResponse = {
-      responses: [testResponse4, testResponse5],
+    const testExistingResponses: FeedbackResponses = {
+      responses: [testResponse1, testResponse2],
     };
 
-    spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of(testFeedbackQuestions));
-    spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients')
+    const getQuestionsSpy: Spy = spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+        .and.returnValue(of(testFeedbackQuestions));
+    const loadRecipientsSpy: Spy = spyOn(feedbackQuestionsService, 'loadFeedbackQuestionRecipients')
         .and.returnValue(of(testFeedbackQuestionRecipients));
-    spyOn(feedbackResponsesService, 'getFeedbackResponse').and.returnValue(of(testExistingResponses));
+    const getResponseSpy: Spy = spyOn(feedbackResponsesService, 'getFeedbackResponse')
+        .and.returnValue(of(testExistingResponses));
 
     component.loadFeedbackQuestions();
 
+    expect(getQuestionsSpy.calls.mostRecent().args[0]).toEqual(getFeedbackSessionArgs);
+    expect(loadRecipientsSpy.calls.mostRecent().args[0].questionId)
+        .toEqual(testMcqQuestionSubmissionForm2.feedbackQuestionId);
+    expect(getResponseSpy.calls.mostRecent().args[0].questionId)
+        .toEqual(testMcqQuestionSubmissionForm2.feedbackQuestionId);
     expect(component.questionSubmissionForms.length).toEqual(1);
     expect(component.questionSubmissionForms[0]).toEqual(testMcqQuestionSubmissionForm2);
-  });
-
-  it('should get comment model', () => {
-    const testComment: FeedbackResponseComment = {
-      commentGiver: 'comment giver',
-      lastEditorEmail: 'last-editor@email.com',
-      feedbackResponseCommentId: 5,
-      commentText: 'comment text',
-      createdAt: 10000000,
-      lastEditedAt: 10000000,
-      isVisibilityFollowingFeedbackQuestion: true,
-      showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-      showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-    };
-    const expectedCommentModel: CommentRowModel = {
-      originalComment: testComment,
-      commentEditFormModel: {
-        commentText: testComment.commentText,
-        isUsingCustomVisibilities: false,
-        showCommentTo: [],
-        showGiverNameTo: [],
-      },
-      timezone: '',
-      isEditing: false,
-    };
-    const commentModel: CommentRowModel = component.getCommentModel(testComment);
-    expect(commentModel).toEqual(expectedCommentModel);
-  });
-
-  it('should check that there are responses to submit', () => {
-    component.questionSubmissionForms = [testMcqQuestionSubmissionForm];
     expect(component.hasAnyResponseToSubmit).toEqual(true);
   });
 
@@ -947,75 +916,51 @@ describe('SessionSubmissionPageComponent', () => {
   });
 
   it('should save feedback responses', () => {
-    const fakeModalRef: any = { componentInstance: {} };
-    component.personEmail = 'john@email.com';
-    component.personName = 'john-wick';
-    component.questionSubmissionForms = [
-      deepCopy(testMcqQuestionSubmissionForm),
-      deepCopy(testTextQuestionSubmissionForm),
-      deepCopy(testMcqQuestionSubmissionForm2),
-    ];
-    spyOn(feedbackResponsesService, 'isFeedbackResponseDetailsEmpty').and.returnValue(false);
-    spyOn(feedbackResponsesService, 'submitFeedbackResponses').and.callFake((responseId: string) => {
-      if (responseId === testMcqQuestionSubmissionForm.feedbackQuestionId) {
-        return of({ responses: [testResponse4] });
+    const mockModalRef: any = { componentInstance: {} };
+    const testResponseDetails1: FeedbackMcqResponseDetails = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    // leave question unanswered
+    const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
+    const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
+    const testQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
+    testQuestionSubmissionForm1.recipientSubmissionForms[0].responseDetails = testResponseDetails1;
+    testQuestionSubmissionForm2.recipientSubmissionForms[0].responseDetails = testResponseDetails2;
+    component.questionSubmissionForms = [testQuestionSubmissionForm1, testQuestionSubmissionForm2];
+
+    const responseSpy: Spy = spyOn(feedbackResponsesService, 'submitFeedbackResponses').and.callFake((id: string) => {
+      if (id === testQuestionSubmissionForm1.feedbackQuestionId) {
+        return of({ responses: [testResponse1], requestId: '10' });
       }
-      if (responseId === testTextQuestionSubmissionForm.feedbackQuestionId) {
-        return of({ responses: [testResponse5] });
-      }
-      return of({ responses: [] });
+      return of({ responses: [testResponse2], requestId: '20' });
     });
     spyOn(feedbackResponseCommentService, 'createComment').and.returnValue(of({}));
-    spyOn(ngbModal, 'open').and.returnValue(fakeModalRef);
+    spyOn(feedbackResponseCommentService, 'updateComment').and.returnValue(of({}));
+    spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
 
     component.saveFeedbackResponses();
 
-    expect(fakeModalRef.componentInstance.requestIds).toEqual({
-      'feedback-question-id-mcq': '',
-      'feedback-question-id-mcq-2': '',
-      'feedback-question-id-text': '',
+    expect(responseSpy).toBeCalledTimes(2);
+    expect(responseSpy.calls.first().args[0]).toEqual('feedback-question-id-mcq');
+    expect(responseSpy.calls.first().args[2].responses[0].responseDetails).toEqual(testResponseDetails1);
+    expect(responseSpy.calls.mostRecent().args[0]).toEqual('feedback-question-id-text');
+    expect(responseSpy.calls.mostRecent().args[2].responses).toEqual([]);  // do not call for empty response details
+
+    expect(mockModalRef.componentInstance.requestIds).toEqual({
+      'feedback-question-id-mcq': '10',
+      'feedback-question-id-text': '20',
     });
-    expect(fakeModalRef.componentInstance.courseId).toEqual('CS3281');
-    expect(fakeModalRef.componentInstance.feedbackSessionName).toEqual('Feedback Session Name');
-    expect(fakeModalRef.componentInstance.feedbackSessionTimezone).toEqual('');
-    expect(fakeModalRef.componentInstance.personEmail).toEqual('john@email.com');
-    expect(fakeModalRef.componentInstance.personName).toEqual('john-wick');
-    const expectedQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
-    const expectedQuestionSubmissionForm2: QuestionSubmissionFormModel = deepCopy(testTextQuestionSubmissionForm);
-    const expectedQuestionSubmissionForm3: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm2);
-    expectedQuestionSubmissionForm1.recipientSubmissionForms[0].commentByGiver = undefined;
-    expectedQuestionSubmissionForm1.recipientSubmissionForms[0].responseId = '';
-    expectedQuestionSubmissionForm2.recipientSubmissionForms[0].commentByGiver = undefined;
-    expectedQuestionSubmissionForm2.recipientSubmissionForms[0].responseId = '';
-    expectedQuestionSubmissionForm3.recipientSubmissionForms[0].commentByGiver = undefined;
-    expectedQuestionSubmissionForm3.recipientSubmissionForms[0].responseId = '';
-    expectedQuestionSubmissionForm3.recipientSubmissionForms[1].commentByGiver = undefined;
-    expectedQuestionSubmissionForm3.recipientSubmissionForms[1].responseId = '';
-    expect(fakeModalRef.componentInstance.questions).toEqual([
-      expectedQuestionSubmissionForm1,
-      expectedQuestionSubmissionForm2,
-      expectedQuestionSubmissionForm3,
+    expect(mockModalRef.componentInstance.questions).toEqual([
+      testQuestionSubmissionForm1,
+      testQuestionSubmissionForm2,
     ]);
-    expect(fakeModalRef.componentInstance.answers).toEqual({
-      'feedback-question-id-mcq': [testResponse4],
-      'feedback-question-id-text': [testResponse5],
+    expect(mockModalRef.componentInstance.answers).toEqual({
+      'feedback-question-id-mcq': [testResponse1],
+      'feedback-question-id-text': [testResponse2],
     });
-    expect(fakeModalRef.componentInstance.notYetAnsweredQuestions).toEqual([]);
-    expect(fakeModalRef.componentInstance.failToSaveQuestions).toEqual({});
+    expect(mockModalRef.componentInstance.notYetAnsweredQuestions).toHaveLength(1);
+    expect(mockModalRef.componentInstance.failToSaveQuestions).toEqual({});
   });
 
-  it('should create comment request to create new comment', () => {
-    const testComment: FeedbackResponseComment = {
-      commentGiver: 'comment giver',
-      lastEditorEmail: 'last-editor@email.com',
-      feedbackResponseCommentId: 911,
-      commentText: 'comment text',
-      createdAt: 10000000,
-      lastEditedAt: 10000000,
-      isVisibilityFollowingFeedbackQuestion: true,
-      showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-      showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-    };
+  it('should create comment request to create new comment when submission form has no original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testTextRecipientSubmissionForm);
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'createComment').and.returnValue(of(testComment));
 
@@ -1034,18 +979,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(commentSpy.calls.mostRecent().args[3]).toEqual({ key: testQueryParams.key, moderatedperson: '' });
   });
 
-  it('should create comment request to update existing comment when text is filled', () => {
-    const testComment: FeedbackResponseComment = {
-      commentGiver: 'comment giver',
-      lastEditorEmail: 'last-editor@email.com',
-      feedbackResponseCommentId: 999,
-      commentText: 'comment text',
-      createdAt: 10000000,
-      lastEditedAt: 10000000,
-      isVisibilityFollowingFeedbackQuestion: true,
-      showGiverNameTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-      showCommentTo: [CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS],
-    };
+  it('should create comment request to update existing comment when submission form has original comment', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm);
     const expectedId: any = testMcqRecipientSubmissionForm.commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'updateComment').and.returnValue(of(testComment));
@@ -1065,7 +999,7 @@ describe('SessionSubmissionPageComponent', () => {
     expect(commentSpy.calls.mostRecent().args[3]).toEqual({ key: testQueryParams.key, moderatedperson: '' });
   });
 
-  it('should create comment request to delete existing comment when text is empty', () => {
+  it('should create comment request to delete existing comment when new comment text is empty', () => {
     const testSubmissionForm: FeedbackResponseRecipientSubmissionFormModel = deepCopy(testMcqRecipientSubmissionForm2);
     const expectedId: any = testMcqRecipientSubmissionForm2.commentByGiver?.originalComment?.feedbackResponseCommentId;
     const commentSpy: Spy = spyOn(feedbackResponseCommentService, 'deleteComment').and.returnValue(of({}));
