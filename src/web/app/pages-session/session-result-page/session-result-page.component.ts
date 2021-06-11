@@ -184,7 +184,7 @@ export class SessionResultPageComponent implements OnInit {
             this.questions = sessionResults.questions.sort(
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
-            if (this.questions.length == 0) {
+            if (this.questions.length === 0) {
               this.isFeedbackSessionResultsEmpty = true;
             }
           }, (resp: ErrorMessageOutput) => {
