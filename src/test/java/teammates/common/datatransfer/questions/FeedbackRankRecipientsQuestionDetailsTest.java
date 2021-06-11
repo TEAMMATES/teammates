@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import net.sf.saxon.trans.SymbolicName;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
