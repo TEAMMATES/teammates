@@ -1,7 +1,5 @@
 package teammates.test;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -19,25 +17,11 @@ import teammates.logic.api.LogicExtension;
 
 /**
  * Base class for all component tests.
- * It runs a simulated Datastore ({@link GaeSimulation}) which can be accessed via {@link LogicExtension}.
  */
-@Test(singleThreaded = true) // GaeSimulation is not thread safe
+@Test(singleThreaded = true)
 public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
 
-    protected static final GaeSimulation gaeSimulation = GaeSimulation.inst();
     protected static final LogicExtension logic = new LogicExtension();
-
-    @Override
-    @BeforeClass
-    public void setUpGae() {
-        gaeSimulation.setup();
-    }
-
-    @Override
-    @AfterClass
-    public void tearDownGae() {
-        gaeSimulation.tearDown();
-    }
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {

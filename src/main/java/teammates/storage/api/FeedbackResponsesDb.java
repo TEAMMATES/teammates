@@ -19,7 +19,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.storage.entity.FeedbackResponse;
 
 /**
@@ -34,8 +33,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         List<Key<FeedbackResponse>> keysOfResponses =
                 load().filter("courseId =", courseId)
@@ -60,7 +59,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Gets a feedback response.
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
-        Assumption.assertNotNull(feedbackResponseId);
+        assert feedbackResponseId != null;
 
         FeedbackResponse fr = getFeedbackResponseEntity(feedbackResponseId);
 
@@ -72,9 +71,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public FeedbackResponseAttributes getFeedbackResponse(
             String feedbackQuestionId, String giverEmail, String receiverEmail) {
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(receiverEmail);
+        assert feedbackQuestionId != null;
+        assert giverEmail != null;
+        assert receiverEmail != null;
 
         FeedbackResponse fr =
                 getFeedbackResponseEntity(FeedbackResponse.generateId(feedbackQuestionId, giverEmail, receiverEmail));
@@ -87,8 +86,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestionInSection(
             String feedbackQuestionId, String section) {
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(section);
+        assert feedbackQuestionId != null;
+        assert section != null;
 
         return makeAttributes(getFeedbackResponseEntitiesForQuestionInSection(feedbackQuestionId, section));
     }
@@ -97,7 +96,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Gets all feedback responses for a question.
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {
-        Assumption.assertNotNull(feedbackQuestionId);
+        assert feedbackQuestionId != null;
 
         return makeAttributes(getFeedbackResponseEntitiesForQuestion(feedbackQuestionId));
     }
@@ -106,7 +105,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Checks whether there are responses for a question.
      */
     public boolean areThereResponsesForQuestion(String feedbackQuestionId) {
-        Assumption.assertNotNull(feedbackQuestionId);
+        assert feedbackQuestionId != null;
 
         return !load()
                 .filter("feedbackQuestionId =", feedbackQuestionId)
@@ -120,8 +119,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSession(
             String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return makeAttributes(getFeedbackResponseEntitiesForSession(feedbackSessionName, courseId));
     }
@@ -131,9 +130,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForSessionInSection(
             String feedbackSessionName, String courseId, String section) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(section);
+        assert feedbackSessionName != null;
+        assert courseId != null;
+        assert section != null;
 
         return makeAttributes(getFeedbackResponseEntitiesForSessionInSection(feedbackSessionName, courseId, section));
     }
@@ -143,8 +142,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForQuestion(
             String feedbackQuestionId, String giverEmail) {
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(giverEmail);
+        assert feedbackQuestionId != null;
+        assert giverEmail != null;
 
         return makeAttributes(getFeedbackResponseEntitiesFromGiverForQuestion(feedbackQuestionId, giverEmail));
     }
@@ -154,8 +153,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForQuestion(
             String feedbackQuestionId, String receiver) {
-        Assumption.assertNotNull(feedbackQuestionId);
-        Assumption.assertNotNull(receiver);
+        assert feedbackQuestionId != null;
+        assert receiver != null;
 
         return makeAttributes(getFeedbackResponseEntitiesForReceiverForQuestion(feedbackQuestionId, receiver));
     }
@@ -165,9 +164,9 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public boolean hasResponsesFromGiverInSession(
             String giverEmail, String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(giverEmail);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert giverEmail != null;
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return !load()
                 .filter("giverEmail =", giverEmail)
@@ -184,8 +183,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesForReceiverForCourse(
             String courseId, String receiver) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(receiver);
+        assert courseId != null;
+        assert receiver != null;
 
         return makeAttributes(getFeedbackResponseEntitiesForReceiverForCourse(courseId, receiver));
     }
@@ -195,8 +194,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromGiverForCourse(
             String courseId, String giverEmail) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverEmail);
+        assert courseId != null;
+        assert giverEmail != null;
 
         return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail));
     }
@@ -215,7 +214,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      */
     public FeedbackResponseAttributes updateFeedbackResponse(FeedbackResponseAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         FeedbackResponse oldResponse = getFeedbackResponseEntity(updateOptions.getFeedbackResponseId());
         if (oldResponse == null) {
@@ -274,7 +273,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Deletes a feedback response.
      */
     public void deleteFeedbackResponse(String responseId) {
-        Assumption.assertNotNull(responseId);
+        assert responseId != null;
 
         deleteEntity(Key.create(FeedbackResponse.class, responseId));
     }
@@ -283,7 +282,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
      * Deletes responses using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackResponses(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(query);
+        assert query != null;
 
         Query<FeedbackResponse> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
@@ -296,14 +295,14 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             entitiesToDelete = entitiesToDelete.filter("feedbackQuestionId =", query.getQuestionId());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     /**
      * Returns true if there are existing responses in any feedback session in the course.
      */
     public boolean hasFeedbackResponseEntitiesForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         return !load().filter("courseId =", courseId).limit(1).list().isEmpty();
     }
 
@@ -416,7 +415,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
 
     @Override
     FeedbackResponseAttributes makeAttributes(FeedbackResponse entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return FeedbackResponseAttributes.valueOf(entity);
     }

@@ -2,10 +2,9 @@ package teammates.common.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Properties;
-
-import com.google.appengine.api.utils.SystemProperty;
-import com.google.apphosting.api.ApiProxy;
 
 import teammates.common.exception.TeammatesException;
 
@@ -27,6 +26,9 @@ public final class Config {
     /** The value of the "app.frontenddev.url" in build.properties file. */
     public static final String APP_FRONTENDDEV_URL;
 
+    /** The value of the "app.localdatastore.port" in build.properties file. */
+    public static final int APP_LOCALDATASTORE_PORT;
+
     /** The value of the "app.taskqueue.active" in build.properties file. */
     public static final boolean TASKQUEUE_ACTIVE;
 
@@ -45,8 +47,17 @@ public final class Config {
     /** The value of the "app.encryption.key" in build.properties file. */
     public static final String ENCRYPTION_KEY;
 
+    /** The value of the "app.oauth2.client.id" in build.properties file. */
+    public static final String OAUTH2_CLIENT_ID;
+
+    /** The value of the "app.oauth2.client.secret" in build.properties file. */
+    public static final String OAUTH2_CLIENT_SECRET;
+
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
+
+    /** The value of the "app.admins" in build.properties file. */
+    public static final List<String> APP_ADMINS;
 
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
@@ -78,6 +89,9 @@ public final class Config {
     /** The value of the "app.mailjet.secretkey" in build.properties file. */
     public static final String MAILJET_SECRETKEY;
 
+    /** The value of the "app.search.service.host" in build.properties file. */
+    public static final String SEARCH_SERVICE_HOST;
+
     /** The value of the "app.enable.datastore.backup" in build.properties file. */
     public static final boolean ENABLE_DATASTORE_BACKUP;
 
@@ -89,19 +103,23 @@ public final class Config {
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
         } catch (IOException e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false : TeammatesException.toStringWithStackTrace(e);
         }
         APP_ID = properties.getProperty("app.id");
         APP_REGION = properties.getProperty("app.region");
         APP_VERSION = properties.getProperty("app.version").replace("-", ".");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
+        APP_LOCALDATASTORE_PORT = Integer.parseInt(properties.getProperty("app.localdatastore.port", "8484"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
         CSRF_KEY = properties.getProperty("app.csrf.key");
         BACKDOOR_KEY = properties.getProperty("app.backdoor.key");
         PRODUCTION_GCS_BUCKETNAME = properties.getProperty("app.production.gcs.bucketname");
         BACKUP_GCS_BUCKETNAME = properties.getProperty("app.backup.gcs.bucketname");
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
+        OAUTH2_CLIENT_ID = properties.getProperty("app.oauth2.client.id");
+        OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
+        APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
@@ -112,6 +130,7 @@ public final class Config {
         MAILGUN_DOMAINNAME = properties.getProperty("app.mailgun.domainname");
         MAILJET_APIKEY = properties.getProperty("app.mailjet.apikey");
         MAILJET_SECRETKEY = properties.getProperty("app.mailjet.secretkey");
+        SEARCH_SERVICE_HOST = properties.getProperty("app.search.service.host");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
     }
@@ -121,38 +140,29 @@ public final class Config {
     }
 
     static String getBaseAppUrl() {
-        ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
-        if (serverEnvironment == null) {
-            return null;
-        }
-        String hostname = (String) serverEnvironment.getAttributes()
-                .get("com.google.appengine.runtime.default_version_hostname");
-        if (hostname == null) {
-            return null;
-        }
-        return (isDevServer() ? "http://" : "https://") + hostname;
+        return isDevServer() ? "http://localhost:8080" : "https://" + APP_ID + ".appspot.com";
     }
 
     /**
      * Returns true if the server is configured to be the dev server.
      */
     public static boolean isDevServer() {
-        return SystemProperty.environment.value() != SystemProperty.Environment.Value.Production;
-    }
+        // In production server, GAE sets some non-overrideable environment variables.
+        // We will make use of some of them to determine whether the server is dev server or not.
+        // This means that any developer can replicate this condition in dev server,
+        // but it is their own choice and risk should they choose to do so.
 
-    /**
-     * Returns the GAE's internal request ID of a request. This is not related to HttpServletRequest.
-     *
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/how-requests-are-handled">https://cloud.google.com/appengine/docs/standard/java/how-requests-are-handled</a>
-     */
-    public static String getRequestId() {
-        ApiProxy.Environment serverEnvironment = ApiProxy.getCurrentEnvironment();
-        if (serverEnvironment == null) {
-            // This will be the case in dev server
-            return "dummyrequestid";
+        String appName = System.getenv("GAE_APPLICATION");
+        String version = System.getenv("GAE_VERSION");
+        String env = System.getenv("GAE_ENV");
+
+        if (appName == null || version == null || env == null) {
+            return true;
         }
-        return String.valueOf(ApiProxy.getCurrentEnvironment().getAttributes()
-                .get("com.google.appengine.runtime.request_log_id"));
+
+        return !appName.endsWith(APP_ID)
+                || !APP_VERSION.equals(version.replace("-", "."))
+                || !"standard".equals(env);
     }
 
     /**

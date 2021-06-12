@@ -10,8 +10,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
 
-import com.google.appengine.api.datastore.DatastoreTimeoutException;
-import com.google.apphosting.api.DeadlineExceededException;
+import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -81,21 +80,13 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_BAD_REQUEST, mockResponse.getStatus());
 
-        ______TS("Failure case: DeadlineExceededException");
+        ______TS("Failure case: DatastoreException");
 
         setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
+        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
-
-        ______TS("Failure case: DatastoreTimeoutException");
-
-        setupMocks(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
         ______TS("Failure case: UnauthorizedAccessException");
 
@@ -169,21 +160,13 @@ public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
         SERVLET.doGet(mockRequest, mockResponse);
         assertEquals(HttpStatus.SC_ACCEPTED, mockResponse.getStatus());
 
-        ______TS("Failure case: DeadlineExceededException");
-
-        setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DeadlineExceededException.class.getSimpleName());
-
-        SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
-
         ______TS("Failure case: DatastoreTimeoutException");
 
         setupMocksFromGaeQueue(HttpGet.METHOD_NAME, Const.ResourceURIs.EXCEPTION);
-        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreTimeoutException.class.getSimpleName());
+        mockRequest.addParam(Const.ParamsNames.ERROR, DatastoreException.class.getSimpleName());
 
         SERVLET.doGet(mockRequest, mockResponse);
-        assertEquals(HttpStatus.SC_GATEWAY_TIMEOUT, mockResponse.getStatus());
+        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, mockResponse.getStatus());
 
         ______TS("Failure case: UnauthorizedAccessException");
 

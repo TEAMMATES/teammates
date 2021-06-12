@@ -3,8 +3,11 @@ package teammates.storage.api;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import com.google.cloud.datastore.DatastoreOptions;
+import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 
+import teammates.common.util.Config;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.BaseEntity;
 import teammates.storage.entity.Course;
@@ -20,6 +23,14 @@ import teammates.storage.entity.StudentProfile;
  * Setup in web.xml to register Objectify at application startup.
  **/
 public class OfyHelper implements ServletContextListener {
+
+    private static void initializeDatastore() {
+        DatastoreOptions.Builder builder = DatastoreOptions.newBuilder().setProjectId(Config.APP_ID);
+        if (Config.isDevServer()) {
+            builder.setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT);
+        }
+        ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
+    }
 
     /**
      * Register entity classes in Objectify service.
@@ -40,12 +51,13 @@ public class OfyHelper implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
-        // Invoked by GAE at application startup.
+        // Invoked by Jetty at application startup.
+        initializeDatastore();
         registerEntityClasses();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent event) {
-        // GAE does not currently invoke this method.
+        // Nothing to do
     }
 }
