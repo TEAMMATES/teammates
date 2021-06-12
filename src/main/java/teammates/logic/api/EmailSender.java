@@ -63,15 +63,19 @@ public class EmailSender {
             log.severe("Email failed to send: " + status.getMessage());
         }
 
+        Map<String, Object> emailDetailsPrivate = new HashMap<>();
+        emailDetailsPrivate.put("emailRecipient", message.getRecipient());
+        emailDetailsPrivate.put("emailSubject", message.getSubject());
+        emailDetailsPrivate.put("emailContent", message.getContent());
+
         Map<String, Object> emailDetails = new HashMap<>();
-        emailDetails.put("emailRecipient", message.getRecipient());
-        emailDetails.put("emailSubject", message.getSubject());
-        emailDetails.put("emailContent", message.getContent());
+        emailDetails.put("emailType", message.getType());
+        emailDetails.put("emailDetails", emailDetailsPrivate);
         emailDetails.put("emailStatus", status.getStatusCode());
         if (status.getMessage() != null) {
             emailDetails.put("emailStatusMessage", status.getMessage());
         }
-        log.event(LogEvent.EMAIL_SENT, "Email sent", emailDetails);
+        log.event(LogEvent.EMAIL_SENT, "Email sent: " + message.getType(), emailDetails);
 
         return status;
     }
