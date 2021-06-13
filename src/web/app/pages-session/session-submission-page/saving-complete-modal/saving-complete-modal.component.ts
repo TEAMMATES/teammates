@@ -26,9 +26,6 @@ export class SavingCompleteModalComponent implements OnInit {
   feedbackSessionTimezone: string = '';
 
   @Input()
-  numberOfQuestions: number = 0;
-
-  @Input()
   personEmail: string = '';
 
   @Input()
@@ -54,7 +51,7 @@ export class SavingCompleteModalComponent implements OnInit {
   }
 
   get isAllQuestionSavingFailed(): boolean {
-    return Object.keys(this.failToSaveQuestions).length === this.numberOfQuestions;
+    return Object.keys(this.failToSaveQuestions).length === this.questions.length;
   }
 
   constructor(public activeModal: NgbActiveModal,

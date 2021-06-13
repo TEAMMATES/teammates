@@ -90,7 +90,6 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   formattedSessionClosingTime: string = '';
   feedbackSessionInstructions: string = '';
   feedbackSessionTimezone: string = '';
-  feedbackSessionNumberOfQuestions: number = 0;
   feedbackSessionSubmissionStatus: FeedbackSessionSubmissionStatus = FeedbackSessionSubmissionStatus.OPEN;
 
   intent: Intent = Intent.STUDENT_SUBMISSION;
@@ -363,7 +362,6 @@ this session.`;
     }).pipe(finalize(() => this.isFeedbackSessionQuestionsLoading = false))
         .subscribe((response: FeedbackQuestionsResponse) => {
           this.isFeedbackSessionQuestionResponsesLoading = response.questions.length !== 0;
-          this.feedbackSessionNumberOfQuestions = response.questions.length;
           response.questions.forEach((feedbackQuestion: FeedbackQuestion) => {
             const model: QuestionSubmissionFormModel = {
               feedbackQuestionId: feedbackQuestion.feedbackQuestionId,
@@ -662,7 +660,6 @@ this session.`;
           modalRef.componentInstance.courseId = this.courseId;
           modalRef.componentInstance.feedbackSessionName = this.feedbackSessionName;
           modalRef.componentInstance.feedbackSessionTimezone = this.feedbackSessionTimezone;
-          modalRef.componentInstance.numberOfQuestions = this.feedbackSessionNumberOfQuestions;
           modalRef.componentInstance.personEmail = this.personEmail;
           modalRef.componentInstance.personName = this.personName;
           modalRef.componentInstance.questions = this.questionSubmissionForms;
