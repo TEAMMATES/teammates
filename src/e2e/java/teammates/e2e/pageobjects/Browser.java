@@ -2,13 +2,12 @@ package teammates.e2e.pageobjects;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
+import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.ScriptTimeoutException;
 import org.openqa.selenium.TimeoutException;
@@ -18,7 +17,6 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.firefox.FirefoxProfile;
-import org.openqa.selenium.firefox.ProfilesIni;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.e2e.util.TestProperties;
@@ -60,6 +58,14 @@ public class Browser {
         this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
         this.driver.manage().timeouts().setScriptTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
         this.isAdminLoggedIn = false;
+    }
+
+    public void addCookie(String name, String value, boolean isSecure, boolean isHttpOnly) {
+        Cookie cookie = new Cookie.Builder(name, value)
+                .isSecure(isSecure)
+                .isHttpOnly(isHttpOnly)
+                .build();
+        this.driver.manage().addCookie(cookie);
     }
 
     /**
@@ -164,18 +170,7 @@ public class Browser {
             }
             System.setProperty("webdriver.gecko.driver", TestProperties.GECKODRIVER_PATH);
 
-            FirefoxProfile profile;
-            if (TestProperties.isDevServer()) {
-                profile = new FirefoxProfile();
-            } else {
-                // Get user data from browser to bypass google blocking automated log in.
-                // Log in manually to teammates to use that log in data for e2e tests.
-                ProfilesIni profileIni = new ProfilesIni();
-                profile = profileIni.getProfile(TestProperties.FIREFOX_PROFILE_NAME);
-                if (profile == null) {
-                    throw new RuntimeException("Firefox profile not found. Failed to create webdriver.");
-                }
-            }
+            FirefoxProfile profile = new FirefoxProfile();
 
             // Allow CSV files to be download automatically, without a download popup.
             // This method is used because Selenium cannot directly interact with the download dialog.
@@ -206,14 +201,6 @@ public class Browser {
             options.addArguments("--allow-file-access-from-files");
             if (TestProperties.isDevServer()) {
                 options.addArguments("incognito");
-            } else {
-                // Get user data from browser to bypass google blocking automated log in.
-                // Log in manually to teammates to use that log in data for e2e tests.
-                if (TestProperties.CHROME_USER_DATA_PATH.isEmpty()
-                        || !Files.exists(Paths.get(TestProperties.CHROME_USER_DATA_PATH))) {
-                    throw new RuntimeException("Chrome user data path not found. Failed to create webdriver.");
-                }
-                options.addArguments("user-data-dir=" + TestProperties.CHROME_USER_DATA_PATH);
             }
 
             return new ChromeDriver(options);

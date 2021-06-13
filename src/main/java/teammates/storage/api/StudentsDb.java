@@ -3,31 +3,27 @@ package teammates.storage.api;
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.util.Assumption;
-import teammates.common.util.Const;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
-import teammates.storage.search.SearchDocument;
-import teammates.storage.search.StudentSearchDocument;
-import teammates.storage.search.StudentSearchQuery;
+import teammates.storage.search.SearchManagerFactory;
+import teammates.storage.search.StudentSearchManager;
 
 /**
  * Handles CRUD operations for students.
@@ -41,22 +37,22 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
 
+    private StudentSearchManager getSearchManager() {
+        return SearchManagerFactory.getStudentSearchManager();
+    }
+
     /**
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) {
-        putDocument(Const.SearchIndex.STUDENT, new StudentSearchDocument(student));
+        getSearchManager().putDocuments(Collections.singletonList(student));
     }
 
     /**
      * Batch creates or updates search documents for the given students.
      */
     public void putDocuments(List<StudentAttributes> students) {
-        List<SearchDocument> studentDocuments = new ArrayList<>();
-        for (StudentAttributes student : students) {
-            studentDocuments.add(new StudentSearchDocument(student));
-        }
-        putDocument(Const.SearchIndex.STUDENT, studentDocuments.toArray(new SearchDocument[0]));
+        getSearchManager().putDocuments(students);
     }
 
     /**
@@ -64,15 +60,13 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      * @param instructors the constraint that restricts the search result
      */
-    public StudentSearchResultBundle search(String queryString, List<InstructorAttributes> instructors) {
+    public List<StudentAttributes> search(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
-                new StudentSearchQuery(instructors, queryString));
-
-        return StudentSearchDocument.fromResults(results, instructors);
+        return getSearchManager().searchStudents(queryString, instructors);
     }
 
     /**
@@ -82,24 +76,20 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * visibility according to the logged-in user's google ID. This is used by admin to
      * search instructors in the whole system.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
         if (queryString.trim().isEmpty()) {
-            return new StudentSearchResultBundle();
+            return new ArrayList<>();
         }
 
-        Results<ScoredDocument> results = searchDocuments(Const.SearchIndex.STUDENT,
-                new StudentSearchQuery(queryString));
-
-        return StudentSearchDocument.fromResults(results);
+        return getSearchManager().searchStudents(queryString, null);
     }
 
     /**
-     * Removes search document for the given student by using {@code unencryptedRegistrationKey}.
-     *
-     * <p>See {@link StudentSearchDocument#toDocument()} for more details.</p>
+     * Removes search document for the given student by using {@code studentUniqueId}.
      */
-    public void deleteDocumentByStudentKey(String unencryptedRegistrationKey) {
-        deleteDocument(Const.SearchIndex.STUDENT, unencryptedRegistrationKey);
+    public void deleteDocumentByStudentId(String studentUniqueId) {
+        getSearchManager().deleteDocuments(Collections.singletonList(studentUniqueId));
     }
 
     /**
@@ -150,8 +140,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique ID courseId-email.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         return makeAttributesOrNull(getCourseStudentEntityForEmail(courseId, email));
     }
@@ -160,7 +150,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets list of students by email.
      */
     public List<StudentAttributes> getAllStudentsForEmail(String email) {
-        Assumption.assertNotNull(email);
+        assert email != null;
 
         List<CourseStudent> students = getAllCourseStudentEntitiesForEmail(email);
         return students.stream().map(this::makeAttributes).collect(Collectors.toList());
@@ -170,8 +160,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique constraint courseId-googleId.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
+        assert googleId != null;
+        assert courseId != null;
 
         CourseStudent student = load()
                 .filter("courseId =", courseId)
@@ -185,7 +175,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets a student by unique constraint encryptedKey.
      */
     public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
-        Assumption.assertNotNull(encryptedRegistrationKey);
+        assert encryptedRegistrationKey != null;
 
         try {
             String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
@@ -199,7 +189,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students associated with a googleId.
      */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return makeAttributes(getCourseStudentEntitiesForGoogleId(googleId));
     }
@@ -208,7 +198,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students of a course.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getCourseStudentEntitiesForCourse(courseId));
     }
@@ -217,8 +207,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all students of a team of a course.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
-        Assumption.assertNotNull(teamName);
-        Assumption.assertNotNull(courseId);
+        assert teamName != null;
+        assert courseId != null;
 
         return makeAttributes(getCourseStudentEntitiesForTeam(teamName, courseId));
     }
@@ -227,7 +217,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * Gets all unregistered students of a course.
      */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         List<StudentAttributes> allStudents = getStudentsForCourse(courseId);
         List<StudentAttributes> unregistered = new ArrayList<>();
@@ -253,7 +243,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      */
     public StudentAttributes updateStudent(StudentAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         CourseStudent student = getCourseStudentEntityForEmail(updateOptions.getCourseId(), updateOptions.getEmail());
         if (student == null) {
@@ -315,12 +305,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * <p>Fails silently if there is no such student.
      */
     public void deleteStudent(String courseId, String email) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         CourseStudent courseStudentToDelete = getCourseStudentEntityForEmail(courseId, email);
         if (courseStudentToDelete != null) {
-            deleteDocumentByStudentKey(courseStudentToDelete.getRegistrationKey());
+            deleteDocumentByStudentId(courseStudentToDelete.getUniqueId());
             deleteEntity(Key.create(CourseStudent.class, courseStudentToDelete.getUniqueId()));
         }
     }
@@ -331,12 +321,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     public void deleteStudents(AttributesDeletionQuery query) {
         if (query.isCourseIdPresent()) {
             List<CourseStudent> studentsToDelete = getCourseStudentsForCourseQuery(query.getCourseId()).list();
-            deleteDocument(Const.SearchIndex.STUDENT,
-                    studentsToDelete.stream().map(CourseStudent::getRegistrationKey).toArray(String[]::new));
+            getSearchManager().deleteDocuments(
+                    studentsToDelete.stream().map(CourseStudent::getUniqueId).collect(Collectors.toList()));
 
             deleteEntity(studentsToDelete.stream()
                     .map(s -> Key.create(CourseStudent.class, s.getUniqueId()))
-                    .toArray(Key[]::new));
+                    .collect(Collectors.toList()));
         }
     }
 
@@ -406,7 +396,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     @Override
     StudentAttributes makeAttributes(CourseStudent entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return StudentAttributes.valueOf(entity);
     }

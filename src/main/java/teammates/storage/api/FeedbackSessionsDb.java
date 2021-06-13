@@ -17,7 +17,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
@@ -71,8 +70,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * @return null if not found or soft-deleted.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         FeedbackSessionAttributes feedbackSession =
                 makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
@@ -124,8 +123,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * @return null if not found or not soft-deleted.
      */
     public FeedbackSessionAttributes getSoftDeletedFeedbackSession(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         FeedbackSessionAttributes feedbackSession =
                 makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
@@ -142,7 +141,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Gets a list of all sessions for the given course except those are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
                 .filter(session -> !session.isSessionDeleted())
@@ -153,7 +152,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Gets a list of sessions for the given course that are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
                 .filter(FeedbackSessionAttributes::isSessionDeleted)
@@ -213,7 +212,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     // The objectify library does not support throwing checked exceptions inside transactions
     public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         FeedbackSessionAttributes[] newAttributesFinal = new FeedbackSessionAttributes[] { null };
         try {
@@ -308,8 +307,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
 
@@ -328,8 +327,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
 
@@ -345,8 +344,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Deletes a feedback session.
      */
     public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         deleteEntity(Key.create(FeedbackSession.class, FeedbackSession.generateId(feedbackSessionName, courseId)));
     }
@@ -355,14 +354,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Deletes sessions using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackSessions(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(query);
+        assert query != null;
 
         Query<FeedbackSession> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
             entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
@@ -419,7 +418,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     @Override
     FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return FeedbackSessionAttributes.valueOf(entity);
     }

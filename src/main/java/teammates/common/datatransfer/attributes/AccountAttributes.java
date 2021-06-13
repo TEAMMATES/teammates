@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -175,21 +174,21 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public Builder withName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             accountAttributes.name = name;
             return this;
         }
 
         public Builder withEmail(String email) {
-            Assumption.assertNotNull(email);
+            assert email != null;
 
             accountAttributes.email = email;
             return this;
         }
 
         public Builder withInstitute(String institute) {
-            Assumption.assertNotNull(institute);
+            assert institute != null;
 
             accountAttributes.institute = institute;
             return this;
@@ -212,7 +211,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         private UpdateOption<Boolean> isInstructorOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(googleId);
+            assert googleId != null;
 
             this.googleId = googleId;
         }

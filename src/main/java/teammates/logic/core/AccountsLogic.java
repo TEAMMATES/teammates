@@ -10,7 +10,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -62,10 +61,10 @@ public final class AccountsLogic {
 
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
-        Assumption.assertNotNull("Trying to getCourseInstitute for inexistent course with id " + courseId, cd);
+        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
         List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
 
-        Assumption.assertTrue("Course has no instructors: " + cd.getId(), !instructorList.isEmpty());
+        assert !instructorList.isEmpty() : "Course has no instructors: " + cd.getId();
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (InstructorAttributes instructor : instructorList) {
@@ -79,7 +78,7 @@ public final class AccountsLogic {
                 break;
             }
         }
-        Assumption.assertNotEmpty("No institute found for the course", institute);
+        assert !StringHelper.isEmpty(institute) : "No institute found for the course";
         return institute;
     }
 
@@ -98,7 +97,7 @@ public final class AccountsLogic {
                             .withGoogleId(student.googleId)
                             .build());
         } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e));
+            assert false : "Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e);
         }
 
         if (accountsDb.getAccount(googleId) == null) {
@@ -124,8 +123,8 @@ public final class AccountsLogic {
                             .withGoogleId(instructor.googleId)
                             .build());
         } catch (EntityDoesNotExistException e) {
-            Assumption.fail("Instructor disappeared while trying to register "
-                    + TeammatesException.toStringWithStackTrace(e));
+            assert false : "Instructor disappeared while trying to register "
+                    + TeammatesException.toStringWithStackTrace(e);
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
@@ -140,7 +139,7 @@ public final class AccountsLogic {
                         .withIsInstructor(true)
                         .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Account already exists.");
+                assert false : "Account already exists.";
             }
         } else {
             makeAccountInstructor(googleId);
@@ -236,8 +235,8 @@ public final class AccountsLogic {
                             .build()
             );
         } catch (InvalidParametersException e) {
-            Assumption.fail("Invalid account data detected unexpectedly "
-                    + "while removing instruction privileges from account :" + googleId + e.getMessage());
+            assert false : "Invalid account data detected unexpectedly "
+                    + "while removing instruction privileges from account " + googleId + ": " + e.getMessage();
         }
     }
 

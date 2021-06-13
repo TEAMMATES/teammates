@@ -4,14 +4,11 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import com.google.appengine.api.search.Document;
-import com.google.appengine.api.search.Results;
-import com.google.appengine.api.search.ScoredDocument;
-import com.google.appengine.api.search.SearchQueryException;
 import com.google.common.base.Objects;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -19,13 +16,9 @@ import com.googlecode.objectify.cmd.LoadType;
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
-import teammates.storage.search.SearchDocument;
-import teammates.storage.search.SearchManager;
-import teammates.storage.search.SearchQuery;
 
 /**
  * Base class for all classes performing CRUD operations against the Datastore.
@@ -66,7 +59,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
 
     private A createEntity(A entityToAdd, boolean shouldCheckExistence)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(entityToAdd);
+        assert entityToAdd != null;
 
         entityToAdd.sanitizeForSaving();
 
@@ -104,7 +97,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
         try {
             return createEntity(entityToAdd, false);
         } catch (EntityAlreadyExistsException e) {
-            Assumption.fail("Unreachable branch");
+            assert false : "Unreachable branch";
             return null;
         }
     }
@@ -118,7 +111,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * @throws InvalidParametersException if any of entity to add is not valid
      */
     public List<A> putEntities(Collection<A> entitiesToAdd) throws InvalidParametersException {
-        Assumption.assertNotNull(entitiesToAdd);
+        assert entitiesToAdd != null;
 
         List<E> entities = new ArrayList<>();
 
@@ -152,7 +145,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
      * Saves an entity.
      */
     void saveEntity(E entityToSave) {
-        Assumption.assertNotNull(entityToSave);
+        assert entityToSave != null;
 
         log.info("Entity saved: " + JsonUtils.toJson(entityToSave));
 
@@ -173,13 +166,21 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     /**
      * Deletes entity by key.
      */
-    void deleteEntity(Key<?>... keys) {
-        Assumption.assertNotNull((Object) keys);
-        Assumption.assertNotNull((Object[]) keys);
+    void deleteEntity(Key<E> key) {
+        assert key != null;
+        deleteEntity(Collections.singletonList(key));
+    }
 
-        for (Key<?> key : keys) {
+    /**
+     * Deletes entities by keys.
+     */
+    void deleteEntity(List<Key<E>> keys) {
+        assert keys != null;
+        assert !keys.contains(null);
+
+        for (Key<E> key : keys) {
             log.info(String.format("Delete entity %s of key (id: %d, name: %s)",
-                    key.getKind(), key.getId(), key.getName()));
+                    key.getKind(), key.getRaw().getId(), key.getName()));
         }
         ofy().delete().keys(keys).now();
     }
@@ -225,52 +226,6 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
             return Optional.of(Key.create(webSafeString));
         } catch (IllegalArgumentException e) {
             return Optional.empty();
-        }
-    }
-
-    /**
-     * Puts document(s) into the search engine.
-     */
-    void putDocument(String indexName, SearchDocument... documents) {
-        List<Document> searchDocuments = new ArrayList<>();
-        for (SearchDocument document : documents) {
-            try {
-                searchDocuments.add(document.build());
-            } catch (Exception e) {
-                log.severe("Fail to build search document in " + indexName + " for " + document);
-            }
-        }
-        try {
-            SearchManager.putDocuments(indexName, searchDocuments);
-        } catch (Exception e) {
-            log.severe("Failed to batch put searchable documents in " + indexName + " for " + searchDocuments);
-        }
-    }
-
-    /**
-     * Searches documents with query.
-     */
-    Results<ScoredDocument> searchDocuments(String indexName, SearchQuery query) {
-        try {
-            if (query.getFilterSize() > 0) {
-                return SearchManager.searchDocuments(indexName, query.toQuery());
-            }
-            return null;
-        } catch (SearchQueryException e) {
-            log.info("Unsupported query for this query string: " + query.toString());
-            return null;
-        }
-    }
-
-    /**
-     * Deletes document by documentId(s).
-     */
-    void deleteDocument(String indexName, String... documentIds) {
-        try {
-            SearchManager.deleteDocument(indexName, documentIds);
-        } catch (Exception e) {
-            log.info("Unable to delete document in the index: " + indexName
-                    + " with document Ids " + String.join(", ", documentIds));
         }
     }
 

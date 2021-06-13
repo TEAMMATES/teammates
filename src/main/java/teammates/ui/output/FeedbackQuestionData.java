@@ -14,7 +14,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
@@ -131,7 +130,7 @@ public class FeedbackQuestionData extends ApiOutput {
             case RECEIVER_TEAM_MEMBERS:
                 return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                Assumption.fail("Unknown feedbackParticipantType" + feedbackParticipantType);
+                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
                 break;
             }
             return null;
