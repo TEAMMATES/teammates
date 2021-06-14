@@ -53,7 +53,15 @@ public class GoogleCloudLoggingService implements LogService {
     public List<ErrorLogEntry> getRecentErrorLogs() {
         Instant endTime = Instant.now();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
-        long queryRange = 1000 * 60 * 6;
+        // Unit of queryRange is hours
+        int queryRange = 6 / 60;
+        return getErrorLogs(queryRange);
+    }
+
+    @Override
+    public List<ErrorLogEntry> getErrorLogs(int pastHours) {
+        Instant endTime = Instant.now();
+        long queryRange = 1000L * 60 * 60 * pastHours;
         Instant startTime = endTime.minusMillis(queryRange);
 
         LogSearchParams logSearchParams = new LogSearchParams()

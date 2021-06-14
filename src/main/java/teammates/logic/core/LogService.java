@@ -14,6 +14,8 @@ public interface LogService {
 
     List<ErrorLogEntry> getRecentErrorLogs();
 
+    List<ErrorLogEntry> getErrorLogs(int pastHours);
+
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 
     List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
