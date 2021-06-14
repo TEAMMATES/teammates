@@ -116,7 +116,7 @@ export class AddCourseFormComponent implements OnInit {
   onCopy(): void {
     this.courseService
       .getAllCoursesAsInstructor('active')
-      .subscribe(async (courses: Courses) => {
+      .subscribe((courses: Courses) => {
         const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
         modalRef.componentInstance.isCopyFromOtherSession = true;
         modalRef.componentInstance.courses = courses.courses;
@@ -132,12 +132,9 @@ export class AddCourseFormComponent implements OnInit {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
 
-        try {
-          const result: CopyCourseModalResult = await modalRef.result;
-          this.copyCourseEvent.emit(result);
-        } catch (resp) {
-          this.statusMessageService.showErrorToast(resp.error.message);
-        }
+        modalRef.result
+          .then((result: CopyCourseModalResult) => this.copyCourseEvent.emit(result),
+            (resp: ErrorMessageOutput) => this.statusMessageService.showErrorToast(resp.error.message));
       });
   }
 }

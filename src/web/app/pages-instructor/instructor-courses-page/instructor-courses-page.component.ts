@@ -6,6 +6,7 @@ import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -89,6 +90,7 @@ export class InstructorCoursesPageComponent implements OnInit {
               private tableComparatorService: TableComparatorService,
               private feedbackSessionsService: FeedbackSessionsService,
               private feedbackQuestionsService: FeedbackQuestionsService,
+              private progressBarService: ProgressBarService,
               ) {}
 
   ngOnInit(): void {
@@ -302,8 +304,25 @@ export class InstructorCoursesPageComponent implements OnInit {
       timeZone: result.newTimeZone,
       courseId: result.newCourseId,
     })
-    .pipe(
-      finalize(() => {
+    .subscribe(() => {
+      // Wrap in a Promise to wait for all feedback sessions to be copied
+      const promise: Promise<void> = new Promise<void>((resolve: () => void, _reject: () => void) => {
+        result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+          this.copyFeedbackSession(session, result.newCourseId)
+            .pipe(finalize(() => {
+              this.numberOfSessionsCopied += 1;
+              this.copyProgressPercentage =
+                Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+              this.progressBarService.updateProgress(this.copyProgressPercentage);
+              if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
+                resolve();
+              }
+            }))
+            .subscribe();
+        });
+      });
+
+      promise.then(() => {
         this.courseService
           .getCourseAsInstructor(result.newCourseId)
           .subscribe((course: Course) => {
@@ -312,17 +331,6 @@ export class InstructorCoursesPageComponent implements OnInit {
             this.isCopyingCourse = false;
             this.statusMessageService.showSuccessToast('The course has been added.');
           });
-      }),
-    )
-    .subscribe(() => {
-      result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-        this.copyFeedbackSession(session, session.feedbackSessionName, result.newCourseId)
-          .pipe(finalize(() => {
-            this.numberOfSessionsCopied += 1;
-            this.copyProgressPercentage =
-              Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
-          }))
-          .subscribe();
       });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
@@ -342,19 +350,18 @@ export class InstructorCoursesPageComponent implements OnInit {
       canModifyStudent = course.privileges.canModifyStudent;
     }
     const isLoadingCourseStats: boolean = false;
-    const courseModel: CourseModel = Object.assign({},
-        { course, canModifyCourse, canModifyStudent, isLoadingCourseStats });
+    const courseModel: CourseModel = { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
     return courseModel;
   }
 
   /**
    * Copies a feedback session.
    */
-  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
+  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string):
       Observable<FeedbackSession> {
     let createdFeedbackSession!: FeedbackSession;
     return this.feedbackSessionsService
-      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(newSessionName, fromFeedbackSession))
+      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(fromFeedbackSession))
       .pipe(
         switchMap((feedbackSession: FeedbackSession) => {
           createdFeedbackSession = feedbackSession;
@@ -387,10 +394,10 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
-  private toFbSessionCreationReqWithName(newSessionName: string, fromFeedbackSession: FeedbackSession):
+  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession):
       FeedbackSessionCreateRequest {
     return {
-      feedbackSessionName: newSessionName,
+      feedbackSessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
       submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,

@@ -53,6 +53,7 @@
                             [checked]="selectedFeedbackSessions.size == courseToFeedbackSession[oldCourseId].length" (click)="toggleSelectionForAll()">
                         <span><b>Sessions to copy:</b></span>
                     </div>
+                    <hr class="solid-divider">
                     <div class="form-check" *ngFor="let session of courseToFeedbackSession[oldCourseId]">
                         <label class="form-check-label">
                             <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"

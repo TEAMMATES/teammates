@@ -44,15 +44,16 @@ export class CopyCourseModalComponent implements OnInit {
               private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
-    for (const [id, offset] of Object.entries(this.timezoneService.getTzOffsets())) {
-      const hourOffset: number = Math.floor(Math.abs(offset) / 60);
-      const minOffset: number = Math.abs(offset) % 60;
-      const sign: string = offset < 0 ? '-' : '+';
-      this.timezones.push({
-        id,
-        offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}`,
+    Object.entries(this.timezoneService.getTzOffsets())
+      .map(([id, offset]: [string, number]) => {
+        const hourOffset: number = Math.floor(Math.abs(offset) / 60);
+        const minOffset: number = Math.abs(offset) % 60;
+        const sign: string = offset < 0 ? '-' : '+';
+        this.timezones.push({
+          id,
+          offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}`,
+        });
       });
-    }
     this.newTimezone = this.timezoneService.guessTimezone();
   }
 
@@ -108,4 +109,4 @@ export class CopyCourseModalComponent implements OnInit {
 
 }
 
-const zeroPad: any = (num: number) => String(num).padStart(2, '0');
+const zeroPad: (num: number) => any = (num: number) => String(num).padStart(2, '0');

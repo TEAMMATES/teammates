@@ -28,6 +28,7 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -286,6 +287,7 @@ exports[`InstructorCoursesPageComponent should snap when courses are still loadi
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -357,6 +359,7 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -849,6 +852,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -1119,6 +1123,7 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -1617,6 +1622,7 @@ exports[`InstructorCoursesPageComponent should snap with default fields 1`] = `
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
@@ -1688,6 +1694,7 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
   isRecycleBinExpanded="false"
   ngbModal={[Function NgbModal]}
   numberOfSessionsCopied="0"
+  progressBarService={[Function ProgressBarService]}
   route={[Function ActivatedRoute]}
   simpleModalService={[Function SimpleModalService]}
   softDeletedCourses={[Function Array]}
