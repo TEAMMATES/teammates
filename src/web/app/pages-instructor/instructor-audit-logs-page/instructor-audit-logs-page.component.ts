@@ -150,9 +150,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
                 })),
             mergeAll(),
             finalize(() => this.isLoading = false))
-        .subscribe(((student: Students) =>
-                // Student with no name is selectable to search for all students since the field is optional
-                this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students]),
+        .subscribe(((student: Students) => {
+          student.students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+          // Student with no name is selectable to search for all students since the field is optional
+          this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students];
+        }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
