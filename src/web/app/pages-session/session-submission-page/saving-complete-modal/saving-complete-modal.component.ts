@@ -50,6 +50,10 @@ export class SavingCompleteModalComponent implements OnInit {
     return Object.keys(this.failToSaveQuestions).length !== 0;
   }
 
+  get isAllQuestionSavingFailed(): boolean {
+    return Object.keys(this.failToSaveQuestions).length === this.questions.length;
+  }
+
   constructor(public activeModal: NgbActiveModal,
               private timezoneService: TimezoneService) {}
 
@@ -74,10 +78,11 @@ export class SavingCompleteModalComponent implements OnInit {
     ];
 
     for (const question of this.questions) {
+      fileContent.push(`${question.questionNumber}: ${question.questionBrief}`);
+      fileContent.push(question.feedbackQuestionId);
+
       if (this.requestIds[question.feedbackQuestionId]) {
         // Question is either answered or skipped
-        fileContent.push(`${question.questionNumber}: ${question.questionBrief}`);
-        fileContent.push(question.feedbackQuestionId);
         fileContent.push(this.requestIds[question.feedbackQuestionId]);
 
         if (this.answers[question.feedbackQuestionId]) {
@@ -89,10 +94,12 @@ export class SavingCompleteModalComponent implements OnInit {
                 .join(','));
           }
         }
-
-        fileContent.push('');
-        fileContent.push('');
+      } else {
+        fileContent.push('ERROR! The response submission to this question failed.');
       }
+
+      fileContent.push('');
+      fileContent.push('');
     }
 
     const blob: Blob = new Blob([fileContent.join('\r\n')], { type: 'text/plain' });
