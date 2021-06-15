@@ -16,6 +16,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -47,6 +48,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     private static final String STUDENT6_IN_COURSE1_EMAIL = "student6InCourse1@gmail.tmt";
     private static final String STUDENT1_IN_COURSE2_EMAIL = "student1InCourse2@gmail.tmt";
 
+    private DataBundle courseRosterDataBundle;
+
     @Override
     protected void prepareTestData() {
         // test data is refreshed before each test case
@@ -54,7 +57,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
     @BeforeMethod
     public void refreshTestData() {
-        dataBundle = loadDataBundle("/FeedbackResponseCommentsLogicTest.json");
+        dataBundle = getTypicalDataBundle();
+        courseRosterDataBundle = loadDataBundle("/CourseRosterDataBundle.json");
         removeAndRestoreTypicalDataBundle();
     }
 
@@ -374,8 +378,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     public void testIsNameVisibleToUser() {
         FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get(COMMENT1_FROM_T1C1_TO_R1Q1S1C1);
         FeedbackResponseAttributes relatedResponse = dataBundle.feedbackResponses.get(RESPONSE1_FOR_Q1S1C1);
-        CourseRoster roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()),
-                new ArrayList<>(dataBundle.instructors.values()));
+        CourseRoster roster = new CourseRoster(new ArrayList<>(courseRosterDataBundle.students.values()),
+                new ArrayList<>(courseRosterDataBundle.instructors.values()));
 
         ______TS("success: the list that comment giver's name shown to is null; always return true");
         comment.showGiverNameTo = null;
