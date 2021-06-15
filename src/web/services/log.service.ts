@@ -58,4 +58,20 @@ export class LogService {
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
+
+  /**
+   * Searches for error or info logs.
+   */
+  searchLog(queryParams: {
+    logType: string,
+    searchFrom: string,
+  }): Observable<any> {
+    // TODO
+    const paramMap: Record<string, string> = {
+      logType: queryParams.logType,
+      searchFrom: queryParams.searchFrom,
+    };
+
+    return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
+  }
 }

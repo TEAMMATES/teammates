@@ -1,0 +1,49 @@
+<h1>Logs</h1>
+<p>This page allows you to view the logs in the past 24 hours.</p>
+<hr/>
+
+<div *tmIsLoading="isLoading" class="card bg-form no-border">
+  <div class="card-body">
+    <div class="row form-group">
+      <div class="col-5">
+        <div class="col-12">
+          <label for="logs-type-dropdown" class="font-weight-bold">Log Type</label>
+        </div>
+        <div class="col-12">
+          <select id="logs-type-dropdown" class="form-control col-12" [(ngModel)]="formModel.logsType">
+            <option value="" disabled selected hidden>Select Log Type</option>
+            <option value="ERROR">ERROR</option>
+            <option value="INFO">INFO</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-5">
+        <div class="col-12">
+          <label for="hour-dropdown" class="font-weight-bold">Retrieve logs from last</label>
+        </div>
+        <div class="col-12">
+          <select id="hour-dropdown" class="form-control col-12" [(ngModel)]="formModel.logsFrom">
+            <option value="" disabled selected hidden>Select hours</option>
+            <option *ngFor="let hour of hours" [value]="hour">{{hour}} hours</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-1 mt-4">
+        <button class="float-right btn btn-primary">Query</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *tmIsLoading="isSearching">
+  <div *ngIf="hasResult">
+    <p *ngIf="formModel.logsType==='ERROR'">Error logs from last {{formModel.logsFrom}} hours:</p>
+    <p *ngIf="formModel.logsType==='INFO'">Info logs for HTTP events from last {{formModel.logsFrom}} hours:</p>
+    <tm-sortable-table></tm-sortable-table>
+  </div>
+</div>
+
+<div class="previous-next">
+  <button class="btn btn-default">&#8249; Previous</button>
+  <button class="btn btn-default">Next &#8250;</button>
+</div>
