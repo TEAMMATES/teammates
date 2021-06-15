@@ -64,7 +64,7 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
         assertEquals(expectedResult, feedbackTextQuestionDetails.validateQuestionDetails());
 
         ______TS("Recommended length is not null and is greater than or equal to 1; returns an empty list");
-        expectedResult.clear();
+        expectedResult = new ArrayList<>();
         feedbackTextQuestionDetails.setRecommendedLength(1);
         assertEquals(expectedResult, feedbackTextQuestionDetails.validateQuestionDetails());
 
@@ -82,14 +82,10 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
 
         assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, numRecipients).isEmpty());
 
-        for (int i = 0; i < 10; i++) {
-            responses.add(new FeedbackTextResponseDetails());
-        }
-        numRecipients = 10;
-        assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, numRecipients).isEmpty());
+        responses.add(new FeedbackTextResponseDetails());
+        assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
 
-        numRecipients = -100;
-        assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, numRecipients).isEmpty());
+        assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, -100).isEmpty());
     }
 
     @Test
