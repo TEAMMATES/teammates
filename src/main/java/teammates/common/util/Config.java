@@ -59,6 +59,9 @@ public final class Config {
     /** The value of the "app.admins" in build.properties file. */
     public static final List<String> APP_ADMINS;
 
+    /** The value of the "app.seniordevs" in build.properties file. */
+    public static final List<String> APP_SENIOR_DEVS;
+
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
 
@@ -98,9 +101,6 @@ public final class Config {
     /** The value of the "app.maintenance" in build.properties file. */
     public static final boolean MAINTENANCE;
 
-    /** The value of the "app.seniorDeveloper.ids" in build.properties file. */
-    public static final List<String> SENIOR_DEVELOPERS;
-
     static {
         Properties properties = new Properties();
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
@@ -123,6 +123,7 @@ public final class Config {
         OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
         APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
+        APP_SENIOR_DEVS = Arrays.asList(properties.getProperty("app.seniordevs", "").split(","));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
@@ -136,7 +137,6 @@ public final class Config {
         SEARCH_SERVICE_HOST = properties.getProperty("app.search.service.host");
         ENABLE_DATASTORE_BACKUP = Boolean.parseBoolean(properties.getProperty("app.enable.datastore.backup", "false"));
         MAINTENANCE = Boolean.parseBoolean(properties.getProperty("app.maintenance", "false"));
-        SENIOR_DEVELOPERS = Arrays.asList(properties.getProperty("app.seniorDeveloper.ids").split(","));
     }
 
     private Config() {

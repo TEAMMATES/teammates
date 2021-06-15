@@ -3,6 +3,7 @@ package teammates.logic.api;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.util.Config;
+import teammates.common.util.Logger;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -27,6 +28,7 @@ public class UserProvision {
         String userId = user.id;
         user.isInstructor = accountsLogic.isAccountAnInstructor(userId);
         user.isStudent = studentsLogic.isStudentInAnyCourse(userId);
+        user.isSeniorDeveloper = Config.APP_SENIOR_DEVS.contains(user.getId());
         return user;
     }
 
@@ -37,7 +39,6 @@ public class UserProvision {
 
         UserInfo userInfo = new UserInfo(uic.getUserId());
         userInfo.isAdmin = uic.isAdmin();
-        userInfo.isSeniorDeveloper = this.isUserSeniorDeveloper(userInfo.getId());
         return userInfo;
     }
 
@@ -59,13 +60,6 @@ public class UserProvision {
         UserInfo userInfo = new UserInfo(userId);
         userInfo.isAdmin = true;
         return userInfo;
-    }
-
-    /**
-     * Checks whether the given id is in the list of senior developers' id.
-     */
-    public boolean isUserSeniorDeveloper(String id) {
-        return Config.SENIOR_DEVELOPERS.contains(id);
     }
 
 }
