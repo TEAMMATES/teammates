@@ -658,6 +658,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
             <strong>
               Your own responses (to others):
             </strong>
@@ -977,6 +978,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
             <strong>
               Your own responses (to others):
             </strong>
@@ -1312,6 +1314,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
             <strong>
               Your own responses (to others):
             </strong>

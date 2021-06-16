@@ -44,14 +44,8 @@
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
     <div *ngIf="isFeedbackSessionResultsEmpty" class="mt-4">
-      <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
-        <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
-          <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
-        </symbol>
-      </svg>
-      <div class="alert alert-primary d-flex align-items-center" role="alert">
-        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
-        <p style="margin: 0 0 0 8px;">Either not configured to be visible or there are no responses.</p>
+      <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
+        <p style="margin: 0 0 0 8px;">Nothing to show. The responses are either not configured to be visible or there are no responses.</p>
       </div>
     </div>
     <div class="card bg-light mt-4" *ngFor="let question of questions">
@@ -66,6 +60,18 @@
           <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
         </div>
         <div id="given-responses" class="mt-4" *ngIf="question.responsesFromSelf.length">
+          <div *ngIf="!question.otherResponses.length && !question.responsesToSelf.length">
+            <strong>Other responses (to you):</strong>
+            <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+              <symbol id="info-fill" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+              </symbol>
+            </svg>
+            <div class="alert alert-primary d-flex align-items-center" style="background-color: #007BFF; color: white; margin: 16px 0 16px 0;" role="alert">
+              <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
+              <p style="margin: 0 0 0 8px;">Either not configured to be visible or there are no responses.</p>
+            </div>
+          </div>
           <strong>Your own responses (to others):</strong>
           <div *ngFor="let responseFromSelf of question.responsesFromSelf">
             <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
