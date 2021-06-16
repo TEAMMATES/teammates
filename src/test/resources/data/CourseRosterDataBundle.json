@@ -72,30 +72,6 @@
         "sessionLevel": {}
       }
     },
-    "instructorNotYetJoinCourse1": {
-      "courseId": "idOfTypicalCourse1",
-      "name": "Instructor Not Yet Joined Course 1",
-      "email": "instructorNotYetJoinedCourse1@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse1",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
     "instructor1OfCourse2": {
       "googleId": "idOfInstructor1OfCourse2",
       "courseId": "idOfTypicalCourse2",
@@ -294,54 +270,6 @@
       "name": "Instructor 5 of CourseNoRegister",
       "email": "instructor5@courseNoRegister.tmt",
       "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "instructorWithOnlyOneSampleCourse": {
-      "googleId": "idOfInstructorWithOnlyOneSampleCourse",
-      "courseId": "idOfSampleCourse-demo",
-      "name": "Instructor With Only One Sample Course",
-      "email": "iwosc@yahoo.tmt",
-      "isArchived": false,
-      "role": "Co-owner",
-      "isDisplayedToStudents": true,
-      "displayedName": "Instructor",
-      "privileges": {
-        "courseLevel": {
-          "canviewstudentinsection": true,
-          "cansubmitsessioninsection": true,
-          "canmodifysessioncommentinsection": true,
-          "canmodifycourse": true,
-          "canviewsessioninsection": true,
-          "canmodifysession": true,
-          "canmodifystudent": true,
-          "canmodifyinstructor": true
-        },
-        "sectionLevel": {},
-        "sessionLevel": {}
-      }
-    },
-    "instructorOfArchivedCourse": {
-      "googleId": "idOfInstructorOfArchivedCourse",
-      "courseId": "idOfArchivedCourse",
-      "name": "InstructorOfArchiveCourse name",
-      "email": "instructorOfArchiveCourse@archiveCourse.tmt",
-      "isArchived": true,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
