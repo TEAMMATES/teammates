@@ -2,29 +2,32 @@ import { Component, OnInit } from '@angular/core';
 import { ColumnData, SortableTableCellData } from '../components/sortable-table/sortable-table.component';
 
 /**
- * Model for searching of logs
+ * Model for searching of logs.
  */
- interface SearchLogsFormModel {
+interface SearchLogsFormModel {
   logsType: string;
   logsFrom: number;
 }
 
 /**
- * Model for displaying of search result
+ * Model for displaying of search result.
  */
 interface LogResultModel {
   logColumnsData: ColumnData[];
   logRowsData: SortableTableCellData[][];
 }
 
+/**
+ * Admin and senior developer logs page.
+ */
 @Component({
   selector: 'tm-logs-page',
   templateUrl: './logs-page.component.html',
-  styleUrls: ['./logs-page.component.scss']
+  styleUrls: ['./logs-page.component.scss'],
 })
 export class LogsPageComponent implements OnInit {
 
-  hours: number[] = [];
+  hoursList: number[] = [];
 
   formModel: SearchLogsFormModel = {
     logsType: '',
@@ -38,6 +41,16 @@ export class LogsPageComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.hours = new Array(24).fill(0).map((_value: number, index:number) => index + 1);
+    for (let i: number = 1; i < 25; i += 1) {
+      this.hoursList.push(i);
+    }
+  }
+
+  getPreviousPageLogs(): void {
+    // TODO
+  }
+
+  getNextPageLogs(): void {
+    // TODO
   }
 }

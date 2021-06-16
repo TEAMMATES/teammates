@@ -1,0 +1,26 @@
+<div class="row" *ngIf="logs.length>0; else noLogMessage">
+  <div class="col-12">
+    <table id="logs-table" class="table table-bordered table-striped margin-bottom-20px">
+      <thead>
+      <tr>
+        <th id="timestamp">Timestamp</th>
+        <th id="summary">Summary</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let log of logs">
+        <td style="font-family:monospace;">{{ log.timestamp }}</td>
+        <td>
+          <pre>{{ log.data | json }}</pre>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #noLogMessage>
+  <div class="no-log-message">
+    There are no logs in this time period.
+  </div>
+</ng-template>

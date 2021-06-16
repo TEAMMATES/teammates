@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LogsPageComponent } from './logs-page.component';
+import { LogsPageModule } from './logs-page.module';
 
 describe('LogsPageComponent', () => {
   let component: LogsPageComponent;
@@ -8,7 +10,7 @@ describe('LogsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogsPageComponent ]
+      imports: [NgbModule, LogsPageModule],
     })
     .compileComponents();
   }));
@@ -22,4 +24,5 @@ describe('LogsPageComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
 });

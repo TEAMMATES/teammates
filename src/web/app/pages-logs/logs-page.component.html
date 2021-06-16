@@ -24,7 +24,7 @@
         <div class="col-12">
           <select id="hour-dropdown" class="form-control col-12" [(ngModel)]="formModel.logsFrom">
             <option value="" disabled selected hidden>Select hours</option>
-            <option *ngFor="let hour of hours" [value]="hour">{{hour}} hours</option>
+            <option *ngFor="let hour of hoursList" [value]="hour">{{hour}} hours</option>
           </select>
         </div>
       </div>
@@ -39,11 +39,11 @@
   <div *ngIf="hasResult">
     <p *ngIf="formModel.logsType==='ERROR'">Error logs from last {{formModel.logsFrom}} hours:</p>
     <p *ngIf="formModel.logsType==='INFO'">Info logs for HTTP events from last {{formModel.logsFrom}} hours:</p>
-    <tm-sortable-table></tm-sortable-table>
+    <tm-logs-table></tm-logs-table>
   </div>
 </div>
 
 <div class="previous-next">
-  <button class="btn btn-default">&#8249; Previous</button>
-  <button class="btn btn-default">Next &#8250;</button>
+  <button class="btn btn-default" (click)="getPreviousPageLogs()">&#8249; Previous</button>
+  <button class="btn btn-default" (click)="getNextPageLogs()">Next &#8250;</button>
 </div>
