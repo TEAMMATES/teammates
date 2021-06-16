@@ -126,9 +126,10 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
-        { value: this.subQuestions.map((_: string, questionIndex: number) => {
+        { value: (this.subQuestions.map((_: string, questionIndex: number) => {
           return perRecipientStats.subQuestionWeightAverage[questionIndex];
-        }).reduce((accValue: number, currValue: number) => accValue + currValue) / this.subQuestions.length,
+        }).reduce((accValue: number, currValue: number) => accValue + currValue) / this.subQuestions.length
+        ).toFixed(2),
         },
         { value: this.subQuestions.map((_: string, questionIndex: number) => {
           const currValue: number = perRecipientStats.subQuestionWeightAverage[questionIndex];

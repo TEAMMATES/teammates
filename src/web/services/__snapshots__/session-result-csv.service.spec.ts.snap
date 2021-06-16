@@ -428,10 +428,10 @@ Team,Recipient Name,Recipient's Email,Sub Question,Yes,No,Total,Average
 
 Per Recipient Statistics (Overall)
 Team,Recipient Name,Recipient's Email,Average,Breakdown
-\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,-0.44999999999999996,\\"1.25, -1.7\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,-0.44999999999999996,\\"-1.7, 1.25\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,2.5,\\"1.25, 1.25\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,1.25,\\"NA, 1.25\\"
+\\"Team 1.1</td></div>'\\"\\"\\",\\"student1 In Course1</td></div>'\\"\\"\\",student1InCourse1@gmail.tmt,-0.22,\\"1.25, -1.7\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,-0.22,\\"-1.7, 1.25\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,1.25,\\"1.25, 1.25\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,0.63,\\"NA, 1.25\\"
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number
@@ -476,9 +476,9 @@ Team,Recipient Name,Recipient's Email,Sub Question,Yes,No,Total,Average
 
 Per Recipient Statistics (Overall)
 Team,Recipient Name,Recipient's Email,Average,Breakdown
-\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,1.25,\\"1.25, NA\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,1,\\"1, NA\\"
-\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,1.25,\\"1.25, NA\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student2 In Course1,student2InCourse1@gmail.tmt,0.63,\\"1.25, NA\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student3 In Course1,student3InCourse1@gmail.tmt,0.50,\\"1, NA\\"
+\\"Team 1.1</td></div>'\\"\\"\\",student4 In Course1,student4InCourse1@gmail.tmt,0.63,\\"1.25, NA\\"
 
 
 Team,Giver's Full Name,Giver's Last Name,Giver's Email,Recipient's Team,Recipient's Full Name,Recipient's Last Name,Recipient's Email,Sub Question,Choice Value,Choice Number
