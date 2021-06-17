@@ -27,6 +27,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -186,6 +187,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -333,6 +335,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -480,6 +483,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -658,6 +662,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
             
             <strong>
               Your own responses (to others):
@@ -978,6 +991,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
             
             <strong>
               Your own responses (to others):
@@ -1315,6 +1337,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             id="given-responses"
           >
             
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
+            
             <strong>
               Your own responses (to others):
             </strong>
@@ -1493,6 +1524,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -1651,6 +1683,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -1799,6 +1832,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
