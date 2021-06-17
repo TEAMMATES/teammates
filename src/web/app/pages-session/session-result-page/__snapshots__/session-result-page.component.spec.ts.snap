@@ -56,6 +56,15 @@ exports[`SessionResultPageComponent should snap when session results failed to l
       </div>
     </div>
   </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -216,6 +225,15 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
       </div>
     </div>
   </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -364,6 +382,15 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
       </div>
     </div>
   </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -511,6 +538,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -1553,6 +1589,15 @@ exports[`SessionResultPageComponent should snap with session results are loading
       </div>
     </div>
   </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -1713,6 +1758,15 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
       </div>
     </div>
   </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
+  </div><div
     class="card card-plain mt-3"
   >
     <div
@@ -1860,6 +1914,15 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
