@@ -19,6 +19,7 @@ import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload.StringPayload;
+import com.google.cloud.logging.Severity;
 import com.google.logging.type.LogSeverity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -116,6 +117,69 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
+    public List<LogEntry> getInfoLogs() {
+        Instant endTime = Instant.now();
+        long queryRange = 1000L * 60 * 60 * 24;
+        Instant startTime = endTime.minusMillis(queryRange);
+
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setLogName(REQUEST_LOG_NAME)
+                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
+                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
+                .setMinSeverity(LogSeverity.INFO)
+                .setMaxSeverity(LogSeverity.INFO)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        List<LogEntry> infoLogs = new ArrayList<>();
+
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
+            // TODO
+        }
+
+        for (LogEntry logEntry : logEntries) {
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                if (line.getSeverity() == LogSeverity.INFO) {
+                    String payload = "INFO log.";
+                    LogEntry infoLogEntry = LogEntry.newBuilder(StringPayload.of(payload))
+                            .setLogName(REQUEST_LOG_NAME)
+                            .setSeverity(Severity.INFO)
+                            .setResource(MonitoredResource.newBuilder("global").build())
+                            .build();
+                    infoLogs.add(infoLogEntry);
+                }
+            }
+
+        }
+        return infoLogs;
+    }
+
+    @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
             throws LogServiceException {
         String payload = "Feedback session log: course ID=" + courseId + ", email=" + email
@@ -194,6 +258,9 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
+        if (s.maxSeverity != null) {
+            logFilters.add("severity<=" + s.maxSeverity.toString());
+        }
         if (s.minSeverity != null) {
             logFilters.add("severity>=" + s.minSeverity.toString());
         }
@@ -224,6 +291,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String resourceType;
         private Instant startTime;
         private Instant endTime;
+        private LogSeverity maxSeverity;
         private LogSeverity minSeverity;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
@@ -248,7 +316,16 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
+        public LogSearchParams setMaxSeverity(LogSeverity maxSeverity) {
+            assert this.minSeverity == null || this.minSeverity.getNumber() <= maxSeverity.getNumber();
+
+            this.maxSeverity = maxSeverity;
+            return this;
+        }
+
         public LogSearchParams setMinSeverity(LogSeverity minSeverity) {
+            assert this.maxSeverity == null || minSeverity.getNumber() <= this.maxSeverity.getNumber();
+
             this.minSeverity = minSeverity;
             return this;
         }

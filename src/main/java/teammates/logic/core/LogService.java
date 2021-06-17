@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.List;
 
+import com.google.cloud.logging.LogEntry;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.exception.LogServiceException;
@@ -15,6 +16,8 @@ public interface LogService {
     List<ErrorLogEntry> getRecentErrorLogs();
 
     List<ErrorLogEntry> getErrorLogs(int pastHours);
+
+    List<LogEntry> getInfoLogs();
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 

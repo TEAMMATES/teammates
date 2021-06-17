@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
+import com.google.cloud.logging.LogEntry;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.exception.LogServiceException;
@@ -42,6 +43,10 @@ public class LogsProcessor {
      */
     public List<ErrorLogEntry> getErrorLogs(int pastHours) {
         return service.getErrorLogs(pastHours);
+    }
+
+    public List<LogEntry> getInfoLogs() {
+        return service.getInfoLogs();
     }
 
     /**
