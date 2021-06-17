@@ -913,10 +913,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -935,7 +935,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -1217,10 +1217,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -1239,7 +1239,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -1398,10 +1398,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -1420,7 +1420,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -1541,7 +1541,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -1798,10 +1798,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -1820,7 +1820,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -2010,10 +2010,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -2032,7 +2032,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -2230,10 +2230,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </tm-constsum-recipients-question-instruction>
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -2252,7 +2252,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -2430,10 +2430,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -2452,7 +2452,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -2750,10 +2750,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -2772,7 +2772,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -3096,10 +3096,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -3118,7 +3118,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -3367,10 +3367,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -3389,7 +3389,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -3788,10 +3788,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -3810,7 +3810,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -4097,10 +4097,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -4119,7 +4119,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -4278,10 +4278,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -4300,7 +4300,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -4425,7 +4425,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -4686,10 +4686,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -4708,7 +4708,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -4901,10 +4901,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -4923,7 +4923,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -5121,10 +5121,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             </tm-constsum-recipients-question-instruction>
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -5143,7 +5143,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -5321,10 +5321,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -5343,7 +5343,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -5641,10 +5641,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -5663,7 +5663,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -5995,10 +5995,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -6017,7 +6017,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
@@ -6266,10 +6266,10 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
             
             
             <p
-              class="margin-top-15px"
+              class="margin-top-30px margin-bottom-0px"
             >
               <span
-                class="ngb-tooltip-class"
+                class="ngb-tooltip-class font-bold"
                 ngbtooltip="The party being evaluated or given feedback to"
               >
                 Evaluee/Recipient
@@ -6288,7 +6288,7 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
                 >
                   
                   <div
-                    class="col-12 margin-top-10px"
+                    class="col-12 margin-top-20px"
                   >
                     
                     <div
