@@ -54,6 +54,7 @@ export class TemplateQuestionModalComponent implements OnInit {
             showRecipientNameTo: template.question.showRecipientNameTo,
 
             isDeleting: false,
+            isDuplicating: false,
             isEditable: false,
             isSaving: false,
             isCollapsed: false,

@@ -149,6 +149,7 @@ export class QuestionEditFormComponent implements OnInit {
     isUsingOtherFeedbackPath: false,
     isUsingOtherVisibilitySetting: false,
     isDeleting: false,
+    isDuplicating: false,
     isEditable: false,
     isSaving: false,
     isCollapsed: false,

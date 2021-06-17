@@ -155,6 +155,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     showRecipientNameTo: [],
 
     isDeleting: false,
+    isDuplicating: false,
     isEditable: true,
     isSaving: false,
     isCollapsed: false,
@@ -526,6 +527,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
 
       isDeleting: false,
+      isDuplicating: false,
       isEditable: false,
       isSaving: false,
       isCollapsed: false,
@@ -642,7 +644,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   duplicateCurrentQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
 
-    questionEditFormModel.isSaving = true;
+    questionEditFormModel.isDuplicating = true;
     this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
       questionBrief: questionEditFormModel.questionBrief,
@@ -663,7 +665,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     })
         .pipe(
             finalize(() => {
-              questionEditFormModel.isSaving = false;
+              questionEditFormModel.isDuplicating = false;
             }),
         )
         .subscribe((newQuestion: FeedbackQuestion) => {
@@ -771,6 +773,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showRecipientNameTo: newQuestionModel.showRecipientNameTo,
 
       isDeleting: false,
+      isDuplicating: false,
       isEditable: true,
       isSaving: false,
       isCollapsed: false,

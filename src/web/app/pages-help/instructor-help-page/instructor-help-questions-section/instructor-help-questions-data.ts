@@ -55,6 +55,7 @@ export const EXAMPLE_ESSAY_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: DEFAULT_TEXT_QUESTION_DETAILS(),
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -86,6 +87,7 @@ export const EXAMPLE_NUMERICAL_SCALE_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: DEFAULT_NUMSCALE_QUESTION_DETAILS(),
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -557,6 +559,7 @@ export const EXAMPLE_DISTRIBUTED_POINT_OPTION_MODEL: QuestionEditFormModel = {
   questionDetails: EXAMPLE_DISTRIBUTE_POINT_OPTION_QUESTION_DETAIL,
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -745,6 +748,7 @@ export const EXAMPLE_DISTRIBUTED_POINT_RECIPIENT_MODEL: QuestionEditFormModel = 
   questionDetails: DEFAULT_CONSTSUM_RECIPIENTS_QUESTION_DETAILS(),
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -776,6 +780,7 @@ export const EXAMPLE_TEAM_CONTRIBUTION_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: DEFAULT_CONTRIBUTION_QUESTION_DETAILS(),
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -1024,6 +1029,7 @@ export const EXAMPLE_RUBRIC_QUESTION_MODEL: QuestionEditFormModel = {
   } as FeedbackRubricQuestionDetails,
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -1212,6 +1218,7 @@ export const EXAMPLE_RANK_RECIPIENT_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: DEFAULT_RANK_RECIPIENTS_QUESTION_DETAILS(),
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -1400,6 +1407,7 @@ export const EXAMPLE_RANK_OPTION_QUESTION_MODEL: QuestionEditFormModel = {
   questionDetails: DEFAULT_RANK_OPTIONS_QUESTION_DETAILS(),
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -1438,6 +1446,7 @@ export const EXAMPLE_MCQ_QUESTION_WITHOUT_WEIGHTS_MODEL: QuestionEditFormModel =
   } as FeedbackMcqQuestionDetails,
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
@@ -1476,6 +1485,7 @@ export const EXAMPLE_MCQ_QUESTION_WITH_WEIGHTS_MODEL: QuestionEditFormModel = {
   } as FeedbackMcqQuestionDetails,
 
   isDeleting: false,
+  isDuplicating: false,
   isEditable: false,
   isSaving: false,
   isCollapsed: false,
