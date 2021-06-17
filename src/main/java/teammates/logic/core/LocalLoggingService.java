@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.cloud.logging.LogEntry;
+
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -32,6 +34,12 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public List<ErrorLogEntry> getErrorLogs(int pastHours) {
+        // Not supported in dev server
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<LogEntry> getInfoLogs() {
         // Not supported in dev server
         return new ArrayList<>();
     }

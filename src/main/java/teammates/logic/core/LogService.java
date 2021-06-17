@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.List;
 
 import com.google.cloud.logging.LogEntry;
+
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.exception.LogServiceException;
