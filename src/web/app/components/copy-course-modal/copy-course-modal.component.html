@@ -15,7 +15,7 @@
             </div>
             <div class="form-group">
                 <label>Course ID:</label>
-                <input id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
+                <input [class.invalid]="hasCourseId" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
             <div class="form-group">
@@ -42,7 +42,7 @@
                 <label>Course to copy from:</label>
                 <div class="input-group">
                     <select id="course-to-copy-from" class="form-control" (change)="clearSelectedFeedbackSession()" [(ngModel)]="oldCourseId">
-                        <option *ngFor="let course of courses" [value]="course.courseId">{{ course.courseId }}</option>
+                        <option *ngFor="let course of activeCourses" [value]="course.courseId">{{ course.courseId }}</option>
                     </select>
                 </div>
             </div>

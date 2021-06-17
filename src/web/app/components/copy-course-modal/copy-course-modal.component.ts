@@ -27,9 +27,13 @@ export class CopyCourseModalComponent implements OnInit {
   courseToFeedbackSession: Record<string, FeedbackSession[]> = {};
 
   @Input()
-  courses: Course[] = [];
+  activeCourses: Course[] = [];
+
+  @Input()
+  allCourses: Course[] = [];
 
   isCopyFromOtherSession: boolean = false;
+  hasCourseId: boolean = false;
   timezones: Timezone[] = [];
   newTimezone: string = '';
   newCourseId: string = '';
@@ -66,6 +70,14 @@ export class CopyCourseModalComponent implements OnInit {
           'Please make sure you have filled in both Course ID and Name before adding the course!');
       return;
     }
+
+    this.hasCourseId = this.allCourses.filter((course: Course) => course.courseId === this.newCourseId).length > 0;
+    if (this.hasCourseId) {
+      this.statusMessageService.showErrorToast(
+        `The course ID ${this.newCourseId} has been used by another course, possibly by some other user.`);
+      return;
+    }
+
     this.activeModal.close({
       newCourseId: this.newCourseId,
       newCourseName: this.newCourseName,

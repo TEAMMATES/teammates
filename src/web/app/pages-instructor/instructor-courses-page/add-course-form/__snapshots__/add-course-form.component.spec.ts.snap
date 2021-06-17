@@ -2,6 +2,8 @@
 
 exports[`AddCourseFormComponent should snap when not enabled 1`] = `
 <tm-add-course-form
+  activeCourses={[Function Array]}
+  allCourses={[Function Array]}
   closeCourseFormEvent={[Function EventEmitter]}
   copyCourseEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}
@@ -195,6 +197,8 @@ exports[`AddCourseFormComponent should snap when not enabled 1`] = `
 
 exports[`AddCourseFormComponent should snap with default fields 1`] = `
 <tm-add-course-form
+  activeCourses={[Function Array]}
+  allCourses={[Function Array]}
   closeCourseFormEvent={[Function EventEmitter]}
   copyCourseEvent={[Function EventEmitter]}
   courseAdded={[Function EventEmitter]}

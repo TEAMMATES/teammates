@@ -147,12 +147,13 @@ describe('AddCourseFormComponent', () => {
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
       .and.returnValue(of({ feedbackSessions: [testFeedbackSession] }));
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+    component.activeCourses = [testCourse];
 
     component.onCopy();
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);
-    expect(mockModalRef.componentInstance.courses[0]).toEqual(testCourse);
+    expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse);
     expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
   });
 });

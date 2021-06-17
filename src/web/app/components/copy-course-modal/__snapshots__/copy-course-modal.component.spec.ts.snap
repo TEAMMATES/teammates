@@ -3,9 +3,11 @@
 exports[`CopyCourseModalComponent should snap when copying from other sessions 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
+  activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
+  allCourses={[Function Array]}
   courseToFeedbackSession={[Function Object]}
-  courses={[Function Array]}
+  hasCourseId="false"
   isCopyFromOtherSession={[Function Boolean]}
   newCourseId=""
   newCourseName=""
@@ -3105,9 +3107,11 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
+  activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
+  allCourses={[Function Array]}
   courseToFeedbackSession={[Function Object]}
-  courses={[Function Array]}
+  hasCourseId="false"
   isCopyFromOtherSession="false"
   newCourseId=""
   newCourseName=""
@@ -6196,9 +6200,11 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 exports[`CopyCourseModalComponent should snap with some course id 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
+  activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
+  allCourses={[Function Array]}
   courseToFeedbackSession={[Function Object]}
-  courses={[Function Array]}
+  hasCourseId="false"
   isCopyFromOtherSession="false"
   newCourseId={[Function String]}
   newCourseName=""
