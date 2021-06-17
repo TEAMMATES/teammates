@@ -31,7 +31,7 @@
         </button>
         <button id="btn-delete-question" type="button" class="btn btn-primary btn-sm"
                 (click)="deleteCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving">
-          <i class="fas fa-trash"></i> Delete
+          <tm-ajax-loading *ngIf="model.isDeleting"></tm-ajax-loading><i class="fas fa-trash"></i> Delete
         </button>
         <button id="btn-duplicate-question" type="button" class="btn btn-primary btn-sm" container="body"
                 (click)="duplicateCurrentQuestionHandler(); $event.stopPropagation();" [disabled]="model.isSaving"

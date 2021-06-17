@@ -87,6 +87,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             id="btn-delete-question"
             type="button"
           >
+            
             <i
               class="fas fa-trash"
             />

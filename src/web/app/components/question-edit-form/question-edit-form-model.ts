@@ -52,6 +52,7 @@ export interface QuestionEditFormModel {
 
   isEditable: boolean;
   isSaving: boolean;
+  isDeleting: boolean;
   isCollapsed: boolean;
   isVisibilityChanged: boolean;
   isFeedbackPathChanged: boolean;
