@@ -111,9 +111,10 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
             // Use the home page to minimize the page load time.
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
-            UserInfoCookie uic = new UserInfoCookie("devserver.admin.account", true);
+            UserInfoCookie uic = new UserInfoCookie(TestProperties.TEST_ADMIN, true);
             browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
                     true, true);
+            browser.isAdminLoggedIn = true;
 
             return getNewPageInstance(url, typeOfPage);
         }
@@ -131,11 +132,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
         logout();
         browser.goToUrl(url.toAbsoluteString());
 
-        // In dev server, any username is acceptable as admin
-        String adminUsername = "devserver.admin.account";
-
         DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-        loginPage.loginAsAdmin(adminUsername);
+        loginPage.loginAsUser(TestProperties.TEST_ADMIN);
+        browser.isAdminLoggedIn = true;
 
         return getNewPageInstance(url, typeOfPage);
     }
