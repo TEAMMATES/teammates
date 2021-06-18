@@ -118,6 +118,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isEditable: false,
     isDeleting: false,
     isCopying: false,
+    isAddingFromTemplate: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };
@@ -319,6 +320,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       isSaving: false,
       isDeleting: false,
       isCopying: false,
+      isAddingFromTemplate: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
       hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
@@ -699,6 +701,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const windowClass: string = 'modal-large';
     this.ngbModal.open(TemplateQuestionModalComponent, { windowClass }).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
+      this.sessionEditFormModel.isAddingFromTemplate = true;
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             questionNumber += 1;
@@ -721,6 +724,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               showRecipientNameTo: question.showRecipientNameTo,
             });
           }),
+      ).pipe(
+        finalize(() => this.sessionEditFormModel.isAddingFromTemplate = false),
       ).subscribe((newQuestion: FeedbackQuestion) => {
         this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
         this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
