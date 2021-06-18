@@ -86,6 +86,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
 
   allStudentChunks: StudentEnrollRequest[][] = [];
   invalidRowsIndex: Set<number> = new Set();
+  newStudentRowsIndex: Set<number> = new Set();
+  modifiedStudentRowsIndex: Set<number> = new Set();
+  modifiedUnchangedStudentRowsIndex: Set<number> = new Set();
   numberOfStudentsPerRequest: number = 50; // at most 50 students per chunk
 
   constructor(private route: ActivatedRoute,
@@ -109,6 +112,9 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     this.enrollErrorMessage = '';
     this.allStudentChunks = [];
     this.invalidRowsIndex = new Set();
+    this.newStudentRowsIndex = new Set();
+    this.modifiedStudentRowsIndex = new Set();
+    this.modifiedUnchangedStudentRowsIndex = new Set();
 
     const lastColIndex: number = 4;
     const newStudentsHOTInstance: Handsontable =
@@ -203,12 +209,14 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
         this.showEnrollResults = true;
         this.statusMessage.pop(); // removes any existing error status message
         this.statusMessageService.showSuccessToast('Enrollment successful. Summary given below.');
+        this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
 
-        if (this.invalidRowsIndex.size > 0) {
+        if (this.invalidRowsIndex.size > 0
+          || this.newStudentRowsIndex.size > 0
+          || this.modifiedStudentRowsIndex.size > 0
+          || this.modifiedUnchangedStudentRowsIndex.size > 0) {
           this.setTableStyleBasedOnFieldChecks(newStudentsHOTInstance, hotInstanceColHeaders);
         }
-
-        this.prepareEnrollmentResults(enrolledStudents, studentEnrollRequests);
       },
       error: (resp: ErrorMessageOutput) => {
         if (enrolledStudents.length > 0) {
@@ -344,6 +352,28 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
             'className', 'invalid-row');
       }
     }
+
+    for (const index of this.newStudentRowsIndex) {
+      for (const header of this.colHeaders) {
+        newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(header),
+            'className', 'new-row');
+      }
+    }
+
+    for (const index of this.modifiedStudentRowsIndex) {
+      for (const header of this.colHeaders) {
+        newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(header),
+            'className', 'modified-row');
+      }
+    }
+
+    for (const index of this.modifiedUnchangedStudentRowsIndex) {
+      for (const header of this.colHeaders) {
+        newStudentsHOTInstance.setCellMeta(index, hotInstanceColHeaders.indexOf(header),
+            'className', 'modified-unchanged-row');
+      }
+    }
+
     newStudentsHOTInstance.render();
   }
 
@@ -358,6 +388,11 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
     for (const _ of statuses) {
       studentLists.push([]);
     }
+
+    const emailToIndexMap: Map<string, number> = new Map();
+    enrollRequests.map((enrollRequest: StudentEnrollRequest, index: number) => {
+      emailToIndexMap.set(enrollRequest.email, index);
+    });
 
     // Identify students not in the enroll list.
     for (const existingStudent of existingStudents) {
@@ -379,10 +414,22 @@ export class InstructorCourseEnrollPageComponent implements OnInit {
       });
       if (unchangedStudent !== undefined) {
         studentLists[EnrollStatus.MODIFIED_UNCHANGED].push(enrolledStudent);
+        const index: number | undefined = emailToIndexMap.get(enrolledStudent.email);
+        if (index !== undefined) {
+          this.modifiedUnchangedStudentRowsIndex.add(index);
+        }
       } else if (unchangedStudent === undefined && modifiedStudent !== undefined) {
         studentLists[EnrollStatus.MODIFIED].push(enrolledStudent);
+        const index: number | undefined = emailToIndexMap.get(enrolledStudent.email);
+        if (index !== undefined) {
+          this.modifiedStudentRowsIndex.add(index);
+        }
       } else if (unchangedStudent === undefined && modifiedStudent === undefined) {
         studentLists[EnrollStatus.NEW].push(enrolledStudent);
+        const index: number | undefined = emailToIndexMap.get(enrolledStudent.email);
+        if (index !== undefined) {
+          this.newStudentRowsIndex.add(index);
+        }
       }
     }
 
