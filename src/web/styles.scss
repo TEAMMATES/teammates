@@ -275,23 +275,18 @@ h6,
 }
 
 .handsontable .invalid-row {
-  background: #D9534F;
-  color: white;
-}
-
-.handsontable .new-row {
-  background: #0275D8;
-  color: white;
-}
-
-.handsontable .modified-row {
-  background: #FFC107;
+  background: #F19491;
   color: black;
 }
 
-.handsontable .modified-unchanged-row {
-  background: #17A2B8;
-  color: white;
+.handsontable .new-row {
+  background: #AEEBA6;
+  color: black;
+}
+
+.handsontable .modified-row {
+  background: #FCF4B3;
+  color: black;
 }
 
 .handsontable .valid-row {
