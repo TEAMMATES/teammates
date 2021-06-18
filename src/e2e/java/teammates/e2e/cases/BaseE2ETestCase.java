@@ -111,7 +111,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
             // Use the home page to minimize the page load time.
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
-            UserInfoCookie uic = new UserInfoCookie(TestProperties.TEST_ADMIN, true);
+            UserInfoCookie uic = new UserInfoCookie(TestProperties.TEST_ADMIN);
             browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
                     true, true);
             browser.isAdminLoggedIn = true;
