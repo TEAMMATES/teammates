@@ -27,7 +27,6 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
-import teammates.e2e.pageobjects.AdminHomePage;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.DevServerLoginPage;
@@ -101,9 +100,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     /**
-     * Logs in a page using admin credentials (i.e. in masquerade mode).
+     * Logs in to a page using the given credentials.
      */
-    protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
+    protected <T extends AppPage> T loginToPage(AppUrl url, Class<T> typeOfPage, String userId) {
         // When not using dev server, Google blocks log in by automation.
         // To work around that, we inject the user cookie directly into the browser session.
         if (!TestProperties.isDevServer()) {
@@ -111,32 +110,27 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
             // Use the home page to minimize the page load time.
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
-            UserInfoCookie uic = new UserInfoCookie(TestProperties.TEST_ADMIN);
+            UserInfoCookie uic = new UserInfoCookie(userId);
             browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
                     true, true);
-            browser.isAdminLoggedIn = true;
 
             return getNewPageInstance(url, typeOfPage);
         }
 
-        if (browser.isAdminLoggedIn) {
-            try {
-                return getNewPageInstance(url, typeOfPage);
-            } catch (Exception e) {
-                //ignore and try to logout and login again if fail.
-            }
-        }
-
-        // logout and attempt to load the requested URL. This will be
-        // redirected to a dev-server login page
-        logout();
+        // This will be redirected to the dev server login page.
         browser.goToUrl(url.toAbsoluteString());
 
         DevServerLoginPage loginPage = AppPage.getNewPageInstance(browser, DevServerLoginPage.class);
-        loginPage.loginAsUser(TestProperties.TEST_ADMIN);
-        browser.isAdminLoggedIn = true;
+        loginPage.loginAsUser(userId);
 
         return getNewPageInstance(url, typeOfPage);
+    }
+
+    /**
+     * Logs in to a page using admin credentials.
+     */
+    protected <T extends AppPage> T loginAdminToPage(AppUrl url, Class<T> typeOfPage) {
+        return loginToPage(url, typeOfPage, TestProperties.TEST_ADMIN);
     }
 
     /**
@@ -145,11 +139,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     protected void logout() {
         browser.goToUrl(createUrl(Const.WebPageURIs.LOGOUT).toAbsoluteString());
         AppPage.getNewPageInstance(browser, HomePage.class).waitForPageToLoad();
-        browser.isAdminLoggedIn = false;
-    }
-
-    protected AdminHomePage loginAdmin() {
-        return loginAdminToPage(createUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), AdminHomePage.class);
     }
 
     /**
