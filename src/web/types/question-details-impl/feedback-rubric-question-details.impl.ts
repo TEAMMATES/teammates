@@ -128,15 +128,26 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
       .sort((a: PerRecipientStats, b: PerRecipientStats) =>
         a.recipientTeam.localeCompare(b.recipientTeam) || a.recipientName.localeCompare(b.recipientName))
       .forEach((perRecipientStats: PerRecipientStats) => {
+        let questionWeightSum: number = 0;
+        let numAnsweredQuestions: number = 0;
+        let overallWeightAverage: number = 0;
+        perRecipientStats.subQuestionWeightAverage
+          .filter((weight: number) => weight !== 0)
+          .forEach((weight: number) => {
+            // TODO: handle zero weight
+            //  currently we cannot distinguish between unanswered question and 0 weight answer
+            questionWeightSum += weight;
+            numAnsweredQuestions += 1;
+          });
+        if (numAnsweredQuestions > 0) {
+          overallWeightAverage = questionWeightSum / numAnsweredQuestions;
+        }
+
         statsRows.push([
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
-          (perRecipientStats.subQuestionWeightAverage
-            .reduce(((prevValue: number, currValue: number) => prevValue + currValue))
-            / perRecipientStats.subQuestionWeightAverage.length)
-            .toFixed(2)
-            .toString(),
+          overallWeightAverage.toFixed(2),
           perRecipientStats.subQuestionWeightAverage
             .map((value: number) => value !== 0 ? value.toString() : 'NA')
             .reduce(((prevValue: string, currValue: string) => `${prevValue}, ${currValue}`)),
