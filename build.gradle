@@ -136,6 +136,7 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
     ]
     mapEnum = "asEnum"
     nonConstEnums = true
+    noFileComment = true
 }
 
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {

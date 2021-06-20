@@ -48,12 +48,16 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     private final HttpSolrClient client;
     private final boolean isResetAllowed;
 
-    SearchManager(String searchServiceHost, boolean isResetAllowed) {
+    SearchManager(String searchServiceHostParam, boolean isResetAllowed) {
         this.isResetAllowed = Config.isDevServer() && isResetAllowed;
 
-        if (StringHelper.isEmpty(searchServiceHost)) {
+        if (StringHelper.isEmpty(searchServiceHostParam)) {
             this.client = null;
         } else {
+            String searchServiceHost = searchServiceHostParam;
+            if (Config.isDocker()) {
+                searchServiceHost = searchServiceHost.replace("localhost", System.getenv("DOCKER_GATEWAY_HOST"));
+            }
             this.client = new HttpSolrClient.Builder(searchServiceHost)
                     .withConnectionTimeout(2000) // timeout for connecting to Solr server
                     .withSocketTimeout(5000) // timeout for reading data

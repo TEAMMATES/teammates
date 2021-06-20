@@ -204,6 +204,16 @@ public final class Config {
     }
 
     /**
+     * Returns true if the system is run inside a Docker container.
+     *
+     * <p>Note that this is a workaround done by passing some environment variables within the Dockerfile,
+     * as there is no easy way to otherwise detect whether the environment is Docker.
+     */
+    public static boolean isDocker() {
+        return System.getenv("DOCKER_GATEWAY_HOST") != null;
+    }
+
+    /**
      * Creates an {@link AppUrl} for the supplied {@code relativeUrl} parameter.
      * The base URL will be the application front-end URL.
      * {@code relativeUrl} must start with a "/".
