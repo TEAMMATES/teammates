@@ -123,30 +123,11 @@ export class RubricQuestionStatisticsComponent extends RubricQuestionStatisticsC
 
     this.perRecipientOverallRowsData = [];
     Object.values(this.perRecipientStatsMap).forEach((perRecipientStats: PerRecipientStats) => {
-      let questionWeightSum: number = 0;
-      let numAnsweredQuestions: number = 0;
-      let overallWeightAverage: number = 0;
-      this.subQuestions.forEach((_: string, questionIndex: number) => {
-        const weight: number = perRecipientStats.subQuestionWeightAverage[questionIndex];
-        if (weight) {
-          // TODO: handle zero weight
-          //  currently we cannot distinguish between unanswered question and 0 weight answer
-          questionWeightSum += weight;
-          numAnsweredQuestions += 1;
-        }
-      });
-      if (numAnsweredQuestions > 0) {
-        overallWeightAverage = questionWeightSum / numAnsweredQuestions;
-      }
-
       this.perRecipientOverallRowsData.push([
         { value: perRecipientStats.recipientTeam },
         { value: perRecipientStats.recipientName },
-        { value: overallWeightAverage.toFixed(2) },
-        { value: this.subQuestions.map((_: string, questionIndex: number) => {
-          const currValue: number = perRecipientStats.subQuestionWeightAverage[questionIndex];
-          return currValue ? currValue.toString() : 'N/A';
-        }).reduce((accValue: string, currValue: string) => `${accValue}, ${currValue}`),
+        { value: perRecipientStats.weightAverage },
+        { value: perRecipientStats.subQuestionWeightAverage.toString(),
         },
       ]);
     });
