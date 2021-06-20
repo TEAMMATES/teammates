@@ -119,7 +119,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     isEditable: true,
     isDeleting: false,
     isCopying: false,
-    isAddingFromTemplate: false,
     hasVisibleSettingsPanelExpanded: false,
     hasEmailSettingsPanelExpanded: false,
   };

@@ -63,7 +63,6 @@ export interface SessionEditFormModel {
   isEditable: boolean;
   isDeleting: boolean;
   isCopying: boolean;
-  isAddingFromTemplate: boolean;
 }
 
 /**

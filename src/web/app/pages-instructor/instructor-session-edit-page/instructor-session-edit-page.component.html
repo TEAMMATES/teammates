@@ -21,7 +21,7 @@
                              [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
     </div>
   </div>
-  <div *tmIsLoading="sessionEditFormModel.isAddingFromTemplate"></div>
+  <div *tmIsLoading="isAddingFromTemplate"></div>
   <br/>
   <div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
     <div class="card-body background-color-light-blue text-center">
