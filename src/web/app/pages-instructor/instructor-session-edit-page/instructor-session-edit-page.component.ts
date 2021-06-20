@@ -81,7 +81,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   courseId: string = '';
   feedbackSessionName: string = '';
   isEditingMode: boolean = false;
-  isAddingFromTemplate: boolean = false;
 
   courseName: string = '';
 
@@ -163,6 +162,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isQuestionDetailsChanged: false,
   };
 
+  isAddingFromTemplate: boolean = false;
   isAddingQuestionPanelExpanded: boolean = false;
   isLoadingFeedbackSession: boolean = false;
   hasLoadingFeedbackSessionFailed: boolean = false;
