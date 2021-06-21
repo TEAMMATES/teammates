@@ -15,7 +15,8 @@
             </div>
             <div class="form-group">
                 <label>Course ID:</label>
-                <input [class.invalid]="hasCourseId" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1" [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH">
+                <input [class.invalid]="newCourseIdIsConflicting" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1"
+                [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH" (focus)="this.newCourseIdIsConflicting = false">
                 <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
             </div>
             <div class="form-group">

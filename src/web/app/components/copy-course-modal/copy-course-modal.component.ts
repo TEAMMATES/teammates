@@ -33,7 +33,7 @@ export class CopyCourseModalComponent implements OnInit {
   allCourses: Course[] = [];
 
   isCopyFromOtherSession: boolean = false;
-  hasCourseId: boolean = false;
+  newCourseIdIsConflicting: boolean = false;
   timezones: Timezone[] = [];
   newTimezone: string = '';
   newCourseId: string = '';
@@ -48,15 +48,12 @@ export class CopyCourseModalComponent implements OnInit {
               private timezoneService: TimezoneService) {}
 
   ngOnInit(): void {
-    Object.entries(this.timezoneService.getTzOffsets())
+    this.timezones = Object.entries(this.timezoneService.getTzOffsets())
       .map(([id, offset]: [string, number]) => {
         const hourOffset: number = Math.floor(Math.abs(offset) / 60);
         const minOffset: number = Math.abs(offset) % 60;
         const sign: string = offset < 0 ? '-' : '+';
-        this.timezones.push({
-          id,
-          offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}`,
-        });
+        return { id, offset: offset === 0 ? 'UTC' : `UTC ${sign}${zeroPad(hourOffset)}:${zeroPad(minOffset)}` };
       });
     this.newTimezone = this.timezoneService.guessTimezone();
   }
@@ -71,8 +68,9 @@ export class CopyCourseModalComponent implements OnInit {
       return;
     }
 
-    this.hasCourseId = this.allCourses.filter((course: Course) => course.courseId === this.newCourseId).length > 0;
-    if (this.hasCourseId) {
+    this.newCourseIdIsConflicting = this.allCourses
+      .filter((course: Course) => course.courseId === this.newCourseId).length > 0;
+    if (this.newCourseIdIsConflicting) {
       this.statusMessageService.showErrorToast(
         `The course ID ${this.newCourseId} has been used by another course, possibly by some other user.`);
       return;
@@ -118,7 +116,6 @@ export class CopyCourseModalComponent implements OnInit {
   clearSelectedFeedbackSession(): void {
     this.selectedFeedbackSessions.clear();
   }
-
 }
 
-const zeroPad: (num: number) => any = (num: number) => String(num).padStart(2, '0');
+const zeroPad: (num: number) => string = (num: number) => String(num).padStart(2, '0');
