@@ -124,10 +124,14 @@ h6,
   margin-bottom: 20px;
 }
 
+.card-checkbox-question {
+  position: relative;
+  vertical-align: middle;
+}
+
 .card-header {
   align-items: center;
-  display:inline-block;
-  vertical-align:middle;
+  display: flex;
   padding: .5rem 1rem;
 }
 
