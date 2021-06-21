@@ -8,10 +8,12 @@
   <div class="card margin-top-20px" *ngFor="let templateQuestionModel of templateQuestionModels">
     <div class="card-header cursor-pointer"
          (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
-      <label>
-        <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
-      </label>&nbsp;
-      <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
+		 <div class="card-checkbox-question">
+			<label>
+				<input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
+			</label>&nbsp;
+			<span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
+		 </div>
     </div>
     <div *ngIf="templateQuestionModel.isShowDetails" @collapseAnim>
       <div class="card-body">
