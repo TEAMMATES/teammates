@@ -126,7 +126,8 @@ h6,
 
 .card-header {
   align-items: center;
-  display: flex;
+  display:inline-block;
+  vertical-align:middle;
   padding: .5rem 1rem;
 }
 
