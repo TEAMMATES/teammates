@@ -78,9 +78,8 @@ public class FeedbackTextQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateResponsesDetails_shouldReturnEmptyList() {
         List<FeedbackResponseDetails> responses = new ArrayList<>();
-        int numRecipients = 0;
 
-        assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, numRecipients).isEmpty());
+        assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, 0).isEmpty());
 
         responses.add(new FeedbackTextResponseDetails());
         assertTrue(feedbackTextQuestionDetails.validateResponsesDetails(responses, 10).isEmpty());
