@@ -260,15 +260,19 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
       modalRef.result.then((result: CopySessionModalResult) => {
-        this.failedToCopySessions = {};
         const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
             result, this.courseId, this.feedbackSessionName);
         this.sessionEditFormModel.isCopying = true;
-        forkJoin(requestList)
+        if (requestList.length === 1) {
+          this.copySingleSession(requestList[0].pipe(finalize(() => this.sessionEditFormModel.isCopying = false)));
+        }
+        if (requestList.length > 1) {
+          forkJoin(requestList)
            .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
            .subscribe(() => {
              this.showCopyStatusMessage();
            });
+        }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
     });
