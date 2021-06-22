@@ -132,12 +132,8 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
           perRecipientStats.recipientTeam,
           perRecipientStats.recipientName,
           perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
-          perRecipientStats.subQuestionWeightAverage
-            .reduce(((prevValue: number, currValue: number) => prevValue + currValue))
-            .toString(),
-          perRecipientStats.subQuestionWeightAverage
-            .map((value: number) => value !== 0 ? value.toString() : 'NA')
-            .reduce(((prevValue: string, currValue: string) => `${prevValue}, ${currValue}`)),
+          String(perRecipientStats.weightAverage),
+          perRecipientStats.subQuestionWeightAverage.toString(),
         ]);
       });
 

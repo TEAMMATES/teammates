@@ -5,6 +5,7 @@ package teammates.common.util;
  */
 public class EmailWrapper {
 
+    private EmailType type;
     private String senderName;
     private String senderEmail;
     private String replyTo;
@@ -12,6 +13,14 @@ public class EmailWrapper {
     private String bcc;
     private String subject;
     private String content;
+
+    public EmailType getType() {
+        return type;
+    }
+
+    public void setType(EmailType type) {
+        this.type = type;
+    }
 
     public String getSenderName() {
         return senderName;
@@ -59,6 +68,16 @@ public class EmailWrapper {
 
     public void setSubject(String subject) {
         this.subject = subject;
+    }
+
+    /**
+     * Sets the email subject based on the email type and inserts the specified {@code params}
+     * in the indicated places.
+     */
+    public void setSubjectFromType(Object... params) {
+        if (type != null) {
+            this.subject = String.format(type.getSubject(), params);
+        }
     }
 
     public String getContent() {
