@@ -252,6 +252,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     // load course candidates first
     this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
+    .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
     .subscribe((courses: Courses) => {
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
@@ -262,16 +263,12 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         this.failedToCopySessions = {};
         const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
             result, this.courseId, this.feedbackSessionName);
-        if (requestList.length === 1) {
-          this.copySingleSession(requestList[0]);
-        }
-        if (requestList.length > 1) {
-          forkJoin(requestList)
+        this.sessionEditFormModel.isCopying = true;
+        forkJoin(requestList)
            .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
            .subscribe(() => {
              this.showCopyStatusMessage();
            });
-        }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
       .catch(() => {});
     });
