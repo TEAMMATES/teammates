@@ -19,6 +19,7 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
   pointsPerOption: Record<string, number[]> = {};
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
+  averagePointsExcludingSelf: Record<string, number> = {};
 
   constructor(question: FeedbackConstantSumQuestionDetails) {
     super(question);
@@ -30,6 +31,7 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
     this.pointsPerOption = {};
     this.totalPointsPerOption = {};
     this.averagePointsPerOption = {};
+    this.averagePointsExcludingSelf = {};
 
     const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
@@ -55,6 +57,18 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       this.totalPointsPerOption[recipient] = sum;
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
     }
+
+    var totalSum: number = 0;
+    var totalStudents: number = 0;
+    for (const recipient of Object.keys(this.pointsPerOption)) {
+      totalSum += this.totalPointsPerOption[recipient];
+      totalStudents += 1;
+    }
+
+    for (const recipient of Object.keys(this.pointsPerOption)) {
+      this.averagePointsExcludingSelf[recipient] = +(totalStudents === 0 ? 0 : (totalSum - this.totalPointsPerOption[recipient]) / totalStudents );
+    }
+
   }
 
 }
