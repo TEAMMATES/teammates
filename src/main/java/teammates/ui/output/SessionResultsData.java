@@ -85,13 +85,17 @@ public class SessionResultsData extends ApiOutput {
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
+                boolean canStudentSeeResponsesToSelf = question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                        || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
+                        || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                        || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+
                 for (FeedbackResponseAttributes response : responses) {
-                    boolean canUserSeeResponses = question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER);
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
 
-                    if (canUserSeeResponses && isUserRecipient) {
+                    if (canStudentSeeResponsesToSelf && isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
                     }
 

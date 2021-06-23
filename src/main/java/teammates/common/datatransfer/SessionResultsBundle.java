@@ -36,7 +36,6 @@ public class SessionResultsBundle {
                                 Map<String, List<FeedbackResponseCommentAttributes>> responseCommentsMap,
                                 Map<Long, Boolean> commentGiverVisibilityTable,
                                 CourseRoster roster) {
-
         this.feedbackSession = feedbackSession;
         this.questionsMap = questionsMap;
         this.responseCommentsMap = responseCommentsMap;
