@@ -254,6 +254,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.courseService.getInstructorCoursesThatAreActive()
     .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
     .subscribe((courses: Courses) => {
+      this.failedToCopySessions = {};
       const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
       modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
       modalRef.componentInstance.courseCandidates = courses.courses;
