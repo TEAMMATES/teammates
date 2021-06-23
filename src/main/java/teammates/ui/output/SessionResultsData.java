@@ -90,14 +90,14 @@ public class SessionResultsData extends ApiOutput {
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
-                    
+
                     if (canUserSeeResponses && isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
-                    } 
+                    }
 
                     if (isUserGiver) {
                         qnOutput.responsesFromSelf.add(responseOutput);
-                    } 
+                    }
 
                     if (!isUserRecipient && !isUserGiver) {
                         // we don't need care about the keys of the map here
