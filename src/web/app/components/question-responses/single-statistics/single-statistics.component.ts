@@ -29,6 +29,7 @@ export class SingleStatisticsComponent implements OnInit, OnChanges {
   @Input() isStudent: boolean = false;
   @Input() statistics: string = '';
   @Input() displayContributionStats: boolean = true;
+  @Input() displayNumScaleStats: boolean = true;
   @Input() section: string = '';
   @Input() sectionType: InstructorSessionResultSectionType = InstructorSessionResultSectionType.EITHER;
 

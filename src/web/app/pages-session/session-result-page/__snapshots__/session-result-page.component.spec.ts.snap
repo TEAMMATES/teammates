@@ -652,7 +652,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             id="given-responses"
           >
             <strong>
-              Your own responses (to others):
+              Your own responses:
             </strong>
             
             <div>
@@ -971,7 +971,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             id="given-responses"
           >
             <strong>
-              Your own responses (to others):
+              Your own responses:
             </strong>
             
             <div>
@@ -1306,7 +1306,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             id="given-responses"
           >
             <strong>
-              Your own responses (to others):
+              Your own responses:
             </strong>
             
             <div>

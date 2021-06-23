@@ -5,7 +5,7 @@
       <strong *ngIf="!isStudent">Response Summary</strong>
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngIf="displayNumScaleStats">
     <div id="numscale-statistics" class="col-sm-12 table-responsive">
       <tm-sortable-table [rows]="rowsData" [columns]="columnsData"></tm-sortable-table>
     </div>
