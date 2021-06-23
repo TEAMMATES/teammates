@@ -15,9 +15,9 @@ export class PublishStatusTooltipPipe implements PipeTransform {
   transform(status: FeedbackSessionPublishStatus): string {
     switch (status) {
       case FeedbackSessionPublishStatus.PUBLISHED:
-        return 'The responses for this session are visible.';
+        return 'Students can view responses received, as per the visibility settings of each question.';
       case FeedbackSessionPublishStatus.NOT_PUBLISHED:
-        return 'The responses for this session are not visible.';
+        return 'Students cannot view responses received.';
       default:
         return 'Unknown';
     }
