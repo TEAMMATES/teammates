@@ -385,11 +385,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, null, commentFromT1C1ToR1Q1S1C1VisibleToStudent));
 
-        ______TS("success: giver is instructor; show comment to student; comment is visible to recipient");
+        ______TS("success: giver is instructor; show comment to student; comment is visible to response recipient");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromT1C1ToR1Q1S1C1VisibleToStudent));
 
-        ______TS("success: giver is instructor; show comment to student; comment is visible to teammates");
+        ______TS("success: giver is instructor; show comment to student; comment is visible to response recipient's teammates");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromT1C1ToR1Q1S1C1VisibleToStudent));
 
