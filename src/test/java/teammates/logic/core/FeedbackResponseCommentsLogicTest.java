@@ -414,7 +414,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToStudent));
 
-        ______TS("success: giver is student; show comment to student; comment is visible to giver");
+        ______TS("success: giver is student; show comment to student; comment is visible to comment giver");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToStudent));
 
@@ -422,7 +422,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToStudent));
 
-        ______TS("success: giver is student; show comment to student; comment is visible to resposne recipient's teammates");
+        ______TS("success: giver is student; show comment to student; comment is visible to response recipient's teammates");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToStudent));
 
@@ -437,17 +437,17 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .build();
 
         ______TS("success: giver is student; do not show comment to anyone except self;"
-                + "comment is visible to giver");
+                + "comment is visible to response giver");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToNoOneExceptSelf));
 
         ______TS("failure: giver is student; do not show comment to anyone except self;"
-                + "comment is not visible to recipient");
+                + "comment is not visible to response recipient");
         assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToNoOneExceptSelf));
 
         ______TS("failure: giver is student; do not show comment to anyone except self;"
-                + "comment is not visible to teammates");
+                + "comment is not visible to response recipient's teammates");
         assertFalse(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromS4C1ToR1Q1S1C1VisibleToNoOneExceptSelf));
 
@@ -467,7 +467,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .build();
 
         ______TS("success: giver is instructor; do not show comment to anyone except self;"
-                + "comment is visible to giver by default");
+                + "comment is visible to comment giver by default");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromT1C1ToR1Q1S1C1VisibleToNoOneExceptSelf));
 
@@ -477,7 +477,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromT1C1ToR1Q1S1C1VisibleToNoOneExceptSelf));
 
         ______TS("failure: giver is instructor; do not show comment to anyone except self;"
-                + "comment is not visible to student recipient");
+                + "comment is not visible to response recipient");
         assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentFromT1C1ToR1Q1S1C1VisibleToNoOneExceptSelf));
 
@@ -592,7 +592,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 .build();
 
         ______TS("success: giver is student; show comment to comment recipient's team; comment is visible"
-                + "to recipient");
+                + "to response recipient");
         student = dataBundle.students.get("student1InCourse1");
         studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
         studentsEmailInTeam = studentsInTeam.stream()
@@ -603,7 +603,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 commentFromS5C1ToR2Q2S1C1VisibleToResponseReceiverTeamMember));
 
         ______TS("success: giver is student; show comment to comment recipient's team; comment is visible"
-                + "to recipient's team members");
+                + "to response recipient's team members");
         student = dataBundle.students.get("student3InCourse1");
         studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
         studentsEmailInTeam = studentsInTeam.stream()
@@ -623,7 +623,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 commentFromS5C1ToR2Q2S1C1VisibleToResponseReceiverTeamMember));
 
         ______TS("failure: giver is student; show comment to comment recipient's team; comment is not visible"
-                + "to students not from recipient's team");
+                + "to students not from response recipient's team");
         student = dataBundle.students.get("student1InCourse2");
         studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
         studentsEmailInTeam = studentsInTeam.stream()
@@ -672,13 +672,13 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 commentFromS4C1ToR2Q2S1C1VisibilityFollowsQuestion));
 
         ______TS("success: question is visible to instructor; visibility follows feedback question;"
-                + "comment is visible to receiver by instructor");
+                + "comment is visible to instructor");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
                 student, studentsEmailInTeam, response, relatedQuestion,
                 commentFromS4C1ToR2Q2S1C1VisibilityFollowsQuestion));
 
         ______TS("failure: question is visible to instructor; visibility follows feedback question;"
-                + "comment is visible to receiver by teammate");
+                + "comment is visible to teammate");
         assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor3@course1.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion,
                 commentFromS4C1ToR2Q2S1C1VisibilityFollowsQuestion));
@@ -686,7 +686,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         relatedQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.STUDENTS));
 
         ______TS("success: question is visible to instructor; visibility follows feedback question;"
-                + "comment is visible to receiver");
+                + "comment is visible to recipient");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student1@course1.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion,
                 commentFromS4C1ToR2Q2S1C1VisibilityFollowsQuestion));
