@@ -23,7 +23,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
         msg += ' is visible';
         break;
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
-        msg += 'is not visible'; // this is needed, else, the tooltip for this status will be incomplete.
+        msg += ' is not visible to students'; // review needed as this case isn't covered in the issue.
         break;
       default:
     }
