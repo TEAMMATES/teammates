@@ -71,7 +71,7 @@ import { SessionSubmissionPageComponent } from './session-submission-page.compon
 import Spy = jasmine.Spy;
 
 describe('SessionSubmissionPageComponent', () => {
-  const deepCopy: any = (obj: any) => JSON.parse(JSON.stringify(obj));
+  const deepCopy: <T>(obj: T) => T = <T>(obj: T) => JSON.parse(JSON.stringify(obj));
 
   const testStudent: Student = {
     email: 'alice@tmms.com',
@@ -917,7 +917,7 @@ describe('SessionSubmissionPageComponent', () => {
 
   it('should save feedback responses', () => {
     const mockModalRef: any = { componentInstance: {} };
-    const testResponseDetails1: FeedbackMcqResponseDetails = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
+    const testResponseDetails1: any = deepCopy(testMcqRecipientSubmissionForm.responseDetails);
     // leave question unanswered
     const testResponseDetails2: FeedbackTextResponseDetails = { answer: '', questionType: FeedbackQuestionType.TEXT };
     const testQuestionSubmissionForm1: QuestionSubmissionFormModel = deepCopy(testMcqQuestionSubmissionForm);
