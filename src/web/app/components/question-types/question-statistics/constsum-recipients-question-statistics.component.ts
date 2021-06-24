@@ -44,7 +44,7 @@ export class ConstsumRecipientsQuestionStatisticsComponent extends ConstsumRecip
       { header: 'Points Received' },
       { header: 'Total Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
       { header: 'Average Points', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
-      { header: 'Average Excluding Self', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS},
+      { header: 'Average Excluding Self', sortBy: SortBy.CONSTSUM_RECIPIENTS_POINTS },
     ];
 
     this.rowsData = Object.keys(this.pointsPerOption).map((recipient: string) => [
