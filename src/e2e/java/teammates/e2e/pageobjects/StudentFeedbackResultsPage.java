@@ -152,10 +152,10 @@ public class StudentFeedbackResultsPage extends AppPage {
         for (String recipient : recipients) {
             List<FeedbackResponseAttributes> expectedResponses = otherResponses.stream()
                     .filter(r -> r.getRecipient().equals(recipient)
-                        && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER))
+                        && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                         || question.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)
                         || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                        || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS))
+                        || question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)))
                     .collect(Collectors.toList());
 
             verifyResponseForRecipient(question, recipient, expectedResponses, visibleGivers, visibleRecipients);
