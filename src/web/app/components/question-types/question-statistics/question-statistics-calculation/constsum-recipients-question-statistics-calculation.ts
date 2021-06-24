@@ -58,15 +58,16 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
     }
 
-    var totalSum: number = 0;
-    var totalStudents: number = 0;
+    let totalSum: number = 0;
+    let totalStudents: number = 0;
     for (const recipient of Object.keys(this.pointsPerOption)) {
       totalSum += this.totalPointsPerOption[recipient];
       totalStudents += 1;
     }
 
     for (const recipient of Object.keys(this.pointsPerOption)) {
-      this.averagePointsExcludingSelf[recipient] = +(totalStudents === 0 ? 0 : (totalSum - this.totalPointsPerOption[recipient]) / totalStudents );
+      this.averagePointsExcludingSelf[recipient] =
+          +(totalStudents === 0 ? 0 : (totalSum - this.totalPointsPerOption[recipient]) / totalStudents);
     }
 
   }
