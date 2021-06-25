@@ -236,13 +236,6 @@ describe('InstructorSessionEditPageComponent', () => {
   let ngbModal: NgbModal;
 
   beforeEach(async(() => {
-    const mockIntersectionObserver: any = jest.fn();
-    mockIntersectionObserver.mockReturnValue({
-      observe: () => null,
-      unobserve: () => null,
-      disconnect: () => null,
-    });
-    window.IntersectionObserver = mockIntersectionObserver;
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
