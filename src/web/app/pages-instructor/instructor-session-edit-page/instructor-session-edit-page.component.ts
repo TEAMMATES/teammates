@@ -162,6 +162,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     isQuestionDetailsChanged: false,
   };
 
+  isAddingFromTemplate: boolean = false;
   isAddingQuestionPanelExpanded: boolean = false;
   isLoadingFeedbackSession: boolean = false;
   hasLoadingFeedbackSessionFailed: boolean = false;
@@ -704,6 +705,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     const windowClass: string = 'modal-large';
     this.ngbModal.open(TemplateQuestionModalComponent, { windowClass }).result.then((questions: FeedbackQuestion[]) => {
       let questionNumber: number = this.questionEditFormModels.length; // append the questions at the end
+      this.isAddingFromTemplate = true;
       of(...questions).pipe(
           concatMap((question: FeedbackQuestion) => {
             questionNumber += 1;
@@ -726,6 +728,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
               showRecipientNameTo: question.showRecipientNameTo,
             });
           }),
+      ).pipe(
+        finalize(() => this.isAddingFromTemplate = false),
       ).subscribe((newQuestion: FeedbackQuestion) => {
         this.questionEditFormModels.push(this.getQuestionEditFormModel(newQuestion));
         this.feedbackQuestionModels.set(newQuestion.feedbackQuestionId, newQuestion);
