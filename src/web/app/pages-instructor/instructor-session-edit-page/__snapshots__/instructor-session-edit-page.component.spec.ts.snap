@@ -21,6 +21,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback question f
   hasLoadingFeedbackSessionFailed="false"
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -109,6 +110,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
   hasLoadingFeedbackSessionFailed="false"
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -170,6 +172,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback questions 
         </div>
       </div>
     </tm-loading-spinner>
+    
+    <div />
     <br />
     
     
@@ -202,6 +206,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
   hasLoadingFeedbackSessionFailed={[Function Boolean]}
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -264,6 +269,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session fa
         </div>
       </div>
     </tm-loading-spinner>
+    
+    <div />
     <br />
     
     
@@ -296,6 +303,7 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
   hasLoadingFeedbackSessionFailed="false"
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -357,6 +365,8 @@ exports[`InstructorSessionEditPageComponent should snap when feedback session is
         </div>
       </div>
     </tm-loading-spinner>
+    
+    <div />
     <br />
     
     
@@ -389,6 +399,7 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
   hasLoadingFeedbackSessionFailed="false"
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -450,6 +461,8 @@ exports[`InstructorSessionEditPageComponent should snap with default fields 1`] 
         </div>
       </div>
     </tm-loading-spinner>
+    
+    <div />
     <br />
     
     
@@ -482,6 +495,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
   hasLoadingFeedbackSessionFailed="false"
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded="false"
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -2871,6 +2885,8 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
         </tm-question-edit-form>
       </div>
     </div>
+    
+    <div />
     <br />
     
     <div
@@ -3100,6 +3116,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
   hasLoadingFeedbackSessionFailed="false"
   instructorService={[Function InstructorService]}
   instructorsCanBePreviewedAs={[Function Array]}
+  isAddingFromTemplate="false"
   isAddingQuestionPanelExpanded={[Function Boolean]}
   isCopyingQuestion="false"
   isEditingMode="false"
@@ -3835,6 +3852,8 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
     <div>
       
     </div>
+    
+    <div />
     <br />
     
     
