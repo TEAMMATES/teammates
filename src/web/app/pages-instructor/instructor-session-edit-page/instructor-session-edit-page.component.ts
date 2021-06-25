@@ -250,7 +250,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   copyCurrentSession(): void {
     // load course candidates first
-    this.sessionEditFormModel.isCopying = true;
     this.courseService.getInstructorCoursesThatAreActive()
     .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
     .subscribe((courses: Courses) => {
