@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -33,11 +32,9 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { AjaxLoadingModule } from '../../components/ajax-loading/ajax-loading.module';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
-import { TeammatesRouterModule } from '../../components/teammates-router/teammates-router.module';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 import Spy = jasmine.Spy;
@@ -239,16 +236,28 @@ describe('InstructorSessionEditPageComponent', () => {
   let ngbModal: NgbModal;
 
   beforeEach(async(() => {
+    const mockIntersectionObserver: any = jest.fn();
+    mockIntersectionObserver.mockReturnValue({
+      observe: () => null,
+      unobserve: () => null,
+      disconnect: () => null,
+    });
+    window.IntersectionObserver = mockIntersectionObserver;
     TestBed.configureTestingModule({
       imports: [
         NgbModule,
-        FormsModule,
-        AjaxLoadingModule,
-        RouterTestingModule,
-        TeammatesRouterModule,
         HttpClientTestingModule,
         InstructorSessionEditPageModule,
         BrowserAnimationsModule,
+        RouterTestingModule,
+      ],
+      providers: [
+        CourseService,
+        FeedbackSessionsService,
+        FeedbackQuestionsService,
+        StudentService,
+        InstructorService,
+        NavigationService,
       ],
     })
     .compileComponents();
