@@ -263,7 +263,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
             result, this.courseId, this.feedbackSessionName);
         if (requestList.length === 1) {
-          this.copySingleSession(requestList[0]);
+          requestList[0].subscribe((createdSession: FeedbackSession) => {
+            if (Object.keys(this.failedToCopySessions).length === 0) {
+              this.navigationService.navigateWithSuccessMessage(this.router,
+                  '/web/instructor/sessions/edit',
+                  'The feedback session has been copied. Please modify settings/questions as necessary.',
+                  { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+            } else {
+              this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+              this.sessionEditFormModel.isCopying = false;
+            }
+          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
         }
         if (requestList.length > 1) {
           forkJoin(requestList)
@@ -273,7 +283,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
            });
         }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
-      .catch(() => {});
+      .catch(() => this.sessionEditFormModel.isCopying = false);
     });
   }
 
