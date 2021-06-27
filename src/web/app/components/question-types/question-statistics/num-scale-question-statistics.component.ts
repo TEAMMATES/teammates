@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit } from '@angular/core';
 import { DEFAULT_NUMSCALE_QUESTION_DETAILS } from '../../../../types/default-question-structs';
 import { SortBy } from '../../../../types/sort-properties';
 import { ColumnData, SortableTableCellData } from '../../sortable-table/sortable-table.component';
@@ -16,8 +16,6 @@ import {
 })
 export class NumScaleQuestionStatisticsComponent extends NumScaleQuestionStatisticsCalculation
     implements OnInit, OnChanges {
-
-  @Input() displayNumScaleStats: boolean = true;
 
   columnsData: ColumnData[] = [];
   rowsData: SortableTableCellData[][] = [];
