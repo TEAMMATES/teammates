@@ -117,10 +117,10 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Returns a list of feedback sessions within the time range or an empty list if nothing was found.
+     * Gets all feedback sessions of a course started after time.
      */
-    public List<FeedbackSessionAttributes> getAllFeedbackSessionsWithinTimeRange(Instant rangeStart, Instant rangeEnd) {
-        return fsDb.getFeedbackSessionsWithinTimeRange(rangeStart, rangeEnd);
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourseAfter(String courseId, Instant after) {
+        return fsDb.getFeedbackSessionsForCourseAfter(courseId, after);
     }
 
     /**
