@@ -50,8 +50,8 @@
                               [responses]="question.allResponses"
                               [statistics]="question.questionStatistics"
                               [isStudent]="true"
-                              [displayNumScaleStats]="question.responsesToSelf.length"></tm-single-statistics>
-        <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
+                              [displayNumScaleStats]="canStudentSeeResponse(question)"></tm-single-statistics>
+        <tm-student-view-responses *ngIf="canStudentSeeResponse(question)" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
         <div *ngFor="let responsesForOtherRecipient of question.otherResponses">
           <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
         </div>

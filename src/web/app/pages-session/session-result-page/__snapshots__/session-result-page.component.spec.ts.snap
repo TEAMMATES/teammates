@@ -902,65 +902,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             
           </tm-single-statistics>
           
-          <tm-student-view-responses>
-            <div
-              class="card border-primary mt-4"
-            >
-              <div
-                class="card-header bg-primary text-white"
-              >
-                <span
-                  id="response-recipient"
-                >
-                  <b>
-                    To:
-                  </b>
-                   giver1
-                </span>
-              </div>
-              <div
-                class="card-body"
-                style="padding: 0;"
-              >
-                <table
-                  class="table"
-                >
-                  <tbody>
-                    
-                    
-                    <tr>
-                      <td
-                        id="response-giver"
-                      >
-                        <strong>
-                          From:
-                        </strong>
-                         giver1 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <tm-single-response>
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                        </tm-single-response>
-                      </td>
-                    </tr>
-                    
-                    
-                    
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </tm-student-view-responses>
           
           <div>
             
