@@ -192,7 +192,7 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  canStudentSeeResponse(question: QuestionOutput): boolean {
+  canStudentSeeResponses(question: QuestionOutput): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
 
     return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
