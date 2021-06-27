@@ -20,6 +20,8 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
   averagePointsExcludingSelf: Record<string, number> = {};
+  totalSum: number = 0;
+  totalStudents: number = 0;
 
   constructor(question: FeedbackConstantSumQuestionDetails) {
     super(question);
@@ -32,6 +34,8 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
     this.totalPointsPerOption = {};
     this.averagePointsPerOption = {};
     this.averagePointsExcludingSelf = {};
+    this.totalSum = 0;
+    this.totalStudents = 0;
 
     const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
@@ -56,18 +60,16 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       this.totalPointsPerOption[recipient] = sum;
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
-    }
-
-    let totalSum: number = 0;
-    let totalStudents: number = 0;
-    for (const recipient of Object.keys(this.pointsPerOption)) {
-      totalSum += this.totalPointsPerOption[recipient];
-      totalStudents += 1;
+      this.totalSum += sum;
+      this.totalStudents += 1;
+      console.log("sum is " + sum);
+      console.log("length is " + answers.length);
     }
 
     for (const recipient of Object.keys(this.pointsPerOption)) {
       this.averagePointsExcludingSelf[recipient] =
-          +(totalStudents === 0 ? 0 : (totalSum - this.totalPointsPerOption[recipient]) / totalStudents).toFixed(2);
+          +(this.totalStudents === 0 ? 0 : (this.totalSum - this.totalPointsPerOption[recipient]) / this.totalStudents).toFixed(2);
+      console.log("totalSum is " + this.totalSum);
     }
 
   }
