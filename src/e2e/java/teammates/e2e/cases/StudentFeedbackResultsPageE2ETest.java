@@ -60,10 +60,9 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("registered student: can access results");
         StudentAttributes student = testData.students.get("Alice");
         url = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
-                .withUserId(student.googleId)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
-        resultsPage = loginAdminToPage(url, StudentFeedbackResultsPage.class);
+        resultsPage = loginToPage(url, StudentFeedbackResultsPage.class, student.googleId);
 
         resultsPage.verifyFeedbackSessionDetails(openSession);
 
