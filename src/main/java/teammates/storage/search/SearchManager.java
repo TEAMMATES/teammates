@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpStatus;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
@@ -15,7 +16,7 @@ import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
@@ -69,9 +70,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         return query;
     }
 
-    QueryResponse performQuery(SolrQuery query) throws SearchNotImplementedException {
+    QueryResponse performQuery(SolrQuery query) throws SearchServiceException {
         if (client == null) {
-            throw new SearchNotImplementedException();
+            throw new SearchServiceException("Search service is not implemented.", HttpStatus.SC_NOT_IMPLEMENTED);
         }
 
         QueryResponse response = null;

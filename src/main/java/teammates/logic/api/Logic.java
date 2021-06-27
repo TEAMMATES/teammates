@@ -25,7 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -128,7 +128,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
@@ -456,7 +456,7 @@ public class Logic {
      * @return Null if no match found
      */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
         assert instructors != null;
         return studentsLogic.searchStudents(queryString, instructors);
@@ -469,7 +469,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
 
         return studentsLogic.searchStudentsInWholeSystem(queryString);
