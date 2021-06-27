@@ -154,6 +154,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     showGiverNameTo: [],
     showRecipientNameTo: [],
 
+    isDeleting: false,
+    isDuplicating: false,
     isEditable: true,
     isSaving: false,
     isCollapsed: false,
@@ -263,7 +265,17 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
         const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
             result, this.courseId, this.feedbackSessionName);
         if (requestList.length === 1) {
-          this.copySingleSession(requestList[0]);
+          requestList[0].subscribe((createdSession: FeedbackSession) => {
+            if (Object.keys(this.failedToCopySessions).length === 0) {
+              this.navigationService.navigateWithSuccessMessage(this.router,
+                  '/web/instructor/sessions/edit',
+                  'The feedback session has been copied. Please modify settings/questions as necessary.',
+                  { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
+            } else {
+              this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
+              this.sessionEditFormModel.isCopying = false;
+            }
+          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
         }
         if (requestList.length > 1) {
           forkJoin(requestList)
@@ -273,7 +285,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
            });
         }
       }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
-      .catch(() => {});
+      .catch(() => this.sessionEditFormModel.isCopying = false);
     });
   }
 
@@ -525,6 +537,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showGiverNameTo: feedbackQuestion.showGiverNameTo,
       showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
 
+      isDeleting: false,
+      isDuplicating: false,
       isEditable: false,
       isSaving: false,
       isCollapsed: false,
@@ -641,7 +655,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   duplicateCurrentQuestionHandler(index: number): void {
     const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
 
-    questionEditFormModel.isSaving = true;
+    questionEditFormModel.isDuplicating = true;
     this.feedbackQuestionsService.createFeedbackQuestion(this.courseId, this.feedbackSessionName, {
       questionNumber: this.questionEditFormModels.length + 1, // add the duplicated question at the end
       questionBrief: questionEditFormModel.questionBrief,
@@ -662,7 +676,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     })
         .pipe(
             finalize(() => {
-              questionEditFormModel.isSaving = false;
+              questionEditFormModel.isDuplicating = false;
             }),
         )
         .subscribe((newQuestion: FeedbackQuestion) => {
@@ -681,15 +695,18 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
             'Warning: Deleted question cannot be recovered. <b>All existing responses for this question to be deleted.</b>');
     modalRef.result.then(() => {
       const questionEditFormModel: QuestionEditFormModel = this.questionEditFormModels[index];
-      this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId).subscribe(
-          () => {
-            // remove form model
-            this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
-            this.questionEditFormModels.splice(index, 1);
-            this.normalizeQuestionNumberInQuestionForms();
+      questionEditFormModel.isDeleting = true;
+      this.feedbackQuestionsService.deleteFeedbackQuestion(questionEditFormModel.feedbackQuestionId)
+          .pipe(finalize(() => questionEditFormModel.isDeleting = false))
+          .subscribe(
+            () => {
+              // remove form model
+              this.feedbackQuestionModels.delete(questionEditFormModel.feedbackQuestionId);
+              this.questionEditFormModels.splice(index, 1);
+              this.normalizeQuestionNumberInQuestionForms();
 
-            this.statusMessageService.showSuccessToast('The question has been deleted.');
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+              this.statusMessageService.showSuccessToast('The question has been deleted.');
+            }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
     }, () => {});
   }
 
@@ -769,6 +786,8 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
       showGiverNameTo: newQuestionModel.showGiverNameTo,
       showRecipientNameTo: newQuestionModel.showRecipientNameTo,
 
+      isDeleting: false,
+      isDuplicating: false,
       isEditable: true,
       isSaving: false,
       isCollapsed: false,
