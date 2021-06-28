@@ -1314,6 +1314,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     id="btn-delete-question"
                     type="button"
                   >
+                    
                     <i
                       class="fas fa-trash"
                     />
@@ -1326,6 +1327,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     ngbtooltip="Make a copy of the existing question and add to the current feedback session."
                     type="button"
                   >
+                    
                     <i
                       class="far fa-copy"
                     />
@@ -2141,6 +2143,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     id="btn-delete-question"
                     type="button"
                   >
+                    
                     <i
                       class="fas fa-trash"
                     />
@@ -2153,6 +2156,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     ngbtooltip="Make a copy of the existing question and add to the current feedback session."
                     type="button"
                   >
+                    
                     <i
                       class="far fa-copy"
                     />

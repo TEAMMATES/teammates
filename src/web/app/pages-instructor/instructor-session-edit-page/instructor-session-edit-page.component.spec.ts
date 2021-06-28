@@ -160,6 +160,8 @@ describe('InstructorSessionEditPageComponent', () => {
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
+    isDuplicating: false,
+    isDeleting: false,
   };
 
   const testQuestionEditFormModel2: QuestionEditFormModel = {
@@ -186,6 +188,8 @@ describe('InstructorSessionEditPageComponent', () => {
     isVisibilityChanged: false,
     isFeedbackPathChanged: false,
     isQuestionDetailsChanged: false,
+    isDuplicating: false,
+    isDeleting: false,
   };
 
   const sessionEditFormModel: SessionEditFormModel = {

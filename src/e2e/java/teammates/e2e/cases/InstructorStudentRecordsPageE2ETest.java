@@ -35,11 +35,11 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
         String studentEmail = student.email;
 
         AppUrl recordsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-                .withUserId(instructorId)
                 .withCourseId(courseId)
                 .withStudentEmail(studentEmail);
 
-        InstructorStudentRecordsPage recordsPage = loginAdminToPage(recordsPageUrl, InstructorStudentRecordsPage.class);
+        InstructorStudentRecordsPage recordsPage =
+                loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class, instructorId);
 
         recordsPage.verifyStudentDetails(studentProfile, student);
 
