@@ -34,6 +34,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
