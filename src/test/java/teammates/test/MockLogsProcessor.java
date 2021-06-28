@@ -55,8 +55,8 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public List<ErrorLogEntry> getErrorLogs(int pastHours) {
-        return errorLogs;
+    public List<LogEntry> getErrorLogs(int pastHours) {
+        return new ArrayList<>();
     }
 
     @Override

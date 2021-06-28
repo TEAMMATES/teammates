@@ -33,7 +33,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public List<ErrorLogEntry> getErrorLogs(int pastHours) {
+    public List<LogEntry> getErrorLogs(int pastHours) {
         // Not supported in dev server
         return new ArrayList<>();
     }

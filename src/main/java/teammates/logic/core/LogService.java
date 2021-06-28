@@ -16,7 +16,7 @@ public interface LogService {
 
     List<ErrorLogEntry> getRecentErrorLogs();
 
-    List<ErrorLogEntry> getErrorLogs(int pastHours);
+    List<LogEntry> getErrorLogs(int pastHours);
 
     List<LogEntry> getInfoLogs();
 

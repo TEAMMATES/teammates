@@ -42,7 +42,7 @@ public class LogsProcessor {
      * Gets the list of error- or higher level logs for a period of time in the past from now.
      * The period of time is specified by the user.
      */
-    public List<ErrorLogEntry> getErrorLogs(int pastHours) {
+    public List<LogEntry> getErrorLogs(int pastHours) {
         return service.getErrorLogs(pastHours);
     }
 

@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
+import com.google.cloud.logging.LogEntry;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -12,9 +13,9 @@ import teammates.common.util.Logger;
 public class QueryErrorLogsAction extends AdminOnlyAction {
     @Override
     ActionResult execute() {
-        List<ErrorLogEntry> errorLogs = logsProcessor.getErrorLogs(24);
+        List<LogEntry> errorLogs = logsProcessor.getErrorLogs(24);
         Logger log = Logger.getLogger();
-        log.info(JsonUtils.toJson(errorLogs));
+        System.out.println(JsonUtils.toJson(errorLogs));
         return new JsonResult(JsonUtils.toJson(errorLogs));
     }
 }

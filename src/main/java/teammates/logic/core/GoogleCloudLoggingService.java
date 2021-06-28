@@ -31,6 +31,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
@@ -55,32 +56,10 @@ public class GoogleCloudLoggingService implements LogService {
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         // Unit of queryRange is hours
         int queryRange = 6 / 60;
-        return getErrorLogs(queryRange);
-    }
+        //return getErrorLogs(queryRange);
 
-    @Override
-    public List<ErrorLogEntry> getErrorLogs(int pastHours) {
-        Instant endTime = Instant.now();
-        long queryRange = 1000L * 60 * 60 * pastHours;
-        Instant startTime = endTime.minusMillis(queryRange);
-
-        LogSearchParams logSearchParams = new LogSearchParams()
-                .setLogName(REQUEST_LOG_NAME)
-                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
-                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
-                .setMinSeverity(LogSeverity.ERROR)
-                .setStartTime(startTime)
-                .setEndTime(endTime);
-
-        List<LogEntry> logEntries = new ArrayList<>();
+        List<LogEntry> logEntries = getErrorLogs(queryRange);
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
-
-        try {
-            logEntries = getLogEntries(logSearchParams);
-        } catch (LogServiceException e) {
-            // TODO
-        }
-
         for (LogEntry logEntry : logEntries) {
             Any entry = (Any) logEntry.getPayload().getData();
 
@@ -117,6 +96,66 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
+    public List<LogEntry> getErrorLogs(int pastHours) {
+        Instant endTime = Instant.now();
+        long queryRange = 1000L * 60 * 60 * pastHours;
+        Instant startTime = endTime.minusMillis(queryRange);
+
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setLogName("stderr")
+                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
+                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
+                .setMinSeverity(LogSeverity.ERROR)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        List<ErrorLogEntry> errorLogs = new ArrayList<>();
+
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
+            // TODO
+        }
+
+        return logEntries;
+
+        /*for (LogEntry logEntry : logEntries) {
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
+                    errorLogs.add(new ErrorLogEntry(
+                            line.getLogMessage().replaceAll("\n", "\n<br>"),
+                            line.getSeverity().toString())
+                    );
+                }
+            }
+        }
+        return errorLogs;*/
+    }
+
+    @Override
     public List<LogEntry> getInfoLogs() {
         Instant endTime = Instant.now();
         long queryRange = 1000L * 60 * 60 * 24;
@@ -140,7 +179,9 @@ public class GoogleCloudLoggingService implements LogService {
             // TODO
         }
 
-        for (LogEntry logEntry : logEntries) {
+        return logEntries;
+
+        /*for (LogEntry logEntry : logEntries) {
             Any entry = (Any) logEntry.getPayload().getData();
 
             JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
@@ -176,7 +217,7 @@ public class GoogleCloudLoggingService implements LogService {
             }
 
         }
-        return infoLogs;
+        return infoLogs;*/
     }
 
     @Override
@@ -271,6 +312,9 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
+
+        Logger log = Logger.getLogger();
+        log.info(logFilter);
 
         try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
             Page<LogEntry> entries = logging.listLogEntries(EntryListOption.filter(logFilter));
