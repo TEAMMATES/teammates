@@ -110,7 +110,7 @@ public final class Config {
         }
         APP_ID = properties.getProperty("app.id");
         APP_REGION = properties.getProperty("app.region");
-        APP_VERSION = properties.getProperty("app.version").replace("-", ".");
+        APP_VERSION = properties.getProperty("app.version");
         APP_FRONTENDDEV_URL = properties.getProperty("app.frontenddev.url");
         APP_LOCALDATASTORE_PORT = Integer.parseInt(properties.getProperty("app.localdatastore.port", "8484"));
         TASKQUEUE_ACTIVE = Boolean.parseBoolean(properties.getProperty("app.taskqueue.active", "true"));
@@ -165,7 +165,7 @@ public final class Config {
         }
 
         return !appName.endsWith(APP_ID)
-                || !APP_VERSION.equals(version.replace("-", "."))
+                || !APP_VERSION.equals(version)
                 || !"standard".equals(env);
     }
 

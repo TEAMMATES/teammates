@@ -7,6 +7,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.Config;
 
 /**
  * SUT: {@link UserProvision}.
@@ -18,7 +19,7 @@ public class UserProvisionTest extends BaseLogicTest {
     @Test
     public void testGetCurrentUser() throws Exception {
 
-        ______TS("admin+instructor+student");
+        ______TS("instructor+student");
 
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes course = dataBundle.courses.get("typicalCourse2");
@@ -33,15 +34,22 @@ public class UserProvisionTest extends BaseLogicTest {
         instructorAsStudent.googleId = instructor.googleId;
         logic.createStudent(instructorAsStudent);
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.googleId, true));
+        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.googleId));
         assertEquals(instructor.googleId, user.id);
-        assertTrue(user.isAdmin);
+        assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertTrue(user.isStudent);
 
+        ______TS("admin");
+
+        String adminUserId = Config.APP_ADMINS.get(0);
+        user = userProvision.getCurrentUser(new UserInfoCookie(adminUserId));
+        assertEquals(adminUserId, user.id);
+        assertTrue(user.isAdmin);
+
         ______TS("unregistered");
 
-        user = userProvision.getCurrentUser(new UserInfoCookie("unknown", false));
+        user = userProvision.getCurrentUser(new UserInfoCookie("unknown"));
         assertEquals("unknown", user.id);
         assertFalse(user.isAdmin);
         assertFalse(user.isInstructor);
