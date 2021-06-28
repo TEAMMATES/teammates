@@ -56,24 +56,24 @@ handlers:
     expiration: 1d
 
   # Crawler-related files
-  - url: /sitemap.xml
-    static_files: dist/sitemap.xml
-    upload: dist/sitemap.xml
-    expiration: 1d
-  - url: /robots.txt
-    static_files: dist/robots.txt
-    upload: dist/robots.txt
-    expiration: 1d
+  # - url: /sitemap.xml
+  #   static_files: dist/sitemap.xml
+  #   upload: dist/sitemap.xml
+  #   expiration: 1d
+  # - url: /robots.txt
+  #   static_files: dist/robots.txt
+  #   upload: dist/robots.txt
+  #   expiration: 1d
 
   # Webmaster files
-  - url: /BingSiteAuth.xml
-    static_files: dist/BingSiteAuth.xml
-    upload: dist/BingSiteAuth.xml
-    expiration: 1d
-  - url: /google8c7ef1e995031e09.html
-    static_files: dist/google8c7ef1e995031e09.html
-    upload: dist/google8c7ef1e995031e09.html
-    expiration: 1d
+  # - url: /BingSiteAuth.xml
+  #   static_files: dist/BingSiteAuth.xml
+  #   upload: dist/BingSiteAuth.xml
+  #   expiration: 1d
+  # - url: /google8c7ef1e995031e09.html
+  #   static_files: dist/google8c7ef1e995031e09.html
+  #   upload: dist/google8c7ef1e995031e09.html
+  #   expiration: 1d
 
   # All incoming requests will be redirected to HTTPS.
   - url: /.*

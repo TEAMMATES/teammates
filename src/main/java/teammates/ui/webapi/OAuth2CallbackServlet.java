@@ -98,8 +98,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
 
             cookie = getLoginInvalidationCookie();
         } else {
-            boolean isAdmin = Config.APP_ADMINS.contains(googleId);
-            UserInfoCookie uic = new UserInfoCookie(googleId, isAdmin);
+            UserInfoCookie uic = new UserInfoCookie(googleId);
             cookie = getLoginCookie(uic);
         }
 
