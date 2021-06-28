@@ -10,8 +10,6 @@ about: Request for technical help in development
 - **Operating System:**
 - **JDK Version:**
 - **Node.js Version:**
-- **Google Cloud SDK Version:**
-- **IntelliJ Version (if applicable):**
 - **Firefox / Chrome Version (if applicable):**
 
 **What I was trying to do / What I need help with**

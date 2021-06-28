@@ -197,7 +197,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                 'The feedback session has been copied. Please modify settings/questions as necessary.',
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
           }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
-    });
+    }).catch(() => this.isCopyOtherSessionLoading = false);
   }
 
   /**
@@ -437,13 +437,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   }
 
   /**
-   * Edits the feedback session.
-   */
-  editSessionEventHandler(rowIndex: number): void {
-    this.editSession(this.sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
    * Restores a recycle bin feedback session.
    */
   restoreRecycleBinFeedbackSession(model: RecycleBinFeedbackSessionRowModel): void {
@@ -627,7 +620,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
-    });
+    }).catch(() => this.isPermanentDeleteLoading = false);
   }
 
   /**
@@ -657,7 +650,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
         }, (resp: ErrorMessageOutput) => {
           this.statusMessageService.showErrorToast(resp.error.message);
         });
-    });
+    }).catch(() => this.isPermanentDeleteLoading = false);
   }
 
   /**

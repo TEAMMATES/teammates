@@ -312,13 +312,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Edits the feedback session.
-   */
-  editSessionEventHandler(tabIndex: number, rowIndex: number): void {
-    this.editSession(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: number): void {

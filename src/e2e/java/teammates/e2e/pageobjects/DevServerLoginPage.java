@@ -12,9 +12,6 @@ public class DevServerLoginPage extends AppPage {
     @FindBy(id = "email")
     private WebElement emailTextBox;
 
-    @FindBy(id = "isAdmin")
-    private WebElement isAdminCheckBox;
-
     @FindBy(id = "btn-login")
     private WebElement loginButton;
 
@@ -28,12 +25,10 @@ public class DevServerLoginPage extends AppPage {
         return getPageSource().contains("<h3>Not logged in</h3>");
     }
 
-    public void loginAsAdmin(String adminUsername) {
-        fillTextBox(emailTextBox, adminUsername);
-        click(isAdminCheckBox);
+    public void loginAsUser(String username) {
+        fillTextBox(emailTextBox, username);
         click(loginButton);
         waitForPageToLoad();
-        browser.isAdminLoggedIn = true;
     }
 
 }

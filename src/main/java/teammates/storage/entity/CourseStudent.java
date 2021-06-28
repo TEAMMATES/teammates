@@ -10,7 +10,6 @@ import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 
 /**
@@ -205,7 +204,7 @@ public class CourseStudent extends BaseEntity {
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
-        Assumption.assertNotNull(uniqueId);
+        assert uniqueId != null;
 
         SecureRandom prng = new SecureRandom();
         return uniqueId + "%" + prng.nextInt();
