@@ -59,5 +59,18 @@ export class LogService {
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
 
-  // TODO: Add a method to get error/info logs
+  searchLogs(queryParams: {
+    searchFrom: string,
+    searchUntil: string,
+    severities: string,
+  }): Observable<FeedbackSessionLogs> {
+    const paramMap: Record<string, string> = {
+      startTime: queryParams.searchFrom,
+      endTime: queryParams.searchUntil,
+      severities: queryParams.severities,
+    }
+
+    // TODO: Update the return type
+    return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
+  }
 }
