@@ -53,6 +53,7 @@ public class LogsProcessor {
     /**
      * Creates a feedback session log.
      */
+    @Deprecated
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
             throws LogServiceException {
         service.createFeedbackSessionLog(courseId, email, fsName, fslType);

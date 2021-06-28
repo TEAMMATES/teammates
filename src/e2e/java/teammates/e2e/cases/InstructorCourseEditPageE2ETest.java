@@ -36,9 +36,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("verify cannot edit without privilege");
         // log in as instructor with no edit privilege
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
-                .withUserId(instructors[2].googleId)
                 .withCourseId(course.getId());
-        InstructorCourseEditPage editPage = loginAdminToPage(url, InstructorCourseEditPage.class);
+        InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[2].googleId);
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -46,10 +45,10 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded data");
         // re-log in as instructor with edit privilege
+        logout();
         url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
-                .withUserId(instructors[3].googleId)
                 .withCourseId(course.getId());
-        editPage = getNewPageInstance(url, InstructorCourseEditPage.class);
+        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].googleId);
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);

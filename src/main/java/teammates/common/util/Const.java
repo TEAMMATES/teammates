@@ -214,6 +214,7 @@ public final class Const {
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
+        public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
 
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";
@@ -290,8 +291,7 @@ public final class Const {
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
-        public static final String ERROR_LOGS = URI_PREFIX + "/logs/error";
-        public static final String INFO_LOGS = URI_PREFIX + "/logs/info";
+        public static final String LOGS = URI_PREFIX + "/logs/query";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
