@@ -55,7 +55,7 @@ describe('SessionResultPageComponent', () => {
       isAdmin: false,
       isInstructor: true,
       isStudent: false,
-      isSeniorDeveloper: false,
+      isMaintainer: false,
     },
   };
 
