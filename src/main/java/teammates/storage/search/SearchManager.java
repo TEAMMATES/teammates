@@ -1,6 +1,8 @@
 package teammates.storage.search;
 
 import java.io.IOException;
+import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -80,11 +82,22 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         try {
             response = client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getRootCause())
+            Throwable rootCause = e.getRootCause();
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), rootCause)
                     + TeammatesException.toStringWithStackTrace(e));
+            if (rootCause instanceof ConnectException) {
+                throw new SearchServiceException("Error connecting to search service.",
+                        e, HttpStatus.SC_BAD_GATEWAY);
+            } else if (rootCause instanceof SocketTimeoutException) {
+                throw new SearchServiceException("A timeout was reached while processing the request.",
+                        e, HttpStatus.SC_GATEWAY_TIMEOUT);
+            } else {
+                throw new SearchServiceException("An error has occurred.", e, HttpStatus.SC_BAD_GATEWAY);
+            }
         } catch (IOException e) {
             log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
+            throw new SearchServiceException("An error has occurred.", e, HttpStatus.SC_BAD_GATEWAY);
         }
 
         return response;

@@ -7,6 +7,11 @@ public class SearchServiceException extends Exception {
 
     private final int statusCode;
 
+    public SearchServiceException(String message, Throwable cause, int statusCode) {
+        super(message, cause);
+        this.statusCode = statusCode;
+    }
+
     public SearchServiceException(Throwable cause, int statusCode) {
         super(cause);
         this.statusCode = statusCode;
