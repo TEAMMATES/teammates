@@ -53,7 +53,7 @@ class JsonResult extends ActionResult {
 
     @Override
     void send(HttpServletResponse resp) throws IOException {
-        output.setRequestId(RequestTracer.getRequestId());
+        output.setRequestId(RequestTracer.getTraceId());
         for (Cookie cookie : cookies) {
             cookie.setSecure(!Config.isDevServer());
             resp.addCookie(cookie);
