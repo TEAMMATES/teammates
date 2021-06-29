@@ -91,10 +91,10 @@ export class LogsPageComponent implements OnInit {
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
-    this.statusMessageService.showErrorToast(Array.from(this.formModel.logsSeverity).join(','));
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
+              this.statusMessageService.showErrorToast(Array.from(this.formModel.logsSeverity).join(','));
               return this.logService.searchLogs({
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
@@ -105,10 +105,7 @@ export class LogsPageComponent implements OnInit {
               this.isSearching = false;
               this.hasResult = true;
             }))
-        // .subscribe((logs: Logs) => {
-        //   logs.feedbackSessionLogs.map((log: Log) =>
-        //       this.searchResults.push(this.toLogModel(log)));
-        // }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            .subscribe();
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
