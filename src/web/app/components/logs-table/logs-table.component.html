@@ -11,8 +11,10 @@
       <tbody>
       <tr *ngFor="let log of logs">
         <td style="font-family:monospace;">{{ log.timestamp }}</td>
+        <td>{{ log.severity }}</td>
         <td>
-          <pre>{{ log.data | json }}</pre>
+          {{ log.summary }}
+          <pre *ngIf="log.isDetailsExpanded">{{ log.logDetail | json }}</pre>
         </td>
       </tr>
       </tbody>

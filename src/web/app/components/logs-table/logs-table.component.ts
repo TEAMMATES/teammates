@@ -1,12 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
-/**
- * Model for log.
- */
-export interface Log {
-  timestamp: string;
-  data: JSON;
-}
+import { LogsTableRowModel } from './logs-table-model';
 
 /**
  * A table to display logs.
@@ -18,7 +11,7 @@ export interface Log {
 })
 export class LogsTableComponent implements OnInit {
 
-  logs: Log[] = [];
+  logs: LogsTableRowModel[] = [];
 
   constructor() { }
 

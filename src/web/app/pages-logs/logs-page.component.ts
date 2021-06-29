@@ -3,12 +3,12 @@ import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
-import { ApiConst } from 'src/web/types/api-const';
+import { ApiConst } from '../../types/api-const';
+import { LogService } from '../../services/log.service';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
 import { ColumnData, SortableTableCellData } from '../components/sortable-table/sortable-table.component';
-import { LogService } from 'src/web/services/log.service';
-import { StatusMessageService } from 'src/web/services/status-message.service';
+// import { StatusMessageService } from 'src/web/services/status-message.service';
 
 /**
  * Model for searching of logs.
@@ -22,6 +22,15 @@ interface SearchLogsFormModel {
 }
 
 /**
+ * Query parameters for HTTP request
+ */
+interface QueryParams {
+  searchFrom: string,
+  searchUntil: string,
+  severities: string,
+}
+
+/**
  * Model for displaying of search result.
  */
 interface LogResultModel {
@@ -30,7 +39,14 @@ interface LogResultModel {
 }
 
 /**
- * Admin and senior developer logs page.
+ * Model for storing logs in pages.
+ */
+interface LogPages {
+  logResult: LogResultModel[];
+}
+
+/**
+ * Admin and maintainer logs page.
  */
 @Component({
   selector: 'tm-logs-page',
@@ -49,16 +65,20 @@ export class LogsPageComponent implements OnInit {
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
+  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogResultModel[] = [];
+  pageResults: LogPages[] = [];
+  currentPageNumber: number = 0;
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,) { }
+    // private statusMessageService: StatusMessageService
+    ) { }
 
   ngOnInit(): void {
     const today: Date = new Date();
@@ -86,20 +106,22 @@ export class LogsPageComponent implements OnInit {
   searchForLogs(): void {
     this.isSearching = true;
     this.searchResults = [];
+    this.pageResults = [];
+    this.currentPageNumber = 0;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
-    this.statusMessageService.showErrorToast(Array.from(this.formModel.logsSeverity).join(','));
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              return this.logService.searchLogs({
+              this.previousQueryParams = {
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
                 severities: Array.from(this.formModel.logsSeverity).join(','),
-              });
+              };
+              return this.logService.searchLogs(this.previousQueryParams);
             }),
             finalize(() => {
               this.isSearching = false;
@@ -130,9 +152,20 @@ export class LogsPageComponent implements OnInit {
 
   getPreviousPageLogs(): void {
     // TODO
+    if (this.currentPageNumber > 0) {
+      this.currentPageNumber = this.currentPageNumber - 1;
+      this.searchResults = this.pageResults[this.currentPageNumber].logResult;
+    }
   }
 
   getNextPageLogs(): void {
     // TODO
+    if (this.pageResults.length > this.currentPageNumber) {
+      this.currentPageNumber = this.currentPageNumber + 1;
+      this.searchResults = this.pageResults[this.currentPageNumber].logResult;
+      return;
+    }
+    this.logService.searchLogs(this.previousQueryParams)
+      .subscribe();
   }
 }
