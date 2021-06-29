@@ -38,11 +38,6 @@ public class Browser {
     }
 
     /**
-     * Indicates whether the app is being used by an admin.
-     */
-    public boolean isAdminLoggedIn;
-
-    /**
      * The {@link WebDriver} object that drives the Browser instance.
      */
     WebDriver driver;
@@ -57,7 +52,6 @@ public class Browser {
         this.driver.manage().window().maximize();
         this.driver.manage().timeouts().pageLoadTimeout(TestProperties.TEST_TIMEOUT * 2, TimeUnit.SECONDS);
         this.driver.manage().timeouts().setScriptTimeout(TestProperties.TEST_TIMEOUT, TimeUnit.SECONDS);
-        this.isAdminLoggedIn = false;
     }
 
     public void addCookie(String name, String value, boolean isSecure, boolean isHttpOnly) {
