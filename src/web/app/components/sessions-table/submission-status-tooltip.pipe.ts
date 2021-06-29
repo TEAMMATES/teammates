@@ -29,7 +29,6 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
       default:
     }
 
-
     switch (status) {
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
         msg += ', but is visible to students';
