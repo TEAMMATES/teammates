@@ -21,9 +21,9 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
-                .withUserId(testData.instructors.get("ICEnroll.teammates.test").googleId)
                 .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
-        InstructorCourseEnrollPage enrollPage = loginAdminToPage(url, InstructorCourseEnrollPage.class);
+        InstructorCourseEnrollPage enrollPage = loginToPage(url, InstructorCourseEnrollPage.class,
+                testData.instructors.get("ICEnroll.teammates.test").googleId);
 
         ______TS("Add rows to enroll spreadsheet");
         int numRowsToAdd = 30;
