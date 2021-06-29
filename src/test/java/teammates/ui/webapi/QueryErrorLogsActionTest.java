@@ -13,9 +13,9 @@ import teammates.common.util.JsonUtils;
 import teammates.ui.output.MessageOutput;
 
 /**
- * SUT: {@link QueryErrorLogsAction}.
+ * SUT: {@link QueryLogsAction}.
  */
-public class QueryErrorLogsActionTest extends BaseActionTest<QueryErrorLogsAction> {
+public class QueryErrorLogsActionTest extends BaseActionTest<QueryLogsAction> {
     @Override
     protected String getActionUri() {
         return Const.ResourceURIs.ERROR_LOGS;

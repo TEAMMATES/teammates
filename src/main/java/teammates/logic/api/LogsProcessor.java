@@ -50,6 +50,10 @@ public class LogsProcessor {
         return service.getInfoLogs();
     }
 
+    public List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+        return service.queryLogs(severities, startTime, endTime);
+    }
+
     /**
      * Creates a feedback session log.
      */

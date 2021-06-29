@@ -20,6 +20,8 @@ public interface LogService {
 
     List<LogEntry> getInfoLogs();
 
+    List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime);
+
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 
     List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,

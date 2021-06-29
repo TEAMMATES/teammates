@@ -149,6 +149,10 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
+
+        public static final String QUERY_LOGS_STARTTIME = "startTime";
+        public static final String QUERY_LOGS_ENDTIME = "endTime";
+        public static final String QUERY_LOGS_SEVERITIES = "severities";
     }
 
     /**

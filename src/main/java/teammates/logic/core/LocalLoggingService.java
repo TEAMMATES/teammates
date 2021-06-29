@@ -45,6 +45,12 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
+    public List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+        // Not supported in dev server
+        return new ArrayList<>();
+    }
+
+    @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
         StudentAttributes student = studentsLogic.getStudentForEmail(courseId, email);
         FeedbackSessionAttributes feedbackSession = fsLogic.getFeedbackSession(fsName, courseId);

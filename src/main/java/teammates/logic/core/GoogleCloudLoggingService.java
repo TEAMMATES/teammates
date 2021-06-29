@@ -51,6 +51,8 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String FEEDBACK_SESSION_LOG_NAME_LABEL = "fsName";
     private static final String FEEDBACK_SESSION_LOG_TYPE_LABEL = "fslType";
 
+    private static final String STDERR_LOG_NAME = "stderr";
+
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
@@ -221,6 +223,24 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
+    public List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setSeverities(severities)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
+
+        List<LogEntry> logEntries = new ArrayList<>();
+
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
+            // TODO
+        }
+
+        return logEntries;
+    }
+
+    @Override
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
             throws LogServiceException {
         String payload = "Feedback session log: course ID=" + courseId + ", email=" + email
@@ -299,11 +319,23 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
-        if (s.maxSeverity != null) {
-            logFilters.add("severity<=" + s.maxSeverity.toString());
-        }
-        if (s.minSeverity != null) {
-            logFilters.add("severity>=" + s.minSeverity.toString());
+        if (s.severities != null) {
+            String severitiesFilter = "";
+            for (int i = 0; i < s.severities.size(); i++) {
+                if (i == s.severities.size() - 1) {
+                    severitiesFilter += ("severity=" + s.severities.get(i));
+                } else {
+                    severitiesFilter += ("severity=" + s.severities.get(i) + " OR ");
+                }
+            }
+            logFilters.add(severitiesFilter);
+        } else {
+            if (s.maxSeverity != null) {
+                logFilters.add("severity<=" + s.maxSeverity.toString());
+            }
+            if (s.minSeverity != null) {
+                logFilters.add("severity>=" + s.minSeverity.toString());
+            }
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -337,6 +369,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Instant endTime;
         private LogSeverity maxSeverity;
         private LogSeverity minSeverity;
+        private List<String> severities;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
 
@@ -371,6 +404,11 @@ public class GoogleCloudLoggingService implements LogService {
             assert this.maxSeverity == null || minSeverity.getNumber() <= this.maxSeverity.getNumber();
 
             this.minSeverity = minSeverity;
+            return this;
+        }
+
+        public LogSearchParams setSeverities(List<String> severities) {
+            this.severities = severities;
             return this;
         }
 
