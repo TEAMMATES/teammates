@@ -44,7 +44,6 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       this.pointsPerOption[identifier] = this.pointsPerOption[identifier] || [];
       this.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
 
-      pointsPerOptionToSelf[identifier] = pointsPerOptionToSelf[identifier] || 0;
       if (response.giver === response.recipient) {
         pointsPerOptionToSelf[identifier] = response.responseDetails.answers[0];
       }
@@ -63,8 +62,13 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       this.totalPointsPerOption[recipient] = sum;
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
-      this.averagePointsExcludingSelf[recipient] =
-          +(answers.length === 0 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / answers.length).toFixed(2);
+      if (pointsPerOptionToSelf[recipient] === undefined) {
+        this.averagePointsExcludingSelf[recipient] =
+          +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
+      } else {
+        this.averagePointsExcludingSelf[recipient] =
+            +(answers.length === 0 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / answers.length).toFixed(2);
+      }
     }
 
   }
