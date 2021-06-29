@@ -179,13 +179,18 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string, entityType: string, institute: string, institutemac: string): Observable<any> {
+  joinCourse(regKey: string, entityType: string, institute: string, institutemac: string, timezone?: string): Observable<any> {
     const paramMap: Record<string, string> = {
       key: regKey,
       entitytype: entityType,
       instructorinstitution: institute,
       mac: institutemac,
     };
+
+    if (timezone) {
+      paramMap.timezone = timezone;
+    }
+
     return this.httpRequestService.put(ResourceEndpoints.JOIN, paramMap);
   }
 

@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.ZoneId;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -111,7 +112,7 @@ public final class AccountsLogic {
      * Joins the user as an instructor and sets the institute if it is not null.
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac, String timezone)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
 
@@ -153,6 +154,13 @@ public final class AccountsLogic {
                     StudentAttributes.updateOptionsBuilder(student.course, student.email)
                             .withGoogleId(student.googleId)
                             .build());
+        }
+
+        // Update timezone of course if needed
+        if (timezone != null) {
+            coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.courseId)
+                    .withTimezone(ZoneId.of(timezone))
+                    .build());
         }
 
         return instructor;

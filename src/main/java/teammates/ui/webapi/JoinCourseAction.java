@@ -36,7 +36,8 @@ class JoinCourseAction extends Action {
         case Const.EntityType.INSTRUCTOR:
             String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
             String mac = getRequestParamValue(Const.ParamsNames.INSTITUTION_MAC);
-            return joinCourseForInstructor(regKey, institute, mac);
+            String timezone = getRequestParamValue(Const.ParamsNames.TIME_ZONE);
+            return joinCourseForInstructor(regKey, institute, mac, timezone);
         default:
             return new JsonResult("Error: invalid entity type", HttpStatus.SC_BAD_REQUEST);
         }
@@ -60,11 +61,11 @@ class JoinCourseAction extends Action {
         return new JsonResult("Student successfully joined course", HttpStatus.SC_OK);
     }
 
-    private JsonResult joinCourseForInstructor(String regkey, String institute, String mac) {
+    private JsonResult joinCourseForInstructor(String regkey, String institute, String mac, String timezone) {
         InstructorAttributes instructor;
 
         try {
-            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute, mac);
+            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute, mac, timezone);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException eaee) {

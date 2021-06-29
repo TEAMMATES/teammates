@@ -5,6 +5,7 @@ import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
@@ -27,6 +28,7 @@ export class UserJoinPageComponent implements OnInit {
   institute: string = '';
   mac: string = '';
   userId: string = '';
+  timezone: string = '';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -35,6 +37,7 @@ export class UserJoinPageComponent implements OnInit {
               private courseService: CourseService,
               private navigationService: NavigationService,
               private authService: AuthService,
+              private timezoneService: TimezoneService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
@@ -43,6 +46,10 @@ export class UserJoinPageComponent implements OnInit {
       this.key = queryParams.key;
       this.institute = queryParams.instructorinstitution;
       this.mac = queryParams.mac;
+
+      if (queryParams.isnewinstructoraccount === "true") {
+        this.timezone = this.timezoneService.guessTimezone();
+      }
 
       if (this.institute != null && this.mac == null) {
         this.validUrl = false;
@@ -81,14 +88,14 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-
-    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
-      this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
-    }, (resp: ErrorMessageOutput) => {
-      const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-      modalRef.componentInstance.requestId = resp.error.requestId;
-      modalRef.componentInstance.errorMessage = resp.error.message;
-    });
+    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac, this.timezone)
+        .subscribe(() => {
+          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+        }, (resp: ErrorMessageOutput) => {
+          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+          modalRef.componentInstance.requestId = resp.error.requestId;
+          modalRef.componentInstance.errorMessage = resp.error.message;
+        });
   }
 
 }
