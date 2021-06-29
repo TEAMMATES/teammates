@@ -16,28 +16,31 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
     let msg: string = 'The feedback session';
 
     switch (status) {
-      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-      case FeedbackSessionSubmissionStatus.OPEN:
-      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-      case FeedbackSessionSubmissionStatus.CLOSED:
-        msg += ' is visible to students';
-        break;
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
-        msg += ' is not yet visible to students';
+      case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
+        msg += ' is waiting to open for submissions';
+        break;
+      case FeedbackSessionSubmissionStatus.OPEN:
+        msg += ' is open for submissions';
+        break;
+      case FeedbackSessionSubmissionStatus.CLOSED:
+        msg += ' is closed for submissions';
         break;
       default:
     }
 
+
     switch (status) {
-      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
-        msg += ', and is waiting to open for submissions';
+        msg += ', but is visible to students';
         break;
       case FeedbackSessionSubmissionStatus.OPEN:
-        msg += ', and is open for submissions';
-        break;
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
       case FeedbackSessionSubmissionStatus.CLOSED:
-        msg += ', and is closed for submissions';
+        msg += ', and is visible to students';
+        break;
+      case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
+        msg += ', and is not yet visible to students';
         break;
       default:
     }
