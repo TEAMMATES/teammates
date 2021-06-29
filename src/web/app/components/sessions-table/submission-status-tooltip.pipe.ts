@@ -23,7 +23,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
         msg += ' is visible';
         break;
       case FeedbackSessionSubmissionStatus.NOT_VISIBLE:
-        msg += ' is not visible to students'; // review needed as this case isn't covered in the issue.
+        msg += ' is not yet open for submissions';
         break;
       default:
     }
