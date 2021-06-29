@@ -11,13 +11,12 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 
 /**
  * Gets the list of error logs for a user-specified period of time.
  */
 public class QueryLogsAction extends AdminOnlyAction {
-    private static final String DEFAULT_SEVERITIES = "[INFO]";
+    private static final String DEFAULT_SEVERITIES = "INFO";
 
     private static final long TWENTY_FOUR_HOURS_IN_MILLIS = 1000L * 60 * 60 * 24;
 
@@ -56,12 +55,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         }
 
         List<LogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime);
-        return new JsonResult(JsonUtils.toJson(logResults));
-
-//        List<LogEntry> errorLogs = logsProcessor.getErrorLogs(24);
-//        Logger log = Logger.getLogger();
-//        System.out.println(JsonUtils.toJson(errorLogs));
-//        return new JsonResult(JsonUtils.toJson(errorLogs));
+        return new JsonResult(JsonUtils.parse(JsonUtils.toJson(logResults)).toString());
     }
 
     /**
