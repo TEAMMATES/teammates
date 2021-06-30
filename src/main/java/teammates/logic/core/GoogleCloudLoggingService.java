@@ -56,7 +56,6 @@ public class GoogleCloudLoggingService implements LogService {
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
         // Unit of queryRange is hours
         int queryRange = 6 / 60;
-        //return getErrorLogs(queryRange);
 
         List<LogEntry> logEntries = getErrorLogs(queryRange);
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
@@ -119,40 +118,6 @@ public class GoogleCloudLoggingService implements LogService {
         }
 
         return logEntries;
-
-        /*for (LogEntry logEntry : logEntries) {
-            Any entry = (Any) logEntry.getPayload().getData();
-
-            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
-                    .add(RequestLog.getDescriptor())
-                    .add(LogLine.getDescriptor())
-                    .add(SourceLocation.getDescriptor())
-                    .add(SourceReference.getDescriptor())
-                    .build();
-
-            List<LogLine> logLines = new ArrayList<>();
-            try {
-                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
-
-                RequestLog.Builder builder = RequestLog.newBuilder();
-                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
-                RequestLog reconvertedLog = builder.build();
-
-                logLines = reconvertedLog.getLineList();
-            } catch (InvalidProtocolBufferException e) {
-                // TODO
-            }
-
-            for (LogLine line : logLines) {
-                if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
-                    errorLogs.add(new ErrorLogEntry(
-                            line.getLogMessage().replaceAll("\n", "\n<br>"),
-                            line.getSeverity().toString())
-                    );
-                }
-            }
-        }
-        return errorLogs;*/
     }
 
     @Override
@@ -180,44 +145,6 @@ public class GoogleCloudLoggingService implements LogService {
         }
 
         return logEntries;
-
-        /*for (LogEntry logEntry : logEntries) {
-            Any entry = (Any) logEntry.getPayload().getData();
-
-            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
-                    .add(RequestLog.getDescriptor())
-                    .add(LogLine.getDescriptor())
-                    .add(SourceLocation.getDescriptor())
-                    .add(SourceReference.getDescriptor())
-                    .build();
-
-            List<LogLine> logLines = new ArrayList<>();
-            try {
-                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
-
-                RequestLog.Builder builder = RequestLog.newBuilder();
-                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
-                RequestLog reconvertedLog = builder.build();
-
-                logLines = reconvertedLog.getLineList();
-            } catch (InvalidProtocolBufferException e) {
-                // TODO
-            }
-
-            for (LogLine line : logLines) {
-                if (line.getSeverity() == LogSeverity.INFO) {
-                    String payload = "INFO log.";
-                    LogEntry infoLogEntry = LogEntry.newBuilder(StringPayload.of(payload))
-                            .setLogName(REQUEST_LOG_NAME)
-                            .setSeverity(Severity.INFO)
-                            .setResource(MonitoredResource.newBuilder("global").build())
-                            .build();
-                    infoLogs.add(infoLogEntry);
-                }
-            }
-
-        }
-        return infoLogs;*/
     }
 
     @Override
@@ -235,40 +162,6 @@ public class GoogleCloudLoggingService implements LogService {
         } catch (LogServiceException e) {
             // TODO
         }
-
-        /*for (LogEntry logEntry : logEntries) {
-            Any entry = (Any) logEntry.getPayload().getData();
-
-            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
-                    .add(RequestLog.getDescriptor())
-                    .add(LogLine.getDescriptor())
-                    .add(SourceLocation.getDescriptor())
-                    .add(SourceReference.getDescriptor())
-                    .build();
-
-            List<LogLine> logLines = new ArrayList<>();
-            try {
-                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
-
-                RequestLog.Builder builder = RequestLog.newBuilder();
-                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
-                RequestLog reconvertedLog = builder.build();
-
-                logLines = reconvertedLog.getLineList();
-            } catch (InvalidProtocolBufferException e) {
-                // TODO
-            }
-
-            for (LogLine line : logLines) {
-                LogEntry resultLogEntry = LogEntry.newBuilder(StringPayload.of(payload))
-                        .setLogName(REQUEST_LOG_NAME)
-                        .setSeverity(Severity.INFO)
-                        .setResource(MonitoredResource.newBuilder("global").build())
-                        .build();
-                queryResults.add(resultLogEntry);
-            }
-
-        }*/
 
         List<GeneralLogEntry> queryResultLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
