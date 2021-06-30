@@ -9,6 +9,7 @@ import com.google.cloud.logging.LogEntry;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
@@ -45,7 +46,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
         // Not supported in dev server
         return new ArrayList<>();
     }

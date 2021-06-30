@@ -14,12 +14,9 @@ import com.google.appengine.logging.v1.RequestLog;
 import com.google.appengine.logging.v1.SourceLocation;
 import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.MonitoredResource;
-import com.google.cloud.logging.LogEntry;
-import com.google.cloud.logging.Logging;
+import com.google.cloud.logging.*;
 import com.google.cloud.logging.Logging.EntryListOption;
-import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload.StringPayload;
-import com.google.cloud.logging.Severity;
 import com.google.logging.type.LogSeverity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -27,6 +24,7 @@ import com.google.protobuf.util.JsonFormat;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.LogServiceException;
@@ -223,13 +221,14 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .setSeverities(severities)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
 
         List<LogEntry> logEntries = new ArrayList<>();
+        List<LogEntry> queryResults = new ArrayList<>();
 
         try {
             logEntries = getLogEntries(logSearchParams);
@@ -237,7 +236,54 @@ public class GoogleCloudLoggingService implements LogService {
             // TODO
         }
 
-        return logEntries;
+        /*for (LogEntry logEntry : logEntries) {
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                LogEntry resultLogEntry = LogEntry.newBuilder(StringPayload.of(payload))
+                        .setLogName(REQUEST_LOG_NAME)
+                        .setSeverity(Severity.INFO)
+                        .setResource(MonitoredResource.newBuilder("global").build())
+                        .build();
+                queryResults.add(resultLogEntry);
+            }
+
+        }*/
+
+        List<GeneralLogEntry> queryResultLogEntries = new ArrayList<>();
+        for (LogEntry entry : logEntries) {
+            String logName = entry.getLogName();
+            Severity severity = entry.getSeverity();
+            String trace = entry.getTrace();
+            com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
+            Payload payload = entry.getPayload();
+            long timestamp = entry.getTimestamp();
+
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
+            queryResultLogEntries.add(logEntry);
+        }
+
+        return queryResultLogEntries;
     }
 
     @Override

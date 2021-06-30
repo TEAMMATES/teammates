@@ -7,6 +7,7 @@ import com.google.cloud.logging.LogEntry;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.exception.LogServiceException;
 
 /**
@@ -20,7 +21,7 @@ public interface LogService {
 
     List<LogEntry> getInfoLogs();
 
-    List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime);
+    List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime);
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 

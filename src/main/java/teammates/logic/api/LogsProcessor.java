@@ -7,6 +7,7 @@ import com.google.cloud.logging.LogEntry;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.logic.core.GoogleCloudLoggingService;
@@ -50,7 +51,7 @@ public class LogsProcessor {
         return service.getInfoLogs();
     }
 
-    public List<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
         return service.queryLogs(severities, startTime, endTime);
     }
 
