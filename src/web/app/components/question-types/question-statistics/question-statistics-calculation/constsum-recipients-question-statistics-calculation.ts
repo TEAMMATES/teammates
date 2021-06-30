@@ -62,12 +62,12 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       this.totalPointsPerOption[recipient] = sum;
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
-      if (pointsPerOptionToSelf[recipient] === undefined) {
+      if (pointsPerOptionToSelf[recipient] == undefined) {
         this.averagePointsExcludingSelf[recipient] =
           +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
       } else {
         this.averagePointsExcludingSelf[recipient] =
-            +(answers.length === 0 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / answers.length).toFixed(2);
+            +(answers.length === 1 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / (answers.length - 1)).toFixed(2);
       }
     }
 
