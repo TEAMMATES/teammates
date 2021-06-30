@@ -112,7 +112,8 @@ public final class AccountsLogic {
      * Joins the user as an instructor and sets the institute if it is not null.
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac, String timezone)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute,
+            String mac, String timezone)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
 

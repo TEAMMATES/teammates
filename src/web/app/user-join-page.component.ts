@@ -47,7 +47,7 @@ export class UserJoinPageComponent implements OnInit {
       this.institute = queryParams.instructorinstitution;
       this.mac = queryParams.mac;
 
-      if (queryParams.isnewinstructoraccount === "true") {
+      if (queryParams.isnewinstructoraccount === 'true') {
         this.timezone = this.timezoneService.guessTimezone();
       }
 

@@ -179,7 +179,8 @@ export class CourseService {
   /**
    * Join a course by calling API.
    */
-  joinCourse(regKey: string, entityType: string, institute: string, institutemac: string, timezone?: string): Observable<any> {
+  joinCourse(regKey: string, entityType: string, institute: string,
+      institutemac: string, timezone?: string): Observable<any> {
     const paramMap: Record<string, string> = {
       key: regKey,
       entitytype: entityType,

@@ -1,5 +1,7 @@
 package teammates.logic.core;
 
+import java.time.ZoneId;
+
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -259,12 +261,12 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForInstructor(
-                        encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null, null));
+                        encryptedKey[0], "idOfInstructorWithOnlyOneSampleCourse", null, null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("success: instructor joined and new account be created");
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, null);
 
         InstructorAttributes joinedInstructor =
                 instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -279,7 +281,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsDb.deleteAccount(loggedInGoogleId);
 
         //Try to join course again, Account object should be recreated
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
         assertEquals(loggedInGoogleId, joinedInstructor.googleId);
@@ -301,7 +303,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
         assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -329,7 +331,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         instructorsLogic.createInstructor(newIns);
         encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null, null);
 
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
@@ -349,20 +351,20 @@ public class AccountsLogicTest extends BaseLogicTest {
         joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
         InstructorAttributes[] finalInstructor = new InstructorAttributes[] { joinedInstructor };
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null, null));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null, null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId", null, null));
+                () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], "otherUserId", null, null, null));
         assertEquals("Instructor has already joined course", eaee.getMessage());
 
         ______TS("failure: invalid key");
         String invalidKey = StringHelper.encrypt("invalidKey");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, null, null));
+                () -> accountsLogic.joinCourseForInstructor(invalidKey, loggedInGoogleId, null, null, null));
         assertEquals("No instructor with given registration key: " + invalidKey,
                 ednee.getMessage());
     }
@@ -380,7 +382,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("success: instructor with institute joined and new account created");
 
         accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId,
-                institute, StringHelper.generateSignature(institute));
+                institute, StringHelper.generateSignature(institute), null);
 
         InstructorAttributes joinedInstructor =
                 instructorsLogic.getInstructorForEmail(instructor.courseId, instructor.email);
@@ -403,7 +405,7 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountsLogic.joinCourseForInstructor(
-                        encryptedKey[0], loggedInGoogleId, institute, StringHelper.generateSignature("NUS")));
+                        encryptedKey[0], loggedInGoogleId, institute, StringHelper.generateSignature("NUS"), null));
         assertEquals("Institute authentication failed.", ipe.getMessage());
 
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
@@ -423,11 +425,30 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> accountsLogic.joinCourseForInstructor(
-                        encryptedKey[0], loggedInGoogleId, institute, null));
+                        encryptedKey[0], loggedInGoogleId, institute, null, null));
         assertEquals("Institute authentication failed.", ipe.getMessage());
 
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
         assertNull(accountCreated);
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_validTimezone_shouldPass()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String[] encryptedKey = new String[] {
+            getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+        String timezone = "Asia/Singapore";
+
+        ______TS("success: instructor with timezone joined and timezone of course successfully changed");
+
+        assertNotEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), ZoneId.of(timezone));
+
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, timezone);
+
+        assertEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), ZoneId.of(timezone));
     }
 
     @Test
