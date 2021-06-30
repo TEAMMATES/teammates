@@ -276,7 +276,7 @@ public class GoogleCloudLoggingService implements LogService {
             Severity severity = entry.getSeverity();
             String trace = entry.getTrace();
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
-            Payload payload = entry.getPayload();
+            Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
             GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);

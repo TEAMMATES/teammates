@@ -9,14 +9,14 @@ public class GeneralLogEntry {
     private final Severity severity;
     private final String trace;
     private final SourceLocation sourceLocation;
-    private final Payload payload;
+    private final Payload<?> payload;
     private final long timestamp;
 
     public GeneralLogEntry(String logName,
                            Severity severity,
                            String trace,
                            SourceLocation sourceLocation,
-                           Payload payload,
+                           Payload<?> payload,
                            long timestamp) {
         this.logName = logName;
         this.severity = severity;
@@ -42,7 +42,7 @@ public class GeneralLogEntry {
         return sourceLocation;
     }
 
-    public Payload getPayload() {
+    public Payload<?> getPayload() {
         return payload;
     }
 
@@ -53,12 +53,12 @@ public class GeneralLogEntry {
     @Override
     public String toString() {
         return "{\n"
-                + "  LogName:" + logName + ",\n"
-                + "  Severity:" + severity + ",\n"
-                + "  Trace:" + trace + ",\n"
-                + "  SourceLocation:" + sourceLocation + ",\n"
-                + "  Payload:" + payload + ",\n"
-                + "  Timestamp:" + timestamp + "\n"
+                + "  LogName: " + logName + ",\n"
+                + "  Severity: " + severity + ",\n"
+                + "  Trace: " + trace + ",\n"
+                + "  SourceLocation: " + sourceLocation + ",\n"
+                + "  Payload: " + payload + ",\n"
+                + "  Timestamp: " + timestamp + "\n"
                 + "}";
     }
 }

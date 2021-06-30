@@ -67,7 +67,7 @@ public class QueryLogsAction extends AdminOnlyAction {
 
         List<GeneralLogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime);
 
-        log.info("result!!!!!!!: " + JsonUtils.parse(JsonUtils.toJson(logResults)).toString());
+        log.info("result!!!!!!!: ");
 
         GeneralLogsData generalLogsData = new GeneralLogsData(logResults);
 
