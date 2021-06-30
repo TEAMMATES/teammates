@@ -4,6 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.cloud.logging.LogEntry;
+import com.google.cloud.logging.Payload;
+import com.google.cloud.logging.Severity;
+
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -15,6 +19,7 @@ import teammates.logic.api.LogsProcessor;
  */
 public class MockLogsProcessor extends LogsProcessor {
 
+    private List<LogEntry> infoLogs = new ArrayList<>();
     private List<ErrorLogEntry> errorLogs = new ArrayList<>();
     private List<FeedbackSessionLogEntry> feedbackSessionLogs = new ArrayList<>();
 
@@ -33,9 +38,30 @@ public class MockLogsProcessor extends LogsProcessor {
         feedbackSessionLogs.add(new FeedbackSessionLogEntry(student, fs, fslType, timestamp));
     }
 
+    /**
+     * Simulates insertion of feedback session logs.
+     */
+    public void insertInfoLogs(String message) {
+        String payload = message;
+        LogEntry infoLogEntry = LogEntry.newBuilder(Payload.StringPayload.of(payload))
+                .setSeverity(Severity.INFO)
+                .build();
+        infoLogs.add(infoLogEntry);
+    }
+
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
         return errorLogs;
+    }
+
+    @Override
+    public List<LogEntry> getErrorLogs(int pastHours) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<LogEntry> getInfoLogs() {
+        return infoLogs;
     }
 
     @Override

@@ -116,21 +116,17 @@ export class LogsPageComponent implements OnInit {
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
+              return this.logService.searchLogs({
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
                 severities: Array.from(this.formModel.logsSeverity).join(','),
-              };
-              return this.logService.searchLogs(this.previousQueryParams);
+              });
             }),
             finalize(() => {
               this.isSearching = false;
               this.hasResult = true;
             }))
-        // .subscribe((logs: Logs) => {
-        //   logs.feedbackSessionLogs.map((log: Log) =>
-        //       this.searchResults.push(this.toLogModel(log)));
-        // }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            .subscribe();
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {

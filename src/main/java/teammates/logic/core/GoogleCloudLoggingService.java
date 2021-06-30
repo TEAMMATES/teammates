@@ -14,10 +14,8 @@ import com.google.appengine.logging.v1.RequestLog;
 import com.google.appengine.logging.v1.SourceLocation;
 import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.MonitoredResource;
-import com.google.cloud.logging.LogEntry;
-import com.google.cloud.logging.Logging;
+import com.google.cloud.logging.*;
 import com.google.cloud.logging.Logging.EntryListOption;
-import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload.StringPayload;
 import com.google.logging.type.LogSeverity;
 import com.google.protobuf.Any;
@@ -26,10 +24,12 @@ import com.google.protobuf.util.JsonFormat;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
@@ -49,30 +49,17 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String FEEDBACK_SESSION_LOG_NAME_LABEL = "fsName";
     private static final String FEEDBACK_SESSION_LOG_TYPE_LABEL = "fslType";
 
+    private static final String STDERR_LOG_NAME = "stderr";
+
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
-        Instant endTime = Instant.now();
         // Sets the range to 6 minutes to slightly overlap the 5 minute email timer
-        long queryRange = 1000 * 60 * 6;
-        Instant startTime = endTime.minusMillis(queryRange);
+        // Unit of queryRange is hours
+        int queryRange = 6 / 60;
+        //return getErrorLogs(queryRange);
 
-        LogSearchParams logSearchParams = new LogSearchParams()
-                .setLogName(REQUEST_LOG_NAME)
-                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
-                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
-                .setMinSeverity(LogSeverity.ERROR)
-                .setStartTime(startTime)
-                .setEndTime(endTime);
-
-        List<LogEntry> logEntries = new ArrayList<>();
+        List<LogEntry> logEntries = getErrorLogs(queryRange);
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
-
-        try {
-            logEntries = getLogEntries(logSearchParams);
-        } catch (LogServiceException e) {
-            // TODO
-        }
-
         for (LogEntry logEntry : logEntries) {
             Any entry = (Any) logEntry.getPayload().getData();
 
@@ -106,6 +93,197 @@ public class GoogleCloudLoggingService implements LogService {
             }
         }
         return errorLogs;
+    }
+
+    @Override
+    public List<LogEntry> getErrorLogs(int pastHours) {
+        Instant endTime = Instant.now();
+        long queryRange = 1000L * 60 * 60 * pastHours;
+        Instant startTime = endTime.minusMillis(queryRange);
+
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setLogName("stderr")
+                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
+                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
+                .setMinSeverity(LogSeverity.ERROR)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        List<ErrorLogEntry> errorLogs = new ArrayList<>();
+
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
+            // TODO
+        }
+
+        return logEntries;
+
+        /*for (LogEntry logEntry : logEntries) {
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
+                    errorLogs.add(new ErrorLogEntry(
+                            line.getLogMessage().replaceAll("\n", "\n<br>"),
+                            line.getSeverity().toString())
+                    );
+                }
+            }
+        }
+        return errorLogs;*/
+    }
+
+    @Override
+    public List<LogEntry> getInfoLogs() {
+        Instant endTime = Instant.now();
+        long queryRange = 1000L * 60 * 60 * 24;
+        Instant startTime = endTime.minusMillis(queryRange);
+
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setLogName(REQUEST_LOG_NAME)
+                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
+                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
+                .setMinSeverity(LogSeverity.INFO)
+                .setMaxSeverity(LogSeverity.INFO)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        List<LogEntry> infoLogs = new ArrayList<>();
+
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
+            // TODO
+        }
+
+        return logEntries;
+
+        /*for (LogEntry logEntry : logEntries) {
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                if (line.getSeverity() == LogSeverity.INFO) {
+                    String payload = "INFO log.";
+                    LogEntry infoLogEntry = LogEntry.newBuilder(StringPayload.of(payload))
+                            .setLogName(REQUEST_LOG_NAME)
+                            .setSeverity(Severity.INFO)
+                            .setResource(MonitoredResource.newBuilder("global").build())
+                            .build();
+                    infoLogs.add(infoLogEntry);
+                }
+            }
+
+        }
+        return infoLogs;*/
+    }
+
+    @Override
+    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+        LogSearchParams logSearchParams = new LogSearchParams()
+                .setSeverities(severities)
+                .setStartTime(startTime)
+                .setEndTime(endTime);
+
+        List<LogEntry> logEntries = new ArrayList<>();
+        List<LogEntry> queryResults = new ArrayList<>();
+
+        try {
+            logEntries = getLogEntries(logSearchParams);
+        } catch (LogServiceException e) {
+            // TODO
+        }
+
+        /*for (LogEntry logEntry : logEntries) {
+            Any entry = (Any) logEntry.getPayload().getData();
+
+            JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
+                    .add(RequestLog.getDescriptor())
+                    .add(LogLine.getDescriptor())
+                    .add(SourceLocation.getDescriptor())
+                    .add(SourceReference.getDescriptor())
+                    .build();
+
+            List<LogLine> logLines = new ArrayList<>();
+            try {
+                String logContentAsJson = JsonFormat.printer().usingTypeRegistry(tr).print(entry);
+
+                RequestLog.Builder builder = RequestLog.newBuilder();
+                JsonFormat.parser().ignoringUnknownFields().usingTypeRegistry(tr).merge(logContentAsJson, builder);
+                RequestLog reconvertedLog = builder.build();
+
+                logLines = reconvertedLog.getLineList();
+            } catch (InvalidProtocolBufferException e) {
+                // TODO
+            }
+
+            for (LogLine line : logLines) {
+                LogEntry resultLogEntry = LogEntry.newBuilder(StringPayload.of(payload))
+                        .setLogName(REQUEST_LOG_NAME)
+                        .setSeverity(Severity.INFO)
+                        .setResource(MonitoredResource.newBuilder("global").build())
+                        .build();
+                queryResults.add(resultLogEntry);
+            }
+
+        }*/
+
+        List<GeneralLogEntry> queryResultLogEntries = new ArrayList<>();
+        for (LogEntry entry : logEntries) {
+            String logName = entry.getLogName();
+            Severity severity = entry.getSeverity();
+            String trace = entry.getTrace();
+            com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
+            Payload payload = entry.getPayload();
+            long timestamp = entry.getTimestamp();
+
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
+            queryResultLogEntries.add(logEntry);
+        }
+
+        return queryResultLogEntries;
     }
 
     @Override
@@ -187,8 +365,23 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
-        if (s.minSeverity != null) {
-            logFilters.add("severity>=" + s.minSeverity.toString());
+        if (s.severities != null) {
+            String severitiesFilter = "";
+            for (int i = 0; i < s.severities.size(); i++) {
+                if (i == s.severities.size() - 1) {
+                    severitiesFilter += ("severity=" + s.severities.get(i));
+                } else {
+                    severitiesFilter += ("severity=" + s.severities.get(i) + " OR ");
+                }
+            }
+            logFilters.add(severitiesFilter);
+        } else {
+            if (s.maxSeverity != null) {
+                logFilters.add("severity<=" + s.maxSeverity.toString());
+            }
+            if (s.minSeverity != null) {
+                logFilters.add("severity>=" + s.minSeverity.toString());
+            }
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -197,6 +390,9 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
+
+        Logger log = Logger.getLogger();
+        log.info(logFilter);
 
         try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
             Page<LogEntry> entries = logging.listLogEntries(EntryListOption.filter(logFilter));
@@ -217,7 +413,9 @@ public class GoogleCloudLoggingService implements LogService {
         private String resourceType;
         private Instant startTime;
         private Instant endTime;
+        private LogSeverity maxSeverity;
         private LogSeverity minSeverity;
+        private List<String> severities;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
 
@@ -241,8 +439,22 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
+        public LogSearchParams setMaxSeverity(LogSeverity maxSeverity) {
+            assert this.minSeverity == null || this.minSeverity.getNumber() <= maxSeverity.getNumber();
+
+            this.maxSeverity = maxSeverity;
+            return this;
+        }
+
         public LogSearchParams setMinSeverity(LogSeverity minSeverity) {
+            assert this.maxSeverity == null || minSeverity.getNumber() <= this.maxSeverity.getNumber();
+
             this.minSeverity = minSeverity;
+            return this;
+        }
+
+        public LogSearchParams setSeverities(List<String> severities) {
+            this.severities = severities;
             return this;
         }
 
