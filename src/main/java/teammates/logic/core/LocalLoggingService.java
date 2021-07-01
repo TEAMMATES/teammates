@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.api.gax.paging.Page;
 import com.google.cloud.logging.LogEntry;
 
 import teammates.common.datatransfer.ErrorLogEntry;
@@ -46,9 +47,10 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+    public Page<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                    Integer pageSize, String pageToken) {
         // Not supported in dev server
-        return new ArrayList<>();
+        return null;
     }
 
     @Override

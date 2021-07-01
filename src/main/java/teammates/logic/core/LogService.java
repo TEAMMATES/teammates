@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.util.List;
 
+import com.google.api.gax.paging.Page;
 import com.google.cloud.logging.LogEntry;
 
 import teammates.common.datatransfer.ErrorLogEntry;
@@ -21,7 +22,8 @@ public interface LogService {
 
     List<LogEntry> getInfoLogs();
 
-    List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime);
+    Page<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                             Integer pageSize, String pageToken);
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 

@@ -148,35 +148,23 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
+    public Page<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                           Integer pageSize, String pageToken) {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .setSeverities(severities)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
 
-        List<LogEntry> logEntries = new ArrayList<>();
-        List<LogEntry> queryResults = new ArrayList<>();
+        PageParams pageParams = new PageParams(pageSize, pageToken);
 
+        List<GeneralLogEntry> queryResultLogEntries = new ArrayList<>();
         try {
-            logEntries = getLogEntries(logSearchParams);
+            return getLogEntriesByPage(logSearchParams, pageParams);
         } catch (LogServiceException e) {
             // TODO
         }
 
-        List<GeneralLogEntry> queryResultLogEntries = new ArrayList<>();
-        for (LogEntry entry : logEntries) {
-            String logName = entry.getLogName();
-            Severity severity = entry.getSeverity();
-            String trace = entry.getTrace();
-            com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
-            Payload<?> payload = entry.getPayload();
-            long timestamp = entry.getTimestamp();
-
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
-            queryResultLogEntries.add(logEntry);
-        }
-
-        return queryResultLogEntries;
+        return null;
     }
 
     @Override
@@ -298,6 +286,70 @@ public class GoogleCloudLoggingService implements LogService {
         return logEntries;
     }
 
+    private Page<LogEntry> getLogEntriesByPage(LogSearchParams s, PageParams p) throws LogServiceException {
+        List<LogEntry> logEntries = new ArrayList<>();
+        LoggingOptions options = LoggingOptions.getDefaultInstance();
+
+        List<String> logFilters = new ArrayList<>();
+        if (s.logName != null) {
+            logFilters.add("logName=\"projects/" + options.getProjectId() + "/logs/" + s.logName + "\"");
+        }
+        if (s.resourceType != null) {
+            logFilters.add("resource.type=\"" + s.resourceType + "\"");
+        }
+        if (s.startTime != null) {
+            logFilters.add("timestamp>\"" + s.startTime.toString() + "\"");
+        }
+        if (s.endTime != null) {
+            logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
+        }
+        if (s.severities != null) {
+            String severitiesFilter = "";
+            for (int i = 0; i < s.severities.size(); i++) {
+                if (i == s.severities.size() - 1) {
+                    severitiesFilter += ("severity=" + s.severities.get(i));
+                } else {
+                    severitiesFilter += ("severity=" + s.severities.get(i) + " OR ");
+                }
+            }
+            logFilters.add(severitiesFilter);
+        } else {
+            if (s.maxSeverity != null) {
+                logFilters.add("severity<=" + s.maxSeverity.toString());
+            }
+            if (s.minSeverity != null) {
+                logFilters.add("severity>=" + s.minSeverity.toString());
+            }
+        }
+        for (Map.Entry<String, String> entry : s.labels.entrySet()) {
+            logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+        for (Map.Entry<String, String> entry : s.resourceLabels.entrySet()) {
+            logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
+        }
+        String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
+
+        Page<LogEntry> entries;
+
+        try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
+            List<EntryListOption> entryListOptions = new ArrayList<>();
+
+            entryListOptions.add(EntryListOption.filter(logFilter));
+
+            if (p.pageSize != null) {
+                entryListOptions.add(EntryListOption.pageSize(p.pageSize));
+            }
+            if (p.nextPageToken != null) {
+                entryListOptions.add(EntryListOption.pageToken(p.nextPageToken));
+            }
+
+            entries = logging.listLogEntries((EntryListOption[]) entryListOptions.toArray());
+        } catch (Exception e) {
+            throw new LogServiceException(e);
+        }
+        return entries;
+    }
+
     /**
      * Contains params to be used for the searching of logs.
      */
@@ -363,6 +415,38 @@ public class GoogleCloudLoggingService implements LogService {
                 this.resourceLabels.put(key, value);
             }
             return this;
+        }
+    }
+
+
+    /**
+     * Contains params for pagination
+     */
+    private static class PageParams {
+        private Integer pageSize;
+        private String nextPageToken;
+
+        public PageParams() {}
+
+        public PageParams(int pageSize) {
+            this.pageSize = pageSize;
+        }
+
+        public PageParams(String nextPageToken) {
+            this.nextPageToken = nextPageToken;
+        }
+
+        public PageParams(int pageSize, String nextPageToken) {
+            this.pageSize = pageSize;
+            this.nextPageToken = nextPageToken;
+        }
+
+        public Integer getPageSize() {
+            return pageSize;
+        }
+
+        public String getNextPageToken() {
+            return nextPageToken;
         }
     }
 
