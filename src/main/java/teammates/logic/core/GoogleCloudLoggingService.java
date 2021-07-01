@@ -16,11 +16,15 @@ import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.*;
 import com.google.cloud.logging.Logging.EntryListOption;
+import com.google.cloud.logging.Payload.JsonPayload;
 import com.google.cloud.logging.Payload.StringPayload;
+import com.google.cloud.logging.Payload.Type;
 import com.google.logging.type.LogSeverity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
+
+import org.json.JSONObject;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;

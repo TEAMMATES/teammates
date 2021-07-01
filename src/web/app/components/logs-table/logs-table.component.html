@@ -1,20 +1,26 @@
 <div class="row" *ngIf="logs.length>0; else noLogMessage">
   <div class="col-12">
-    <table id="logs-table" class="table table-bordered table-striped margin-bottom-20px">
+    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px" style="table-layout:fixed; width:100%; word-break:break-all;">
       <thead>
-      <tr>
-        <th id="timestamp">Timestamp</th>
-        <th id="severity">Severity</th>
-        <th id="summary">Summary</th>
-      </tr>
+        <tr>
+          <th id="timestamp">Timestamp</th>
+          <th id="severity">Severity</th>
+          <th id="summary">Summary</th>
+        </tr>
       </thead>
       <tbody>
-      <tr *ngFor="let log of logs">
-        <td style="font-family:monospace;">{{ log.timestamp }}</td>
-        <td>
-          <pre>{{ log.data | json }}</pre>
-        </td>
-      </tr>
+        <ng-container *ngFor="let log of logs">
+          <tr (click)="expandDetails(log)" class="table-secondary">
+            <td style="font-family:monospace;">{{ log.timestamp }}</td>
+            <td>{{ log.severity }}</td>
+            <td>{{ log.summary }}</td>
+          </tr>
+          <tr *ngIf="log.isDetailsExpanded">
+            <td colspan="3">
+              <pre *ngIf="log.isDetailsExpanded">{{ log.details | json }}</pre>
+            </td>
+          </tr>
+        </ng-container>
       </tbody>
     </table>
   </div>

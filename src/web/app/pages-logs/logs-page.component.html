@@ -60,11 +60,11 @@
 
 <div *tmIsLoading="isSearching">
   <div *ngIf="hasResult">
-    <tm-logs-table></tm-logs-table>
+    <tm-logs-table [logs]="searchResults"></tm-logs-table>
   </div>
 </div>
 
 <div class="previous-next">
-  <button class="btn btn-default" (click)="getPreviousPageLogs()">&#8249; Previous</button>
+  <button class="btn btn-default" (click)="getPreviousPageLogs()" disabled="currentPageNumber === 0">&#8249; Previous</button>
   <button class="btn btn-default" (click)="getNextPageLogs()">Next &#8250;</button>
 </div>

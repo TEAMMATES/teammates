@@ -4,6 +4,7 @@ import com.google.api.gax.paging.Page;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
+import org.json.JSONObject;
 import teammates.common.datatransfer.GeneralLogEntry;
 
 import javax.annotation.Nullable;
@@ -28,7 +29,13 @@ public class GeneralLogsData extends ApiOutput{
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
+            GeneralLogEntry logEntry;
+            if (payload.getType() == Payload.Type.JSON) {
+                JSONObject jsonObject = new JSONObject(((Payload.JsonPayload) payload).getDataAsMap());
+                logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp, jsonObject);
+            } else {
+                logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
+            }
             this.logEntries.add(logEntry);
         }
         this.nextPageToken = page.getNextPageToken();
