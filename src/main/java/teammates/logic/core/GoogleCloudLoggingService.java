@@ -165,6 +165,8 @@ public class GoogleCloudLoggingService implements LogService {
         try {
             return getLogEntriesByPage(logSearchParams, pageParams);
         } catch (LogServiceException e) {
+            Logger log = Logger.getLogger();
+            log.warning(e.toString());
             // TODO
         }
 
@@ -347,7 +349,12 @@ public class GoogleCloudLoggingService implements LogService {
                 entryListOptions.add(EntryListOption.pageToken(p.nextPageToken));
             }
 
-            entries = logging.listLogEntries((EntryListOption[]) entryListOptions.toArray());
+            EntryListOption[] entryListOptionsArray = new EntryListOption[entryListOptions.size()];
+            for (int i = 0; i < entryListOptions.size(); i++) {
+                entryListOptionsArray[i] = entryListOptions.get(i);
+            }
+
+            entries = logging.listLogEntries(entryListOptionsArray);
         } catch (Exception e) {
             throw new LogServiceException(e);
         }
