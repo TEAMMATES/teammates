@@ -7,8 +7,10 @@ import { ApiConst } from '../../types/api-const';
 import { LogService } from '../../services/log.service';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
-import { ColumnData, SortableTableCellData } from '../components/sortable-table/sortable-table.component';
-// import { StatusMessageService } from 'src/web/services/status-message.service';
+import { GeneralLogEntry, GeneralLogs, Type} from 'src/web/types/api-output';
+import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
+import { ErrorMessageOutput } from '../error-message-output';
+import { StatusMessageService } from 'src/web/services/status-message.service';
 
 /**
  * Model for searching of logs.
@@ -31,18 +33,10 @@ interface QueryParams {
 }
 
 /**
- * Model for displaying of search result.
- */
-interface LogResultModel {
-  logColumnsData: ColumnData[];
-  logRowsData: SortableTableCellData[][];
-}
-
-/**
  * Model for storing logs in pages.
  */
 interface LogPages {
-  logResult: LogResultModel[];
+  logResult: LogsTableRowModel[];
 }
 
 /**
@@ -56,7 +50,7 @@ interface LogPages {
 export class LogsPageComponent implements OnInit {
   LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
-  SEVERITIES: string[] = ['INFO', 'WARN', 'ERROR'];
+  SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
 
   formModel: SearchLogsFormModel = {
     logsSeverity: new Set(),
@@ -68,7 +62,7 @@ export class LogsPageComponent implements OnInit {
   previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
-  searchResults: LogResultModel[] = [];
+  searchResults: LogsTableRowModel[] = [];
   pageResults: LogPages[] = [];
   currentPageNumber: number = 0;
   isLoading: boolean = false;
@@ -77,8 +71,7 @@ export class LogsPageComponent implements OnInit {
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    // private statusMessageService: StatusMessageService
-    ) { }
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     const today: Date = new Date();
@@ -126,7 +119,9 @@ export class LogsPageComponent implements OnInit {
               this.isSearching = false;
               this.hasResult = true;
             }))
-            .subscribe();
+            .subscribe((generalLogs: GeneralLogs) => {
+              generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+            }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -142,9 +137,41 @@ export class LogsPageComponent implements OnInit {
         .pipe(map((result: TimeResolvingResult) => result.timestamp));
   }
 
-  // toLogModel(log: Log): void {
-
-  // }
+  toLogModel(log: GeneralLogEntry): LogsTableRowModel {
+    let summary: string = '';
+    let payload = log.payload.data;
+    if (log.payload.type === Type.STRING) {
+      summary = 'Source: ' + log.sourceLocation.file
+    } else if (log.payload.type === Type.JSON && log.jsonObject) {
+      payload = log.jsonObject;
+      const jsonPayload: any = JSON.parse(JSON.stringify(log.jsonObject)).map;
+      if (jsonPayload["requestMethod"]) {
+        summary += jsonPayload["requestMethod"] + ' '
+      }
+      if (jsonPayload["requestUrl"]) {
+        summary += jsonPayload["requestUrl"] + ' '
+      }
+      if (jsonPayload["responseStatus"]) {
+        summary += jsonPayload["responseStatus"] + ' '
+      }
+      if (jsonPayload["responseTime"]) {
+        summary += jsonPayload["responseTime"] + ' '
+      }
+      if (jsonPayload["actionClass"]) {
+        summary += jsonPayload["actionClass"] + ' '
+      }
+    }
+    return {
+      timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
+      severity: log.severity,
+      summary: summary,
+      details: JSON.parse(JSON.stringify({
+        sourceLocation: log.sourceLocation,
+        trace: log.trace,
+        payload: payload })),
+      isDetailsExpanded: false,
+    }
+  }
 
   getPreviousPageLogs(): void {
     // TODO

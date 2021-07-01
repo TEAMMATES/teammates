@@ -16,11 +16,15 @@ import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.*;
 import com.google.cloud.logging.Logging.EntryListOption;
+import com.google.cloud.logging.Payload.JsonPayload;
 import com.google.cloud.logging.Payload.StringPayload;
+import com.google.cloud.logging.Payload.Type;
 import com.google.logging.type.LogSeverity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
+
+import org.json.JSONObject;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
@@ -278,8 +282,13 @@ public class GoogleCloudLoggingService implements LogService {
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
             Payload payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
-
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
+            GeneralLogEntry logEntry;
+            if (payload.getType() == Type.JSON) {
+                JSONObject jsonObject = new JSONObject(((JsonPayload) payload).getDataAsMap());
+                logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp, jsonObject);
+            } else {
+                logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp);
+            }
             queryResultLogEntries.add(logEntry);
         }
 

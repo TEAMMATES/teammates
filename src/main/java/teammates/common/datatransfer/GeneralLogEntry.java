@@ -4,6 +4,10 @@ import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Severity;
 import com.google.cloud.logging.SourceLocation;
 
+import org.json.JSONObject;
+
+import javax.annotation.Nullable;
+
 public class GeneralLogEntry {
     private final String logName;
     private final Severity severity;
@@ -11,6 +15,8 @@ public class GeneralLogEntry {
     private final SourceLocation sourceLocation;
     private final Payload<?> payload;
     private final long timestamp;
+    @Nullable
+    private JSONObject jsonObject;
 
     public GeneralLogEntry(String logName,
                            Severity severity,
@@ -25,6 +31,22 @@ public class GeneralLogEntry {
         this.payload = payload;
         this.timestamp = timestamp;
     }
+
+    public GeneralLogEntry(String logName,
+                            Severity severity,
+                            String trace,
+                            SourceLocation sourceLocation,
+                            Payload<?> payload,
+                            long timestamp,
+                            JSONObject jsonObject) {
+        this.logName = logName;
+        this.severity = severity;
+        this.trace = trace;
+        this.sourceLocation = sourceLocation;
+        this.payload = payload;
+        this.timestamp = timestamp;
+        this.jsonObject = jsonObject;
+        }
 
     public String getLogName() {
         return logName;
@@ -48,6 +70,10 @@ public class GeneralLogEntry {
 
     public long getTimestamp() {
         return timestamp;
+    }
+
+    public JSONObject getJsonObject() {
+        return jsonObject;
     }
 
     @Override

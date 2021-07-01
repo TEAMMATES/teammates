@@ -60,7 +60,7 @@
 
 <div *tmIsLoading="isSearching">
   <div *ngIf="hasResult">
-    <tm-logs-table></tm-logs-table>
+    <tm-logs-table [logs]="searchResults"></tm-logs-table>
   </div>
 </div>
 

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogType, ResourceEndpoints } from '../types/api-const';
-import { FeedbackSessionLogs } from '../types/api-output';
+import { FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -63,14 +63,13 @@ export class LogService {
     searchFrom: string,
     searchUntil: string,
     severities: string,
-  }): Observable<FeedbackSessionLogs> {
+  }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       startTime: queryParams.searchFrom,
       endTime: queryParams.searchUntil,
       severities: queryParams.severities,
     }
 
-    // TODO: Update the return type
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
   }
 }

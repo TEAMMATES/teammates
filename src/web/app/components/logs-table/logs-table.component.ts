@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { LogsTableRowModel } from './logs-table-model';
 
 /**
@@ -11,6 +11,7 @@ import { LogsTableRowModel } from './logs-table-model';
 })
 export class LogsTableComponent implements OnInit {
 
+  @Input()
   logs: LogsTableRowModel[] = [];
 
   constructor() { }
@@ -18,4 +19,9 @@ export class LogsTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  expandDetails(logsTableRowModel: LogsTableRowModel) {
+    logsTableRowModel.isDetailsExpanded
+      ? logsTableRowModel.isDetailsExpanded = false
+      : logsTableRowModel.isDetailsExpanded = true;
+  }
 }

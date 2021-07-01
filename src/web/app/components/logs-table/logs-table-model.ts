@@ -2,9 +2,9 @@
  * The model for a row of the logs table.
  */
 export interface LogsTableRowModel {
-  timestamp: number;
+  timestamp: string;
   severity: string;
   summary: string;
-  logDetail: JSON;
+  details: JSON;
   isDetailsExpanded: boolean;
 }
