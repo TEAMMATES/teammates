@@ -100,6 +100,15 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.searchResults = [];
     this.pageResults = [];
+    this.searchResults.push({
+      timestamp: '2012',
+      severity: "INFO",
+      httpStatus: 200,
+      responseTime: 1121,
+      summary: 'summary',
+      details: JSON.parse(JSON.stringify(this.formModel)),
+      isDetailsExpanded: false,
+    });
     this.currentPageNumber = 0;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
@@ -139,32 +148,37 @@ export class LogsPageComponent implements OnInit {
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
-    let payload = log.payload.data;
+    let payload: any = log.payload.data;
+    let responseStatus: number | undefined = undefined;
+    let responseTime: number | undefined = undefined;
     if (log.payload.type === Type.STRING) {
       summary = 'Source: ' + log.sourceLocation.file
-    } else if (log.payload.type === Type.JSON && log.jsonObject) {
-      payload = log.jsonObject;
-      const jsonPayload: any = JSON.parse(JSON.stringify(log.jsonObject)).map;
-      if (jsonPayload["requestMethod"]) {
-        summary += jsonPayload["requestMethod"] + ' '
+    } else if (log.payload.type === Type.JSON) {
+      payload = JSON.parse(JSON.stringify(log.jsonObject)).map;
+      if (payload.requestMethod) {
+        summary += payload.requestMethod + ' '
       }
-      if (jsonPayload["requestUrl"]) {
-        summary += jsonPayload["requestUrl"] + ' '
+      if (payload.requestUrl) {
+        summary += payload.requestUrl + ' '
       }
-      if (jsonPayload["responseStatus"]) {
-        summary += jsonPayload["responseStatus"] + ' '
+      if (payload.responseStatus) {
+        responseStatus = payload.responseStatus;
       }
-      if (jsonPayload["responseTime"]) {
-        summary += jsonPayload["responseTime"] + ' '
+      if (payload.responseTime) {
+        responseTime = payload.responseTime;
       }
-      if (jsonPayload["actionClass"]) {
-        summary += jsonPayload["actionClass"] + ' '
+      if (payload["actionClass"]) {
+        summary += payload.actionClass;
       }
+    } else {
+      summary = 'ProtoPayload';
     }
     return {
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       summary: summary,
+      httpStatus: responseStatus,
+      responseTime: responseTime,
       details: JSON.parse(JSON.stringify({
         sourceLocation: log.sourceLocation,
         trace: log.trace,

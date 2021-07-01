@@ -19,9 +19,21 @@ export class LogsTableComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  expandDetails(logsTableRowModel: LogsTableRowModel) {
+  expandDetails(logsTableRowModel: LogsTableRowModel): void {
     logsTableRowModel.isDetailsExpanded
       ? logsTableRowModel.isDetailsExpanded = false
       : logsTableRowModel.isDetailsExpanded = true;
+  }
+
+  getStyleForStatus(httpStatus: number): string {
+    const httpStatusString: string = httpStatus.toString();
+    if (httpStatusString.startsWith('2')) {
+      return 'color:green'
+    } else if (httpStatusString.startsWith('4')) {
+      return 'color:darkorange'
+    } else if (httpStatusString.startsWith('5')) {
+      return 'color:red';
+    }
+    return '';
   }
 }
