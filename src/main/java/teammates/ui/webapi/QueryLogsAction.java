@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.google.api.gax.paging.Page;
 import com.google.cloud.logging.LogEntry;
 import com.google.logging.type.LogSeverity;
 import org.apache.http.HttpStatus;
@@ -65,7 +66,7 @@ public class QueryLogsAction extends AdminOnlyAction {
 
         log.info("startTime: " + startTime.toEpochMilli() + " endTime: " + endTime.toEpochMilli());
 
-        List<GeneralLogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime);
+        Page<LogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, null);
 
         log.info("result!!!!!!!: ");
 
@@ -75,7 +76,7 @@ public class QueryLogsAction extends AdminOnlyAction {
     }
 
     /**
-     * Parse severities in a single String to a list of severity and check whether each value is
+     * Parse severities String to a list of severity and check whether each value is
      * a legal LogSeverity value. If it is not a legal LogSeverity value, it will be removed.
      */
     private List<String> parseSeverities(String severitiesStr) {

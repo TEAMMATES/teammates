@@ -3,6 +3,7 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
+import com.google.api.gax.paging.Page;
 import com.google.cloud.logging.LogEntry;
 
 import teammates.common.datatransfer.ErrorLogEntry;
@@ -51,8 +52,9 @@ public class LogsProcessor {
         return service.getInfoLogs();
     }
 
-    public List<GeneralLogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime) {
-        return service.queryLogs(severities, startTime, endTime);
+    public Page<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                    Integer pageSize, String pageToken) {
+        return service.queryLogs(severities, startTime, endTime, pageSize, pageToken);
     }
 
     /**
