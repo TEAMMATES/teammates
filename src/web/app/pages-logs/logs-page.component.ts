@@ -30,6 +30,7 @@ interface QueryParams {
   searchFrom: string,
   searchUntil: string,
   severities: string,
+  nextPageToken?: string,
 }
 
 /**
@@ -68,6 +69,7 @@ export class LogsPageComponent implements OnInit {
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
+  nextPageToken: string | undefined = undefined;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -109,19 +111,29 @@ export class LogsPageComponent implements OnInit {
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              return this.logService.searchLogs({
+              this.previousQueryParams = {
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
                 severities: Array.from(this.formModel.logsSeverity).join(','),
-              });
+              }
+              return this.logService.searchLogs(this.previousQueryParams);
             }),
             finalize(() => {
               this.isSearching = false;
               this.hasResult = true;
             }))
-            .subscribe((generalLogs: GeneralLogs) => {
-              generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
-            }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+              (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private processLogs(generalLogs: GeneralLogs): void {
+    if (generalLogs.nextPageToken) {
+      this.nextPageToken = generalLogs.nextPageToken;
+    } else {
+      this.nextPageToken = undefined;
+    }
+    generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+    this.pageResults[this.currentPageNumber].logResult = this.searchResults;
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -139,32 +151,35 @@ export class LogsPageComponent implements OnInit {
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
-    let payload = log.payload.data;
+    let payload: any = log.payload.data;
+    let responseStatus: number | undefined = undefined;
+    let responseTime: number | undefined = undefined;
     if (log.payload.type === Type.STRING) {
       summary = 'Source: ' + log.sourceLocation.file
-    } else if (log.payload.type === Type.JSON && log.jsonObject) {
-      payload = log.jsonObject;
-      const jsonPayload: any = JSON.parse(JSON.stringify(log.jsonObject)).map;
-      if (jsonPayload["requestMethod"]) {
-        summary += jsonPayload["requestMethod"] + ' '
+    } else if (log.payload.type === Type.JSON) {
+      payload = JSON.parse(JSON.stringify(log.jsonObject)).map;
+      if (payload.requestMethod) {
+        summary += payload.requestMethod + ' '
       }
-      if (jsonPayload["requestUrl"]) {
-        summary += jsonPayload["requestUrl"] + ' '
+      if (payload.requestUrl) {
+        summary += payload.requestUrl + ' '
       }
-      if (jsonPayload["responseStatus"]) {
-        summary += jsonPayload["responseStatus"] + ' '
+      if (payload.responseStatus) {
+        responseStatus = payload.responseStatus;
       }
-      if (jsonPayload["responseTime"]) {
-        summary += jsonPayload["responseTime"] + ' '
+      if (payload.responseTime) {
+        responseTime = payload.responseTime;
       }
-      if (jsonPayload["actionClass"]) {
-        summary += jsonPayload["actionClass"] + ' '
+      if (payload["actionClass"]) {
+        summary += payload.actionClass;
       }
     }
     return {
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       summary: summary,
+      httpStatus: responseStatus,
+      responseTime: responseTime,
       details: JSON.parse(JSON.stringify({
         sourceLocation: log.sourceLocation,
         trace: log.trace,
@@ -174,7 +189,6 @@ export class LogsPageComponent implements OnInit {
   }
 
   getPreviousPageLogs(): void {
-    // TODO
     if (this.currentPageNumber > 0) {
       this.currentPageNumber = this.currentPageNumber - 1;
       this.searchResults = this.pageResults[this.currentPageNumber].logResult;
@@ -182,13 +196,14 @@ export class LogsPageComponent implements OnInit {
   }
 
   getNextPageLogs(): void {
-    // TODO
+    this.currentPageNumber = this.currentPageNumber + 1;
     if (this.pageResults.length > this.currentPageNumber) {
-      this.currentPageNumber = this.currentPageNumber + 1;
       this.searchResults = this.pageResults[this.currentPageNumber].logResult;
       return;
     }
+    this.previousQueryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.previousQueryParams)
-      .subscribe();
+      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }

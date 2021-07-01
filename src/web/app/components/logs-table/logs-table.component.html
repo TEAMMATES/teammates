@@ -13,7 +13,11 @@
           <tr (click)="expandDetails(log)" class="table-secondary">
             <td style="font-family:monospace;">{{ log.timestamp }}</td>
             <td>{{ log.severity }}</td>
-            <td>{{ log.summary }}</td>
+            <td>
+              <span class="right-padding" *ngIf="log.httpStatus" [style]="getStyleForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
+              <span class="right-padding" *ngIf="log.responseTime" style="color:blue; white-space: pre-wrap;">{{ log.responseTime }}ms</span>
+              {{ log.summary }}
+            </td>
           </tr>
           <tr *ngIf="log.isDetailsExpanded">
             <td colspan="3">
