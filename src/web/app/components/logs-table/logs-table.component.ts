@@ -1,12 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-/**
- * Model for log.
- */
-export interface Log {
-  timestamp: string;
-  data: JSON;
-}
+import { Component, Input, OnInit } from '@angular/core';
+import { LogsTableRowModel } from './logs-table-model';
 
 /**
  * A table to display logs.
@@ -18,11 +11,17 @@ export interface Log {
 })
 export class LogsTableComponent implements OnInit {
 
-  logs: Log[] = [];
+  @Input()
+  logs: LogsTableRowModel[] = [];
 
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  expandDetails(logsTableRowModel: LogsTableRowModel) {
+    logsTableRowModel.isDetailsExpanded
+      ? logsTableRowModel.isDetailsExpanded = false
+      : logsTableRowModel.isDetailsExpanded = true;
+  }
 }
