@@ -30,6 +30,7 @@ interface QueryParams {
   searchFrom: string,
   searchUntil: string,
   severities: string,
+  nextPageToken?: string,
 }
 
 /**
@@ -68,6 +69,7 @@ export class LogsPageComponent implements OnInit {
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
+  nextPageToken: string | undefined = undefined;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -100,15 +102,6 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.searchResults = [];
     this.pageResults = [];
-    this.searchResults.push({
-      timestamp: '2012',
-      severity: "INFO",
-      httpStatus: 200,
-      responseTime: 1121,
-      summary: 'summary',
-      details: JSON.parse(JSON.stringify(this.formModel)),
-      isDetailsExpanded: false,
-    });
     this.currentPageNumber = 0;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
@@ -118,19 +111,29 @@ export class LogsPageComponent implements OnInit {
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              return this.logService.searchLogs({
+              this.previousQueryParams = {
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
                 severities: Array.from(this.formModel.logsSeverity).join(','),
-              });
+              }
+              return this.logService.searchLogs(this.previousQueryParams);
             }),
             finalize(() => {
               this.isSearching = false;
               this.hasResult = true;
             }))
-            .subscribe((generalLogs: GeneralLogs) => {
-              generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
-            }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+              (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private processLogs(generalLogs: GeneralLogs): void {
+    if (generalLogs.nextPageToken) {
+      this.nextPageToken = generalLogs.nextPageToken;
+    } else {
+      this.nextPageToken = undefined;
+    }
+    generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+    this.pageResults[this.currentPageNumber].logResult = this.searchResults;
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -170,8 +173,6 @@ export class LogsPageComponent implements OnInit {
       if (payload["actionClass"]) {
         summary += payload.actionClass;
       }
-    } else {
-      summary = 'ProtoPayload';
     }
     return {
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
@@ -188,7 +189,6 @@ export class LogsPageComponent implements OnInit {
   }
 
   getPreviousPageLogs(): void {
-    // TODO
     if (this.currentPageNumber > 0) {
       this.currentPageNumber = this.currentPageNumber - 1;
       this.searchResults = this.pageResults[this.currentPageNumber].logResult;
@@ -196,13 +196,14 @@ export class LogsPageComponent implements OnInit {
   }
 
   getNextPageLogs(): void {
-    // TODO
+    this.currentPageNumber = this.currentPageNumber + 1;
     if (this.pageResults.length > this.currentPageNumber) {
-      this.currentPageNumber = this.currentPageNumber + 1;
       this.searchResults = this.pageResults[this.currentPageNumber].logResult;
       return;
     }
+    this.previousQueryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.previousQueryParams)
-      .subscribe();
+      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }
