@@ -132,8 +132,9 @@ export class LogsPageComponent implements OnInit {
     } else {
       this.nextPageToken = undefined;
     }
+    this.searchResults = [];
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
-    this.pageResults[this.currentPageNumber].logResult = this.searchResults;
+    this.pageResults.push({ logResult: this.searchResults });
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -170,7 +171,7 @@ export class LogsPageComponent implements OnInit {
       if (payload.responseTime) {
         responseTime = payload.responseTime;
       }
-      if (payload["actionClass"]) {
+      if (payload.actionClass) {
         summary += payload.actionClass;
       }
     }
@@ -201,8 +202,10 @@ export class LogsPageComponent implements OnInit {
       this.searchResults = this.pageResults[this.currentPageNumber].logResult;
       return;
     }
+    this.isSearching = true;
     this.previousQueryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.previousQueryParams)
+      .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
