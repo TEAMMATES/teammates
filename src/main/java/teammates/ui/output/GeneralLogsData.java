@@ -8,11 +8,11 @@ import org.json.JSONObject;
 import teammates.common.datatransfer.GeneralLogEntry;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GeneralLogsData extends ApiOutput{
-    @Nullable
-    private List<GeneralLogEntry> logEntries;
+    private List<GeneralLogEntry> logEntries = new ArrayList<>();
     @Nullable
     private String nextPageToken;
 
@@ -21,7 +21,7 @@ public class GeneralLogsData extends ApiOutput{
     }
 
     public GeneralLogsData(Page<LogEntry> page) {
-        for (LogEntry entry : page.iterateAll()) {
+        for (LogEntry entry : page.getValues()) {
             String logName = entry.getLogName();
             Severity severity = entry.getSeverity();
             String trace = entry.getTrace();
