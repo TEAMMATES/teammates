@@ -64,9 +64,16 @@ public class QueryLogsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
+        String nextPageToken;
+        try {
+            nextPageToken = getNonNullRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
+        } catch (NullHttpParameterException e) {
+            nextPageToken = null;
+        }
+
         log.info("startTime: " + startTime.toEpochMilli() + " endTime: " + endTime.toEpochMilli());
 
-        Page<LogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, null);
+        Page<LogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
 
         log.info("result!!!!!!!: ");
 
