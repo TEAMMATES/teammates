@@ -20,6 +20,9 @@ public final class TestProperties {
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
 
+    /** The Google ID of user with admin permission. */
+    public static final String TEST_ADMIN;
+
     /** The email address used for testing that emails are sent by the system. */
     public static final String TEST_EMAIL;
 
@@ -73,6 +76,7 @@ public final class TestProperties {
             TEAMMATES_URL = prop.getProperty("test.app.url");
 
             TEST_EMAIL = prop.getProperty("test.email");
+            TEST_ADMIN = prop.getProperty("test.admin");
             TEST_SENDER_EMAIL = prop.getProperty("test.senderemail");
 
             CSRF_KEY = prop.getProperty("test.csrf.key");
