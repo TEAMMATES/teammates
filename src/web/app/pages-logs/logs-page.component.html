@@ -66,5 +66,5 @@
 
 <div class="previous-next">
   <button class="btn btn-default" (click)="getPreviousPageLogs()" [disabled]="currentPageNumber === 0">&#8249; Previous</button>
-  <button class="btn btn-default" (click)="getNextPageLogs()" [disabled]="nextPageToken === undefined">Next &#8250;</button>
+  <button class="btn btn-default" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Next &#8250;</button>
 </div>

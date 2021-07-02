@@ -28,10 +28,12 @@ export class LogsTableComponent implements OnInit {
   getStyleForStatus(httpStatus: number): string {
     const httpStatusString: string = httpStatus.toString();
     if (httpStatusString.startsWith('2')) {
-      return 'color:green'
-    } else if (httpStatusString.startsWith('4')) {
-      return 'color:darkorange'
-    } else if (httpStatusString.startsWith('5')) {
+      return 'color:green';
+    }
+    if (httpStatusString.startsWith('4')) {
+      return 'color:darkorange';
+    }
+    if (httpStatusString.startsWith('5')) {
       return 'color:red';
     }
     return '';

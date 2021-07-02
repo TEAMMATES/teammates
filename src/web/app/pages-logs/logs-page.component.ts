@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
+import { LogService } from '../../services/log.service';
+import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
-import { LogService } from '../../services/log.service';
+import { GeneralLogEntry, GeneralLogs, Type } from '../../types/api-output';
+import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
-import { GeneralLogEntry, GeneralLogs, Type} from 'src/web/types/api-output';
-import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { ErrorMessageOutput } from '../error-message-output';
-import { StatusMessageService } from 'src/web/services/status-message.service';
 
 /**
  * Model for searching of logs.
@@ -27,10 +27,10 @@ interface SearchLogsFormModel {
  * Query parameters for HTTP request
  */
 interface QueryParams {
-  searchFrom: string,
-  searchUntil: string,
-  severities: string,
-  nextPageToken?: string,
+  searchFrom: string;
+  searchUntil: string;
+  severities: string;
+  nextPageToken?: string;
 }
 
 /**
@@ -69,7 +69,7 @@ export class LogsPageComponent implements OnInit {
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
-  nextPageToken: string | undefined = undefined;
+  nextPageToken: string = '';
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -103,6 +103,7 @@ export class LogsPageComponent implements OnInit {
     this.searchResults = [];
     this.pageResults = [];
     this.currentPageNumber = 0;
+    this.nextPageToken = '';
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
@@ -130,9 +131,9 @@ export class LogsPageComponent implements OnInit {
     if (generalLogs.nextPageToken) {
       this.nextPageToken = generalLogs.nextPageToken;
     } else {
-      this.nextPageToken = undefined;
+      this.nextPageToken = '';
     }
-    this.searchResults = [];
+    
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
     this.pageResults.push({ logResult: this.searchResults });
   }
@@ -152,18 +153,19 @@ export class LogsPageComponent implements OnInit {
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
-    let payload: any = log.payload.data;
+    let payload: any = '';
     let responseStatus: number | undefined = undefined;
     let responseTime: number | undefined = undefined;
     if (log.payload.type === Type.STRING) {
-      summary = 'Source: ' + log.sourceLocation.file
+      summary = 'Source: ' + log.sourceLocation.file;
+      payload = this.formatTextPayloadForDisplay(log.payload.data);
     } else if (log.payload.type === Type.JSON) {
       payload = JSON.parse(JSON.stringify(log.jsonObject)).map;
       if (payload.requestMethod) {
-        summary += payload.requestMethod + ' '
+        summary += payload.requestMethod + ' ';
       }
       if (payload.requestUrl) {
-        summary += payload.requestUrl + ' '
+        summary += payload.requestUrl + ' ';
       }
       if (payload.responseStatus) {
         responseStatus = payload.responseStatus;
@@ -186,7 +188,13 @@ export class LogsPageComponent implements OnInit {
         trace: log.trace,
         payload: payload })),
       isDetailsExpanded: false,
-    }
+    };
+  }
+
+  private formatTextPayloadForDisplay(textPayload: String): String {
+    return textPayload
+      .replace(/\n/g, '<br/>')
+      .replace(/\t/g, '&#9;');
   }
 
   getPreviousPageLogs(): void {
@@ -203,6 +211,7 @@ export class LogsPageComponent implements OnInit {
       return;
     }
     this.isSearching = true;
+    this.searchResults = [];
     this.previousQueryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.previousQueryParams)
       .pipe(finalize(() => this.isSearching = false))

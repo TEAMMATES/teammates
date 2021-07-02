@@ -1,11 +1,11 @@
 <div class="row" *ngIf="logs.length>0; else noLogMessage">
   <div class="col-12">
-    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px" style="width:100%; word-break:break-all;">
+    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px" style="table-layout:fixed; width:100%; word-break:break-all;">
       <thead>
         <tr>
-          <th id="timestamp">Timestamp</th>
-          <th id="severity">Severity</th>
-          <th id="summary">Summary</th>
+          <th id="timestamp" style="width:20%;">Timestamp</th>
+          <th id="severity" style="width:10%;">Severity</th>
+          <th id="summary" style="width:70%;">Summary</th>
         </tr>
       </thead>
       <tbody>
@@ -21,7 +21,7 @@
           </tr>
           <tr *ngIf="log.isDetailsExpanded">
             <td colspan="3">
-              <pre *ngIf="log.isDetailsExpanded">{{ log.details | json }}</pre>
+              <pre *ngIf="log.isDetailsExpanded" [innerHTML]="log.details | json"></pre>
             </td>
           </tr>
         </ng-container>
