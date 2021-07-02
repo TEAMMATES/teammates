@@ -5,9 +5,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.http.HttpStatus;
+
 import com.google.logging.type.LogSeverity;
 
-import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.QueryResults;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.NullHttpParameterException;
@@ -29,13 +30,13 @@ public class QueryLogsAction extends AdminOnlyAction {
     @Override
     ActionResult execute() {
         String severitiesStr;
+
         try {
             severitiesStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
         } catch (NullHttpParameterException e) {
             severitiesStr = DEFAULT_SEVERITIES;
         }
 
-        Instant startTime;
         Instant endTime;
         try {
             String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
@@ -46,6 +47,7 @@ public class QueryLogsAction extends AdminOnlyAction {
             return new JsonResult("Invalid end time", HttpStatus.SC_BAD_REQUEST);
         }
 
+        Instant startTime;
         try {
             String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_STARTTIME);
             startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
