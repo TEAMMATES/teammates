@@ -1,6 +1,6 @@
 <div class="row" *ngIf="logs.length>0; else noLogMessage">
   <div class="col-12">
-    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px" style="table-layout:fixed; width:100%; word-break:break-all;">
+    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px" style="width:100%; word-break:break-all;">
       <thead>
         <tr>
           <th id="timestamp">Timestamp</th>
@@ -15,7 +15,7 @@
             <td>{{ log.severity }}</td>
             <td>
               <span class="right-padding" *ngIf="log.httpStatus" [style]="getStyleForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
-              <span class="right-padding" *ngIf="log.responseTime" style="color:blue; white-space: pre-wrap;">{{ log.responseTime }}ms</span>
+              <span class="right-padding" *ngIf="log.responseTime" style="color:blue;">{{ log.responseTime }}ms</span>
               {{ log.summary }}
             </td>
           </tr>
