@@ -56,6 +56,9 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String FEEDBACK_SESSION_LOG_NAME_LABEL = "fsName";
     private static final String FEEDBACK_SESSION_LOG_TYPE_LABEL = "fslType";
 
+    private static final String STDOUT_LOG_NAME = "stdout";
+    private static final String STDERR_LOG_NAME = "stderr";
+
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
         Instant endTime = Instant.now();
@@ -119,6 +122,8 @@ public class GoogleCloudLoggingService implements LogService {
     public QueryResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
                                   Integer pageSize, String pageToken) {
         LogSearchParams logSearchParams = new LogSearchParams()
+                .setLogName(STDOUT_LOG_NAME)
+                .setLogName(STDERR_LOG_NAME)
                 .setSeverities(severities)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
@@ -224,7 +229,26 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<String> logFilters = new ArrayList<>();
         if (s.logName != null) {
-            logFilters.add("logName=\"projects/" + options.getProjectId() + "/logs/" + s.logName + "\"");
+            StringBuilder logNameFilter = new StringBuilder();
+            for (int i = 0; i < s.logName.size(); i++) {
+                if (i == s.logName.size() - 1) {
+                    logNameFilter
+                            .append("logName=\"projects/")
+                            .append(options.getProjectId())
+                            .append("/logs/")
+                            .append(s.logName.get(i))
+                            .append("\"");
+                } else {
+                    logNameFilter
+                            .append("logName=\"projects/")
+                            .append(options.getProjectId())
+                            .append("/logs/")
+                            .append(s.logName.get(i))
+                            .append("\"")
+                            .append(" OR ");
+                }
+            }
+            logFilters.add(logNameFilter.toString());
         }
         if (s.resourceType != null) {
             logFilters.add("resource.type=\"" + s.resourceType + "\"");
@@ -272,8 +296,27 @@ public class GoogleCloudLoggingService implements LogService {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
 
         List<String> logFilters = new ArrayList<>();
-        if (s.logName != null) {
-            logFilters.add("logName=\"projects/" + options.getProjectId() + "/logs/" + s.logName + "\"");
+        if (!s.logName.isEmpty()) {
+            StringBuilder logNameFilter = new StringBuilder();
+            for (int i = 0; i < s.logName.size(); i++) {
+                if (i == s.logName.size() - 1) {
+                    logNameFilter
+                            .append("logName=\"projects/")
+                            .append(options.getProjectId())
+                            .append("/logs/")
+                            .append(s.logName.get(i))
+                            .append("\"");
+                } else {
+                    logNameFilter
+                            .append("logName=\"projects/")
+                            .append(options.getProjectId())
+                            .append("/logs/")
+                            .append(s.logName.get(i))
+                            .append("\"")
+                            .append(" OR ");
+                }
+            }
+            logFilters.add(logNameFilter.toString());
         }
         if (s.resourceType != null) {
             logFilters.add("resource.type=\"" + s.resourceType + "\"");
@@ -336,7 +379,7 @@ public class GoogleCloudLoggingService implements LogService {
      * Contains params to be used for the searching of logs.
      */
     private static class LogSearchParams {
-        private String logName;
+        private List<String> logName = new ArrayList<>();
         private String resourceType;
         private Instant startTime;
         private Instant endTime;
@@ -346,7 +389,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Map<String, String> resourceLabels = new HashMap<>();
 
         public LogSearchParams setLogName(String logName) {
-            this.logName = logName;
+            this.logName.add(logName);
             return this;
         }
 
