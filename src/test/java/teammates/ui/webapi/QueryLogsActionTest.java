@@ -1,12 +1,15 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.List;
 
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.ui.output.GeneralLogsData;
 
 /**
  * SUT: {@link QueryLogsAction}.
@@ -28,11 +31,37 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     protected void testExecute() throws Exception {
         JsonResult actionOutput;
 
-        String severities = "INFO,ERROR";
         long startTimeForFailCases = Instant.now().toEpochMilli();
         long endTimeForFailCases = startTimeForFailCases - 1000;
         long endTimeForSuccessCases = Instant.now().toEpochMilli();
         long startTimeForSuccessCases = endTimeForSuccessCases - 1000 * 60 * 60 * 24;
+
+        String severities = "INFO,WARNING,ERROR";
+        String infoLogTrace1 = "info log trace 1";
+        String infoLogTrace2 = "info log trace 2";
+        GeneralLogEntry.SourceLocation infoLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file1", 1L, "func1");
+        GeneralLogEntry.SourceLocation infoLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file2", 2L, "func2");
+        long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
+        long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
+        String warningLogTrace1 = "warning log trace 1";
+        String warningLogTrace2 = "warning log trace 2";
+        GeneralLogEntry.SourceLocation warningLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file3", 3L, "func3");
+        GeneralLogEntry.SourceLocation warningLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file4", 4L, "func4");
+        long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
+        long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
+        String errorLogTrace1 = "error log trace 1";
+        String errorLogTrace2 = "error log trace 2";
+        GeneralLogEntry.SourceLocation errorLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file5", 5L, "func5");
+        GeneralLogEntry.SourceLocation errorLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file6", 6L, "func6");
+        long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
+        long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
+
+        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, null, infoLogTimestamp1);
+        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, null, infoLogTimestamp2);
+        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, null, warningLogTimestamp1);
+        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, null, warningLogTimestamp2);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, null, errorLogTimestamp1);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, null, errorLogTimestamp2);
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
@@ -69,6 +98,53 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
+        GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
+        List<GeneralLogEntry> logEntries = generalLogsData.getLogEntries();
+
+        assertEquals(6, logEntries.size());
+
+        GeneralLogEntry entry1 = logEntries.get(0);
+        GeneralLogEntry entry2 = logEntries.get(1);
+        GeneralLogEntry entry3 = logEntries.get(2);
+        GeneralLogEntry entry4 = logEntries.get(3);
+        GeneralLogEntry entry5 = logEntries.get(4);
+        GeneralLogEntry entry6 = logEntries.get(5);
+
+        assertEquals("stdout", entry1.getLogName());
+        assertEquals("INFO", entry1.getSeverity());
+        assertEquals(infoLogTrace1, entry1.getTrace());
+        assertEquals(infoLogSourceLocation1, entry1.getSourceLocation());
+        assertEquals(infoLogTimestamp1, entry1.getTimestamp());
+
+        assertEquals("stdout", entry2.getLogName());
+        assertEquals("INFO", entry2.getSeverity());
+        assertEquals(infoLogTrace2, entry2.getTrace());
+        assertEquals(infoLogSourceLocation2, entry2.getSourceLocation());
+        assertEquals(infoLogTimestamp2, entry2.getTimestamp());
+
+        assertEquals("stderr", entry3.getLogName());
+        assertEquals("WARNING", entry3.getSeverity());
+        assertEquals(warningLogTrace1, entry3.getTrace());
+        assertEquals(warningLogSourceLocation1, entry3.getSourceLocation());
+        assertEquals(warningLogTimestamp1, entry3.getTimestamp());
+
+        assertEquals("stderr", entry4.getLogName());
+        assertEquals("WARNING", entry4.getSeverity());
+        assertEquals(warningLogTrace2, entry4.getTrace());
+        assertEquals(warningLogSourceLocation2, entry4.getSourceLocation());
+        assertEquals(warningLogTimestamp2, entry4.getTimestamp());
+
+        assertEquals("stderr", entry5.getLogName());
+        assertEquals("ERROR", entry5.getSeverity());
+        assertEquals(errorLogTrace1, entry5.getTrace());
+        assertEquals(errorLogSourceLocation1, entry5.getSourceLocation());
+        assertEquals(errorLogTimestamp1, entry5.getTimestamp());
+
+        assertEquals("stderr", entry6.getLogName());
+        assertEquals("ERROR", entry6.getSeverity());
+        assertEquals(errorLogTrace2, entry6.getTrace());
+        assertEquals(errorLogSourceLocation2, entry6.getSourceLocation());
+        assertEquals(errorLogTimestamp2, entry6.getTimestamp());
     }
 
     @Test

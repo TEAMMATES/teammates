@@ -108,5 +108,25 @@ public class GeneralLogEntry {
         public String getFunction() {
             return function;
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof SourceLocation) {
+                SourceLocation sourceLocation = (SourceLocation) obj;
+                return this.file.equals(sourceLocation.getFile())
+                        && this.line.equals(sourceLocation.getLine())
+                        && this.function.equals(sourceLocation.getFunction());
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        public int hashCode() {
+            return file.hashCode() + line.hashCode() + function.hashCode();
+        }
     }
 }
