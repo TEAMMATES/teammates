@@ -231,22 +231,13 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.logName != null) {
             StringBuilder logNameFilter = new StringBuilder();
             for (int i = 0; i < s.logName.size(); i++) {
+                String filter;
                 if (i == s.logName.size() - 1) {
-                    logNameFilter
-                            .append("logName=\"projects/")
-                            .append(options.getProjectId())
-                            .append("/logs/")
-                            .append(s.logName.get(i))
-                            .append("\"");
+                    filter = "logName=\"projects/" + options.getProjectId() + "/logs/" + (s.logName.get(i)) + "\"";
                 } else {
-                    logNameFilter
-                            .append("logName=\"projects/")
-                            .append(options.getProjectId())
-                            .append("/logs/")
-                            .append(s.logName.get(i))
-                            .append("\"")
-                            .append(" OR ");
+                    filter = "logName=\"projects/" + options.getProjectId() + "/logs/" + (s.logName.get(i)) + "\" OR ";
                 }
+                logNameFilter.append(filter);
             }
             logFilters.add(logNameFilter.toString());
         }
@@ -299,22 +290,13 @@ public class GoogleCloudLoggingService implements LogService {
         if (!s.logName.isEmpty()) {
             StringBuilder logNameFilter = new StringBuilder();
             for (int i = 0; i < s.logName.size(); i++) {
+                String filter;
                 if (i == s.logName.size() - 1) {
-                    logNameFilter
-                            .append("logName=\"projects/")
-                            .append(options.getProjectId())
-                            .append("/logs/")
-                            .append(s.logName.get(i))
-                            .append("\"");
+                    filter = "logName=\"projects/" + options.getProjectId() + "/logs/" + (s.logName.get(i)) + "\"";
                 } else {
-                    logNameFilter
-                            .append("logName=\"projects/")
-                            .append(options.getProjectId())
-                            .append("/logs/")
-                            .append(s.logName.get(i))
-                            .append("\"")
-                            .append(" OR ");
+                    filter = "logName=\"projects/" + options.getProjectId() + "/logs/" + (s.logName.get(i)) + "\" OR ";
                 }
+                logNameFilter.append(filter);
             }
             logFilters.add(logNameFilter.toString());
         }
