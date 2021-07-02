@@ -18,8 +18,9 @@ export class SubmissionStatusNamePipe implements PipeTransform {
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
         return 'Awaiting';
       case FeedbackSessionSubmissionStatus.OPEN:
-      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
         return 'Open';
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+        return 'Grace';
       case FeedbackSessionSubmissionStatus.CLOSED:
         return 'Closed';
       default:
