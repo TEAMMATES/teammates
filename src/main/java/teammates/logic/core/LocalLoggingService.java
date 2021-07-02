@@ -5,12 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.api.gax.paging.Page;
-import com.google.cloud.logging.LogEntry;
-
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
@@ -35,20 +32,8 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public List<LogEntry> getErrorLogs(int pastHours) {
-        // Not supported in dev server
-        return new ArrayList<>();
-    }
-
-    @Override
-    public List<LogEntry> getInfoLogs() {
-        // Not supported in dev server
-        return new ArrayList<>();
-    }
-
-    @Override
-    public Page<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                    Integer pageSize, String pageToken) {
+    public QueryResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                  Integer pageSize, String pageToken) {
         // Not supported in dev server
         return null;
     }

@@ -3,12 +3,9 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
-import com.google.api.gax.paging.Page;
-import com.google.cloud.logging.LogEntry;
-
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryResults;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.logic.core.GoogleCloudLoggingService;
@@ -41,19 +38,10 @@ public class LogsProcessor {
     }
 
     /**
-     * Gets the list of error- or higher level logs for a period of time in the past from now.
-     * The period of time is specified by the user.
+     * Queries and retrieve logs with given parameter and returns the results in {@code Page}.
      */
-    public List<LogEntry> getErrorLogs(int pastHours) {
-        return service.getErrorLogs(pastHours);
-    }
-
-    public List<LogEntry> getInfoLogs() {
-        return service.getInfoLogs();
-    }
-
-    public Page<LogEntry> queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                    Integer pageSize, String pageToken) {
+    public QueryResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                  Integer pageSize, String pageToken) {
         return service.queryLogs(severities, startTime, endTime, pageSize, pageToken);
     }
 

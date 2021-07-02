@@ -1,12 +1,12 @@
 package teammates.common.datatransfer;
 
-import com.google.cloud.logging.Payload;
-import com.google.cloud.logging.Severity;
-import com.google.cloud.logging.SourceLocation;
+import javax.annotation.Nullable;
 
 import org.json.JSONObject;
 
-import javax.annotation.Nullable;
+import com.google.cloud.logging.Payload;
+import com.google.cloud.logging.Severity;
+import com.google.cloud.logging.SourceLocation;
 
 public class GeneralLogEntry {
     private final String logName;
@@ -46,7 +46,7 @@ public class GeneralLogEntry {
         this.payload = payload;
         this.timestamp = timestamp;
         this.jsonObject = jsonObject;
-        }
+    }
 
     public String getLogName() {
         return logName;

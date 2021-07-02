@@ -5,17 +5,12 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.google.api.gax.paging.Page;
-import com.google.cloud.logging.LogEntry;
 import com.google.logging.type.LogSeverity;
-import org.apache.http.HttpStatus;
-import teammates.common.datatransfer.GeneralLogEntry;
+
+import teammates.common.datatransfer.QueryResults;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.LogServiceException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 import teammates.ui.output.GeneralLogsData;
 
 /**
@@ -32,21 +27,15 @@ public class QueryLogsAction extends AdminOnlyAction {
 
     @Override
     ActionResult execute() {
-        Logger log = Logger.getLogger();
-        log.info("query action starts execute!!!!!!!!!");
         String severitiesStr;
         try {
             severitiesStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
         } catch (NullHttpParameterException e) {
             severitiesStr = DEFAULT_SEVERITIES;
         }
-        List<String> severities = this.parseSeverities(severitiesStr);
-
-        log.info("severity string: " + severitiesStr);
 
         Instant startTime;
         Instant endTime;
-        String nextPageToken;
         try {
             String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
             endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
@@ -61,24 +50,20 @@ public class QueryLogsAction extends AdminOnlyAction {
             startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);
         }
 
+        if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
+            throw new InvalidHttpParameterException("The end time should be after the start time.");
+        }
+
+        String nextPageToken;
         try {
             nextPageToken = getNonNullRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         } catch (NullHttpParameterException e) {
             nextPageToken = null;
         }
 
-        if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
-            throw new InvalidHttpParameterException("The end time should be after the start time.");
-        }
-
-        log.info("startTime: " + startTime.toEpochMilli() + " endTime: " + endTime.toEpochMilli());
-
-        Page<LogEntry> logResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
-
-        log.info("result!!!!!!!: ");
-
-        GeneralLogsData generalLogsData = new GeneralLogsData(logResults);
-
+        List<String> severities = this.parseSeverities(severitiesStr);
+        QueryResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
+        GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
         return new JsonResult(generalLogsData);
     }
 
