@@ -5,12 +5,10 @@ import javax.annotation.Nullable;
 import org.json.JSONObject;
 
 import com.google.cloud.logging.Payload;
-import com.google.cloud.logging.Severity;
-import com.google.cloud.logging.SourceLocation;
 
 public class GeneralLogEntry {
     private final String logName;
-    private final Severity severity;
+    private final String severity;
     private final String trace;
     private final SourceLocation sourceLocation;
     private final Payload<?> payload;
@@ -19,7 +17,7 @@ public class GeneralLogEntry {
     private JSONObject jsonObject;
 
     public GeneralLogEntry(String logName,
-                           Severity severity,
+                           String severity,
                            String trace,
                            SourceLocation sourceLocation,
                            Payload<?> payload,
@@ -33,7 +31,7 @@ public class GeneralLogEntry {
     }
 
     public GeneralLogEntry(String logName,
-                            Severity severity,
+                            String severity,
                             String trace,
                             SourceLocation sourceLocation,
                             Payload<?> payload,
@@ -52,7 +50,7 @@ public class GeneralLogEntry {
         return logName;
     }
 
-    public Severity getSeverity() {
+    public String getSeverity() {
         return severity;
     }
 
@@ -86,5 +84,29 @@ public class GeneralLogEntry {
                 + "  Payload: " + payload + ",\n"
                 + "  Timestamp: " + timestamp + "\n"
                 + "}";
+    }
+
+    public static class SourceLocation {
+        private final String file;
+        private final Long line;
+        private final String function;
+
+        public SourceLocation(String file, Long line, String function) {
+            this.file = file;
+            this.line = line;
+            this.function = function;
+        }
+
+        public String getFile() {
+            return file;
+        }
+
+        public Long getLine() {
+            return line;
+        }
+
+        public String getFunction() {
+            return function;
+        }
     }
 }

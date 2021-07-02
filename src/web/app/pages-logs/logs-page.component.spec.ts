@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { LogService } from '../../services/log.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { GeneralLogEntry, Severity, Type } from '../../types/api-output';
+import { GeneralLogEntry, Type } from '../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 import Spy = jasmine.Spy;
@@ -64,7 +64,7 @@ describe('LogsPageComponent', () => {
   it('should search for logs when search button is clicked', () => {
     const testLog: GeneralLogEntry = {
       logName: 'stdout',
-      severity: Severity.INFO,
+      severity: 'INFO',
       trace: 'testTrace',
       sourceLocation: {
         file: 'file',
