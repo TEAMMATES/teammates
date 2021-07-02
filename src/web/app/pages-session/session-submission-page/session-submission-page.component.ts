@@ -204,7 +204,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
   }
 
   // Solution for checking partial element visibility adapted from
-  // https://www.codegrepper.com/code-examples/javascript/read+xlsx+and+xls+file+in+typescript
+  // https://stackoverflow.com/questions/30943662/check-if-element-is-partially-in-viewport
   /**
    * Checks if a given element is in view.
    *
