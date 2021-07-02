@@ -210,7 +210,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    *
    * @params e element to perform check for
    */
-  isInViewport(e) {
+  isInViewport(e: any) {
     let rect = e.getBoundingClientRect();
     let windowHeight = (window.innerHeight || document.documentElement.clientHeight);
 
@@ -233,8 +233,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           document: this.document,
           scrollTarget: `#${this.moderatedQuestionId}`,
           scrollOffset: 70,
-          scrollFinish: this.scrollToQuestion()
         });
+        pageScrollFinish: this.scrollToQuestion()
       }, 500);
     }
   }
