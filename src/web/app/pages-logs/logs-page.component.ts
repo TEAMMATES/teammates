@@ -116,7 +116,7 @@ export class LogsPageComponent implements OnInit {
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
                 severities: Array.from(this.formModel.logsSeverity).join(','),
-              }
+              };
               return this.logService.searchLogs(this.previousQueryParams);
             }),
             finalize(() => {
@@ -128,12 +128,9 @@ export class LogsPageComponent implements OnInit {
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
-    if (generalLogs.nextPageToken) {
-      this.nextPageToken = generalLogs.nextPageToken;
-    } else {
-      this.nextPageToken = '';
-    }
-    
+    this.nextPageToken = generalLogs.nextPageToken
+      ? generalLogs.nextPageToken
+      : '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
     this.pageResults.push({ logResult: this.searchResults });
   }
@@ -154,39 +151,40 @@ export class LogsPageComponent implements OnInit {
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
     let payload: any = '';
-    let responseStatus: number | undefined = undefined;
-    let responseTime: number | undefined = undefined;
+    let httpStatus: number | undefined;
+    let responseTime: number | undefined;
     if (log.payload.type === Type.STRING) {
-      summary = 'Source: ' + log.sourceLocation.file;
+      summary = `Source: ${log.sourceLocation.file}`;
       payload = this.formatTextPayloadForDisplay(log.payload.data);
     } else if (log.payload.type === Type.JSON) {
       payload = JSON.parse(JSON.stringify(log.jsonObject)).map;
       if (payload.requestMethod) {
-        summary += payload.requestMethod + ' ';
+        summary += `${payload.requestMethod} `;
       }
       if (payload.requestUrl) {
-        summary += payload.requestUrl + ' ';
+        summary += `${payload.requestUrl}`;
       }
       if (payload.responseStatus) {
-        responseStatus = payload.responseStatus;
+        httpStatus = payload.responseStatus;
       }
       if (payload.responseTime) {
         responseTime = payload.responseTime;
       }
       if (payload.actionClass) {
-        summary += payload.actionClass;
+        summary += `${payload.actionClass}`;
       }
     }
     return {
+      summary,
+      httpStatus,
+      responseTime,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
-      summary: summary,
-      httpStatus: responseStatus,
-      responseTime: responseTime,
       details: JSON.parse(JSON.stringify({
+        payload,
         sourceLocation: log.sourceLocation,
         trace: log.trace,
-        payload: payload })),
+      })),
       isDetailsExpanded: false,
     };
   }

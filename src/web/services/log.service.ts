@@ -69,7 +69,7 @@ export class LogService {
       startTime: queryParams.searchFrom,
       endTime: queryParams.searchUntil,
       severities: queryParams.severities,
-    }
+    };
 
     if (queryParams.nextPageToken) {
       paramMap.nextPageToken = queryParams.nextPageToken;

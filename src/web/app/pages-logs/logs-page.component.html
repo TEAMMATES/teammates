@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="col-1 mt-4">
-        <button class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
+        <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
       </div>
     </div>
     <div class="row form-group">
@@ -65,6 +65,6 @@
 </div>
 
 <div class="previous-next">
-  <button class="btn btn-default" (click)="getPreviousPageLogs()" [disabled]="currentPageNumber === 0">&#8249; Previous</button>
-  <button class="btn btn-default" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Next &#8250;</button>
+  <button id="previous-button" class="btn btn-default" (click)="getPreviousPageLogs()" [disabled]="currentPageNumber === 0">&#8249; Previous</button>
+  <button id="next-button" class="btn btn-default" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Next &#8250;</button>
 </div>
