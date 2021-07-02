@@ -20,7 +20,7 @@ export class SubmissionStatusNamePipe implements PipeTransform {
       case FeedbackSessionSubmissionStatus.OPEN:
         return 'Open';
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-        return 'Grace';
+        return 'Open (grace period)';
       case FeedbackSessionSubmissionStatus.CLOSED:
         return 'Closed';
       default:
