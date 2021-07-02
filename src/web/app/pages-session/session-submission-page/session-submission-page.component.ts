@@ -210,21 +210,21 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    *
    * @params e element to perform check for
    */
-  isInViewport(e: any) {
-    let rect = e.getBoundingClientRect();
-    let windowHeight = (window.innerHeight || document.documentElement.clientHeight);
+  isInViewport(e: HTMLElement): boolean {
+    const rect: ClientRect = e.getBoundingClientRect();
+    const windowHeight: number = (window.innerHeight || document.documentElement.clientHeight);
 
     return !(
       Math.floor(100 - (((rect.top >= 0 ? 0 : rect.top) / +-rect.height) * 100)) < 1 ||
       Math.floor(100 - ((rect.bottom - windowHeight) / rect.height) * 100) < 1
-    )
-  };
+    );
+  }
 
   /**
    * Scrolls to the question based on its given question id.
    */
   scrollToQuestion(): void {
-    var div = document.getElementById(this.moderatedQuestionId);
+    const div: any = document.getElementById(this.moderatedQuestionId);
 
     // continue scrolling as long as the element to scroll to is yet to be found or not in view
     if (div == null || !(this.isInViewport(div))) {
@@ -234,7 +234,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
           scrollTarget: `#${this.moderatedQuestionId}`,
           scrollOffset: 70,
         });
-        pageScrollFinish: this.scrollToQuestion()
+        this.scrollToQuestion();
       }, 500);
     }
   }
