@@ -19,6 +19,8 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
       case FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN:
       case FeedbackSessionSubmissionStatus.OPEN:
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+        msg += ', is visible to respondents'
+        break;
       case FeedbackSessionSubmissionStatus.CLOSED:
         msg += ', is visible';
         break;
@@ -33,7 +35,7 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
         msg += ', and is open for submissions';
         break;
       case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
-        msg += ', and is in grace period';
+        msg += ', is open for submissions. and is in the grace period';
         break;
       case FeedbackSessionSubmissionStatus.CLOSED:
         msg += ', and has ended';
