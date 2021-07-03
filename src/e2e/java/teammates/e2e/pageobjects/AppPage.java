@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -119,7 +120,12 @@ public abstract class AppPage {
             PageFactory.initElements(currentBrowser.driver, page);
             page.waitForPageToLoad();
             return page;
-        } catch (Exception e) {
+        } catch (InvocationTargetException e) {
+            if (e.getCause() instanceof IllegalStateException) {
+                throw (IllegalStateException) e.getCause();
+            }
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         }
     }
