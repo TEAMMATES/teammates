@@ -152,17 +152,20 @@ public final class Config {
         // This means that any developer can replicate this condition in dev server,
         // but it is their own choice and risk should they choose to do so.
 
-        String appName = System.getenv("GAE_APPLICATION");
         String version = System.getenv("GAE_VERSION");
-        String env = System.getenv("GAE_ENV");
-
-        if (appName == null || version == null || env == null) {
+        if (!APP_VERSION.equals(version)) {
             return true;
         }
 
-        return !appName.endsWith(APP_ID)
-                || !APP_VERSION.equals(version)
-                || !"standard".equals(env);
+        String env = System.getenv("GAE_ENV");
+        if ("standard".equals(env)) {
+            // GAE standard
+            String appName = System.getenv("GAE_APPLICATION");
+            return appName == null || !appName.endsWith(APP_ID);
+        }
+
+        // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
+        return env != null;
     }
 
     /**
