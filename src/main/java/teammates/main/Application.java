@@ -11,7 +11,6 @@ import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
 import teammates.ui.webapi.DevServerLoginServlet;
-import teammates.ui.webapi.WebPageServlet;
 
 /**
  * Entrypoint to the system.
@@ -40,12 +39,7 @@ public final class Application {
         ClassList classlist = ClassList.setServerDefault(server);
 
         if (Config.isDevServer()) {
-            // For dev server, we dynamically add servlets to serve the dev server login page and the bundled front-end.
-            // The front-end needs not be added in production server as it is configured separately in app.yaml.
-            webapp.setWelcomeFiles(new String[] { "index.html" });
-
-            ServletHolder webPageServlet = new ServletHolder("WebPageServlet", new WebPageServlet());
-            webapp.addServlet(webPageServlet, "/web/*");
+            // For dev server, we dynamically add servlet to serve the dev server login page.
 
             ServletHolder devServerLoginServlet =
                     new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());

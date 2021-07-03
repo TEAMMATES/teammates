@@ -5,6 +5,16 @@
         version="3.1" metadata-complete="true">
 
     <filter>
+        <filter-name>WebSecurityHeaderFilter</filter-name>
+        <filter-class>teammates.ui.webapi.WebSecurityHeaderFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WebSecurityHeaderFilter</filter-name>
+        <url-pattern>/web/*</url-pattern>
+        <url-pattern>/index.html</url-pattern>
+        <url-pattern>/</url-pattern>
+    </filter-mapping>
+    <filter>
         <filter-name>RequestTraceFilter</filter-name>
         <filter-class>teammates.ui.webapi.RequestTraceFilter</filter-class>
     </filter>
@@ -40,6 +50,20 @@
     <listener>
         <listener-class>teammates.storage.search.SearchManagerStarter</listener-class>
     </listener>
+
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <description>Servlet that handles the single web page application</description>
+        <servlet-name>WebPageServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.WebPageServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WebPageServlet</servlet-name>
+        <url-pattern>/web/*</url-pattern>
+    </servlet-mapping>
 
     <servlet>
         <description>REST API Servlet</description>
