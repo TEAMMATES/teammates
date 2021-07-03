@@ -1,7 +1,7 @@
 package teammates.common.exception;
 
 /**
- * Exception thrown when trying to access search-related function while there is no search service active.
+ * Exception thrown when error is encountered while performing search.
  */
 public class SearchServiceException extends Exception {
 
