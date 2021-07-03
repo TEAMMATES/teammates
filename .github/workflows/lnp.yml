@@ -29,5 +29,7 @@ jobs:
         run: ./gradlew runDatastoreEmulator
       - name: Start Server
         run: ./gradlew serverRun &
+      - name: Wait until server is running
+        run: ./wait-for-server.sh
       - name: Start Tests
         run: ./gradlew lnpTests

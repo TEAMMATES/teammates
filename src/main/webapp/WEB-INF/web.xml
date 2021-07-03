@@ -66,6 +66,17 @@
     </servlet-mapping>
 
     <servlet>
+        <description>Health Check Servlet</description>
+        <servlet-name>HealthCheckServlet</servlet-name>
+        <servlet-class>teammates.ui.webapi.HealthCheckServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HealthCheckServlet</servlet-name>
+        <url-pattern>/ping</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
         <description>REST API Servlet</description>
         <servlet-name>WebApiServlet</servlet-name>
         <servlet-class>teammates.ui.webapi.WebApiServlet</servlet-class>
