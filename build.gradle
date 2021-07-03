@@ -314,8 +314,13 @@ task copyDistToStagedApp {
 }
 
 appengineStage {
-    dependsOn explodeWar, copyDistToExplodedWar
-    finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp
+    if (project.hasProperty("flex")) {
+        dependsOn explodeWar
+        finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp, copyDistToStagedApp
+    } else {
+        dependsOn explodeWar, copyDistToExplodedWar
+        finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp
+    }
 }
 
 // STATIC ANALYSIS TASKS
