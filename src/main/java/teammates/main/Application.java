@@ -29,7 +29,7 @@ public final class Application {
         System.setProperty("org.eclipse.jetty.util.log.class", org.eclipse.jetty.util.log.StdErrLog.class.getName());
         System.setProperty("org.eclipse.jetty.LEVEL", "INFO");
 
-        Server server = new Server(8080);
+        Server server = new Server(Config.getPort());
 
         WebAppContext webapp = new WebAppContext();
         webapp.setContextPath("/");

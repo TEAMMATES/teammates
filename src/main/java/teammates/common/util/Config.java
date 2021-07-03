@@ -140,7 +140,18 @@ public final class Config {
     }
 
     static String getBaseAppUrl() {
-        return isDevServer() ? "http://localhost:8080" : "https://" + APP_ID + ".appspot.com";
+        return isDevServer() ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
+    }
+
+    /**
+     * Returns the port number at which the system will be run in.
+     */
+    public static int getPort() {
+        String portEnv = System.getenv("PORT");
+        if (portEnv == null || !portEnv.matches("\\d{2,5}")) {
+            return 8080;
+        }
+        return Integer.parseInt(portEnv);
     }
 
     /**
