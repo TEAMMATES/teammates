@@ -1,4 +1,10 @@
+# This template supports the app.yaml format for both App Engine Standard and Flexible environment.
+# In order to deploy to one kind of runtime, the configuration for the other kind must be completely removed/commented out.
+
+###########################################################################
+# App Engine Standard (Java 11) configuration
 # Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref
+###########################################################################
 
 # Run/deploy with Java 11 runtime.
 runtime: java11
@@ -86,3 +92,38 @@ automatic_scaling:
 # Reference: https://cloud.google.com/appengine/docs/standard/java11/configuring-warmup-requests
 inbound_services:
   - warmup
+
+###########################################################################
+# App Engine Flexible (custom runtime) configuration
+# Reference: https://cloud.google.com/appengine/docs/flexible/custom-runtimes/configuring-your-app-with-app-yaml
+###########################################################################
+
+# Defines custom runtime for App Engine flexible environment
+# runtime: custom
+# env: flex
+
+# resources:
+#   cpu: 1
+#   memory_gb: 1
+#   disk_size_gb: 10
+
+# automatic_scaling:
+#   # min_num_instances: 1
+#   # max_num_instances: 8
+#   # cool_down_period_sec: 120
+#   cpu_utilization:
+#     target_utilization: 0.6
+
+# liveness_check:
+#   path: /ping
+#   check_interval_sec: 5
+#   timeout_sec: 5
+#   failure_threshold: 4
+#   success_threshold: 2
+
+# readiness_check:
+#   path: /ping
+#   check_interval_sec: 5
+#   timeout_sec: 5
+#   failure_threshold: 4
+#   success_threshold: 2
