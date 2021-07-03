@@ -168,7 +168,7 @@ public final class AccountsLogic {
                         .withTimezone(ZoneId.of(timezone))
                         .build());
             } catch (DateTimeException dte) {
-                log.info("Timezone '" + timezone + "' of course '" + instructor.courseId
+                log.info("Timezone '" + timezone + "' of sample course with id '" + instructor.courseId
                         + "' is not supported. UTC will be used instead.");
             }
         }
