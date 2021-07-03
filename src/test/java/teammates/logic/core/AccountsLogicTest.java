@@ -440,15 +440,66 @@ public class AccountsLogicTest extends BaseLogicTest {
         String[] encryptedKey = new String[] {
             getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
         };
-        String timezone = "Asia/Singapore";
 
         ______TS("success: instructor with timezone joined and timezone of course successfully changed");
+        String timezone = "Asia/Singapore";
 
         assertNotEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), ZoneId.of(timezone));
 
         accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, timezone);
 
         assertEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), ZoneId.of(timezone));
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_timezoneIsNull_shouldNotChangeTimezone()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String[] encryptedKey = new String[] {
+            getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+        ZoneId originalTimezone = coursesLogic.getCourse(instructor.courseId).getTimeZone();
+
+        ______TS("success: instructor with null timezone joined and timezone of course not changed");
+        String nullTimezone = null;
+
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, nullTimezone);
+        assertEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), originalTimezone);
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_timezoneWrongFormat_shouldNotChangeTimezone()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String[] encryptedKey = new String[] {
+            getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+        ZoneId originalTimezone = coursesLogic.getCourse(instructor.courseId).getTimeZone();
+
+        ______TS("success: instructor with invalid timezone joined and timezone of course not changed");
+        String invalidTimezone = "GMT+8.5";
+
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, invalidTimezone);
+        assertEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), originalTimezone);
+    }
+
+    @Test
+    public void testJoinCourseForInstructor_timezoneUnrecognized_shouldNotChangeTimezone()
+            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+        InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
+        String loggedInGoogleId = "AccLogicT.instr.id";
+        String[] encryptedKey = new String[] {
+            getEncryptedKeyForInstructor(instructor.courseId, instructor.email),
+        };
+        ZoneId originalTimezone = coursesLogic.getCourse(instructor.courseId).getTimeZone();
+
+        ______TS("success: instructor with unrecognised timezone joined and timezone of course not changed");
+        String unrecognizedTimezone = "Unrecognized/Timezone";
+
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], loggedInGoogleId, null, null, unrecognizedTimezone);
+        assertEquals(coursesLogic.getCourse(instructor.courseId).getTimeZone(), originalTimezone);
     }
 
     @Test

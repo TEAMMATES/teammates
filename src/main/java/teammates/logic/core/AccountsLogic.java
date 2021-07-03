@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.DateTimeException;
 import java.time.ZoneId;
 import java.util.List;
 
@@ -11,6 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -21,6 +23,8 @@ import teammates.storage.api.AccountsDb;
  * @see AccountsDb
  */
 public final class AccountsLogic {
+
+    private static final Logger log = Logger.getLogger();
 
     private static AccountsLogic instance = new AccountsLogic();
 
@@ -159,9 +163,14 @@ public final class AccountsLogic {
 
         // Update timezone of course if needed
         if (timezone != null) {
-            coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.courseId)
-                    .withTimezone(ZoneId.of(timezone))
-                    .build());
+            try {
+                coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.courseId)
+                        .withTimezone(ZoneId.of(timezone))
+                        .build());
+            } catch (DateTimeException dte) {
+                log.info("Timezone '" + timezone + "' of course '" + instructor.courseId
+                        + "' is not supported. UTC will be used instead.");
+            }
         }
 
         return instructor;
