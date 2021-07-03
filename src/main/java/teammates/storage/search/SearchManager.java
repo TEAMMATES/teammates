@@ -73,7 +73,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
     QueryResponse performQuery(SolrQuery query) throws SearchServiceException {
         if (client == null) {
-            throw new SearchServiceException("Search service is not implemented.", HttpStatus.SC_NOT_IMPLEMENTED);
+            throw new SearchServiceException("Full-text search is not available.", HttpStatus.SC_NOT_IMPLEMENTED);
         }
 
         QueryResponse response = null;
@@ -86,14 +86,16 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
                     + TeammatesException.toStringWithStackTrace(e));
             if (rootCause instanceof SocketTimeoutException) {
                 throw new SearchServiceException("A timeout was reached while processing your request. "
-                        + "Please try again later", e, HttpStatus.SC_GATEWAY_TIMEOUT);
+                        + "Please try again later.", e, HttpStatus.SC_GATEWAY_TIMEOUT);
             } else {
-                throw new SearchServiceException("An error has occurred.", e, HttpStatus.SC_BAD_GATEWAY);
+                throw new SearchServiceException("An error has occurred while performing search. "
+                        + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
             }
         } catch (IOException e) {
             log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
-            throw new SearchServiceException("An error has occurred.", e, HttpStatus.SC_BAD_GATEWAY);
+            throw new SearchServiceException("An error has occurred while performing search. "
+                    + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
         }
 
         return response;
