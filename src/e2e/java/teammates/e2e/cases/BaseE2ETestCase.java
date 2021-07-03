@@ -154,7 +154,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      */
     protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
         String filePath = getTestDownloadsFolder() + expectedFileName;
-        int retryLimit = 5;
+        int retryLimit = TestProperties.TEST_TIMEOUT;
         boolean actual = Files.exists(Paths.get(filePath));
         while (!actual && retryLimit > 0) {
             retryLimit--;
