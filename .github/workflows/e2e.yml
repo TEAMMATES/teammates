@@ -37,15 +37,10 @@ jobs:
         run: mv $GITHUB_WORKSPACE/src/e2e/resources/test.ci-$E2E_BROWSER.properties src/e2e/resources/test.properties
         env:
           E2E_BROWSER: ${{ matrix.browser }}
-      - name: Run Solr search service
-        run: |
-          docker run --name=tm_solr -d -p 8983:8983 solr:8.8.1
-          sleep 5
-          docker exec $(docker ps -qf "name=tm_solr") /bin/sh -c "$(cat ./solr.sh)"
+      - name: Run Solr search service + local Datastore emulator
+        run: docker-compose up -d
       - name: Create Config Files
         run: ./gradlew createConfigs testClasses generateTypes 
-      - name: Run local Datastore emulator
-        run: ./gradlew runDatastoreEmulator
       - name: Install Frontend Dependencies
         run: npm ci 
       - name: Build Frontend Bundle 
