@@ -93,6 +93,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails.setRubricWeightsForEachCell(new ArrayList<>());
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editRubricQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyRubricQuestionDetails(2, questionDetails);
         verifyPresentInDatastore(loadedQuestion);

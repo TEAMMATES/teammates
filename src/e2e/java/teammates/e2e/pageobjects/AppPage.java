@@ -29,7 +29,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
 import teammates.common.util.retry.MaximumRetriesExceededException;
 import teammates.common.util.retry.RetryManager;
 import teammates.common.util.retry.RetryableTask;
@@ -108,21 +107,13 @@ public abstract class AppPage {
      * Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
-    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
-        currentBrowser.goToUrl(url.toAbsoluteString());
-        waitUntilAnimationFinish(currentBrowser);
-        return getNewPageInstance(currentBrowser, typeOfPage);
-    }
-
-    /**
-     * Fails if the new page content does not match content expected in a page of
-     * the type indicated by the parameter {@code typeOfPage}.
-     */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
+        waitUntilAnimationFinish(currentBrowser);
         try {
             Constructor<T> constructor = typeOfPage.getConstructor(Browser.class);
             T page = constructor.newInstance(currentBrowser);
             PageFactory.initElements(currentBrowser.driver, page);
+            page.waitForPageToLoad();
             return page;
         } catch (Exception e) {
             throw new RuntimeException(e);

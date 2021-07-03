@@ -174,7 +174,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
-        return AppPage.getNewPageInstance(browser, url, typeOfPage);
+        browser.goToUrl(url.toAbsoluteString());
+        return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
     /**
