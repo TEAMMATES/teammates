@@ -351,7 +351,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
             };
             const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
                 tabModel.course.courseId === session.courseId);
-            if (courseModel) {
+            if (courseModel && courseModel.isTabExpanded) {
               courseModel.sessionsTableRowModels.push(model);
             }
           });
