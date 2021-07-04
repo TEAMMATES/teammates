@@ -9,9 +9,7 @@ import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.InstructorSearchResultBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.StudentSearchResultBundle;
 import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -27,7 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.SearchNotImplementedException;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -63,7 +61,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public AccountAttributes getAccount(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return accountsLogic.getAccount(googleId);
     }
@@ -84,7 +82,7 @@ public class Logic {
     public StudentProfileAttributes updateOrCreateStudentProfile(StudentProfileAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException {
 
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return profilesLogic.updateOrCreateStudentProfile(updateOptions);
     }
@@ -101,7 +99,7 @@ public class Logic {
      */
     public void deleteAccountCascade(String googleId) {
 
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         accountsLogic.deleteAccountCascade(googleId);
     }
@@ -118,7 +116,7 @@ public class Logic {
      */
     public InstructorAttributes createInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(instructor);
+        assert instructor != null;
 
         return instructorsLogic.createInstructor(instructor);
     }
@@ -129,8 +127,9 @@ public class Logic {
      * search instructors in the whole system.
      * @return Null if no match found.
      */
-    public InstructorSearchResultBundle searchInstructorsInWholeSystem(String queryString) {
-        Assumption.assertNotNull(queryString);
+    public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
+        assert queryString != null;
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
     }
@@ -151,8 +150,8 @@ public class Logic {
      */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         return instructorsLogic.getInstructorForEmail(courseId, email);
     }
@@ -164,8 +163,8 @@ public class Logic {
      */
     public InstructorAttributes getInstructorById(String courseId, String email) {
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         return instructorsLogic.getInstructorById(courseId, email);
     }
@@ -177,8 +176,8 @@ public class Logic {
      */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
 
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
+        assert googleId != null;
+        assert courseId != null;
 
         return instructorsLogic.getInstructorForGoogleId(courseId, googleId);
     }
@@ -190,7 +189,7 @@ public class Logic {
      */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
 
-        Assumption.assertNotNull(encryptedKey);
+        assert encryptedKey != null;
 
         return instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
     }
@@ -202,14 +201,14 @@ public class Logic {
      */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
 
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return instructorsLogic.getInstructorsForGoogleId(googleId);
     }
 
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
 
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         return instructorsLogic.getInstructorsForGoogleId(googleId, omitArchived);
     }
@@ -221,7 +220,7 @@ public class Logic {
      */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
 
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return instructorsLogic.getInstructorsForCourse(courseId);
     }
@@ -245,7 +244,7 @@ public class Logic {
      */
     public InstructorAttributes updateInstructorCascade(InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return instructorsLogic.updateInstructorByGoogleIdCascade(updateOptions);
     }
@@ -262,7 +261,7 @@ public class Logic {
      */
     public InstructorAttributes updateInstructor(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return instructorsLogic.updateInstructorByEmail(updateOptions);
     }
@@ -276,8 +275,8 @@ public class Logic {
     public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(encryptedKey);
+        assert googleId != null;
+        assert encryptedKey != null;
 
         return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute, mac);
     }
@@ -291,7 +290,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void downgradeInstructorToStudentCascade(String googleId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
 
         accountsLogic.downgradeInstructorToStudentCascade(googleId);
     }
@@ -306,8 +305,8 @@ public class Logic {
      */
     public void deleteInstructorCascade(String courseId, String email) {
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         instructorsLogic.deleteInstructorCascade(courseId, email);
     }
@@ -321,8 +320,8 @@ public class Logic {
      */
     public void createCourseAndInstructor(String instructorGoogleId, CourseAttributes courseAttributes)
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Assumption.assertNotNull(instructorGoogleId);
-        Assumption.assertNotNull(courseAttributes);
+        assert instructorGoogleId != null;
+        assert courseAttributes != null;
 
         coursesLogic.createCourseAndInstructor(instructorGoogleId, courseAttributes);
     }
@@ -334,7 +333,7 @@ public class Logic {
      */
     public CourseAttributes getCourse(String courseId) {
 
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return coursesLogic.getCourse(courseId);
     }
@@ -344,7 +343,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<CourseAttributes> getCoursesForStudentAccount(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
         return coursesLogic.getCoursesForStudentAccount(googleId);
     }
 
@@ -356,7 +355,7 @@ public class Logic {
      */
     public List<CourseAttributes> getCoursesForInstructor(List<InstructorAttributes> instructorList) {
 
-        Assumption.assertNotNull(instructorList);
+        assert instructorList != null;
         return coursesLogic.getCoursesForInstructor(instructorList);
     }
 
@@ -368,7 +367,7 @@ public class Logic {
      */
     public List<CourseAttributes> getSoftDeletedCoursesForInstructors(List<InstructorAttributes> instructorList) {
 
-        Assumption.assertNotNull(instructorList);
+        assert instructorList != null;
         return coursesLogic.getSoftDeletedCoursesForInstructors(instructorList);
     }
 
@@ -386,7 +385,7 @@ public class Logic {
      */
     public CourseAttributes updateCourseCascade(CourseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return coursesLogic.updateCourseCascade(updateOptions);
     }
@@ -404,9 +403,8 @@ public class Logic {
     public void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(archiveStatus);
+        assert googleId != null;
+        assert courseId != null;
 
         instructorsLogic.setArchiveStatusOfInstructor(googleId, courseId, archiveStatus);
     }
@@ -420,7 +418,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void deleteCourseCascade(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         coursesLogic.deleteCourseCascade(courseId);
     }
 
@@ -433,7 +431,7 @@ public class Logic {
      * @return the deletion timestamp assigned to the course.
      */
     public Instant moveCourseToRecycleBin(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         return coursesLogic.moveCourseToRecycleBin(courseId);
     }
 
@@ -446,7 +444,7 @@ public class Logic {
      */
     public void restoreCourseFromRecycleBin(String courseId)
             throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         coursesLogic.restoreCourseFromRecycleBin(courseId);
     }
@@ -457,9 +455,10 @@ public class Logic {
      *                      used for filtering of search result
      * @return Null if no match found
      */
-    public StudentSearchResultBundle searchStudents(String queryString, List<InstructorAttributes> instructors) {
-        Assumption.assertNotNull(queryString);
-        Assumption.assertNotNull(instructors);
+    public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
+            throws SearchNotImplementedException {
+        assert queryString != null;
+        assert instructors != null;
         return studentsLogic.searchStudents(queryString, instructors);
     }
 
@@ -469,8 +468,9 @@ public class Logic {
      * search students in the whole system.
      * @return Null if no match found.
      */
-    public StudentSearchResultBundle searchStudentsInWholeSystem(String queryString) {
-        Assumption.assertNotNull(queryString);
+    public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
+            throws SearchNotImplementedException {
+        assert queryString != null;
 
         return studentsLogic.searchStudentsInWholeSystem(queryString);
     }
@@ -482,7 +482,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
-        Assumption.assertNotNull(registrationKey);
+        assert registrationKey != null;
         return studentsLogic.getStudentForRegistrationKey(registrationKey);
     }
 
@@ -493,8 +493,8 @@ public class Logic {
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         return studentsLogic.getStudentForEmail(courseId, email);
     }
@@ -506,8 +506,8 @@ public class Logic {
      * @return Null if no match found.
      */
     public StudentAttributes getStudentForGoogleId(String courseId, String googleId) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(googleId);
+        assert courseId != null;
+        assert googleId != null;
 
         return studentsLogic.getStudentForCourseIdAndGoogleId(courseId, googleId);
     }
@@ -521,7 +521,7 @@ public class Logic {
      * @return null if no match found.
      */
     public StudentProfileAttributes getStudentProfile(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
         return profilesLogic.getStudentProfile(googleId);
     }
 
@@ -532,7 +532,7 @@ public class Logic {
      * @return Empty list if no match found.
      */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
-        Assumption.assertNotNull(googleId);
+        assert googleId != null;
         return studentsLogic.getStudentsForGoogleId(googleId);
     }
 
@@ -542,7 +542,7 @@ public class Logic {
      * @return Empty list if none found.
      */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         return studentsLogic.getStudentsForCourse(courseId);
     }
 
@@ -555,7 +555,7 @@ public class Logic {
      * @see CoursesLogic#getSectionsNameForCourse(String)
      */
     public List<String> getSectionNamesForCourse(String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         return coursesLogic.getSectionsNameForCourse(courseId);
     }
 
@@ -574,8 +574,8 @@ public class Logic {
      */
     public void populateFieldsToGenerateInQuestion(FeedbackQuestionAttributes feedbackQuestionAttributes,
             String emailOfEntityDoingQuestion, String teamOfEntityDoingQuestion) {
-        Assumption.assertNotNull(feedbackQuestionAttributes);
-        Assumption.assertNotNull(emailOfEntityDoingQuestion);
+        assert feedbackQuestionAttributes != null;
+        assert emailOfEntityDoingQuestion != null;
 
         feedbackQuestionsLogic.populateFieldsToGenerateInQuestion(
                 feedbackQuestionAttributes, emailOfEntityDoingQuestion, teamOfEntityDoingQuestion);
@@ -588,8 +588,8 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void resetStudentGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(courseId);
+        assert originalEmail != null;
+        assert courseId != null;
 
         studentsLogic.resetStudentGoogleId(originalEmail, courseId);
     }
@@ -605,8 +605,8 @@ public class Logic {
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
             throws EntityDoesNotExistException, RegenerateStudentException {
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(email);
+        assert courseId != null;
+        assert email != null;
 
         return studentsLogic.regenerateStudentRegistrationKey(courseId, email);
     }
@@ -615,8 +615,8 @@ public class Logic {
      * Resets the associated googleId of an instructor.
      */
     public void resetInstructorGoogleId(String originalEmail, String courseId) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(originalEmail);
-        Assumption.assertNotNull(courseId);
+        assert originalEmail != null;
+        assert courseId != null;
 
         instructorsLogic.resetInstructorGoogleId(originalEmail, courseId);
     }
@@ -630,8 +630,8 @@ public class Logic {
      */
     public StudentAttributes createStudent(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(student.getCourse());
-        Assumption.assertNotNull(student.getEmail());
+        assert student.getCourse() != null;
+        assert student.getEmail() != null;
 
         return studentsLogic.createStudent(student);
     }
@@ -657,7 +657,7 @@ public class Logic {
     public StudentAttributes updateStudentCascade(StudentAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return studentsLogic.updateStudentCascade(updateOptions);
     }
@@ -672,15 +672,15 @@ public class Logic {
     public StudentAttributes joinCourseForStudent(String key, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        Assumption.assertNotNull(googleId);
-        Assumption.assertNotNull(key);
+        assert googleId != null;
+        assert key != null;
 
         return accountsLogic.joinCourseForStudent(key, googleId);
 
     }
 
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         return studentsLogic.getUnregisteredStudentsForCourse(courseId);
     }
 
@@ -691,8 +691,8 @@ public class Logic {
      */
     public boolean isFeedbackSessionCompletedByInstructor(FeedbackSessionAttributes fsa, String userEmail)
             throws EntityDoesNotExistException {
-        Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(userEmail);
+        assert fsa != null;
+        assert userEmail != null;
         return feedbackSessionsLogic.isFeedbackSessionCompletedByInstructor(fsa, userEmail);
     }
 
@@ -702,8 +702,8 @@ public class Logic {
      * <p> If there is no question for students, the feedback session is completed</p>
      */
     public boolean isFeedbackSessionCompletedByStudent(FeedbackSessionAttributes fsa, String userEmail) {
-        Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(userEmail);
+        assert fsa != null;
+        assert userEmail != null;
         return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, userEmail);
     }
 
@@ -716,8 +716,8 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void deleteStudentCascade(String courseId, String studentEmail) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(studentEmail);
+        assert courseId != null;
+        assert studentEmail != null;
 
         studentsLogic.deleteStudentCascade(courseId, studentEmail);
     }
@@ -729,7 +729,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void deleteStudentsInCourseCascade(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         studentsLogic.deleteStudentsInCourseCascade(courseId);
     }
@@ -744,8 +744,8 @@ public class Logic {
      */
     public void validateSectionsAndTeams(List<StudentAttributes> studentList, String courseId) throws EnrollException {
 
-        Assumption.assertNotNull(studentList);
-        Assumption.assertNotNull(courseId);
+        assert studentList != null;
+        assert courseId != null;
 
         studentsLogic.validateSectionsAndTeams(studentList, courseId);
     }
@@ -754,8 +754,8 @@ public class Logic {
      * Gets all students of a team.
      */
     public List<StudentAttributes> getStudentsForTeam(String teamName, String courseId) {
-        Assumption.assertNotNull(teamName);
-        Assumption.assertNotNull(courseId);
+        assert teamName != null;
+        assert courseId != null;
 
         return studentsLogic.getStudentsForTeam(teamName, courseId);
     }
@@ -779,7 +779,7 @@ public class Logic {
      */
     public FeedbackSessionAttributes createFeedbackSession(FeedbackSessionAttributes feedbackSession)
             throws EntityAlreadyExistsException, InvalidParametersException {
-        Assumption.assertNotNull(feedbackSession);
+        assert feedbackSession != null;
 
         return feedbackSessionsLogic.createFeedbackSession(feedbackSession);
     }
@@ -794,8 +794,8 @@ public class Logic {
      */
     public FeedbackSessionAttributes getFeedbackSession(String feedbackSessionName, String courseId) {
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackSessionsLogic.getFeedbackSession(feedbackSessionName, courseId);
     }
@@ -809,8 +809,8 @@ public class Logic {
      * @return null if not found.
      */
     public FeedbackSessionAttributes getFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackSessionsLogic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
@@ -820,7 +820,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
         return feedbackSessionsLogic.getFeedbackSessionsForCourse(courseId);
     }
 
@@ -831,7 +831,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public int getExpectedTotalSubmission(FeedbackSessionAttributes fsa) {
-        Assumption.assertNotNull(fsa);
+        assert fsa != null;
         return feedbackSessionsLogic.getExpectedTotalSubmission(fsa);
     }
 
@@ -842,7 +842,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public int getActualTotalSubmission(FeedbackSessionAttributes fsa) {
-        Assumption.assertNotNull(fsa);
+        assert fsa != null;
         return feedbackSessionsLogic.getActualTotalSubmission(fsa);
     }
 
@@ -851,7 +851,7 @@ public class Logic {
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsListForInstructor(
             List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
+        assert instructorList != null;
         return feedbackSessionsLogic.getFeedbackSessionsListForInstructor(instructorList);
     }
 
@@ -862,7 +862,7 @@ public class Logic {
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForInstructors(
             List<InstructorAttributes> instructorList) {
-        Assumption.assertNotNull(instructorList);
+        assert instructorList != null;
         return feedbackSessionsLogic.getSoftDeletedFeedbackSessionsListForInstructors(instructorList);
     }
 
@@ -874,7 +874,7 @@ public class Logic {
     public Map<String, String> getRecipientsOfQuestion(
             FeedbackQuestionAttributes question,
             @Nullable InstructorAttributes instructorGiver, @Nullable StudentAttributes studentGiver) {
-        Assumption.assertNotNull(question);
+        assert question != null;
 
         // we do not supply course roster here
         return feedbackQuestionsLogic.getRecipientsOfQuestion(question, instructorGiver, studentGiver, null);
@@ -886,7 +886,7 @@ public class Logic {
      *
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
-        Assumption.assertNotNull(feedbackQuestionId);
+        assert feedbackQuestionId != null;
         return feedbackQuestionsLogic.getFeedbackQuestion(feedbackQuestionId);
     }
 
@@ -896,8 +896,8 @@ public class Logic {
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForStudents(
             String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForStudents(feedbackSessionName, courseId);
     }
@@ -908,8 +908,8 @@ public class Logic {
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForInstructors(
             String feedbackSessionName, String courseId, String instructorEmail) throws EntityDoesNotExistException {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForInstructor(feedbackSessionName, courseId, instructorEmail);
     }
@@ -920,8 +920,8 @@ public class Logic {
      */
     public boolean hasStudentSubmittedFeedback(FeedbackSessionAttributes fsa, String studentEmail) {
 
-        Assumption.assertNotNull(fsa);
-        Assumption.assertNotNull(studentEmail);
+        assert fsa != null;
+        assert studentEmail != null;
 
         return feedbackSessionsLogic.isFeedbackSessionCompletedByStudent(fsa, studentEmail);
     }
@@ -940,7 +940,7 @@ public class Logic {
      */
     public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return feedbackSessionsLogic.updateFeedbackSession(updateOptions);
     }
@@ -958,8 +958,8 @@ public class Logic {
     public FeedbackSessionAttributes publishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackSessionsLogic.publishFeedbackSession(feedbackSessionName, courseId);
     }
@@ -978,8 +978,8 @@ public class Logic {
     public FeedbackSessionAttributes unpublishFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException, InvalidParametersException {
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackSessionsLogic.unpublishFeedbackSession(feedbackSessionName, courseId);
     }
@@ -992,8 +992,8 @@ public class Logic {
      */
     public void deleteFeedbackSessionCascade(String feedbackSessionName, String courseId) {
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         feedbackSessionsLogic.deleteFeedbackSessionCascade(feedbackSessionName, courseId);
     }
@@ -1004,8 +1004,8 @@ public class Logic {
     public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         feedbackSessionsLogic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
     }
@@ -1016,8 +1016,8 @@ public class Logic {
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
             throws InvalidParametersException, EntityDoesNotExistException {
 
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         feedbackSessionsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
     }
@@ -1033,7 +1033,7 @@ public class Logic {
      */
     public FeedbackQuestionAttributes createFeedbackQuestion(FeedbackQuestionAttributes feedbackQuestion)
             throws InvalidParametersException {
-        Assumption.assertNotNull(feedbackQuestion);
+        assert feedbackQuestion != null;
 
         return feedbackQuestionsLogic.createFeedbackQuestion(feedbackQuestion);
     }
@@ -1054,7 +1054,7 @@ public class Logic {
      */
     public FeedbackQuestionAttributes updateFeedbackQuestionCascade(FeedbackQuestionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return feedbackQuestionsLogic.updateFeedbackQuestionCascade(updateOptions);
     }
@@ -1068,7 +1068,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void deleteFeedbackQuestionCascade(String questionId) {
-        Assumption.assertNotNull(questionId);
+        assert questionId != null;
         feedbackQuestionsLogic.deleteFeedbackQuestionCascade(questionId);
     }
 
@@ -1090,8 +1090,8 @@ public class Logic {
      * * All parameters are non-null.
      */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForSession(String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         return feedbackQuestionsLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
     }
@@ -1100,8 +1100,8 @@ public class Logic {
      * Gets a set of giver identifiers that has at least one response under a feedback session.
      */
     public Set<String> getGiverSetThatAnswerFeedbackSession(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         return feedbackResponsesLogic.getGiverSetThatAnswerFeedbackSession(courseId, feedbackSessionName);
     }
@@ -1114,10 +1114,10 @@ public class Logic {
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, UserRole role,
             @Nullable String questionId, @Nullable String section) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(userEmail);
-        Assumption.assertNotNull(role);
+        assert feedbackSessionName != null;
+        assert courseId != null;
+        assert userEmail != null;
+        assert role != null;
 
         return feedbackSessionsLogic.getSessionResultsForUser(
                 feedbackSessionName, courseId, userEmail, role, questionId, section);
@@ -1128,8 +1128,8 @@ public class Logic {
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student) {
-        Assumption.assertNotNull(question);
-        Assumption.assertNotNull(student);
+        assert question != null;
+        assert student != null;
 
         return feedbackResponsesLogic.getFeedbackResponsesFromStudentOrTeamForQuestion(question, student);
     }
@@ -1139,15 +1139,15 @@ public class Logic {
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromInstructorForQuestion(
             FeedbackQuestionAttributes question, InstructorAttributes instructorAttributes) {
-        Assumption.assertNotNull(question);
-        Assumption.assertNotNull(instructorAttributes);
+        assert question != null;
+        assert instructorAttributes != null;
 
         return feedbackResponsesLogic.getFeedbackResponsesFromGiverForQuestion(
                 question.getFeedbackQuestionId(), instructorAttributes.getEmail());
     }
 
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackResponseId) {
-        Assumption.assertNotNull(feedbackResponseId);
+        assert feedbackResponseId != null;
         return feedbackResponsesLogic.getFeedbackResponse(feedbackResponseId);
     }
 
@@ -1163,7 +1163,7 @@ public class Logic {
      */
     public FeedbackResponseAttributes createFeedbackResponse(FeedbackResponseAttributes feedbackResponse)
             throws InvalidParametersException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(feedbackResponse);
+        assert feedbackResponse != null;
 
         return feedbackResponsesLogic.createFeedbackResponse(feedbackResponse);
     }
@@ -1192,7 +1192,7 @@ public class Logic {
      */
     public FeedbackResponseAttributes updateFeedbackResponseCascade(FeedbackResponseAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return feedbackResponsesLogic.updateFeedbackResponseCascade(updateOptions);
     }
@@ -1204,7 +1204,7 @@ public class Logic {
      * * All parameters are non-null.
      */
     public void deleteFeedbackResponseCascade(String responseId) {
-        Assumption.assertNotNull(responseId);
+        assert responseId != null;
         feedbackResponsesLogic.deleteFeedbackResponseCascade(responseId);
     }
 
@@ -1217,20 +1217,20 @@ public class Logic {
     public FeedbackResponseCommentAttributes createFeedbackResponseComment(
             FeedbackResponseCommentAttributes feedbackResponseComment)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        Assumption.assertNotNull(feedbackResponseComment);
+        assert feedbackResponseComment != null;
 
         return feedbackResponseCommentsLogic.createFeedbackResponseComment(feedbackResponseComment);
     }
 
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
-        Assumption.assertNotNull(feedbackResponseCommentId);
+        assert feedbackResponseCommentId != null;
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,
                                                                                       String giverEmail) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(giverEmail);
+        assert courseId != null;
+        assert giverEmail != null;
 
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
     }
@@ -1244,7 +1244,7 @@ public class Logic {
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
             String feedbackResponseId) {
-        Assumption.assertNotNull(feedbackResponseId);
+        assert feedbackResponseId != null;
 
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
     }
@@ -1262,7 +1262,7 @@ public class Logic {
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
             throws EntityDoesNotExistException, InvalidParametersException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         return feedbackResponseCommentsLogic.updateFeedbackResponseComment(updateOptions);
     }
@@ -1301,8 +1301,8 @@ public class Logic {
     }
 
     public String getSectionForTeam(String courseId, String teamName) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(teamName);
+        assert courseId != null;
+        assert teamName != null;
         return studentsLogic.getSectionForTeam(courseId, teamName);
     }
 
@@ -1334,15 +1334,15 @@ public class Logic {
     }
 
     public int getNumOfGeneratedChoicesForParticipantType(String courseId, FeedbackParticipantType generateOptionsFor) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(generateOptionsFor);
+        assert courseId != null;
+        assert generateOptionsFor != null;
         return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(student1Email);
-        Assumption.assertNotNull(student2Email);
+        assert courseId != null;
+        assert student1Email != null;
+        assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
 

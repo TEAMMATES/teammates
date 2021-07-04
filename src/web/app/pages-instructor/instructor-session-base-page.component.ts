@@ -173,16 +173,6 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Edits the feedback session.
-   */
-  editSession(model: SessionsTableRowModel): void {
-    this.navigationService.navigateByURLWithParamEncoding(
-        this.router,
-        '/web/instructor/sessions/edit',
-        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
-  }
-
-  /**
    * Creates list of copy session requests from params
    * @param model the source session model
    * @param result the result of the copy session modal

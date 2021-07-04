@@ -60,7 +60,15 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Run Backend Tests    
+      - name: Update Property File 
+        run: mv src/test/resources/test.ci-${{ matrix.os }}.properties src/test/resources/test.properties
+      - name: Run Solr search service
+        if: matrix.os == 'ubuntu-latest' # Docker does not work well on Windows env
+        run: |
+          docker run --name=tm_solr -d -p 8983:8983 solr:8.8.1
+          sleep 5
+          docker exec $(docker ps -qf "name=tm_solr") /bin/sh -c "$(cat ./solr.sh)"
+      - name: Run Backend Tests
         run: |
           ./gradlew createConfigs componentTests 
           ./gradlew jacocoReport
