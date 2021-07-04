@@ -63,6 +63,11 @@ exports[`InstructorStudentRecordsPageComponent should snap when student results 
         >
           Loading...
         </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
+        </div>
       </div>
     </tm-loading-spinner>
     
@@ -124,6 +129,11 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
         >
           Loading...
         </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
+        </div>
       </div>
     </tm-loading-spinner>
     
@@ -139,6 +149,11 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
         </div>
       </div>
     </tm-loading-spinner>
@@ -161,6 +176,11 @@ exports[`InstructorStudentRecordsPageComponent should snap with default fields 1
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
         </div>
       </div>
     </tm-loading-spinner>

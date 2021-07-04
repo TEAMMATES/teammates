@@ -32,6 +32,11 @@ exports[`StudentProfilePageComponent should snap when student profile is still l
         >
           Loading...
         </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
+        </div>
       </div>
     </tm-loading-spinner>
     
@@ -295,6 +300,11 @@ exports[`StudentProfilePageComponent should snap with default fields 1`] = `
           class="row text-secondary"
         >
           Loading...
+        </div>
+        <div
+          class="row text-secondary"
+        >
+          {{msg}}
         </div>
       </div>
     </tm-loading-spinner>
