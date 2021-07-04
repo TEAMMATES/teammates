@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.time.Instant;
 
 import com.google.cloud.tasks.v2.AppEngineHttpRequest;
+import com.google.cloud.tasks.v2.AppEngineRouting;
 import com.google.cloud.tasks.v2.CloudTasksClient;
 import com.google.cloud.tasks.v2.HttpMethod;
 import com.google.cloud.tasks.v2.QueueName;
@@ -34,6 +35,9 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
             AppEngineHttpRequest.Builder requestBuilder =
                     AppEngineHttpRequest.newBuilder()
+                            .setAppEngineRouting(AppEngineRouting.newBuilder()
+                                    .setVersion(Config.APP_VERSION)
+                                    .build())
                             .setHttpMethod(HttpMethod.POST);
 
             if (task.getRequestBody() == null) {
