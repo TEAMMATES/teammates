@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -333,6 +334,7 @@ public final class StudentsLogic {
     public void deleteStudentsInCourseCascade(String courseId) {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
+            RequestTracer.checkRemainingTime();
             deleteStudentCascade(courseId, student.email);
         }
     }
