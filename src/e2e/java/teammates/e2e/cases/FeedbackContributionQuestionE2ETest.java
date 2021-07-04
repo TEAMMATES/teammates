@@ -35,6 +35,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 

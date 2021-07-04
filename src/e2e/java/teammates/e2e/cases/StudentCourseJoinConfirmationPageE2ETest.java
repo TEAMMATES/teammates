@@ -33,9 +33,8 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(invalidEncryptedKey)
                 .withCourseId(courseId)
-                .withEntityType(Const.EntityType.STUDENT)
-                .withUserId(newStudent.googleId);
-        ErrorReportingModal errorPage = loginAdminToPage(joinLink, ErrorReportingModal.class);
+                .withEntityType(Const.EntityType.STUDENT);
+        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newStudent.googleId);
 
         errorPage.verifyErrorMessage("No student with given registration key: " + invalidEncryptedKey);
 
@@ -43,9 +42,8 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(getKeyForStudent(newStudent))
                 .withCourseId(courseId)
-                .withEntityType(Const.EntityType.STUDENT)
-                .withUserId(newStudent.googleId);
-        CourseJoinConfirmationPage confirmationPage = loginAdminToPage(joinLink, CourseJoinConfirmationPage.class);
+                .withEntityType(Const.EntityType.STUDENT);
+        CourseJoinConfirmationPage confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
         confirmationPage.verifyJoiningUser(newStudent.googleId);
         confirmationPage.confirmJoinCourse(StudentHomePage.class);

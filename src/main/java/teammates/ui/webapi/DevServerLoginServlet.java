@@ -58,9 +58,8 @@ public class DevServerLoginServlet extends AuthServlet {
         if (email == null) {
             return;
         }
-        boolean isAdmin = "on".equalsIgnoreCase(req.getParameter("isAdmin"));
 
-        UserInfoCookie uic = new UserInfoCookie(email.replaceFirst("@gmail\\.com$", ""), isAdmin);
+        UserInfoCookie uic = new UserInfoCookie(email.replaceFirst("@gmail\\.com$", ""));
         Cookie cookie = getLoginCookie(uic);
         resp.addCookie(cookie);
 
