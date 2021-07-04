@@ -26,7 +26,7 @@
 </div>
 
 <tm-loading-retry [shouldShowRetry]="hasCoursesLoadingFailed" [message]="'Something went wrong'" (retryEvent)="loadCourses()">
-  <div *tmIsLoading="!hasCoursesLoaded">
+  <div *tmIsLoading="!hasCoursesLoaded || isCopyLoading">
     <div *ngIf="courseTabModels.length > 0">
       <div id="course-tab" class="card" *ngFor="let courseTabModel of courseTabModels; let idx = index">
         <div id="course-tab-header" class="card-header bg-primary text-white cursor-pointer" (click)="courseTabModel.isTabExpanded = handleClick($event, courseTabModel); this.loadFeedbackSessions(idx);">
