@@ -49,23 +49,22 @@ public class RequestTraceFilter implements Filter {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");
 
-        if (Config.MAINTENANCE) {
-            throwError(response, HttpStatus.SC_SERVICE_UNAVAILABLE,
-                    "The server is currently undergoing some maintenance.");
-            return;
-        }
-
         HttpServletRequest request = (HttpServletRequest) req;
 
-        try {
-            // Make sure that all parameters are valid UTF-8
-            request.getParameterMap();
-        } catch (RuntimeException e) {
-            if (e.getClass().getSimpleName().equals("BadMessageException")) {
-                throwError(response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
-                return;
+        String requestId = request.getHeader("X-Cloud-Trace-Context");
+        String[] traceIds = new String[] { null, null };
+        if (requestId == null) {
+            // Generate random hexadecimal string of length 32
+            byte[] resBuf = new byte[16];
+            new Random().nextBytes(resBuf);
+            traceIds[0] = Hex.encodeHexString(resBuf);
+        } else {
+            // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
+            String[] traceAndSpan = requestId.split("/", 2);
+            traceIds[0] = traceAndSpan[0];
+            if (traceAndSpan.length == 2) {
+                traceIds[1] = traceAndSpan[1].split(";")[0];
             }
-            throw e;
         }
 
         // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
@@ -78,37 +77,41 @@ public class RequestTraceFilter implements Filter {
         // For user-invoked requests, we keep the time limit at 1 minute (as how it was
         // in the previous GAE runtime environment) in order to not let user wait for excessively long,
         // as well as a reminder for us to keep optimizing our API response time.
-        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 60;
+        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 10;
+
+        RequestTracer.init(traceIds[0], traceIds[1], timeoutInSeconds);
+
+        Map<String, Object> requestDetails = new HashMap<>();
+        requestDetails.put("requestMethod", request.getMethod());
+        requestDetails.put("requestUrl", request.getRequestURI());
+        requestDetails.put("userAgent", request.getHeader("User-Agent"));
+        requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
+        requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
+
+        String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
+        log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
+
+        if (Config.MAINTENANCE) {
+            throwError(response, HttpStatus.SC_SERVICE_UNAVAILABLE,
+                    "The server is currently undergoing some maintenance.");
+            return;
+        }
+
+        try {
+            // Make sure that all parameters are valid UTF-8
+            request.getParameterMap();
+        } catch (RuntimeException e) {
+            if (e.getClass().getSimpleName().equals("BadMessageException")) {
+                throwError(response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+                return;
+            }
+            throw e;
+        }
 
         ExecutorService es = Executors.newSingleThreadExecutor();
         Future<Void> f = es.submit(() -> {
-            String requestId = request.getHeader("X-Cloud-Trace-Context");
-            String traceId;
-            String spanId = null;
-            if (requestId == null) {
-                // Generate random hexadecimal string of length 32
-                byte[] resBuf = new byte[16];
-                new Random().nextBytes(resBuf);
-                traceId = Hex.encodeHexString(resBuf);
-            } else {
-                // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
-                String[] traceAndSpan = requestId.split("/", 2);
-                traceId = traceAndSpan[0];
-                if (traceAndSpan.length == 2) {
-                    spanId = traceAndSpan[1].split(";")[0];
-                }
-            }
-            RequestTracer.init(traceId, spanId, timeoutInSeconds);
-
-            Map<String, Object> requestDetails = new HashMap<>();
-            requestDetails.put("requestMethod", request.getMethod());
-            requestDetails.put("requestUrl", request.getRequestURI());
-            requestDetails.put("userAgent", request.getHeader("User-Agent"));
-            requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
-            requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
-
-            String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
-            log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
+            // Need to init again as this block runs in different thread
+            RequestTracer.init(traceIds[0], traceIds[1], timeoutInSeconds);
 
             chain.doFilter(req, resp);
             return null;
