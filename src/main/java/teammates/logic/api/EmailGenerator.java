@@ -372,6 +372,12 @@ public class EmailGenerator {
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
 
+        // if instructor hasn't joined yet, remind them to join before submitting feedback
+        String instructorJoinReminderFragment =
+                 instructor.isRegistered() // check if instructor has joined course
+                 ? ""
+                 : generateInstructorJoinReminderFragment(instructor);
+
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -379,7 +385,7 @@ public class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorFragment}", "",
+                "${instructorFragment}", instructorJoinReminderFragment,
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
@@ -391,6 +397,20 @@ public class EmailGenerator {
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
         return email;
+    }
+
+    private String generateInstructorJoinReminderFragment(InstructorAttributes instructor) {
+        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
+
+        // todo this template needs checking
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
+                "${feedbackAction}", joinUrl,
+                "${courseJoinFragment}", ""
+                );
     }
 
     /**
@@ -772,6 +792,7 @@ public class EmailGenerator {
     }
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
+        // can this be abstracted into a function getInstructorJoinUrl() to avoid duplication
         String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
