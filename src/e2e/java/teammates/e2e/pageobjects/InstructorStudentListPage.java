@@ -25,7 +25,7 @@ public class InstructorStudentListPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Student List");
+        return getPageSource().contains("Students");
     }
 
     private List<WebElement> getCoursesTabs() {
