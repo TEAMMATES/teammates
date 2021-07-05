@@ -34,13 +34,6 @@ interface QueryParams {
 }
 
 /**
- * Model for storing logs in pages.
- */
-interface LogPages {
-  logResult: LogsTableRowModel[];
-}
-
-/**
  * Admin and maintainer logs page.
  */
 @Component({
@@ -64,8 +57,6 @@ export class LogsPageComponent implements OnInit {
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
-  pageResults: LogPages[] = [];
-  currentPageNumber: number = 0;
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
@@ -99,10 +90,14 @@ export class LogsPageComponent implements OnInit {
   }
 
   searchForLogs(): void {
+    if (this.formModel.logsSeverity.size === 0) {
+      this.statusMessageService.showErrorToast('Please select at least one severity level');
+      return;
+    }
+
+    this.hasResult = false;
     this.isSearching = true;
     this.searchResults = [];
-    this.pageResults = [];
-    this.currentPageNumber = 0;
     this.nextPageToken = '';
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
@@ -132,7 +127,6 @@ export class LogsPageComponent implements OnInit {
       ? generalLogs.nextPageToken
       : '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
-    this.pageResults.push({ logResult: this.searchResults });
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -195,21 +189,8 @@ export class LogsPageComponent implements OnInit {
       .replace(/\t/g, '&#9;');
   }
 
-  getPreviousPageLogs(): void {
-    if (this.currentPageNumber > 0) {
-      this.currentPageNumber = this.currentPageNumber - 1;
-      this.searchResults = this.pageResults[this.currentPageNumber].logResult;
-    }
-  }
-
   getNextPageLogs(): void {
-    this.currentPageNumber = this.currentPageNumber + 1;
-    if (this.pageResults.length > this.currentPageNumber) {
-      this.searchResults = this.pageResults[this.currentPageNumber].logResult;
-      return;
-    }
     this.isSearching = true;
-    this.searchResults = [];
     this.previousQueryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.previousQueryParams)
       .pipe(finalize(() => this.isSearching = false))

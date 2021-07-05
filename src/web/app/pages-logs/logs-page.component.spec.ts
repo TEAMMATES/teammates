@@ -107,17 +107,12 @@ describe('LogsPageComponent', () => {
     expect(component.searchResults.length).toEqual(1);
   });
 
-  it('should disable previous button if at first page', () => {
-    component.currentPageNumber = 0;
-    fixture.detectChanges();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#previous-button');
-    expect(button.disabled).toBeTruthy();
-  });
-
-  it('should disable next button if there is no next page token', () => {
+  it('should disable load button if there is no next page token', () => {
     component.nextPageToken = '';
+    component.isSearching = false;
+    component.hasResult = true;
     fixture.detectChanges();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#next-button');
+    const button: any = fixture.debugElement.nativeElement.querySelector('#load-button');
     expect(button.disabled).toBeTruthy();
   });
 });

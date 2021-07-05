@@ -17,7 +17,7 @@ const routes: Routes = [
 ];
 
 /**
- * Module for feedback session result page.
+ * Module for log page.
  */
 @NgModule({
   imports: [

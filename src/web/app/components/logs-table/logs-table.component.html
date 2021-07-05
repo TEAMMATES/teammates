@@ -1,21 +1,21 @@
 <div class="row" *ngIf="logs.length>0; else noLogMessage">
   <div class="col-12">
-    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px" style="table-layout: fixed; width: 100%; word-break: break-all;">
+    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px logs-table">
       <thead>
         <tr>
-          <th id="timestamp" style="width: 20%;">Timestamp</th>
-          <th id="severity" style="width: 10%;">Severity</th>
-          <th id="summary" style="width: 70%;">Summary</th>
+          <th id="timestamp" class="width-20">Timestamp</th>
+          <th id="severity" class="width-10">Severity</th>
+          <th id="summary" class="width-70">Summary</th>
         </tr>
       </thead>
       <tbody>
         <ng-container *ngFor="let log of logs">
-          <tr (click)="expandDetails(log)" class="table-secondary">
+          <tr (click)="expandDetails(log)" [ngClass]="getClassForSeverity(log.severity)">
             <td style="font-family: monospace;">{{ log.timestamp }}</td>
             <td>{{ log.severity }}</td>
             <td>
-              <span class="right-padding" *ngIf="log.httpStatus" [style]="getStyleForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
-              <span class="right-padding" *ngIf="log.responseTime" style="color: blue;">{{ log.responseTime }}ms</span>
+              <span class="right-padding" *ngIf="log.httpStatus" [ngClass]="getClassForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
+              <span class="right-padding blue-font" *ngIf="log.responseTime">{{ log.responseTime }}ms</span>
               {{ log.summary }}
             </td>
           </tr>

@@ -58,13 +58,9 @@
   </div>
 </div>
 
-<div *tmIsLoading="isSearching">
-  <div *ngIf="hasResult">
-    <tm-logs-table [logs]="searchResults"></tm-logs-table>
+<div>
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults"></tm-logs-table>
+  <div *tmIsLoading="isSearching" class="center">
+    <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>
-</div>
-
-<div class="previous-next">
-  <button id="previous-button" class="btn btn-default" (click)="getPreviousPageLogs()" [disabled]="currentPageNumber === 0">&#8249; Previous</button>
-  <button id="next-button" class="btn btn-default" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Next &#8250;</button>
 </div>
