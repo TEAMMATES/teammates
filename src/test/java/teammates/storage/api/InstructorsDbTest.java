@@ -25,7 +25,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class InstructorsDbTest extends BaseComponentTestCase {
 
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
     private DataBundle dataBundle;
 
     @BeforeMethod

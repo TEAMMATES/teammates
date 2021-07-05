@@ -23,7 +23,7 @@ public final class AccountsLogic {
 
     private static AccountsLogic instance = new AccountsLogic();
 
-    private static final AccountsDb accountsDb = new AccountsDb();
+    private final AccountsDb accountsDb = AccountsDb.inst();
 
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();

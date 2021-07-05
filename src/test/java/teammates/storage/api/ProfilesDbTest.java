@@ -14,7 +14,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class ProfilesDbTest extends BaseComponentTestCase {
 
-    private ProfilesDb profilesDb = new ProfilesDb();
+    private final ProfilesDb profilesDb = ProfilesDb.inst();
 
     private StudentProfileAttributes typicalProfileWithPicture;
     private StudentProfileAttributes typicalProfileWithoutPicture;

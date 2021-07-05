@@ -31,7 +31,7 @@ public final class FeedbackResponsesLogic {
 
     private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
 
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
 
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();

@@ -18,7 +18,17 @@ import teammates.storage.entity.StudentProfile;
  * @see StudentProfile
  * @see StudentProfileAttributes
  */
-public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttributes> {
+public final class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttributes> {
+
+    private static final ProfilesDb instance = new ProfilesDb();
+
+    private ProfilesDb() {
+        // prevent initialization
+    }
+
+    public static ProfilesDb inst() {
+        return instance;
+    }
 
     /**
      * Gets the student profile associated with {@code accountGoogleId}.

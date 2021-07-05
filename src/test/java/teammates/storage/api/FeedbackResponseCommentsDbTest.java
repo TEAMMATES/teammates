@@ -25,7 +25,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
-    private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
     private DataBundle dataBundle;
     private FeedbackResponseCommentAttributes frcaData;

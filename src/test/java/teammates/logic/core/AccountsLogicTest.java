@@ -21,7 +21,7 @@ import teammates.test.AssertHelper;
 public class AccountsLogicTest extends BaseLogicTest {
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final AccountsDb accountsDb = new AccountsDb();
+    private final AccountsDb accountsDb = AccountsDb.inst();
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();

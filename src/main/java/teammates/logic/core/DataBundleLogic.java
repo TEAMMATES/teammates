@@ -40,17 +40,17 @@ import teammates.storage.api.StudentsDb;
  */
 public final class DataBundleLogic {
 
-    private static final AccountsDb accountsDb = new AccountsDb();
-    private static final ProfilesDb profilesDb = new ProfilesDb();
-    private static final CoursesDb coursesDb = new CoursesDb();
-    private static final StudentsDb studentsDb = new StudentsDb();
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
-
     private static DataBundleLogic instance = new DataBundleLogic();
+
+    private final AccountsDb accountsDb = AccountsDb.inst();
+    private final ProfilesDb profilesDb = ProfilesDb.inst();
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final StudentsDb studentsDb = StudentsDb.inst();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
+    private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
+    private final FeedbackResponseCommentsDb fcDb = FeedbackResponseCommentsDb.inst();
 
     private DataBundleLogic() {
         // prevent initialization

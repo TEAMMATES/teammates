@@ -11,7 +11,7 @@ public final class ProfilesLogic {
 
     private static ProfilesLogic instance = new ProfilesLogic();
 
-    private static final ProfilesDb profilesDb = new ProfilesDb();
+    private final ProfilesDb profilesDb = ProfilesDb.inst();
 
     private ProfilesLogic() {
         // prevent initialization

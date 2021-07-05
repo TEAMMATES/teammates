@@ -41,7 +41,7 @@ public final class CoursesLogic {
      * other entity types.
      */
 
-    private static final CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
     private static final AccountsLogic accountsLogic = AccountsLogic.inst();
     private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();

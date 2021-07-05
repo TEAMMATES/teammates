@@ -31,7 +31,7 @@ public final class FeedbackResponseCommentsLogic {
 
     private static FeedbackResponseCommentsLogic instance = new FeedbackResponseCommentsLogic();
 
-    private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();

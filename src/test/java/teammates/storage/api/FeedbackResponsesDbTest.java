@@ -31,8 +31,8 @@ import teammates.test.BaseComponentTestCase;
  */
 public class FeedbackResponsesDbTest extends BaseComponentTestCase {
 
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
     private DataBundle dataBundle;
     private Map<String, FeedbackResponseAttributes> fras;
 

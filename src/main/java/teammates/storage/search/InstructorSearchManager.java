@@ -18,8 +18,8 @@ import teammates.storage.api.InstructorsDb;
  */
 public class InstructorSearchManager extends SearchManager<InstructorAttributes> {
 
-    private final CoursesDb coursesDb = new CoursesDb();
-    private final InstructorsDb instructorsDb = new InstructorsDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
     public InstructorSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);

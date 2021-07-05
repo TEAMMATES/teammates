@@ -22,7 +22,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class StudentsDbTest extends BaseComponentTestCase {
 
-    private StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     @Test
     public void testTimestamp() throws Exception {

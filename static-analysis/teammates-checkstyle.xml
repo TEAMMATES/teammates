@@ -115,7 +115,7 @@
             <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
         </module>
         <module name="ConstantName">
-            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|.*(Db|Logic)|dataBundle|gaeSimulation|dummySessionToken)$"/>
+            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|instance|.*(Logic))$"/>
         </module>
         <module name="RegexpSinglelineJava">
             <property name="format" value="\s+$"/>
@@ -183,7 +183,7 @@
             <property name="scope" value="public"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="tokens" value="METHOD_DEF"/>
-            <property name="ignoreMethodNamesRegex" value="main"/>
+            <property name="ignoreMethodNamesRegex" value="main|inst"/>
         </module>
         <module name="JavadocContentLocationCheck"/>
         <module name="JavadocMissingWhitespaceAfterAsteriskCheck"/>

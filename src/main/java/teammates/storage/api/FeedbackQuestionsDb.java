@@ -20,7 +20,17 @@ import teammates.storage.entity.FeedbackQuestion;
  * @see FeedbackQuestion
  * @see FeedbackQuestionAttributes
  */
-public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
+public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQuestionAttributes> {
+
+    private static final FeedbackQuestionsDb instance = new FeedbackQuestionsDb();
+
+    private FeedbackQuestionsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackQuestionsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a feedback question by using {@code feedbackQuestionId}.

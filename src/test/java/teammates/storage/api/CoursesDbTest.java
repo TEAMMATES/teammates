@@ -21,7 +21,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class CoursesDbTest extends BaseComponentTestCase {
 
-    private CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
     @Test
     public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {

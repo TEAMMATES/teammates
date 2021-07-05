@@ -56,7 +56,7 @@ public final class FeedbackSessionsLogic {
 
     private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
 
     private static final CoursesLogic coursesLogic = CoursesLogic.inst();
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();

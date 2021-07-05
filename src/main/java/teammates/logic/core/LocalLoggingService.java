@@ -24,7 +24,7 @@ public class LocalLoggingService implements LogService {
     private static final StudentsLogic studentsLogic = StudentsLogic.inst();
     private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
-    private static final List<FeedbackSessionLogEntry> feedbackSessionLogEntriesDb = new ArrayList<>();
+    private static final List<FeedbackSessionLogEntry> LOCAL_LOG_ENTRIES = new ArrayList<>();
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
@@ -46,13 +46,13 @@ public class LocalLoggingService implements LogService {
 
         FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(student, feedbackSession,
                 fslType, Instant.now().toEpochMilli());
-        feedbackSessionLogEntriesDb.add(logEntry);
+        LOCAL_LOG_ENTRIES.add(logEntry);
     }
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) {
-        return feedbackSessionLogEntriesDb
+        return LOCAL_LOG_ENTRIES
                 .stream()
                 .filter(log -> log.getFeedbackSession().getCourseId().equals(courseId))
                 .filter(log -> email == null || log.getStudent().getEmail().equals(email))

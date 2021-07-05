@@ -20,7 +20,7 @@ import teammates.test.TestProperties;
  */
 public class InstructorSearchTest extends BaseSearchTest {
 
-    private final InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
     @Test
     public void allTests() throws Exception {

@@ -16,7 +16,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class AccountsDbTest extends BaseComponentTestCase {
 
-    private AccountsDb accountsDb = new AccountsDb();
+    private final AccountsDb accountsDb = AccountsDb.inst();
 
     @Test
     public void testGetAccount() throws Exception {

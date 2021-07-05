@@ -20,7 +20,7 @@ import teammates.test.BaseComponentTestCase;
 public class EntitiesDbTest extends BaseComponentTestCase {
 
     // We are using CoursesDb to test EntitiesDb here.
-    private CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
     @Test
     public void testCreateEntity() throws Exception {

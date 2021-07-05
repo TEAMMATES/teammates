@@ -31,7 +31,7 @@ import teammates.test.BaseComponentTestCase;
  */
 public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
     private DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeMethod

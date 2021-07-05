@@ -26,7 +26,7 @@ import teammates.test.BaseComponentTestCase;
  * SUT: {@link FeedbackQuestionsDb}.
  */
 public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
     @Test
     public void testTimestamp() throws Exception {

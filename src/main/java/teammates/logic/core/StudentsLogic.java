@@ -36,7 +36,7 @@ public final class StudentsLogic {
 
     private static StudentsLogic instance = new StudentsLogic();
 
-    private static final StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
