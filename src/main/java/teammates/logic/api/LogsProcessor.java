@@ -5,7 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.QueryResults;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.logic.core.GoogleCloudLoggingService;
@@ -40,8 +40,8 @@ public class LogsProcessor {
     /**
      * Queries and retrieve logs with given parameter and returns the results in {@code Page}.
      */
-    public QueryResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                  Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                      Integer pageSize, String pageToken) {
         return service.queryLogs(severities, startTime, endTime, pageSize, pageToken);
     }
 

@@ -9,7 +9,7 @@ import com.google.cloud.logging.Payload;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
-import teammates.common.datatransfer.QueryResults;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.logic.api.LogsProcessor;
@@ -82,8 +82,8 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public QueryResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                  Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                      Integer pageSize, String pageToken) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         this.generalLogs.forEach(entry -> {
             if (severities.contains(entry.getSeverity())
@@ -92,7 +92,7 @@ public class MockLogsProcessor extends LogsProcessor {
                 queryResults.add(entry);
             }
         });
-        return new QueryResults(queryResults, null);
+        return new QueryLogsResults(queryResults, null);
     }
 
     @Override

@@ -9,7 +9,7 @@ import org.apache.http.HttpStatus;
 
 import com.google.logging.type.LogSeverity;
 
-import teammates.common.datatransfer.QueryResults;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
@@ -31,28 +31,31 @@ public class QueryLogsAction extends AdminOnlyAction {
     ActionResult execute() {
         String severitiesStr;
 
-        try {
-            severitiesStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
-        } catch (NullHttpParameterException e) {
+        severitiesStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
+        if (severitiesStr == null) {
             severitiesStr = DEFAULT_SEVERITIES;
         }
 
         Instant endTime;
         try {
-            String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
-            endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
-        } catch (NullHttpParameterException e) {
-            endTime = Instant.now();
+            String endTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
+            if (endTimeStr == null) {
+                endTime = Instant.now();
+            } else {
+                endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+            }
         } catch (NumberFormatException e) {
             return new JsonResult("Invalid end time", HttpStatus.SC_BAD_REQUEST);
         }
 
         Instant startTime;
         try {
-            String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.QUERY_LOGS_STARTTIME);
-            startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
-        } catch (NullHttpParameterException e) {
-            startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);
+            String startTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_STARTTIME);
+            if (startTimeStr == null) {
+                startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);
+            } else {
+                startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
+            }
         } catch (NumberFormatException e) {
             return new JsonResult("Invalid start time", HttpStatus.SC_BAD_REQUEST);
         }
@@ -62,14 +65,10 @@ public class QueryLogsAction extends AdminOnlyAction {
         }
 
         String nextPageToken;
-        try {
-            nextPageToken = getNonNullRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
-        } catch (NullHttpParameterException e) {
-            nextPageToken = null;
-        }
+        nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
 
         List<String> severities = this.parseSeverities(severitiesStr);
-        QueryResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
+        QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
         GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
         return new JsonResult(generalLogsData);
     }

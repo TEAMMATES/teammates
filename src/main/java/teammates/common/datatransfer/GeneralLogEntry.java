@@ -6,6 +6,10 @@ import org.json.JSONObject;
 
 import com.google.cloud.logging.Payload;
 
+/**
+ * This class represents a log entry of Google Cloud Logging and contains some of the fields
+ * that are more important for querying logs action and are of more interest to maintainers.
+ */
 public class GeneralLogEntry {
     private final String logName;
     private final String severity;
@@ -16,12 +20,8 @@ public class GeneralLogEntry {
     @Nullable
     private JSONObject jsonObject;
 
-    public GeneralLogEntry(String logName,
-                           String severity,
-                           String trace,
-                           SourceLocation sourceLocation,
-                           Payload<?> payload,
-                           long timestamp) {
+    public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
+                           Payload<?> payload, long timestamp) {
         this.logName = logName;
         this.severity = severity;
         this.trace = trace;
@@ -30,13 +30,8 @@ public class GeneralLogEntry {
         this.timestamp = timestamp;
     }
 
-    public GeneralLogEntry(String logName,
-                            String severity,
-                            String trace,
-                            SourceLocation sourceLocation,
-                            Payload<?> payload,
-                            long timestamp,
-                            JSONObject jsonObject) {
+    public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
+                            Payload<?> payload, long timestamp, JSONObject jsonObject) {
         this.logName = logName;
         this.severity = severity;
         this.trace = trace;
@@ -72,18 +67,6 @@ public class GeneralLogEntry {
 
     public JSONObject getJsonObject() {
         return jsonObject;
-    }
-
-    @Override
-    public String toString() {
-        return "{\n"
-                + "  LogName: " + logName + ",\n"
-                + "  Severity: " + severity + ",\n"
-                + "  Trace: " + trace + ",\n"
-                + "  SourceLocation: " + sourceLocation + ",\n"
-                + "  Payload: " + payload + ",\n"
-                + "  Timestamp: " + timestamp + "\n"
-                + "}";
     }
 
     public static class SourceLocation {

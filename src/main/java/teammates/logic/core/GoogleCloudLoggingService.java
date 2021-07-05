@@ -31,7 +31,7 @@ import com.google.protobuf.util.JsonFormat;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
-import teammates.common.datatransfer.QueryResults;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.LogServiceException;
@@ -67,7 +67,7 @@ public class GoogleCloudLoggingService implements LogService {
         Instant startTime = endTime.minusMillis(queryRange);
 
         LogSearchParams logSearchParams = new LogSearchParams()
-                .setLogName(REQUEST_LOG_NAME)
+                .addLogName(REQUEST_LOG_NAME)
                 .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
                 .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE)
                 .setMinSeverity(LogSeverity.ERROR)
@@ -119,11 +119,11 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                  Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                      Integer pageSize, String pageToken) {
         LogSearchParams logSearchParams = new LogSearchParams()
-                .setLogName(STDOUT_LOG_NAME)
-                .setLogName(STDERR_LOG_NAME)
+                .addLogName(STDOUT_LOG_NAME)
+                .addLogName(STDERR_LOG_NAME)
                 .setSeverities(severities)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
@@ -155,7 +155,7 @@ public class GoogleCloudLoggingService implements LogService {
                 logEntries.add(logEntry);
             }
             String nextPageToken = logEntriesInPage.getNextPageToken();
-            return new QueryResults(logEntries, nextPageToken);
+            return new QueryLogsResults(logEntries, nextPageToken);
         } catch (LogServiceException e) {
             Logger log = Logger.getLogger();
             log.warning(e.toString());
@@ -193,7 +193,7 @@ public class GoogleCloudLoggingService implements LogService {
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
-                .setLogName(FEEDBACK_SESSION_LOG_NAME)
+                .addLogName(FEEDBACK_SESSION_LOG_NAME)
                 .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
                 .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
                 .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName)
@@ -374,7 +374,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
 
-        public LogSearchParams setLogName(String logName) {
+        public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
             return this;
         }

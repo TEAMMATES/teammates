@@ -6,7 +6,7 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.GeneralLogEntry;
-import teammates.common.datatransfer.QueryResults;
+import teammates.common.datatransfer.QueryLogsResults;
 
 /**
  * The API output format for general logs for query action.
@@ -25,7 +25,7 @@ public class GeneralLogsData extends ApiOutput {
         this.nextPageToken = nextPageToken;
     }
 
-    public GeneralLogsData(QueryResults queryResults) {
+    public GeneralLogsData(QueryLogsResults queryResults) {
         this.logEntries = queryResults.getLogEntries();
         this.nextPageToken = queryResults.getNextPageToken();
     }

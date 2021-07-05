@@ -3,11 +3,14 @@ package teammates.common.datatransfer;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueryResults {
-    private List<GeneralLogEntry> logEntries = new ArrayList<>();
-    private String nextPageToken;
+/**
+ * This class contains the results of querying logs action.
+ */
+public class QueryLogsResults {
+    private final List<GeneralLogEntry> logEntries;
+    private final String nextPageToken;
 
-    public QueryResults(List<GeneralLogEntry> logEntries, String nextPageToken) {
+    public QueryLogsResults(List<GeneralLogEntry> logEntries, String nextPageToken) {
         this.logEntries = logEntries;
         this.nextPageToken = nextPageToken;
     }
