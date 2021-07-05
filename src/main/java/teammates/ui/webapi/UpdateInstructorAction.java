@@ -2,6 +2,7 @@ package teammates.ui.webapi;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
@@ -55,6 +56,7 @@ class UpdateInstructorAction extends Action {
                                 .withDisplayedName(instructorToEdit.displayedName)
                                 .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
                                 .withRole(instructorToEdit.role)
+                                .withPrivileges(new InstructorPrivileges(instructorToEdit.role))
                                 .build());
             } else {
                 updatedInstructor = logic.updateInstructorCascade(
@@ -65,6 +67,7 @@ class UpdateInstructorAction extends Action {
                                 .withDisplayedName(instructorToEdit.displayedName)
                                 .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
                                 .withRole(instructorToEdit.role)
+                                .withPrivileges(new InstructorPrivileges(instructorToEdit.role))
                                 .build());
             }
             InstructorData newInstructorData = new InstructorData(updatedInstructor);
