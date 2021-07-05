@@ -31,11 +31,11 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
     @Override
     public void testAll() {
         AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
-                .withUserId(testData.instructors.get("ICSDetEdit.instr").googleId)
                 .withCourseId(course.getId())
                 .withStudentEmail(student.email);
         InstructorCourseStudentDetailsEditPage editPage =
-                loginAdminToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+                loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
+                        testData.instructors.get("ICSDetEdit.instr").googleId);
 
         ______TS("verify loaded data");
         editPage.verifyStudentDetails(student);

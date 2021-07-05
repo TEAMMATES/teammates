@@ -66,8 +66,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(instructor.googleId);
-        InstructorHomePage homePage = loginAdminToPage(url, InstructorHomePage.class);
+        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
+        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.googleId);
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();

@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -18,7 +19,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
@@ -85,7 +86,10 @@ public class RequestTraceFilter implements Filter {
             String traceId;
             String spanId = null;
             if (requestId == null) {
-                traceId = RandomStringUtils.randomAlphanumeric(32);
+                // Generate random hexadecimal string of length 32
+                byte[] resBuf = new byte[16];
+                new Random().nextBytes(resBuf);
+                traceId = Hex.encodeHexString(resBuf);
             } else {
                 // X-Cloud-Trace-Context header is in form of TRACE_ID/SPAN_ID;o=TRACE_TRUE
                 String[] traceAndSpan = requestId.split("/", 2);
