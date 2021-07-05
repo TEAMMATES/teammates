@@ -19,9 +19,9 @@ import teammates.common.exception.InvalidParametersException;
  */
 public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     @Override
     protected void prepareTestData() {

@@ -55,14 +55,15 @@ public class EmailGenerator {
             "<p>No action is required if you have already submitted.</p>" + System.lineSeparator();
 
     private static final Logger log = Logger.getLogger();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
     private static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(90);
+
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     /**
      * Generates the feedback session opening emails for the given {@code session}.

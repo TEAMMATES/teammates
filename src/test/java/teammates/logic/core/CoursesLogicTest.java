@@ -27,15 +27,15 @@ import teammates.test.AssertHelper;
  */
 public class CoursesLogicTest extends BaseLogicTest {
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final CoursesDb coursesDb = CoursesDb.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     @Override
     protected void prepareTestData() {

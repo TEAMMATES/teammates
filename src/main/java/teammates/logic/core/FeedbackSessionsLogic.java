@@ -54,16 +54,16 @@ public final class FeedbackSessionsLogic {
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-    private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
+    private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
     private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
 
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private FeedbackSessionsLogic() {
         // prevent initialization

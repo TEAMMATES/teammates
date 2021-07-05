@@ -38,12 +38,12 @@ import teammates.test.AssertHelper;
  * SUT: {@link FeedbackSessionsLogic}.
  */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
-    private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {

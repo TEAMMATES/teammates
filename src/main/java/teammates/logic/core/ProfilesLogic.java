@@ -9,7 +9,7 @@ import teammates.storage.api.ProfilesDb;
  */
 public final class ProfilesLogic {
 
-    private static ProfilesLogic instance = new ProfilesLogic();
+    private static final ProfilesLogic instance = new ProfilesLogic();
 
     private final ProfilesDb profilesDb = ProfilesDb.inst();
 

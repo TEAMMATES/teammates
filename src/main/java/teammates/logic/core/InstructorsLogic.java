@@ -25,13 +25,13 @@ public final class InstructorsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static InstructorsLogic instance = new InstructorsLogic();
+    private static final InstructorsLogic instance = new InstructorsLogic();
 
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     private InstructorsLogic() {
         // prevent initialization

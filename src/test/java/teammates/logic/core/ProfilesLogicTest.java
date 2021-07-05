@@ -9,7 +9,7 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
  */
 public class ProfilesLogicTest extends BaseLogicTest {
 
-    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    private final ProfilesLogic profilesLogic = ProfilesLogic.inst();
 
     @Override
     protected void prepareTestData() {

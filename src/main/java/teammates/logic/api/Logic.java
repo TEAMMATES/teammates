@@ -44,17 +44,17 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
+    protected final AccountsLogic accountsLogic = AccountsLogic.inst();
+    protected final StudentsLogic studentsLogic = StudentsLogic.inst();
+    protected final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    protected final CoursesLogic coursesLogic = CoursesLogic.inst();
+    protected final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    protected final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    protected final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    protected final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    protected final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    protected final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     /**
      * Preconditions: <br>

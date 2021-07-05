@@ -34,11 +34,11 @@ public final class StudentsLogic {
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
             "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
-    private static StudentsLogic instance = new StudentsLogic();
+    private static final StudentsLogic instance = new StudentsLogic();
 
     private final StudentsDb studentsDb = StudentsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     private StudentsLogic() {
         // prevent initialization

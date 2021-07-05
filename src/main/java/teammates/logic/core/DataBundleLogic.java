@@ -40,7 +40,7 @@ import teammates.storage.api.StudentsDb;
  */
 public final class DataBundleLogic {
 
-    private static DataBundleLogic instance = new DataBundleLogic();
+    private static final DataBundleLogic instance = new DataBundleLogic();
 
     private final AccountsDb accountsDb = AccountsDb.inst();
     private final ProfilesDb profilesDb = ProfilesDb.inst();

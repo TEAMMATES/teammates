@@ -21,10 +21,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class LocalLoggingService implements LogService {
 
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-
     private static final List<FeedbackSessionLogEntry> LOCAL_LOG_ENTRIES = new ArrayList<>();
+
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {

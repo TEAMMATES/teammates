@@ -21,14 +21,14 @@ import teammates.storage.api.AccountsDb;
  */
 public final class AccountsLogic {
 
-    private static AccountsLogic instance = new AccountsLogic();
+    private static final AccountsLogic instance = new AccountsLogic();
 
     private final AccountsDb accountsDb = AccountsDb.inst();
 
-    private static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private AccountsLogic() {
         // prevent initialization
