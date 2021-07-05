@@ -297,7 +297,13 @@ public class ArchitectureTest {
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)
+                                && !"LogicStarter".equals(input.getSimpleName());
+                    }
+                })
                 .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
                     @Override
                     public boolean apply(JavaClass input) {

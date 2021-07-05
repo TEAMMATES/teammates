@@ -38,7 +38,7 @@ public final class StudentsLogic {
 
     private final StudentsDb studentsDb = StudentsDb.inst();
 
-    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackResponsesLogic frLogic;
 
     private StudentsLogic() {
         // prevent initialization
@@ -46,6 +46,10 @@ public final class StudentsLogic {
 
     public static StudentsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        frLogic = FeedbackResponsesLogic.inst();
     }
 
     /**

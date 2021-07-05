@@ -207,6 +207,12 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
+    public void setupLogicLayer() {
+        // Not necessary as BackDoor API is used instead
+    }
+
+    @Override
+    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void setupLocalDatastoreHelper() {
         // Should be prepared separately
     }

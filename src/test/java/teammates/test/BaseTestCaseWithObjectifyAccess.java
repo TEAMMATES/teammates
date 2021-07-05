@@ -14,6 +14,7 @@ import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.util.Closeable;
 
+import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
@@ -25,6 +26,11 @@ import teammates.storage.search.StudentSearchManager;
 public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCase {
     private static LocalDatastoreHelper localDatastoreHelper;
     private Closeable closeable;
+
+    @BeforeSuite
+    public void setupLogicLayer() {
+        LogicStarter.initializeDependencies();
+    }
 
     @BeforeSuite
     public void setupLocalDatastoreHelper() throws IOException, InterruptedException {

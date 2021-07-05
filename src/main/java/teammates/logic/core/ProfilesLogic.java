@@ -21,6 +21,10 @@ public final class ProfilesLogic {
         return instance;
     }
 
+    void initLogicDependencies() {
+        // No dependency to other logic class
+    }
+
     /**
      * Gets student profile associated with the {@code googleId}.
      *

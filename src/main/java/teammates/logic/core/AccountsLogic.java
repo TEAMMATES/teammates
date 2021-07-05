@@ -25,10 +25,10 @@ public final class AccountsLogic {
 
     private final AccountsDb accountsDb = AccountsDb.inst();
 
-    private final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    private final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private ProfilesLogic profilesLogic;
+    private CoursesLogic coursesLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private AccountsLogic() {
         // prevent initialization
@@ -36,6 +36,13 @@ public final class AccountsLogic {
 
     public static AccountsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        profilesLogic = ProfilesLogic.inst();
+        coursesLogic = CoursesLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**

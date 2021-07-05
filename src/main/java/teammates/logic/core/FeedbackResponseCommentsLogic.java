@@ -33,11 +33,11 @@ public final class FeedbackResponseCommentsLogic {
 
     private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
-    private final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private CoursesLogic coursesLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackSessionsLogic fsLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private FeedbackResponseCommentsLogic() {
         // prevent initialization
@@ -45,6 +45,14 @@ public final class FeedbackResponseCommentsLogic {
 
     public static FeedbackResponseCommentsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        coursesLogic = CoursesLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        fsLogic = FeedbackSessionsLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**
