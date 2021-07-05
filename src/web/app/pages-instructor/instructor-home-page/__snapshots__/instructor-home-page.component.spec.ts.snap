@@ -14,6 +14,7 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -81,6 +82,7 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -148,6 +150,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -303,6 +306,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -828,6 +832,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -1482,6 +1487,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -1744,6 +1750,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
@@ -2034,6 +2041,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
