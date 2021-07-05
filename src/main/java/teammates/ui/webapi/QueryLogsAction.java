@@ -20,6 +20,7 @@ import teammates.ui.output.GeneralLogsData;
  */
 public class QueryLogsAction extends AdminOnlyAction {
     private static final String DEFAULT_SEVERITIES = "INFO";
+    private static final int DEFAULT_PAGE_SIZE = 20;
 
     private static final long TWENTY_FOUR_HOURS_IN_MILLIS = 1000L * 60 * 60 * 24;
 
@@ -69,7 +70,8 @@ public class QueryLogsAction extends AdminOnlyAction {
 
         List<String> severities = parseSeverities(severitiesStr);
         try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
+            QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime,
+                    DEFAULT_PAGE_SIZE, nextPageToken);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
