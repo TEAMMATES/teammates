@@ -20,21 +20,31 @@ export class LogsTableComponent implements OnInit {
   }
 
   expandDetails(logsTableRowModel: LogsTableRowModel): void {
-    logsTableRowModel.isDetailsExpanded
-      ? logsTableRowModel.isDetailsExpanded = false
-      : logsTableRowModel.isDetailsExpanded = true;
+    logsTableRowModel.isDetailsExpanded = !logsTableRowModel.isDetailsExpanded;
   }
 
-  getStyleForStatus(httpStatus: number): string {
-    const httpStatusString: string = httpStatus.toString();
-    if (httpStatusString.startsWith('2')) {
-      return 'color:green';
+  getClassForStatus(httpStatus: number): string {
+    if (Math.floor(httpStatus / 100) === 2) {
+      return 'green-font';
     }
-    if (httpStatusString.startsWith('4')) {
-      return 'color:darkorange';
+    if (Math.floor(httpStatus / 100) === 4) {
+      return 'orange-font';
     }
-    if (httpStatusString.startsWith('5')) {
-      return 'color:red';
+    if (Math.floor(httpStatus / 100) === 5) {
+      return 'red-font';
+    }
+    return '';
+  }
+
+  getClassForSeverity(severity: string): string {
+    if (severity === 'INFO') {
+      return 'info-row';
+    }
+    if (severity === 'WARNING') {
+      return 'warning-row';
+    }
+    if (severity === 'ERROR') {
+      return 'error-row';
     }
     return '';
   }
