@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class LocalLoggingService implements LogService {
     public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
                                       Integer pageSize, String pageToken) {
         // Not supported in dev server
-        return null;
+        return new QueryLogsResults(Collections.emptyList(), null);
     }
 
     @Override

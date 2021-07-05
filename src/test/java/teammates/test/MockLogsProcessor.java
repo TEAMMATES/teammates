@@ -72,8 +72,8 @@ public class MockLogsProcessor extends LogsProcessor {
         insertGeneralLog(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, payload, timestamp);
     }
 
-    private void insertGeneralLog(String logName, String severity, String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            Payload<?> payload, long timestamp) {
+    private void insertGeneralLog(String logName, String severity, String trace,
+            GeneralLogEntry.SourceLocation sourceLocation, Payload<?> payload, long timestamp) {
         generalLogs.add(new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp));
     }
 
