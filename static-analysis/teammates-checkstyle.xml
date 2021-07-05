@@ -115,7 +115,7 @@
             <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF,METHOD_DEF"/>
         </module>
         <module name="ConstantName">
-            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|logic|instance)$"/>
+            <property name="format" value="^([A-Z][A-Z0-9]*(_[A-Z0-9]+)*|log|instance)$"/>
         </module>
         <module name="RegexpSinglelineJava">
             <property name="format" value="\s+$"/>

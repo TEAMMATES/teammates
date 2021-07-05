@@ -12,12 +12,12 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithObjectifyAccess;
 
 /**
  * SUT: {@link teammates.storage.api.EntitiesDb}.
  */
-public class EntitiesDbTest extends BaseComponentTestCase {
+public class EntitiesDbTest extends BaseTestCaseWithObjectifyAccess {
 
     // We are using CoursesDb to test EntitiesDb here.
     private final CoursesDb coursesDb = CoursesDb.inst();

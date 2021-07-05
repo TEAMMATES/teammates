@@ -20,12 +20,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithObjectifyAccess;
 
 /**
  * SUT: {@link FeedbackQuestionsDb}.
  */
-public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
+public class FeedbackQuestionsDbTest extends BaseTestCaseWithObjectifyAccess {
     private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
     @Test
