@@ -374,7 +374,7 @@ public class EmailGenerator {
 
         // if instructor hasn't joined yet, remind them to join before submitting feedback
         String instructorJoinReminderFragment =
-                 instructor.isRegistered() // check if instructor has joined course
+                 instructor.isRegistered()
                  ? ""
                  : generateInstructorJoinReminderFragment(instructor);
 
@@ -385,12 +385,12 @@ public class EmailGenerator {
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
                 "${deadline}", SanitizationHelper.sanitizeForHtml(
                         TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
-                "${instructorFragment}", instructorJoinReminderFragment,
+                "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${additionalContactInformation}", additionalContactInformation);
+                "${additionalContactInformation}", instructorJoinReminderFragment + additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setType(EmailType.FEEDBACK_SESSION_REMINDER);
@@ -408,9 +408,7 @@ public class EmailGenerator {
         // todo this template needs checking
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${feedbackAction}", joinUrl,
-                "${courseJoinFragment}", ""
-                );
+                "${feedbackAction}", joinUrl);
     }
 
     /**
