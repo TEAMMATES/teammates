@@ -11,7 +11,6 @@ import com.google.logging.type.LogSeverity;
 
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
