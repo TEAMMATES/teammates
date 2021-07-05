@@ -21,9 +21,9 @@ import teammates.storage.search.SearchManagerFactory;
 import teammates.storage.search.StudentSearchManager;
 
 /**
- * Base class for all test cases which require access to the Objectify service.
+ * Base class for all tests which require access to a locally run database.
  */
-public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCase {
+public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithDatabaseAccess {
     private static LocalDatastoreHelper localDatastoreHelper;
     private Closeable closeable;
 
