@@ -38,10 +38,10 @@ public class LogsProcessor {
     }
 
     /**
-     * Queries and retrieve logs with given parameter and returns the results in {@code Page}.
+     * Queries and retrieves logs with given parameters.
      */
     public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                      Integer pageSize, String pageToken) {
+            Integer pageSize, String pageToken) throws LogServiceException {
         return service.queryLogs(severities, startTime, endTime, pageSize, pageToken);
     }
 

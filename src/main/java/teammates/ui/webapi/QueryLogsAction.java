@@ -11,6 +11,7 @@ import com.google.logging.type.LogSeverity;
 
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
@@ -66,10 +67,14 @@ public class QueryLogsAction extends AdminOnlyAction {
         String nextPageToken;
         nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
 
-        List<String> severities = this.parseSeverities(severitiesStr);
-        QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
-        GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
-        return new JsonResult(generalLogsData);
+        List<String> severities = parseSeverities(severitiesStr);
+        try {
+            QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime, 20, nextPageToken);
+            GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
+            return new JsonResult(generalLogsData);
+        } catch (LogServiceException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     /**

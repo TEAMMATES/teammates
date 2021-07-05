@@ -52,7 +52,7 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general INFO logs.
      */
     public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-                              Payload<?> payload, long timestamp) {
+            Payload<?> payload, long timestamp) {
         insertGeneralLog(STDOUT_LOG_NAME, SEVERITY_INFO, trace, sourceLocation, payload, timestamp);
     }
 
@@ -60,7 +60,7 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general WARNING logs.
      */
     public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-                                 Payload<?> payload, long timestamp) {
+            Payload<?> payload, long timestamp) {
         insertGeneralLog(STDERR_LOG_NAME, SEVERITY_WARNING, trace, sourceLocation, payload, timestamp);
     }
 
@@ -68,22 +68,18 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general ERROR logs.
      */
     public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-                               Payload<?> payload, long timestamp) {
+            Payload<?> payload, long timestamp) {
         insertGeneralLog(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, payload, timestamp);
     }
 
-    private void insertGeneralLog(String logName,
-                                  String severity,
-                                  String trace,
-                                  GeneralLogEntry.SourceLocation sourceLocation,
-                                  Payload<?> payload,
-                                  long timestamp) {
+    private void insertGeneralLog(String logName, String severity, String trace, GeneralLogEntry.SourceLocation sourceLocation,
+            Payload<?> payload, long timestamp) {
         generalLogs.add(new GeneralLogEntry(logName, severity, trace, sourceLocation, payload, timestamp));
     }
 
     @Override
     public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                      Integer pageSize, String pageToken) {
+            Integer pageSize, String pageToken) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         this.generalLogs.forEach(entry -> {
             if (severities.contains(entry.getSeverity())

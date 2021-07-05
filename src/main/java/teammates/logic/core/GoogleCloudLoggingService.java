@@ -120,7 +120,7 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                      Integer pageSize, String pageToken) {
+            Integer pageSize, String pageToken) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME)
@@ -130,39 +130,31 @@ public class GoogleCloudLoggingService implements LogService {
 
         PageParams pageParams = new PageParams(pageSize, pageToken);
 
-        try {
-            Page<LogEntry> logEntriesInPage = getLogEntriesByPage(logSearchParams, pageParams);
-            List<GeneralLogEntry> logEntries = new ArrayList<>();
-            for (LogEntry entry : logEntriesInPage.getValues()) {
-                String logName = entry.getLogName();
-                Severity severity = entry.getSeverity();
-                String trace = entry.getTrace();
-                com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
-                Payload<?> payload = entry.getPayload();
-                long timestamp = entry.getTimestamp();
+        Page<LogEntry> logEntriesInPage = getLogEntriesByPage(logSearchParams, pageParams);
+        List<GeneralLogEntry> logEntries = new ArrayList<>();
+        for (LogEntry entry : logEntriesInPage.getValues()) {
+            String logName = entry.getLogName();
+            Severity severity = entry.getSeverity();
+            String trace = entry.getTrace();
+            com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
+            Payload<?> payload = entry.getPayload();
+            long timestamp = entry.getTimestamp();
 
-                GeneralLogEntry logEntry;
-                if (payload.getType() == Payload.Type.JSON) {
-                    JSONObject jsonObject = new JSONObject(((Payload.JsonPayload) payload).getDataAsMap());
-                    logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
-                            new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                                    sourceLocation.getFunction()), payload, timestamp, jsonObject);
-                } else {
-                    logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
-                            new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                                    sourceLocation.getFunction()), payload, timestamp);
-                }
-                logEntries.add(logEntry);
+            GeneralLogEntry logEntry;
+            if (payload.getType() == Payload.Type.JSON) {
+                JSONObject jsonObject = new JSONObject(((Payload.JsonPayload) payload).getDataAsMap());
+                logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
+                        new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
+                                sourceLocation.getFunction()), payload, timestamp, jsonObject);
+            } else {
+                logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
+                        new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
+                                sourceLocation.getFunction()), payload, timestamp);
             }
-            String nextPageToken = logEntriesInPage.getNextPageToken();
-            return new QueryLogsResults(logEntries, nextPageToken);
-        } catch (LogServiceException e) {
-            Logger log = Logger.getLogger();
-            log.warning(e.toString());
-            // TODO
+            logEntries.add(logEntry);
         }
-
-        return null;
+        String nextPageToken = logEntriesInPage.getNextPageToken();
+        return new QueryLogsResults(logEntries, nextPageToken);
     }
 
     @Override
@@ -233,7 +225,7 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<String> logFilters = new ArrayList<>();
         if (s.logName != null) {
-            StringBuilder logNameFilter = new StringBuilder();
+            /*StringBuilder logNameFilter = new StringBuilder();
             for (int i = 0; i < s.logName.size(); i++) {
                 String filter;
                 if (i == s.logName.size() - 1) {
@@ -242,7 +234,8 @@ public class GoogleCloudLoggingService implements LogService {
                     filter = "logName=\"projects/" + options.getProjectId() + "/logs/" + (s.logName.get(i)) + "\" OR ";
                 }
                 logNameFilter.append(filter);
-            }
+            }*/
+            String logNameFilter = s.logName.stream().reduce("", (subtotal, element) -> subtotal + " OR " + element);
             logFilters.add(logNameFilter.toString());
         }
         if (s.resourceType != null) {
