@@ -3,12 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModal, NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
   Course,
@@ -237,6 +238,7 @@ describe('InstructorSessionEditPageComponent', () => {
   let studentService: StudentService;
   let instructorService: InstructorService;
   let navigationService: NavigationService;
+  let statusMessageService: StatusMessageService;
   let ngbModal: NgbModal;
 
   beforeEach(async(() => {
@@ -255,6 +257,7 @@ describe('InstructorSessionEditPageComponent', () => {
         StudentService,
         InstructorService,
         NavigationService,
+        StatusMessageService,
       ],
     })
     .compileComponents();
@@ -268,6 +271,7 @@ describe('InstructorSessionEditPageComponent', () => {
     studentService = TestBed.inject(StudentService);
     instructorService = TestBed.inject(InstructorService);
     navigationService = TestBed.inject(NavigationService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -331,10 +335,34 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.loadFeedbackSession();
 
-    expect(component.courseName).toBe('Test Course 1');
-    expect(component.sessionEditFormModel.courseId).toBe('testId1');
-    expect(component.sessionEditFormModel.courseName).toBe('Test Course 1');
-    expect(component.sessionEditFormModel.feedbackSessionName).toBe('Test Session');
+    expect(component.isLoadingFeedbackSession).toBeFalsy();
+    expect(component.courseName).toBe(testCourse1.courseName);
+    expect(component.sessionEditFormModel.courseId).toBe(testCourse1.courseId);
+    expect(component.sessionEditFormModel.courseName).toBe(testCourse1.courseName);
+    expect(component.sessionEditFormModel.feedbackSessionName).toBe(testFeedbackSession.feedbackSessionName);
+    expect(component.sessionEditFormModel.timeZone).toBe(testFeedbackSession.timeZone);
+    expect(component.sessionEditFormModel.instructions).toBe(testFeedbackSession.instructions);
+    expect(component.sessionEditFormModel.sessionVisibleSetting).toBe(testFeedbackSession.sessionVisibleSetting);
+    expect(component.sessionEditFormModel.responseVisibleSetting).toBe(testFeedbackSession.responseVisibleSetting);
+  });
+
+  it('should display error message when feedback session failed to load', () => {
+    component.hasLoadingFeedbackSessionFailed = false;
+    spyOn(courseService, 'getCourseAsInstructor').and.returnValue(of(testCourse1));
+    spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast')
+      .and.callFake((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
+
+    component.loadFeedbackSession();
+
+    expect(spy).toBeCalled();
+    expect(component.hasLoadingFeedbackSessionFailed).toBeTruthy();
   });
 
   it('should load correct feedback session questions', () => {
@@ -348,6 +376,24 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(component.questionEditFormModels[0].feedbackQuestionId).toBe('feedback-question-1');
     expect(component.questionEditFormModels[1].feedbackQuestionId).toBe('feedback-question-2');
     expect(component.questionEditFormModels[2].feedbackQuestionId).toBe('feedback-question-3');
+  });
+
+  it('should display error message when feedback question failed to load', () => {
+    component.hasLoadingFeedbackQuestionsFailed = false;
+    spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast')
+      .and.callFake((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
+
+    component.loadFeedbackQuestions();
+
+    expect(spy).toBeCalled();
+    expect(component.hasLoadingFeedbackQuestionsFailed).toBeTruthy();
   });
 
   it('should get all students of the course', () => {
@@ -373,7 +419,24 @@ describe('InstructorSessionEditPageComponent', () => {
     component.getAllStudentsOfCourse();
 
     expect(component.studentsOfCourse.length).toBe(2);
-    expect(component.studentsOfCourse[0].name).toBe('Alice');
+    expect(component.studentsOfCourse[0].name).toBe(testStudent1.name);
+    expect(component.emailOfStudentToPreview).toBe(testStudent1.email);
+  });
+
+  it('should display error message when failed to get student', () => {
+    spyOn(studentService, 'getStudentsFromCourse').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast')
+      .and.callFake((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
+
+    component.getAllStudentsOfCourse();
+
+    expect(spy).toBeCalled();
   });
 
   it('should get all instructors of the course', () => {
@@ -396,7 +459,24 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.getAllInstructorsCanBePreviewedAs();
     expect(component.instructorsCanBePreviewedAs.length).toBe(2);
-    expect(component.instructorsCanBePreviewedAs[0].name).toBe('Instructor A');
+    expect(component.instructorsCanBePreviewedAs[0].name).toBe(testInstructor1.name);
+    expect(component.emailOfInstructorToPreview).toBe(testInstructor1.email);
+  });
+
+  it('should display error message when failed to get instructor', () => {
+    spyOn(instructorService, 'loadInstructors').and.returnValue(throwError({
+      error: {
+        message: 'This is the error message.',
+      },
+    }));
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast')
+      .and.callFake((args: string) => {
+        expect(args).toEqual('This is the error message.');
+      });
+
+    component.getAllInstructorsCanBePreviewedAs();
+
+    expect(spy).toBeCalled();
   });
 
   it('should collapse all questions', () => {
@@ -470,6 +550,7 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(component.feedbackQuestionModels.has(testFeedbackQuestion2.feedbackQuestionId)).toEqual(true);
   });
 
+  // Incomplete
   it('should open modal and copy current session', () => {
     class MockNgbModalRef {
       componentInstance: any = {
@@ -502,4 +583,6 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
   });
+
+  // Test save/duplicate/delete/move handlers
 });
