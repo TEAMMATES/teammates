@@ -63,10 +63,12 @@ export class UploadEditProfilePictureModalComponent implements OnInit {
    */
   fileChangeEvent(event: any): void {
     this.imageChangedEvent = event;
-
+    const allowedFileTypes = ['image/jpg', 'image/jpeg', 'image/png' ];
     const file: File = event.target.files[0];
     if (file) {
-      this.populateFormData(file);
+      if(allowedFileTypes.includes(file.type)){
+        this.populateFormData(file);
+      }
     }
   }
 
