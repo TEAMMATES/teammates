@@ -16,7 +16,9 @@ import { ErrorMessageOutput } from '../error-message-output';
  * Model for searching of logs.
  */
 interface SearchLogsFormModel {
-  logsSeverity: Set<string>;
+  logsSeverity: string;
+  logsMinSeverity: string;
+  logsLevel: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
@@ -33,7 +35,8 @@ interface SearchLogsFormModel {
 interface QueryParams {
   searchFrom: string;
   searchUntil: string;
-  severities: string;
+  severity?: string;
+  minSeverity?: string;
   nextPageToken?: string;
 }
 
@@ -48,17 +51,22 @@ interface QueryParams {
 export class LogsPageComponent implements OnInit {
   LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
+  EQUAL: string = 'equal';
+  ABOVE: string = 'above';
+  ALL: string = 'all';
   SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
   API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: new Set(),
+    logsSeverity: '',
+    logsMinSeverity: '',
+    logsLevel: '',
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
+  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severity: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -96,15 +104,11 @@ export class LogsPageComponent implements OnInit {
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
   }
 
-  toggleSelection(severity: string): void {
-    this.formModel.logsSeverity.has(severity)
-      ? this.formModel.logsSeverity.delete(severity)
-      : this.formModel.logsSeverity.add(severity);
-  }
-
   searchForLogs(): void {
-    if (this.formModel.logsSeverity.size === 0) {
-      this.statusMessageService.showErrorToast('Please select at least one severity level');
+    if (this.formModel.logsLevel === ''
+      || (this.formModel.logsLevel === this.EQUAL && this.formModel.logsSeverity == '')
+      || (this.formModel.logsLevel === this.ABOVE && this.formModel.logsMinSeverity == '')) {
+      this.statusMessageService.showErrorToast('Please select severity level');
       return;
     }
 
@@ -120,11 +124,7 @@ export class LogsPageComponent implements OnInit {
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
-                searchFrom: timestampFrom.toString(),
-                searchUntil: timestampUntil.toString(),
-                severities: Array.from(this.formModel.logsSeverity).join(','),
-              };
+              this.setQueryParams(timestampFrom, timestampUntil);
               return this.logService.searchLogs(this.previousQueryParams);
             }),
             finalize(() => {
@@ -133,6 +133,27 @@ export class LogsPageComponent implements OnInit {
             }))
             .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
               (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private setQueryParams(timestampFrom: number, timestampUntil: number): void {
+    if (this.formModel.logsLevel === this.EQUAL) {
+      this.previousQueryParams = {
+        searchFrom: timestampFrom.toString(),
+        searchUntil: timestampUntil.toString(),
+        severity: this.formModel.logsSeverity,
+      };
+    } else if (this.formModel.logsLevel === this.ABOVE) {
+      this.previousQueryParams = {
+        searchFrom: timestampFrom.toString(),
+        searchUntil: timestampUntil.toString(),
+        minSeverity: this.formModel.logsMinSeverity,
+      }
+    } else {
+      this.previousQueryParams = {
+        searchFrom: timestampFrom.toString(),
+        searchUntil: timestampUntil.toString(),
+      }
+    }
   }
 
   private processLogs(generalLogs: GeneralLogs): void {

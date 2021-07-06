@@ -62,14 +62,22 @@ export class LogService {
   searchLogs(queryParams: {
     searchFrom: string,
     searchUntil: string,
-    severities: string,
+    severity?: string,
+    minSeverity?: string,
     nextPageToken?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       startTime: queryParams.searchFrom,
       endTime: queryParams.searchUntil,
-      severities: queryParams.severities,
     };
+
+    if (queryParams.severity) {
+      paramMap.severity = queryParams.severity;
+    }
+
+    if (queryParams.minSeverity) {
+      paramMap.minSeverity = queryParams.minSeverity;
+    }
 
     if (queryParams.nextPageToken) {
       paramMap.nextPageToken = queryParams.nextPageToken;

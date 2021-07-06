@@ -20,26 +20,7 @@
             <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
           </div>
         </div>
-      </div>
-      <div class="col-4">
-        <div class="col-12">
-          <label for="log-severity-checkbox" class="font-weight-bold">Log severity level</label>
-        </div>
-        <div class="form-check" *ngFor="let severity of SEVERITIES">
-          <label class="form-check-label" id="log-severity-checkbox">
-            <input type="checkbox" class="form-check-input"
-                   [checked]="formModel.logsSeverity.has(severity)" (click)="toggleSelection(severity)">
-            <span>{{ severity }}</span>
-          </label>
-        </div>
-      </div>
-      <div class="col-1 mt-4">
-        <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
-      </div>
-    </div>
-    <div class="row form-group">
-      <div class="col-6">
-        <div class="col-12 mb-1">
+        <div class="col-12 mb-1 mt-4">
           <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
         </div>
         <div class="input-group">
@@ -53,6 +34,37 @@
             <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
           </div>
         </div>
+      </div>
+      <div class="col-4">
+        <div class="col-12">
+          <label for="log-severity-radio" class="font-weight-bold">Log severity level</label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label" id="log-severity-radio">
+            <div>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="equal" [value]="EQUAL" [(ngModel)]="formModel.logsLevel">
+              <label for="equal">severity =&nbsp;</label>
+              <select class="form-control inline" [(ngModel)]="formModel.logsSeverity">
+                <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
+              </select>
+            </div>
+            <br>
+            <div>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="above" [value]="ABOVE" [(ngModel)]="formModel.logsLevel">
+              <label for="above">severity >=&nbsp;</label>
+              <select class="form-control inline" [(ngModel)]="formModel.logsMinSeverity">
+                <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
+              </select>
+            </div>
+            <br>
+            <input type="radio" class="form-check-input" name="severity" id="all" [value]="ALL" [(ngModel)]="formModel.logsLevel">
+            <label for="all">All logs</label>
+            <br>
+          </label>
+        </div>
+      </div>
+      <div class="col-1 mt-4">
+        <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
       </div>
     </div>
     <div class="row form-group">
