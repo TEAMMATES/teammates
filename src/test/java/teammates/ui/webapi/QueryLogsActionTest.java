@@ -87,8 +87,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, "abc",
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid2));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid1)));
 
         ______TS("Failure case: invalid search end time");
         String[] paramsInvalid3 = {
@@ -96,8 +95,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, " ",
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid3));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid1)));
 
         ______TS("Success case: all HTTP parameters are valid");
         String[] paramsSuccessful1 = {
