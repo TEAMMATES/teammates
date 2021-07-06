@@ -23,6 +23,9 @@ export class SubmissionStatusTooltipPipe implements PipeTransform {
       case FeedbackSessionSubmissionStatus.OPEN:
         msg += ' is open for submissions';
         break;
+      case FeedbackSessionSubmissionStatus.GRACE_PERIOD:
+        msg += ' is open for submissions, is in the grace period';
+        break;
       case FeedbackSessionSubmissionStatus.CLOSED:
         msg += ' is closed for submissions';
         break;
