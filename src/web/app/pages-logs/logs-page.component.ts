@@ -6,7 +6,7 @@ import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
-import { GeneralLogEntry, GeneralLogs, Type } from '../../types/api-output';
+import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
@@ -77,7 +77,14 @@ export class LogsPageComponent implements OnInit {
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    this.formModel.logsDateFrom = { ...this.dateToday, day: today.getDate() - 1 };
+    const fromDate: Date = new Date();
+    fromDate.setDate(today.getDate() - 1);
+
+    this.formModel.logsDateFrom = {
+      year: fromDate.getFullYear(),
+      month: fromDate.getMonth() + 1,
+      day: fromDate.getDate(),
+    };
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
@@ -123,9 +130,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
-    this.nextPageToken = generalLogs.nextPageToken
-      ? generalLogs.nextPageToken
-      : '';
+    this.nextPageToken = generalLogs.nextPageToken || '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
   }
 
@@ -147,11 +152,11 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
-    if (log.payload.type === Type.STRING) {
+    if (log.textPayloadMessage) {
       summary = `Source: ${log.sourceLocation.file}`;
-      payload = this.formatTextPayloadForDisplay(log.payload.data);
-    } else if (log.payload.type === Type.JSON) {
-      payload = JSON.parse(JSON.stringify(log.jsonObject)).map;
+      payload = this.formatTextPayloadForDisplay(log.textPayloadMessage);
+    } else if (log.jsonPayloadMap) {
+      payload = log.jsonPayloadMap;
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }

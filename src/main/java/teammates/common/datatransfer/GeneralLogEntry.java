@@ -1,44 +1,42 @@
 package teammates.common.datatransfer;
 
+import java.util.Map;
+
 import javax.annotation.Nullable;
 
-import org.json.JSONObject;
-
-import com.google.cloud.logging.Payload;
-
 /**
- * This class represents a log entry of Google Cloud Logging and contains some of the fields
- * that are more important for querying logs action and are of more interest to maintainers.
+ * This class represents a log entry and contains some of the fields that are more important
+ * for querying logs action and are of more interest to maintainers.
  */
 public class GeneralLogEntry {
     private final String logName;
     private final String severity;
     private final String trace;
     private final SourceLocation sourceLocation;
-    private final Payload<?> payload;
     private final long timestamp;
     @Nullable
-    private JSONObject jsonObject;
+    private String textPayloadMessage;
+    @Nullable
+    private Map<String, Object> jsonPayloadMap;
 
     public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                           Payload<?> payload, long timestamp) {
+                           long timestamp, String textPayloadMessage) {
         this.logName = logName;
         this.severity = severity;
         this.trace = trace;
         this.sourceLocation = sourceLocation;
-        this.payload = payload;
         this.timestamp = timestamp;
+        this.textPayloadMessage = textPayloadMessage;
     }
 
     public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                            Payload<?> payload, long timestamp, JSONObject jsonObject) {
+                           long timestamp, Map<String, Object> jsonPayloadMap) {
         this.logName = logName;
         this.severity = severity;
         this.trace = trace;
         this.sourceLocation = sourceLocation;
-        this.payload = payload;
         this.timestamp = timestamp;
-        this.jsonObject = jsonObject;
+        this.jsonPayloadMap = jsonPayloadMap;
     }
 
     public String getLogName() {
@@ -57,16 +55,16 @@ public class GeneralLogEntry {
         return sourceLocation;
     }
 
-    public Payload<?> getPayload() {
-        return payload;
-    }
-
     public long getTimestamp() {
         return timestamp;
     }
 
-    public JSONObject getJsonObject() {
-        return jsonObject;
+    public String getTextPayloadMessage() {
+        return textPayloadMessage;
+    }
+
+    public Map<String, Object> getJsonPayloadMap() {
+        return jsonPayloadMap;
     }
 
     public static class SourceLocation {

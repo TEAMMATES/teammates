@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.json.JSONObject;
-
 import com.google.api.gax.paging.Page;
 import com.google.appengine.logging.v1.LogLine;
 import com.google.appengine.logging.v1.RequestLog;
@@ -144,14 +142,15 @@ public class GoogleCloudLoggingService implements LogService {
 
             GeneralLogEntry logEntry;
             if (payload.getType() == Payload.Type.JSON) {
-                JSONObject jsonObject = new JSONObject(((Payload.JsonPayload) payload).getDataAsMap());
+                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload)payload).getDataAsMap();
                 logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
                         new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                                sourceLocation.getFunction()), payload, timestamp, jsonObject);
+                                sourceLocation.getFunction()), timestamp, jsonPayloadMap);
             } else {
+                String textPayloadMessage = ((Payload.StringPayload)payload).getData();
                 logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
                         new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                                sourceLocation.getFunction()), payload, timestamp);
+                                sourceLocation.getFunction()), timestamp, textPayloadMessage);
             }
             logEntries.add(logEntry);
         }
@@ -230,9 +229,10 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<String> logFilters = new ArrayList<>();
         if (!s.logName.isEmpty()) {
-            String logNameFilter = s.logName.stream().reduce((subtotal, element) ->
-                    subtotal + "\" OR \"projects/" + options.getProjectId() + "/logs/" + element).get();
-            logFilters.add("logName=(\"projects/" + options.getProjectId() + "/logs/" + logNameFilter + "\")");
+            String logNameFilter = s.logName.stream()
+                .map(str -> "\"projects/" + options.getProjectId() + "/logs/" + str + "\"")
+                .collect(Collectors.joining(" OR "));
+            logFilters.add("logName=(" + logNameFilter + ")");
         }
         if (s.resourceType != null) {
             logFilters.add("resource.type=\"" + s.resourceType + "\"");
@@ -244,8 +244,7 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
         if (s.severities != null) {
-            String severitiesFilter = s.severities.stream().reduce((subtotal, element) ->
-                    subtotal + " OR " + element).get();
+            String severitiesFilter = s.severities.stream().collect(Collectors.joining(" OR "));
             logFilters.add("severity=(" + severitiesFilter + ")");
         }
         if (s.minSeverity != null && s.severities == null) {
