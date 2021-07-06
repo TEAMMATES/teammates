@@ -51,7 +51,8 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace, sourceLocation, timestamp, textPayloadMessage);
+        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
+                sourceLocation, timestamp, textPayloadMessage);
     }
 
     /**
@@ -59,7 +60,8 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace, sourceLocation, timestamp, textPayloadMessage);
+        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
+                sourceLocation, timestamp, textPayloadMessage);
     }
 
     /**
@@ -67,7 +69,8 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, timestamp, textPayloadMessage);
+        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
+                sourceLocation, timestamp, textPayloadMessage);
     }
 
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
