@@ -142,12 +142,12 @@ public class GoogleCloudLoggingService implements LogService {
 
             GeneralLogEntry logEntry;
             if (payload.getType() == Payload.Type.JSON) {
-                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload)payload).getDataAsMap();
+                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
                 logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
                         new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                                 sourceLocation.getFunction()), timestamp, jsonPayloadMap);
             } else {
-                String textPayloadMessage = ((Payload.StringPayload)payload).getData();
+                String textPayloadMessage = ((Payload.StringPayload) payload).getData();
                 logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
                         new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                                 sourceLocation.getFunction()), timestamp, textPayloadMessage);
@@ -230,8 +230,8 @@ public class GoogleCloudLoggingService implements LogService {
         List<String> logFilters = new ArrayList<>();
         if (!s.logName.isEmpty()) {
             String logNameFilter = s.logName.stream()
-                .map(str -> "\"projects/" + options.getProjectId() + "/logs/" + str + "\"")
-                .collect(Collectors.joining(" OR "));
+                    .map(str -> "\"projects/" + options.getProjectId() + "/logs/" + str + "\"")
+                    .collect(Collectors.joining(" OR "));
             logFilters.add("logName=(" + logNameFilter + ")");
         }
         if (s.resourceType != null) {

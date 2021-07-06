@@ -64,10 +64,14 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1);
         mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2);
-        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1, warningLogTextPayload1);
-        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2, warningLogTextPayload2);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, errorLogTimestamp1, errorLogTextPayload1);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, errorLogTimestamp2, errorLogTextPayload2);
+        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1,
+                warningLogTextPayload1);
+        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2,
+                warningLogTextPayload2);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, errorLogTimestamp1,
+                errorLogTextPayload1);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, errorLogTimestamp2,
+                errorLogTextPayload2);
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
