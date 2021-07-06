@@ -401,15 +401,10 @@ public class EmailGenerator {
     }
 
     private String generateInstructorJoinReminderFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.key))
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-
         // todo this template needs checking
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${feedbackAction}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     /**
@@ -792,16 +787,17 @@ public class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
-    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
-        // can this be abstracted into a function getInstructorJoinUrl() to avoid duplication
-        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+    private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
+    }
 
+    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(
