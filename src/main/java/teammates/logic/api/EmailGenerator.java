@@ -401,7 +401,6 @@ public class EmailGenerator {
     }
 
     private String generateInstructorJoinReminderFragment(InstructorAttributes instructor) {
-        // todo this template needs checking
         return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
                 "${joinUrl}", getInstructorCourseJoinUrl(instructor));
