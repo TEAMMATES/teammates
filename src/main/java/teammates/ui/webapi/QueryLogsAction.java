@@ -46,7 +46,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
             }
         } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException("Invalid end time.");
+            throw new InvalidHttpParameterException("Invalid end time.", e);
         }
 
         Instant startTime;
@@ -58,7 +58,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
             }
         } catch (NumberFormatException e) {
-            throw new InvalidHttpParameterException("Invalid start time.");
+            throw new InvalidHttpParameterException("Invalid start time.", e);
         }
 
         if (endTime.toEpochMilli() < startTime.toEpochMilli()) {

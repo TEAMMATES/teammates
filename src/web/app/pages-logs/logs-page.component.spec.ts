@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { LogService } from '../../services/log.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { GeneralLogEntry, Type } from '../../types/api-output';
+import { GeneralLogEntry } from '../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 import Spy = jasmine.Spy;
@@ -71,11 +71,8 @@ describe('LogsPageComponent', () => {
         line: 10,
         function: 'function',
       },
-      payload: {
-        type: Type.STRING,
-        data: 'textPayload message',
-      },
       timestamp: 1549095330000,
+      textPayloadMessage: 'message',
     };
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [testLog], nextPageToken: 'testToken' }));

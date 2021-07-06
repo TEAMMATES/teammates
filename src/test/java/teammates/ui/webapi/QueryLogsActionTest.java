@@ -39,29 +39,35 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         String severities = "INFO,WARNING,ERROR";
         String infoLogTrace1 = "info log trace 1";
         String infoLogTrace2 = "info log trace 2";
+        String infoLogTextPayload1 = "info log text palyload 1";
+        String infoLogTextPayload2 = "info log text palyload 2";
         GeneralLogEntry.SourceLocation infoLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file1", 1L, "func1");
         GeneralLogEntry.SourceLocation infoLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file2", 2L, "func2");
         long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
         long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
         String warningLogTrace1 = "warning log trace 1";
         String warningLogTrace2 = "warning log trace 2";
+        String warningLogTextPayload1 = "warning log text palyload 1";
+        String warningLogTextPayload2 = "warning log text palyload 2";
         GeneralLogEntry.SourceLocation warningLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file3", 3L, "func3");
         GeneralLogEntry.SourceLocation warningLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file4", 4L, "func4");
         long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
         long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
         String errorLogTrace1 = "error log trace 1";
         String errorLogTrace2 = "error log trace 2";
+        String errorLogTextPayload1 = "error log text palyload 1";
+        String errorLogTextPayload2 = "error log text palyload 2";
         GeneralLogEntry.SourceLocation errorLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file5", 5L, "func5");
         GeneralLogEntry.SourceLocation errorLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file6", 6L, "func6");
         long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
         long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
 
-        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, null, infoLogTimestamp1);
-        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, null, infoLogTimestamp2);
-        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, null, warningLogTimestamp1);
-        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, null, warningLogTimestamp2);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, null, errorLogTimestamp1);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, null, errorLogTimestamp2);
+        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1);
+        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2);
+        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1, warningLogTextPayload1);
+        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2, warningLogTextPayload2);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, errorLogTimestamp1, errorLogTextPayload1);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, errorLogTimestamp2, errorLogTextPayload2);
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
