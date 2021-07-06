@@ -81,7 +81,7 @@ public class MockLogsProcessor extends LogsProcessor {
     public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
             Integer pageSize, String pageToken) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        this.generalLogs.forEach(entry -> {
+        generalLogs.forEach(entry -> {
             if (severities.contains(entry.getSeverity())
                     && entry.getTimestamp() >= startTime.toEpochMilli()
                     && entry.getTimestamp() <= endTime.toEpochMilli()) {

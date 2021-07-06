@@ -46,7 +46,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
             }
         } catch (NumberFormatException e) {
-            return new JsonResult("Invalid end time", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid end time.");
         }
 
         Instant startTime;
@@ -58,15 +58,14 @@ public class QueryLogsAction extends AdminOnlyAction {
                 startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
             }
         } catch (NumberFormatException e) {
-            return new JsonResult("Invalid start time", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid start time.");
         }
 
         if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
-        String nextPageToken;
-        nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
+        String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
 
         List<String> severities = parseSeverities(severitiesStr);
         try {

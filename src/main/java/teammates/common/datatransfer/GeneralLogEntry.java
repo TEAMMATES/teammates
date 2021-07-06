@@ -1,5 +1,7 @@
 package teammates.common.datatransfer;
 
+import java.util.Objects;
+
 import javax.annotation.Nullable;
 
 import org.json.JSONObject;
@@ -71,10 +73,10 @@ public class GeneralLogEntry {
 
     public static class SourceLocation {
         private final String file;
-        private final Long line;
+        private final long line;
         private final String function;
 
-        public SourceLocation(String file, Long line, String function) {
+        public SourceLocation(String file, long line, String function) {
             this.file = file;
             this.line = line;
             this.function = function;
@@ -84,7 +86,7 @@ public class GeneralLogEntry {
             return file;
         }
 
-        public Long getLine() {
+        public long getLine() {
             return line;
         }
 
@@ -98,10 +100,10 @@ public class GeneralLogEntry {
                 return true;
             }
             if (obj instanceof SourceLocation) {
-                SourceLocation sourceLocation = (SourceLocation) obj;
-                return this.file.equals(sourceLocation.getFile())
-                        && this.line.equals(sourceLocation.getLine())
-                        && this.function.equals(sourceLocation.getFunction());
+                SourceLocation other = (SourceLocation) obj;
+                return file.equals(other.getFile())
+                        && line == other.getLine()
+                        && function.equals(other.getFunction());
             } else {
                 return false;
             }
@@ -109,7 +111,7 @@ public class GeneralLogEntry {
 
         @Override
         public int hashCode() {
-            return file.hashCode() + line.hashCode() + function.hashCode();
+            return Objects.hash(file, line, function);
         }
     }
 }
