@@ -41,8 +41,8 @@ public class LogsProcessor {
      * Queries and retrieves logs with given parameters.
      */
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken) throws LogServiceException {
-        return service.queryLogs(severity, minSeverity, startTime, endTime, pageSize, pageToken);
+            Integer pageSize, String pageToken, String traceId, String apiEndpoint) throws LogServiceException {
+        return service.queryLogs(severity, minSeverity, startTime, endTime, pageSize, pageToken, traceId, apiEndpoint);
     }
 
     /**

@@ -154,6 +154,8 @@ public final class Const {
         public static final String QUERY_LOGS_ENDTIME = "endTime";
         public static final String QUERY_LOGS_SEVERITY = "severity";
         public static final String QUERY_LOGS_MIN_SEVERITY = "minSeverity";
+        public static final String QUERY_LOGS_TRACE = "traceId";
+        public static final String QUERY_LOGS_API_ENDPOINT = "APIEndpoint";
         public static final String NEXT_PAGE_TOKEN = "nextPageToken";
     }
 

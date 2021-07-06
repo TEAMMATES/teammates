@@ -120,12 +120,14 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken) throws LogServiceException {
+            Integer pageSize, String pageToken, String traceId, String apiEndpoint) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME)
                 .setStartTime(startTime)
-                .setEndTime(endTime);
+                .setEndTime(endTime)
+                .setTraceId(traceId)
+                .setApiEndpoint(apiEndpoint);
         
         if (severityLevel != null) {
             logSearchParams.setSeverity(severityLevel);
@@ -256,6 +258,12 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.minSeverity != null && s.severity == null) {
             logFilters.add("severity>=" + s.minSeverity.toString());
         }
+        if (s.traceId != null) {
+            logFilters.add("trace=\"" + s.traceId + "\"");
+        }
+        if (s.apiEndpoint != null) {
+            logFilters.add("jsonPayload.requestUrl=\"" + s.apiEndpoint + "\"");
+        }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
@@ -304,6 +312,8 @@ public class GoogleCloudLoggingService implements LogService {
         private String severity;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
+        private String traceId;
+        private String apiEndpoint;
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -346,6 +356,16 @@ public class GoogleCloudLoggingService implements LogService {
             if (key != null && value != null) {
                 this.resourceLabels.put(key, value);
             }
+            return this;
+        }
+
+        public LogSearchParams setTraceId(String traceId) {
+            this.traceId = traceId;
+            return this;
+        }
+
+        public LogSearchParams setApiEndpoint(String apiEndpoint) {
+            this.apiEndpoint = apiEndpoint;
             return this;
         }
     }
