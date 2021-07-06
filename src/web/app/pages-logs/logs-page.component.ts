@@ -5,7 +5,7 @@ import { concatMap, finalize, map } from 'rxjs/operators';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
-import { ApiConst } from '../../types/api-const';
+import { ApiConst, ResourceEndpoints } from '../../types/api-const';
 import { GeneralLogEntry, GeneralLogs, Type } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
@@ -21,6 +21,10 @@ interface SearchLogsFormModel {
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
+  traceId ?: string;
+  userId ?: string;
+  apiEndpoint ?: string;
+  errorType ?: string;
 }
 
 /**
@@ -45,6 +49,7 @@ export class LogsPageComponent implements OnInit {
   LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
+  API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
 
   formModel: SearchLogsFormModel = {
     logsSeverity: new Set(),
@@ -61,6 +66,7 @@ export class LogsPageComponent implements OnInit {
   isSearching: boolean = false;
   hasResult: boolean = false;
   nextPageToken: string = '';
+  isFiltersExpanded: boolean = false;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,

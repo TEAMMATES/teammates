@@ -55,6 +55,49 @@
         </div>
       </div>
     </div>
+    <div class="row form-group">
+      <div class="col-12">
+        <div class="col-12 mb-1 mt-2">
+          <button class="btn btn-success" (click)="isFiltersExpanded = !isFiltersExpanded;">
+            <i [ngClass]="isFiltersExpanded ? 'fas fa-minus' : 'fas fa-plus'"></i> Advanced filters
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isFiltersExpanded">
+      <div class="row form-group mt-4">
+        <div class="col-5">
+          <div class="col-12">
+            <label for="trace-id" class="font-weight-bold">Trace ID</label>
+            <input id="trace-id" class="form-control" [(ngModel)]="formModel.traceId">
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="col-12">
+            <label for="user-id" class="font-weight-bold">User ID</label>
+            <input id="user-id" class="form-control" [(ngModel)]="formModel.userId">
+          </div>
+        </div>
+      </div>
+      <div class="row form-group mt-4">
+        <div class="col-5">
+          <div class="col-12">
+            <label for="api-endpoint" class="font-weight-bold">API endpoint</label>
+            <select id="api-endpoint" class="form-control col-12" [(ngModel)]="formModel.apiEndpoint">
+              <option *ngFor="let endpoint of API_ENDPOINTS" [value]="endpoint">
+                {{ endpoint }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="col-12">
+            <label for="error-type" class="font-weight-bold">Error Type</label>
+            <input id="error-type" class="form-control col-12" [(ngModel)]="formModel.errorType">
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
