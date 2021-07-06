@@ -390,7 +390,8 @@ public class EmailGenerator {
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
-                "${additionalContactInformation}", instructorJoinReminderFragment + additionalContactInformation);
+                "${additionalNotes}", instructorJoinReminderFragment,
+                "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
         email.setType(EmailType.FEEDBACK_SESSION_REMINDER);
@@ -596,6 +597,7 @@ public class EmailGenerator {
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", feedbackAction,
+                "${additionalNotes}", "",
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -638,6 +640,7 @@ public class EmailGenerator {
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${feedbackAction}", feedbackAction,
+                "${additionalNotes}", "",
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
