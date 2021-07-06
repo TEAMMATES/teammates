@@ -24,13 +24,14 @@ export class LogsTableComponent implements OnInit {
   }
 
   getClassForStatus(httpStatus: number): string {
-    if (Math.floor(httpStatus / 100) === 2) {
+    const num: number = Math.floor(httpStatus / 100);
+    if (num === 2) {
       return 'green-font';
     }
-    if (Math.floor(httpStatus / 100) === 4) {
+    if (num === 4) {
       return 'orange-font';
     }
-    if (Math.floor(httpStatus / 100) === 5) {
+    if (num === 5) {
       return 'red-font';
     }
     return '';
