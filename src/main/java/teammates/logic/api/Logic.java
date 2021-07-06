@@ -28,6 +28,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Assumption;
+import teammates.common.util.Const;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -1346,4 +1347,32 @@ public class Logic {
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
 
+    /**
+     * Checks if there are any other registered instructors that can modify instructors.
+     * If there are none, the instructor currently being edited will be granted the privilege
+     * of modifying instructors automatically.
+     *
+     * @param courseId         Id of the course.
+     * @param instructorToEdit Instructor that will be edited.
+     *                         This may be modified within the method.
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrWithModifyInstructorPrivilege = null;
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrWithModifyInstructorPrivilege = instructor;
+            }
+        }
+        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
+                && instrWithModifyInstructorPrivilege != null
+                && (!instrWithModifyInstructorPrivilege.isRegistered()
+                || instrWithModifyInstructorPrivilege.googleId
+                .equals(instructorToEdit.googleId));
+        if (isLastRegInstructorWithPrivilege) {
+            instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
+    }
 }
