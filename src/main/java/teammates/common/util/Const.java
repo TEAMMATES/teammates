@@ -153,6 +153,8 @@ public final class Const {
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
         public static final String QUERY_LOGS_SEVERITIES = "severities";
+        public static final String QUERY_LOGS_TRACE = "traceId";
+        public static final String QUERY_LOGS_API_ENDPOINT = "APIEndpoint";
         public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
