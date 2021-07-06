@@ -163,6 +163,11 @@
       "name": "Sample Course",
       "timeZone": "UTC"
     },
+    "courseWithNoInstructorWithModifyingInstructorsPrivilege": {
+      "id": "idOfCourseWithNoInstructorWithModifyingInstructorsPrivilege",
+      "name": "Course With No Instructor With Modifying Instructors Privilege",
+      "timeZone": "UTC"
+    },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
@@ -374,6 +379,30 @@
           "canmodifysession": false,
           "canmodifystudent": true,
           "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructor1OfCourseWithNoInstructorWithModifyingInstructorsPrivilege": {
+      "googleId": "idOfInstructor1OfCourseWithNoInstructorWithModifyingInstructorsPrivilege",
+      "courseId": "idOfCourseWithNoInstructorWithModifyingInstructorsPrivilege",
+      "name": "Instructor2 Course3",
+      "email": "instructor2@course3.tmt",
+      "isArchived": false,
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": false,
+          "cansubmitsessioninsection": false,
+          "canmodifysessioncommentinsection": false,
+          "canmodifycourse": false,
+          "canviewsessioninsection": false,
+          "canmodifysession": false,
+          "canmodifystudent": false,
+          "canmodifyinstructor": false
         },
         "sectionLevel": {},
         "sessionLevel": {}

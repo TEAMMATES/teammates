@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.logic.core.InstructorsLogic;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 
@@ -63,7 +64,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         }
 
         instructorToUpdate.privileges.validatePrivileges();
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+        InstructorsLogic.inst().updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         try {
             instructorToUpdate = logic.updateInstructor(

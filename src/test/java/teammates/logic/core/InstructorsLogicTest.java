@@ -57,6 +57,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleIdCascade();
         testUpdateInstructorByEmail();
+        testUpdateToEnsureValidityOfInstructorsForTheCourse();
     }
 
     private void testAddInstructor() throws Exception {
@@ -94,11 +95,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instr.email = "invalidEmail.tmt";
         String expectedError =
                 "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
-                + "because it is not in the correct format. An email address contains "
-                + "some text followed by one '@' sign followed by some more text, "
-                + "and should end with a top level domain address like .com. "
-                + "It cannot be longer than 254 characters, cannot be empty and "
-                + "cannot contain spaces.";
+                        + "because it is not in the correct format. An email address contains "
+                        + "some text followed by one '@' sign followed by some more text, "
+                        + "and should end with a top level domain address like .com. "
+                        + "It cannot be longer than 254 characters, cannot be empty and "
+                        + "cannot contain spaces.";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> instructorsLogic.createInstructor(instr));
         assertEquals(expectedError, ipe.getMessage());
@@ -577,11 +578,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                .isEmpty());
+                        .isEmpty());
         assertFalse(
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                .isEmpty());
+                        .isEmpty());
 
         instructor1OfCourse2 = instructorsLogic.getInstructorForEmail(
                 instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail());
@@ -601,11 +602,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertTrue(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                .isEmpty());
+                        .isEmpty());
         assertTrue(
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                .isEmpty());
+                        .isEmpty());
         assertNull(instructorsLogic.getInstructorForEmail(
                 instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail()));
     }
@@ -644,6 +645,28 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)
                 && generatedCoOwnersEmails.containsAll(coOwnersEmailsFromDataBundle));
+    }
+
+    private void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
+        ______TS("Should not grant the currently being edited instructor the privilege of modifying instructors");
+        String courseId = "idOfTypicalCourse1";
+        InstructorAttributes tutorToUpdate =
+                InstructorAttributes.builder(courseId, "tutor@gmail.com")
+                        .withGoogleId("tutor")
+                        .withPrivileges(
+                                new InstructorPrivileges(
+                                        Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR
+                                )
+                        ).build();
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, tutorToUpdate);
+
+        assertFalse(tutorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+
+        ______TS("Should grant the currently being edited instructor the privilege of modifying instructors");
+        courseId = "idOfCourseWithNoInstructorWithModifyingInstructorsPrivilege";
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, tutorToUpdate);
+
+        assertTrue(tutorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
 }

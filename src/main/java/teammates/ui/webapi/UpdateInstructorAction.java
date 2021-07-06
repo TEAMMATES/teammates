@@ -9,6 +9,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.SanitizationHelper;
+import teammates.logic.core.InstructorsLogic;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.InstructorCreateRequest;
 
@@ -46,7 +47,7 @@ class UpdateInstructorAction extends Action {
                         instructorRequest.getRoleName(), instructorRequest.getIsDisplayedToStudent(),
                         instructorRequest.getDisplayName());
 
-        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+        InstructorsLogic.inst().updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
 
         try {
             InstructorAttributes updatedInstructor;
