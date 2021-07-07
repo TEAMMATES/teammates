@@ -16,7 +16,7 @@ import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
 /**
- * Queries the logs from Google Cloud Logging.
+ * Queries the logs.
  */
 public class QueryLogsAction extends AdminOnlyAction {
     private static final String DEFAULT_SEVERITIES = "INFO";

@@ -66,13 +66,13 @@ export class LogService {
     nextPageToken?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
-      startTime: queryParams.searchFrom,
-      endTime: queryParams.searchUntil,
+      starttime: queryParams.searchFrom,
+      endtime: queryParams.searchUntil,
       severities: queryParams.severities,
     };
 
     if (queryParams.nextPageToken) {
-      paramMap.nextPageToken = queryParams.nextPageToken;
+      paramMap.nextpagetoken = queryParams.nextPageToken;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
