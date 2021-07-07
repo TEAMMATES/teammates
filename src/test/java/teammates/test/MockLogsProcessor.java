@@ -84,13 +84,14 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken, String trace, String requestUrl) {
+            Integer pageSize, String pageToken, String trace, String requestUrl, String userId) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         if (severity != null) {
             generalLogs.forEach(entry -> {
                 if (severity == entry.getSeverity()
                         && entry.getTimestamp() >= startTime.toEpochMilli()
-                        && entry.getTimestamp() <= endTime.toEpochMilli()) {
+                        && entry.getTimestamp() <= endTime.toEpochMilli()
+                        && entry.getTrace().equals(trace)) {
                     queryResults.add(entry);
                 }
             });

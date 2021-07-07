@@ -264,7 +264,7 @@ public abstract class Action {
 
         if (studentEmail == null && regkey != null) {
             StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
-            if (student != null){
+            if (student != null) {
                 studentEmail = student.getEmail();
             }
         }

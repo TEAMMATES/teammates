@@ -21,9 +21,6 @@ public class QueryLogsAction extends AdminOnlyAction {
     @Override
     ActionResult execute() {
 
-        String severity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
-        String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
-
         Instant endTime = Instant.now();
         try {
             String endTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
@@ -48,13 +45,16 @@ public class QueryLogsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
+        String severity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
+        String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
         String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String apiEndpoint = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_API_ENDPOINT);
+        String userId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_USER_ID);
 
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
-                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint);
+                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint, userId);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
