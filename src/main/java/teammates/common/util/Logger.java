@@ -77,14 +77,13 @@ public final class Logger {
     /**
      * Logs user info at INFO level
      */
-    public void logUser(String googleId, String regkey, String email) {
+    public void logUserInfo(String googleId, String regkey, String email) {
         String logMessage;
         Map<String, Object> payload;
         if (googleId != null) {
             String message = "Request " + RequestTracer.getTraceId() + " user: " + googleId;
             payload = getBaseCloudLoggingPayload(message, "INFO");
             payload.put("googleId", googleId);
-
         } else {
             String message = "Request " + RequestTracer.getTraceId() + " user regkey: " + regkey + " email: " + email;
             payload = getBaseCloudLoggingPayload(message, "INFO");

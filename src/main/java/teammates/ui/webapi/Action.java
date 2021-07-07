@@ -110,6 +110,8 @@ public abstract class Action {
             return;
         }
 
+        logUserInfo();
+
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();
     }
@@ -254,6 +256,20 @@ public abstract class Action {
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
+    }
+
+    private void logUserInfo() {
+        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+
+        if (studentEmail == null && regkey != null) {
+            StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
+            if (student != null){
+                studentEmail = student.getEmail();
+            }
+        }
+
+        log.logUserInfo(userInfo.getId(), regkey, studentEmail);
     }
 
     /**
