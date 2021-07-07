@@ -45,7 +45,7 @@ public class QueryLogsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("Invalid end time.", e);
         }
 
-        Instant startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);;
+        Instant startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);
         try {
             String startTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_STARTTIME);
             if (startTimeStr != null) {
