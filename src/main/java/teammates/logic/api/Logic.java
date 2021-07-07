@@ -272,8 +272,7 @@ public class Logic {
      * Preconditions: <br>
      * * Parameters encryptedKey and googleId are non-null.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId,
-            String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert googleId != null;
