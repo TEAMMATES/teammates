@@ -8,7 +8,7 @@
   <div class="card margin-top-20px" *ngFor="let templateQuestionModel of templateQuestionModels">
     <div class="card-header cursor-pointer"
          (click)="templateQuestionModel.isShowDetails = !templateQuestionModel.isShowDetails">
-      <label>
+      <label class="checkbox-label">
         <input type="checkbox" [(ngModel)]="templateQuestionModel.isSelected" (click)="$event.stopPropagation()">
       </label>&nbsp;
       <span [innerHTML]="templateQuestionModel.description" class="template-description"></span>
