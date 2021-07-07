@@ -19,6 +19,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
@@ -37,6 +38,8 @@ import teammates.ui.request.BasicRequest;
  * this object can talk to the back end to perform that action.
  */
 public abstract class Action {
+
+    private static final Logger log = Logger.getLogger();
 
     Logic logic = new Logic();
     UserProvision userProvision = new UserProvision();
