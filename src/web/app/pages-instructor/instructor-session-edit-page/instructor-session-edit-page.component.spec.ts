@@ -9,6 +9,7 @@ import { FeedbackQuestionsService } from '../../../services/feedback-questions.s
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { InstructorService } from '../../../services/instructor.service';
 import { NavigationService } from '../../../services/navigation.service';
+import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import {
@@ -38,6 +39,7 @@ import { QuestionEditFormModel } from '../../components/question-edit-form/quest
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
+import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
 import Spy = jasmine.Spy;
 
 describe('InstructorSessionEditPageComponent', () => {
@@ -239,6 +241,7 @@ describe('InstructorSessionEditPageComponent', () => {
   let instructorService: InstructorService;
   let navigationService: NavigationService;
   let statusMessageService: StatusMessageService;
+  let simpleModalService: SimpleModalService;
   let ngbModal: NgbModal;
 
   beforeEach(async(() => {
@@ -272,6 +275,7 @@ describe('InstructorSessionEditPageComponent', () => {
     instructorService = TestBed.inject(InstructorService);
     navigationService = TestBed.inject(NavigationService);
     statusMessageService = TestBed.inject(StatusMessageService);
+    simpleModalService = TestBed.inject(SimpleModalService);
     ngbModal = TestBed.inject(NgbModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -550,6 +554,83 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(component.feedbackQuestionModels.has(testFeedbackQuestion2.feedbackQuestionId)).toEqual(true);
   });
 
+  it('should save existing question and move question to new position', () => {
+    const questionEditFormModel: QuestionEditFormModel = JSON.parse(JSON.stringify(testQuestionEditFormModel1));
+    questionEditFormModel.questionDescription = 'new description';
+    questionEditFormModel.questionNumber = 2;
+    const updatedFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
+    updatedFeedbackQuestion.questionDescription = 'new description';
+    updatedFeedbackQuestion.questionNumber = 2;
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'saveFeedbackQuestion').and.returnValue(of(updatedFeedbackQuestion));
+    component.questionEditFormModels = [questionEditFormModel, testQuestionEditFormModel2];
+    component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
+    component.feedbackQuestionModels.set(testFeedbackQuestion2.feedbackQuestionId, testFeedbackQuestion2);
+    
+    component.saveExistingQuestionHandler(0);
+
+    expect(feedbackQuestionSpy.calls.mostRecent().args[1].questionDescription).toEqual('new description');
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(updatedFeedbackQuestion);
+    expect(component.questionEditFormModels[1].feedbackQuestionId).toEqual(questionEditFormModel.feedbackQuestionId);
+    expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(testQuestionEditFormModel2.feedbackQuestionId);
+  });
+
+  it('should discard the changes made to the existing question', () => {
+    const questionEditFormModel: QuestionEditFormModel = JSON.parse(JSON.stringify(testQuestionEditFormModel1));
+    questionEditFormModel.questionDescription = 'new description';
+    component.questionEditFormModels = [questionEditFormModel];
+    component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
+
+    component.discardExistingQuestionHandler(0);
+
+    expect(component.questionEditFormModels[0].questionDescription).toEqual(testQuestionEditFormModel1.questionDescription);
+  });
+
+  it('should duplicate question', () => {
+    const duplicateFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
+    duplicateFeedbackQuestion.questionNumber = 2;
+    duplicateFeedbackQuestion.feedbackQuestionId = 'duplicate question id';
+    component.questionEditFormModels = [testQuestionEditFormModel1];
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(duplicateFeedbackQuestion));
+    
+    component.duplicateCurrentQuestionHandler(0);
+
+    expect(feedbackQuestionSpy.calls.mostRecent().args[2].questionNumber).toEqual(2);
+    expect(component.feedbackQuestionModels.get(duplicateFeedbackQuestion.feedbackQuestionId)).toEqual(duplicateFeedbackQuestion);
+  });
+
+  it('should delete existing question', async() => {
+    const promise: Promise<void> = Promise.resolve();
+    spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({ result: promise });
+    component.questionEditFormModels = [testQuestionEditFormModel1];
+    component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion').and.returnValue(of(true));
+
+    component.deleteExistingQuestionHandler(0);
+    await promise;
+
+    expect(feedbackQuestionSpy.calls.mostRecent().args[0]).toEqual(testQuestionEditFormModel1.feedbackQuestionId);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toBeUndefined();
+    expect(component.questionEditFormModels.length).toEqual(0);
+  });
+
+  it('should display template questions', async() => {
+    const promise: any = Promise.resolve([testFeedbackQuestion1]);
+    spyOn(ngbModal, 'open').and.returnValue({ result: promise });
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
+
+    component.templateQuestionModalHandler();
+    await promise;
+
+    expect(ngbModal.open).toHaveBeenCalledWith(TemplateQuestionModalComponent, { windowClass: 'modal-large' } );
+    expect(feedbackQuestionSpy).toBeCalledTimes(1);
+    expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(testFeedbackQuestion1.feedbackQuestionId);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(testFeedbackQuestion1);
+  });
+
+  it('should copy question from other session', () => {
+
+  });
+
   // Incomplete
   it('should open modal and copy current session', () => {
     class MockNgbModalRef {
@@ -583,6 +664,4 @@ describe('InstructorSessionEditPageComponent', () => {
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
   });
-
-  // Test save/duplicate/delete/move handlers
 });
