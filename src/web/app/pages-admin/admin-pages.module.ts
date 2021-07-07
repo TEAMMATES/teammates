@@ -43,6 +43,11 @@ const routes: Routes = [
         .then((m: any) => m.AdminTimezonePageModule),
   },
   {
+    path: 'logs',
+    loadChildren: () => import('../pages-logs/logs-page.module')
+        .then((m: any) => m.LogsPageModule),
+  },
+  {
     path: '',
     pathMatch: 'full',
     redirectTo: 'home',
