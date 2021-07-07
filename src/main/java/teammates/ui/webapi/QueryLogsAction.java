@@ -30,11 +30,6 @@ public class QueryLogsAction extends AdminOnlyAction {
 
     @Override
     ActionResult execute() {
-        String severitiesStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
-        if (severitiesStr == null) {
-            severitiesStr = DEFAULT_SEVERITIES;
-        }
-
         Instant endTime = Instant.now();
         try {
             String endTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
@@ -59,28 +54,20 @@ public class QueryLogsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
+        String severity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
+        String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
         String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String apiEndpoint = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_API_ENDPOINT);
-        List<String> severities = parseSeverities(severitiesStr);
+        String userId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_USER_ID);
 
         try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime,
-                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint);
+            QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
+                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint, userId);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * Parse severities String to a list of severity and check whether each value is
-     * a valid LogSeverity value. If it is not a legal LogSeverity value, it will be removed.
-     */
-    private List<String> parseSeverities(String severitiesStr) {
-        List<String> severities = Arrays.asList(severitiesStr.split(","));
-        severities.removeIf(severity -> !LOG_SEVERITIES.contains(severity));
-        return severities;
     }
 }

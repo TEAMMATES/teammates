@@ -4,8 +4,10 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
@@ -119,16 +121,48 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken, String traceId, String apiEndpoint) throws LogServiceException {
+    public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
+            Integer pageSize, String pageToken, String traceId, String apiEndpoint, String userId)
+            throws LogServiceException {
+
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME)
-                .setSeverities(severities)
                 .setStartTime(startTime)
                 .setEndTime(endTime)
-                .setTraceId(traceId)
                 .setApiEndpoint(apiEndpoint);
+
+        if (userId != null && traceId == null) {
+            LogSearchParams userSpecificLogSearchParams = new LogSearchParams()
+                    .addLogName(STDOUT_LOG_NAME)
+                    .addLogName(STDERR_LOG_NAME)
+                    .setStartTime(startTime)
+                    .setEndTime(endTime)
+                    .setApiEndpoint(apiEndpoint)
+                    .setUserId(userId);
+            if (severityLevel != null) {
+                userSpecificLogSearchParams.setSeverity(severityLevel);
+            } else if (minSeverity != null) {
+                userSpecificLogSearchParams.setMinSeverity(LogSeverity.valueOf(minSeverity));
+            } else {
+                userSpecificLogSearchParams.setMinSeverity(LogSeverity.INFO);
+            }
+            Page<LogEntry> userSpecificLogEntriesInPage = getLogEntries(userSpecificLogSearchParams, null);
+
+            List<String> userSpecificTraceId = getTraceIdFromLogEntries(userSpecificLogEntriesInPage);
+            logSearchParams = logSearchParams.setTraceIds(userSpecificTraceId);
+        } else if (traceId != null) {
+            logSearchParams = logSearchParams
+                    .setTraceIds(Collections.singletonList(traceId))
+                    .setUserId(userId);
+        }
+        if (severityLevel != null) {
+            logSearchParams.setSeverity(severityLevel);
+        } else if (minSeverity != null) {
+            logSearchParams.setMinSeverity(LogSeverity.valueOf(minSeverity));
+        } else {
+            logSearchParams.setMinSeverity(LogSeverity.INFO);
+        }
 
         PageParams pageParams = new PageParams(pageSize, pageToken);
 
@@ -243,18 +277,22 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
-        if (s.severities != null) {
-            String severitiesFilter = s.severities.stream().collect(Collectors.joining(" OR "));
-            logFilters.add("severity=(" + severitiesFilter + ")");
+        if (s.severity != null) {
+            logFilters.add("severity=" + s.severity);
         }
-        if (s.minSeverity != null && s.severities == null) {
-            logFilters.add("severity>=" + s.minSeverity.toString());
+        if (s.minSeverity != null && s.severity == null) {
+            logFilters.add("severity>=" + s.minSeverity);
         }
-        if (s.traceId != null) {
-            logFilters.add("trace=\"" + s.traceId + "\"");
+        if (s.traceIds != null) {
+            String traceIdFilter = String.join(" OR ", s.traceIds);
+            logFilters.add("trace=(\"" + traceIdFilter + "\")");
         }
         if (s.apiEndpoint != null) {
             logFilters.add("jsonPayload.requestUrl=\"" + s.apiEndpoint + "\"");
+        }
+        if (s.userId != null) {
+            logFilters.add("jsonPayload.googleId=\"" + s.userId + "\" OR jsonPayload.regkey=\"" + s.userId
+                    + "\" OR jsonPayload.email=\"" + s.userId + "\"");
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -292,6 +330,14 @@ public class GoogleCloudLoggingService implements LogService {
         return entries;
     }
 
+    private List<String> getTraceIdFromLogEntries(Page<LogEntry> logEntries) {
+        Set<String> traceIds = new HashSet<>();
+        for (LogEntry logEntry : logEntries.iterateAll()) {
+            traceIds.add(logEntry.getTrace());
+        }
+        return new ArrayList<>(traceIds);
+    }
+
     /**
      * Contains params to be used for the searching of logs.
      */
@@ -300,12 +346,13 @@ public class GoogleCloudLoggingService implements LogService {
         private String resourceType;
         private Instant startTime;
         private Instant endTime;
+        private String severity;
         private LogSeverity minSeverity;
-        private List<String> severities;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
-        private String traceId;
+        private List<String> traceIds;
         private String apiEndpoint;
+        private String userId;
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -332,8 +379,8 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setSeverities(List<String> severities) {
-            this.severities = severities;
+        public LogSearchParams setSeverity(String severity) {
+            this.severity = severity;
             return this;
         }
 
@@ -351,13 +398,18 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setTraceId(String traceId) {
-            this.traceId = traceId;
+        public LogSearchParams setTraceIds(List<String> traceIds) {
+            this.traceIds = traceIds;
             return this;
         }
 
         public LogSearchParams setApiEndpoint(String apiEndpoint) {
             this.apiEndpoint = apiEndpoint;
+            return this;
+        }
+
+        public LogSearchParams setUserId(String userId) {
+            this.userId = userId;
             return this;
         }
     }

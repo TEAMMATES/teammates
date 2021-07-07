@@ -256,6 +256,20 @@ public abstract class Action {
         return privilege;
     }
 
+    private void logUserInfo() {
+        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+
+        if (studentEmail == null && regkey != null) {
+            StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
+            if (student != null) {
+                studentEmail = student.getEmail();
+            }
+        }
+
+        log.logUserInfo(userInfo.getId(), regkey, studentEmail);
+    }
+
     /**
      * Gets the minimum access control level required to access the resource.
      */
