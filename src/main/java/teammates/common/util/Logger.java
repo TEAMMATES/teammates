@@ -1,5 +1,7 @@
 package teammates.common.util;
 
+import com.google.api.client.json.Json;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,6 +72,27 @@ public final class Logger {
      */
     public void severe(String message) {
         errorLog.severe(formatLogMessage(message, "ERROR"));
+    }
+
+    /**
+     * Logs user info at INFO level
+     */
+    public void logUser(String googleId, String regkey, String email) {
+        String logMessage;
+        Map<String, Object> payload;
+        if (googleId != null) {
+            String message = "Request " + RequestTracer.getTraceId() + " user: " + googleId;
+            payload = getBaseCloudLoggingPayload(message, "INFO");
+            payload.put("googleId", googleId);
+
+        } else {
+            String message = "Request " + RequestTracer.getTraceId() + " user regkey: " + regkey + " email: " + email;
+            payload = getBaseCloudLoggingPayload(message, "INFO");
+            payload.put("regkey", regkey);
+            payload.put("email", email);
+        }
+        logMessage = JsonUtils.toCompactJson(payload);
+        standardLog.info(logMessage);
     }
 
     private String formatLogMessage(String message, String severity) {
