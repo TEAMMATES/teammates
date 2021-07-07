@@ -67,10 +67,10 @@ public class GeneralLogEntry {
 
     public static class SourceLocation {
         private final String file;
-        private final long line;
+        private final Long line;
         private final String function;
 
-        public SourceLocation(String file, long line, String function) {
+        public SourceLocation(String file, Long line, String function) {
             this.file = file;
             this.line = line;
             this.function = function;
@@ -80,7 +80,7 @@ public class GeneralLogEntry {
             return file;
         }
 
-        public long getLine() {
+        public Long getLine() {
             return line;
         }
 
@@ -96,7 +96,7 @@ public class GeneralLogEntry {
             if (obj instanceof SourceLocation) {
                 SourceLocation other = (SourceLocation) obj;
                 return file.equals(other.getFile())
-                        && line == other.getLine()
+                        && line.equals(other.getLine())
                         && function.equals(other.getFunction());
             } else {
                 return false;
