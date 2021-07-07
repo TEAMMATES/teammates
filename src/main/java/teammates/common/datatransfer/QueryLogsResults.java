@@ -3,7 +3,7 @@ package teammates.common.datatransfer;
 import java.util.List;
 
 /**
- * This class contains the results of querying logs action.
+ * Represents the results of querying logs.
  */
 public class QueryLogsResults {
     private final List<GeneralLogEntry> logEntries;

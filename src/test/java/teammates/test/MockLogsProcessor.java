@@ -76,7 +76,7 @@ public class MockLogsProcessor extends LogsProcessor {
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
             GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
         GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, timestamp);
-        logEntry.setLogMessage(textPayloadMessage);
+        logEntry.setMessage(textPayloadMessage);
         generalLogs.add(logEntry);
     }
 

@@ -30,31 +30,25 @@ public class QueryLogsAction extends AdminOnlyAction {
 
     @Override
     ActionResult execute() {
-        String severitiesStr;
-
-        severitiesStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
+        String severitiesStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
         if (severitiesStr == null) {
             severitiesStr = DEFAULT_SEVERITIES;
         }
 
-        Instant endTime;
+        Instant endTime = Instant.now();
         try {
             String endTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
-            if (endTimeStr == null) {
-                endTime = Instant.now();
-            } else {
+            if (endTimeStr != null) {
                 endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
             }
         } catch (NumberFormatException e) {
             throw new InvalidHttpParameterException("Invalid end time.", e);
         }
 
-        Instant startTime;
+        Instant startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);;
         try {
             String startTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_STARTTIME);
-            if (startTimeStr == null) {
-                startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);
-            } else {
+            if (startTimeStr != null) {
                 startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
             }
         } catch (NumberFormatException e) {
@@ -80,7 +74,7 @@ public class QueryLogsAction extends AdminOnlyAction {
 
     /**
      * Parse severities String to a list of severity and check whether each value is
-     * a legal LogSeverity value. If it is not a legal LogSeverity value, it will be removed.
+     * a valid LogSeverity value. If it is not a legal LogSeverity value, it will be removed.
      */
     private List<String> parseSeverities(String severitiesStr) {
         List<String> severities = Arrays.asList(severitiesStr.split(","));

@@ -6,8 +6,8 @@ import java.util.Objects;
 import javax.annotation.Nullable;
 
 /**
- * This class represents a log entry and contains some of the fields that are more important
- * for querying logs action and are of more interest to maintainers.
+ * Represents a log entry and contains the fields that are more important
+ * for tracing and debugging purposes.
  */
 public class GeneralLogEntry {
     private final String logName;
@@ -16,9 +16,9 @@ public class GeneralLogEntry {
     private final SourceLocation sourceLocation;
     private final long timestamp;
     @Nullable
-    private String logMessage;
+    private String message;
     @Nullable
-    private Map<String, Object> logDetailsAsMap;
+    private Map<String, Object> details;
 
     public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
                            long timestamp) {
@@ -29,12 +29,12 @@ public class GeneralLogEntry {
         this.timestamp = timestamp;
     }
 
-    public void setLogMessage(String logMessage) {
-        this.logMessage = logMessage;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
-    public void setLogDetailsAsMap(Map<String, Object> logDetailsAsMap) {
-        this.logDetailsAsMap = logDetailsAsMap;
+    public void setDetails(Map<String, Object> details) {
+        this.details = details;
     }
 
     public String getLogName() {
@@ -57,12 +57,12 @@ public class GeneralLogEntry {
         return timestamp;
     }
 
-    public String getLogMessage() {
-        return logMessage;
+    public String getMessage() {
+        return message;
     }
 
-    public Map<String, Object> getLogDetailsAsMap() {
-        return logDetailsAsMap;
+    public Map<String, Object> getDetails() {
+        return details;
     }
 
     public static class SourceLocation {
@@ -98,9 +98,8 @@ public class GeneralLogEntry {
                 return file.equals(other.getFile())
                         && line.equals(other.getLine())
                         && function.equals(other.getFunction());
-            } else {
-                return false;
             }
+            return false;
         }
 
         @Override

@@ -42,9 +42,9 @@ interface QueryParams {
   styleUrls: ['./logs-page.component.scss'],
 })
 export class LogsPageComponent implements OnInit {
-  LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
-  LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
-  SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
+  readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
+  readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
+  readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
 
   formModel: SearchLogsFormModel = {
     logsSeverity: new Set(),
@@ -152,11 +152,11 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
-    if (log.logMessage) {
+    if (log.message) {
       summary = `Source: ${log.sourceLocation.file}`;
-      payload = this.formatTextPayloadForDisplay(log.logMessage);
-    } else if (log.logDetailsAsMap) {
-      payload = log.logDetailsAsMap;
+      payload = this.formatTextPayloadForDisplay(log.message);
+    } else if (log.details) {
+      payload = log.details;
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }

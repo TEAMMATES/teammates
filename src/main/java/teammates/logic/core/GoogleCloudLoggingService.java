@@ -140,19 +140,15 @@ public class GoogleCloudLoggingService implements LogService {
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry;
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
+                    new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
+                            sourceLocation.getFunction()), timestamp);;
             if (payload.getType() == Payload.Type.JSON) {
                 Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
-                logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
-                        new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                                sourceLocation.getFunction()), timestamp);
-                logEntry.setLogDetailsAsMap(jsonPayloadMap);
+                logEntry.setDetails(jsonPayloadMap);
             } else {
                 String textPayloadMessage = ((Payload.StringPayload) payload).getData();
-                logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
-                        new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                                sourceLocation.getFunction()), timestamp);
-                logEntry.setLogMessage(textPayloadMessage);
+                logEntry.setMessage(textPayloadMessage);
             }
             logEntries.add(logEntry);
         }
