@@ -42,8 +42,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
     }
 
-    public AppUrl withIsNewInstructorAccount(String isNewInstructorAccount) {
-        return withParam(Const.ParamsNames.IS_NEW_INSTRUCTOR_ACCOUNT, isNewInstructorAccount);
+    public AppUrl withSampleCourseId(String sampleCourseId) {
+        return withParam(Const.ParamsNames.SAMPLE_COURSE_ID, sampleCourseId);
     }
 
 }

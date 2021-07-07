@@ -102,7 +102,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should join course when join course button is clicked on', () => {
-    const params: string[] = ['key', 'student', 'NUS', 'mac', ''];
+    const params: string[] = ['key', 'student', 'NUS', 'mac'];
     component.isLoading = false;
     component.hasJoined = false;
     component.userId = 'user';

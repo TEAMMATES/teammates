@@ -1,7 +1,5 @@
 package teammates.logic.core;
 
-import java.time.DateTimeException;
-import java.time.ZoneId;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -12,7 +10,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -23,8 +20,6 @@ import teammates.storage.api.AccountsDb;
  * @see AccountsDb
  */
 public final class AccountsLogic {
-
-    private static final Logger log = Logger.getLogger();
 
     private static AccountsLogic instance = new AccountsLogic();
 
@@ -117,7 +112,7 @@ public final class AccountsLogic {
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
     public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute,
-            String mac, String timezone)
+            String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
 
@@ -159,18 +154,6 @@ public final class AccountsLogic {
                     StudentAttributes.updateOptionsBuilder(student.course, student.email)
                             .withGoogleId(student.googleId)
                             .build());
-        }
-
-        // Update timezone of course if needed
-        if (timezone != null) {
-            try {
-                coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.courseId)
-                        .withTimezone(ZoneId.of(timezone))
-                        .build());
-            } catch (DateTimeException dte) {
-                log.info("Timezone '" + timezone + "' of sample course with id '" + instructor.courseId
-                        + "' is not supported. UTC will be used instead.");
-            }
         }
 
         return instructor;

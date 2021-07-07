@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
@@ -28,6 +29,7 @@ export class UserJoinPageComponent implements OnInit {
   institute: string = '';
   mac: string = '';
   userId: string = '';
+  sampleCourseId: string = '';
   timezone: string = '';
 
   private backendUrl: string = environment.backendUrl;
@@ -47,7 +49,8 @@ export class UserJoinPageComponent implements OnInit {
       this.institute = queryParams.instructorinstitution;
       this.mac = queryParams.mac;
 
-      if (queryParams.isnewinstructoraccount === 'true') {
+      if (queryParams.samplecourseid) {
+        this.sampleCourseId = queryParams.samplecourseid;
         this.timezone = this.timezoneService.guessTimezone();
       }
 
@@ -88,8 +91,17 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac, this.timezone).subscribe(() => {
-      this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+    this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
+      if (this.sampleCourseId && this.timezone) {
+        this.courseService.updateCourse(this.sampleCourseId, {
+          courseName: 'Sample Course 101',
+          timeZone: this.timezone,
+        }).pipe(
+          finalize(() => this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`)),
+        ).subscribe();
+      } else {
+        this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+      }
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);
       modalRef.componentInstance.requestId = resp.error.requestId;

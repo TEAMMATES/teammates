@@ -273,13 +273,13 @@ public class Logic {
      * * Parameters encryptedKey and googleId are non-null.
      */
     public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId,
-            String institute, String mac, String timezone)
+            String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert googleId != null;
         assert encryptedKey != null;
 
-        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute, mac, timezone);
+        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute, mac);
     }
 
     /**

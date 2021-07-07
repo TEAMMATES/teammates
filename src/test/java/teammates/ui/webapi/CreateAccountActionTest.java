@@ -81,7 +81,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 .withInstructorInstitution(institute)
                 .withInstitutionMac(StringHelper.generateSignature(institute))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
-                .withIsNewInstructorAccount("true")
+                .withSampleCourseId(courseId)
                 .toAbsoluteString();
         JoinLinkData output = (JoinLinkData) r.getOutput();
         assertEquals(joinLink, output.getJoinLink());

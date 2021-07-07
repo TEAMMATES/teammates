@@ -96,10 +96,10 @@ public final class Const {
 
         public static final String IS_STUDENT_REJOINING = "isstudentrejoining";
         public static final String IS_INSTRUCTOR_REJOINING = "isinstructorrejoining";
-        public static final String IS_NEW_INSTRUCTOR_ACCOUNT = "isnewinstructoraccount";
 
         public static final String COURSE_ID = "courseid";
         public static final String COURSE_STATUS = "coursestatus";
+        public static final String SAMPLE_COURSE_ID = "samplecourseid";
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
