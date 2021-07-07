@@ -96,6 +96,7 @@
           <div class="col-12">
             <label for="api-endpoint" class="font-weight-bold">API endpoint</label>
             <select id="api-endpoint" class="form-control col-12" [(ngModel)]="formModel.apiEndpoint">
+              <option [value]=""></option>
               <option *ngFor="let endpoint of API_ENDPOINTS" [value]="endpoint">
                 {{ endpoint }}
               </option>
@@ -114,7 +115,7 @@
 </div>
 
 <div>
-  <tm-logs-table *ngIf="hasResult" [logs]="searchResults"></tm-logs-table>
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>

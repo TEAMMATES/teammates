@@ -22,6 +22,10 @@
           <tr *ngIf="log.isDetailsExpanded">
             <td colspan="3">
               <pre *ngIf="log.isDetailsExpanded" [innerHTML]="log.details | json"></pre>
+              <div>
+                <span class="title">trace: </span>
+                <span class="clickable" (click)="addTraceToFilter(log.traceId)">{{ log.traceId }}</span>
+              </div>
             </td>
           </tr>
         </ng-container>

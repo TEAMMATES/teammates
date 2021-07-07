@@ -38,6 +38,8 @@ interface QueryParams {
   severity?: string;
   minSeverity?: string;
   nextPageToken?: string;
+  apiEndpoint?: string,
+  traceId?: string,
 }
 
 /**
@@ -136,23 +138,25 @@ export class LogsPageComponent implements OnInit {
   }
 
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
+    this.previousQueryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+    }
+
     if (this.formModel.logsLevel === this.EQUAL) {
-      this.previousQueryParams = {
-        searchFrom: timestampFrom.toString(),
-        searchUntil: timestampUntil.toString(),
-        severity: this.formModel.logsSeverity,
-      };
-    } else if (this.formModel.logsLevel === this.ABOVE) {
-      this.previousQueryParams = {
-        searchFrom: timestampFrom.toString(),
-        searchUntil: timestampUntil.toString(),
-        minSeverity: this.formModel.logsMinSeverity,
-      }
-    } else {
-      this.previousQueryParams = {
-        searchFrom: timestampFrom.toString(),
-        searchUntil: timestampUntil.toString(),
-      }
+      this.previousQueryParams.severity = this.formModel.logsSeverity;
+    }
+    
+    if (this.formModel.logsLevel === this.ABOVE) {
+      this.previousQueryParams.minSeverity = this.formModel.logsMinSeverity;
+    }
+
+    if (this.formModel.apiEndpoint) {
+      this.previousQueryParams.apiEndpoint = this.formModel.apiEndpoint;
+    }
+
+    if (this.formModel.traceId) {
+      this.previousQueryParams.traceId = this.formModel.traceId;
     }
   }
 
@@ -188,7 +192,7 @@ export class LogsPageComponent implements OnInit {
         summary += `${payload.requestMethod} `;
       }
       if (payload.requestUrl) {
-        summary += `${payload.requestUrl}`;
+        summary += `${payload.requestUrl} `;
       }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
@@ -204,12 +208,12 @@ export class LogsPageComponent implements OnInit {
       summary,
       httpStatus,
       responseTime,
+      traceId: log.trace,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       details: JSON.parse(JSON.stringify({
         payload,
         sourceLocation: log.sourceLocation,
-        trace: log.trace,
       })),
       isDetailsExpanded: false,
     };
@@ -228,5 +232,11 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  addTraceToFilter(trace: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.traceId = trace;
+    this.statusMessageService.showSuccessToast('Trace ID added to filters');
   }
 }
