@@ -14,8 +14,8 @@ import teammates.test.AssertHelper;
 
 /**
  * SUT: {@link InstructorsDb},
- *      {@link teammates.storage.search.InstructorSearchDocument},
- *      {@link teammates.storage.search.InstructorSearchQuery}.
+ * {@link teammates.storage.search.InstructorSearchDocument},
+ * {@link teammates.storage.search.InstructorSearchQuery}.
  */
 public class InstructorSearchTest extends BaseSearchTest {
 
@@ -32,6 +32,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins1InCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
         InstructorAttributes ins2InCourse3 = dataBundle.instructors.get("instructor2OfCourse3");
         InstructorAttributes ins1InCourse4 = dataBundle.instructors.get("instructor1OfCourse4");
+        InstructorAttributes instructor1OfCourseWithOnlyCustom = dataBundle.instructors.get("instructor1OfCourseWithOnlyCustom");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
         InstructorAttributes ins1InTestingSanitizationCourse =
@@ -98,7 +99,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         ______TS("success: search for instructors in whole system; instructors should be searchable by their role");
 
         results = instructorsDb.searchInstructorsInWholeSystem("Custom");
-        verifySearchResults(results, helperInCourse1, ins2InCourse3, ins1InCourse4);
+        verifySearchResults(results, helperInCourse1, ins2InCourse3, ins1InCourse4, instructor1OfCourseWithOnlyCustom);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
 
@@ -193,7 +194,7 @@ public class InstructorSearchTest extends BaseSearchTest {
      * @param expected the expected results for the search query.
      */
     private static void verifySearchResults(InstructorSearchResultBundle actual,
-            InstructorAttributes... expected) {
+                                            InstructorAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.instructorList.size());
         standardizeInstructorsForComparison(expected);

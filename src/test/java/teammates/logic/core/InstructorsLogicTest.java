@@ -663,7 +663,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(tutorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("Should grant the currently being edited instructor the privilege of modifying instructors");
-        courseId = "idOfCourseWithNoInstructorWithModifyingInstructorsPrivilege";
+        courseId = "idOfCourseWithOnlyCustom";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, tutorToUpdate);
 
         assertTrue(tutorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
