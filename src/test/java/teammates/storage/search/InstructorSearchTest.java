@@ -32,7 +32,8 @@ public class InstructorSearchTest extends BaseSearchTest {
         InstructorAttributes ins1InCourse3 = dataBundle.instructors.get("instructor1OfCourse3");
         InstructorAttributes ins2InCourse3 = dataBundle.instructors.get("instructor2OfCourse3");
         InstructorAttributes ins1InCourse4 = dataBundle.instructors.get("instructor1OfCourse4");
-        InstructorAttributes instructor1OfCourseWithOnlyCustom = dataBundle.instructors.get("instructor1OfCourseWithOnlyCustom");
+        InstructorAttributes instructor1OfCourseWithOnlyCustom =
+                dataBundle.instructors.get("instructor1OfCourseWithOnlyCustom");
         InstructorAttributes insInArchivedCourse = dataBundle.instructors.get("instructorOfArchivedCourse");
         InstructorAttributes insInUnregCourse = dataBundle.instructors.get("instructor5");
         InstructorAttributes ins1InTestingSanitizationCourse =
