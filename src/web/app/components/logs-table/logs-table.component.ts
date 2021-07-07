@@ -25,28 +25,28 @@ export class LogsTableComponent implements OnInit {
 
   getClassForStatus(httpStatus: number): string {
     const num: number = Math.floor(httpStatus / 100);
-    if (num === 2) {
-      return 'green-font';
+    switch (num) {
+      case 2:
+        return 'green-font';
+      case 4:
+        return 'orange-font';
+      case 5:
+        return 'red-font';
+      default:
+        return '';
     }
-    if (num === 4) {
-      return 'orange-font';
-    }
-    if (num === 5) {
-      return 'red-font';
-    }
-    return '';
   }
 
   getClassForSeverity(severity: string): string {
-    if (severity === 'INFO') {
-      return 'info-row';
+    switch (severity) {
+      case 'INFO':
+        return 'info-row';
+      case 'WARNING':
+        return 'warning-row';
+      case 'ERROR':
+        return 'error-row';
+      default:
+        return '';
     }
-    if (severity === 'WARNING') {
-      return 'warning-row';
-    }
-    if (severity === 'ERROR') {
-      return 'error-row';
-    }
-    return '';
   }
 }

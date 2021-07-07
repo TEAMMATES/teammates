@@ -16,28 +16,25 @@ public class GeneralLogEntry {
     private final SourceLocation sourceLocation;
     private final long timestamp;
     @Nullable
-    private String textPayloadMessage;
+    private String logMessage;
     @Nullable
-    private Map<String, Object> jsonPayloadMap;
+    private Map<String, Object> logDetailsAsMap;
 
     public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                           long timestamp, String textPayloadMessage) {
+                           long timestamp) {
         this.logName = logName;
         this.severity = severity;
         this.trace = trace;
         this.sourceLocation = sourceLocation;
         this.timestamp = timestamp;
-        this.textPayloadMessage = textPayloadMessage;
     }
 
-    public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                           long timestamp, Map<String, Object> jsonPayloadMap) {
-        this.logName = logName;
-        this.severity = severity;
-        this.trace = trace;
-        this.sourceLocation = sourceLocation;
-        this.timestamp = timestamp;
-        this.jsonPayloadMap = jsonPayloadMap;
+    public void setLogMessage(String logMessage) {
+        this.logMessage = logMessage;
+    }
+
+    public void setLogDetailsAsMap(Map<String, Object> logDetailsAsMap) {
+        this.logDetailsAsMap = logDetailsAsMap;
     }
 
     public String getLogName() {
@@ -60,12 +57,12 @@ public class GeneralLogEntry {
         return timestamp;
     }
 
-    public String getTextPayloadMessage() {
-        return textPayloadMessage;
+    public String getLogMessage() {
+        return logMessage;
     }
 
-    public Map<String, Object> getJsonPayloadMap() {
-        return jsonPayloadMap;
+    public Map<String, Object> getLogDetailsAsMap() {
+        return logDetailsAsMap;
     }
 
     public static class SourceLocation {

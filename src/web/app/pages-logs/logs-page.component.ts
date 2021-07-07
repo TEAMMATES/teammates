@@ -152,11 +152,11 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
-    if (log.textPayloadMessage) {
+    if (log.logMessage) {
       summary = `Source: ${log.sourceLocation.file}`;
-      payload = this.formatTextPayloadForDisplay(log.textPayloadMessage);
-    } else if (log.jsonPayloadMap) {
-      payload = log.jsonPayloadMap;
+      payload = this.formatTextPayloadForDisplay(log.logMessage);
+    } else if (log.logDetailsAsMap) {
+      payload = log.logDetailsAsMap;
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }
