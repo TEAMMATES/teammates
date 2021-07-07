@@ -46,9 +46,9 @@ interface QueryParams {
   styleUrls: ['./logs-page.component.scss'],
 })
 export class LogsPageComponent implements OnInit {
-  LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
-  LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
-  SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
+  readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
+  readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
+  readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
   API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
 
   formModel: SearchLogsFormModel = {
@@ -158,11 +158,11 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
-    if (log.textPayloadMessage) {
+    if (log.message) {
       summary = `Source: ${log.sourceLocation.file}`;
-      payload = this.formatTextPayloadForDisplay(log.textPayloadMessage);
-    } else if (log.jsonPayloadMap) {
-      payload = log.jsonPayloadMap;
+      payload = this.formatTextPayloadForDisplay(log.message);
+    } else if (log.details) {
+      payload = log.details;
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }

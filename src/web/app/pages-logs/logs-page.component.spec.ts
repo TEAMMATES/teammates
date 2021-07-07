@@ -72,7 +72,7 @@ describe('LogsPageComponent', () => {
         function: 'function',
       },
       timestamp: 1549095330000,
-      textPayloadMessage: 'message',
+      message: 'message',
     };
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [testLog], nextPageToken: 'testToken' }));
