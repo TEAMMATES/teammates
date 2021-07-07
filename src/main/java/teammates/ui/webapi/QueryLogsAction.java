@@ -11,7 +11,7 @@ import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
 /**
- * Gets the list of error logs for a user-specified period of time.
+ * Queries the logs from Google Cloud Logging.
  */
 public class QueryLogsAction extends AdminOnlyAction {
     private static final int DEFAULT_PAGE_SIZE = 20;
