@@ -119,16 +119,23 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+    public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
             Integer pageSize, String pageToken, String traceId, String apiEndpoint) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME)
-                .setSeverities(severities)
                 .setStartTime(startTime)
                 .setEndTime(endTime)
                 .setTraceId(traceId)
                 .setApiEndpoint(apiEndpoint);
+        
+        if (severityLevel != null) {
+            logSearchParams.setSeverity(severityLevel);
+        } else if (minSeverity != null) {
+            logSearchParams.setMinSeverity(LogSeverity.valueOf(minSeverity));
+        } else {
+            logSearchParams.setMinSeverity(LogSeverity.INFO);
+        }
 
         PageParams pageParams = new PageParams(pageSize, pageToken);
 
@@ -243,11 +250,10 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
-        if (s.severities != null) {
-            String severitiesFilter = s.severities.stream().collect(Collectors.joining(" OR "));
-            logFilters.add("severity=(" + severitiesFilter + ")");
+        if (s.severity != null) {
+            logFilters.add("severity=" + s.severity);
         }
-        if (s.minSeverity != null && s.severities == null) {
+        if (s.minSeverity != null && s.severity == null) {
             logFilters.add("severity>=" + s.minSeverity.toString());
         }
         if (s.traceId != null) {
@@ -301,7 +307,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Instant startTime;
         private Instant endTime;
         private LogSeverity minSeverity;
-        private List<String> severities;
+        private String severity;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
         private String traceId;
@@ -332,8 +338,8 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setSeverities(List<String> severities) {
-            this.severities = severities;
+        public LogSearchParams setSeverity(String severity) {
+            this.severity = severity;
             return this;
         }
 

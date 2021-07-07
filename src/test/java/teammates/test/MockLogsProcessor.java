@@ -4,6 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.logging.type.LogSeverity;
+
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
@@ -81,16 +83,33 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+    public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
             Integer pageSize, String pageToken, String trace, String requestUrl) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        generalLogs.forEach(entry -> {
-            if (severities.contains(entry.getSeverity())
-                    && entry.getTimestamp() >= startTime.toEpochMilli()
-                    && entry.getTimestamp() <= endTime.toEpochMilli()) {
-                queryResults.add(entry);
-            }
-        });
+        if (severity != null) {
+            generalLogs.forEach(entry -> {
+                if (severity == entry.getSeverity()
+                        && entry.getTimestamp() >= startTime.toEpochMilli()
+                        && entry.getTimestamp() <= endTime.toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else if (minSeverity != null) {
+            generalLogs.forEach(entry -> {
+                if (LogSeverity.valueOf(minSeverity).getNumber() <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                        && entry.getTimestamp() >= startTime.toEpochMilli()
+                        && entry.getTimestamp() <= endTime.toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else {
+            generalLogs.forEach(entry -> {
+                if (entry.getTimestamp() >= startTime.toEpochMilli()
+                        && entry.getTimestamp() <= endTime.toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        }
         return new QueryLogsResults(queryResults, null);
     }
 

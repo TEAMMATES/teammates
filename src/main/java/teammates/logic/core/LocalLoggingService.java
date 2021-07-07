@@ -33,7 +33,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+    public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
             Integer pageSize, String pageToken, String traceId, String apiEndpoint) {
         // Not supported in dev server
         return new QueryLogsResults(Collections.emptyList(), null);

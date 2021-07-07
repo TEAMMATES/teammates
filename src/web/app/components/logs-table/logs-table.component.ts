@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { LogsTableRowModel } from './logs-table-model';
 
 /**
@@ -13,6 +13,9 @@ export class LogsTableComponent implements OnInit {
 
   @Input()
   logs: LogsTableRowModel[] = [];
+
+  @Output()
+  addTraceEvent: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -48,5 +51,9 @@ export class LogsTableComponent implements OnInit {
       default:
         return '';
     }
+  }
+
+  addTraceToFilter(trace: string): void {
+    this.addTraceEvent.emit(trace);
   }
 }

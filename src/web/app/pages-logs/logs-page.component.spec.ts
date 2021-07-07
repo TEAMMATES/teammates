@@ -45,10 +45,10 @@ describe('LogsPageComponent', () => {
   });
 
   it('should snap when searching for details in search form', () => {
-    const logSeverity: Set<string> = new Set();
-    logSeverity.add('ERROR');
     component.formModel = {
-      logsSeverity: logSeverity,
+      logsSeverity: 'ERROR',
+      logsMinSeverity: '',
+      logsLevel: '',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
@@ -81,10 +81,10 @@ describe('LogsPageComponent', () => {
 
     component.isLoading = false;
     component.isSearching = false;
-    const logSeverity: Set<string> = new Set();
-    logSeverity.add('INFO');
     component.formModel = {
-      logsSeverity: logSeverity,
+      logsSeverity: 'INFO',
+      logsMinSeverity: '',
+      logsLevel: 'equal',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
@@ -98,7 +98,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
-      severities: 'INFO',
+      severity: 'INFO',
     });
 
     expect(component.searchResults.length).toEqual(1);

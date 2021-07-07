@@ -16,7 +16,9 @@ import { ErrorMessageOutput } from '../error-message-output';
  * Model for searching of logs.
  */
 interface SearchLogsFormModel {
-  logsSeverity: Set<string>;
+  logsSeverity: string;
+  logsMinSeverity: string;
+  logsLevel: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
@@ -33,8 +35,11 @@ interface SearchLogsFormModel {
 interface QueryParams {
   searchFrom: string;
   searchUntil: string;
-  severities: string;
+  severity?: string;
+  minSeverity?: string;
   nextPageToken?: string;
+  apiEndpoint?: string,
+  traceId?: string,
 }
 
 /**
@@ -49,16 +54,21 @@ export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
+  EQUAL: string = 'equal';
+  ABOVE: string = 'above';
+  ALL: string = 'all';
   API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: new Set(),
+    logsSeverity: '',
+    logsMinSeverity: '',
+    logsLevel: '',
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
+  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severity: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -96,15 +106,11 @@ export class LogsPageComponent implements OnInit {
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
   }
 
-  toggleSelection(severity: string): void {
-    this.formModel.logsSeverity.has(severity)
-      ? this.formModel.logsSeverity.delete(severity)
-      : this.formModel.logsSeverity.add(severity);
-  }
-
   searchForLogs(): void {
-    if (this.formModel.logsSeverity.size === 0) {
-      this.statusMessageService.showErrorToast('Please select at least one severity level');
+    if (this.formModel.logsLevel === ''
+      || (this.formModel.logsLevel === this.EQUAL && this.formModel.logsSeverity == '')
+      || (this.formModel.logsLevel === this.ABOVE && this.formModel.logsMinSeverity == '')) {
+      this.statusMessageService.showErrorToast('Please select severity level');
       return;
     }
 
@@ -120,11 +126,7 @@ export class LogsPageComponent implements OnInit {
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
-                searchFrom: timestampFrom.toString(),
-                searchUntil: timestampUntil.toString(),
-                severities: Array.from(this.formModel.logsSeverity).join(','),
-              };
+              this.setQueryParams(timestampFrom, timestampUntil);
               return this.logService.searchLogs(this.previousQueryParams);
             }),
             finalize(() => {
@@ -133,6 +135,29 @@ export class LogsPageComponent implements OnInit {
             }))
             .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
               (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private setQueryParams(timestampFrom: number, timestampUntil: number): void {
+    this.previousQueryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+    }
+
+    if (this.formModel.logsLevel === this.EQUAL) {
+      this.previousQueryParams.severity = this.formModel.logsSeverity;
+    }
+    
+    if (this.formModel.logsLevel === this.ABOVE) {
+      this.previousQueryParams.minSeverity = this.formModel.logsMinSeverity;
+    }
+
+    if (this.formModel.apiEndpoint) {
+      this.previousQueryParams.apiEndpoint = this.formModel.apiEndpoint;
+    }
+
+    if (this.formModel.traceId) {
+      this.previousQueryParams.traceId = this.formModel.traceId;
+    }
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
@@ -167,7 +192,7 @@ export class LogsPageComponent implements OnInit {
         summary += `${payload.requestMethod} `;
       }
       if (payload.requestUrl) {
-        summary += `${payload.requestUrl}`;
+        summary += `${payload.requestUrl} `;
       }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
@@ -183,12 +208,12 @@ export class LogsPageComponent implements OnInit {
       summary,
       httpStatus,
       responseTime,
+      traceId: log.trace,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       details: JSON.parse(JSON.stringify({
         payload,
         sourceLocation: log.sourceLocation,
-        trace: log.trace,
       })),
       isDetailsExpanded: false,
     };
@@ -207,5 +232,11 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  addTraceToFilter(trace: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.traceId = trace;
+    this.statusMessageService.showSuccessToast('Trace ID added to filters');
   }
 }

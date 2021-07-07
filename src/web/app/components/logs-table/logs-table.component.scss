@@ -45,6 +45,11 @@
   color: darkorange;
 }
 
+.title {
+  color: steelblue;
+  font-weight: bold;
+}
+
 .info-row {
   background-color: lightcyan;
 }
@@ -55,4 +60,8 @@
 
 .error-row {
   background-color: lightpink;
+}
+
+.clickable:hover, .clickable:active {
+  background-color: lightblue;
 }

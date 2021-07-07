@@ -1,13 +1,8 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
-
-import com.google.logging.type.LogSeverity;
 
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -19,21 +14,15 @@ import teammates.ui.output.GeneralLogsData;
  * Gets the list of error logs for a user-specified period of time.
  */
 public class QueryLogsAction extends AdminOnlyAction {
-    private static final String DEFAULT_SEVERITIES = "INFO";
     private static final int DEFAULT_PAGE_SIZE = 20;
 
     private static final long TWENTY_FOUR_HOURS_IN_MILLIS = 1000L * 60 * 60 * 24;
 
-    private static final List<String> LOG_SEVERITIES = Arrays.stream(LogSeverity.values())
-            .map(Enum::toString)
-            .collect(Collectors.toList());
-
     @Override
     ActionResult execute() {
-        String severitiesStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
-        if (severitiesStr == null) {
-            severitiesStr = DEFAULT_SEVERITIES;
-        }
+
+        String severity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
+        String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
 
         Instant endTime = Instant.now();
         try {
@@ -62,25 +51,14 @@ public class QueryLogsAction extends AdminOnlyAction {
         String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String apiEndpoint = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_API_ENDPOINT);
-        List<String> severities = parseSeverities(severitiesStr);
 
         try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(severities, startTime, endTime,
+            QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
                     DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-    }
-
-    /**
-     * Parse severities String to a list of severity and check whether each value is
-     * a valid LogSeverity value. If it is not a legal LogSeverity value, it will be removed.
-     */
-    private List<String> parseSeverities(String severitiesStr) {
-        List<String> severities = Arrays.asList(severitiesStr.split(","));
-        severities.removeIf(severity -> !LOG_SEVERITIES.contains(severity));
-        return severities;
     }
 }
