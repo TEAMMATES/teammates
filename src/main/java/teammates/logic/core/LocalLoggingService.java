@@ -2,11 +2,13 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 
@@ -28,6 +30,13 @@ public class LocalLoggingService implements LogService {
     public List<ErrorLogEntry> getRecentErrorLogs() {
         // Not supported in dev server
         return new ArrayList<>();
+    }
+
+    @Override
+    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                      Integer pageSize, String pageToken) {
+        // Not supported in dev server
+        return new QueryLogsResults(Collections.emptyList(), null);
     }
 
     @Override
