@@ -51,10 +51,11 @@ public class QueryLogsAction extends AdminOnlyAction {
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String apiEndpoint = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_API_ENDPOINT);
         String userId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_USER_ID);
+        String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);
 
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
-                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint, userId);
+                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint, userId, logEvent);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
