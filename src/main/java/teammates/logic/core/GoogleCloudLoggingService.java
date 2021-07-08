@@ -122,8 +122,8 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken, String traceId, String apiEndpoint, String userId, String logEvent)
-            throws LogServiceException {
+            Integer pageSize, String pageToken, String traceId, String apiEndpoint, String userId, String logEvent,
+            GeneralLogEntry.SourceLocation sourceLocationFilter) throws LogServiceException {
 
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
@@ -131,7 +131,8 @@ public class GoogleCloudLoggingService implements LogService {
                 .setStartTime(startTime)
                 .setEndTime(endTime)
                 .setApiEndpoint(apiEndpoint)
-                .setLogEvent(logEvent);
+                .setLogEvent(logEvent)
+                .setSourceLocation(sourceLocationFilter);
 
         if (userId != null && traceId == null) {
             LogSearchParams userSpecificLogSearchParams = new LogSearchParams()
@@ -141,6 +142,7 @@ public class GoogleCloudLoggingService implements LogService {
                     .setEndTime(endTime)
                     .setApiEndpoint(apiEndpoint)
                     .setLogEvent(logEvent)
+                    .setSourceLocation(sourceLocationFilter)
                     .setUserId(userId);
             if (severityLevel != null) {
                 userSpecificLogSearchParams.setSeverity(severityLevel);
@@ -299,6 +301,14 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.logEvent != null) {
             logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
         }
+        if (s.sourceLocation != null) {
+            if (s.sourceLocation.getFunction() == null) {
+                logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile() + "\"");
+            } else {
+                logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile()
+                        + "\" AND sourceLocation.function=\"" + s.sourceLocation.getFunction() + "\"");
+            }
+        }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
@@ -359,6 +369,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String apiEndpoint;
         private String userId;
         private String logEvent;
+        private GeneralLogEntry.SourceLocation sourceLocation;
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -421,6 +432,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setLogEvent(String logEvent) {
             this.logEvent = logEvent;
+            return this;
+        }
+
+        public LogSearchParams setSourceLocation(GeneralLogEntry.SourceLocation sourceLocation) {
+            this.sourceLocation = sourceLocation;
             return this;
         }
     }

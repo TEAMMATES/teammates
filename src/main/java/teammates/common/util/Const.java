@@ -158,6 +158,8 @@ public final class Const {
         public static final String QUERY_LOGS_API_ENDPOINT = "apiendpoint";
         public static final String QUERY_LOGS_USER_ID = "userid";
         public static final String QUERY_LOGS_EVENT = "logevent";
+        public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
+        public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
         public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
