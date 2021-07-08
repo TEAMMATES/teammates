@@ -1,0 +1,586 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AdminSearchPageComponent should snap with a search key 1`] = `
+<tm-admin-search-page
+  accountService={[Function AccountService]}
+  emailGenerationService={[Function EmailGenerationService]}
+  instructors={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
+  searchQuery={[Function String]}
+  searchService={[Function SearchService]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <p
+        class="text-muted"
+      >
+         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
+      </p>
+      <div
+        class="input-group"
+      >
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          type="text"
+        />
+        <div
+          class="input-group-append"
+        >
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-admin-search-page>
+`;
+
+exports[`AdminSearchPageComponent should snap with an expanded instructor table 1`] = `
+<tm-admin-search-page
+  accountService={[Function AccountService]}
+  emailGenerationService={[Function EmailGenerationService]}
+  instructors={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
+  searchQuery=""
+  searchService={[Function SearchService]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <p
+        class="text-muted"
+      >
+         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
+      </p>
+      <div
+        class="input-group"
+      >
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          type="text"
+        />
+        <div
+          class="input-group-append"
+        >
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-info text-white"
+    >
+      <strong>
+        Instructors Found
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-instructor-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+          Expand All
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-instructor-links"
+          type="button"
+        >
+          Collapse All
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-instructor"
+      >
+        <thead>
+          <tr>
+            <th>
+              Course
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Google ID
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>
+              <span>
+                test-exa.demo
+              </span>
+              <br />
+              <div
+                class="col-sm-1"
+              >
+                
+                
+                <button
+                  class="btn"
+                >
+                  <i
+                    class="fas fa-chevron-circle-up"
+                    style="color: blue;"
+                  />
+                </button>
+              </div>
+            </td>
+            <td>
+              tester
+            </td>
+            <td>
+              <a
+                href="home-page-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                 instructor-google-id
+              </a>
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              
+              <a
+                href="manage-account-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <i
+                  class="fas fa-info-circle"
+                />
+                 Manage this account 
+              </a>
+              <br />
+              
+              <a
+                href="javascript:;"
+                id="reset-instructor-id-0"
+              >
+                <i
+                  class="fas fa-sync"
+                />
+                 Reset Google ID 
+              </a>
+            </td>
+          </tr>
+          
+          <tr>
+            <td
+              colspan="5"
+            >
+              <ul
+                class="list-group"
+              >
+                <li
+                  class="list-group-item list-group-item-success has-success"
+                >
+                  <strong>
+                    Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Course Join Link
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-search-page>
+`;
+
+exports[`AdminSearchPageComponent should snap with an expanded student table 1`] = `
+<tm-admin-search-page
+  accountService={[Function AccountService]}
+  emailGenerationService={[Function EmailGenerationService]}
+  instructors={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
+  searchQuery=""
+  searchService={[Function SearchService]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <p
+        class="text-muted"
+      >
+         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
+      </p>
+      <div
+        class="input-group"
+      >
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          type="text"
+        />
+        <div
+          class="input-group-append"
+        >
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-header bg-primary text-white"
+    >
+      <strong>
+        Students Found
+      </strong>
+      <div
+        class="card-header-btn-toolbar"
+      >
+        <button
+          class="btn btn-light btn-sm"
+          id="show-student-links"
+          style="margin-right: 10px;"
+          type="button"
+        >
+          Expand All
+        </button>
+        <button
+          class="btn btn-light btn-sm"
+          id="hide-student-links"
+          type="button"
+        >
+          Collapse All
+        </button>
+      </div>
+    </div>
+    <div
+      class="table-responsive"
+    >
+      <table
+        class="table table-striped data-table"
+        id="search-table-student"
+      >
+        <thead>
+          <tr>
+            <th>
+              Course [Section] (Team)
+            </th>
+            <th>
+              Name
+            </th>
+            <th>
+              Google ID
+            </th>
+            <th>
+              Institute
+            </th>
+            <th>
+              Comments
+            </th>
+            <th>
+              Options
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          
+          
+          <tr>
+            <td>
+              <span>
+                 test-exa.demo [section] (team) 
+              </span>
+              <br />
+              <div
+                class="col-sm-1"
+              >
+                
+                
+                <button
+                  class="btn"
+                >
+                  <i
+                    class="fas fa-chevron-circle-up"
+                    style="color: blue;"
+                  />
+                </button>
+              </div>
+            </td>
+            <td>
+              Alice Betsy
+            </td>
+            <td>
+              
+              <a
+                href="home-page-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                 student-google-id
+              </a>
+            </td>
+            <td>
+              institute
+            </td>
+            <td>
+              comments
+            </td>
+            <td>
+              
+              <a
+                href="manage-account-link"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <i
+                  class="fas fa-info-circle"
+                />
+                 Manage this account 
+              </a>
+              <br />
+              
+              <a
+                href="javascript:;"
+                id="reset-student-id-0"
+              >
+                <i
+                  class="fas fa-sync"
+                />
+                 Reset Google ID 
+              </a>
+              <br />
+              <button
+                class="btn btn-danger"
+                id="regenerate-student-key-0"
+              >
+                Regenerate links
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td
+              colspan="6"
+            >
+              
+              <ul
+                class="list-group ng-trigger ng-trigger-collapseAnim ng-animating"
+                style=""
+              >
+                <li
+                  class="list-group-item list-group-item-success has-success"
+                >
+                  <strong>
+                    Email
+                  </strong>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                <li
+                  class="list-group-item list-group-item-info"
+                >
+                  <strong>
+                    Course Join Link
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-course-join-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-warning"
+                  style=""
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-open-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-danger"
+                  style=""
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-not-open-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-success"
+                  style=""
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-published-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+              </ul>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</tm-admin-search-page>
+`;
+
+exports[`AdminSearchPageComponent should snap with default fields 1`] = `
+<tm-admin-search-page
+  accountService={[Function AccountService]}
+  emailGenerationService={[Function EmailGenerationService]}
+  instructors={[Function Array]}
+  loadingBarService={[Function LoadingBarService]}
+  searchQuery=""
+  searchService={[Function SearchService]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  students={[Function Array]}
+>
+  <div
+    class="card bg-light top-padded"
+  >
+    <div
+      class="card-body"
+    >
+      <p
+        class="text-muted"
+      >
+         Tips: Surround key word to search a whole string or string contains punctuation like "-" "." 
+      </p>
+      <div
+        class="input-group"
+      >
+        <input
+          class="form-control ng-untouched ng-pristine ng-valid"
+          id="search-box"
+          type="text"
+        />
+        <div
+          class="input-group-append"
+        >
+          <button
+            class="btn btn-primary"
+            id="search-button"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</tm-admin-search-page>
+`;

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogType, ResourceEndpoints } from '../types/api-const';
-import { FeedbackSessionLogs } from '../types/api-output';
+import { FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -57,5 +57,24 @@ export class LogService {
     }
 
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
+  }
+
+  searchLogs(queryParams: {
+    searchFrom: string,
+    searchUntil: string,
+    severities: string,
+    nextPageToken?: string,
+  }): Observable<GeneralLogs> {
+    const paramMap: Record<string, string> = {
+      starttime: queryParams.searchFrom,
+      endtime: queryParams.searchUntil,
+      severities: queryParams.severities,
+    };
+
+    if (queryParams.nextPageToken) {
+      paramMap.nextpagetoken = queryParams.nextPageToken;
+    }
+
+    return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
   }
 }

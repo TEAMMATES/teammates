@@ -29,6 +29,7 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
@@ -172,7 +173,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
-        UserInfo user = mockUserProvision.loginAsAdmin("admin.user");
+        UserInfo user = mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
         assertTrue(user.isAdmin);
     }
 

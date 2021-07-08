@@ -87,6 +87,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             id="btn-delete-question"
             type="button"
           >
+            
             <i
               class="fas fa-trash"
             />
@@ -99,6 +100,7 @@ exports[`QuestionEditFormComponent should snap with default view 1`] = `
             ngbtooltip="Make a copy of the existing question and add to the current feedback session."
             type="button"
           >
+            
             <i
               class="far fa-copy"
             />
