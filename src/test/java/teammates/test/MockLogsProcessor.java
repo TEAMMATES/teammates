@@ -84,11 +84,11 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken, String trace, String requestUrl, String userId) {
+            Integer pageSize, String pageToken, String trace, String requestUrl, String userId, String logEvent) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         if (severity != null) {
             generalLogs.forEach(entry -> {
-                if (severity == entry.getSeverity()
+                if (severity.equals(entry.getSeverity())
                         && entry.getTimestamp() >= startTime.toEpochMilli()
                         && entry.getTimestamp() <= endTime.toEpochMilli()
                         && entry.getTrace().equals(trace)) {

@@ -122,7 +122,7 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken, String traceId, String apiEndpoint, String userId)
+            Integer pageSize, String pageToken, String traceId, String apiEndpoint, String userId, String logEvent)
             throws LogServiceException {
 
         LogSearchParams logSearchParams = new LogSearchParams()
@@ -130,7 +130,8 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLogName(STDERR_LOG_NAME)
                 .setStartTime(startTime)
                 .setEndTime(endTime)
-                .setApiEndpoint(apiEndpoint);
+                .setApiEndpoint(apiEndpoint)
+                .setLogEvent(logEvent);
 
         if (userId != null && traceId == null) {
             LogSearchParams userSpecificLogSearchParams = new LogSearchParams()
@@ -139,6 +140,7 @@ public class GoogleCloudLoggingService implements LogService {
                     .setStartTime(startTime)
                     .setEndTime(endTime)
                     .setApiEndpoint(apiEndpoint)
+                    .setLogEvent(logEvent)
                     .setUserId(userId);
             if (severityLevel != null) {
                 userSpecificLogSearchParams.setSeverity(severityLevel);
@@ -294,6 +296,9 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("jsonPayload.googleId=\"" + s.userId + "\" OR jsonPayload.regkey=\"" + s.userId
                     + "\" OR jsonPayload.email=\"" + s.userId + "\"");
         }
+        if (s.logEvent != null) {
+            logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
+        }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
@@ -353,6 +358,7 @@ public class GoogleCloudLoggingService implements LogService {
         private List<String> traceIds;
         private String apiEndpoint;
         private String userId;
+        private String logEvent;
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -410,6 +416,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setUserId(String userId) {
             this.userId = userId;
+            return this;
+        }
+
+        public LogSearchParams setLogEvent(String logEvent) {
+            this.logEvent = logEvent;
             return this;
         }
     }
