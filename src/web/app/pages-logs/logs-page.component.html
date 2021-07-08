@@ -81,7 +81,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="isFiltersExpanded">
+    <div *ngIf="isFiltersExpanded" @collapseAnim>
       <div class="row form-group mt-4">
         <div class="col-5">
           <div class="col-12">
@@ -95,8 +95,21 @@
             <input id="user-id" class="form-control" [(ngModel)]="formModel.userId">
           </div>
         </div>
+        <div class="col-2 mt-4">
+          <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
+        </div>
       </div>
       <div class="row form-group mt-4">
+        <div class="col-5">
+          <div class="col-12">
+            <label for="error-type" class="font-weight-bold">Source location file</label>
+            <input id="error-type" class="form-control col-12" [(ngModel)]="formModel.sourceLocationFile">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="error-type" class="font-weight-bold">Source location function</label>
+            <input id="error-type" class="form-control col-12" [(ngModel)]="formModel.sourceLocationFunction">
+          </div>
+        </div>
         <div class="col-5">
           <div class="col-12">
             <label for="api-endpoint" class="font-weight-bold">API endpoint</label>
@@ -108,19 +121,14 @@
             </select>
           </div>
         </div>
-        <div class="col-5">
-          <div class="col-12">
-            <label for="error-type" class="font-weight-bold">Error Type</label>
-            <input id="error-type" class="form-control col-12" [(ngModel)]="formModel.errorType">
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
 
 <div>
-  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"></tm-logs-table>
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
+    (addSourceLocationEvent)="addSourceLocationToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>

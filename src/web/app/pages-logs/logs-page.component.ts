@@ -5,11 +5,12 @@ import { concatMap, finalize, map } from 'rxjs/operators';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
-import { ApiConst, ResourceEndpoints } from '../../types/api-const';
-import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
+import { ActionNames, ApiConst } from '../../types/api-const';
+import { GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
+import { collapseAnim } from '../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -24,10 +25,11 @@ interface SearchLogsFormModel {
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-  traceId ?: string;
-  userId ?: string;
-  apiEndpoint ?: string;
-  errorType ?: string;
+  traceId?: string;
+  userId?: string;
+  apiEndpoint?: string;
+  sourceLocationFile?: string;
+  sourceLocationFunction?: string;
 }
 
 /**
@@ -42,6 +44,9 @@ interface QueryParams {
   nextPageToken?: string;
   apiEndpoint?: string,
   traceId?: string,
+  userId?: string,
+  sourceLocationFile?: string,
+  sourceLocationFunction?: string,
 }
 
 /**
@@ -51,6 +56,7 @@ interface QueryParams {
   selector: 'tm-logs-page',
   templateUrl: './logs-page.component.html',
   styleUrls: ['./logs-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
@@ -60,7 +66,7 @@ export class LogsPageComponent implements OnInit {
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
-  readonly API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
+  readonly API_ENDPOINTS: string[] = Object.values(ActionNames).sort();
 
   formModel: SearchLogsFormModel = {
     logsSeverity: '',
@@ -72,7 +78,7 @@ export class LogsPageComponent implements OnInit {
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severity: '' };
+  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -119,10 +125,17 @@ export class LogsPageComponent implements OnInit {
       return;
     }
 
+    if (!this.formModel.sourceLocationFile && this.formModel.sourceLocationFunction) {
+      this.isFiltersExpanded = true;
+      this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
+      return;
+    }
+
     this.hasResult = false;
     this.isSearching = true;
     this.searchResults = [];
     this.nextPageToken = '';
+    this.isFiltersExpanded = false;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
@@ -166,6 +179,18 @@ export class LogsPageComponent implements OnInit {
 
     if (this.formModel.traceId) {
       this.previousQueryParams.traceId = this.formModel.traceId;
+    }
+
+    if (this.formModel.userId) {
+      this.previousQueryParams.userId = this.formModel.userId;
+    }
+
+    if (this.formModel.sourceLocationFile) {
+      this.previousQueryParams.sourceLocationFile = this.formModel.sourceLocationFile;
+    }
+
+    if (this.formModel.sourceLocationFunction) {
+      this.previousQueryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
     }
   }
 
@@ -218,12 +243,10 @@ export class LogsPageComponent implements OnInit {
       httpStatus,
       responseTime,
       traceId: log.trace,
+      sourceLocation: log.sourceLocation,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
-      details: JSON.parse(JSON.stringify({
-        payload,
-        sourceLocation: log.sourceLocation,
-      })),
+      details: payload,
       isDetailsExpanded: false,
     };
   }
@@ -247,5 +270,20 @@ export class LogsPageComponent implements OnInit {
     this.isFiltersExpanded = true;
     this.formModel.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
+  }
+
+  addSourceLocationToFilter(sourceLocation: SourceLocation): void {
+    this.isFiltersExpanded = true;
+    this.formModel.sourceLocationFile = sourceLocation.file;
+    this.formModel.sourceLocationFunction = sourceLocation.function;
+    this.statusMessageService.showSuccessToast('Source location added to filters');
+  }
+
+  clearFilters(): void {
+    this.formModel.traceId = '';
+    this.formModel.userId = '';
+    this.formModel.apiEndpoint = '';
+    this.formModel.sourceLocationFile = '';
+    this.formModel.sourceLocationFile = '';
   }
 }

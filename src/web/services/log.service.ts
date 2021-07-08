@@ -64,14 +64,17 @@ export class LogService {
     searchUntil: string,
     severity?: string,
     minSeverity?: string,
+    logEvent?: string,
     nextPageToken?: string,
     apiEndpoint?: string,
     traceId?: string,
-    logEvent?: string,
+    userId?: string,
+    sourceLocationFile?: string,
+    sourceLocationFunction?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
-      startTime: queryParams.searchFrom,
-      endTime: queryParams.searchUntil,
+      starttime: queryParams.searchFrom,
+      endtime: queryParams.searchUntil,
     };
 
     if (queryParams.severity) {
@@ -79,23 +82,35 @@ export class LogService {
     }
 
     if (queryParams.minSeverity) {
-      paramMap.minSeverity = queryParams.minSeverity;
-    }
-
-    if (queryParams.nextPageToken) {
-      paramMap.nextPageToken = queryParams.nextPageToken;
-    }
-
-    if (queryParams.apiEndpoint) {
-      paramMap.APIEndpoint = queryParams.apiEndpoint;
-    }
-
-    if (queryParams.traceId) {
-      paramMap.traceId = queryParams.traceId;
+      paramMap.minseverity = queryParams.minSeverity;
     }
 
     if (queryParams.logEvent) {
       paramMap.logevent = queryParams.logEvent;
+    }
+
+    if (queryParams.nextPageToken) {
+      paramMap.nextpagetoken = queryParams.nextPageToken;
+    }
+
+    if (queryParams.apiEndpoint) {
+      paramMap.apiendpoint = queryParams.apiEndpoint;
+    }
+
+    if (queryParams.traceId) {
+      paramMap.traceid = queryParams.traceId;
+    }
+
+    if (queryParams.userId) {
+      paramMap.userid = queryParams.userId;
+    }
+
+    if (queryParams.sourceLocationFile) {
+      paramMap.sourcelocationfile = queryParams.sourceLocationFile;
+    }
+
+    if (queryParams.sourceLocationFunction) {
+      paramMap.sourcelocationfunction = queryParams.sourceLocationFunction;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);

@@ -11,10 +11,19 @@
   padding-right: 1.25em;
 }
 
+.margin-left-3em {
+  margin-left: 3em;
+}
+
 .logs-table {
   table-layout: fixed;
   width: 100%;
   word-break: break-all;
+}
+
+.wrap {
+  white-space: pre-wrap;
+  word-break: keep-all;
 }
 
 .width-10 {
@@ -47,7 +56,6 @@
 
 .title {
   color: steelblue;
-  font-weight: bold;
 }
 
 .info-row {
