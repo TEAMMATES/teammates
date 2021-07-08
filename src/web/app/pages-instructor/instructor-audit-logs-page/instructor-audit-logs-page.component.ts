@@ -94,7 +94,14 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    this.formModel.logsDateFrom = { ...this.dateToday, day: today.getDate() - 1 };
+    const fromDate: Date = new Date();
+    fromDate.setDate(today.getDate() - 1);
+
+    this.formModel.logsDateFrom = {
+      year: fromDate.getFullYear(),
+      month: fromDate.getMonth() + 1,
+      day: fromDate.getDate(),
+    };
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
