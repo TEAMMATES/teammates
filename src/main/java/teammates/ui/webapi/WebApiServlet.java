@@ -103,7 +103,6 @@ public class WebApiServlet extends HttpServlet {
             Map<String, Object> responseDetails = new HashMap<>();
             responseDetails.put("responseStatus", statusCode);
             responseDetails.put("responseTime", timeElapsed);
-            responseDetails.put("requestUrl", req.getRequestURI());
 
             String logMessage = "%s " + RequestTracer.getTraceId() + " %s with %s in " + timeElapsed + "ms";
             if (action == null) {

@@ -2,13 +2,14 @@
 
 exports[`LogsPageComponent should snap when page is still loading 1`] = `
 <tm-logs-page
-  ABOVE={[Function String]}
-  ALL={[Function String]}
   API_ENDPOINTS={[Function Array]}
-  EQUAL={[Function String]}
+  EVENT={[Function String]}
+  EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
+  SEVERITY={[Function String]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -55,13 +56,14 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
 
 exports[`LogsPageComponent should snap when searching for details in search form 1`] = `
 <tm-logs-page
-  ABOVE={[Function String]}
-  ALL={[Function String]}
   API_ENDPOINTS={[Function Array]}
-  EQUAL={[Function String]}
+  EVENT={[Function String]}
+  EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
+  SEVERITY={[Function String]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -433,7 +435,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               class="font-weight-bold"
               for="log-severity-radio"
             >
-              Log severity level
+              Log severity level / event
             </label>
           </div>
           <div
@@ -446,7 +448,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               <div>
                 <input
                   class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
-                  id="equal"
+                  id="severity"
                   name="severity"
                   type="radio"
                 />
@@ -480,7 +482,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               <div>
                 <input
                   class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
-                  id="above"
+                  id="minSeverity"
                   name="severity"
                   type="radio"
                 />
@@ -511,17 +513,44 @@ exports[`LogsPageComponent should snap when searching for details in search form
                 </select>
               </div>
               <br />
-              <input
-                class="form-check-input ng-untouched ng-pristine ng-valid"
-                id="all"
-                name="severity"
-                type="radio"
-              />
-              <label
-                for="all"
-              >
-                All logs
-              </label>
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="event"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="all"
+                >
+                  All event logs  
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="REQUEST_RECEIVED"
+                  >
+                    REQUEST_RECEIVED
+                  </option>
+                  <option
+                    value="RESPONSE_DISPATCHED"
+                  >
+                    RESPONSE_DISPATCHED
+                  </option>
+                  <option
+                    value="EMAIL_SENT"
+                  >
+                    EMAIL_SENT
+                  </option>
+                  <option
+                    value="FEEDBACK_SESSION_AUDIT"
+                  >
+                    FEEDBACK_SESSION_AUDIT
+                  </option>
+                </select>
+              </div>
               <br />
             </label>
           </div>
@@ -583,13 +612,14 @@ exports[`LogsPageComponent should snap when searching for details in search form
 
 exports[`LogsPageComponent should snap with default fields 1`] = `
 <tm-logs-page
-  ABOVE={[Function String]}
-  ALL={[Function String]}
   API_ENDPOINTS={[Function Array]}
-  EQUAL={[Function String]}
+  EVENT={[Function String]}
+  EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
+  SEVERITY={[Function String]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -961,7 +991,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               class="font-weight-bold"
               for="log-severity-radio"
             >
-              Log severity level
+              Log severity level / event
             </label>
           </div>
           <div
@@ -974,7 +1004,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               <div>
                 <input
                   class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
-                  id="equal"
+                  id="severity"
                   name="severity"
                   type="radio"
                 />
@@ -1008,7 +1038,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               <div>
                 <input
                   class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
-                  id="above"
+                  id="minSeverity"
                   name="severity"
                   type="radio"
                 />
@@ -1039,17 +1069,44 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
                 </select>
               </div>
               <br />
-              <input
-                class="form-check-input ng-untouched ng-pristine ng-valid"
-                id="all"
-                name="severity"
-                type="radio"
-              />
-              <label
-                for="all"
-              >
-                All logs
-              </label>
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="event"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="all"
+                >
+                  All event logs  
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="REQUEST_RECEIVED"
+                  >
+                    REQUEST_RECEIVED
+                  </option>
+                  <option
+                    value="RESPONSE_DISPATCHED"
+                  >
+                    RESPONSE_DISPATCHED
+                  </option>
+                  <option
+                    value="EMAIL_SENT"
+                  >
+                    EMAIL_SENT
+                  </option>
+                  <option
+                    value="FEEDBACK_SESSION_AUDIT"
+                  >
+                    FEEDBACK_SESSION_AUDIT
+                  </option>
+                </select>
+              </div>
               <br />
             </label>
           </div>

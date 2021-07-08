@@ -48,7 +48,8 @@ describe('LogsPageComponent', () => {
     component.formModel = {
       logsSeverity: 'ERROR',
       logsMinSeverity: '',
-      logsLevel: '',
+      logsEvent: '',
+      logsFilter: '',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
@@ -84,7 +85,8 @@ describe('LogsPageComponent', () => {
     component.formModel = {
       logsSeverity: 'INFO',
       logsMinSeverity: '',
-      logsLevel: 'equal',
+      logsEvent: '',
+      logsFilter: 'severity',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },

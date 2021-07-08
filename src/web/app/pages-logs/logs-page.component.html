@@ -37,12 +37,12 @@
       </div>
       <div class="col-4">
         <div class="col-12">
-          <label for="log-severity-radio" class="font-weight-bold">Log severity level</label>
+          <label for="log-severity-radio" class="font-weight-bold">Log severity level / event</label>
         </div>
         <div class="form-check">
           <label class="form-check-label" id="log-severity-radio">
             <div>
-              <input type="radio" class="form-check-input mt-3" name="severity" id="equal" [value]="EQUAL" [(ngModel)]="formModel.logsLevel">
+              <input type="radio" class="form-check-input mt-3" name="severity" id="severity" [value]="SEVERITY" [(ngModel)]="formModel.logsFilter">
               <label for="equal">severity =&nbsp;</label>
               <select class="form-control inline" [(ngModel)]="formModel.logsSeverity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
@@ -50,15 +50,20 @@
             </div>
             <br>
             <div>
-              <input type="radio" class="form-check-input mt-3" name="severity" id="above" [value]="ABOVE" [(ngModel)]="formModel.logsLevel">
+              <input type="radio" class="form-check-input mt-3" name="severity" id="minSeverity" [value]="MIN_SEVERITY" [(ngModel)]="formModel.logsFilter">
               <label for="above">severity >=&nbsp;</label>
               <select class="form-control inline" [(ngModel)]="formModel.logsMinSeverity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
             </div>
             <br>
-            <input type="radio" class="form-check-input" name="severity" id="all" [value]="ALL" [(ngModel)]="formModel.logsLevel">
-            <label for="all">All logs</label>
+            <div>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="event" [value]="EVENT" [(ngModel)]="formModel.logsFilter">
+              <label for="all">All event logs &nbsp;</label>
+              <select class="form-control inline" [(ngModel)]="formModel.logsEvent">
+                <option *ngFor="let event of EVENTS" [value]="event">{{ event }}</option>
+              </select>
+            </div>
             <br>
           </label>
         </div>

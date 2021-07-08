@@ -67,6 +67,7 @@ export class LogService {
     nextPageToken?: string,
     apiEndpoint?: string,
     traceId?: string,
+    logEvent?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       startTime: queryParams.searchFrom,
@@ -91,6 +92,10 @@ export class LogService {
 
     if (queryParams.traceId) {
       paramMap.traceId = queryParams.traceId;
+    }
+
+    if (queryParams.logEvent) {
+      paramMap.logevent = queryParams.logEvent;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);

@@ -18,7 +18,8 @@ import { ErrorMessageOutput } from '../error-message-output';
 interface SearchLogsFormModel {
   logsSeverity: string;
   logsMinSeverity: string;
-  logsLevel: string;
+  logsEvent: string,
+  logsFilter: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
@@ -37,6 +38,7 @@ interface QueryParams {
   searchUntil: string;
   severity?: string;
   minSeverity?: string;
+  logEvent?: string;
   nextPageToken?: string;
   apiEndpoint?: string,
   traceId?: string,
@@ -54,15 +56,17 @@ export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
-  EQUAL: string = 'equal';
-  ABOVE: string = 'above';
-  ALL: string = 'all';
-  API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
+  readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly SEVERITY: string = 'severity';
+  readonly MIN_SEVERITY: string = 'minSeverity';
+  readonly EVENT: string = 'event';
+  readonly API_ENDPOINTS: string[] = Object.values(ResourceEndpoints);
 
   formModel: SearchLogsFormModel = {
     logsSeverity: '',
     logsMinSeverity: '',
-    logsLevel: '',
+    logsEvent: '',
+    logsFilter: '',
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
@@ -107,10 +111,11 @@ export class LogsPageComponent implements OnInit {
   }
 
   searchForLogs(): void {
-    if (this.formModel.logsLevel === ''
-      || (this.formModel.logsLevel === this.EQUAL && this.formModel.logsSeverity == '')
-      || (this.formModel.logsLevel === this.ABOVE && this.formModel.logsMinSeverity == '')) {
-      this.statusMessageService.showErrorToast('Please select severity level');
+    if (this.formModel.logsFilter === ''
+      || (this.formModel.logsFilter === this.SEVERITY && this.formModel.logsSeverity === '')
+      || (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.logsMinSeverity === '')
+      || (this.formModel.logsFilter === this.EVENT && this.formModel.logsEvent === '')) {
+      this.statusMessageService.showErrorToast('Please select severity level / event');
       return;
     }
 
@@ -143,12 +148,16 @@ export class LogsPageComponent implements OnInit {
       searchUntil: timestampUntil.toString(),
     }
 
-    if (this.formModel.logsLevel === this.EQUAL) {
+    if (this.formModel.logsFilter === this.SEVERITY) {
       this.previousQueryParams.severity = this.formModel.logsSeverity;
     }
     
-    if (this.formModel.logsLevel === this.ABOVE) {
+    if (this.formModel.logsFilter === this.MIN_SEVERITY) {
       this.previousQueryParams.minSeverity = this.formModel.logsMinSeverity;
+    }
+
+    if (this.formModel.logsFilter === this.EVENT) {
+      this.previousQueryParams.logEvent = this.formModel.logsEvent;
     }
 
     if (this.formModel.apiEndpoint) {
