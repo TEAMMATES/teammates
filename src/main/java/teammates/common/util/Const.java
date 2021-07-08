@@ -150,14 +150,14 @@ public final class Const {
 
         public static final String INTENT = "intent";
 
-        public static final String QUERY_LOGS_STARTTIME = "startTime";
-        public static final String QUERY_LOGS_ENDTIME = "endTime";
+        public static final String QUERY_LOGS_STARTTIME = "starttime";
+        public static final String QUERY_LOGS_ENDTIME = "endtime";
         public static final String QUERY_LOGS_SEVERITY = "severity";
-        public static final String QUERY_LOGS_MIN_SEVERITY = "minSeverity";
+        public static final String QUERY_LOGS_MIN_SEVERITY = "minseverity";
         public static final String QUERY_LOGS_TRACE = "traceId";
         public static final String QUERY_LOGS_API_ENDPOINT = "APIEndpoint";
         public static final String QUERY_LOGS_USER_ID = "userId";
-        public static final String NEXT_PAGE_TOKEN = "nextPageToken";
+        public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
     /**
