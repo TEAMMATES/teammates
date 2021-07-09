@@ -97,7 +97,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      * @return the created student
      * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the student already exists in the database
      */
     @Override
     public StudentAttributes createEntity(StudentAttributes student)

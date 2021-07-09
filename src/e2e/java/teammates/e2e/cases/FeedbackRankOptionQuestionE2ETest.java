@@ -55,7 +55,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         feedbackEditPage.addRankOptionsQuestion(loadedQuestion);
 
         feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -67,7 +67,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyRankQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackRankOptionsQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -82,7 +82,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         feedbackEditPage.editRankQuestion(2, questionDetails);
 
         feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
                 Const.POINTS_NOT_SUBMITTED));
         feedbackSubmitPage.submitRankOptionResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -113,7 +113,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRankOptionResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, List<Integer> answers) {

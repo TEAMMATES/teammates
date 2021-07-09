@@ -62,7 +62,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.editSessionDetails(feedbackSession);
         feedbackEditPage.verifyStatusMessage("The feedback session has been updated.");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
-        verifyPresentInDatastore(feedbackSession);
+        verifyPresentInDatabase(feedbackSession);
 
         ______TS("add template question");
         FeedbackQuestionAttributes templateQuestion = getTemplateQuestion();
@@ -71,7 +71,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
         feedbackEditPage.verifyNumQuestions(1);
         feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
-        verifyPresentInDatastore(templateQuestion);
+        verifyPresentInDatabase(templateQuestion);
 
         ______TS("copy question from other session");
         FeedbackQuestionAttributes questionToCopy = testData.feedbackQuestions.get("qn1");
@@ -83,7 +83,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
         feedbackEditPage.verifyNumQuestions(2);
         feedbackEditPage.verifyQuestionDetails(2, questionToCopy);
-        verifyPresentInDatastore(questionToCopy);
+        verifyPresentInDatabase(questionToCopy);
 
         ______TS("reorder questions");
         questionToCopy.setQuestionNumber(1);
@@ -106,7 +106,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         feedbackEditPage.verifyStatusMessage("The changes to the question have been updated.");
         feedbackEditPage.verifyQuestionDetails(1, editedQuestion);
-        verifyPresentInDatastore(editedQuestion);
+        verifyPresentInDatabase(editedQuestion);
 
         ______TS("duplicate question");
         editedQuestion.setQuestionNumber(3);
@@ -115,7 +115,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The question has been duplicated below.");
         feedbackEditPage.verifyNumQuestions(3);
         feedbackEditPage.verifyQuestionDetails(3, editedQuestion);
-        verifyPresentInDatastore(editedQuestion);
+        verifyPresentInDatabase(editedQuestion);
 
         ______TS("delete question");
         templateQuestion.setQuestionNumber(1);
@@ -124,7 +124,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The question has been deleted.");
         feedbackEditPage.verifyNumQuestions(2);
         feedbackEditPage.verifyQuestionDetails(1, templateQuestion);
-        // verify qn 1 has been replaced in datastore by qn 2
+        // verify qn 1 has been replaced in database by qn 2
         verifyReorder(templateQuestion);
 
         ______TS("preview session as student");
@@ -144,7 +144,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         feedbackEditPage.verifyStatusMessage("The feedback session has been copied. "
                 + "Please modify settings/questions as necessary.");
-        verifyPresentInDatastore(feedbackSession);
+        verifyPresentInDatabase(feedbackSession);
 
         ______TS("delete session");
         feedbackEditPage.deleteSession();

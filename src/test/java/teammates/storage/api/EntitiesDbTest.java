@@ -36,9 +36,9 @@ public class EntitiesDbTest extends BaseComponentTestCase {
                 .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.deleteCourse(c.getId());
-        verifyAbsentInDatastore(c);
+        verifyAbsentInDatabase(c);
         coursesDb.createEntity(c);
-        verifyPresentInDatastore(c);
+        verifyPresentInDatabase(c);
 
         ______TS("fails: entity already exists");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,

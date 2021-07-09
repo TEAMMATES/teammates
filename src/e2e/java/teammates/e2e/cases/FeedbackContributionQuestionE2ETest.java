@@ -54,7 +54,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         feedbackEditPage.addContributionQuestion(loadedQuestion);
 
         feedbackEditPage.verifyContributionQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -66,7 +66,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyContributionQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -75,7 +75,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         feedbackEditPage.editContributionQuestion(2, questionDetails);
 
         feedbackEditPage.verifyContributionQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -97,9 +97,9 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         List responses = Arrays.asList(response, response2, response3);
         feedbackSubmitPage.submitContributionResponse(1, responses);
 
-        verifyPresentInDatastore(response);
-        verifyPresentInDatastore(response2);
-        verifyPresentInDatastore(response3);
+        verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response2);
+        verifyPresentInDatabase(response3);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -114,9 +114,9 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyContributionResponse(1, responses);
-        verifyPresentInDatastore(response);
-        verifyPresentInDatastore(response2);
-        verifyPresentInDatastore(response3);
+        verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response2);
+        verifyPresentInDatabase(response3);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, int answer) {

@@ -124,7 +124,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 + course.getId() + "\"");
         detailsPage.verifyNumStudents(studentsAfterDelete.length);
         detailsPage.verifyStudentDetails(studentsAfterDelete);
-        verifyAbsentInDatastore(student);
+        verifyAbsentInDatabase(student);
 
         ______TS("delete all students");
         detailsPage.deleteAllStudents();
@@ -132,7 +132,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         detailsPage.verifyStatusMessage("All the students have been removed from the course");
         detailsPage.verifyNumStudents(0);
         for (StudentAttributes student : studentsAfterDelete) {
-            verifyAbsentInDatastore(student);
+            verifyAbsentInDatabase(student);
         }
     }
 

@@ -97,7 +97,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForAdded);
-        verifyPresentInDatastore(newSession);
+        verifyPresentInDatabase(newSession);
 
         ______TS("add new copied session");
         String newName = "Copied Name";
@@ -112,7 +112,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession);
-        verifyPresentInDatastore(copiedSession);
+        verifyPresentInDatabase(copiedSession);
 
         ______TS("copy session");
         newName = "Copied Name 2";
@@ -127,7 +127,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage = getNewPageInstance(url,
                 InstructorFeedbackSessionsPage.class);
         feedbackSessionsPage.verifySessionDetails(copiedSession2);
-        verifyPresentInDatastore(copiedSession2);
+        verifyPresentInDatabase(copiedSession2);
 
         ______TS("publish results");
         openSession.setResultsVisibleFromTime(Const.TIME_REPRESENTS_NOW);
@@ -213,7 +213,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForDelete);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        verifyAbsentInDatastore(newSession);
+        verifyAbsentInDatabase(newSession);
 
         ______TS("restore all session");
         FeedbackSessionAttributes[] sessionsForRestoreAll = { openSession, closedSession, copiedSession2,
@@ -241,8 +241,8 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.sortBySessionsName();
         feedbackSessionsPage.verifySessionsTable(sessionsForDeleteAll);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
-        verifyAbsentInDatastore(copiedSession);
-        verifyAbsentInDatastore(copiedSession2);
+        verifyAbsentInDatabase(copiedSession);
+        verifyAbsentInDatabase(copiedSession2);
     }
 
     private String getExpectedResponseRate(FeedbackSessionAttributes session) {

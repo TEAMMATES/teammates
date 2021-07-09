@@ -50,7 +50,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         feedbackEditPage.addNumScaleQuestion(loadedQuestion);
 
         feedbackEditPage.verifyNumScaleQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -62,7 +62,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyNumScaleQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackNumericalScaleQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -73,7 +73,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         feedbackEditPage.editNumScaleQuestion(2, questionDetails);
 
         feedbackEditPage.verifyNumScaleQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -91,7 +91,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 5.4);
         feedbackSubmitPage.submitNumScaleResponse(1, receiver.getTeam(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -103,7 +103,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyNumScaleResponse(1, receiver.getTeam(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, Double answer) {

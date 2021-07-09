@@ -72,7 +72,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 + "An email containing how to 'join' this course will be sent to " + newInstructor.email
                 + " in a few minutes.\"");
         editPage.verifyInstructorDetails(newInstructor);
-        verifyPresentInDatastore(newInstructor);
+        verifyPresentInDatabase(newInstructor);
 
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);
@@ -98,7 +98,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0]);
 
-        // verify in datastore by reloading
+        // verify in database by reloading
         editPage.reloadPage();
         editPage.verifyInstructorDetails(instructors[0]);
 
@@ -106,7 +106,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.deleteInstructor(newInstructor);
         editPage.verifyStatusMessage("Instructor is successfully deleted.");
         editPage.verifyNumInstructorsEquals(5);
-        verifyAbsentInDatastore(newInstructor);
+        verifyAbsentInDatabase(newInstructor);
 
         ______TS("edit course");
         String newName = "New Course Name";
@@ -117,7 +117,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.editCourse(course);
         editPage.verifyStatusMessage("The course has been edited.");
         editPage.verifyCourseDetails(course);
-        verifyPresentInDatastore(course);
+        verifyPresentInDatabase(course);
 
         ______TS("delete course");
         editPage.deleteCourse();

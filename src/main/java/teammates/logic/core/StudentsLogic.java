@@ -52,7 +52,7 @@ public final class StudentsLogic {
      *
      * @return the created student
      * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the student already exists in the database
      */
     public StudentAttributes createStudent(StudentAttributes studentData)
             throws InvalidParametersException, EntityAlreadyExistsException {

@@ -72,7 +72,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
-        verifyPresentInDatastore(newCourse);
+        verifyPresentInDatabase(newCourse);
 
         ______TS("archive course");
         CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
@@ -82,7 +82,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 + "It will not appear on the home page anymore.");
         coursesPage.verifyNumActiveCourses(1);
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
-        verifyCourseArchivedInDatastore(instructorId, newCourse);
+        verifyCourseArchivedInDatabase(instructorId, newCourse);
 
         ______TS("unarchive course");
         CourseAttributes[] activeCoursesWithNewCourseSortedByName = { newCourse, courses[0] };
@@ -92,7 +92,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumArchivedCourses(1);
         coursesPage.sortByCourseName();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByName);
-        verifyCourseNotArchivedInDatastore(instructorId, newCourse);
+        verifyCourseNotArchivedInDatabase(instructorId, newCourse);
 
         ______TS("move active course to recycle bin");
         newCourse.deletedAt = Instant.now();
@@ -135,7 +135,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumDeletedCourses(1);
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
         assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
-        verifyCourseArchivedInDatastore(instructorId, newCourse);
+        verifyCourseArchivedInDatabase(instructorId, newCourse);
 
         ______TS("permanently delete course");
         coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
@@ -144,7 +144,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyStatusMessage("The course " + newCourse.getId()
                 + " has been permanently deleted.");
         coursesPage.verifyNumDeletedCourses(1);
-        verifyAbsentInDatastore(newCourse);
+        verifyAbsentInDatabase(newCourse);
 
         ______TS("restore all");
         coursesPage.moveArchivedCourseToRecycleBin(courses[1].getId());
@@ -168,8 +168,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyNumActiveCourses(1);
         coursesPage.verifyNumArchivedCourses(0);
         coursesPage.verifyNumDeletedCourses(0);
-        verifyAbsentInDatastore(courses[1]);
-        verifyAbsentInDatastore(courses[2]);
+        verifyAbsentInDatabase(courses[1]);
+        verifyAbsentInDatabase(courses[2]);
     }
 
     private void verifyActiveCourseStatistics(InstructorCoursesPage coursesPage, CourseAttributes course) {
@@ -201,7 +201,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 Integer.toString(numStudents), Integer.toString(numUnregistered));
     }
 
-    private void verifyCourseArchivedInDatastore(String instructorId, CourseAttributes course) {
+    private void verifyCourseArchivedInDatabase(String instructorId, CourseAttributes course) {
         int retryLimit = 5;
         CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
         while (actual == null && retryLimit > 0) {
@@ -212,7 +212,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         assertEquals(actual, course);
     }
 
-    private void verifyCourseNotArchivedInDatastore(String instructorId, CourseAttributes course) {
+    private void verifyCourseNotArchivedInDatabase(String instructorId, CourseAttributes course) {
         int retryLimit = 5;
         CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
         while (actual != null && retryLimit > 0) {

@@ -113,7 +113,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         };
 
         searchPage.verifyStudentDetails(course2, studentsAfterDelete);
-        verifyAbsentInDatastore(studentToDelete);
+        verifyAbsentInDatabase(studentToDelete);
 
     }
 

@@ -48,7 +48,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         editPage.editStudentDetails(student);
 
         editPage.verifyStatusMessage("Student has been updated");
-        verifyPresentInDatastore(student);
+        verifyPresentInDatabase(student);
 
         ______TS("cannot edit to an existing email");
         editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
@@ -63,7 +63,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         editPage.editStudentEmailAndResendLinks(newEmail);
 
         editPage.verifyStatusMessage("Student has been updated and email sent");
-        verifyPresentInDatastore(student);
+        verifyPresentInDatabase(student);
         verifyEmailSent(newEmail, "TEAMMATES: Summary of course ["
                 + course.getName() + "][Course ID: " + course.getId() + "]");
     }
