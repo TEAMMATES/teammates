@@ -42,10 +42,10 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
-                .withUserId(instructor.googleId)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        InstructorFeedbackEditPage feedbackEditPage = loginAdminToPage(url, InstructorFeedbackEditPage.class);
+        InstructorFeedbackEditPage feedbackEditPage =
+                loginToPage(url, InstructorFeedbackEditPage.class, instructor.googleId);
 
         ______TS("verify loaded data");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);

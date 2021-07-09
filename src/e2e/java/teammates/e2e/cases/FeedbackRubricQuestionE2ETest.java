@@ -35,6 +35,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 

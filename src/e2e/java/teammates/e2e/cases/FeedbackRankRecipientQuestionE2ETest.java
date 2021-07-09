@@ -36,6 +36,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 

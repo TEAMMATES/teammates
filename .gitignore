@@ -34,6 +34,18 @@ test-output/*
 *.iml
 out/
 
+# VSCode
+.vscode/
+*.code-workspace
+.history/
+
+# Netbeans
+nbproject/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
 # JMeter
 jmeter.log
 src/lnp/resources/data/*
