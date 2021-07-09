@@ -288,8 +288,10 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("severity>=" + s.minSeverity);
         }
         if (s.traceIds != null) {
-            String traceIdFilter = String.join(" OR ", s.traceIds);
-            logFilters.add("trace=(\"" + traceIdFilter + "\")");
+            String traceIdFilter = s.traceIds.stream()
+                    .map(traceId -> "\"" + traceId + "\"")
+                    .collect(Collectors.joining(" OR "));
+            logFilters.add("trace=(" + traceIdFilter + ")");
         }
         if (s.apiEndpoint != null) {
             logFilters.add("jsonPayload.actionClass=\"" + s.apiEndpoint + "\"");
