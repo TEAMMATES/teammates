@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment-timezone';
+import moment from 'moment-timezone';
 import { EMPTY, forkJoin, Observable } from 'rxjs';
 import { concatMap, expand, finalize, map, reduce } from 'rxjs/operators';
 import { LogService } from 'src/web/services/log.service';
 import { StatusMessageService } from 'src/web/services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from 'src/web/services/timezone.service';
-import { GeneralLogEntry, GeneralLogs, SourceLocation } from 'src/web/types/api-output';
+import { GeneralLogEntry, GeneralLogs } from 'src/web/types/api-output';
 import { ApiConst } from '../../../types/api-const';
+import { LogsHistogramDataModel } from '../../components/logs-histogram/logs-histogram-model';
 import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -57,7 +58,7 @@ export class LogsHistogramPageComponent implements OnInit {
   nextPageToken: string | undefined = '';
   isLoading: boolean = false;
   isSearching: boolean = false;
-  searchResult: Map<SourceLocation, number> = new Map();
+  searchResult: LogsHistogramDataModel[] = [];
 
   constructor(private logService: LogService, 
     private timezoneService: TimezoneService,
@@ -89,7 +90,7 @@ export class LogsHistogramPageComponent implements OnInit {
 
   searchForLogs(): void {
     this.isSearching = true;
-    this.searchResult = new Map();
+    this.searchResult = [];
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
@@ -124,7 +125,12 @@ export class LogsHistogramPageComponent implements OnInit {
   }
 
   private processLogs(logs: GeneralLogEntry[]): void {
-    this.searchResult = logs.reduce((acc, log) => acc.set(log, (acc.get(log) || 0) + 1), new Map());
+    const map: Map<string, number> = logs.reduce((acc, log) =>
+      acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
+      new Map<string, number>());
+    map.forEach((value: number, key: string) => {
+      this.searchResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
+    });
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {

@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../../components/loading-spinner/loading-spinner.module';
+import { LogsHistogramModule } from '../../components/logs-histogram/logs-histogram.module';
 import { SessionEditFormModule } from '../../components/session-edit-form/session-edit-form.module';
 import { LogsHistogramPageComponent } from './logs-histogram-page.component';
 
@@ -25,6 +26,7 @@ const routes: Routes = [
     FormsModule,
     LoadingSpinnerModule,
     SessionEditFormModule,
+    LogsHistogramModule,
   ],
   declarations: [
     LogsHistogramPageComponent,
