@@ -5,7 +5,7 @@ import java.time.Instant;
 
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.client.connector.DatastoreClient;
+import teammates.client.connector.DatabaseClient;
 import teammates.client.util.LoopHelper;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
@@ -13,7 +13,7 @@ import teammates.storage.entity.CourseStudent;
 /**
  * Script that calculates the number of unique students and instructors per institute.
  */
-public class StatisticsPerInstitute extends DatastoreClient {
+public class StatisticsPerInstitute extends DatabaseClient {
 
     private StatisticsBundle bundle;
     private CourseToInstituteCache courseToInstituteCache;
