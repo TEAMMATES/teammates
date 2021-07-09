@@ -301,7 +301,7 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.logEvent != null) {
             logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
         }
-        if (s.sourceLocation != null) {
+        if (s.sourceLocation.getFile() != null) {
             if (s.sourceLocation.getFunction() == null) {
                 logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile() + "\"");
             } else {
