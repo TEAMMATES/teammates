@@ -142,17 +142,17 @@ export class LogsPageComponent implements OnInit {
     ];
 
     forkJoin(localDateTime)
-        .pipe(
-            concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.setQueryParams(timestampFrom, timestampUntil);
-              return this.logService.searchLogs(this.previousQueryParams);
-            }),
-            finalize(() => {
-              this.isSearching = false;
-              this.hasResult = true;
-            }))
-            .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-              (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .pipe(
+        concatMap(([timestampFrom, timestampUntil]: number[]) => {
+          this.setQueryParams(timestampFrom, timestampUntil);
+          return this.logService.searchLogs(this.previousQueryParams);
+        }),
+        finalize(() => {
+          this.isSearching = false;
+          this.hasResult = true;
+        }))
+      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
@@ -263,7 +263,7 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.previousQueryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
   addTraceToFilter(trace: string): void {
