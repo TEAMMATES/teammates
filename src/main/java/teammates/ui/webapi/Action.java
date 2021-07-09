@@ -110,7 +110,7 @@ public abstract class Action {
             return;
         }
 
-        logUserInfo();
+        //logUserInfo();
 
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();

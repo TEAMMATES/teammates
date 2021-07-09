@@ -58,8 +58,9 @@ public class QueryLogsAction extends AdminOnlyAction {
 
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
-                    DEFAULT_PAGE_SIZE, nextPageToken, traceId, apiEndpoint, userId, logEvent,
-                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction));
+                    traceId, apiEndpoint, userId, logEvent,
+                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction),
+                    DEFAULT_PAGE_SIZE, nextPageToken);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {

@@ -1,6 +1,7 @@
 package teammates.ui.webapi;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -23,11 +24,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
-import teammates.common.util.Config;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.LogEvent;
-import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
+import teammates.common.util.*;
 
 /**
  * Extracts trace ID of HTTP requests.
@@ -101,11 +98,16 @@ public class RequestTraceFilter implements Filter {
             RequestTracer.init(traceId, spanId, timeoutInSeconds);
 
             Map<String, Object> requestDetails = new HashMap<>();
+            Map<String, Serializable> requestParams = HttpRequestHelper.getRequestParameters(request);
             requestDetails.put("requestMethod", request.getMethod());
             requestDetails.put("requestUrl", request.getRequestURI());
             requestDetails.put("userAgent", request.getHeader("User-Agent"));
-            requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
+            requestDetails.put("requestParams", requestParams);
             requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
+            Map<String, Object> userInfo = new HashMap<>();
+            userInfo.put("regkey", requestParams.get(Const.ParamsNames.REGKEY));
+            userInfo.put("email", requestParams.get(Const.ParamsNames.STUDENT_EMAIL));
+            requestDetails.put("userInfo", userInfo);
 
             String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
             log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
