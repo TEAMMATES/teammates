@@ -110,6 +110,11 @@ public abstract class Action {
             return;
         }
 
+<<<<<<< HEAD
+=======
+        //logUserInfo();
+
+>>>>>>> 3b36d53af2 (Change logging point for user info)
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();
     }

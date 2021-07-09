@@ -85,8 +85,8 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken, String trace, String requestUrl, String userId, String logEvent,
-            SourceLocation sourceLocation) {
+            String trace, String requestUrl, String userId, String logEvent, SourceLocation sourceLocation,
+            Integer pageSize, String pageToken) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         if (severity != null) {
             generalLogs.forEach(entry -> {

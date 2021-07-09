@@ -13,6 +13,7 @@ import org.apache.http.HttpStatus;
 
 import com.google.cloud.datastore.DatastoreException;
 
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
@@ -20,10 +21,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.LogEvent;
-import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
-import teammates.common.util.TimeHelper;
+import teammates.common.util.*;
 
 /**
  * Servlet that handles all requests from the web application.
@@ -109,6 +107,7 @@ public class WebApiServlet extends HttpServlet {
             Map<String, Object> responseDetails = new HashMap<>();
             responseDetails.put("responseStatus", statusCode);
             responseDetails.put("responseTime", timeElapsed);
+            putUserInfo(responseDetails, action);
 
             String logMessage = "%s " + RequestTracer.getTraceId() + " %s with %s in " + timeElapsed + "ms";
             if (action == null) {
@@ -147,6 +146,30 @@ public class WebApiServlet extends HttpServlet {
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(resp);
+    }
+
+    private void putUserInfo(Map<String, Object> responseDetails, Action action) {
+        if (action == null) {
+            return;
+        }
+
+        String googleId = action.userInfo == null ? null : action.userInfo.getId();
+        String regkey = action.getRequestParamValue(Const.ParamsNames.REGKEY);
+        String studentEmail = action.getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
+
+        if (regkey != null && studentEmail == null) {
+            StudentAttributes student = action.logic.getStudentForRegistrationKey(regkey);
+            if (student != null) {
+                studentEmail = student.getEmail();
+            }
+        }
+
+        Map<String, String> userInfo = new HashMap<>();
+        userInfo.put("googleId", googleId);
+        userInfo.put("regkey", regkey);
+        userInfo.put("email", studentEmail);
+
+        responseDetails.put("userInfo", userInfo);
     }
 
 }
