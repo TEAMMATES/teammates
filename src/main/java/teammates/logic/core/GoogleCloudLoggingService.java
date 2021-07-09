@@ -292,7 +292,7 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("trace=(\"" + traceIdFilter + "\")");
         }
         if (s.apiEndpoint != null) {
-            logFilters.add("jsonPayload.requestUrl=\"" + s.apiEndpoint + "\"");
+            logFilters.add("jsonPayload.actionClass=\"" + s.apiEndpoint + "\"");
         }
         if (s.userId != null) {
             logFilters.add("jsonPayload.googleId=\"" + s.userId + "\" OR jsonPayload.regkey=\"" + s.userId
