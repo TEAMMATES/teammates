@@ -34,9 +34,11 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
+import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
 import { QuestionEditFormModel } from '../../components/question-edit-form/question-edit-form-model';
 import { SessionEditFormModel } from '../../components/session-edit-form/session-edit-form-model';
+import { CopyQuestionsFromOtherSessionsModalComponent } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal.component';
 import { InstructorSessionEditPageComponent } from './instructor-session-edit-page.component';
 import { InstructorSessionEditPageModule } from './instructor-session-edit-page.module';
 import { TemplateQuestionModalComponent } from './template-question-modal/template-question-modal.component';
@@ -561,17 +563,20 @@ describe('InstructorSessionEditPageComponent', () => {
     const updatedFeedbackQuestion: FeedbackQuestion = JSON.parse(JSON.stringify(testFeedbackQuestion1));
     updatedFeedbackQuestion.questionDescription = 'new description';
     updatedFeedbackQuestion.questionNumber = 2;
-    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'saveFeedbackQuestion').and.returnValue(of(updatedFeedbackQuestion));
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'saveFeedbackQuestion')
+      .and.returnValue(of(updatedFeedbackQuestion));
     component.questionEditFormModels = [questionEditFormModel, testQuestionEditFormModel2];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
     component.feedbackQuestionModels.set(testFeedbackQuestion2.feedbackQuestionId, testFeedbackQuestion2);
-    
+
     component.saveExistingQuestionHandler(0);
 
     expect(feedbackQuestionSpy.calls.mostRecent().args[1].questionDescription).toEqual('new description');
-    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(updatedFeedbackQuestion);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
+      .toEqual(updatedFeedbackQuestion);
     expect(component.questionEditFormModels[1].feedbackQuestionId).toEqual(questionEditFormModel.feedbackQuestionId);
-    expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(testQuestionEditFormModel2.feedbackQuestionId);
+    expect(component.questionEditFormModels[0].feedbackQuestionId)
+      .toEqual(testQuestionEditFormModel2.feedbackQuestionId);
   });
 
   it('should discard the changes made to the existing question', () => {
@@ -582,7 +587,8 @@ describe('InstructorSessionEditPageComponent', () => {
 
     component.discardExistingQuestionHandler(0);
 
-    expect(component.questionEditFormModels[0].questionDescription).toEqual(testQuestionEditFormModel1.questionDescription);
+    expect(component.questionEditFormModels[0].questionDescription)
+      .toEqual(testQuestionEditFormModel1.questionDescription);
   });
 
   it('should duplicate question', () => {
@@ -590,12 +596,14 @@ describe('InstructorSessionEditPageComponent', () => {
     duplicateFeedbackQuestion.questionNumber = 2;
     duplicateFeedbackQuestion.feedbackQuestionId = 'duplicate question id';
     component.questionEditFormModels = [testQuestionEditFormModel1];
-    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(duplicateFeedbackQuestion));
-    
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
+      .and.returnValue(of(duplicateFeedbackQuestion));
+
     component.duplicateCurrentQuestionHandler(0);
 
     expect(feedbackQuestionSpy.calls.mostRecent().args[2].questionNumber).toEqual(2);
-    expect(component.feedbackQuestionModels.get(duplicateFeedbackQuestion.feedbackQuestionId)).toEqual(duplicateFeedbackQuestion);
+    expect(component.feedbackQuestionModels.get(duplicateFeedbackQuestion.feedbackQuestionId))
+      .toEqual(duplicateFeedbackQuestion);
   });
 
   it('should delete existing question', async() => {
@@ -603,7 +611,8 @@ describe('InstructorSessionEditPageComponent', () => {
     spyOn(simpleModalService, 'openConfirmationModal').and.returnValue({ result: promise });
     component.questionEditFormModels = [testQuestionEditFormModel1];
     component.feedbackQuestionModels.set(testFeedbackQuestion1.feedbackQuestionId, testFeedbackQuestion1);
-    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion').and.returnValue(of(true));
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'deleteFeedbackQuestion')
+      .and.returnValue(of(true));
 
     component.deleteExistingQuestionHandler(0);
     await promise;
@@ -616,34 +625,56 @@ describe('InstructorSessionEditPageComponent', () => {
   it('should display template questions', async() => {
     const promise: any = Promise.resolve([testFeedbackQuestion1]);
     spyOn(ngbModal, 'open').and.returnValue({ result: promise });
-    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
+    const feedbackQuestionSpy: Spy = spyOn(feedbackQuestionsService, 'createFeedbackQuestion')
+      .and.returnValue(of(testFeedbackQuestion1));
 
     component.templateQuestionModalHandler();
     await promise;
 
-    expect(ngbModal.open).toHaveBeenCalledWith(TemplateQuestionModalComponent, { windowClass: 'modal-large' } );
+    expect(ngbModal.open).toHaveBeenCalledWith(TemplateQuestionModalComponent, { windowClass: 'modal-large' });
     expect(feedbackQuestionSpy).toBeCalledTimes(1);
     expect(component.questionEditFormModels[0].feedbackQuestionId).toEqual(testFeedbackQuestion1.feedbackQuestionId);
-    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId)).toEqual(testFeedbackQuestion1);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
+      .toEqual(testFeedbackQuestion1);
   });
 
-  it('should copy question from other session', () => {
+  it('should copy question from other session', async () => {
+    const promise: any = Promise.resolve([testFeedbackQuestion1]);
+    class MockNgbModalRef {
+      componentInstance: any = { questionToCopyCandidates: [] };
+      result: Promise<any> = promise;
+    }
+    const mockModalRef: MockNgbModalRef = new MockNgbModalRef();
+    spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+    spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
+      .and.returnValue(of({ feedbackSessions: [testFeedbackSession] }));
+    spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+      .and.returnValue(of({ questions: [testFeedbackQuestion1, testFeedbackQuestion2] }));
+    spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
 
+    component.copyQuestionsFromOtherSessionsHandler();
+    await promise;
+
+    expect(ngbModal.open).toHaveBeenCalledWith(CopyQuestionsFromOtherSessionsModalComponent);
+    expect(component.questionEditFormModels.length).toEqual(1);
+    expect(component.feedbackQuestionModels.get(testFeedbackQuestion1.feedbackQuestionId))
+      .toEqual(testFeedbackQuestion1);
   });
 
-  // Incomplete
-  it('should open modal and copy current session', () => {
+  it('should open modal and copy current session', async () => {
+    const promise: Promise<CopySessionModalResult> = Promise.resolve({
+      newFeedbackSessionName: 'new feedback session',
+      copyToCourseList: ['testId2'],
+    });
     class MockNgbModalRef {
       componentInstance: any = {
         newFeedbackSessionName: '',
         courseCandidates: [],
         sessionToCopyCourseId: '',
       };
-      result: Promise<any> = Promise.resolve({
-        newFeedbackSessionName: 'new feedback session',
-        copyToCourseList: ['testId2'],
-      });
+      result: Promise<CopySessionModalResult> = promise;
     }
+
     const mockModalRef: MockNgbModalRef = new MockNgbModalRef();
     const copiedFeedbackSession: FeedbackSession = JSON.parse(JSON.stringify(testFeedbackSession));
     copiedFeedbackSession.courseId = 'testId2';
@@ -653,15 +684,21 @@ describe('InstructorSessionEditPageComponent', () => {
     spyOn(courseService, 'getInstructorCoursesThatAreActive').and.returnValue(of({ courses: [testCourse2] }));
     spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(testFeedbackSession);
     spyOn(feedbackSessionsService, 'createFeedbackSession').and.returnValue(of(copiedFeedbackSession));
-    spyOn(feedbackQuestionsService, 'getFeedbackQuestions').and.returnValue(of({ questions: [testFeedbackQuestion1] }));
+    spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
+      .and.returnValue(of({ questions: [testFeedbackQuestion1] }));
     spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
-
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+    spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal')
+      .and.returnValue([of(copiedFeedbackSession)]);
+    const navSpy: Spy = spyOn(navigationService, 'navigateWithSuccessMessage');
 
-    expect(component.copyCurrentSession()).resolves.toBe(undefined);
+    component.copyCurrentSession();
+    await promise;
+
     expect(ngbModal.open).toHaveBeenCalledWith(CopySessionModalComponent);
     expect(mockModalRef.componentInstance.newFeedbackSessionName).toEqual(testFeedbackSession.feedbackSessionName);
     expect(mockModalRef.componentInstance.courseCandidates[0]).toEqual(testCourse2);
     expect(mockModalRef.componentInstance.sessionToCopyCourseId).toEqual(testCourse1.courseId);
+    expect(navSpy.calls.mostRecent().args[3]).toEqual({ courseid: 'testId2', fsname: 'Test Session' });
   });
 });
