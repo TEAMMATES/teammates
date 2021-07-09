@@ -259,6 +259,7 @@ public abstract class Action {
     }
 
     private void logUserInfo() {
+        String googleId = userInfo == null ? null : userInfo.getId();
         String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -269,7 +270,7 @@ public abstract class Action {
             }
         }
 
-        log.logUserInfo(userInfo.getId(), regkey, studentEmail);
+        log.logUserInfo(googleId, regkey, studentEmail);
     }
 
     /**
