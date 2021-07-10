@@ -10,6 +10,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -26,6 +27,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -53,6 +55,15 @@ exports[`SessionResultPageComponent should snap when session results failed to l
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -168,6 +179,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -184,6 +196,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -211,6 +224,15 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -296,6 +318,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
     
     <div>
       
+      
     </div>
     
     
@@ -313,6 +336,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -329,6 +353,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -356,6 +381,15 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -441,6 +475,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
     
     <div>
       
+      
     </div>
     
     
@@ -458,6 +493,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -474,6 +510,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -501,6 +538,15 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -586,6 +632,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
     
     <div>
       
+      
       <div
         class="card bg-light mt-4"
       >
@@ -651,6 +698,16 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
+            
             <strong>
               Your own responses (to others):
             </strong>
@@ -970,6 +1027,16 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
+            
             <strong>
               Your own responses (to others):
             </strong>
@@ -1305,6 +1372,16 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
+            
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
+            
             <strong>
               Your own responses (to others):
             </strong>
@@ -1466,6 +1543,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading={[Function Boolean]}
   logService={[Function LogService]}
   loggedInUser=""
@@ -1482,6 +1560,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -1509,6 +1588,15 @@ exports[`SessionResultPageComponent should snap with session results are loading
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -1623,6 +1711,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
@@ -1639,6 +1728,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -1667,6 +1757,15 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
         
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -1752,6 +1851,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
     
     <div>
       
+      
     </div>
     
     
@@ -1769,6 +1869,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1785,6 +1886,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
   timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
 >
   <h1>
      Feedback Session Results
@@ -1812,6 +1914,15 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
         </div>
       </div>
     </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
   </div><div
     class="card card-plain mt-3"
   >
@@ -1896,6 +2007,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
     
     
     <div>
+      
       
     </div>
     
