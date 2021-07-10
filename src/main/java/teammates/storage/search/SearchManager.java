@@ -173,6 +173,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
         try {
             client.deleteByQuery(getCollectionName(), "*:*");
+            client.commit(getCollectionName());
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
