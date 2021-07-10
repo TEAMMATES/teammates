@@ -77,6 +77,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         questionDetails.setMinOptionsToBeRanked(Const.POINTS_NO_VALUE);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editRankQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
         verifyPresentInDatastore(loadedQuestion);
