@@ -5,8 +5,16 @@
 <div class="modal-body" id="view-instr-role-modal">
   <div class="row">
     <div class="col-sm-6">
-      <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyCourse">
-      Edit/Delete/Restore Course
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canEditCourse">
+      Edit Course
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canDeleteCourse">
+      Delete Course
+    </div>
+    <div class="col-sm-6">
+      <input disabled type="checkbox" [checked]="instructorPrivilege.canRestoreCourse">
+      Restore Course
     </div>
     <div class="col-sm-6">
       <input disabled type="checkbox" [checked]="instructorPrivilege.canModifyInstructor">

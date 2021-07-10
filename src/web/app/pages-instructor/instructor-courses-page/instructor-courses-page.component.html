@@ -133,11 +133,11 @@
                           ngbTooltip="Archive the course so that it will not be shown in the home page any more (you can still access it from the 'Courses' tab)" placement="left" container="body">
                     Archive
                   </button>
-                  <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
+                  <button id="btn-soft-delete-{{ i }}" class="btn btn-primary btn-sm dropdown-item clickable" *ngIf="course.canDeleteCourse" (click)="onDelete(course.course.courseId)"
                           ngbTooltip="Delete the course and its corresponding students and sessions" placement="left" container="body">
                     Delete
                   </button>
-                  <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled" *ngIf="!course.canModifyCourse">
+                  <button id="btn-soft-delete-disabled-{{ i }}" class="btn btn-primary btn-sm dropdown-item disabled" *ngIf="!course.canDeleteCourse">
                     Delete
                   </button>
                 </div>
@@ -215,11 +215,11 @@
             <button id="btn-unarchive-{{ i }}" class="btn btn-light btn-sm" (click)="changeArchiveStatus(course.course.courseId, false)">
               Unarchive
             </button>
-            <button id="btn-soft-delete-archived-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse" (click)="onDelete(course.course.courseId)"
+            <button id="btn-soft-delete-archived-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canDeleteCourse" (click)="onDelete(course.course.courseId)"
                 ngbTooltip="Delete the course and its corresponding students and sessions">
               Delete
             </button>
-            <button id="btn-soft-delete-archived-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+            <button id="btn-soft-delete-archived-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canDeleteCourse">
               Delete
             </button>
           </td>
@@ -310,20 +310,20 @@
                 </span>
               </td>
               <td class="text-center actions-cell">
-                <button id="btn-restore-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canModifyCourse"
+                <button id="btn-restore-{{ i }}" class="btn btn-light btn-sm" *ngIf="course.canRestoreCourse"
                         (click)="onRestore(course.course.courseId)"
                         ngbTooltip="Restore the deleted course and its corresponding students and sessions">
                   Restore
                 </button>
-                <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canModifyCourse">
+                <button id="btn-restore-disabled-{{ i }}" class="btn btn-light btn-sm disabled" *ngIf="!course.canRestoreCourse">
                   Restore
                 </button>
-                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger" *ngIf="course.canModifyCourse"
+                <button id="btn-delete-{{ i }}" class="btn btn-light btn-sm text-danger" *ngIf="course.canDeleteCourse"
                         (click)="onDeletePermanently(course.course.courseId)"
                         ngbTooltip="Permanently delete the course and its corresponding students and sessions">
                   Delete Permanently
                 </button>
-                <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canModifyCourse">
+                <button id="btn-delete-disabled-{{ i }}" class="btn btn-light btn-sm disabled text-danger" *ngIf="!course.canDeleteCourse">
                   Delete Permanently
                 </button>
               </td>

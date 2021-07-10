@@ -42,7 +42,9 @@ describe('InstructorCoursesPageComponent', () => {
         creationTimestamp: date1.getTime(),
         deletionTimestamp: 0,
       },
-      canModifyCourse: true,
+      canEditCourse: true,
+      canDeleteCourse: true,
+      canRestoreCourse: true,
       canModifyStudent: true,
     },
     {
@@ -53,7 +55,9 @@ describe('InstructorCoursesPageComponent', () => {
         creationTimestamp: date2.getTime(),
         deletionTimestamp: 0,
       },
-      canModifyCourse: false,
+      canEditCourse: false,
+      canDeleteCourse: false,
+      canRestoreCourse: false,
       canModifyStudent: false,
     },
   ];
@@ -67,7 +71,9 @@ describe('InstructorCoursesPageComponent', () => {
         creationTimestamp: date3.getTime(),
         deletionTimestamp: 0,
       },
-      canModifyCourse: true,
+      canEditCourse: true,
+      canDeleteCourse: true,
+      canRestoreCourse: true,
     },
     {
       course: {
@@ -77,7 +83,9 @@ describe('InstructorCoursesPageComponent', () => {
         creationTimestamp: date3.getTime(),
         deletionTimestamp: 0,
       },
-      canModifyCourse: false,
+      canEditCourse: false,
+      canDeleteCourse: false,
+      canRestoreCourse: false,
     },
   ];
 
@@ -90,7 +98,9 @@ describe('InstructorCoursesPageComponent', () => {
         creationTimestamp: date3.getTime(),
         deletionTimestamp: date4.getTime(),
       },
-      canModifyCourse: true,
+      canEditCourse: true,
+      canDeleteCourse: true,
+      canRestoreCourse: true,
     },
     {
       course: {
@@ -100,7 +110,9 @@ describe('InstructorCoursesPageComponent', () => {
         creationTimestamp: date5.getTime(),
         deletionTimestamp: date6.getTime(),
       },
-      canModifyCourse: false,
+      canEditCourse: false,
+      canDeleteCourse: false,
+      canRestoreCourse: false,
     },
   ];
 
@@ -153,28 +165,36 @@ describe('InstructorCoursesPageComponent', () => {
 
   const courseModelCS1231: any = {
     course: courseCS1231,
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifyStudent: true,
     isLoadingCourseStats: false,
   };
 
   const courseModelCS3281: any = {
     course: courseCS3281,
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifyStudent: true,
     isLoadingCourseStats: false,
   };
 
   const courseModelCS3282: any = {
     course: courseCS3282,
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifyStudent: false,
     isLoadingCourseStats: false,
   };
 
   const courseModelST4234: any = {
     course: courseST4234,
-    canModifyCourse: false,
+    canEditCourse: false,
+    canDeleteCourse: false,
+    canRestoreCourse: false,
     canModifyStudent: true,
     isLoadingCourseStats: false,
   };

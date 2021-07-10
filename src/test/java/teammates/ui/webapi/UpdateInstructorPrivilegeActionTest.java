@@ -38,7 +38,11 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(instructor1OfCourse1.privileges.isAllowedForPrivilege(
@@ -60,7 +64,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         };
 
         InstructorPrivilegeUpdateRequest reqBody = new InstructorPrivilegeUpdateRequest();
-        reqBody.setCanModifyCourse(false);
+        reqBody.setCanEditCourse(false);
+        reqBody.setCanDeleteCourse(false);
+        reqBody.setCanRestoreCourse(false);
         reqBody.setCanModifyInstructor(false);
         reqBody.setCanModifyStudent(false);
         reqBody.setCanModifySession(false);
@@ -75,7 +81,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertFalse(response.isCanModifyCourse());
+        assertFalse(response.isCanEditCourse());
+        assertFalse(response.isCanDeleteCourse());
+        assertFalse(response.isCanRestoreCourse());
         assertFalse(response.isCanModifySession());
         assertFalse(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
@@ -91,7 +99,11 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
         assertFalse(instructor.privileges.isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertFalse(instructor.privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(instructor.privileges.isAllowedForPrivilege(
@@ -139,7 +151,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertFalse(response.isCanModifyCourse());
+        assertFalse(response.isCanEditCourse());
+        assertFalse(response.isCanDeleteCourse());
+        assertFalse(response.isCanRestoreCourse());
         assertFalse(response.isCanModifySession());
         assertFalse(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
@@ -180,7 +194,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertFalse(response.isCanModifyCourse());
+        assertFalse(response.isCanEditCourse());
+        assertFalse(response.isCanDeleteCourse());
+        assertFalse(response.isCanRestoreCourse());
         assertFalse(response.isCanModifySession());
         assertFalse(response.isCanModifyStudent());
         assertFalse(response.isCanModifyInstructor());
@@ -220,7 +236,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertTrue(response.isCanModifyCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertTrue(response.isCanModifySession());
         assertTrue(response.isCanModifyStudent());
         assertTrue(response.isCanModifyInstructor());
@@ -237,7 +255,11 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         InstructorAttributes instructor1OfCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
 
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE));
+                Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertFalse(instructor1OfCourse4.privileges.isAllowedForPrivilege(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(instructor1OfCourse4.privileges.isAllowedForPrivilege(
@@ -274,7 +296,9 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
-        assertTrue(response.isCanModifyCourse());
+        assertTrue(response.isCanEditCourse());
+        assertTrue(response.isCanDeleteCourse());
+        assertTrue(response.isCanRestoreCourse());
         assertFalse(response.isCanModifySession());
         assertTrue(response.isCanModifyStudent());
         assertTrue(response.isCanModifyInstructor());

@@ -28,14 +28,16 @@ public class InstructorCourseEditPage extends AppPage {
     public static final int INSTRUCTOR_TYPE_TUTOR = 3;
     public static final int INSTRUCTOR_TYPE_CUSTOM = 4;
 
-    public static final int COURSE_MODIFY_COURSE = 0;
-    public static final int COURSE_MODIFY_INSTRUCTORS = 1;
-    public static final int COURSE_MODIFY_SESSIONS = 2;
-    public static final int COURSE_MODIFY_STUDENTS = 3;
-    public static final int COURSE_VIEW_STUDENTS = 4;
-    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
-    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
-    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
+    public static final int COURSE_EDIT_COURSE = 0;
+    public static final int COURSE_DELETE_COURSE = 1;
+    public static final int COURSE_RESTORE_COURSE = 2;
+    public static final int COURSE_MODIFY_INSTRUCTORS = 3;
+    public static final int COURSE_MODIFY_SESSIONS = 4;
+    public static final int COURSE_MODIFY_STUDENTS = 5;
+    public static final int COURSE_VIEW_STUDENTS = 6;
+    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 7;
+    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 8;
+    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 9;
 
     public static final int SECTION_VIEW_STUDENTS = 0;
     public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
@@ -506,8 +508,12 @@ public class InstructorCourseEditPage extends AppPage {
 
     private int getCourseLevelPrivilegeIndex(String privilege) {
         switch(privilege) {
-        case Const.InstructorPermissions.CAN_MODIFY_COURSE:
-            return COURSE_MODIFY_COURSE;
+        case Const.InstructorPermissions.CAN_EDIT_COURSE:
+            return COURSE_EDIT_COURSE;
+        case Const.InstructorPermissions.CAN_DELETE_COURSE:
+            return COURSE_DELETE_COURSE;
+        case Const.InstructorPermissions.CAN_RESTORE_COURSE:
+            return COURSE_RESTORE_COURSE;
         case Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR:
             return COURSE_MODIFY_INSTRUCTORS;
         case Const.InstructorPermissions.CAN_MODIFY_SESSION:

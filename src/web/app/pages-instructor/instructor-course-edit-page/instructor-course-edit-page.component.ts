@@ -100,7 +100,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
   };
   currInstructorGoogleId: string = '';
   currInstructorCoursePrivilege: InstructorPrivilege = {
-    canModifyCourse: true,
+    canEditCourse: true,
+    canDeleteCourse: true,
+    canRestoreCourse: true,
     canModifySession: true,
     canModifyStudent: true,
     canModifyInstructor: true,
@@ -125,7 +127,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
     permission: {
       privilege: {
-        canModifyCourse: false,
+        canEditCourse: false,
+        canDeleteCourse: false,
+        canRestoreCourse: false,
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: false,
@@ -332,7 +336,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
       permission: {
         privilege: {
-          canModifyCourse: false,
+          canEditCourse: false,
+          canDeleteCourse: false,
+          canRestoreCourse: false,
           canModifySession: false,
           canModifyStudent: false,
           canModifyInstructor: false,
@@ -511,7 +517,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
 
             permission: {
               privilege: {
-                canModifyCourse: true,
+                canEditCourse: true,
+                canDeleteCourse: true,
+                canRestoreCourse: true,
                 canModifySession: true,
                 canModifyStudent: true,
                 canModifyInstructor: true,
@@ -551,7 +559,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
       instructorEmail: instructor.email,
     })
         .pipe(tap((resp: InstructorPrivilege) => {
-          permission.privilege.canModifyCourse = resp.canModifyCourse;
+          permission.privilege.canEditCourse = resp.canEditCourse;
+          permission.privilege.canDeleteCourse = resp.canDeleteCourse;
+          permission.privilege.canRestoreCourse = resp.canRestoreCourse;
           permission.privilege.canModifySession = resp.canModifySession;
           permission.privilege.canModifyStudent = resp.canModifyStudent;
           permission.privilege.canModifyInstructor = resp.canModifyInstructor;
@@ -565,7 +575,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
       const sectionLevelPermission: InstructorSectionLevelPermission = {
         sectionNames: [sectionName],
         privilege: {
-          canModifyCourse: false,
+          canEditCourse: false,
+          canDeleteCourse: false,
+          canRestoreCourse: false,
           canModifySession: false,
           canModifyStudent: false,
           canModifyInstructor: false,
@@ -598,7 +610,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
           sectionLevelPermission.sessionLevel.push({
             sessionName,
             privilege: {
-              canModifyCourse: false,
+              canEditCourse: false,
+              canDeleteCourse: false,
+              canRestoreCourse: false,
               canModifySession: false,
               canModifyStudent: false,
               canModifyInstructor: false,
@@ -681,7 +695,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
           courseId: instructor.courseId,
           instructorEmail: instructor.email,
           requestBody: {
-            canModifyCourse: permission.privilege.canModifyCourse,
+            canEditCourse: permission.privilege.canEditCourse,
+            canDeleteCourse: permission.privilege.canDeleteCourse,
+            canRestoreCourse: permission.privilege.canRestoreCourse,
             canModifySession: permission.privilege.canModifySession,
             canModifyStudent: permission.privilege.canModifyStudent,
             canModifyInstructor: permission.privilege.canModifyInstructor,
@@ -691,7 +707,9 @@ export class InstructorCourseEditPageComponent implements OnInit {
             canSubmitSessionInSections: permission.privilege.canSubmitSessionInSections,
           } as InstructorPrivilegeUpdateRequest,
         }).pipe(tap((resp: InstructorPrivilege) => {
-          permission.privilege.canModifyCourse = resp.canModifyCourse;
+          permission.privilege.canEditCourse = resp.canEditCourse;
+          permission.privilege.canDeleteCourse = resp.canDeleteCourse;
+          permission.privilege.canRestoreCourse = resp.canRestoreCourse;
           permission.privilege.canModifySession = resp.canModifySession;
           permission.privilege.canModifyStudent = resp.canModifyStudent;
           permission.privilege.canModifyInstructor = resp.canModifyInstructor;

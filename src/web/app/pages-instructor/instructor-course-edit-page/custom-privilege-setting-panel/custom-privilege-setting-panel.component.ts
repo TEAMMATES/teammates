@@ -40,7 +40,9 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
   @Input()
   permission: InstructorOverallPermission = {
     privilege: {
-      canModifyCourse: false,
+      canEditCourse: false,
+      canDeleteCourse: false,
+      canRestoreCourse: false,
       canModifySession: false,
       canModifyStudent: false,
       canModifyInstructor: false,
@@ -123,7 +125,9 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
     permission.sectionLevel.push({
       sectionNames: [],
       privilege: {
-        canModifyCourse: false,
+        canEditCourse: false,
+        canDeleteCourse: false,
+        canRestoreCourse: false,
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: false,
@@ -147,7 +151,9 @@ export class CustomPrivilegeSettingPanelComponent implements OnInit {
     permission.sectionLevel[index].sessionLevel = this.allSessions.map((name: string) => ({
       sessionName: name,
       privilege: {
-        canModifyCourse: false,
+        canEditCourse: false,
+        canDeleteCourse: false,
+        canRestoreCourse: false,
         canModifySession: false,
         canModifyStudent: false,
         canModifyInstructor: false,

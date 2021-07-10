@@ -61,7 +61,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.email);
         assertEquals(newInstructorEmail, response.getEmail());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_EDIT_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_DELETE_COURSE));
+        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_RESTORE_COURSE));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));

@@ -93,6 +93,6 @@ public class RestoreCourseActionTest
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
-                Const.InstructorPermissions.CAN_MODIFY_COURSE, submissionParams);
+                Const.InstructorPermissions.CAN_RESTORE_COURSE, submissionParams);
     }
 }

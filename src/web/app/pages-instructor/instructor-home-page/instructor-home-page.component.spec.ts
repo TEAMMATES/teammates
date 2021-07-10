@@ -23,7 +23,9 @@ import { CourseTabModel, InstructorHomePageComponent } from './instructor-home-p
 import { InstructorHomePageModule } from './instructor-home-page.module';
 
 const testInstructorPrivilege: InstructorPrivilege = {
-  canModifyCourse: true,
+  canEditCourse: true,
+  canDeleteCourse: true,
+  canRestoreCourse: true,
   canModifySession: true,
   canModifyStudent: true,
   canSubmitSessionInSections: true,
@@ -367,7 +369,9 @@ describe('InstructorHomePageComponent', () => {
 
   it('should snap with one course with two feedback sessions with tutor privilege', () => {
     const tutorPrivilege: any = {
-      canModifyCourse: false,
+      canEditCourse: false,
+      canDeleteCourse: false,
+      canRestoreCourse: false,
       canModifySession: false,
       canModifyStudent: false,
       canSubmitSessionInSections: false,
