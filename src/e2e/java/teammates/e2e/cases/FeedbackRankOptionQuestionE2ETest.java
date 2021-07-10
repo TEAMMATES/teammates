@@ -36,6 +36,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -80,6 +81,7 @@ public class FeedbackRankOptionQuestionE2ETest extends BaseFeedbackQuestionE2ETe
         questionDetails.setMinOptionsToBeRanked(1);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editRankQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);

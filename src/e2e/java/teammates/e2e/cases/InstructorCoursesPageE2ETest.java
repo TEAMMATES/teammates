@@ -46,9 +46,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         String instructorId = testData.accounts.get("instructor").getGoogleId();
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE)
-                .withUserId(instructorId);
-        InstructorCoursesPage coursesPage = loginAdminToPage(url, InstructorCoursesPage.class);
+        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSES_PAGE);
+        InstructorCoursesPage coursesPage = loginToPage(url, InstructorCoursesPage.class, instructorId);
 
         ______TS("verify loaded data");
         CourseAttributes[] activeCourses = { courses[0] };
@@ -111,6 +110,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
+        coursesPage.waitForPageToLoad();
         coursesPage.verifyNumDeletedCourses(1);
         // No need to call sortByCreationDate() here because it is the default sort in DESC order
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
@@ -132,6 +132,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
+        coursesPage.waitForPageToLoad();
         coursesPage.verifyNumDeletedCourses(1);
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
         assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
@@ -152,6 +153,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
+        coursesPage.waitForPageToLoad();
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
         coursesPage.verifyArchivedCoursesDetails(archivedCourses);

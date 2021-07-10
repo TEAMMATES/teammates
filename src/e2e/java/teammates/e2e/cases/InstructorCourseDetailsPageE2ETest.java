@@ -48,9 +48,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-                .withUserId(testData.instructors.get("ICDet.instr").googleId)
                 .withCourseId(course.getId());
-        InstructorCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
+        InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
+                testData.instructors.get("ICDet.instr").googleId);
 
         ______TS("verify loaded details");
         InstructorAttributes[] instructors = {

@@ -33,6 +33,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -77,6 +78,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         questionDetails.setDistributePointsFor("At least some options");
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editConstSumQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);

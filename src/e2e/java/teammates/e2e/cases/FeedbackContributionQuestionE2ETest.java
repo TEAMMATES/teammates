@@ -35,6 +35,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -73,6 +74,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         questionDetails.setNotSureAllowed(false);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editContributionQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyContributionQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);

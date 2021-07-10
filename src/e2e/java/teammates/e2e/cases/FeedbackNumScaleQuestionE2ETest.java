@@ -31,6 +31,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -48,6 +49,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         // add new question exactly like loaded question
         loadedQuestion.setQuestionNumber(2);
         feedbackEditPage.addNumScaleQuestion(loadedQuestion);
+        feedbackEditPage.waitUntilAnimationFinish();
 
         feedbackEditPage.verifyNumScaleQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);
@@ -71,6 +73,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         questionDetails.setMaxScale(100);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editNumScaleQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyNumScaleQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);
