@@ -14,8 +14,8 @@ import teammates.test.AssertHelper;
 
 /**
  * SUT: {@link InstructorsDb},
- * {@link teammates.storage.search.InstructorSearchDocument},
- * {@link teammates.storage.search.InstructorSearchQuery}.
+ *      {@link teammates.storage.search.InstructorSearchDocument},
+ *      {@link teammates.storage.search.InstructorSearchQuery}.
  */
 public class InstructorSearchTest extends BaseSearchTest {
 
@@ -195,7 +195,7 @@ public class InstructorSearchTest extends BaseSearchTest {
      * @param expected the expected results for the search query.
      */
     private static void verifySearchResults(InstructorSearchResultBundle actual,
-                                            InstructorAttributes... expected) {
+            InstructorAttributes... expected) {
         assertEquals(expected.length, actual.numberOfResults);
         assertEquals(expected.length, actual.instructorList.size());
         standardizeInstructorsForComparison(expected);

@@ -145,6 +145,15 @@ public class Logic {
     }
 
     /**
+     * Update instructor being edited to ensure validity of the course
+     * 
+     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes) 
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
+    }
+
+    /**
      * Preconditions: <br>
      * * All parameters are non-null.
      * @return null if not found.
@@ -1345,8 +1354,5 @@ public class Logic {
         Assumption.assertNotNull(student2Email);
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
-
-    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
-        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
-    }
+    
 }

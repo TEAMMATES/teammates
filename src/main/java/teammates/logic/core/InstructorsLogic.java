@@ -335,5 +335,4 @@ public final class InstructorsLogic {
             instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
-
 }
