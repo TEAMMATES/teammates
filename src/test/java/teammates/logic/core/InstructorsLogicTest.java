@@ -95,18 +95,19 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instr.email = "invalidEmail.tmt";
         String expectedError =
                 "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
-                        + "because it is not in the correct format. An email address contains "
-                        + "some text followed by one '@' sign followed by some more text, "
-                        + "and should end with a top level domain address like .com. "
-                        + "It cannot be longer than 254 characters, cannot be empty and "
-                        + "cannot contain spaces.";
+                + "because it is not in the correct format. An email address contains "
+                + "some text followed by one '@' sign followed by some more text, "
+                + "and should end with a top level domain address like .com. "
+                + "It cannot be longer than 254 characters, cannot be empty and "
+                + "cannot contain spaces.";
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> instructorsLogic.createInstructor(instr));
         assertEquals(expectedError, ipe.getMessage());
 
         ______TS("failure: null parameters");
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.createInstructor(null));
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.createInstructor(null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
     private void testGetInstructorForEmail() {
@@ -129,9 +130,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameters");
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorForEmail(null, email));
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorForEmail(null, email));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorForEmail(courseId, null));
+        ae = assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorForEmail(courseId, null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
     }
 
@@ -155,10 +158,12 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameters");
 
-        assertThrows(AssertionError.class,
+        AssertionError ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.getInstructorForGoogleId(null, googleId));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorForGoogleId(courseId, null));
+        ae = assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorForGoogleId(courseId, null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
     }
 
@@ -183,8 +188,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertEquals(instr.email, retrieved.email);
 
         ______TS("failure: null parameter");
-        assertThrows(AssertionError.class,
+        AssertionError ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.getInstructorForRegistrationKey(null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
     private void testGetInstructorsForCourse() throws Exception {
@@ -223,7 +229,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameters");
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorsForCourse(null));
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorsForCourse(null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
     private void testGetInstructorsForGoogleId() {
@@ -250,7 +257,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorsForGoogleId(null));
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.getInstructorsForGoogleId(null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
     private void testVerifyAtLeastOneInstructorIsDisplayed() throws Exception {
@@ -278,9 +286,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class,
+        AssertionError ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(null,
                         true, true));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
     @Test
@@ -465,8 +474,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class,
+        AssertionError ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.updateInstructorByEmail(null));
+        assertEquals("Supplied parameter was null", ae.getMessage());
 
     }
 
@@ -497,10 +507,12 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: null parameter");
 
-        assertThrows(AssertionError.class,
+        AssertionError ae = assertThrows(AssertionError.class,
                 () -> instructorsLogic.deleteInstructorCascade(courseId, null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructorCascade(null, email));
+        ae = assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructorCascade(null, email));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
     }
 
     @Test
@@ -531,7 +543,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure case: null parameter");
 
-        assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructors(null));
+        AssertionError ae = assertThrows(AssertionError.class, () -> instructorsLogic.deleteInstructors(null));
+        AssertHelper.assertContains("Supplied parameter was null", ae.getMessage());
 
     }
 
@@ -578,11 +591,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                        .isEmpty());
+                .isEmpty());
         assertFalse(
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                        .isEmpty());
+                .isEmpty());
 
         instructor1OfCourse2 = instructorsLogic.getInstructorForEmail(
                 instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail());
@@ -602,11 +615,11 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertTrue(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                        .isEmpty());
+                .isEmpty());
         assertTrue(
                 frLogic.getFeedbackResponsesForReceiverForCourse(
                         instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                        .isEmpty());
+                .isEmpty());
         assertNull(instructorsLogic.getInstructorForEmail(
                 instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail()));
     }
