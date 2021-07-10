@@ -79,6 +79,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails.setMcqChoices(choices);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editMcqQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyMcqQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);

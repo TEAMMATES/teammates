@@ -154,7 +154,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      */
     protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
         String filePath = getTestDownloadsFolder() + expectedFileName;
-        int retryLimit = 5;
+        int retryLimit = TestProperties.TEST_TIMEOUT;
         boolean actual = Files.exists(Paths.get(filePath));
         while (!actual && retryLimit > 0) {
             retryLimit--;
@@ -174,7 +174,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     }
 
     protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
-        return AppPage.getNewPageInstance(browser, url, typeOfPage);
+        browser.goToUrl(url.toAbsoluteString());
+        return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
     /**

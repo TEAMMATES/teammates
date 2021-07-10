@@ -110,6 +110,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
+        coursesPage.waitForPageToLoad();
         coursesPage.verifyNumDeletedCourses(1);
         // No need to call sortByCreationDate() here because it is the default sort in DESC order
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourseSortedByCreationDate);
@@ -131,6 +132,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
+        coursesPage.waitForPageToLoad();
         coursesPage.verifyNumDeletedCourses(1);
         coursesPage.verifyArchivedCoursesDetails(archivedCoursesWithNewCourse);
         assertFalse(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
@@ -151,6 +153,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.restoreAllCourses();
 
         coursesPage.verifyStatusMessage("All courses have been restored.");
+        coursesPage.waitForPageToLoad();
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithRestored);
         coursesPage.verifyArchivedCoursesDetails(archivedCourses);

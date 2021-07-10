@@ -71,6 +71,6 @@ src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
 src/web/dist/*
 filestorage-dev/*
-datastore-dev/*
+datastore-dev/datastore/*
 
 !.gitkeep

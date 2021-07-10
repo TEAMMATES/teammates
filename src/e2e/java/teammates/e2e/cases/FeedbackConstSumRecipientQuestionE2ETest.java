@@ -75,6 +75,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         questionDetails.setDistributePointsFor("At least some options");
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editConstSumQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
         verifyPresentInDatabase(loadedQuestion);
