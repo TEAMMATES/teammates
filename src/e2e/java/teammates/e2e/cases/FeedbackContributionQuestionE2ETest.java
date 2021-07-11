@@ -74,6 +74,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         questionDetails.setNotSureAllowed(false);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editContributionQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyContributionQuestionDetails(2, questionDetails);
         verifyPresentInDatastore(loadedQuestion);

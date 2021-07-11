@@ -64,6 +64,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
 
         accountsPage.clickDowngradeAccount();
         accountsPage.verifyStatusMessage("Instructor account is successfully downgraded to student.");
+        accountsPage.waitForPageToLoad();
 
         account = getAccount(googleId);
         assertFalse(account.isInstructor);

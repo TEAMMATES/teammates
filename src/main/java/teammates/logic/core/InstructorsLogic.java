@@ -11,7 +11,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Logger;
 import teammates.storage.api.InstructorsDb;
 
@@ -61,7 +61,7 @@ public final class InstructorsLogic {
      * @return null if no result found
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
 
