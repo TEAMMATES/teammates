@@ -13,9 +13,9 @@ import teammates.common.util.Config;
 import teammates.storage.api.OfyHelper;
 
 /**
- * Enables access to any database (local/production).
+ * Enables access to any datastore (local/production).
  */
-public abstract class DatabaseClient {
+public abstract class DatastoreClient {
 
     protected Objectify ofy() {
         return ObjectifyService.ofy();

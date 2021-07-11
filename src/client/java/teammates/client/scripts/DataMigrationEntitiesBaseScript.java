@@ -17,7 +17,7 @@ import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.client.connector.DatabaseClient;
+import teammates.client.connector.DatastoreClient;
 import teammates.storage.entity.BaseEntity;
 import teammates.test.FileHelper;
 
@@ -33,7 +33,7 @@ import teammates.test.FileHelper;
  *
  * @param <T> The entity type to be migrated by the script.
  */
-public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends DatabaseClient {
+public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends DatastoreClient {
 
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
