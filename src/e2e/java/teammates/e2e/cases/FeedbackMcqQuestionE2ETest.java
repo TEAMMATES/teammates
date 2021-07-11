@@ -53,7 +53,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.addMcqQuestion(loadedQuestion);
 
         feedbackEditPage.verifyMcqQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -65,7 +65,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyMcqQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackMcqQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -82,7 +82,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyMcqQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -102,7 +102,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackResponseAttributes response = getResponse(questionId, false, "UI");
         feedbackSubmitPage.submitMcqResponse(1, "", response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -114,7 +114,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyMcqResponse(1, "", response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private List<String> getGeneratedStudentOptions() {

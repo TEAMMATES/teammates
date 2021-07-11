@@ -43,7 +43,7 @@ public final class AccountsLogic {
      *
      * @return the created account
      * @throws InvalidParametersException if the account is not valid
-     * @throws EntityAlreadyExistsException if the account already exists in the Datastore.
+     * @throws EntityAlreadyExistsException if the account already exists in the database.
      */
     AccountAttributes createAccount(AccountAttributes accountData)
             throws InvalidParametersException, EntityAlreadyExistsException {

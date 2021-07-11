@@ -28,11 +28,11 @@ public class DataBundleLogicTest extends BaseLogicTest {
     public void testPersistDataBundle() throws Exception {
         ______TS("empty data bundle");
         dataBundleLogic.persistDataBundle(dataBundle);
-        verifyPresentInDatastore(dataBundle);
+        verifyPresentInDatabase(dataBundle);
 
         ______TS("try to persist while entities exist");
         dataBundleLogic.persistDataBundle(loadDataBundle("/FeedbackSessionResultsTest.json"));
-        verifyPresentInDatastore(loadDataBundle("/FeedbackSessionResultsTest.json"));
+        verifyPresentInDatabase(loadDataBundle("/FeedbackSessionResultsTest.json"));
 
         // Only FeedbackQuestions is tested because currently, it is the only data that has a value
         // updated only in the server. If there are more in the future, they should be added in this

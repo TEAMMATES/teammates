@@ -39,7 +39,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         deleteFeedbackQuestion(fq);
 
         fqDb.createEntity(fq);
-        verifyPresentInDatastore(fq);
+        verifyPresentInDatabase(fq);
 
         String feedbackSessionName = fq.feedbackSessionName;
         String courseId = fq.courseId;
@@ -221,7 +221,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         deleteFeedbackQuestion(fqa);
 
         fqDb.createEntity(fqa);
-        verifyPresentInDatastore(fqa);
+        verifyPresentInDatabase(fqa);
 
         ______TS("duplicate - with same question number.");
 
@@ -448,7 +448,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes modifiedQuestion = getNewFeedbackQuestionAttributes();
         deleteFeedbackQuestion(modifiedQuestion);
         fqDb.createEntity(modifiedQuestion);
-        verifyPresentInDatastore(modifiedQuestion);
+        verifyPresentInDatabase(modifiedQuestion);
 
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
@@ -462,7 +462,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
                         .withQuestionDetails(fqd)
                         .build());
 
-        verifyPresentInDatastore(modifiedQuestion);
+        verifyPresentInDatabase(modifiedQuestion);
         modifiedQuestion = fqDb.getFeedbackQuestion(modifiedQuestion.feedbackSessionName,
                                                     modifiedQuestion.courseId,
                                                     modifiedQuestion.questionNumber);
@@ -478,7 +478,7 @@ public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
         FeedbackQuestionAttributes typicalQuestion = getNewFeedbackQuestionAttributes();
         deleteFeedbackQuestion(typicalQuestion);
         typicalQuestion = fqDb.createEntity(typicalQuestion);
-        verifyPresentInDatastore(typicalQuestion);
+        verifyPresentInDatabase(typicalQuestion);
 
         assertNotEquals("New question text!", typicalQuestion.getQuestionDetails().getQuestionText());
         FeedbackQuestionAttributes updatedQuestion = fqDb.updateFeedbackQuestion(

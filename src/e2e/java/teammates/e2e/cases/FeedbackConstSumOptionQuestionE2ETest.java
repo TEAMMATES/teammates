@@ -53,7 +53,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         feedbackEditPage.addConstSumOptionQuestion(loadedQuestion);
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -65,7 +65,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyConstSumQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -81,7 +81,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
         FeedbackResponseAttributes response = getResponse(questionId, Arrays.asList(50, 20, 30));
         feedbackSubmitPage.submitConstSumOptionResponse(1, "", response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -110,7 +110,7 @@ public class FeedbackConstSumOptionQuestionE2ETest extends BaseFeedbackQuestionE
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyConstSumOptionResponse(1, "", response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, List<Integer> answers) {
