@@ -101,7 +101,7 @@ In TEAMMATES, E2E test cases are organized by page. For each page, we:
   
 All E2E test classes inherit from `BaseE2ETestCase` which contains methods that are common to most test cases, such as preparing the `Browser` object used for testing.   
   
-To help verify the state of the datastore, `BackDoor` contains methods to create API calls to the back-end without going through the UI. 
+To help verify the state of the database, `BackDoor` contains methods to create API calls to the back-end without going through the UI. 
   
 ### Page Object Pattern
   

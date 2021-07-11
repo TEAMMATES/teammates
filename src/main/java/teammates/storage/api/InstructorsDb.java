@@ -86,7 +86,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      *
      * @return the created instructor
      * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
     @Override
     public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)

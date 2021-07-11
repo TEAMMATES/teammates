@@ -74,7 +74,7 @@ public final class InstructorsLogic {
      *
      * @return the created instructor
      * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
