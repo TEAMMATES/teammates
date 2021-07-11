@@ -8,18 +8,14 @@ This document will assume Solr version `8.8.1`.
 
 ## Setting up Solr using Docker
 
-If you are familiar with Docker, this method is recommended.
+If you have access to Docker, this method is straightforward and recommended.
 
-1. Run the `solr:8.8.1` Docker image and bind to the container port `8983`. For example, to run a container named `tm_solr` accessible from `localhost:8983` in the background:
-   ```sh
-   docker pull solr:8.8.1
-   docker run --name=tm_solr -d -p 8983:8983 solr:8.8.1
-   ```
-   **Verification:** the Solr admin console should be accessible in `http://localhost:8983`.
-1. To initialise Solr for our use cases, we run the [Solr startup script](../solr.sh) located in the project directory in the running container:
-   ```sh
-   docker exec $(docker ps -qf "name=tm_solr") /bin/sh -c "$(cat ./solr.sh)"
-   ```
+We have provided a Docker compose definition to run dependent services, including Solr. Run it under the `solr` service name and bind to the container port `8983`:
+```sh
+docker-compose run -p 8983:8983 solr
+```
+
+**Verification:** the Solr admin console should be accessible in `http://localhost:8983`.
 
 ## Setting up Solr manually
 

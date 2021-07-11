@@ -61,7 +61,7 @@ public final class DataBundleLogic {
     }
 
     /**
-     * Persists data in the given {@link DataBundle} to the Datastore, including
+     * Persists data in the given {@link DataBundle} to the database, including
      * accounts, courses, instructors, students, sessions, questions, responses, and comments.
      *
      * <p>Accounts are generated for students and instructors with Google IDs

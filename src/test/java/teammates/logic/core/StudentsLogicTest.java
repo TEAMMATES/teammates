@@ -143,7 +143,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("typical edit");
 
         StudentAttributes student4InCourse1 = dataBundle.students.get("student4InCourse1");
-        verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatabase(student4InCourse1);
         String originalEmail = student4InCourse1.email;
         student4InCourse1 = studentsLogic.getStudentForEmail(student4InCourse1.course, student4InCourse1.email);
         student4InCourse1.name = student4InCourse1.name + "y";
@@ -189,7 +189,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                         .withNewEmail(student4InCourse1.email)
                         .build()
         );
-        verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatabase(student4InCourse1);
 
         ______TS("update nothing");
 
@@ -197,7 +197,7 @@ public class StudentsLogicTest extends BaseLogicTest {
                 StudentAttributes.updateOptionsBuilder(student4InCourse1.course, student4InCourse1.email)
                         .build()
         );
-        verifyPresentInDatastore(student4InCourse1);
+        verifyPresentInDatabase(student4InCourse1);
 
         ______TS("non-existent student");
 
@@ -255,7 +255,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         ______TS("typical regeneration of course student's registration key");
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        verifyPresentInDatastore(student1InCourse1);
+        verifyPresentInDatabase(student1InCourse1);
 
         StudentAttributes updatedStudent =
                         studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.course, student1InCourse1.email);
@@ -536,7 +536,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     @Test
     public void testDeleteStudentCascade() {
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
-        verifyPresentInDatastore(student2InCourse1);
+        verifyPresentInDatabase(student2InCourse1);
 
         ______TS("delete non-existent student");
 
@@ -555,7 +555,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         studentsLogic.deleteStudentCascade(student2InCourse1.course, student2InCourse1.email);
 
-        verifyAbsentInDatastore(student2InCourse1);
+        verifyAbsentInDatabase(student2InCourse1);
         // verify responses of the student are gone
         assertTrue(
                 frLogic.getFeedbackResponsesFromGiverForCourse(
@@ -566,7 +566,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // verify that other students in the course are intact
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
-        verifyPresentInDatastore(student1InCourse1);
+        verifyPresentInDatabase(student1InCourse1);
 
         ______TS("null parameters");
 
