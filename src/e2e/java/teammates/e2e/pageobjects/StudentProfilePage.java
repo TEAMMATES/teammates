@@ -73,11 +73,9 @@ public class StudentProfilePage extends AppPage {
         submitEditedProfile();
     }
 
-    private StudentProfilePage submitEditedProfile() {
+    private void submitEditedProfile() {
         click(saveProfileButton);
         waitForConfirmationModalAndClickOk();
-        waitForPageToLoad(true);
-        return changePageType(StudentProfilePage.class);
     }
 
     private void fillShortName(String shortName) {

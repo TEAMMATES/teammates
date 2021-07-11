@@ -27,7 +27,8 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
         StudentProfileAttributes studentProfile = testData.profiles.get("ICSDet.jose.tmms");
         AppUrl viewPageUrl = getStudentDetailsViewPageUrl(student.getEmail());
         InstructorCourseStudentDetailsViewPage viewPage =
-                loginAdminToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class);
+                loginToPage(viewPageUrl, InstructorCourseStudentDetailsViewPage.class,
+                        testData.instructors.get("ICSDet.instr").getGoogleId());
 
         viewPage.verifyStudentDetails(studentProfile, student);
 
@@ -41,7 +42,6 @@ public class InstructorCourseStudentDetailsPageE2ETest extends BaseE2ETestCase {
 
     private AppUrl getStudentDetailsViewPageUrl(String studentEmail) {
         return createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_PAGE)
-                .withUserId(testData.instructors.get("ICSDet.instr").getGoogleId())
                 .withCourseId(testData.courses.get("ICSDet.CS2104").getId())
                 .withStudentEmail(studentEmail);
     }

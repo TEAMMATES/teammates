@@ -37,6 +37,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -55,7 +56,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.addMsqQuestion(loadedQuestion);
 
         feedbackEditPage.verifyMsqQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -67,7 +68,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyMsqQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackMsqQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -81,9 +82,10 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails.setMsqChoices(choices);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editMsqQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyMsqQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -107,7 +109,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackResponseAttributes response = getResponse(questionId, receiver, answers.get(answers.size() - 1), answers);
         feedbackSubmitPage.submitMsqResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -120,7 +122,7 @@ public class FeedbackMsqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyMsqResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private List<String> getGeneratedTeams() {

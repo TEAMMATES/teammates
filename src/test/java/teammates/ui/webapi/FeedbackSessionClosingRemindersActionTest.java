@@ -65,7 +65,7 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withEndTime(session1.getEndTime())
                         .build());
         session1.setSentOpenEmail(true); // fsLogic will set the flag to true
-        verifyPresentInDatastore(session1);
+        verifyPresentInDatabase(session1);
 
         // Ditto, but disable the closing reminder
 
@@ -83,7 +83,7 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
                         .build());
         session1.setSentOpenEmail(true); // fsLogic will set the flag to true
-        verifyPresentInDatastore(session2);
+        verifyPresentInDatabase(session2);
 
         // 1 session not yet opened; do not send the closing reminder
 
@@ -99,7 +99,7 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withEndTime(session3.getEndTime())
                         .build());
         session3.setSentOpenEmail(false); // fsLogic will set the flag to true
-        verifyPresentInDatastore(session3);
+        verifyPresentInDatabase(session3);
 
         // wait for very briefly so that the above session will be within the time limit
         ThreadHelper.waitFor(5);

@@ -1,5 +1,8 @@
 package teammates.logic.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.TeammatesException;
@@ -7,6 +10,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.logic.core.EmailSenderService;
 import teammates.logic.core.EmptyEmailService;
@@ -59,10 +63,20 @@ public class EmailSender {
             log.severe("Email failed to send: " + status.getMessage());
         }
 
-        String emailLogInfo = String.join("|||", "TEAMMATESEMAILLOG",
-                message.getRecipient(), message.getSubject(), message.getContent(),
-                status.getMessage() == null ? "" : status.getMessage());
-        log.info(emailLogInfo);
+        Map<String, Object> emailDetailsPrivate = new HashMap<>();
+        emailDetailsPrivate.put("emailRecipient", message.getRecipient());
+        emailDetailsPrivate.put("emailSubject", message.getSubject());
+        emailDetailsPrivate.put("emailContent", message.getContent());
+
+        Map<String, Object> emailDetails = new HashMap<>();
+        emailDetails.put("emailType", message.getType());
+        emailDetails.put("emailDetails", emailDetailsPrivate);
+        emailDetails.put("emailStatus", status.getStatusCode());
+        if (status.getMessage() != null) {
+            emailDetails.put("emailStatusMessage", status.getMessage());
+        }
+        log.event(LogEvent.EMAIL_SENT, "Email sent: " + message.getType(), emailDetails);
+
         return status;
     }
 

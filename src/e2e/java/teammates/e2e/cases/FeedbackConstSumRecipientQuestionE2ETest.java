@@ -34,6 +34,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -53,7 +54,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         feedbackEditPage.addConstSumRecipientQuestion(loadedQuestion);
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -65,7 +66,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyConstSumQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetails();
@@ -74,9 +75,10 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         questionDetails.setDistributePointsFor("At least some options");
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editConstSumQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyConstSumQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -97,8 +99,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         List responses = Arrays.asList(response, response2);
         feedbackSubmitPage.submitConstSumRecipientResponse(1, responses);
 
-        verifyPresentInDatastore(response);
-        verifyPresentInDatastore(response2);
+        verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response2);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -112,8 +114,8 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyConstSumRecipientResponse(1, responses);
-        verifyPresentInDatastore(response);
-        verifyPresentInDatastore(response2);
+        verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response2);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, Integer answer) {

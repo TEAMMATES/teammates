@@ -39,8 +39,8 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         // delete entity
         profilesDb.deleteStudentProfile(typicalProfileWithPicture.googleId);
         profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
-        verifyAbsentInDatastore(typicalProfileWithPicture);
-        verifyAbsentInDatastore(typicalProfileWithoutPicture);
+        verifyAbsentInDatabase(typicalProfileWithPicture);
+        verifyAbsentInDatabase(typicalProfileWithoutPicture);
     }
 
     @Test
@@ -66,7 +66,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
                         .withShortName(spa.shortName)
                         .build());
 
-        verifyPresentInDatastore(spa);
+        verifyPresentInDatabase(spa);
         assertEquals("non-ExIsTenT", createdSpa.googleId);
         assertEquals("Test", createdSpa.shortName);
 
@@ -81,7 +81,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
                 StudentProfileAttributes.updateOptionsBuilder(emptySpa.getGoogleId())
                         .build());
 
-        verifyPresentInDatastore(emptySpa);
+        verifyPresentInDatabase(emptySpa);
 
         // tear down
         profilesDb.deleteStudentProfile(emptySpa.getGoogleId());
@@ -199,7 +199,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         StudentProfileAttributes storedProfile = profilesDb.getStudentProfile(typicalProfileWithPicture.googleId);
         // other fields remain
-        verifyPresentInDatastore(typicalProfileWithPicture);
+        verifyPresentInDatabase(typicalProfileWithPicture);
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.modifiedDate, storedProfile.modifiedDate);
 
@@ -210,7 +210,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
 
         storedProfile = profilesDb.getStudentProfile(typicalProfileWithPicture.getGoogleId());
         // other fields remain
-        verifyPresentInDatastore(typicalProfileWithPicture);
+        verifyPresentInDatabase(typicalProfileWithPicture);
         // modifiedDate remains
         assertEquals(typicalProfileWithPicture.getModifiedDate(), storedProfile.getModifiedDate());
     }
@@ -226,7 +226,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
     public void testDeleteStudentProfile_profileWithoutPicture_shouldDeleteCorrectly() {
         profilesDb.deleteStudentProfile(typicalProfileWithoutPicture.googleId);
 
-        verifyAbsentInDatastore(typicalProfileWithoutPicture);
+        verifyAbsentInDatabase(typicalProfileWithoutPicture);
     }
 
     @Test
@@ -234,7 +234,7 @@ public class ProfilesDbTest extends BaseComponentTestCase {
         profilesDb.deleteStudentProfile(typicalProfileWithPicture.googleId);
 
         // check that profile get deleted and picture get deleted
-        verifyAbsentInDatastore(typicalProfileWithPicture);
+        verifyAbsentInDatabase(typicalProfileWithPicture);
     }
 
 }

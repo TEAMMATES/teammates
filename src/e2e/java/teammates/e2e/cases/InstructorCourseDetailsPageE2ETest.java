@@ -48,9 +48,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-                .withUserId(testData.instructors.get("ICDet.instr").googleId)
                 .withCourseId(course.getId());
-        InstructorCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
+        InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
+                testData.instructors.get("ICDet.instr").googleId);
 
         ______TS("verify loaded details");
         InstructorAttributes[] instructors = {
@@ -124,7 +124,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 + course.getId() + "\"");
         detailsPage.verifyNumStudents(studentsAfterDelete.length);
         detailsPage.verifyStudentDetails(studentsAfterDelete);
-        verifyAbsentInDatastore(student);
+        verifyAbsentInDatabase(student);
 
         ______TS("delete all students");
         detailsPage.deleteAllStudents();
@@ -132,7 +132,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         detailsPage.verifyStatusMessage("All the students have been removed from the course");
         detailsPage.verifyNumStudents(0);
         for (StudentAttributes student : studentsAfterDelete) {
-            verifyAbsentInDatastore(student);
+            verifyAbsentInDatabase(student);
         }
     }
 
