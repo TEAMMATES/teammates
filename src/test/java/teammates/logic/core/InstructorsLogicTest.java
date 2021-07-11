@@ -664,10 +664,27 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
+        ______TS("The course has 1 registered instructor with modifying instructor privilege");
+        dataBundle.instructors.remove("instructorNotYetJoinCourse");
+        removeAndRestoreTypicalDataBundle();
+        courseId = "idOfSampleCourse-demo";
+
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+
         ______TS("Should grant the currently being edited instructor the privilege of modifying instructors");
 
         ______TS("The course only has 1 instructor with modifying instructor privilege which is being edited");
         courseId = "idOfCourseNoEvals";
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+
+        ______TS("The course only has 1 instructor with modifying instructor privilege which is not registered");
+        dataBundle.instructors.remove("instructorWithOnlyOneSampleCourse");
+        removeAndRestoreTypicalDataBundle();
+        courseId = "idOfSampleCourse-demo";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
