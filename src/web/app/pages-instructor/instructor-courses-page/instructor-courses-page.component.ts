@@ -1,9 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { forkJoin, from, Observable, of } from 'rxjs';
+import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
+import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
+import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
@@ -12,12 +15,19 @@ import {
   Course,
   CourseArchive,
   Courses,
+  FeedbackQuestion,
+  FeedbackQuestions,
+  FeedbackSession,
+  FeedbackSessions,
   JoinState,
   MessageOutput,
   Student,
   Students,
 } from '../../../types/api-output';
+import { FeedbackQuestionCreateRequest, FeedbackSessionCreateRequest, Intent } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
+import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
+import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { collapseAnim } from '../../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -43,6 +53,8 @@ export class InstructorCoursesPageComponent implements OnInit {
   activeCourses: CourseModel[] = [];
   archivedCourses: CourseModel[] = [];
   softDeletedCourses: CourseModel[] = [];
+  allCoursesList: Course[] = [];
+  activeCoursesList: Course[] = [];
   courseStats: Record<string, Record<string, number>> = {};
 
   activeTableSortOrder: SortOrder = SortOrder.ASC;
@@ -63,13 +75,25 @@ export class InstructorCoursesPageComponent implements OnInit {
   canRestoreAll: boolean = true;
   isAddNewCourseFormExpanded: boolean = false;
   isArchivedCourseExpanded: boolean = false;
+  isCopyingCourse: boolean = false;
 
-  constructor(private route: ActivatedRoute,
+  copyProgressPercentage: number = 0;
+  totalNumberOfSessionsToCopy: number = 0;
+  numberOfSessionsCopied: number = 0;
+
+  @Output() courseAdded: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor(private ngbModal: NgbModal,
+              private route: ActivatedRoute,
               private statusMessageService: StatusMessageService,
               private courseService: CourseService,
               private studentService: StudentService,
               private simpleModalService: SimpleModalService,
-              private tableComparatorService: TableComparatorService) { }
+              private tableComparatorService: TableComparatorService,
+              private feedbackSessionsService: FeedbackSessionsService,
+              private feedbackQuestionsService: FeedbackQuestionsService,
+              private progressBarService: ProgressBarService,
+              ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((queryParams: any) => {
@@ -89,8 +113,12 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.activeCourses = [];
     this.archivedCourses = [];
     this.softDeletedCourses = [];
+    this.activeCoursesList = [];
+    this.allCoursesList = [];
     this.courseService.getAllCoursesAsInstructor('active').subscribe((resp: Courses) => {
       resp.courses.forEach((course: Course) => {
+        this.allCoursesList.push(course);
+        this.activeCoursesList.push(course);
         let canModifyCourse: boolean = false;
         let canModifyStudent: boolean = false;
         if (course.privileges) {
@@ -112,6 +140,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('archived').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
+        this.allCoursesList.push(course);
         let canModifyCourse: boolean = false;
         let canModifyStudent: boolean = false;
         if (course.privileges) {
@@ -131,6 +160,7 @@ export class InstructorCoursesPageComponent implements OnInit {
 
     this.courseService.getAllCoursesAsInstructor('softDeleted').subscribe((resp: Courses) => {
       for (const course of resp.courses) {
+        this.allCoursesList.push(course);
         let canModifyCourse: boolean = false;
         let canModifyStudent: boolean = false;
         if (course.privileges) {
@@ -209,6 +239,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   changeModelFromActiveToArchived(courseId: string): void {
     const courseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
     this.activeCourses = this.removeCourse(this.activeCourses, courseId);
+    this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
     if (courseToBeRemoved !== undefined) {
       this.archivedCourses.push(courseToBeRemoved);
       this.archivedCourses.sort(this.sortBy(this.archivedTableSortBy, this.archivedTableSortOrder));
@@ -224,6 +255,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     this.archivedCourses = this.removeCourse(this.archivedCourses, courseId);
     if (courseToBeRemoved !== undefined) {
       this.activeCourses.push(courseToBeRemoved);
+      this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
       this.activeCourses.sort(this.sortBy(this.activeTableSortBy, this.activeTableSortOrder));
     }
   }
@@ -244,6 +276,180 @@ export class InstructorCoursesPageComponent implements OnInit {
     return targetList.filter((model: CourseModel) => {
       return model.course.courseId !== courseId;
     });
+  }
+
+  /**
+   * Creates a copy of a course including the selected sessions.
+   */
+  onCopy(courseId: string, courseName: string, timeZone: string): void {
+    if (!courseId) {
+      this.statusMessageService.showErrorToast('Course is not found!');
+      return;
+    }
+
+    this.feedbackSessionsService.getFeedbackSessionsForInstructor(courseId).subscribe((response: FeedbackSessions) => {
+      const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+      modalRef.componentInstance.oldCourseId = courseId;
+      modalRef.componentInstance.oldCourseName = courseName;
+      modalRef.componentInstance.allCourses = this.allCoursesList;
+      modalRef.componentInstance.newTimeZone = timeZone;
+      modalRef.componentInstance.courseToFeedbackSession[courseId] = response.feedbackSessions;
+      modalRef.componentInstance.selectedFeedbackSessions = new Set(response.feedbackSessions);
+      modalRef.result.then((result: CopyCourseModalResult) => this.createCourse(result), () => {});
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+    });
+  }
+
+  /**
+   * Creates a new course with the selected feedback sessions
+   */
+  createCourse(result: CopyCourseModalResult): void {
+    this.isCopyingCourse = true;
+    this.numberOfSessionsCopied = 0;
+    this.totalNumberOfSessionsToCopy = result.totalNumberOfSessions;
+    this.copyProgressPercentage = 0;
+
+    this.courseService.createCourse({
+      courseName: result.newCourseName,
+      timeZone: result.newTimeZone,
+      courseId: result.newCourseId,
+    })
+    .subscribe(() => {
+      // Wrap in a Promise to wait for all feedback sessions to be copied
+      const promise: Promise<void> = new Promise<void>((resolve: () => void, _reject: () => void) => {
+        result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
+          this.copyFeedbackSession(session, result.newCourseId)
+            .pipe(finalize(() => {
+              this.numberOfSessionsCopied += 1;
+              this.copyProgressPercentage =
+                Math.round(100 * this.numberOfSessionsCopied / this.totalNumberOfSessionsToCopy);
+              this.progressBarService.updateProgress(this.copyProgressPercentage);
+              if (this.numberOfSessionsCopied === this.totalNumberOfSessionsToCopy) {
+                resolve();
+              }
+            }))
+            .subscribe();
+        });
+      });
+
+      promise.then(() => {
+        this.courseService
+          .getCourseAsInstructor(result.newCourseId)
+          .subscribe((course: Course) => {
+            this.activeCourses.push(this.getCourseModelFromCourse(course));
+            this.activeCoursesList.push(course);
+            this.allCoursesList.push(course);
+            this.activeCoursesDefaultSort();
+            this.isCopyingCourse = false;
+            this.statusMessageService.showSuccessToast('The course has been added.');
+          });
+      });
+    }, (resp: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(resp.error.message);
+      this.isCopyingCourse = false;
+      this.hasLoadingFailed = true;
+    });
+  }
+
+  /**
+   * Gets a CourseModel from courseID
+   */
+  private getCourseModelFromCourse(course: Course): CourseModel {
+    let canModifyCourse: boolean = false;
+    let canModifyStudent: boolean = false;
+    if (course.privileges) {
+      canModifyCourse = course.privileges.canModifyCourse;
+      canModifyStudent = course.privileges.canModifyStudent;
+    }
+    const isLoadingCourseStats: boolean = false;
+    const courseModel: CourseModel = { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
+    return courseModel;
+  }
+
+  /**
+   * Copies a feedback session.
+   */
+  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string):
+      Observable<FeedbackSession> {
+    let createdFeedbackSession!: FeedbackSession;
+    return this.feedbackSessionsService
+      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(fromFeedbackSession))
+      .pipe(
+        switchMap((feedbackSession: FeedbackSession) => {
+          createdFeedbackSession = feedbackSession;
+          return this.feedbackQuestionsService.getFeedbackQuestions({
+            courseId: fromFeedbackSession.courseId,
+            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+            intent: Intent.FULL_DETAIL,
+          });
+        }),
+        switchMap((response: FeedbackQuestions) => {
+          if (response.questions.length === 0) {
+            // no questions to copy
+            return of(createdFeedbackSession);
+          }
+          return from(response.questions).pipe(
+            concatMap((feedbackQuestion: FeedbackQuestion) => {
+              return this.feedbackQuestionsService.createFeedbackQuestion(
+                createdFeedbackSession.courseId,
+                createdFeedbackSession.feedbackSessionName,
+                this.toFbQuestionCreationReq(feedbackQuestion),
+              );
+            }),
+            last(),
+            switchMap(() => of(createdFeedbackSession)),
+          );
+        }),
+    );
+  }
+
+  /**
+   * Creates a FeedbackSessionCreateRequest with the provided name.
+   */
+  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession):
+      FeedbackSessionCreateRequest {
+    return {
+      feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+      instructions: fromFeedbackSession.instructions,
+
+      submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
+      submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
+      gracePeriod: fromFeedbackSession.gracePeriod,
+
+      sessionVisibleSetting: fromFeedbackSession.sessionVisibleSetting,
+      customSessionVisibleTimestamp: fromFeedbackSession.customSessionVisibleTimestamp,
+
+      responseVisibleSetting: fromFeedbackSession.responseVisibleSetting,
+      customResponseVisibleTimestamp: fromFeedbackSession.customResponseVisibleTimestamp,
+
+      isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
+      isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
+    };
+  }
+
+  /**
+   * Creates a FeedbackQuestionCreateRequest by cloning the given feedback question.
+   */
+  private toFbQuestionCreationReq(feedbackQuestion: FeedbackQuestion): FeedbackQuestionCreateRequest {
+    return {
+      questionNumber: feedbackQuestion.questionNumber,
+      questionBrief: feedbackQuestion.questionBrief,
+      questionDescription: feedbackQuestion.questionDescription,
+
+      questionDetails: feedbackQuestion.questionDetails,
+      questionType: feedbackQuestion.questionType,
+
+      giverType: feedbackQuestion.giverType,
+      recipientType: feedbackQuestion.recipientType,
+
+      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
+      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
+
+      showResponsesTo: feedbackQuestion.showResponsesTo,
+      showGiverNameTo: feedbackQuestion.showGiverNameTo,
+      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
+    };
   }
 
   /**
@@ -274,6 +480,7 @@ export class InstructorCoursesPageComponent implements OnInit {
   moveCourseToRecycleBin(courseId: string, deletionTimeStamp: number): void {
     const activeCourseToBeRemoved: CourseModel | undefined = this.findCourse(this.activeCourses, courseId);
     this.activeCourses = this.removeCourse(this.activeCourses, courseId);
+    this.activeCoursesList = this.activeCourses.map((courseModel: CourseModel) => courseModel.course);
     if (activeCourseToBeRemoved !== undefined) {
       activeCourseToBeRemoved.course.deletionTimestamp = deletionTimeStamp;
       this.softDeletedCourses.push(activeCourseToBeRemoved);
@@ -307,6 +514,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     return modalRef.result.then(() => {
       this.courseService.deleteCourse(courseId).subscribe(() => {
         this.softDeletedCourses = this.removeCourse(this.softDeletedCourses, courseId);
+        this.allCoursesList = this.allCoursesList.filter((course: Course) => course.courseId !== courseId);
         this.statusMessageService.showSuccessToast(`The course ${courseId} has been permanently deleted.`);
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
@@ -349,6 +557,9 @@ export class InstructorCoursesPageComponent implements OnInit {
 
       forkJoin(deleteRequests).subscribe(() => {
         this.softDeletedCourses = [];
+        this.allCoursesList = [];
+        this.allCoursesList.push(...this.activeCourses.map((courseModel: CourseModel) => courseModel.course));
+        this.allCoursesList.push(...this.archivedCourses.map((courseModel: CourseModel) => courseModel.course));
         this.statusMessageService.showSuccessToast('All courses have been permanently deleted.');
       }, (resp: ErrorMessageOutput) => {
         this.statusMessageService.showErrorToast(resp.error.message);
