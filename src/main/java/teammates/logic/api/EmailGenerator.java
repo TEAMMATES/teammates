@@ -374,6 +374,12 @@ public class EmailGenerator {
                 .withSessionName(session.getFeedbackSessionName())
                 .toAbsoluteString();
 
+        // if instructor hasn't joined yet, remind them to join before submitting feedback
+        String instructorJoinReminderFragment =
+                 instructor.isRegistered()
+                 ? ""
+                 : generateInstructorJoinReminderFragment(instructor);
+
         String emailBody = Templates.populateTemplate(template,
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
@@ -386,6 +392,7 @@ public class EmailGenerator {
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
+                "${additionalNotes}", instructorJoinReminderFragment,
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -393,6 +400,12 @@ public class EmailGenerator {
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
         return email;
+    }
+
+    private String generateInstructorJoinReminderFragment(InstructorAttributes instructor) {
+        return Templates.populateTemplate(EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER,
+                "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     /**
@@ -580,6 +593,7 @@ public class EmailGenerator {
                 "${submitUrl}", submitUrl,
                 "${reportUrl}", reportUrl,
                 "${feedbackAction}", feedbackAction,
+                "${additionalNotes}", "",
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(student.email);
@@ -622,6 +636,7 @@ public class EmailGenerator {
                 "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${reportUrl}", "{in the actual email sent to the students, this will be the unique link}",
                 "${feedbackAction}", feedbackAction,
+                "${additionalNotes}", "",
                 "${additionalContactInformation}", additionalContactInformation);
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
@@ -773,15 +788,17 @@ public class EmailGenerator {
                 "${supportEmail}", Config.SUPPORT_EMAIL);
     }
 
-    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
-        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+    private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
+        return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(instructor.key))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
+    }
 
+    private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_JOIN,
-                "${joinUrl}", joinUrl);
+                "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(
