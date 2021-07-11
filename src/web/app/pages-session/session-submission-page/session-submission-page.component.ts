@@ -173,7 +173,8 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
               if (this.loggedInUser) {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
-                    'You are not authorized to view this page.');
+                    `You are trying to access the link using the account ${this.loggedInUser}.
+                    Please login to the account that you joined TEAMMATES with.`);
               } else {
                 // There is no logged in user for a valid, used registration key, redirect to login page
                 window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
