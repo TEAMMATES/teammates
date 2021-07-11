@@ -34,7 +34,7 @@ public final class CoursesLogic {
     private static CoursesLogic instance = new CoursesLogic();
 
     /* Explanation: This class depends on CoursesDb class but no other *Db classes.
-     * That is because reading/writing entities from/to the datastore is the
+     * That is because reading/writing entities from/to the database is the
      * responsibility of the matching *Logic class.
      * However, this class can talk to other *Logic classes. That is because
      * the logic related to one entity type can involve the logic related to
@@ -64,7 +64,7 @@ public final class CoursesLogic {
      *
      * @return the created course
      * @throws InvalidParametersException if the course is not valid
-     * @throws EntityAlreadyExistsException if the course already exists in the Datastore.
+     * @throws EntityAlreadyExistsException if the course already exists in the database.
      */
     CourseAttributes createCourse(CourseAttributes courseToCreate)
             throws InvalidParametersException, EntityAlreadyExistsException {

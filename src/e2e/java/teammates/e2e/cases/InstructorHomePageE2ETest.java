@@ -66,8 +66,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE).withUserId(instructor.googleId);
-        InstructorHomePage homePage = loginAdminToPage(url, InstructorHomePage.class);
+        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
+        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.googleId);
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();
@@ -105,7 +105,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         otherCourseIndex = 1;
         FeedbackSessionAttributes[] otherCourseSessionsWithCopy = { copiedSession, otherCourseSession };
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessionsWithCopy);
-        verifyPresentInDatastore(copiedSession);
+        verifyPresentInDatabase(copiedSession);
 
         ______TS("publish results");
         sessionIndex = 0;
@@ -175,7 +175,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         homePage.verifyStatusMessage("The course " + course.getId() + " has been archived. "
                 + "You can retrieve it from the Courses page.");
         homePage.verifyNumCourses(1);
-        verifyCourseArchivedInDatastore(instructor.getGoogleId(), course);
+        verifyCourseArchivedInDatabase(instructor.getGoogleId(), course);
 
         ______TS("delete course");
         otherCourseIndex = 0;
@@ -225,7 +225,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         assertEquals(actual.isPublished(), state);
     }
 
-    private void verifyCourseArchivedInDatastore(String instructorId, CourseAttributes course) {
+    private void verifyCourseArchivedInDatabase(String instructorId, CourseAttributes course) {
         int retryLimit = 5;
         CourseAttributes actual = getArchivedCourse(instructorId, course.getId());
         while (actual == null && retryLimit > 0) {

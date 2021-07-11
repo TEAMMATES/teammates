@@ -22,7 +22,7 @@ public final class DatastoreEmulatorRunner {
                 .setConsistency(0.9) // default setting
                 .setPort(Config.APP_LOCALDATASTORE_PORT)
                 .setStoreOnDisk(true)
-                .setDataDir(Paths.get("datastore-dev"))
+                .setDataDir(Paths.get("datastore-dev/datastore"))
                 .build();
         localDatastoreHelper.start();
     }

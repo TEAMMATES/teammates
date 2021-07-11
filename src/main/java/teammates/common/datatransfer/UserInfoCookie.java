@@ -12,13 +12,11 @@ import teammates.common.util.StringHelper;
 public class UserInfoCookie {
 
     private String userId;
-    private boolean admin;
     private String verificationCode;
 
-    public UserInfoCookie(String userId, boolean admin) {
+    public UserInfoCookie(String userId) {
         this.userId = userId;
-        this.admin = admin;
-        this.verificationCode = StringHelper.generateSignature(userId + "_" + admin);
+        this.verificationCode = StringHelper.generateSignature(userId);
     }
 
     /**
@@ -44,14 +42,6 @@ public class UserInfoCookie {
         this.userId = userId;
     }
 
-    public boolean isAdmin() {
-        return admin;
-    }
-
-    public void setAdmin(boolean admin) {
-        this.admin = admin;
-    }
-
     public String getVerificationCode() {
         return verificationCode;
     }
@@ -64,7 +54,7 @@ public class UserInfoCookie {
      * Returns true if the object represents a valid user info.
      */
     public boolean isValid() {
-        return StringHelper.isCorrectSignature(userId + "_" + admin, verificationCode);
+        return StringHelper.isCorrectSignature(userId, verificationCode);
     }
 
 }

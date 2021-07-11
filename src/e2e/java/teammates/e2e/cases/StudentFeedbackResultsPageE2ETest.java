@@ -60,10 +60,9 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("registered student: can access results");
         StudentAttributes student = testData.students.get("Alice");
         url = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
-                .withUserId(student.googleId)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
-        resultsPage = loginAdminToPage(url, StudentFeedbackResultsPage.class);
+        resultsPage = loginToPage(url, StudentFeedbackResultsPage.class, student.googleId);
 
         resultsPage.verifyFeedbackSessionDetails(openSession);
 
@@ -141,8 +140,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                                                                FeedbackQuestionAttributes question) {
         List<FeedbackResponseAttributes> givenResponses = testData.feedbackResponses.values().stream()
                 .filter(f -> f.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber()))
-                        && f.getGiver().equals(currentStudent.getEmail())
-                        && !f.getRecipient().equals(currentStudent.getEmail()))
+                        && f.getGiver().equals(currentStudent.getEmail()))
                 .collect(Collectors.toList());
         return editIdentifiers(currentStudent, givenResponses);
     }

@@ -2,6 +2,7 @@ package teammates.logic.api;
 
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.util.Config;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -24,6 +25,7 @@ public class UserProvision {
         }
 
         String userId = user.id;
+        user.isAdmin = Config.APP_ADMINS.contains(userId);
         user.isInstructor = accountsLogic.isAccountAnInstructor(userId);
         user.isStudent = studentsLogic.isStudentInAnyCourse(userId);
         return user;
@@ -34,9 +36,7 @@ public class UserProvision {
             return null;
         }
 
-        UserInfo userInfo = new UserInfo(uic.getUserId());
-        userInfo.isAdmin = uic.isAdmin();
-        return userInfo;
+        return new UserInfo(uic.getUserId());
     }
 
     /**
