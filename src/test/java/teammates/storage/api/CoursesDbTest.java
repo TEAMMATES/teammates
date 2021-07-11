@@ -40,7 +40,7 @@ public class CoursesDbTest extends BaseComponentTestCase {
                 .withTimezone(ZoneId.of("UTC"))
                 .build();
         coursesDb.createEntity(c);
-        verifyPresentInDatastore(c);
+        verifyPresentInDatabase(c);
 
         ______TS("Failure: create duplicate course");
 

@@ -18,7 +18,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
@@ -61,7 +61,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * @param instructors the constraint that restricts the search result
      */
     public List<StudentAttributes> search(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -77,7 +77,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      * search instructors in the whole system.
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
         }
@@ -97,7 +97,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
      *
      * @return the created student
      * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the student already exists in the database
      */
     @Override
     public StudentAttributes createEntity(StudentAttributes student)

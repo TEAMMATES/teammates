@@ -57,6 +57,11 @@ In order for the back-end to properly work, you need to have a running database 
 
 The details on how to run them locally can be found [here (for local Datastore emulator)](#running-the-datastore-emulator) and [here (for full-text search service)](search.md).
 
+If you have access to Docker, we have a Docker compose definition to run those services:
+```sh
+docker-compose up -d
+```
+
 ### Starting the dev server
 
 To start the server in the background, run the following command
@@ -170,6 +175,13 @@ You can use the pre-provided quickstart script which will run a local Datastore 
 ```
 
 The Datastore emulator will be running in the port specified in the `build.properties` file.
+
+### Using Docker-based tooling
+
+We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+```sh
+docker-compose run -p 8484:8484 datastore
+```
 
 ### Using Cloud SDK
 

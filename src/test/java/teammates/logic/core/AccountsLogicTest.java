@@ -57,7 +57,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountToCreate);
-        verifyPresentInDatastore(accountToCreate);
+        verifyPresentInDatabase(accountToCreate);
 
         accountsLogic.deleteAccountCascade("id");
 
@@ -127,7 +127,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 originalEmail);
         StudentAttributes finalStudent = studentData;
 
-        verifyPresentInDatastore(studentData);
+        verifyPresentInDatabase(studentData);
 
         ______TS("failure: wrong key");
 
@@ -172,7 +172,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
 
         studentData.googleId = accountData.googleId;
-        verifyPresentInDatastore(studentData);
+        verifyPresentInDatabase(studentData);
         assertEquals(
                 correctStudentId,
                 studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
@@ -208,7 +208,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         String encryptedKey = StringHelper.encrypt(studentData.key);
         accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
         studentData.googleId = correctStudentId;
-        verifyPresentInDatastore(studentData);
+        verifyPresentInDatabase(studentData);
         assertEquals(correctStudentId,
                 studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
@@ -217,7 +217,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountData.email = originalEmail;
         accountData.name = "name";
         accountData.isInstructor = false;
-        verifyPresentInDatastore(accountData);
+        verifyPresentInDatabase(accountData);
 
         ______TS("success: join course as student does not revoke instructor status");
 
@@ -456,17 +456,17 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .withGoogleId(instructor.googleId)
                 .build();
         studentsLogic.createStudent(student);
-        verifyPresentInDatastore(account);
-        verifyPresentInDatastore(studentProfile);
-        verifyPresentInDatastore(instructor);
-        verifyPresentInDatastore(student);
+        verifyPresentInDatabase(account);
+        verifyPresentInDatabase(studentProfile);
+        verifyPresentInDatabase(instructor);
+        verifyPresentInDatabase(student);
 
         accountsLogic.deleteAccountCascade(instructor.googleId);
 
-        verifyAbsentInDatastore(account);
-        verifyAbsentInDatastore(studentProfile);
-        verifyAbsentInDatastore(instructor);
-        verifyAbsentInDatastore(student);
+        verifyAbsentInDatabase(account);
+        verifyAbsentInDatabase(studentProfile);
+        verifyAbsentInDatabase(instructor);
+        verifyAbsentInDatabase(student);
         // course is deleted because it is the last instructor of the course
         assertNull(coursesLogic.getCourse(instructor.getCourseId()));
     }

@@ -108,7 +108,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frComment.feedbackResponseId = getResponseIdInDataBundle("response2ForQ1S1C1", "qn1InSession1InCourse1");
 
         frcLogic.createFeedbackResponseComment(frComment);
-        verifyPresentInDatastore(frComment);
+        verifyPresentInDatabase(frComment);
     }
 
     @Test
@@ -229,7 +229,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                         .build()
         );
         assertEquals(frComment.commentText, updatedComment.commentText);
-        verifyPresentInDatastore(frComment);
+        verifyPresentInDatabase(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
                         frComment.courseId, frComment.feedbackSessionName, null);
@@ -275,9 +275,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        verifyPresentInDatastore(actualFrComment);
+        verifyPresentInDatabase(actualFrComment);
         frcLogic.deleteFeedbackResponseComment(actualFrComment.getId());
-        verifyAbsentInDatastore(actualFrComment);
+        verifyAbsentInDatabase(actualFrComment);
     }
 
     @Test
@@ -286,12 +286,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         ______TS("typical success case");
 
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q3S1C1");
-        verifyPresentInDatastore(frComment);
+        verifyPresentInDatabase(frComment);
         frcLogic.deleteFeedbackResponseComments(
                 AttributesDeletionQuery.builder()
                         .withResponseId(frComment.feedbackResponseId)
                         .build());
-        verifyAbsentInDatastore(frComment);
+        verifyAbsentInDatabase(frComment);
     }
 
     @Test
