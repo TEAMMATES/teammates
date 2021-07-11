@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { finalize } from 'rxjs/operators';
+import { concat, Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 import { AccountService } from '../../../services/account.service';
 import { JoinLink } from '../../../types/api-output';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -8,9 +9,31 @@ interface InstructorData {
   name: string;
   email: string;
   institution: string;
-  status: string;
+  status: InstructorSignupStatus;
   joinLink?: string;
   message?: string;
+}
+
+/**
+ * Status of an instructor signup.
+ */
+export enum InstructorSignupStatus {
+  /**
+   * The instructor is being added.
+   */
+  ADDING = 'ADDING',
+  /**
+   * The instructor is waiting to be added.
+   */
+  PENDING = 'PENDING',
+  /**
+   * The instructor failed to be added.
+   */
+  FAIL = 'FAIL',
+  /**
+   * The instructor has been added successfully.
+   */
+  SUCCESS = 'SUCCESS',
 }
 
 /**
@@ -43,7 +66,7 @@ export class AdminHomePageComponent {
     for (const instructorDetail of this.instructorDetails.split(/\r?\n/)) {
       const instructorDetailSplit: string[] = instructorDetail.split(/[|\t]/).map((item: string) => item.trim());
       if (instructorDetailSplit.length < 3) {
-        // TODO handle error
+        // TODO should handle add all instructors when prompted with error
         invalidLines.push(instructorDetail);
         continue;
       }
@@ -56,7 +79,7 @@ export class AdminHomePageComponent {
         name: instructorDetailSplit[0],
         email: instructorDetailSplit[1],
         institution: instructorDetailSplit[2],
-        status: 'PENDING',
+        status: InstructorSignupStatus.PENDING,
       });
     }
     this.instructorDetails = invalidLines.join('\r\n');
@@ -74,7 +97,7 @@ export class AdminHomePageComponent {
       name: this.instructorName,
       email: this.instructorEmail,
       institution: this.instructorInstitution,
-      status: 'PENDING',
+      status: InstructorSignupStatus.PENDING,
     });
     this.instructorName = '';
     this.instructorEmail = '';
@@ -85,29 +108,39 @@ export class AdminHomePageComponent {
    * Adds the instructor at the i-th index.
    */
   addInstructor(i: number): void {
+    this.asyncAddInstructor(i)
+      ?.subscribe({ complete: () => this.isAddingInstructors = false });
+  }
+
+  /**
+   * Adds the instructor at the i-th index.
+   */
+  asyncAddInstructor(i: number): Observable<JoinLink> | null {
     const instructor: InstructorData = this.instructorsConsolidated[i];
-    if (instructor.status !== 'PENDING' && instructor.status !== 'FAIL') {
-      return;
+    if (instructor.status !== InstructorSignupStatus.PENDING && instructor.status !== InstructorSignupStatus.FAIL) {
+      return null;
     }
     this.activeRequests += 1;
-    instructor.status = 'ADDING';
+    instructor.status = InstructorSignupStatus.ADDING;
 
     this.isAddingInstructors = true;
-    this.accountService.createAccount({
+    return this.accountService.createAccount({
       instructorEmail: instructor.email,
       instructorName: instructor.name,
       instructorInstitution: instructor.institution,
-    })
-        .pipe(finalize(() => this.isAddingInstructors = false))
-        .subscribe((resp: JoinLink) => {
-          instructor.status = 'SUCCESS';
-          instructor.joinLink = resp.joinLink;
-          this.activeRequests -= 1;
-        }, (resp: ErrorMessageOutput) => {
-          instructor.status = 'FAIL';
-          instructor.message = resp.error.message;
-          this.activeRequests -= 1;
-        });
+    }).pipe(
+      tap((resp: JoinLink) => {
+        instructor.status = InstructorSignupStatus.SUCCESS;
+        instructor.joinLink = resp.joinLink;
+        this.activeRequests -= 1;
+      }, (resp: ErrorMessageOutput) => {
+        instructor.status = InstructorSignupStatus.FAIL;
+        instructor.message = resp.error.message;
+        this.activeRequests -= 1;
+      }),
+      // Lift error handling to tap operator and catch the final error
+      catchError((_err: ErrorMessageOutput, _caught: Observable<JoinLink>) => of({ joinLink: '' })),
+    );
   }
 
   /**
@@ -118,12 +151,16 @@ export class AdminHomePageComponent {
   }
 
   /**
-   * Adds all the pending and failed-to-add instructors.
+   * Adds all the pending and failed-to-add instructors one by one.
+   * Refer to https://github.com/TEAMMATES/teammates/issues/11039
    */
   addAllInstructors(): void {
-    for (let i: number = 0; i < this.instructorsConsolidated.length; i += 1) {
-      this.addInstructor(i);
-    }
+    concat(
+      ...this.instructorsConsolidated
+        .map((_instr: InstructorData, index: number): Observable<JoinLink> | null => this.asyncAddInstructor(index))
+        .filter((req: Observable<JoinLink> | null): boolean => !!req)
+        .map((req: Observable<JoinLink> | null): Observable<JoinLink> => req as Observable<JoinLink>),
+    ).subscribe({ complete: () => this.isAddingInstructors = false });
   }
 
 }
