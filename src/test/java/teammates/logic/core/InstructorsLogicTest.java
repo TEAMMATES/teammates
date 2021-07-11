@@ -649,6 +649,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
     private void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
         ______TS("Should not grant the currently being edited instructor the privilege of modifying instructors");
+
+        ______TS("The course has more than 1 instructor with modifying instructor privilege");
         String courseId = "idOfTypicalCourse1";
         InstructorAttributes instructorToUpdate =
                 InstructorAttributes.builder(courseId, "idOfInstructor4@gmail.com")
@@ -663,6 +665,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("Should grant the currently being edited instructor the privilege of modifying instructors");
+
+        ______TS("The course only has 1 instructor with modifying instructor privilege which is being edited");
         courseId = "idOfCourseNoEvals";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 

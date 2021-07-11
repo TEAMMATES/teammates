@@ -150,6 +150,10 @@ public class Logic {
      * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
      */
     public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+
+        Assumption.assertNotNull(courseId);
+        Assumption.assertNotNull(instructorToEdit);
+
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }
 
