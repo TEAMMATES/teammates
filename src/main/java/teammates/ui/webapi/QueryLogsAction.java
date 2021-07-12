@@ -55,11 +55,12 @@ public class QueryLogsAction extends AdminOnlyAction {
         String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);
         String sourceLocationFile = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FILE);
         String sourceLocationFunction = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FUNCTION);
+        String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
 
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
                     traceId, apiEndpoint, userId, logEvent,
-                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction),
+                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction), exceptionClass,
                     DEFAULT_PAGE_SIZE, nextPageToken);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);

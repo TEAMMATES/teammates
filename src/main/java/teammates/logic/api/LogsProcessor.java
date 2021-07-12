@@ -43,9 +43,9 @@ public class LogsProcessor {
      */
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
             String traceId, String apiEndpoint, String userId, String logEvent, SourceLocation sourceLocation,
-            Integer pageSize, String pageToken) throws LogServiceException {
+            String exceptionClass, Integer pageSize, String pageToken) throws LogServiceException {
         return service.queryLogs(severity, minSeverity, startTime, endTime, traceId, apiEndpoint, userId, logEvent,
-                sourceLocation, pageSize, pageToken);
+                sourceLocation, exceptionClass, pageSize, pageToken);
     }
 
     /**
