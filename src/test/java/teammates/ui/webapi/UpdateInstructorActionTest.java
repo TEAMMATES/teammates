@@ -45,9 +45,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         String newInstructorName = "newName";
         String newInstructorEmail = "newEmail@email.com";
+        String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR;
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, instructorToEdit.role,
+                newInstructorEmail, newInstructorRole,
                 instructorDisplayName, instructorToEdit.isDisplayedToStudents);
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
@@ -61,10 +62,10 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertEquals(newInstructorName, response.getName());
         assertEquals(newInstructorEmail, editedInstructor.email);
         assertEquals(newInstructorEmail, response.getEmail());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
@@ -64,7 +63,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         }
 
         instructorToUpdate.privileges.validatePrivileges();
-        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         try {
             instructorToUpdate = logic.updateInstructor(
@@ -108,35 +107,6 @@ class UpdateInstructorPrivilegeAction extends Action {
             String sectionName, String sessionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
             toUpdate.privileges.updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
-        }
-    }
-
-    /**
-     * Checks if there are any other registered instructors that can modify instructors.
-     * If there are none, the instructor currently being edited will be granted the privilege
-     * of modifying instructors automatically.
-     *
-     * @param courseId         Id of the course.
-     * @param instructorToEdit Instructor that will be edited.
-     *                         This may be modified within the method.
-     */
-    private void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        int numOfInstrCanModifyInstructor = 0;
-        InstructorAttributes instrWithModifyInstructorPrivilege = null;
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
-                numOfInstrCanModifyInstructor++;
-                instrWithModifyInstructorPrivilege = instructor;
-            }
-        }
-        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
-                && instrWithModifyInstructorPrivilege != null
-                && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.googleId
-                .equals(instructorToEdit.googleId));
-        if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
 }
