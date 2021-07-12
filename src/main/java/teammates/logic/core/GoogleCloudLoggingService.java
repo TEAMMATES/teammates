@@ -123,7 +123,7 @@ public class GoogleCloudLoggingService implements LogService {
     @Override
     public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
             String traceId, String apiEndpoint, String userId, String logEvent,
-            GeneralLogEntry.SourceLocation sourceLocationFilter, Integer pageSize, String pageToken)
+            GeneralLogEntry.SourceLocation sourceLocationFilter, String exceptionClass, Integer pageSize, String pageToken)
             throws LogServiceException {
 
         LogSearchParams logSearchParams = new LogSearchParams()
@@ -286,6 +286,9 @@ public class GoogleCloudLoggingService implements LogService {
                 }
             }
         }
+        if (s.exceptionClass != null) {
+            logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
+        }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
@@ -347,6 +350,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String userId;
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
+        private String exceptionClass;
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -414,6 +418,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setSourceLocation(GeneralLogEntry.SourceLocation sourceLocation) {
             this.sourceLocation = sourceLocation;
+            return this;
+        }
+
+        public LogSearchParams setExceptionClass(String exceptionClass) {
+            this.exceptionClass = exceptionClass;
             return this;
         }
     }
