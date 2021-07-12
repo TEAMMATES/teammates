@@ -286,7 +286,7 @@ export class LogsPageComponent implements OnInit {
     this.formModel.userId = '';
     this.formModel.apiEndpoint = '';
     this.formModel.sourceLocationFile = '';
-    this.formModel.sourceLocationFile = '';
+    this.formModel.sourceLocationFunction = '';
   }
 
   toHistogramPage(): void {
