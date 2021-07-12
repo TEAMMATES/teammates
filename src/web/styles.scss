@@ -274,9 +274,28 @@ h6,
   color: blue;
 }
 
-.handsontable .invalid-row {
-  background: red;
-  color: white;
+.handsontable .invalid-row,
+.red-box {
+  background: #F19491;
+  color: black;
+}
+
+.handsontable .new-row,
+.green-box {
+  background: #AEEBA6;
+  color: black;
+}
+
+.handsontable .modified-row,
+.yellow-box {
+  background: #FCF4B3;
+  color: black;
+}
+
+.handsontable .unchanged-row,
+.grey-box {
+  background: #DDD;
+  color: black;
 }
 
 .handsontable .valid-row {
