@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
@@ -90,7 +91,8 @@ export class LogsPageComponent implements OnInit {
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService,
+    private route: Router) { }
 
   ngOnInit(): void {
     const today: Date = new Date();
@@ -284,6 +286,10 @@ export class LogsPageComponent implements OnInit {
     this.formModel.userId = '';
     this.formModel.apiEndpoint = '';
     this.formModel.sourceLocationFile = '';
-    this.formModel.sourceLocationFile = '';
+    this.formModel.sourceLocationFunction = '';
+  }
+
+  toHistogramPage(): void {
+    this.route.navigateByUrl('web/admin/logs/histogram');
   }
 }
