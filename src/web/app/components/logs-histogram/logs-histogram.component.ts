@@ -13,58 +13,71 @@ export class LogsHistogramComponent implements OnInit {
   data: LogsHistogramDataModel[] = [];
 
   private svg: any;
-  private margin = 50;
-  private width = 750 - (this.margin * 2);
-  private height = 400 - (this.margin * 2);
-
-  private createSvg(): void {
-    this.svg = d3.select("figure#bar")
-      .append("svg")
-      .attr("width", this.width + (this.margin * 2))
-      .attr("height", this.height + (this.margin * 2))
-      .append("g")
-      .attr("transform", "translate(" + this.margin + "," + this.margin + ")");
-  }
-
-  private drawBars(data: LogsHistogramDataModel[]): void {
-    // Create the X-axis band scale
-    const x = d3.scaleBand()
-      .range([0, this.width])
-      .domain(data.map(d => d.sourceLocation))
-      .padding(0.2);
-
-    // Draw the X-axis on the DOM
-    this.svg.append("g")
-      .attr("transform", "translate(0," + this.height + ")")
-      .call(d3.axisBottom(x))
-      .selectAll("text")
-      .attr("transform", "translate(-10,0)rotate(-45)")
-      .style("text-anchor", "end");
-
-    // Create the Y-axis band scale
-    const y = d3.scaleLinear()
-      .domain([0, 100])
-      .range([this.height, 0]);
-
-    // Draw the Y-axis on the DOM
-    this.svg.append("g")
-      .call(d3.axisLeft(y));
-
-    // Create and fill the bars
-    this.svg.selectAll("bars")
-      .data(data)
-      .enter()
-      .append("rect")
-      .attr("y", (d: { numberOfTimes: number; }) => y(d.numberOfTimes))
-      .attr("width", x.bandwidth())
-      .attr("height", (d: { numberOfTimes: number; }) => this.height - y(d.numberOfTimes))
-      .attr("fill", "#d04a35");
-  }
+  private margin: number = 30;
+  private width: number = 900 - (this.margin * 2);
+  private height: number = 400 - (this.margin * 2);
+  private xScale: any;
+  private yScale: any;
 
   constructor() { }
 
   ngOnInit(): void {
+    // const data1: LogsHistogramDataModel = {
+    //   sourceLocation: {file: 'file1', function: 'func', line: 10},
+    //   numberOfTimes: 10,
+    // }
+    // const data2: LogsHistogramDataModel = {
+    //   sourceLocation: {file: 'file2', function: 'func', line: 10},
+    //   numberOfTimes: 3,
+    // }
+    // const data3: LogsHistogramDataModel = {
+    //   sourceLocation: {file: 'file3', function: 'func', line: 10},
+    //   numberOfTimes: 17,
+    // }
+    // this.data = [data1, data2, data3];
     this.createSvg();
-    this.drawBars(this.data);
+    this.drawBars();
+  }
+
+  private createSvg(): void {
+    this.svg = d3.select('figure#histogram')
+      .append('svg')
+      .attr('width', this.width + (this.margin * 2))
+      .attr('height', this.height + (this.margin * 2))
+      .append('g')
+      .attr("transform", "translate(" + this.margin + "," + this.margin + ")")
+
+    this.xScale = d3.scaleBand()
+      .domain(this.data.map(d => d.sourceLocation.file + d.sourceLocation.function))
+      .range([0, this.width])
+      .padding(0.2);
+
+    this.svg.append('g')
+      .attr("transform", "translate(0," + this.height + ")")
+    
+    this.yScale = d3.scaleLinear()
+      .domain([0, d3.max(this.data, (d: LogsHistogramDataModel) => d.numberOfTimes)])
+      .range([this.height, 0]);
+    
+    this.svg.append('g')
+      .call(d3.axisLeft(this.yScale));
+  }
+
+  private drawBars(): void {
+    this.svg.append('g')
+      .selectAll('rects')
+      .data(this.data)
+      .enter()
+      .append('rect')
+      .attr('x', (d: LogsHistogramDataModel) => this.xScale(d.sourceLocation.file  + d.sourceLocation.function))
+      .attr('y', (d: LogsHistogramDataModel) => this.yScale(d.numberOfTimes))
+      .attr('height', (d: LogsHistogramDataModel) => this.height - this.yScale(d.numberOfTimes))
+      .attr("width", 40)
+      .style('fill', 'steelblue')
+      .on('mouseover', (_d: any, _i: any) => {
+        d3.select(d3.event.currentTarget).style({
+            'fill': 'yellow'
+            });
+        });
   }
 }

@@ -19,6 +19,8 @@ export class LogsTableComponent implements OnInit {
   addTraceEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output()
   addSourceLocationEvent: EventEmitter<SourceLocation> = new EventEmitter<SourceLocation>();
+  @Output()
+  addUserInfoEvent: EventEmitter<any> = new EventEmitter<any>();
 
   constructor() { }
 
@@ -62,5 +64,9 @@ export class LogsTableComponent implements OnInit {
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
     this.addSourceLocationEvent.emit(sourceLocation);
+  }
+
+  addUserInfoToFilter(userInfo: any): void {
+    this.addUserInfoEvent.emit(userInfo);
   }
 }

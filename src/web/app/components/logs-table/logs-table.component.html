@@ -31,6 +31,10 @@
                 <summary class="title">details:</summary>
                 <pre class="margin-left-3em wrap" [innerHTML]="log.details | json"></pre>
               </details>
+              <details open *ngIf="log.userInfo">
+                <summary class="title">userInfo:</summary>
+                <pre class="clickable margin-left-3em wrap" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
+              </details>
               <div>
                 <span class="title" *ngIf="log.traceId">trace: </span>
                 <span class="clickable" (click)="addTraceToFilter(log.traceId)">{{ log.traceId }}</span>
