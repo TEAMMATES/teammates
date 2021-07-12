@@ -31,6 +31,7 @@ interface SearchLogsFormModel {
   apiEndpoint?: string;
   sourceLocationFile?: string;
   sourceLocationFunction?: string;
+  exceptionClass?: string;
 }
 
 /**
@@ -48,6 +49,7 @@ interface QueryParams {
   userId?: string,
   sourceLocationFile?: string,
   sourceLocationFunction?: string,
+  exceptionClass?: string,
 }
 
 /**
@@ -194,6 +196,10 @@ export class LogsPageComponent implements OnInit {
     if (this.formModel.sourceLocationFunction) {
       this.previousQueryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
     }
+
+    if (this.formModel.exceptionClass) {
+      this.previousQueryParams.exceptionClass = this.formModel.exceptionClass;
+    }
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
@@ -306,6 +312,7 @@ export class LogsPageComponent implements OnInit {
     this.formModel.apiEndpoint = '';
     this.formModel.sourceLocationFile = '';
     this.formModel.sourceLocationFunction = '';
+    this.formModel.exceptionClass = '';
   }
 
   toHistogramPage(): void {

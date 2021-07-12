@@ -71,6 +71,7 @@ export class LogService {
     userId?: string,
     sourceLocationFile?: string,
     sourceLocationFunction?: string,
+    exceptionClass?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       starttime: queryParams.searchFrom,
@@ -111,6 +112,10 @@ export class LogService {
 
     if (queryParams.sourceLocationFunction) {
       paramMap.sourcelocationfunction = queryParams.sourceLocationFunction;
+    }
+
+    if (queryParams.exceptionClass) {
+      paramMap.exceptionclass = queryParams.exceptionClass;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
