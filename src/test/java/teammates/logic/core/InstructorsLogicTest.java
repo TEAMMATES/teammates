@@ -681,7 +681,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("The course only has 1 instructor with modifying instructor privilege which is not registered");
         instructorToUpdate.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         courseId = "idOfSampleCourse-demo";
-        instructorsLogic.deleteInstructorCascade(courseId,"iwosc@yahoo.tmt");
+        instructorsLogic.deleteInstructorCascade(courseId, "iwosc@yahoo.tmt");
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
