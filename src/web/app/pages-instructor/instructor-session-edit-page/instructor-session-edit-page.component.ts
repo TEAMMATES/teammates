@@ -250,33 +250,38 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Copies the feedback session.
    */
-  copyCurrentSession(): void {
+  copyCurrentSession(): Promise<void> {
     // load course candidates first
-    this.courseService.getInstructorCoursesThatAreActive()
-    .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
-    .subscribe((courses: Courses) => {
-      this.failedToCopySessions = {};
-      const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
-      modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
-      modalRef.componentInstance.courseCandidates = courses.courses;
-      modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
+    return new Promise<void>((_resolve: any, reject: any) => {
+      this.courseService.getInstructorCoursesThatAreActive()
+      .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+      .subscribe((courses: Courses) => {
+        this.failedToCopySessions = {};
+        const modalRef: NgbModalRef = this.ngbModal.open(CopySessionModalComponent);
+        modalRef.componentInstance.newFeedbackSessionName = this.feedbackSessionName;
+        modalRef.componentInstance.courseCandidates = courses.courses;
+        modalRef.componentInstance.sessionToCopyCourseId = this.courseId;
 
-      modalRef.result.then((result: CopySessionModalResult) => {
-        const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
-            result, this.courseId, this.feedbackSessionName);
-        this.sessionEditFormModel.isCopying = true;
-        if (requestList.length === 1) {
-          this.copySingleSession(requestList[0].pipe(finalize(() => this.sessionEditFormModel.isCopying = false)));
-        }
-        if (requestList.length > 1) {
-          forkJoin(requestList)
-           .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
-           .subscribe(() => {
-             this.showCopyStatusMessage();
-           });
-        }
-      }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); })
-      .catch(() => this.sessionEditFormModel.isCopying = false);
+        modalRef.result.then((result: CopySessionModalResult) => {
+          const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromModal(
+              result, this.courseId, this.feedbackSessionName);
+          this.sessionEditFormModel.isCopying = true;
+          if (requestList.length === 1) {
+            this.copySingleSession(requestList[0].pipe(finalize(() => this.sessionEditFormModel.isCopying = false)));
+          }
+          if (requestList.length > 1) {
+            forkJoin(requestList)
+            .pipe(finalize(() => this.sessionEditFormModel.isCopying = false))
+            .subscribe(() => {
+              this.showCopyStatusMessage();
+            });
+          }
+        }, (resp: ErrorMessageOutput) => {
+          reject(resp);
+          this.statusMessageService.showErrorToast(resp.error.message);
+        })
+        .catch(() => this.sessionEditFormModel.isCopying = false);
+      });
     });
   }
 
