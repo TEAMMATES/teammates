@@ -30,7 +30,7 @@ export class UserJoinPageComponent implements OnInit {
   mac: string = '';
   userId: string = '';
   sampleCourseId: string = '';
-  timezone: string = '';
+  sampleCourseName: string = '';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -51,7 +51,7 @@ export class UserJoinPageComponent implements OnInit {
 
       if (queryParams.samplecourseid) {
         this.sampleCourseId = queryParams.samplecourseid;
-        this.timezone = this.timezoneService.guessTimezone();
+        this.sampleCourseName = queryParams.samplecoursename;
       }
 
       if (this.institute != null && this.mac == null) {
@@ -92,10 +92,11 @@ export class UserJoinPageComponent implements OnInit {
    */
   joinCourse(): void {
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
-      if (this.sampleCourseId && this.timezone) {
+      if (this.sampleCourseId && this.sampleCourseName) {
+        const timezone = this.timezoneService.guessTimezone();
         this.courseService.updateCourse(this.sampleCourseId, {
-          courseName: 'Sample Course 101',
-          timeZone: this.timezone,
+          courseName: this.sampleCourseName,
+          timeZone: timezone,
         }).pipe(
           finalize(() => this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`)),
         ).subscribe();

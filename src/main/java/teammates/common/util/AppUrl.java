@@ -46,4 +46,8 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.SAMPLE_COURSE_ID, sampleCourseId);
     }
 
+    public AppUrl withSampleCourseName(String sampleCourseName) {
+        return withParam(Const.ParamsNames.SAMPLE_COURSE_NAME, sampleCourseName);
+    }
+
 }
