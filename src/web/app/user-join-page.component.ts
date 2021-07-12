@@ -93,7 +93,7 @@ export class UserJoinPageComponent implements OnInit {
   joinCourse(): void {
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
       if (this.sampleCourseId && this.sampleCourseName) {
-        const timezone = this.timezoneService.guessTimezone();
+        const timezone: string = this.timezoneService.guessTimezone();
         this.courseService.updateCourse(this.sampleCourseId, {
           courseName: this.sampleCourseName,
           timeZone: timezone,
