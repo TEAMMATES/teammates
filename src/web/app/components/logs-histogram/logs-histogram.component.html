@@ -1,1 +1,8 @@
-<figure id="histogram"></figure>
+<figure id="histogram" *ngIf="data.length>0; else noDataMessage"></figure>
+
+<ng-template #noDataMessage>
+  <div class="no-data-message">
+    There are no error logs in this time period.
+  </div>
+</ng-template>
+

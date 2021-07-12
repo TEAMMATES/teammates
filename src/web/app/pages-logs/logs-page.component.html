@@ -129,7 +129,7 @@
 
 <div>
   <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
-    (addSourceLocationEvent)="addSourceLocationToFilter($event)"></tm-logs-table>
+    (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>

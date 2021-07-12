@@ -58,6 +58,7 @@ export class LogsHistogramPageComponent implements OnInit {
   nextPageToken: string | undefined = '';
   isLoading: boolean = false;
   isSearching: boolean = false;
+  hasResult: boolean = false;
   searchResult: LogsHistogramDataModel[] = [];
 
   constructor(private logService: LogService, 
@@ -107,7 +108,6 @@ export class LogsHistogramPageComponent implements OnInit {
         }),
         finalize(() => {
           this.isSearching = false;
-          // this.hasResult = true;
         }))
       .pipe(
         expand((logs: GeneralLogs) => {
@@ -131,6 +131,7 @@ export class LogsHistogramPageComponent implements OnInit {
     map.forEach((value: number, key: string) => {
       this.searchResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
     });
+    this.hasResult = true;
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {

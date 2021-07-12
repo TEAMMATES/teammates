@@ -44,10 +44,10 @@
   </div>
 </div>
 
-<div *ngFor="let mapEntry of searchResult | keyvalue">
-  {{mapEntry.key}} --> {{mapEntry.value}}
+<div *ngFor="let mapEntry of searchResult">
+  {{mapEntry.numberOfTimes}}
 </div>
 
-<div style="height: 400px; width: 900px;">
-  <tm-logs-histogram></tm-logs-histogram>
+<div style="height: 400px; width: 900px;" *tmIsLoading="isSearching">
+  <tm-logs-histogram *ngIf="hasResult" [data]="searchResult"></tm-logs-histogram>
 </div>

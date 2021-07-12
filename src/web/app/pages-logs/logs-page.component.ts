@@ -219,6 +219,7 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
+    let userInfo: any;
     if (log.message) {
       summary = `Source: ${log.sourceLocation.file}`;
       payload = this.formatTextPayloadForDisplay(log.message);
@@ -239,11 +240,16 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         summary += `${payload.actionClass}`;
       }
+      if (payload.userInfo) {
+        userInfo = payload.userInfo;
+        payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
+      }
     }
     return {
       summary,
       httpStatus,
       responseTime,
+      userInfo,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
@@ -279,6 +285,19 @@ export class LogsPageComponent implements OnInit {
     this.formModel.sourceLocationFile = sourceLocation.file;
     this.formModel.sourceLocationFunction = sourceLocation.function;
     this.statusMessageService.showSuccessToast('Source location added to filters');
+  }
+
+  addUserInfoToFilter(userInfo: any): void {
+    this.isFiltersExpanded = true;
+    if (userInfo.googleId) {
+      this.formModel.userId = userInfo.googleId;
+    } else if (userInfo.email) {
+      this.formModel.userId = userInfo.email;
+    } else if (userInfo.regkey) {
+      this.formModel.userId = userInfo.regkey;
+    }
+
+    this.statusMessageService.showSuccessToast('User info added to filters');
   }
 
   clearFilters(): void {
