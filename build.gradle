@@ -295,6 +295,9 @@ def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 checkstyle {
     toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
+    configProperties = [
+        suppressions: file("static-analysis/teammates-checkstyle-suppressions.xml")
+    ]        
 }
 
 pmd {
