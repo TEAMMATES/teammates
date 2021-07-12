@@ -21,7 +21,7 @@ import teammates.common.util.Logger;
 import teammates.storage.entity.BaseEntity;
 
 /**
- * Base class for all classes performing CRUD operations against the Datastore.
+ * Base class for all classes performing CRUD operations against the database.
  *
  * @param <E> Specific entity class
  * @param <A> Specific attributes class
@@ -47,7 +47,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     static final Logger log = Logger.getLogger();
 
     /**
-     * Creates the entity in the Datastore.
+     * Creates the entity in the database.
      *
      * @return created entity
      * @throws InvalidParametersException if the entity to create is invalid
@@ -81,12 +81,12 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     }
 
     /**
-     * Checks whether there are existing entities in the Datastore.
+     * Checks whether there are existing entities in the database.
      */
     abstract boolean hasExistingEntities(A entityToCreate);
 
     /**
-     * Puts an entity in the datastore without existence checking.
+     * Puts an entity in the database without existence checking.
      *
      * <p>The document of the associated entity (if applicable) WILL NOT be updated.
      *
@@ -103,7 +103,7 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
     }
 
     /**
-     * Puts a collection of entity in the datastore without existence checking.
+     * Puts a collection of entity in the database without existence checking.
      *
      * <p>The documents of the associated entities (if applicable) WILL NOT be updated.
      *

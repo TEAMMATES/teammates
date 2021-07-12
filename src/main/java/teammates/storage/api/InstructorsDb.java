@@ -15,7 +15,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchManager;
@@ -72,7 +72,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      * search instructors in the whole system.
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
 
         if (queryString.trim().isEmpty()) {
             return new ArrayList<>();
@@ -86,7 +86,7 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
      *
      * @return the created instructor
      * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
     @Override
     public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
