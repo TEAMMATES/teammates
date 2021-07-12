@@ -42,10 +42,11 @@ public class LogsProcessor {
      * Queries and retrieves logs with given parameters.
      */
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String userId, String logEvent, SourceLocation sourceLocation,
-            String exceptionClass, Integer pageSize, String pageToken) throws LogServiceException {
-        return service.queryLogs(severity, minSeverity, startTime, endTime, traceId, apiEndpoint, userId, logEvent,
-                sourceLocation, exceptionClass, pageSize, pageToken);
+            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
+            SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken)
+            throws LogServiceException {
+        return service.queryLogs(severity, minSeverity, startTime, endTime, traceId, apiEndpoint, googleId, regkey, email,
+                logEvent, sourceLocation, exceptionClass, pageSize, pageToken);
     }
 
     /**
