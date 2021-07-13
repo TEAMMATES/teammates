@@ -92,8 +92,7 @@ public class MockLogsProcessor extends LogsProcessor {
             generalLogs.forEach(entry -> {
                 if (severity.equals(entry.getSeverity())
                         && entry.getTimestamp() >= startTime.toEpochMilli()
-                        && entry.getTimestamp() <= endTime.toEpochMilli()
-                        && entry.getTrace().equals(trace)) {
+                        && entry.getTimestamp() <= endTime.toEpochMilli()) {
                     queryResults.add(entry);
                 }
             });

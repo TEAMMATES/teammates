@@ -99,7 +99,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Success case: all HTTP parameters are valid");
         String[] paramsSuccessful1 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
