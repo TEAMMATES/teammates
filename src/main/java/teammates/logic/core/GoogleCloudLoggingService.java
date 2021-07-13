@@ -135,7 +135,8 @@ public class GoogleCloudLoggingService implements LogService {
                 .setRegkey(regkey)
                 .setEmail(email)
                 .setLogEvent(logEvent)
-                .setSourceLocation(sourceLocationFilter);
+                .setSourceLocation(sourceLocationFilter)
+                .setExceptionClass(exceptionClass);
         if (severityLevel != null) {
             logSearchParams.setSeverity(severityLevel);
         } else if (minSeverity != null) {
