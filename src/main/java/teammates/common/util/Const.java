@@ -156,10 +156,11 @@ public final class Const {
         public static final String QUERY_LOGS_MIN_SEVERITY = "minseverity";
         public static final String QUERY_LOGS_TRACE = "traceid";
         public static final String QUERY_LOGS_API_ENDPOINT = "apiendpoint";
-        public static final String QUERY_LOGS_USER_ID = "userid";
+        public static final String QUERY_LOGS_EMAIL = "email";
         public static final String QUERY_LOGS_EVENT = "logevent";
         public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
         public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
+        public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
         public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 

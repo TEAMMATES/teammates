@@ -89,20 +89,7 @@
             <label for="trace-id" class="font-weight-bold">Trace ID</label>
             <input id="trace-id" class="form-control" [(ngModel)]="formModel.traceId">
           </div>
-        </div>
-        <div class="col-5">
-          <div class="col-12">
-            <label for="user-id" class="font-weight-bold">User ID</label>
-            <input id="user-id" class="form-control" [(ngModel)]="formModel.userId">
-          </div>
-        </div>
-        <div class="col-2 mt-4">
-          <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
-        </div>
-      </div>
-      <div class="row form-group mt-4">
-        <div class="col-5">
-          <div class="col-12">
+          <div class="col-12 mt-4">
             <label for="error-type" class="font-weight-bold">Source location file</label>
             <input id="error-type" class="form-control col-12" [(ngModel)]="formModel.sourceLocationFile">
           </div>
@@ -113,6 +100,25 @@
         </div>
         <div class="col-5">
           <div class="col-12">
+            <label for="user-id" class="font-weight-bold">User Google ID</label>
+            <input id="user-id" class="form-control" [(ngModel)]="formModel.googleId">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="user-id" class="font-weight-bold">User Registration Key</label>
+            <input id="user-id" class="form-control" [(ngModel)]="formModel.regkey">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="user-id" class="font-weight-bold">User Email</label>
+            <input id="user-id" class="form-control" [(ngModel)]="formModel.email">
+          </div>
+        </div>
+        <div class="col-2 mt-4">
+          <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
+        </div>
+      </div>
+      <div class="row form-group mt-4">
+        <div class="col-5">
+          <div class="col-12">
             <label for="api-endpoint" class="font-weight-bold">API endpoint</label>
             <select id="api-endpoint" class="form-control col-12" [(ngModel)]="formModel.apiEndpoint">
               <option [value]=""></option>
@@ -120,6 +126,12 @@
                 {{ endpoint }}
               </option>
             </select>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="col-12">
+            <label for="error-type" class="font-weight-bold">Exception/Error class</label>
+            <input id="error-type" class="form-control" [(ngModel)]="formModel.exceptionClass">
           </div>
         </div>
       </div>

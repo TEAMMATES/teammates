@@ -35,8 +35,8 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String userId, String logEvent, SourceLocation sourceLocation,
-            Integer pageSize, String pageToken) {
+            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
+            SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken) {
         // Not supported in dev server
         return new QueryLogsResults(Collections.emptyList(), null);
     }

@@ -68,9 +68,12 @@ export class LogService {
     nextPageToken?: string,
     apiEndpoint?: string,
     traceId?: string,
-    userId?: string,
+    googleId?: string,
+    regkey?: string,
+    email?: string,
     sourceLocationFile?: string,
     sourceLocationFunction?: string,
+    exceptionClass?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       starttime: queryParams.searchFrom,
@@ -101,8 +104,16 @@ export class LogService {
       paramMap.traceid = queryParams.traceId;
     }
 
-    if (queryParams.userId) {
-      paramMap.userid = queryParams.userId;
+    if (queryParams.googleId) {
+      paramMap.googleid = queryParams.googleId;
+    }
+
+    if (queryParams.regkey) {
+      paramMap.regkey = queryParams.regkey;
+    }
+
+    if (queryParams.email) {
+      paramMap.email = queryParams.email;
     }
 
     if (queryParams.sourceLocationFile) {
@@ -111,6 +122,10 @@ export class LogService {
 
     if (queryParams.sourceLocationFunction) {
       paramMap.sourcelocationfunction = queryParams.sourceLocationFunction;
+    }
+
+    if (queryParams.exceptionClass) {
+      paramMap.exceptionclass = queryParams.exceptionClass;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);

@@ -51,15 +51,18 @@ public class QueryLogsAction extends AdminOnlyAction {
         String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String apiEndpoint = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_API_ENDPOINT);
-        String userId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_USER_ID);
+        String googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
         String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);
         String sourceLocationFile = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FILE);
         String sourceLocationFunction = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FUNCTION);
+        String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
 
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
-                    traceId, apiEndpoint, userId, logEvent,
-                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction),
+                    traceId, apiEndpoint, googleId, regkey, email, logEvent,
+                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction), exceptionClass,
                     DEFAULT_PAGE_SIZE, nextPageToken);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);

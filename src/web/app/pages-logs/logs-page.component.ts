@@ -27,10 +27,13 @@ interface SearchLogsFormModel {
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
   traceId?: string;
-  userId?: string;
+  googleId?: string;
+  regkey?: string;
+  email?: string;
   apiEndpoint?: string;
   sourceLocationFile?: string;
   sourceLocationFunction?: string;
+  exceptionClass?: string;
 }
 
 /**
@@ -45,9 +48,12 @@ interface QueryParams {
   nextPageToken?: string;
   apiEndpoint?: string,
   traceId?: string,
-  userId?: string,
+  googleId?: string,
+  regkey?: string,
+  email?: string,
   sourceLocationFile?: string,
   sourceLocationFunction?: string,
+  exceptionClass?: string,
 }
 
 /**
@@ -183,8 +189,16 @@ export class LogsPageComponent implements OnInit {
       this.previousQueryParams.traceId = this.formModel.traceId;
     }
 
-    if (this.formModel.userId) {
-      this.previousQueryParams.userId = this.formModel.userId;
+    if (this.formModel.googleId) {
+      this.previousQueryParams.googleId = this.formModel.googleId;
+    }
+
+    if (this.formModel.regkey) {
+      this.previousQueryParams.regkey = this.formModel.regkey;
+    }
+
+    if (this.formModel.email) {
+      this.previousQueryParams.email = this.formModel.email;
     }
 
     if (this.formModel.sourceLocationFile) {
@@ -193,6 +207,10 @@ export class LogsPageComponent implements OnInit {
 
     if (this.formModel.sourceLocationFunction) {
       this.previousQueryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
+    }
+
+    if (this.formModel.exceptionClass) {
+      this.previousQueryParams.exceptionClass = this.formModel.exceptionClass;
     }
   }
 
@@ -290,11 +308,11 @@ export class LogsPageComponent implements OnInit {
   addUserInfoToFilter(userInfo: any): void {
     this.isFiltersExpanded = true;
     if (userInfo.googleId) {
-      this.formModel.userId = userInfo.googleId;
-    } else if (userInfo.email) {
-      this.formModel.userId = userInfo.email;
+      this.formModel.googleId = userInfo.googleId;
     } else if (userInfo.regkey) {
-      this.formModel.userId = userInfo.regkey;
+      this.formModel.regkey = userInfo.regkey;
+    } else if (userInfo.email) {
+      this.formModel.email = userInfo.email;
     }
 
     this.statusMessageService.showSuccessToast('User info added to filters');
@@ -302,10 +320,13 @@ export class LogsPageComponent implements OnInit {
 
   clearFilters(): void {
     this.formModel.traceId = '';
-    this.formModel.userId = '';
+    this.formModel.googleId = '';
+    this.formModel.regkey = '';
+    this.formModel.email = '';
     this.formModel.apiEndpoint = '';
     this.formModel.sourceLocationFile = '';
     this.formModel.sourceLocationFunction = '';
+    this.formModel.exceptionClass = '';
   }
 
   toHistogramPage(): void {

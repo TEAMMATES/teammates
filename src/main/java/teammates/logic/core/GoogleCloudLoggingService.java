@@ -122,8 +122,8 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String userId, String logEvent,
-            GeneralLogEntry.SourceLocation sourceLocationFilter, Integer pageSize, String pageToken)
+            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
+            GeneralLogEntry.SourceLocation sourceLocationFilter, String exceptionClass, Integer pageSize, String pageToken)
             throws LogServiceException {
 
         LogSearchParams logSearchParams = new LogSearchParams()
@@ -133,7 +133,9 @@ public class GoogleCloudLoggingService implements LogService {
                 .setEndTime(endTime)
                 .setTraceId(traceId)
                 .setApiEndpoint(apiEndpoint)
-                .setUserId(userId)
+                .setGoogleId(googleId)
+                .setRegkey(regkey)
+                .setEmail(email)
                 .setLogEvent(logEvent)
                 .setSourceLocation(sourceLocationFilter);
         if (severityLevel != null) {
@@ -269,9 +271,14 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.apiEndpoint != null) {
             logFilters.add("jsonPayload.actionClass=\"" + s.apiEndpoint + "\"");
         }
-        if (s.userId != null) {
-            logFilters.add("jsonPayload.userInfo.googleId=\"" + s.userId + "\" OR jsonPayload.userInfo.regkey=\"" + s.userId
-                    + "\" OR jsonPayload.userInfo.email=\"" + s.userId + "\"");
+        if (s.googleId != null) {
+            logFilters.add("jsonPayload.userInfo.googleId=\"" + s.googleId + "\"");
+        }
+        if (s.regkey != null) {
+            logFilters.add("jsonPayload.userInfo.regkey=\"" + s.regkey + "\"");
+        }
+        if (s.email != null) {
+            logFilters.add("jsonPayload.userInfo.email=\"" + s.email + "\"");
         }
         if (s.logEvent != null) {
             logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
@@ -285,6 +292,9 @@ public class GoogleCloudLoggingService implements LogService {
                             + "\" AND sourceLocation.function=\"" + s.sourceLocation.getFunction() + "\"");
                 }
             }
+        }
+        if (s.exceptionClass != null) {
+            logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -344,9 +354,12 @@ public class GoogleCloudLoggingService implements LogService {
         private Map<String, String> resourceLabels = new HashMap<>();
         private String traceId;
         private String apiEndpoint;
-        private String userId;
+        private String googleId;
+        private String regkey;
+        private String email;
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
+        private String exceptionClass;
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -402,8 +415,18 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setUserId(String userId) {
-            this.userId = userId;
+        public LogSearchParams setGoogleId(String googleId) {
+            this.googleId = googleId;
+            return this;
+        }
+
+        public LogSearchParams setRegkey(String regkey) {
+            this.regkey = regkey;
+            return this;
+        }
+
+        public LogSearchParams setEmail(String email) {
+            this.email = email;
             return this;
         }
 
@@ -414,6 +437,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setSourceLocation(GeneralLogEntry.SourceLocation sourceLocation) {
             this.sourceLocation = sourceLocation;
+            return this;
+        }
+
+        public LogSearchParams setExceptionClass(String exceptionClass) {
+            this.exceptionClass = exceptionClass;
             return this;
         }
     }
