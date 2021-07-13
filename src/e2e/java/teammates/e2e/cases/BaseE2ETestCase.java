@@ -34,7 +34,7 @@ import teammates.e2e.pageobjects.HomePage;
 import teammates.e2e.util.BackDoor;
 import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
-import teammates.test.BaseTestCaseWithDatastoreAccess;
+import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.FileHelper;
 
 /**
@@ -43,7 +43,7 @@ import teammates.test.FileHelper;
  * <p>This type of test has no knowledge of the workings of the application,
  * and can only communicate via the UI or via {@link BackDoor} to obtain/transmit data.
  */
-public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
+public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     static final BackDoor BACKDOOR = BackDoor.getInstance();
 
@@ -154,7 +154,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
      */
     protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
         String filePath = getTestDownloadsFolder() + expectedFileName;
-        int retryLimit = 5;
+        int retryLimit = TestProperties.TEST_TIMEOUT;
         boolean actual = Files.exists(Paths.get(filePath));
         while (!actual && retryLimit > 0) {
             retryLimit--;
@@ -174,7 +174,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     }
 
     protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
-        return AppPage.getNewPageInstance(browser, url, typeOfPage);
+        browser.goToUrl(url.toAbsoluteString());
+        return AppPage.getNewPageInstance(browser, typeOfPage);
     }
 
     /**
@@ -213,7 +214,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatastoreAccess {
     @Override
     @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
     public void resetLocalDatastoreHelper() {
-        // Local datastore state should persist across e2e test suites
+        // Local database state should persist across e2e test suites
     }
 
     @Override

@@ -99,7 +99,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         FeedbackResponseAttributes response = getMcqResponse(questionId, recipient, false, "UI");
         submitPage.submitMcqResponse(1, recipient, response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("add comment");
         String responseId = getFeedbackResponse(response).getId();
@@ -108,21 +108,21 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         submitPage.addComment(qnToComment, recipient, comment);
 
         submitPage.verifyComment(qnToComment, recipient, comment);
-        verifyPresentInDatastore(getFeedbackResponseComment(responseId, comment));
+        verifyPresentInDatabase(getFeedbackResponseComment(responseId, comment));
 
         ______TS("edit comment");
         comment = "<p>edited comment</p>";
         submitPage.editComment(qnToComment, recipient, comment);
 
         submitPage.verifyComment(qnToComment, recipient, comment);
-        verifyPresentInDatastore(getFeedbackResponseComment(responseId, comment));
+        verifyPresentInDatabase(getFeedbackResponseComment(responseId, comment));
 
         ______TS("delete comment");
         submitPage.deleteComment(qnToComment, recipient);
 
         submitPage.verifyStatusMessage("Your comment has been deleted!");
         submitPage.verifyNoCommentPresent(qnToComment, recipient);
-        verifyAbsentInDatastore(getFeedbackResponseComment(responseId, comment));
+        verifyAbsentInDatabase(getFeedbackResponseComment(responseId, comment));
 
         ______TS("preview as instructor");
         logout();
@@ -169,7 +169,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         response = getMcqResponse(questionId, recipient, false, "Algo");
         submitPage.submitMcqResponse(1, recipient, response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private AppUrl getStudentSubmitPageUrl(StudentAttributes student, FeedbackSessionAttributes session) {

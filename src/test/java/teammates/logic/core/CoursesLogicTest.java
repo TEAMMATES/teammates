@@ -315,7 +315,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                         .withName(c.getName())
                         .withTimezone(c.getTimeZone())
                         .build());
-        verifyPresentInDatastore(c);
+        verifyPresentInDatabase(c);
         coursesLogic.deleteCourseCascade(c.getId());
 
         ______TS("Null parameter");
@@ -356,8 +356,8 @@ public class CoursesLogicTest extends BaseLogicTest {
                                 .withTimezone(c.getTimeZone())
                                 .build()));
         AssertHelper.assertContains("for a non-existent instructor", ae.getMessage());
-        verifyAbsentInDatastore(c);
-        verifyAbsentInDatastore(i);
+        verifyAbsentInDatabase(c);
+        verifyAbsentInDatabase(i);
 
         ______TS("fails: account doesn't have instructor privileges");
 
@@ -376,8 +376,8 @@ public class CoursesLogicTest extends BaseLogicTest {
                                 .withTimezone(c.getTimeZone())
                                 .build()));
         AssertHelper.assertContains("doesn't have instructor privileges", ae.getMessage());
-        verifyAbsentInDatastore(c);
-        verifyAbsentInDatastore(i);
+        verifyAbsentInDatabase(c);
+        verifyAbsentInDatabase(i);
 
         ______TS("fails: error during course creation");
 
@@ -402,8 +402,8 @@ public class CoursesLogicTest extends BaseLogicTest {
                                 .withTimezone(invalidCourse.getTimeZone())
                                 .build()));
         assertEquals(expectedError, ipe.getMessage());
-        verifyAbsentInDatastore(invalidCourse);
-        verifyAbsentInDatastore(i);
+        verifyAbsentInDatabase(invalidCourse);
+        verifyAbsentInDatabase(i);
 
         ______TS("fails: error during instructor creation due to duplicate instructor");
 
@@ -423,7 +423,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(
                 "Unexpected exception while trying to create instructor for a new course",
                 ae.getMessage());
-        verifyAbsentInDatastore(courseWithDuplicateInstructor);
+        verifyAbsentInDatabase(courseWithDuplicateInstructor);
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
@@ -438,13 +438,13 @@ public class CoursesLogicTest extends BaseLogicTest {
         AssertHelper.assertContains(
                 "Unexpected exception while trying to create instructor for a new course",
                 ae.getMessage());
-        verifyAbsentInDatastore(courseWithDuplicateInstructor);
+        verifyAbsentInDatabase(courseWithDuplicateInstructor);
 
         ______TS("success: typical case");
 
         i.email = "ins.for.iccai@gmail.tmt";
 
-        //remove the duplicate instructor object from the datastore.
+        //remove the duplicate instructor object from the database.
         instructorsLogic.deleteInstructorCascade(i.courseId, i.email);
 
         coursesLogic.createCourseAndInstructor(i.googleId,
@@ -452,8 +452,8 @@ public class CoursesLogicTest extends BaseLogicTest {
                         .withName(courseWithDuplicateInstructor.getName())
                         .withTimezone(courseWithDuplicateInstructor.getTimeZone())
                         .build());
-        verifyPresentInDatastore(courseWithDuplicateInstructor);
-        verifyPresentInDatastore(i);
+        verifyPresentInDatabase(courseWithDuplicateInstructor);
+        verifyPresentInDatabase(i);
 
         ______TS("Null parameter");
 
@@ -471,12 +471,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
 
-        // Ensure there are entities in the datastore under this course
-        verifyPresentInDatastore(course1OfInstructor);
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
-        verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        // Ensure there are entities in the database under this course
+        verifyPresentInDatabase(course1OfInstructor);
+        verifyPresentInDatabase(dataBundle.students.get("student1InCourse1"));
+        verifyPresentInDatabase(dataBundle.students.get("student5InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session2InCourse1"));
 
         // Ensure the course is not in Recycle Bin
         assertFalse(course1OfInstructor.isCourseDeleted());
@@ -484,12 +484,12 @@ public class CoursesLogicTest extends BaseLogicTest {
         Instant deletedAt = coursesLogic.moveCourseToRecycleBin(course1OfInstructor.getId());
         course1OfInstructor.deletedAt = deletedAt;
 
-        // Ensure the course and related entities still exist in datastore
-        verifyPresentInDatastore(course1OfInstructor);
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
-        verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
+        // Ensure the course and related entities still exist in database
+        verifyPresentInDatabase(course1OfInstructor);
+        verifyPresentInDatabase(dataBundle.students.get("student1InCourse1"));
+        verifyPresentInDatabase(dataBundle.students.get("student5InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session2InCourse1"));
 
         // Ensure the course is moved to Recycle Bin
         assertTrue(course1OfInstructor.isCourseDeleted());
@@ -505,10 +505,10 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         CourseAttributes course3OfInstructor = dataBundle.courses.get("typicalCourse3");
 
-        // Ensure there are entities in the datastore under this course
-        verifyPresentInDatastore(course3OfInstructor);
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+        // Ensure there are entities in the database under this course
+        verifyPresentInDatabase(course3OfInstructor);
+        verifyPresentInDatabase(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session1InCourse3"));
 
         // Ensure the course is currently in Recycle Bin
         assertTrue(course3OfInstructor.isCourseDeleted());
@@ -516,10 +516,10 @@ public class CoursesLogicTest extends BaseLogicTest {
         coursesLogic.restoreCourseFromRecycleBin(course3OfInstructor.getId());
         course3OfInstructor.deletedAt = null;
 
-        // Ensure the course and related entities still exist in datastore
-        verifyPresentInDatastore(course3OfInstructor);
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse3"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse3"));
+        // Ensure the course and related entities still exist in database
+        verifyPresentInDatabase(course3OfInstructor);
+        verifyPresentInDatabase(dataBundle.students.get("student1InCourse3"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session1InCourse3"));
 
         // Ensure the course is restored from Recycle Bin
         assertFalse(course3OfInstructor.isCourseDeleted());
@@ -544,47 +544,47 @@ public class CoursesLogicTest extends BaseLogicTest {
         CourseAttributes course1OfInstructor = dataBundle.courses.get("typicalCourse1");
         StudentAttributes studentInCourse = dataBundle.students.get("student1InCourse1");
 
-        // Ensure there are entities in the datastore under this course
+        // Ensure there are entities in the database under this course
         assertFalse(studentsLogic.getStudentsForCourse(course1OfInstructor.getId()).isEmpty());
 
-        verifyPresentInDatastore(course1OfInstructor);
-        verifyPresentInDatastore(studentInCourse);
-        verifyPresentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
-        verifyPresentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
-        verifyPresentInDatastore(dataBundle.students.get("student1InCourse1"));
-        verifyPresentInDatastore(dataBundle.students.get("student5InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        verifyPresentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
+        verifyPresentInDatabase(course1OfInstructor);
+        verifyPresentInDatabase(studentInCourse);
+        verifyPresentInDatabase(dataBundle.instructors.get("instructor1OfCourse1"));
+        verifyPresentInDatabase(dataBundle.instructors.get("instructor3OfCourse1"));
+        verifyPresentInDatabase(dataBundle.students.get("student1InCourse1"));
+        verifyPresentInDatabase(dataBundle.students.get("student5InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackSessions.get("session2InCourse1"));
+        verifyPresentInDatabase(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         FeedbackResponseAttributes typicalResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes typicalQuestion =
                 fqLogic.getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
                         Integer.parseInt(typicalResponse.feedbackQuestionId));
         typicalResponse = frLogic
                 .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.giver, typicalResponse.recipient);
-        verifyPresentInDatastore(typicalResponse);
+        verifyPresentInDatabase(typicalResponse);
         FeedbackResponseCommentAttributes typicalComment =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
         typicalComment = frcLogic
                 .getFeedbackResponseComment(typicalResponse.getId(),
                         typicalComment.commentGiver, typicalComment.createdAt);
-        verifyPresentInDatastore(typicalComment);
+        verifyPresentInDatabase(typicalComment);
 
         coursesLogic.deleteCourseCascade(course1OfInstructor.getId());
 
         // Ensure the course and related entities are deleted
-        verifyAbsentInDatastore(course1OfInstructor);
-        verifyAbsentInDatastore(studentInCourse);
-        verifyAbsentInDatastore(dataBundle.instructors.get("instructor1OfCourse1"));
-        verifyAbsentInDatastore(dataBundle.instructors.get("instructor3OfCourse1"));
-        verifyAbsentInDatastore(dataBundle.students.get("student1InCourse1"));
-        verifyAbsentInDatastore(dataBundle.students.get("student5InCourse1"));
-        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session1InCourse1"));
-        verifyAbsentInDatastore(dataBundle.feedbackSessions.get("session2InCourse1"));
-        verifyAbsentInDatastore(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
-        verifyAbsentInDatastore(typicalQuestion);
-        verifyAbsentInDatastore(typicalResponse);
-        verifyAbsentInDatastore(typicalComment);
+        verifyAbsentInDatabase(course1OfInstructor);
+        verifyAbsentInDatabase(studentInCourse);
+        verifyAbsentInDatabase(dataBundle.instructors.get("instructor1OfCourse1"));
+        verifyAbsentInDatabase(dataBundle.instructors.get("instructor3OfCourse1"));
+        verifyAbsentInDatabase(dataBundle.students.get("student1InCourse1"));
+        verifyAbsentInDatabase(dataBundle.students.get("student5InCourse1"));
+        verifyAbsentInDatabase(dataBundle.feedbackSessions.get("session1InCourse1"));
+        verifyAbsentInDatabase(dataBundle.feedbackSessions.get("session2InCourse1"));
+        verifyAbsentInDatabase(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
+        verifyAbsentInDatabase(typicalQuestion);
+        verifyAbsentInDatabase(typicalResponse);
+        verifyAbsentInDatabase(typicalComment);
 
         ______TS("null parameter");
 
@@ -610,7 +610,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         );
         c.setName(newName);
         c.setTimeZone(ZoneId.of(validTimeZone));
-        verifyPresentInDatastore(c);
+        verifyPresentInDatabase(c);
         assertEquals(newName, updateCourse.getName());
         assertEquals(validTimeZone, updateCourse.getTimeZone().getId());
 
@@ -628,7 +628,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                         FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                         FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
         assertEquals(expectedErrorMessage, ipe.getMessage());
-        verifyPresentInDatastore(c);
+        verifyPresentInDatabase(c);
     }
 
 }

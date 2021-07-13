@@ -14,6 +14,7 @@ import org.apache.http.HttpStatus;
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.exception.ActionMappingException;
+import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -87,6 +88,11 @@ public class WebApiServlet extends HttpServlet {
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
                     + TeammatesException.toStringWithStackTrace(enfe));
             throwError(resp, statusCode, enfe.getMessage());
+        } catch (DeadlineExceededException dee) {
+            statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
+            log.severe("TimeoutException caught by WebApiServlet: "
+                    + TeammatesException.toStringWithStackTrace(dee));
+            throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
         } catch (DatastoreException e) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
             log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "

@@ -11,7 +11,7 @@ import org.apache.solr.common.SolrDocument;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.StudentsDb;
@@ -61,7 +61,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
      * @param instructors the constraint that restricts the search result
      */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         SolrQuery query = getBasicQuery(queryString);
 
         if (instructors != null) {

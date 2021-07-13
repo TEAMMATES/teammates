@@ -74,7 +74,6 @@ public class AdminSessionsPageE2ETest extends BaseE2ETestCase {
 
         AppUrl sessionsUrl = createUrl(Const.WebPageURIs.ADMIN_SESSIONS_PAGE);
         AdminSessionsPage sessionsPage = loginAdminToPage(sessionsUrl, AdminSessionsPage.class);
-        sessionsPage.waitUntilAnimationFinish();
 
         String tableTimezone = sessionsPage.getSessionsTableTimezone();
 
