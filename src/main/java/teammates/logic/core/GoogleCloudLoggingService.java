@@ -263,7 +263,7 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("severity=" + s.severity);
         }
         if (s.minSeverity != null && s.severity == null) {
-            logFilters.add("severity>=" + s.minSeverity);
+            logFilters.add("severity>=" + s.minSeverity.toString());
         }
         if (s.traceId != null) {
             logFilters.add("trace=\"" + s.traceId + "\"");
@@ -348,8 +348,8 @@ public class GoogleCloudLoggingService implements LogService {
         private String resourceType;
         private Instant startTime;
         private Instant endTime;
-        private String severity;
         private LogSeverity minSeverity;
+        private String severity;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
         private String traceId;
