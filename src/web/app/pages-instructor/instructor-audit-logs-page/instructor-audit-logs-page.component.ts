@@ -94,7 +94,14 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    this.formModel.logsDateFrom = { ...this.dateToday, day: today.getDate() - 1 };
+    const fromDate: Date = new Date();
+    fromDate.setDate(today.getDate() - 1);
+
+    this.formModel.logsDateFrom = {
+      year: fromDate.getFullYear(),
+      month: fromDate.getMonth() + 1,
+      day: fromDate.getDate(),
+    };
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
@@ -150,9 +157,11 @@ export class InstructorAuditLogsPageComponent implements OnInit {
                 })),
             mergeAll(),
             finalize(() => this.isLoading = false))
-        .subscribe(((student: Students) =>
-                // Student with no name is selectable to search for all students since the field is optional
-                this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students]),
+        .subscribe(((student: Students) => {
+          student.students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+          // Student with no name is selectable to search for all students since the field is optional
+          this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students];
+        }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 

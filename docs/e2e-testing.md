@@ -36,10 +36,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
 
 * If you want to use a Firefox version other than your computer's default, specify the custom path in `test.firefox.path` value in `test.properties`.
 
-* If you are planning to test against a production server, specify the Firefox profile to be used in `test.firefox.profile.name` value in `test.properties`.
-  * This is used to bypass login by using previous login data.
-  * You can enter `about:profiles` into Firefox address bar to identify the profile being used.
-
 * If the test suite or any test leaves the browser open (e.g. due to failure), you will have a dangling geckodriver process.<br>
   You may want to manually kill these processes after the tests are done.
   * On Windows, use the Task Manager or `taskkill /f /im geckodriver.exe` command.
@@ -51,10 +47,6 @@ Before running tests, modify `src/e2e/resources/test.properties` if necessary, e
   * Download the latest stable chromedriver from [here](https://sites.google.com/a/chromium.org/chromedriver/downloads).
     The site will also inform the versions of Chrome that can be used with the driver.
   * Specify the path to the chromedriver executable in `test.chromedriver.path` value in `test.properties`.
-
-* If you are planning to test against a production server, specify the path to Chrome's user data directory in `test.chrome.userdata.path` value in `test.properties`.
-  * This is used to bypass login by using previous login data.
-  * You can enter `chrome://version` into Chrome address bar to identify the profile path (specified under `Profile Path`).
 
 * If the test suite or any test leaves the browser open (e.g. due to failure), you will have a dangling chromedriver process.<br>
   You may want to manually kill these processes after the tests are done.
@@ -109,7 +101,7 @@ In TEAMMATES, E2E test cases are organized by page. For each page, we:
   
 All E2E test classes inherit from `BaseE2ETestCase` which contains methods that are common to most test cases, such as preparing the `Browser` object used for testing.   
   
-To help verify the state of the datastore, `BackDoor` contains methods to create API calls to the back-end without going through the UI. 
+To help verify the state of the database, `BackDoor` contains methods to create API calls to the back-end without going through the UI. 
   
 ### Page Object Pattern
   

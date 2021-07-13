@@ -179,7 +179,7 @@
             <property name="scope" value="package"/>
         </module>
         <module name="MissingJavadocMethod">
-            <property name="allowedAnnotations" value="Test, Override, BeforeClass, BeforeTest, BeforeMethod, AfterClass, AfterTest, AfterMethod, BeforeGroups"/>
+            <property name="allowedAnnotations" value="Test, Override, BeforeSuite, BeforeClass, BeforeTest, BeforeMethod, AfterSuite, AfterClass, AfterTest, AfterMethod"/>
             <property name="scope" value="public"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="tokens" value="METHOD_DEF"/>

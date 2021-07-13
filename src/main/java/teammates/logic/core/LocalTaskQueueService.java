@@ -39,7 +39,7 @@ public class LocalTaskQueueService implements TaskQueueService {
             return;
         }
         HttpPost post = new HttpPost(createBasicUri(
-                "http://localhost:8080" + task.getWorkerUrl(), task.getParamMap()));
+                "http://localhost:" + Config.getPort() + task.getWorkerUrl(), task.getParamMap()));
 
         if (task.getRequestBody() != null) {
             StringEntity entity = new StringEntity(

@@ -43,7 +43,7 @@ public final class StringHelper {
      * Generates a string which consists of {@code length} copies of {@code character} without space.
      */
     static String generateStringOfLength(int length, char character) {
-        Assumption.assertTrue(length >= 0);
+        assert length >= 0;
         return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 
@@ -94,7 +94,7 @@ public final class StringHelper {
             byte[] value = mac.doFinal(data.getBytes());
             return byteArrayToHexString(value);
         } catch (Exception e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false : TeammatesException.toStringWithStackTrace(e);
             return null;
         }
     }
@@ -128,7 +128,7 @@ public final class StringHelper {
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false : TeammatesException.toStringWithStackTrace(e);
             return null;
         }
     }
@@ -152,7 +152,7 @@ public final class StringHelper {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false : TeammatesException.toStringWithStackTrace(e);
             return null;
         }
     }

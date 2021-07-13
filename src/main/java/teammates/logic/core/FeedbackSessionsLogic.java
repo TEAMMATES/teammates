@@ -28,9 +28,9 @@ import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 
@@ -319,8 +319,8 @@ public final class FeedbackSessionsLogic {
      * Updates all feedback sessions of {@code courseId} to have be in {@code courseTimeZone}.
      */
     public void updateFeedbackSessionsTimeZoneForCourse(String courseId, ZoneId courseTimeZone) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(courseTimeZone);
+        assert courseId != null;
+        assert courseTimeZone != null;
 
         List<FeedbackSessionAttributes> fsForCourse = fsDb.getFeedbackSessionsForCourse(courseId);
         fsForCourse.forEach(fs -> {
@@ -533,6 +533,7 @@ public final class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
+        RequestTracer.checkRemainingTime();
 
         // load response(s)
         StudentAttributes student = getStudent(courseId, userEmail, role);
@@ -557,6 +558,7 @@ public final class FeedbackSessionsLogic {
                 allResponses.addAll(viewableResponses);
             }
         }
+        RequestTracer.checkRemainingTime();
 
         // load comment(s)
         List<FeedbackResponseCommentAttributes> allComments;
@@ -565,6 +567,7 @@ public final class FeedbackSessionsLogic {
         } else {
             allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
         }
+        RequestTracer.checkRemainingTime();
 
         // related questions, responses, and comment
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
@@ -611,6 +614,7 @@ public final class FeedbackSessionsLogic {
             responseRecipientVisibilityTable.put(response.getId(),
                     frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, role, false, roster));
         }
+        RequestTracer.checkRemainingTime();
 
         // build comment
         for (FeedbackResponseCommentAttributes frc : allComments) {
@@ -631,6 +635,7 @@ public final class FeedbackSessionsLogic {
             // generate comment giver name visibility table
             commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
         }
+        RequestTracer.checkRemainingTime();
 
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
@@ -640,6 +645,7 @@ public final class FeedbackSessionsLogic {
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
                     relatedQuestionsMap, existingResponses, roster, section);
         }
+        RequestTracer.checkRemainingTime();
 
         return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,

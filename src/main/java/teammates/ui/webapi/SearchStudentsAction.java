@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -76,14 +77,17 @@ class SearchStudentsAction extends Action {
         String entity = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         List<StudentAttributes> students;
 
-        // Search for students
-        if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
-            List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
-            students = logic.searchStudents(searchKey, instructors).studentList;
-        } else if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
-            students = logic.searchStudentsInWholeSystem(searchKey).studentList;
-        } else {
-            throw new InvalidHttpParameterException("Invalid entity type for search");
+        try {
+            if (userInfo.isInstructor && entity.equals(Const.EntityType.INSTRUCTOR)) {
+                List<InstructorAttributes> instructors = logic.getInstructorsForGoogleId(userInfo.id);
+                students = logic.searchStudents(searchKey, instructors);
+            } else if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
+                students = logic.searchStudentsInWholeSystem(searchKey);
+            } else {
+                throw new InvalidHttpParameterException("Invalid entity type for search");
+            }
+        } catch (SearchServiceException e) {
+            return new JsonResult(e.getMessage(), e.getStatusCode());
         }
 
         List<StudentData> studentDataList = new ArrayList<>();

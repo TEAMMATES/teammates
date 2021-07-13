@@ -5,9 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -18,7 +16,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import com.google.appengine.api.appidentity.AppIdentityServiceFactory;
+import com.google.auth.oauth2.GoogleCredentials;
 
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -45,14 +43,21 @@ class DatastoreBackupAction extends AdminOnlyAction {
             log.info("Skipping backup by system admin's choice.");
             return new JsonResult("Successful");
         }
-        List<String> scopes = new ArrayList<>();
-        scopes.add("https://www.googleapis.com/auth/datastore");
-        String accessToken = AppIdentityServiceFactory.getAppIdentityService().getAccessToken(scopes).getAccessToken();
         String appId = Config.APP_ID;
 
         HttpPost post = new HttpPost("https://datastore.googleapis.com/v1/projects/" + appId + ":export");
         post.setHeader("Content-Type", "application/json");
-        post.setHeader("Authorization", "Bearer " + accessToken);
+
+        try {
+            String accessToken = GoogleCredentials.getApplicationDefault()
+                    .createScoped("https://www.googleapis.com/auth/datastore")
+                    .refreshAccessToken()
+                    .getTokenValue();
+            post.setHeader("Authorization", "Bearer " + accessToken);
+        } catch (IOException e) {
+            log.severe("Failed to obtain credentials: " + e.getMessage());
+            return new JsonResult("Failure");
+        }
 
         Map<String, Object> body = new HashMap<>();
         String timestamp = Instant.now().toString();

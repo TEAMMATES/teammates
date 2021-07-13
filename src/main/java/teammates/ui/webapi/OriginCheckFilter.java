@@ -2,6 +2,8 @@ package teammates.ui.webapi;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -22,8 +24,9 @@ import org.apache.http.client.methods.HttpPut;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
+import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 
@@ -43,7 +46,7 @@ public class OriginCheckFilter implements Filter {
     ));
 
     private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
-            Const.CsrfConfig.TOKEN_HEADER_NAME,
+            Const.SecurityConfig.CSRF_HEADER_NAME,
             "Content-Type",
             "ngsw-bypass"
     ));
@@ -71,13 +74,23 @@ public class OriginCheckFilter implements Filter {
             return;
         }
 
+        // The header X-AppEngine-QueueName cannot be spoofed as GAE will strip any user-sent X-AppEngine-QueueName headers.
+        // Reference: https://cloud.google.com/appengine/docs/standard/java/taskqueue/push/creating-handlers#reading_request_headers
+        boolean isRequestFromAppEngineQueue = request.getHeader("X-AppEngine-QueueName") != null;
+
+        if (isRequestFromAppEngineQueue) {
+            // Requests from App Engine are allowed to bypass CSRF check
+            chain.doFilter(req, res);
+            return;
+        }
+
         String referrer = request.getHeader("referer");
         if (referrer == null) {
             // Requests with missing referrer information are given the benefit of the doubt
             // to accommodate users who choose to disable the HTTP referrer setting in their browser
             // for privacy reasons
         } else if (!isHttpReferrerValid(referrer, request.getRequestURL().toString())) {
-            denyAccess("Invalid HTTP referrer.", request, response);
+            denyAccess("Invalid HTTP referrer.", response);
             return;
         }
 
@@ -87,7 +100,7 @@ public class OriginCheckFilter implements Filter {
         case HttpDelete.METHOD_NAME:
             String message = getCsrfTokenErrorIfAny(request);
             if (message != null) {
-                denyAccess(message, request, response);
+                denyAccess(message, response);
                 return;
             }
             break;
@@ -140,11 +153,11 @@ public class OriginCheckFilter implements Filter {
         }
 
         String target = new Url(requestUrl).getBaseUrl();
-        return origin.equals(target);
+        return origin.replaceFirst("^https?://", "").equals(target.replaceFirst("^https?://", ""));
     }
 
     private String getCsrfTokenErrorIfAny(HttpServletRequest request) {
-        String csrfToken = request.getHeader(Const.CsrfConfig.TOKEN_HEADER_NAME);
+        String csrfToken = request.getHeader(Const.SecurityConfig.CSRF_HEADER_NAME);
         if (csrfToken == null || csrfToken.isEmpty()) {
             return "Missing CSRF token.";
         }
@@ -162,16 +175,19 @@ public class OriginCheckFilter implements Filter {
         }
     }
 
-    private void denyAccess(String message, HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.setHeader("Strict-Transport-Security", "max-age=31536000");
-
-        log.info("Request failed origin check: [" + request.getMethod() + "] " + request.getRequestURL().toString()
-                + ", Params: " + HttpRequestHelper.getRequestParametersAsString(request)
-                + ", Headers: " + HttpRequestHelper.getRequestHeadersAsString(request)
-                + ", Request ID: " + Config.getRequestId());
-
-        JsonResult result = new JsonResult(message, HttpStatus.SC_FORBIDDEN);
+    private void denyAccess(String message, HttpServletResponse response) throws IOException {
+        int statusCode = HttpStatus.SC_FORBIDDEN;
+        JsonResult result = new JsonResult(message, statusCode);
         result.send(response);
+
+        long timeElapsed = RequestTracer.getTimeElapsedMillis();
+        Map<String, Object> requestDetails = new HashMap<>();
+        requestDetails.put("responseStatus", statusCode);
+        requestDetails.put("responseTime", timeElapsed);
+
+        String logMessage = "Response " + RequestTracer.getTraceId() + " dispatched with "
+                + statusCode + " in " + timeElapsed + "ms";
+        log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
     }
 
     @Override

@@ -149,16 +149,11 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
-    }
 
-    public static class SearchIndex {
-        public static final String STUDENT = "student";
-        public static final String INSTRUCTOR = "instructor";
-    }
-
-    public static class SearchDocumentField {
-        public static final String SEARCHABLE_TEXT = "searchableText";
-        public static final String COURSE_ID = "courseId";
+        public static final String QUERY_LOGS_STARTTIME = "starttime";
+        public static final String QUERY_LOGS_ENDTIME = "endtime";
+        public static final String QUERY_LOGS_SEVERITIES = "severities";
+        public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
     /**
@@ -179,10 +174,11 @@ public final class Const {
 
     }
 
-    public static class CsrfConfig {
+    public static class SecurityConfig {
 
-        public static final String TOKEN_HEADER_NAME = "X-CSRF-TOKEN";
-        public static final String TOKEN_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
+        public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
+        public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
     }
 
@@ -208,6 +204,7 @@ public final class Const {
     }
 
     public static class WebPageURIs {
+        public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
         private static final String URI_PREFIX = "/web";
 
@@ -222,6 +219,7 @@ public final class Const {
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
+        public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
 
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";
@@ -298,6 +296,7 @@ public final class Const {
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
+        public static final String LOGS = URI_PREFIX + "/logs/query";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";

@@ -36,9 +36,8 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         ______TS("verify cannot edit without privilege");
         // log in as instructor with no edit privilege
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
-                .withUserId(instructors[2].googleId)
                 .withCourseId(course.getId());
-        InstructorCourseEditPage editPage = loginAdminToPage(url, InstructorCourseEditPage.class);
+        InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[2].googleId);
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -46,10 +45,10 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("verify loaded data");
         // re-log in as instructor with edit privilege
+        logout();
         url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
-                .withUserId(instructors[3].googleId)
                 .withCourseId(course.getId());
-        editPage = getNewPageInstance(url, InstructorCourseEditPage.class);
+        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].googleId);
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);
@@ -72,7 +71,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 + "An email containing how to 'join' this course will be sent to " + newInstructor.email
                 + " in a few minutes.\"");
         editPage.verifyInstructorDetails(newInstructor);
-        verifyPresentInDatastore(newInstructor);
+        verifyPresentInDatabase(newInstructor);
 
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);
@@ -98,7 +97,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0]);
 
-        // verify in datastore by reloading
+        // verify in database by reloading
         editPage.reloadPage();
         editPage.verifyInstructorDetails(instructors[0]);
 
@@ -106,7 +105,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.deleteInstructor(newInstructor);
         editPage.verifyStatusMessage("Instructor is successfully deleted.");
         editPage.verifyNumInstructorsEquals(5);
-        verifyAbsentInDatastore(newInstructor);
+        verifyAbsentInDatabase(newInstructor);
 
         ______TS("edit course");
         String newName = "New Course Name";
@@ -117,7 +116,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         editPage.editCourse(course);
         editPage.verifyStatusMessage("The course has been edited.");
         editPage.verifyCourseDetails(course);
-        verifyPresentInDatastore(course);
+        verifyPresentInDatabase(course);
 
         ______TS("delete course");
         editPage.deleteCourse();

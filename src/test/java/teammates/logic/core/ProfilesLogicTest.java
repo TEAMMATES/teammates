@@ -63,7 +63,7 @@ public class ProfilesLogicTest extends BaseLogicTest {
 
         profilesLogic.deleteStudentProfile("sp.logic.test");
         // check that profile get deleted and picture get deleted
-        verifyAbsentInDatastore(savedProfile);
+        verifyAbsentInDatabase(savedProfile);
     }
 
 }

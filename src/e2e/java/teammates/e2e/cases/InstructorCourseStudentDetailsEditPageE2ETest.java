@@ -31,11 +31,11 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
     @Override
     public void testAll() {
         AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
-                .withUserId(testData.instructors.get("ICSDetEdit.instr").googleId)
                 .withCourseId(course.getId())
                 .withStudentEmail(student.email);
         InstructorCourseStudentDetailsEditPage editPage =
-                loginAdminToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
+                loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
+                        testData.instructors.get("ICSDetEdit.instr").googleId);
 
         ______TS("verify loaded data");
         editPage.verifyStudentDetails(student);
@@ -48,7 +48,7 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         editPage.editStudentDetails(student);
 
         editPage.verifyStatusMessage("Student has been updated");
-        verifyPresentInDatastore(student);
+        verifyPresentInDatabase(student);
 
         ______TS("cannot edit to an existing email");
         editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
@@ -62,10 +62,8 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
         student.googleId = null;
         editPage.editStudentEmailAndResendLinks(newEmail);
 
-        if (TestProperties.isDevServer() || TestProperties.INCLUDE_EMAIL_VERIFICATION) {
-            editPage.verifyStatusMessage("Student has been updated and email sent");
-        }
-        verifyPresentInDatastore(student);
+        editPage.verifyStatusMessage("Student has been updated and email sent");
+        verifyPresentInDatabase(student);
         verifyEmailSent(newEmail, "TEAMMATES: Summary of course ["
                 + course.getName() + "][Course ID: " + course.getId() + "]");
     }

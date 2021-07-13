@@ -20,6 +20,9 @@ public final class TestProperties {
     /** The value of "test.app.url" in test.properties file. */
     public static final String TEAMMATES_URL;
 
+    /** The Google ID of user with admin permission. */
+    public static final String TEST_ADMIN;
+
     /** The email address used for testing that emails are sent by the system. */
     public static final String TEST_EMAIL;
 
@@ -51,17 +54,14 @@ public final class TestProperties {
     /** The value of "test.geckodriver.path" in test.properties file. */
     public static final String GECKODRIVER_PATH;
 
-    /** The value of "test.firefox.profile.name" in test.properties file. */
-    public static final String FIREFOX_PROFILE_NAME;
-
-    /** The value of "test.chrome.userdata.path" in test.properties file. */
-    public static final String CHROME_USER_DATA_PATH;
-
     /** The value of "test.timeout" in test.properties file. */
     public static final int TEST_TIMEOUT;
 
     /** The flag to indicate whether emails sent should be verified. */
     public static final boolean INCLUDE_EMAIL_VERIFICATION;
+
+    /** The flag to indicate whether search-related functions should be tested. */
+    public static final boolean INCLUDE_SEARCH_TESTS;
 
     /** The directory where credentials used in Gmail API are stored. */
     static final String TEST_GMAIL_API_FOLDER = "src/e2e/resources/gmail-api";
@@ -76,6 +76,7 @@ public final class TestProperties {
             TEAMMATES_URL = prop.getProperty("test.app.url");
 
             TEST_EMAIL = prop.getProperty("test.email");
+            TEST_ADMIN = prop.getProperty("test.admin");
             TEST_SENDER_EMAIL = prop.getProperty("test.senderemail");
 
             CSRF_KEY = prop.getProperty("test.csrf.key");
@@ -86,12 +87,11 @@ public final class TestProperties {
             FIREFOX_PATH = prop.getProperty("test.firefox.path");
             CHROMEDRIVER_PATH = prop.getProperty("test.chromedriver.path");
             GECKODRIVER_PATH = prop.getProperty("test.geckodriver.path");
-            FIREFOX_PROFILE_NAME = prop.getProperty("test.firefox.profile.name");
-            CHROME_USER_DATA_PATH = prop.getProperty("test.chrome.userdata.path");
 
             TEST_TIMEOUT = Integer.parseInt(prop.getProperty("test.timeout"));
 
             INCLUDE_EMAIL_VERIFICATION = Boolean.parseBoolean(prop.getProperty("test.verify.emails"));
+            INCLUDE_SEARCH_TESTS = Boolean.parseBoolean(prop.getProperty("test.search.active"));
 
         } catch (IOException e) {
             throw new RuntimeException(e);

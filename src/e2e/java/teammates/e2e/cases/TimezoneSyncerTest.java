@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -28,15 +27,10 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         // no test data used in this test
     }
 
-    @BeforeClass
-    public void classSetup() {
-        loginAdmin();
-    }
-
     @Test
     @Override
     public void testAll() {
-        AdminTimezonePage timezonePage = getNewPageInstance(
+        AdminTimezonePage timezonePage = loginAdminToPage(
                 createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
 
         ______TS("ensure the front-end and the back-end have the same timezone database version");
@@ -58,7 +52,6 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
         IanaTimezonePage ianaPage = getNewPageInstance(
                 new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
-        ianaPage.waitForPageToLoad();
         String latestTzVersion = ianaPage.getVersion();
 
         if (!currentTzVersion.equals(latestTzVersion)) {

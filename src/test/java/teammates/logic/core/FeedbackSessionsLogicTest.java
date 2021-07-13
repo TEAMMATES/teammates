@@ -192,7 +192,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private void testIsFeedbackSessionHasQuestionForStudents() throws Exception {
-        // no need to removeAndRestoreTypicalDataInDatastore() as the previous test does not change the db
+        // no need to removeAndRestoreTypicalDataInDatabase() as the previous test does not change the db
 
         FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
         FeedbackSessionAttributes sessionWithoutStudents = dataBundle.feedbackSessions.get("closedSession");
@@ -250,7 +250,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         // restore the new course from Recycle Bin, and delete the newly added session as
-        // removeAndRestoreTypicalDataInDatastore() wont do it
+        // removeAndRestoreTypicalDataInDatabase() wont do it
         coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
@@ -282,7 +282,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         // restore the new course from Recycle Bin, and delete the newly added session as
-        // removeAndRestoreTypicalDataInDatastore() wont do it
+        // removeAndRestoreTypicalDataInDatabase() wont do it
         coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
@@ -369,7 +369,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         // restore the new course from Recycle Bin, and delete the newly added session as
-        // removeAndRestoreTypicalDataInDatastore() wont do it
+        // removeAndRestoreTypicalDataInDatabase() wont do it
         coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
@@ -444,7 +444,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
-        verifyPresentInDatastore(fs);
+        verifyPresentInDatabase(fs);
 
         FeedbackSessionAttributes finalFs = fs;
         ______TS("test create with invalid session name");
@@ -484,8 +484,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fqLogic.createFeedbackQuestion(fq);
 
         fsLogic.deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
-        verifyAbsentInDatastore(fs);
-        verifyAbsentInDatastore(fq);
+        verifyAbsentInDatabase(fs);
+        verifyAbsentInDatabase(fq);
     }
 
     private void testIsFeedbackSessionViewableToStudents() {
@@ -778,7 +778,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .build();
     }
 
-    private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
+    private FeedbackQuestionAttributes getQuestionFromDatabase(String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(
                 questionToGet.feedbackSessionName,
@@ -788,12 +788,12 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         return questionToGet;
     }
 
-    // Extract response id from datastore based on json key.
+    // Extract response id from database based on json key.
     private String getResponseId(String jsonId, DataBundle bundle) {
-        return getResponseFromDatastore(jsonId, bundle).getId();
+        return getResponseFromDatabase(jsonId, bundle).getId();
     }
 
-    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId, DataBundle bundle) {
+    private FeedbackResponseAttributes getResponseFromDatabase(String jsonId, DataBundle bundle) {
         FeedbackResponseAttributes response = bundle.feedbackResponses.get(jsonId);
 
         String questionId = null;
@@ -843,7 +843,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
         feedbackSession.setDeletedTime(null);
 
-        verifyPresentInDatastore(feedbackSession);
+        verifyPresentInDatabase(feedbackSession);
         assertFalse(feedbackSession.isSessionDeleted());
     }
 
@@ -921,7 +921,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // no response visible
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        FeedbackQuestionAttributes question = getQuestionFromDatabase("qn2InSession1InCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
                 UserRole.STUDENT, question.getId(), null);
@@ -931,7 +931,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, bundle.getQuestionMissingResponseMap().size());
 
         // one response visible
-        question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        question = getQuestionFromDatabase("qn3InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
                 UserRole.STUDENT, question.getId(), null);
@@ -1016,7 +1016,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     @Test
     public void testGetSessionResultsForUser_instructorSpecificQuestion_shouldHaveCorrectResponsesFiltered() {
-        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes fq = getQuestionFromDatabase("qn3InSession1InCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 
         // no section specified
@@ -1029,7 +1029,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, responseForQuestion.size());
 
         // section specified
-        fq = getQuestionFromDatastore("qn2InSession1InCourse1");
+        fq = getQuestionFromDatabase("qn2InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
                 UserRole.INSTRUCTOR, fq.getId(), "Section 1");
@@ -1163,8 +1163,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 
-        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn2InSession1InCourse1");
-        FeedbackResponseAttributes existingResponse = getResponseFromDatastore("response1ForQ2S1C1", dataBundle);
+        FeedbackQuestionAttributes fq = getQuestionFromDatabase("qn2InSession1InCourse1");
+        FeedbackResponseAttributes existingResponse = getResponseFromDatabase("response1ForQ2S1C1", dataBundle);
         // create a "null" response to simulate trying to get a null student's response
         FeedbackResponseAttributes newResponse =
                 FeedbackResponseAttributes.builder(
