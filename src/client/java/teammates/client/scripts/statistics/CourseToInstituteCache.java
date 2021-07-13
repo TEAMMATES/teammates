@@ -65,7 +65,7 @@ public class CourseToInstituteCache {
     /**
      * Gets the institute name associated with the course identified by {@code courseId}.
      *
-     * <p>If the mapping cannot be found in the cache, several Datastore queries are issued to find the mapping.
+     * <p>If the mapping cannot be found in the cache, several database queries are issued to find the mapping.
      */
     public String get(String courseId) {
         return cache.getUnchecked(courseId);

@@ -6,6 +6,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 
 /**
  * Cron job: schedules feedback session closed emails to be sent.
@@ -19,6 +20,7 @@ class FeedbackSessionClosedRemindersAction extends AdminOnlyAction {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsClosedWithinThePastHour();
 
         for (FeedbackSessionAttributes session : sessions) {
+            RequestTracer.checkRemainingTime();
             List<EmailWrapper> emailsToBeSent = emailGenerator.generateFeedbackSessionClosedEmails(session);
             try {
                 taskQueuer.scheduleEmailsForSending(emailsToBeSent);

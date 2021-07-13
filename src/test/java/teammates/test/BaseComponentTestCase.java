@@ -19,7 +19,7 @@ import teammates.logic.api.LogicExtension;
  * Base class for all component tests.
  */
 @Test(singleThreaded = true)
-public class BaseComponentTestCase extends BaseTestCaseWithDatastoreAccess {
+public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     protected static final LogicExtension logic = new LogicExtension();
 
