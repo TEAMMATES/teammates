@@ -3,13 +3,11 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -88,8 +86,8 @@ class SearchStudentsAction extends Action {
             } else {
                 throw new InvalidHttpParameterException("Invalid entity type for search");
             }
-        } catch (SearchNotImplementedException e) {
-            return new JsonResult("Search service is not implemented.", HttpStatus.SC_NOT_IMPLEMENTED);
+        } catch (SearchServiceException e) {
+            return new JsonResult(e.getMessage(), e.getStatusCode());
         }
 
         List<StudentData> studentDataList = new ArrayList<>();

@@ -48,7 +48,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
         enrollPage.verifyExistingStudentsTableContains(studentsEnrollingToEmptyCourse);
 
-        // verify students in datastore
+        // verify students in database
         assertEquals(getStudent(student1), student1);
         assertEquals(getStudent(student2), student2);
         assertEquals(getStudent(student3), student3);
@@ -77,7 +77,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage.verifyResultsPanelContains(newStudentsData, modifiedStudentsData, modifiedWithoutChangeStudentsData,
                 errorStudentsData, unmodifiedStudentsData);
 
-        // verify students in datastore
+        // verify students in database
         assertEquals(getStudent(student1), student1);
         assertEquals(getStudent(student2), student2);
         assertEquals(getStudent(student3), student3);
