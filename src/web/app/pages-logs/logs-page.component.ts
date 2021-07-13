@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
@@ -20,7 +19,7 @@ import { ErrorMessageOutput } from '../error-message-output';
 interface SearchLogsFormModel {
   logsSeverity: string;
   logsMinSeverity: string;
-  logsEvent: string,
+  logsEvent: string;
   logsFilter: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
@@ -46,14 +45,14 @@ interface QueryParams {
   minSeverity?: string;
   logEvent?: string;
   nextPageToken?: string;
-  apiEndpoint?: string,
-  traceId?: string,
-  googleId?: string,
-  regkey?: string,
-  email?: string,
-  sourceLocationFile?: string,
-  sourceLocationFunction?: string,
-  exceptionClass?: string,
+  apiEndpoint?: string;
+  traceId?: string;
+  googleId?: string;
+  regkey?: string;
+  email?: string;
+  sourceLocationFile?: string;
+  sourceLocationFunction?: string;
+  exceptionClass?: string;
 }
 
 /**
@@ -97,8 +96,7 @@ export class LogsPageComponent implements OnInit {
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,
-    private route: Router) { }
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     const today: Date = new Date();
@@ -167,12 +165,12 @@ export class LogsPageComponent implements OnInit {
     this.previousQueryParams = {
       searchFrom: timestampFrom.toString(),
       searchUntil: timestampUntil.toString(),
-    }
+    };
 
     if (this.formModel.logsFilter === this.SEVERITY) {
       this.previousQueryParams.severity = this.formModel.logsSeverity;
     }
-    
+
     if (this.formModel.logsFilter === this.MIN_SEVERITY) {
       this.previousQueryParams.minSeverity = this.formModel.logsMinSeverity;
     }
@@ -327,9 +325,5 @@ export class LogsPageComponent implements OnInit {
     this.formModel.sourceLocationFile = '';
     this.formModel.sourceLocationFunction = '';
     this.formModel.exceptionClass = '';
-  }
-
-  toHistogramPage(): void {
-    this.route.navigateByUrl('web/admin/logs/histogram');
   }
 }

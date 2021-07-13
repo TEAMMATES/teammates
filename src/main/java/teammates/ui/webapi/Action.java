@@ -19,7 +19,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.Logger;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
@@ -38,8 +37,6 @@ import teammates.ui.request.BasicRequest;
  * this object can talk to the back end to perform that action.
  */
 public abstract class Action {
-
-    private static final Logger log = Logger.getLogger();
 
     Logic logic = new Logic();
     UserProvision userProvision = new UserProvision();
@@ -109,8 +106,6 @@ public abstract class Action {
             // All-access pass granted
             return;
         }
-
-        //logUserInfo();
 
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();
@@ -256,21 +251,6 @@ public abstract class Action {
                             Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
         }
         return privilege;
-    }
-
-    private void logUserInfo() {
-        String googleId = userInfo == null ? null : userInfo.getId();
-        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
-        String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        if (studentEmail == null && regkey != null) {
-            StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
-            if (student != null) {
-                studentEmail = student.getEmail();
-            }
-        }
-
-        log.logUserInfo(googleId, regkey, studentEmail);
     }
 
     /**

@@ -152,15 +152,7 @@ public final class Const {
 
         public static final String QUERY_LOGS_STARTTIME = "starttime";
         public static final String QUERY_LOGS_ENDTIME = "endtime";
-        public static final String QUERY_LOGS_SEVERITY = "severity";
-        public static final String QUERY_LOGS_MIN_SEVERITY = "minseverity";
-        public static final String QUERY_LOGS_TRACE = "traceid";
-        public static final String QUERY_LOGS_API_ENDPOINT = "apiendpoint";
-        public static final String QUERY_LOGS_EMAIL = "email";
-        public static final String QUERY_LOGS_EVENT = "logevent";
-        public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
-        public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
-        public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
+        public static final String QUERY_LOGS_SEVERITIES = "severities";
         public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
@@ -417,7 +409,8 @@ public final class Const {
         public static final String DELETE_FEEDBACK_SESSION_ACTION = "DeleteFeedbackSessionAction";
         public static final String PUBLISH_FEEDBACK_SESSION_ACTION = "PublishFeedbackSessionAction";
         public static final String UNPUBLISH_FEEDBACK_SESSION_ACTION = "UnpublishFeedbackSessionAction";
-        public static final String GET_FEEDBACK_SESSION_SUBMITTED_GIVER_SET_ACTION = "GetFeedbackSessionSubmittedGiverSetAction";
+        public static final String GET_FEEDBACK_SESSION_SUBMITTED_GIVER_SET_ACTION =
+                "GetFeedbackSessionSubmittedGiverSetAction";
         public static final String REMIND_FEEDBACK_SESSION_SUBMISSION_ACTION = "RemindFeedbackSessionSubmissionAction";
         public static final String REMIND_FEEDBACK_SESSION_RESULT_ACTION = "RemindFeedbackSessionResultAction";
         public static final String GET_FEEDBACK_SESSIONS_ACTION = "GetFeedbackSessionsAction";
@@ -453,10 +446,14 @@ public final class Const {
         public static final String FEEDBACK_SESSION_CLOSED_REMINDERS_ACTION = "FeedbackSessionClosedRemindersAction";
         public static final String FEEDBACK_SESSION_CLOSING_REMINDERS_ACTION = "FeedbackSessionClosingRemindersAction";
         public static final String FEEDBACK_SESSION_PUBLISHED_REMINDERS_ACTION = "FeedbackSessionPublishedRemindersAction";
-        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_ACTION = "FeedbackSessionPublishedEmailWorkerAction";
-        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_ACTION = "FeedbackSessionResendPublishedEmailWorkerAction";
-        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_ACTION = "FeedbackSessionRemindParticularUsersEmailWorkerAction";
-        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_ACTION = "FeedbackSessionUnpublishedEmailWorkerAction";
+        public static final String FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_ACTION =
+                "FeedbackSessionPublishedEmailWorkerAction";
+        public static final String FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_ACTION =
+                "FeedbackSessionResendPublishedEmailWorkerAction";
+        public static final String FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_WORKER_ACTION =
+                "FeedbackSessionRemindParticularUsersEmailWorkerAction";
+        public static final String FEEDBACK_SESSION_UNPUBLISHED_EMAIL_WORKER_ACTION =
+                "FeedbackSessionUnpublishedEmailWorkerAction";
         public static final String INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_ACTION = "InstructorCourseJoinEmailWorkerAction";
         public static final String SEND_EMAIL_WORKER_ACTION = "SendEmailWorkerAction";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_ACTION = "StudentCourseJoinEmailWorkerAction";

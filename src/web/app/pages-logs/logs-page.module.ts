@@ -14,11 +14,6 @@ const routes: Routes = [
     path: '',
     component: LogsPageComponent,
   },
-  {
-    path: 'histogram',
-    loadChildren: () => import('./logs-histogram-page/logs-histogram-page.module')
-        .then((m: any) => m.LogsHistogramPageModule),
-  }
 ];
 
 /**

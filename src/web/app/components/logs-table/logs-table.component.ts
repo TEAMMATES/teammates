@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SourceLocation } from 'src/web/types/api-output';
+import { SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
 
 /**

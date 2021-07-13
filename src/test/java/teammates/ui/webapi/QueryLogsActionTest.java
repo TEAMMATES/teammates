@@ -36,7 +36,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         long endTimeForSuccessCases = Instant.now().toEpochMilli();
         long startTimeForSuccessCases = endTimeForSuccessCases - 1000 * 60 * 60 * 24;
 
-        String severity = "INFO";
+        String severities = "INFO,WARNING,ERROR";
         String infoLogTrace1 = "info log trace 1";
         String infoLogTrace2 = "info log trace 2";
         String infoLogTextPayload1 = "info log text palyload 1";
@@ -75,7 +75,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
@@ -83,7 +83,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Failure case: invalid search start time");
         String[] paramsInvalid2 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, "abc",
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
@@ -91,7 +91,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Failure case: invalid search end time");
         String[] paramsInvalid3 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, " ",
         };
@@ -99,7 +99,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Success case: all HTTP parameters are valid");
         String[] paramsSuccessful1 = {
-                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
+                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };

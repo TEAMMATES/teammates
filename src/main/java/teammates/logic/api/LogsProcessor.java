@@ -5,7 +5,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
@@ -41,12 +40,9 @@ public class LogsProcessor {
     /**
      * Queries and retrieves logs with given parameters.
      */
-    public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
-            SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken)
-            throws LogServiceException {
-        return service.queryLogs(severity, minSeverity, startTime, endTime, traceId, apiEndpoint, googleId, regkey, email,
-                logEvent, sourceLocation, exceptionClass, pageSize, pageToken);
+    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+            Integer pageSize, String pageToken) throws LogServiceException {
+        return service.queryLogs(severities, startTime, endTime, pageSize, pageToken);
     }
 
     /**

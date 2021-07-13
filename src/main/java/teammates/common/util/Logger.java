@@ -72,26 +72,6 @@ public final class Logger {
         errorLog.severe(formatLogMessage(message, "ERROR"));
     }
 
-    /**
-     * Logs user info at INFO level.
-     */
-    public void logUserInfo(String googleId, String regkey, String email) {
-        String logMessage;
-        Map<String, Object> payload;
-        if (googleId == null) {
-            String message = "Request " + RequestTracer.getTraceId() + " user regkey: " + regkey + " email: " + email;
-            payload = getBaseCloudLoggingPayload(message, "INFO");
-            payload.put("regkey", regkey);
-            payload.put("email", email);
-        } else {
-            String message = "Request " + RequestTracer.getTraceId() + " user: " + googleId;
-            payload = getBaseCloudLoggingPayload(message, "INFO");
-            payload.put("googleId", googleId);
-        }
-        logMessage = JsonUtils.toCompactJson(payload);
-        standardLog.info(logMessage);
-    }
-
     private String formatLogMessage(String message, String severity) {
         if (Config.isDevServer()) {
             return formatLogMessageForHumanDisplay(message);

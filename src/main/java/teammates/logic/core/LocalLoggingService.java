@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -34,9 +33,8 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
-            SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
+                                      Integer pageSize, String pageToken) {
         // Not supported in dev server
         return new QueryLogsResults(Collections.emptyList(), null);
     }

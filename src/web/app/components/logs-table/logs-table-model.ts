@@ -1,4 +1,4 @@
-import { SourceLocation } from "../../../types/api-output";
+import { SourceLocation } from '../../../types/api-output';
 
 /**
  * The model for a row of the logs table.
