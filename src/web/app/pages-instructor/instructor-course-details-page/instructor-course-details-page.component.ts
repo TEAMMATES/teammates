@@ -65,6 +65,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   isStudentsLoading: boolean = false;
   hasLoadingStudentsFailed: boolean = false;
   isDeleting: boolean = false;
+  isStudentListEmpty: boolean = true;
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
@@ -122,6 +123,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   loadStudents(courseid: string): void {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
+    this.isStudentListEmpty = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
       this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -143,13 +145,18 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         this.loadPrivilege(courseid, key, data);
       });
 
-      if (!sections.length) {
-        this.isStudentsLoading = false;
+      if (!Object.keys(sections).length) {
+        this.isStudentListEmpty = true;
+      } else {
+        this.isStudentListEmpty = false;
       }
+
+      this.isStudentsLoading = false;
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
       this.isStudentsLoading = false;
       this.hasLoadingStudentsFailed = true;
+      this.isStudentListEmpty = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
