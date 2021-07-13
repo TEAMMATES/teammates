@@ -45,7 +45,7 @@
 </div>
 
 <div style="height: 400px; width: 900px;" *tmIsLoading="isSearching">
-  <tm-logs-histogram *ngIf="searchResult.length>0; else noDataMessage"></tm-logs-histogram>
+  <tm-logs-histogram [data]="searchResult"></tm-logs-histogram>
 </div>
 
 <ng-template #noDataMessage>
