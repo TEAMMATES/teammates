@@ -79,7 +79,7 @@ public final class FeedbackQuestionsLogic {
      * Gets a single question corresponding to the given parameters. <br><br>
      * <b>Note:</b><br>
      * *    This method should only be used if the question already exists in the<br>
-     * datastore and has an ID already generated.
+     * database and has an ID already generated.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String feedbackQuestionId) {
         return fqDb.getFeedbackQuestion(feedbackQuestionId);

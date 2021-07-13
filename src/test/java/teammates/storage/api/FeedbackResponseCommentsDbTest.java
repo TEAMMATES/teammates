@@ -84,7 +84,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         ______TS("Entity creation");
 
         frcDb.createEntity(frcaTemp);
-        verifyPresentInDatastore(frcaTemp);
+        verifyPresentInDatabase(frcaTemp);
 
         ______TS("Entity deletion");
 
@@ -92,7 +92,7 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                 frcaTemp.feedbackResponseId, frcaTemp.commentGiver, frcaTemp.createdAt);
         assertNotNull(frcaTemp);
         frcDb.deleteFeedbackResponseComment(frcaTemp.getId());
-        verifyAbsentInDatastore(frcaTemp);
+        verifyAbsentInDatabase(frcaTemp);
     }
 
     private void testGetFeedbackResponseCommentFromId() {

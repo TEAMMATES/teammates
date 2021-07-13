@@ -3,7 +3,7 @@ package teammates.client.scripts;
 import teammates.storage.entity.BaseEntity;
 
 /**
- * Base script to be used as a template to scan entities in the Datastore.
+ * Base script to be used as a template to scan entities in the database.
  *
  * @param <T> The entity to scan.
  */
