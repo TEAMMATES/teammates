@@ -42,7 +42,7 @@
             <tbody>
             <tr *ngFor="let session of studentCourse.feedbackSessions; index as i">
               <ng-container>
-                <td>{{ session.session.feedbackSessionName }}</td>
+                <td class="td-text-break">{{ session.session.feedbackSessionName }}</td>
                 <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
                 <td>
                   <span [ngbTooltip]="getSubmissionStatusTooltip(session)">

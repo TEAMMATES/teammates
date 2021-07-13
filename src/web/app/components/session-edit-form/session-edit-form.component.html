@@ -81,9 +81,9 @@
             <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
             <span *ngIf="formMode !== SessionEditFormMode.ADD">Session Name</span>
           </div>
-          <div class="col-md-4 text-md-left">
+          <div class="col-md-7 text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
-              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="38" />
+              <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="64" />
               <div>
                 {{FEEDBACK_SESSION_NAME_MAX_LENGTH - model.feedbackSessionName.length}} characters left
               </div>

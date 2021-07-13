@@ -32,7 +32,7 @@ public final class FieldValidator {
     public static final int COURSE_NAME_MAX_LENGTH = 64;
 
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
-    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 64;
 
     public static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
