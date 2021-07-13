@@ -105,9 +105,6 @@ export class LogsHistogramPageComponent implements OnInit {
             severity: 'ERROR', 
           }
           return this.logService.searchLogs(this.previousQueryParams);
-        }),
-        finalize(() => {
-          this.isSearching = false;
         }))
       .pipe(
         expand((logs: GeneralLogs) => {
@@ -118,7 +115,10 @@ export class LogsHistogramPageComponent implements OnInit {
 
           return EMPTY;
         }),
-        reduce((acc, res) => acc.concat(res.logEntries), [] as GeneralLogEntry[])
+        reduce((acc, res) => acc.concat(res.logEntries), [] as GeneralLogEntry[]),
+        finalize(() => {
+          this.isSearching = false;
+        })
       )
       .subscribe((logResults: GeneralLogEntry[]) => this.processLogs(logResults),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
@@ -131,7 +131,6 @@ export class LogsHistogramPageComponent implements OnInit {
     map.forEach((value: number, key: string) => {
       this.searchResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
     });
-    this.hasResult = true;
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {

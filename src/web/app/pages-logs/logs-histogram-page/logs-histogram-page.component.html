@@ -44,10 +44,12 @@
   </div>
 </div>
 
-<div *ngFor="let mapEntry of searchResult">
-  {{mapEntry.numberOfTimes}}
+<div style="height: 400px; width: 900px;" *tmIsLoading="isSearching">
+  <tm-logs-histogram *ngIf="searchResult.length>0; else noDataMessage"></tm-logs-histogram>
 </div>
 
-<div style="height: 400px; width: 900px;" *tmIsLoading="isSearching">
-  <tm-logs-histogram *ngIf="hasResult" [data]="searchResult"></tm-logs-histogram>
-</div>
+<ng-template #noDataMessage>
+  <div class="no-data-message">
+    There are no error logs in this time period.
+  </div>
+</ng-template>

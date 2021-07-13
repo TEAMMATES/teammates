@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import * as d3 from 'd3';
 import { LogsHistogramDataModel } from './logs-histogram-model';
 
@@ -7,7 +7,7 @@ import { LogsHistogramDataModel } from './logs-histogram-model';
   templateUrl: './logs-histogram.component.html',
   styleUrls: ['./logs-histogram.component.scss']
 })
-export class LogsHistogramComponent implements OnInit {
+export class LogsHistogramComponent implements OnInit, OnChanges {
 
   @Input()
   data: LogsHistogramDataModel[] = [];
@@ -39,6 +39,10 @@ export class LogsHistogramComponent implements OnInit {
     this.drawBars();
   }
 
+  ngOnChanges() {
+    this.drawBars();
+  }
+
   private createSvg(): void {
     this.svg = d3.select('figure#histogram')
       .append('svg')
@@ -46,14 +50,16 @@ export class LogsHistogramComponent implements OnInit {
       .attr('height', this.height + (this.margin * 2))
       .append('g')
       .attr("transform", "translate(" + this.margin + "," + this.margin + ")")
+    
+    this.svg.append('g')
+      .attr("transform", "translate(0," + this.height + ")")
+  }
 
+  private drawBars(): void {
     this.xScale = d3.scaleBand()
       .domain(this.data.map(d => d.sourceLocation.file + d.sourceLocation.function))
       .range([0, this.width])
       .padding(0.2);
-
-    this.svg.append('g')
-      .attr("transform", "translate(0," + this.height + ")")
     
     this.yScale = d3.scaleLinear()
       .domain([0, d3.max(this.data, (d: LogsHistogramDataModel) => d.numberOfTimes)])
@@ -61,23 +67,16 @@ export class LogsHistogramComponent implements OnInit {
     
     this.svg.append('g')
       .call(d3.axisLeft(this.yScale));
-  }
 
-  private drawBars(): void {
-    this.svg.append('g')
-      .selectAll('rects')
+    this.svg
+      .selectAll('bars')
       .data(this.data)
       .enter()
       .append('rect')
       .attr('x', (d: LogsHistogramDataModel) => this.xScale(d.sourceLocation.file  + d.sourceLocation.function))
       .attr('y', (d: LogsHistogramDataModel) => this.yScale(d.numberOfTimes))
       .attr('height', (d: LogsHistogramDataModel) => this.height - this.yScale(d.numberOfTimes))
-      .attr("width", 40)
-      .style('fill', 'steelblue')
-      .on('mouseover', (_d: any, _i: any) => {
-        d3.select(d3.event.currentTarget).style({
-            'fill': 'yellow'
-            });
-        });
+      .attr('width', 40)
+      .style('fill', 'steelblue');
   }
 }
