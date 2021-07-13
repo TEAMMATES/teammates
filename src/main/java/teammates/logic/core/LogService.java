@@ -17,8 +17,9 @@ public interface LogService {
     List<ErrorLogEntry> getRecentErrorLogs();
 
     QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String userId, String logEvent, SourceLocation sourceLocation,
-            String exceptionClass, Integer pageSize, String pageToken) throws LogServiceException;
+            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
+            SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken)
+            throws LogServiceException;
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 
