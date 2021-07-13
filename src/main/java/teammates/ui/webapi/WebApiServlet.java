@@ -21,7 +21,11 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.*;
+import teammates.common.util.Const;
+import teammates.common.util.LogEvent;
+import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
+import teammates.common.util.TimeHelper;
 
 /**
  * Servlet that handles all requests from the web application.

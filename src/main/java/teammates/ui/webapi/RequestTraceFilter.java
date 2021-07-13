@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
-import teammates.common.util.Const;
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;

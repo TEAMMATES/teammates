@@ -4,10 +4,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.api.gax.paging.Page;
@@ -283,14 +281,12 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.logEvent != null) {
             logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
         }
-        if (s.sourceLocation != null){
-            if (s.sourceLocation.getFile() != null) {
-                if (s.sourceLocation.getFunction() == null) {
-                    logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile() + "\"");
-                } else {
-                    logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile()
-                            + "\" AND sourceLocation.function=\"" + s.sourceLocation.getFunction() + "\"");
-                }
+        if (s.sourceLocation != null && s.sourceLocation.getFile() != null) {
+            if (s.sourceLocation.getFunction() == null) {
+                logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile() + "\"");
+            } else {
+                logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile()
+                        + "\" AND sourceLocation.function=\"" + s.sourceLocation.getFunction() + "\"");
             }
         }
         if (s.exceptionClass != null) {
@@ -330,14 +326,6 @@ public class GoogleCloudLoggingService implements LogService {
             throw new LogServiceException(e);
         }
         return entries;
-    }
-
-    private List<String> getTraceIdFromLogEntries(Page<LogEntry> logEntries) {
-        Set<String> traceIds = new HashSet<>();
-        for (LogEntry logEntry : logEntries.iterateAll()) {
-            traceIds.add(logEntry.getTrace());
-        }
-        return new ArrayList<>(traceIds);
     }
 
     /**
