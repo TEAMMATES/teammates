@@ -33,21 +33,6 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
     private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
-    private static final String COMMENT1_FROM_T1C1_TO_R1Q1S1C1 = "comment1FromT1C1ToR1Q1S1C1";
-    private static final String COMMENT1_FROM_T1C1_TO_R1Q1S2C2 = "comment1FromT1C1ToR1Q1S2C2";
-    private static final String COMMENT1_FROM_T1C1_TO_R1Q2S1C1 = "comment1FromT1C1ToR1Q2S1C1";
-    private static final String RESPONSE1_FOR_Q1S1C1 = "response1ForQ1S1C1";
-    private static final String RESPONSE1_FOR_Q2S1C1 = "response1ForQ2S1C1";
-    private static final String INSTRUCTOR1_IN_COURSE1_EMAIL = "instructor1@course1.tmt";
-    private static final String INSTRUCTOR3_IN_UNKNOWN_COURSE_EMAIL = "instructor3@course.tmt";
-    private static final String INSTRUCTOR2_IN_COURSE1_EMAIL = "instructor2@course1.tmt";
-    private static final String STUDENT1_IN_COURSE1_EMAIL = "student1InCourse1@gmail.tmt";
-    private static final String STUDENT3_IN_COURSE1_EMAIL = "student3InCourse1@gmail.tmt";
-    private static final String STUDENT4_IN_COURSE1_EMAIL = "student4InCourse1@gmail.tmt";
-    private static final String STUDENT5_IN_COURSE1_EMAIL = "student5InCourse1@gmail.tmt";
-    private static final String STUDENT6_IN_COURSE1_EMAIL = "student6InCourse1@gmail.tmt";
-    private static final String STUDENT1_IN_COURSE2_EMAIL = "student1InCourse2@gmail.tmt";
-
     private DataBundle courseRosterDataBundle;
 
     @Override
@@ -376,6 +361,21 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
     @Test
     public void testIsNameVisibleToUser() {
+        String COMMENT1_FROM_T1C1_TO_R1Q1S1C1 = "comment1FromT1C1ToR1Q1S1C1";
+        String COMMENT1_FROM_T1C1_TO_R1Q1S2C2 = "comment1FromT1C1ToR1Q1S2C2";
+        String COMMENT1_FROM_T1C1_TO_R1Q2S1C1 = "comment1FromT1C1ToR1Q2S1C1";
+        String RESPONSE1_FOR_Q1S1C1 = "response1ForQ1S1C1";
+        String RESPONSE1_FOR_Q2S1C1 = "response1ForQ2S1C1";
+        String INSTRUCTOR1_IN_COURSE1_EMAIL = "instructor1@course1.tmt";
+        String INSTRUCTOR3_IN_UNKNOWN_COURSE_EMAIL = "instructor3@course.tmt";
+        String INSTRUCTOR2_IN_COURSE1_EMAIL = "instructor2@course1.tmt";
+        String STUDENT1_IN_COURSE1_EMAIL = "student1InCourse1@gmail.tmt";
+        String STUDENT3_IN_COURSE1_EMAIL = "student3InCourse1@gmail.tmt";
+        String STUDENT4_IN_COURSE1_EMAIL = "student4InCourse1@gmail.tmt";
+        String STUDENT5_IN_COURSE1_EMAIL = "student5InCourse1@gmail.tmt";
+        String STUDENT6_IN_COURSE1_EMAIL = "student6InCourse1@gmail.tmt";
+        String STUDENT1_IN_COURSE2_EMAIL = "student1InCourse2@gmail.tmt";
+
         FeedbackResponseCommentAttributes comment = dataBundle.feedbackResponseComments.get(COMMENT1_FROM_T1C1_TO_R1Q1S1C1);
         FeedbackResponseAttributes relatedResponse = dataBundle.feedbackResponses.get(RESPONSE1_FOR_Q1S1C1);
         CourseRoster roster = new CourseRoster(new ArrayList<>(courseRosterDataBundle.students.values()),
