@@ -62,16 +62,18 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
         long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
 
-        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1);
-        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2);
+        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1,
+                null, null, null, null, null, null);
+        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2,
+                null, null, null, null, null, null);
         mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1,
-                warningLogTextPayload1);
+                warningLogTextPayload1,null, null, null, null, null, null);
         mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2,
-                warningLogTextPayload2);
+                warningLogTextPayload2,null, null, null, null, null, null);
         mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, errorLogTimestamp1,
-                errorLogTextPayload1);
+                errorLogTextPayload1,null, null, null, null, null, null);
         mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, errorLogTimestamp2,
-                errorLogTextPayload2);
+                errorLogTextPayload2,null, null, null, null, null, null);
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
