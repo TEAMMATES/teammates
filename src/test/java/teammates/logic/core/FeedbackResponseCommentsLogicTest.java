@@ -484,6 +484,15 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, STUDENT1_IN_COURSE1_EMAIL, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, STUDENT3_IN_COURSE1_EMAIL, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, STUDENT1_IN_COURSE2_EMAIL, roster));
+
+        ______TS("Test comment is visible to response giver's team member. Response giver is student 2 in course 1."
+                + "Test whether comment is visible to student 1 in course 1 who are in the same team as student 2 in "
+                + "course 1. The team that these two students are in is Team 1.1</td></div>'\"");
+        roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()), new ArrayList<>(dataBundle.instructors.values()));
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
+        response.giver = "student2InCourse1@gmail.tmt";
+        comment.showGiverNameTo = Arrays.asList(OWN_TEAM_MEMBERS);
+        assertTrue(frcLogic.isNameVisibleToUser(comment, response, "student1InCourse1@gmail.tmt", roster));
     }
 
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
