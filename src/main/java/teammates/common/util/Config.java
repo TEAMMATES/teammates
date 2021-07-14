@@ -59,7 +59,7 @@ public final class Config {
     /** The value of the "app.admins" in build.properties file. */
     public static final List<String> APP_ADMINS;
 
-    /** The value of the "app.seniordevs" in build.properties file. */
+    /** The value of the "app.maintainers" in build.properties file. */
     public static final List<String> APP_MAINTAINERS;
 
     /** The value of the "app.crashreport.email" in build.properties file. */
