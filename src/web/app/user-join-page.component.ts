@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { finalize } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { NavigationService } from '../services/navigation.service';
+import { TimezoneService } from '../services/timezone.service';
 import { AuthInfo, JoinStatus } from '../types/api-output';
 import { ErrorReportComponent } from './components/error-report/error-report.component';
 import { ErrorMessageOutput } from './error-message-output';
@@ -27,6 +29,8 @@ export class UserJoinPageComponent implements OnInit {
   institute: string = '';
   mac: string = '';
   userId: string = '';
+  sampleCourseId: string = '';
+  sampleCourseName: string = '';
 
   private backendUrl: string = environment.backendUrl;
 
@@ -35,6 +39,7 @@ export class UserJoinPageComponent implements OnInit {
               private courseService: CourseService,
               private navigationService: NavigationService,
               private authService: AuthService,
+              private timezoneService: TimezoneService,
               private ngbModal: NgbModal) {}
 
   ngOnInit(): void {
@@ -43,6 +48,11 @@ export class UserJoinPageComponent implements OnInit {
       this.key = queryParams.key;
       this.institute = queryParams.instructorinstitution;
       this.mac = queryParams.mac;
+
+      if (queryParams.samplecourseid) {
+        this.sampleCourseId = queryParams.samplecourseid;
+        this.sampleCourseName = queryParams.samplecoursename;
+      }
 
       if (this.institute != null && this.mac == null) {
         this.validUrl = false;
@@ -81,9 +91,18 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
-      this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+      if (this.sampleCourseId && this.sampleCourseName) {
+        const timezone: string = this.timezoneService.guessTimezone();
+        this.courseService.updateCourse(this.sampleCourseId, {
+          courseName: this.sampleCourseName,
+          timeZone: timezone,
+        }).pipe(
+          finalize(() => this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`)),
+        ).subscribe();
+      } else {
+        this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+      }
     }, (resp: ErrorMessageOutput) => {
       const modalRef: any = this.ngbModal.open(ErrorReportComponent);
       modalRef.componentInstance.requestId = resp.error.requestId;

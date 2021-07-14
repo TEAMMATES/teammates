@@ -42,4 +42,12 @@ public class AppUrl extends Url {
         return withParam(Const.ParamsNames.ENTITY_TYPE, entityType);
     }
 
+    public AppUrl withSampleCourseId(String sampleCourseId) {
+        return withParam(Const.ParamsNames.SAMPLE_COURSE_ID, sampleCourseId);
+    }
+
+    public AppUrl withSampleCourseName(String sampleCourseName) {
+        return withParam(Const.ParamsNames.SAMPLE_COURSE_NAME, sampleCourseName);
+    }
+
 }
