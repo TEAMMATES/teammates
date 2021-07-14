@@ -9,6 +9,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
+  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -53,6 +54,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
+  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -230,6 +232,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
+  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -422,202 +425,19 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
       </div>
       
       <div
-        class="card-body p-0 student-table-margin card border"
-        id="student-list"
+        class="alert alert-warning"
       >
-        <tm-student-list>
-          <div
-            class="table-responsive"
-          >
-            <table
-              class="table table-bordered table-striped m-0"
-            >
-              <thead
-                class="thead-gray"
-              >
-                <tr>
-                  <th>
-                    Photo
-                  </th>
-                  
-                  <th
-                    class="sortable-header"
-                  >
-                     Section 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      
-                      
-                    </span>
-                  </th>
-                  <th
-                    class="sortable-header"
-                  >
-                     Team 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      
-                      
-                    </span>
-                  </th>
-                  <th
-                    class="sortable-header"
-                    id="sort-by-name"
-                  >
-                     Student Name 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      
-                      
-                    </span>
-                  </th>
-                  <th
-                    class="sortable-header"
-                    id="sort-by-status"
-                  >
-                     Status 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      
-                      
-                    </span>
-                  </th>
-                  <th
-                    class="sortable-header"
-                  >
-                     Email 
-                    <span
-                      class="fa-stack"
-                    >
-                      <i
-                        class="fas fa-sort"
-                      />
-                      
-                      
-                    </span>
-                  </th>
-                  <th
-                    class="align-center"
-                  >
-                    Action(s)
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                
-                <tr
-                  s=""
-                >
-                  <td>
-                    <tm-view-photo-popover>
-                      
-                      
-                      
-                      <a
-                        href="/"
-                        queryparamshandling="preserve"
-                        role="button"
-                      >
-                         View Photo 
-                      </a>
-                      
-                      
-                      
-                    </tm-view-photo-popover>
-                  </td>
-                  
-                  <td>
-                    Tutorial Group 1
-                  </td>
-                  <td>
-                    Team 1
-                  </td>
-                  <td>
-                    Jamie
-                  </td>
-                  <td>
-                    Yet to Join
-                  </td>
-                  <td>
-                    jamie@gmail.com
-                  </td>
-                  <td
-                    class="no-print align-center"
-                  >
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm btn-margin-right"
-                      href="/web/instructor/courses/student/details?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-details"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                       View
-                    </a>
-                    
-                    
-                    <a
-                      class="btn btn-light btn-sm btn-margin-right"
-                      href="/web/instructor/courses/student/edit?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-edit-details"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                       Edit
-                    </a>
-                    
-                    
-                    
-                    
-                    
-                    <button
-                      class="btn btn-light btn-sm btn-margin-right"
-                      id="btn-send-invite"
-                    >
-                      Send Invite
-                    </button>
-                    
-                    
-                    <button
-                      class="btn btn-light btn-sm btn-margin-right"
-                      id="btn-delete"
-                    >
-                      Delete
-                    </button>
-                    
-                    <a
-                      class="btn btn-light btn-sm btn-margin-right"
-                      href="/web/instructor/students/records?courseid=CS101&studentemail=jamie@gmail.com"
-                      id="btn-view-records"
-                      rel="noopener noreferrer"
-                      target="_blank"
-                    >
-                       All Records
-                    </a>
-                    
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </tm-student-list>
+        <i
+          class="fa fa-exclamation-circle text-muted"
+        />
+         There are no students in this course. Click 
+        <a
+          href="/web/instructor/courses/enroll?courseid=CS101"
+          tmrouterlink="/web/instructor/courses/enroll"
+        >
+          here
+        </a>
+         to enroll students. 
       </div>
       
     </div>
@@ -636,6 +456,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
+  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
