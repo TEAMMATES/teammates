@@ -91,7 +91,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("response to students, total 5");
 
-        question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        question = getQuestionFromDatabase("qn2InSession1InCourse1");
         email = dataBundle.students.get("student1InCourse1").email;
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 4); // 5 students minus giver himself
@@ -102,21 +102,21 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("response to instructors, total 3");
 
-        question = getQuestionFromDatastore("qn2InSession1InCourse2");
+        question = getQuestionFromDatabase("qn2InSession1InCourse2");
         email = dataBundle.instructors.get("instructor1OfCourse2").email;
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 2); // 3 - giver = 2
 
         ______TS("empty case: response to team members, but alone");
 
-        question = getQuestionFromDatastore("team.members.feedback");
+        question = getQuestionFromDatabase("team.members.feedback");
         email = dataBundle.students.get("student5InCourse1").email;
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 0);
 
         ______TS("response from team to itself");
 
-        question = getQuestionFromDatastore("graceperiod.session.feedbackFromTeamToSelf");
+        question = getQuestionFromDatabase("graceperiod.session.feedbackFromTeamToSelf");
         email = dataBundle.students.get("student1InCourse1").email;
         String teamName = dataBundle.students.get("student1InCourse1").team;
         recipients = fqLogic.getRecipientsForQuestion(question, email);
@@ -125,7 +125,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.get(teamName), teamName);
 
         ______TS("special case: response to other team, instructor is also student");
-        question = getQuestionFromDatastore("team.feedback");
+        question = getQuestionFromDatabase("team.feedback");
         email = dataBundle.students.get("student1InCourse1").email;
         accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
@@ -134,7 +134,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.size(), 1);
 
         ______TS("to nobody (general feedback)");
-        question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        question = getQuestionFromDatabase("qn3InSession1InCourse1");
         email = dataBundle.students.get("student1InCourse1").email;
         accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
@@ -143,7 +143,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.size(), 1);
 
         ______TS("to self");
-        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        question = getQuestionFromDatabase("qn1InSession1InCourse1");
         email = dataBundle.students.get("student1InCourse1").email;
         accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
 
@@ -163,7 +163,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("response to students, total 5");
 
-        question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        question = getQuestionFromDatabase("qn2InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
@@ -186,7 +186,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("response to instructors, total 3");
 
-        question = getQuestionFromDatastore("qn2InSession1InCourse2");
+        question = getQuestionFromDatabase("qn2InSession1InCourse2");
         instructorGiver = dataBundle.instructors.get("instructor1OfCourse2");
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(instructorGiver.courseId),
@@ -199,7 +199,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("empty case: response to team members, but alone");
 
-        question = getQuestionFromDatastore("team.members.feedback");
+        question = getQuestionFromDatabase("team.members.feedback");
         studentGiver = dataBundle.students.get("student5InCourse1");
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
@@ -212,7 +212,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("response from team to itself");
 
-        question = getQuestionFromDatastore("graceperiod.session.feedbackFromTeamToSelf");
+        question = getQuestionFromDatabase("graceperiod.session.feedbackFromTeamToSelf");
         studentGiver = dataBundle.students.get("student1InCourse1");
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
@@ -228,7 +228,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.get(studentGiver.getTeam()), studentGiver.getTeam());
 
         ______TS("response to other teams from instructor");
-        question = getQuestionFromDatastore("team.instructor.feedback");
+        question = getQuestionFromDatabase("team.instructor.feedback");
         instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
         courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(studentGiver.getCourse()),
@@ -240,7 +240,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.size(), 2);
 
         ______TS("special case: response to other team, instructor is also student");
-        question = getQuestionFromDatastore("team.feedback");
+        question = getQuestionFromDatabase("team.feedback");
         studentGiver = dataBundle.students.get("student1InCourse1");
         accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
@@ -253,7 +253,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.size(), 1);
 
         ______TS("to nobody (general feedback)");
-        question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        question = getQuestionFromDatabase("qn3InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
         accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
@@ -268,7 +268,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(recipients.size(), 1);
 
         ______TS("to self");
-        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        question = getQuestionFromDatabase("qn1InSession1InCourse1");
         studentGiver = dataBundle.students.get("student1InCourse1");
         accountsLogic.makeAccountInstructor(studentGiver.getGoogleId());
         courseRoster = new CourseRoster(
@@ -287,15 +287,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     public void testUpdateQuestionCascade_shouldShiftQuestionNumberCorrectly() throws Exception {
         ______TS("shift question up");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
-        FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes q1 = getQuestionFromDatabase("qn1InSession1InCourse1");
         q1.questionNumber = 2;
-        FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
+        FeedbackQuestionAttributes q2 = getQuestionFromDatabase("qn2InSession1InCourse1");
         q2.questionNumber = 3;
-        FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes q3 = getQuestionFromDatabase("qn3InSession1InCourse1");
         q3.questionNumber = 1;
-        FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q4 = getQuestionFromDatabase("qn4InSession1InCourse1");
         q4.questionNumber = 4;
-        FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn5InSession1InCourse1");
+        FeedbackQuestionAttributes q5 = getQuestionFromDatabase("qn5InSession1InCourse1");
         q5.questionNumber = 5;
 
         expectedList.add(q3);
@@ -304,7 +304,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q4);
         expectedList.add(q5);
 
-        FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
         fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
@@ -321,15 +321,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("shift question down");
         expectedList = new ArrayList<>();
-        q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        q1 = getQuestionFromDatabase("qn1InSession1InCourse1");
         q1.questionNumber = 1;
-        q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
+        q2 = getQuestionFromDatabase("qn2InSession1InCourse1");
         q2.questionNumber = 2;
-        q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
+        q3 = getQuestionFromDatabase("qn3InSession1InCourse1");
         q3.questionNumber = 3;
-        q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        q4 = getQuestionFromDatabase("qn4InSession1InCourse1");
         q4.questionNumber = 4;
-        q5 = getQuestionFromDatastore("qn5InSession1InCourse1");
+        q5 = getQuestionFromDatabase("qn5InSession1InCourse1");
         q5.questionNumber = 5;
 
         expectedList.add(q1);
@@ -338,7 +338,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q4);
         expectedList.add(q5);
 
-        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 3;
         fqLogic.updateFeedbackQuestionCascade(
                 FeedbackQuestionAttributes.updateOptionsBuilder(questionToUpdate.getId())
@@ -353,7 +353,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         }
 
         ______TS("try to shift question up, invalid attributes, questions order remains");
-        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
         questionToUpdate.questionNumber = 1;
         String questionId = questionToUpdate.getId();
         assertThrows(InvalidParametersException.class, () -> {
@@ -377,17 +377,17 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("Add questions sequentially");
         List<FeedbackQuestionAttributes> expectedList = new ArrayList<>();
-        FeedbackQuestionAttributes q1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes q1 = getQuestionFromDatabase("qn1InSession1InCourse1");
         q1.questionNumber = 1;
-        FeedbackQuestionAttributes q2 = getQuestionFromDatastore("qn2InSession1InCourse1");
+        FeedbackQuestionAttributes q2 = getQuestionFromDatabase("qn2InSession1InCourse1");
         q2.questionNumber = 2;
-        FeedbackQuestionAttributes q3 = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes q3 = getQuestionFromDatabase("qn3InSession1InCourse1");
         q3.questionNumber = 3;
-        FeedbackQuestionAttributes q4 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q4 = getQuestionFromDatabase("qn4InSession1InCourse1");
         q4.questionNumber = 4;
-        FeedbackQuestionAttributes q5 = getQuestionFromDatastore("qn5InSession1InCourse1");
+        FeedbackQuestionAttributes q5 = getQuestionFromDatabase("qn5InSession1InCourse1");
         q5.questionNumber = 5;
-        FeedbackQuestionAttributes q6 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes q6 = getQuestionFromDatabase("qn1InSession1InCourse1");
         q6.questionNumber = 6;
 
         expectedList.add(q1);
@@ -398,7 +398,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(q6);
 
         //Appends a question to the back of the current question list
-        FeedbackQuestionAttributes newQuestion = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes newQuestion = getQuestionFromDatabase("qn1InSession1InCourse1");
         newQuestion.questionNumber = 6;
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
@@ -413,7 +413,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("add new question to the front of the list");
 
-        FeedbackQuestionAttributes q7 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q7 = getQuestionFromDatabase("qn4InSession1InCourse1");
 
         q7.questionNumber = 1;
         q1.questionNumber = 2;
@@ -426,7 +426,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(0, q7);
 
         //Add a question to session1course1 and sets its number to 1
-        newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
+        newQuestion = getQuestionFromDatabase("qn4InSession1InCourse1");
         newQuestion.questionNumber = 1;
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
@@ -440,7 +440,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("add new question inbetween 2 existing questions");
 
-        FeedbackQuestionAttributes q8 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes q8 = getQuestionFromDatabase("qn4InSession1InCourse1");
         q8.questionNumber = 3;
         q2.questionNumber = 4;
         q3.questionNumber = 5;
@@ -451,7 +451,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         expectedList.add(2, q8);
 
         //Add a question to session1course1 and place it between existing question 2 and 3
-        newQuestion = getQuestionFromDatastore("qn4InSession1InCourse1");
+        newQuestion = getQuestionFromDatabase("qn4InSession1InCourse1");
         newQuestion.questionNumber = 3;
         newQuestion.setId(null); //new question should not have an ID.
         fqLogic.createFeedbackQuestion(newQuestion);
@@ -467,7 +467,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     @Test
     public void testUpdateQuestionCascade() throws Exception {
         ______TS("standard update, no existing responses");
-        FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse2");
+        FeedbackQuestionAttributes questionToUpdate = getQuestionFromDatabase("qn2InSession1InCourse2");
 
         FeedbackQuestionDetails fqd = new FeedbackTextQuestionDetails("new question text");
         questionToUpdate.setQuestionDetails(fqd);
@@ -489,7 +489,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertEquals(questionToUpdate.toString(), updatedQuestion.toString());
 
         ______TS("cascading update, non-destructive changes, existing responses are preserved");
-        questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
+        questionToUpdate = getQuestionFromDatabase("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 2");
         questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.numberOfEntitiesToGiveFeedbackTo = 2;
@@ -511,7 +511,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                         questionToUpdate.getId()).size(), numberOfResponses);
 
         ______TS("cascading update, destructive changes, delete all existing responses");
-        questionToUpdate = getQuestionFromDatastore("qn2InSession1InCourse1");
+        questionToUpdate = getQuestionFromDatabase("qn2InSession1InCourse1");
         fqd = new FeedbackTextQuestionDetails("new question text 3");
         questionToUpdate.setQuestionDetails(fqd);
         questionToUpdate.recipientType = FeedbackParticipantType.INSTRUCTORS;
@@ -531,7 +531,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: question does not exist");
 
-        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
         FeedbackQuestionAttributes[] finalFq = new FeedbackQuestionAttributes[] { questionToUpdate };
         fqLogic.deleteFeedbackQuestionCascade(questionToUpdate.getId());
 
@@ -544,7 +544,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("failure: invalid parameters");
 
-        questionToUpdate = getQuestionFromDatastore("qn3InSession1InCourse1");
+        questionToUpdate = getQuestionFromDatabase("qn3InSession1InCourse1");
         questionToUpdate.giverType = FeedbackParticipantType.TEAMS;
         questionToUpdate.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
         finalFq[0] = questionToUpdate;
@@ -563,9 +563,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
     @Test
     public void testDeleteFeedbackQuestionCascade_existentQuestion_shouldDoCascadeDeletion() {
-        FeedbackQuestionAttributes typicalQuestion = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes typicalQuestion = getQuestionFromDatabase("qn3InSession1InCourse1");
         assertEquals(3, typicalQuestion.getQuestionNumber());
-        assertEquals(4, getQuestionFromDatastore("qn4InSession1InCourse1").getQuestionNumber());
+        assertEquals(4, getQuestionFromDatabase("qn4InSession1InCourse1").getQuestionNumber());
 
         // the question has some responses and comments
         assertFalse(frLogic.getFeedbackResponsesForQuestion(typicalQuestion.getId()).isEmpty());
@@ -598,7 +598,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.deleteFeedbackQuestionCascade("non-existent-question-id");
 
         // other questions not get affected
-        assertNotNull(getQuestionFromDatastore("qn3InSession1InCourse1"));
+        assertNotNull(getQuestionFromDatabase("qn3InSession1InCourse1"));
     }
 
     @Test
@@ -628,7 +628,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     @Test
     public void testDeleteFeedbackQuestions_byCourseId_shouldDeleteQuestions() {
         String courseId = "idOfTypicalCourse2";
-        FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
+        FeedbackQuestionAttributes deletedQuestion = getQuestionFromDatabase("qn1InSession1InCourse2");
         assertNotNull(deletedQuestion);
 
         List<FeedbackQuestionAttributes> questions =
@@ -638,15 +638,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         fqLogic.deleteFeedbackQuestions(AttributesDeletionQuery.builder()
                 .withCourseId(courseId)
                 .build());
-        deletedQuestion = getQuestionFromDatastore("qn1InSession1InCourse2");
+        deletedQuestion = getQuestionFromDatabase("qn1InSession1InCourse2");
         assertNull(deletedQuestion);
 
         questions = fqLogic.getFeedbackQuestionsForSession("Instructor feedback session", courseId);
         assertEquals(0, questions.size());
 
         // test that questions in other courses are unaffected
-        assertNotNull(getQuestionFromDatastore("qn1InSessionInArchivedCourse"));
-        assertNotNull(getQuestionFromDatastore("qn1InSession4InCourse1"));
+        assertNotNull(getQuestionFromDatabase("qn1InSessionInArchivedCourse"));
+        assertNotNull(getQuestionFromDatabase("qn1InSession4InCourse1"));
     }
 
     @Test
@@ -872,7 +872,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         CourseRoster courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
-        FeedbackQuestionAttributes qn1InSession1InCourse1 = getQuestionFromDatastore("qn1InSession1InCourse1");
+        FeedbackQuestionAttributes qn1InSession1InCourse1 = getQuestionFromDatabase("qn1InSession1InCourse1");
         FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
                 qn1InSession1InCourse1.getFeedbackSessionName(), qn1InSession1InCourse1.getCourseId());
 
@@ -897,7 +897,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         CourseRoster courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
-        FeedbackQuestionAttributes qn4InSession1InCourse1 = getQuestionFromDatastore("qn4InSession1InCourse1");
+        FeedbackQuestionAttributes qn4InSession1InCourse1 = getQuestionFromDatabase("qn4InSession1InCourse1");
         FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
                 qn4InSession1InCourse1.getFeedbackSessionName(), qn4InSession1InCourse1.getCourseId());
 
@@ -923,7 +923,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         CourseRoster courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
-        FeedbackQuestionAttributes qn3InSession1InCourse1 = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes qn3InSession1InCourse1 = getQuestionFromDatabase("qn3InSession1InCourse1");
         FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
                 qn3InSession1InCourse1.getFeedbackSessionName(), qn3InSession1InCourse1.getCourseId());
 
@@ -940,7 +940,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         CourseRoster courseRoster = new CourseRoster(
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
-        FeedbackQuestionAttributes teamFeedbackQuestion = getQuestionFromDatastore("team.feedback");
+        FeedbackQuestionAttributes teamFeedbackQuestion = getQuestionFromDatabase("team.feedback");
         FeedbackSessionAttributes session2 = fsLogic.getFeedbackSession(
                 teamFeedbackQuestion.getFeedbackSessionName(), teamFeedbackQuestion.getCourseId());
 
@@ -962,9 +962,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for instructors and self");
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
-        expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
-        expectedQuestions.add(getQuestionFromDatastore("qn5InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn4InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn5InSession1InCourse1"));
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
                                                           "instructor1@course1.tmt");
@@ -974,7 +974,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for instructors and self by another instructor");
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn4InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn4InSession1InCourse1"));
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("First feedback session", "idOfTypicalCourse1",
                                                           "instructor2@course1.tmt");
@@ -984,8 +984,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for instructors by the creating instructor");
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse2"));
-        expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse2"));
+        expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse2"));
+        expectedQuestions.add(getQuestionFromDatabase("qn2InSession1InCourse2"));
 
         actualQuestions =
                 fqLogic.getFeedbackQuestionsForInstructor("Instructor feedback session", "idOfTypicalCourse2",
@@ -1027,12 +1027,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for self from list of all questions");
 
         allQuestions = new ArrayList<>();
-        allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
-        allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
-        allQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+        allQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse1"));
+        allQuestions.add(getQuestionFromDatabase("qn2InSession1InCourse1"));
+        allQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
 
         actualQuestions = fqLogic.getFeedbackQuestionsForInstructor(allQuestions, true);
 
@@ -1047,8 +1047,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for students");
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
-        expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn2InSession1InCourse1"));
         actualQuestions =
                     fqLogic.getFeedbackQuestionsForStudents("First feedback session", "idOfTypicalCourse1");
 
@@ -1057,8 +1057,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for students and teams");
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
-        expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
+        expectedQuestions.add(getQuestionFromDatabase("team.feedback"));
+        expectedQuestions.add(getQuestionFromDatabase("team.members.feedback"));
         actualQuestions =
                     fqLogic.getFeedbackQuestionsForStudents("Second feedback session", "idOfTypicalCourse1");
 
@@ -1067,13 +1067,13 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for students from list of all questions");
 
         allQuestions = new ArrayList<>();
-        allQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
-        allQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
-        allQuestions.add(getQuestionFromDatastore("qn3InSession1InCourse1"));
+        allQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse1"));
+        allQuestions.add(getQuestionFromDatabase("qn2InSession1InCourse1"));
+        allQuestions.add(getQuestionFromDatabase("qn3InSession1InCourse1"));
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("qn1InSession1InCourse1"));
-        expectedQuestions.add(getQuestionFromDatastore("qn2InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn1InSession1InCourse1"));
+        expectedQuestions.add(getQuestionFromDatabase("qn2InSession1InCourse1"));
 
         actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
 
@@ -1082,12 +1082,12 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("Get questions created for students and teams from list of all questions");
 
         allQuestions = new ArrayList<>();
-        allQuestions.add(getQuestionFromDatastore("team.feedback"));
-        allQuestions.add(getQuestionFromDatastore("team.members.feedback"));
+        allQuestions.add(getQuestionFromDatabase("team.feedback"));
+        allQuestions.add(getQuestionFromDatabase("team.members.feedback"));
 
         expectedQuestions = new ArrayList<>();
-        expectedQuestions.add(getQuestionFromDatastore("team.feedback"));
-        expectedQuestions.add(getQuestionFromDatastore("team.members.feedback"));
+        expectedQuestions.add(getQuestionFromDatabase("team.feedback"));
+        expectedQuestions.add(getQuestionFromDatabase("team.members.feedback"));
 
         actualQuestions = fqLogic.getFeedbackQuestionsForStudents(allQuestions);
 
@@ -1099,13 +1099,13 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("test question is fully answered by user");
 
-        question = getQuestionFromDatastore("qn1InSession1InCourse1");
+        question = getQuestionFromDatabase("qn1InSession1InCourse1");
         assertTrue(fqLogic.isQuestionFullyAnsweredByUser(question, "student1InCourse1@gmail.tmt"));
 
         assertFalse(fqLogic.isQuestionFullyAnsweredByUser(question, "studentWithNoResponses@gmail.tmt"));
     }
 
-    private FeedbackQuestionAttributes getQuestionFromDatastore(String questionKey) {
+    private FeedbackQuestionAttributes getQuestionFromDatabase(String questionKey) {
         FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get(questionKey);
         question = fqLogic.getFeedbackQuestion(
                 question.feedbackSessionName, question.courseId, question.questionNumber);

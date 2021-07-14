@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
@@ -73,7 +74,8 @@ class EnrollStudentsAction extends Action {
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
-        studentsToEnroll.forEach(student -> {
+        for (StudentAttributes student : studentsToEnroll) {
+            RequestTracer.checkRemainingTime();
             if (existingStudentsEmail.contains(student.email)) {
                 // The student has been enrolled in the course.
                 StudentAttributes.UpdateOptions updateOptions =
@@ -103,7 +105,7 @@ class EnrollStudentsAction extends Action {
                             exception.getMessage()));
                 }
             }
-        });
+        }
         return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
     }
 }
