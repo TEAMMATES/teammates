@@ -1,10 +1,9 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { forkJoin, from, Observable, of } from 'rxjs';
-import { concatMap, finalize, last, switchMap } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { finalize } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
-import { FeedbackQuestionsService } from '../../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { ProgressBarService } from '../../../services/progress-bar.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
@@ -15,8 +14,6 @@ import {
   Course,
   CourseArchive,
   Courses,
-  FeedbackQuestion,
-  FeedbackQuestions,
   FeedbackSession,
   FeedbackSessions,
   JoinState,
@@ -24,7 +21,7 @@ import {
   Student,
   Students,
 } from '../../../types/api-output';
-import { FeedbackQuestionCreateRequest, FeedbackSessionCreateRequest, Intent } from '../../../types/api-request';
+import { FeedbackSessionCreateRequest } from '../../../types/api-request';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import { CopyCourseModalResult } from '../../components/copy-course-modal/copy-course-modal-model';
 import { CopyCourseModalComponent } from '../../components/copy-course-modal/copy-course-modal.component';
@@ -91,7 +88,6 @@ export class InstructorCoursesPageComponent implements OnInit {
               private simpleModalService: SimpleModalService,
               private tableComparatorService: TableComparatorService,
               private feedbackSessionsService: FeedbackSessionsService,
-              private feedbackQuestionsService: FeedbackQuestionsService,
               private progressBarService: ProgressBarService,
               ) {}
 
@@ -319,7 +315,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       // Wrap in a Promise to wait for all feedback sessions to be copied
       const promise: Promise<void> = new Promise<void>((resolve: () => void, _reject: () => void) => {
         result.selectedFeedbackSessionList.forEach((session: FeedbackSession) => {
-          this.copyFeedbackSession(session, result.newCourseId)
+          this.copyFeedbackSession(session, result.newCourseId, result.oldCourseId)
             .pipe(finalize(() => {
               this.numberOfSessionsCopied += 1;
               this.copyProgressPercentage =
@@ -370,47 +366,20 @@ export class InstructorCoursesPageComponent implements OnInit {
   /**
    * Copies a feedback session.
    */
-  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string):
+  private copyFeedbackSession(fromFeedbackSession: FeedbackSession, newCourseId: string, oldCourseId: string):
       Observable<FeedbackSession> {
-    let createdFeedbackSession!: FeedbackSession;
     return this.feedbackSessionsService
-      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(fromFeedbackSession))
-      .pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
-          createdFeedbackSession = feedbackSession;
-          return this.feedbackQuestionsService.getFeedbackQuestions({
-            courseId: fromFeedbackSession.courseId,
-            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          });
-        }),
-        switchMap((response: FeedbackQuestions) => {
-          if (response.questions.length === 0) {
-            // no questions to copy
-            return of(createdFeedbackSession);
-          }
-          return from(response.questions).pipe(
-            concatMap((feedbackQuestion: FeedbackQuestion) => {
-              return this.feedbackQuestionsService.createFeedbackQuestion(
-                createdFeedbackSession.courseId,
-                createdFeedbackSession.feedbackSessionName,
-                this.toFbQuestionCreationReq(feedbackQuestion),
-              );
-            }),
-            last(),
-            switchMap(() => of(createdFeedbackSession)),
-          );
-        }),
-    );
+      .createFeedbackSession(newCourseId, this.toFbSessionCreationReqWithName(fromFeedbackSession, oldCourseId));
   }
 
   /**
    * Creates a FeedbackSessionCreateRequest with the provided name.
    */
-  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession):
+  private toFbSessionCreationReqWithName(fromFeedbackSession: FeedbackSession, oldCourseId: string):
       FeedbackSessionCreateRequest {
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
+      toCopyCourseId: oldCourseId,
       instructions: fromFeedbackSession.instructions,
 
       submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
@@ -425,30 +394,6 @@ export class InstructorCoursesPageComponent implements OnInit {
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
-    };
-  }
-
-  /**
-   * Creates a FeedbackQuestionCreateRequest by cloning the given feedback question.
-   */
-  private toFbQuestionCreationReq(feedbackQuestion: FeedbackQuestion): FeedbackQuestionCreateRequest {
-    return {
-      questionNumber: feedbackQuestion.questionNumber,
-      questionBrief: feedbackQuestion.questionBrief,
-      questionDescription: feedbackQuestion.questionDescription,
-
-      questionDetails: feedbackQuestion.questionDetails,
-      questionType: feedbackQuestion.questionType,
-
-      giverType: feedbackQuestion.giverType,
-      recipientType: feedbackQuestion.recipientType,
-
-      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
-
-      showResponsesTo: feedbackQuestion.showResponsesTo,
-      showGiverNameTo: feedbackQuestion.showGiverNameTo,
-      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
     };
   }
 

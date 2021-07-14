@@ -79,6 +79,7 @@ export class CopyCourseModalComponent implements OnInit {
     this.activeModal.close({
       newCourseId: this.newCourseId,
       newCourseName: this.newCourseName,
+      oldCourseId: this.oldCourseId,
       newTimeZone: this.newTimezone,
       selectedFeedbackSessionList: Array.from(this.selectedFeedbackSessions),
       totalNumberOfSessions: this.selectedFeedbackSessions.size,
