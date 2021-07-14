@@ -64,6 +64,8 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());
+        // todo why should sentOpenEmail be false after closing fs?
+        // todo im guessing i should set sentOpeningEmail to be false for this case too?
         session1.setSentOpenEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session1);
 

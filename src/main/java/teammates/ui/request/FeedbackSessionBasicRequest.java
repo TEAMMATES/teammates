@@ -130,7 +130,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         isPublishedEmailEnabled = publishedEmailEnabled;
     }
 
-    // where are default values set
     public void setOpeningSoonEmailEnabled(boolean openingSoonEmailEnabled) {
         isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
     }

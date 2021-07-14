@@ -304,8 +304,11 @@ public class FeedbackSession extends BaseEntity {
                 + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
-        // ? should the tostring be changed
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + ", isOpeningSoonEmailEnabled=" + isOpeningSoonEmailEnabled
+                + "]";
+        // todo should the tostring be changed to include sentOpeningEmail?
+        // (that's a field attribute that's only relevant to instructors)
     }
 
 }

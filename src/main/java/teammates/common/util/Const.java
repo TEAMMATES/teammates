@@ -309,7 +309,8 @@ public final class Const {
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
-                URI_PREFIX + "/feedbackSessionOpeningSoonReminders"; // todo !!! not very sure how to test this uri, or what it's really for. -> can be tested using e2e test?
+                URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
+        // todo !!! may need to test this URI
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS =

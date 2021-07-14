@@ -70,6 +70,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
         feedbackSessionAttributes.timeZone = ZoneId.of(fs.getTimeZone());
         feedbackSessionAttributes.gracePeriod = Duration.ofMinutes(fs.getGracePeriod());
+        feedbackSessionAttributes.sentOpeningSoonEmail = fs.isSentOpeningSoonEmail();
         feedbackSessionAttributes.sentOpenEmail = fs.isSentOpenEmail();
         feedbackSessionAttributes.sentClosingEmail = fs.isSentClosingEmail();
         feedbackSessionAttributes.sentClosedEmail = fs.isSentClosedEmail();
@@ -183,6 +184,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
+    // todo are these function names slightly misleading? isOpenedWithin(24 hours) might be more accurate?
     public boolean isOpenedAfter(long hours) {
         return Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
     }
@@ -305,6 +307,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                + resultsVisibleFromTime + ", timeZone=" + timeZone
                + ", gracePeriod=" + getGracePeriodMinutes() + "min"
+               + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                + ", sentOpenEmail=" + sentOpenEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
@@ -312,6 +315,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                + ", isOpeningSoonEmailEnabled=" + isOpeningSoonEmailEnabled
                + "]";
+        // todo should sentOpeningSoonEmail be added ? why are some attributes not present here (sentClosingEmail etc)
     }
 
     @Override
@@ -515,8 +519,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.resultsVisibleFromTimeOption.ifPresent(s -> resultsVisibleFromTime = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
         updateOptions.gracePeriodOption.ifPresent(s -> gracePeriod = s);
-        updateOptions.sentOpenEmailOption.ifPresent(s -> sentOpenEmail = s);
         updateOptions.sentOpeningSoonEmailOption.ifPresent(s -> sentOpeningSoonEmail = s);
+        updateOptions.sentOpenEmailOption.ifPresent(s -> sentOpenEmail = s);
         updateOptions.sentClosingEmailOption.ifPresent(s -> sentClosingEmail = s);
         updateOptions.sentClosedEmailOption.ifPresent(s -> sentClosedEmail = s);
         updateOptions.sentPublishedEmailOption.ifPresent(s -> sentPublishedEmail = s);

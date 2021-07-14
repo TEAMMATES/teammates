@@ -295,10 +295,11 @@ public final class FeedbackSessionsLogic {
         if (oldSession.isSentOpenEmail()) {
             newUpdateOptions.withSentOpenEmail(newSession.isOpened());
 
+            // todo - help needed - not very sure what logic to use for resetting sentOpeningSoonEmail.
             // also reset sentOpeningSoonEmail
             newUpdateOptions.withSentOpeningSoonEmail(
                     newSession.isOpened()
-                            || newSession.isOpenedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
+                            || newSession.isOpenedAfter(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT));
         }
 
         // reset sentClosedEmail if the session has closed but is being un-closed
@@ -400,7 +401,8 @@ public final class FeedbackSessionsLogic {
         log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
 
         for (FeedbackSessionAttributes session : sessions) {
-            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT) // todo !!! not very sure what this check should be
+            // todo !!! not very sure what this check should be
+            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
                     && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
                 requiredSessions.add(session);
             }

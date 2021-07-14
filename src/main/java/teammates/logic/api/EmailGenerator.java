@@ -92,25 +92,19 @@ public class EmailGenerator {
     /**
      * Generate email to notify feedback session creator (or is it every instructor in the course ? )
      * that the feedback session is opening soon, in case the feedback session opening info was set wrongly.
-     *
-     * todo test cases:
-     * what if after the opening soon email was sent, feedback session start time was pushed? then the boolean has to be resent.
-     * what if the start time was changed such that from now till the start time there's only < 24 hours left ?
      */
     public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSessionAttributes session) {
-
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}", FEEDBACK_STATUS_SESSION_OPENING_SOON);
+        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}",
+                FEEDBACK_STATUS_SESSION_OPENING_SOON);
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
 
-        List<InstructorAttributes> instructors = instructorsLogic.getInstructorsForCourse(session.getCourseId()); // should only co-owners be notified that session is opening ?
+        // notify only course co-owners, no students
+        List<InstructorAttributes> instructors = instructorsLogic.getCoOwnersForCourse(session.getCourseId());
         List<StudentAttributes> students = new ArrayList<>();
 
-        List<EmailWrapper> emails =
-                generateFeedbackSessionEmailBases(course, session, students, instructors, template,
+        return generateFeedbackSessionEmailBases(course, session, students, instructors, template,
                 EmailType.FEEDBACK_OPENING_SOON);
-
-        return emails;
     }
 
     /**

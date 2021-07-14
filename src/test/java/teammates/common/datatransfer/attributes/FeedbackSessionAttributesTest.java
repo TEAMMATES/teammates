@@ -39,6 +39,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(Const.DEFAULT_TIME_ZONE, fsa.getTimeZone());
         assertEquals(0, fsa.getGracePeriodMinutes());
 
+        assertFalse(fsa.isSentOpeningSoonEmail());
         assertFalse(fsa.isSentOpenEmail());
         assertFalse(fsa.isSentClosingEmail());
         assertFalse(fsa.isSentClosedEmail());
@@ -47,6 +48,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertTrue(fsa.isClosingEmailEnabled());
         assertTrue(fsa.isPublishedEmailEnabled());
+        assertTrue(fsa.isOpeningSoonEmailEnabled());
     }
 
     @Test
@@ -118,8 +120,8 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
                 "UTC", 10,
-                false, false, false, false,
-                true, true, true);
+                false, false, false, false, false,
+                true, true, true, true);
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
 
@@ -133,6 +135,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.getStartTime(), feedbackSessionAttributes.getStartTime());
         assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getEndTime());
         assertEquals(feedbackSession.getResultsVisibleFromTime(), feedbackSessionAttributes.getResultsVisibleFromTime());
+        assertEquals(feedbackSession.isSentOpeningSoonEmail(), feedbackSessionAttributes.isSentOpeningSoonEmail());
         assertEquals(feedbackSession.isSentOpenEmail(), feedbackSessionAttributes.isSentOpenEmail());
         assertEquals(feedbackSession.isSentClosingEmail(), feedbackSessionAttributes.isSentClosingEmail());
         assertEquals(feedbackSession.isSentClosedEmail(), feedbackSessionAttributes.isSentClosedEmail());
@@ -140,6 +143,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
+        assertEquals(feedbackSession.isOpeningSoonEmailEnabled(), feedbackSessionAttributes.isOpeningSoonEmailEnabled());
     }
 
     @Test
@@ -149,9 +153,9 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 Instant.now(), null,
                 Instant.now().minusSeconds(10), Instant.now().plusSeconds(10),
                 Instant.now().minusSeconds(20), Instant.now().plusSeconds(20),
-                "UTC", 10,
+                "UTC", 10, false,
                 false, false, false, false,
-                true, true, true);
+                true, true, true, true);
         assertNull(feedbackSession.getInstructions());
 
         FeedbackSessionAttributes feedbackSessionAttributes = FeedbackSessionAttributes.valueOf(feedbackSession);
@@ -166,6 +170,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.getStartTime(), feedbackSessionAttributes.getStartTime());
         assertEquals(feedbackSession.getEndTime(), feedbackSessionAttributes.getEndTime());
         assertEquals(feedbackSession.getResultsVisibleFromTime(), feedbackSessionAttributes.getResultsVisibleFromTime());
+        assertEquals(feedbackSession.isSentOpeningSoonEmail(), feedbackSessionAttributes.isSentOpeningSoonEmail());
         assertEquals(feedbackSession.isSentOpenEmail(), feedbackSessionAttributes.isSentOpenEmail());
         assertEquals(feedbackSession.isSentClosingEmail(), feedbackSessionAttributes.isSentClosingEmail());
         assertEquals(feedbackSession.isSentClosedEmail(), feedbackSessionAttributes.isSentClosedEmail());
@@ -173,6 +178,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertEquals(feedbackSession.isOpeningEmailEnabled(), feedbackSessionAttributes.isOpeningEmailEnabled());
         assertEquals(feedbackSession.isClosingEmailEnabled(), feedbackSessionAttributes.isClosingEmailEnabled());
         assertEquals(feedbackSession.isPublishedEmailEnabled(), feedbackSessionAttributes.isPublishedEmailEnabled());
+        assertEquals(feedbackSession.isOpeningSoonEmailEnabled(), feedbackSessionAttributes.isOpeningSoonEmailEnabled());
     }
 
     @Test
@@ -194,6 +200,7 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .withGracePeriod(Duration.ofMinutes(15))
                 .withIsClosingEmailEnabled(false)
                 .withIsPublishedEmailEnabled(false)
+                .withIsOpeningSoonEmailEnabled(false)
                 .build();
 
         assertEquals("sessionName", fsa.getFeedbackSessionName());
@@ -208,7 +215,9 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
         assertTrue(fsa.isOpeningEmailEnabled());
         assertFalse(fsa.isClosingEmailEnabled());
         assertFalse(fsa.isPublishedEmailEnabled());
+        assertFalse(fsa.isOpeningSoonEmailEnabled());
 
+        assertFalse(fsa.isSentOpeningSoonEmail());
         assertFalse(fsa.isSentOpenEmail());
         assertFalse(fsa.isSentClosingEmail());
         assertFalse(fsa.isSentClosedEmail());

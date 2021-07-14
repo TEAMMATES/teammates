@@ -61,6 +61,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
                 .withTimeZone(course.getTimeZone())
                 .withIsClosingEmailEnabled(true)
                 .withIsPublishedEmailEnabled(true)
+                .withIsOpeningSoonEmailEnabled(true)
                 .build();
 
         fileName = "/" + openSession.getCourseId() + "_" + openSession.getFeedbackSessionName()

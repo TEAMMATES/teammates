@@ -110,7 +110,7 @@ const studentCourseB: any = {
       },
       isOpened: true,
       isWaitingToOpen: false,
-      isPublished: false,nabled
+      isPublished: false,
       isSubmitted: true,
     },
     {

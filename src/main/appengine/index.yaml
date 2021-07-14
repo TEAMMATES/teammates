@@ -35,4 +35,10 @@ indexes:
     name: isPublishedEmailEnabled
   - direction: asc
     name: sentPublishedEmail
-# todo
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: isOpeningSoonEmailEnabled
+  - direction: asc
+    name: sentOpeningSoonEmail
+
