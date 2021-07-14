@@ -144,7 +144,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         FeedbackSessionAttributes fsa = getNewFeedbackSession();
         fsDb.createEntity(fsa);
-        verifyPresentInDatastore(fsa);
+        verifyPresentInDatabase(fsa);
 
         ______TS("duplicate");
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class, () -> fsDb.createEntity(fsa));
@@ -152,7 +152,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
                 String.format(FeedbackSessionsDb.ERROR_CREATE_ENTITY_ALREADY_EXISTS, fsa.toString()), eaee.getMessage());
 
         fsDb.deleteFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId());
-        verifyAbsentInDatastore(fsa);
+        verifyAbsentInDatabase(fsa);
 
         ______TS("null params");
 
@@ -477,7 +477,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
         fsDb.deleteFeedbackSession(modifiedSession.getFeedbackSessionName(), modifiedSession.getCourseId());
         fsDb.createEntity(modifiedSession);
-        verifyPresentInDatastore(modifiedSession);
+        verifyPresentInDatabase(modifiedSession);
         modifiedSession.setInstructions("new instructions");
         modifiedSession.setGracePeriodMinutes(0);
         modifiedSession.setSentOpenEmail(false);

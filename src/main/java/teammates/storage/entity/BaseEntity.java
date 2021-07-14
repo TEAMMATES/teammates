@@ -15,7 +15,7 @@ import com.googlecode.objectify.impl.translate.ValueTranslator;
 import com.googlecode.objectify.impl.translate.ValueTranslatorFactory;
 
 /**
- * Base class for all entities persisted to the Datastore.
+ * Base class for all entities persisted to the database.
  */
 public class BaseEntity {
 

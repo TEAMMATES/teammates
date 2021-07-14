@@ -79,7 +79,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         instructorsLogic.createInstructor(instr);
 
-        verifyPresentInDatastore(instr);
+        verifyPresentInDatabase(instr);
 
         ______TS("failure: instructor already exists");
 
@@ -489,7 +489,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         instructorsLogic.deleteInstructorCascade(courseId, email);
 
-        verifyAbsentInDatastore(instructorDeleted);
+        verifyAbsentInDatabase(instructorDeleted);
         // there should be no response of the instructor
         assertTrue(frLogic.getFeedbackResponsesFromGiverForCourse(courseId, email).isEmpty());
         assertTrue(frLogic.getFeedbackResponsesForReceiverForCourse(courseId, email).isEmpty());
