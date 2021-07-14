@@ -53,6 +53,7 @@ public final class FeedbackSessionsLogic {
                                                              + "Session has already been unpublished.";
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+    private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
 
     private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
@@ -293,6 +294,11 @@ public final class FeedbackSessionsLogic {
         // now, or else leave it as sent if so.
         if (oldSession.isSentOpenEmail()) {
             newUpdateOptions.withSentOpenEmail(newSession.isOpened());
+
+            // also reset sentOpeningSoonEmail
+            newUpdateOptions.withSentOpeningSoonEmail(
+                    newSession.isOpened()
+                            || newSession.isOpenedAfter(NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT));
         }
 
         // reset sentClosedEmail if the session has closed but is being un-closed
@@ -385,6 +391,24 @@ public final class FeedbackSessionsLogic {
                         .updateOptionsBuilder(sessionToUnpublish.getFeedbackSessionName(), sessionToUnpublish.getCourseId())
                         .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                         .build());
+    }
+
+    public List<FeedbackSessionAttributes> getFeedbackSessionsOpeningWithinTimeLimit() {
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
+
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSessionAttributes session : sessions) {
+            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT) // todo !!! not very sure what this check should be
+                    && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
+                requiredSessions.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
     }
 
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {

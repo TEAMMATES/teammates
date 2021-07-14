@@ -58,6 +58,7 @@ export interface SessionEditFormModel {
 
   isClosingEmailEnabled: boolean;
   isPublishedEmailEnabled: boolean;
+  isOpeningSoonEmailEnabled: boolean;
 
   isSaving: boolean;
   isEditable: boolean;

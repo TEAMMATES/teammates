@@ -59,6 +59,7 @@ describe('CopySessionModalComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 1554967204,
   };
 

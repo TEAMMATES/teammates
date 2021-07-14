@@ -127,6 +127,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
 

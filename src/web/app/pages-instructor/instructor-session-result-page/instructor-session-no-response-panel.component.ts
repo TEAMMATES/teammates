@@ -48,6 +48,7 @@ export class InstructorSessionNoResponsePanelComponent implements OnInit, OnChan
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
   isTabExpanded: boolean = false;

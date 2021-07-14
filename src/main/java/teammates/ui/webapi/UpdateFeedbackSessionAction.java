@@ -52,6 +52,7 @@ class UpdateFeedbackSessionAction extends Action {
                             .withResultsVisibleFromTime(updateRequest.getResultsVisibleFromTime())
                             .withIsClosingEmailEnabled(updateRequest.isClosingEmailEnabled())
                             .withIsPublishedEmailEnabled(updateRequest.isPublishedEmailEnabled())
+                            .withIsOpeningSoonEmailEnabled(updateRequest.isOpeningSoonEmailEnabled())
                             .build());
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));

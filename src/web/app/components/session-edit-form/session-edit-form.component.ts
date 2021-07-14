@@ -63,6 +63,7 @@ export class SessionEditFormComponent implements OnInit {
 
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
 
     templateSessionName: '',
 

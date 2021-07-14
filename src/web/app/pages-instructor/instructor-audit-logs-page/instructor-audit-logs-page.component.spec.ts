@@ -114,6 +114,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
   const testLogs1: FeedbackSessionLog = {

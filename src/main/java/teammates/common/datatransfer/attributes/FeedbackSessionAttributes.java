@@ -27,6 +27,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Instant resultsVisibleFromTime;
     private ZoneId timeZone;
     private Duration gracePeriod;
+    private boolean sentOpeningSoonEmail;
     private boolean sentOpenEmail;
     private boolean sentClosingEmail;
     private boolean sentClosedEmail;
@@ -34,6 +35,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
+    private boolean isOpeningSoonEmailEnabled;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
@@ -45,6 +47,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isOpeningEmailEnabled = true;
         this.isClosingEmailEnabled = true;
         this.isPublishedEmailEnabled = true;
+        this.isOpeningSoonEmailEnabled = true;
 
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.gracePeriod = Duration.ZERO;
@@ -74,6 +77,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
+        feedbackSessionAttributes.isOpeningSoonEmailEnabled = fs.isOpeningSoonEmailEnabled();
 
         return feedbackSessionAttributes;
     }
@@ -110,8 +114,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone.getId(), getGracePeriodMinutes(),
-                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
+                sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, isOpeningSoonEmailEnabled);
     }
 
     @Override
@@ -179,6 +183,10 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
+    public boolean isOpenedAfter(long hours) {
+        return Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
+    }
+
     public boolean isClosedAfter(long hours) {
         return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
     }
@@ -192,6 +200,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.isAfter(startTime)
                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
                && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
+
+    // todo not sure if this function is needed
+    public boolean isOpeningWithinTimeLimit(long hours) {
+        return false;
     }
 
     /**
@@ -296,7 +309,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+               + ", isOpeningSoonEmailEnabled=" + isOpeningSoonEmailEnabled
+               + "]";
     }
 
     @Override
@@ -416,6 +431,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
+    public boolean isSentOpeningSoonEmail() {
+        return sentOpeningSoonEmail;
+    }
+
+    public void setSentOpeningSoonEmail(boolean sentOpeningSoonEmail) {
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
+    }
+
     public boolean isSentOpenEmail() {
         return sentOpenEmail;
     }
@@ -472,6 +495,15 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
+    public boolean isOpeningSoonEmailEnabled() {
+        return isOpeningSoonEmailEnabled;
+    }
+
+    // tests
+    public void setOpeningSoonEmailEnabled(boolean openingSoonEmailEnabled) {
+        isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
+    }
+
     /**
      * Updates with {@link UpdateOptions}.
      */
@@ -484,11 +516,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
         updateOptions.gracePeriodOption.ifPresent(s -> gracePeriod = s);
         updateOptions.sentOpenEmailOption.ifPresent(s -> sentOpenEmail = s);
+        updateOptions.sentOpeningSoonEmailOption.ifPresent(s -> sentOpeningSoonEmail = s);
         updateOptions.sentClosingEmailOption.ifPresent(s -> sentClosingEmail = s);
         updateOptions.sentClosedEmailOption.ifPresent(s -> sentClosedEmail = s);
         updateOptions.sentPublishedEmailOption.ifPresent(s -> sentPublishedEmail = s);
         updateOptions.isClosingEmailEnabledOption.ifPresent(s -> isClosingEmailEnabled = s);
         updateOptions.isPublishedEmailEnabledOption.ifPresent(s -> isPublishedEmailEnabled = s);
+        updateOptions.isOpeningSoonEmailEnabledOption.ifPresent(s -> isOpeningSoonEmailEnabled = s);
     }
 
     /**
@@ -548,12 +582,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Instant> resultsVisibleFromTimeOption = UpdateOption.empty();
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
         private UpdateOption<Duration> gracePeriodOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentOpeningSoonEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentOpenEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentClosingEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentClosedEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentPublishedEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> isClosingEmailEnabledOption = UpdateOption.empty();
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
+        private UpdateOption<Boolean> isOpeningSoonEmailEnabledOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
             assert feedbackSessionName != null;
@@ -583,12 +619,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                     + ", resultsVisibleFromTime = " + resultsVisibleFromTimeOption
                     + ", timeZone = " + timeZoneOption
                     + ", gracePeriod = " + gracePeriodOption
+                    + ", sentOpeningSoonEmail = " + sentOpeningSoonEmailOption
                     + ", sentOpenEmail = " + sentOpenEmailOption
                     + ", sentClosingEmail = " + sentClosingEmailOption
                     + ", sentClosedEmail = " + sentClosedEmailOption
                     + ", sentPublishedEmail = " + sentPublishedEmailOption
                     + ", isClosingEmailEnabled = " + isClosingEmailEnabledOption
                     + ", isPublishedEmailEnabled = " + isPublishedEmailEnabledOption
+                    + ", isOpeningSoonEmailEnabledOption = " + isOpeningSoonEmailEnabledOption
                     + "]";
         }
 
@@ -628,6 +666,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             private Builder(String feedbackSessionName, String courseId) {
                 super(new UpdateOptions(feedbackSessionName, courseId));
                 thisBuilder = this;
+            }
+
+            public Builder withSentOpeningSoonEmail(boolean sentOpeningSoonEmailOption) {
+                updateOptions.sentOpeningSoonEmailOption = UpdateOption.of(sentOpeningSoonEmailOption);
+                return this;
             }
 
             public Builder withSentOpenEmail(boolean sentOpenEmail) {
@@ -730,6 +773,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public B withIsPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
             updateOptions.isPublishedEmailEnabledOption = UpdateOption.of(isPublishedEmailEnabled);
+            return thisBuilder;
+        }
+
+        public B withIsOpeningSoonEmailEnabled(boolean isOpeningSoonEmailEnabledOption) {
+            updateOptions.isOpeningSoonEmailEnabledOption = UpdateOption.of(isOpeningSoonEmailEnabledOption);
             return thisBuilder;
         }
 

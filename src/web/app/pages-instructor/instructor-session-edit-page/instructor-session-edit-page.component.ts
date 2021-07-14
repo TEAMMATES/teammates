@@ -111,6 +111,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
 
     templateSessionName: '',
 
@@ -319,13 +320,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
       isClosingEmailEnabled: feedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: feedbackSession.isPublishedEmailEnabled,
+      isOpeningSoonEmailEnabled: feedbackSession.isOpeningSoonEmailEnabled,
 
       isSaving: false,
       isDeleting: false,
       isCopying: false,
       hasVisibleSettingsPanelExpanded: feedbackSession.sessionVisibleSetting !== SessionVisibleSetting.AT_OPEN
           || feedbackSession.responseVisibleSetting !== ResponseVisibleSetting.LATER,
-      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled,
+      hasEmailSettingsPanelExpanded: !feedbackSession.isClosingEmailEnabled || !feedbackSession.isPublishedEmailEnabled
+        || !feedbackSession.isOpeningSoonEmailEnabled,
     };
 
     if (feedbackSession.customSessionVisibleTimestamp) {
@@ -407,6 +410,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
 
             isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
             isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+            isOpeningSoonEmailEnabled: this.sessionEditFormModel.isOpeningSoonEmailEnabled,
           });
         }),
         finalize(() => {

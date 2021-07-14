@@ -63,6 +63,7 @@ const testFeedbackSession1: FeedbackSession = {
   publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
+  isOpeningSoonEmailEnabled: true,
   createdAtTimestamp: 0,
 };
 
@@ -80,6 +81,7 @@ const testFeedbackSession2: FeedbackSession = {
   publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
+  isOpeningSoonEmailEnabled: true,
   createdAtTimestamp: 0,
 };
 

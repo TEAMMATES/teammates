@@ -55,6 +55,7 @@ describe('SessionsTableComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 1554967204,
   };
 
@@ -72,6 +73,7 @@ describe('SessionsTableComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
     isClosingEmailEnabled: false,
     isPublishedEmailEnabled: false,
+    isOpeningSoonEmailEnabled: false,
     createdAtTimestamp: 1554967204,
   };
 

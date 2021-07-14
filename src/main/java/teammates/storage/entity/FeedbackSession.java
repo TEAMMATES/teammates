@@ -61,6 +61,8 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private long gracePeriod;
 
+    private boolean sentOpeningSoonEmail;
+
     private boolean sentOpenEmail;
 
     private boolean sentClosingEmail;
@@ -68,6 +70,8 @@ public class FeedbackSession extends BaseEntity {
     private boolean sentClosedEmail;
 
     private boolean sentPublishedEmail;
+
+    private boolean isOpeningSoonEmailEnabled;
 
     private boolean isOpeningEmailEnabled;
 
@@ -83,9 +87,9 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpenEmail, boolean sentClosingEmail,
-            boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
+            boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, boolean isOpeningSoonEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -98,6 +102,7 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
         this.sentOpenEmail = sentOpenEmail;
         this.sentClosingEmail = sentClosingEmail;
         this.sentClosedEmail = sentClosedEmail;
@@ -105,6 +110,7 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
+        this.isOpeningSoonEmailEnabled = isOpeningSoonEmailEnabled;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -212,6 +218,14 @@ public class FeedbackSession extends BaseEntity {
         this.gracePeriod = gracePeriod;
     }
 
+    public boolean isSentOpeningSoonEmail() {
+        return sentOpeningSoonEmail;
+    }
+
+    public void setSentOpeningSoonEmail(boolean sentOpeningSoonEmail) {
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
+    }
+
     public boolean isSentOpenEmail() {
         return sentOpenEmail;
     }
@@ -252,6 +266,14 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
     }
 
+    public boolean isOpeningSoonEmailEnabled() {
+        return isOpeningSoonEmailEnabled;
+    }
+
+    public void setOpeningSoonEmailEnabled(boolean openingSoonEmailEnabled) {
+        isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
+    }
+
     public boolean isClosingEmailEnabled() {
         return isClosingEmailEnabled;
     }
@@ -283,6 +305,7 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+        // ? should the tostring be changed
     }
 
 }

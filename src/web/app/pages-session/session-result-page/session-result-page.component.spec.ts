@@ -45,6 +45,7 @@ describe('SessionResultPageComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
 
@@ -238,6 +239,7 @@ describe('SessionResultPageComponent', () => {
       publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
       isClosingEmailEnabled: true,
       isPublishedEmailEnabled: true,
+      isOpeningSoonEmailEnabled: true,
       createdAtTimestamp: 1555231400,
     };
     component.questions = [];

@@ -182,9 +182,21 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
      * and possibly need a closed email to be sent.
+     * // why does it say 2 hours? the get function used below uses "getInstantDaysOffsetFromNow(2 days)
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
         return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosedEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * Gets a list of undeleted feedback sessions which open in the future (2 hour ago onward??)
+     * and possibly need a opening soon email to be sent.
+     * todo check if time range is correct
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail()).stream()
                 .filter(session -> !session.isSessionDeleted())
                 .collect(Collectors.toList());
     }
@@ -251,6 +263,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                             && thisDb.<Long>hasSameValue(
                                     feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
                             && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isSentOpeningSoonEmail(), newAttributes.isSentOpeningSoonEmail())
+                            && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
                             && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
@@ -260,6 +274,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                                     feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
                             && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
+                            && thisDb.<Boolean>hasSameValue(
+                                    feedbackSession.isOpeningSoonEmailEnabled(), newAttributes.isOpeningSoonEmailEnabled())
                             && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
                     if (hasSameAttributes) {
@@ -276,12 +292,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
                     feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
                     feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
+                    feedbackSession.setSentOpeningSoonEmail(newAttributes.isSentOpeningSoonEmail());
                     feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
                     feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
                     feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
                     feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
                     feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
                     feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
+                    feedbackSession.setOpeningSoonEmailEnabled(newAttributes.isOpeningSoonEmailEnabled());
 
                     saveEntity(feedbackSession);
 
@@ -366,6 +384,14 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
+        return load()
+                .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
+                .filter("sentOpeningSoonEmail =", false)
+                .filter("isOpeningSoonEmailEnabled =", true)
+                .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {

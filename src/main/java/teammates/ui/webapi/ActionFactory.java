@@ -18,7 +18,7 @@ import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
 
 /**
- * Generates the matching {@link Action} for a given URI and request method.
+ * Generates the matching {@link Action} for a given URI and request method. // ?
  */
 public class ActionFactory {
 
@@ -126,6 +126,7 @@ public class ActionFactory {
 
         map(CronJobURIs.AUTOMATED_LOG_COMPILATION, GET, CompileLogsAction.class);
         map(CronJobURIs.AUTOMATED_DATASTORE_BACKUP, GET, DatastoreBackupAction.class);
+        map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS , GET, FeedbackSessionOpeningSoonRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_OPENING_REMINDERS, GET, FeedbackSessionOpeningRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSED_REMINDERS, GET, FeedbackSessionClosedRemindersAction.class);
         map(CronJobURIs.AUTOMATED_FEEDBACK_CLOSING_REMINDERS, GET, FeedbackSessionClosingRemindersAction.class);
@@ -133,6 +134,7 @@ public class ActionFactory {
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
+        // task queue = stuff triggered by a button by instructors ?
 
         map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,

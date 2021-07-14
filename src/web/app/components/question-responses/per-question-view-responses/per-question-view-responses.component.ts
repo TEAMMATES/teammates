@@ -47,6 +47,7 @@ export class PerQuestionViewResponsesComponent extends InstructorResponsesViewBa
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
+    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
   @Input() isDisplayOnly: boolean = false;

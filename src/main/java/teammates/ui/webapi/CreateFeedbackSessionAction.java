@@ -58,6 +58,7 @@ class CreateFeedbackSessionAction extends Action {
                         .withResultsVisibleFromTime(createRequest.getResultsVisibleFromTime())
                         .withIsClosingEmailEnabled(createRequest.isClosingEmailEnabled())
                         .withIsPublishedEmailEnabled(createRequest.isPublishedEmailEnabled())
+                        .withIsOpeningSoonEmailEnabled(createRequest.isOpeningSoonEmailEnabled())
                         .build();
 
         try {
