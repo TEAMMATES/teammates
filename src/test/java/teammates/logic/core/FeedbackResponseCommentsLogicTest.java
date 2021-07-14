@@ -666,22 +666,22 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         relatedQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.STUDENTS));
 
-        ______TS("success: question is visible to instructor; visibility follows feedback question;"
+        ______TS("success: question is visible to student; visibility follows feedback question;"
                 + "comment is visible to recipient");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student1@course1.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
 
-        ______TS("success: question is visible to instructor; visibility follows feedback question;"
+        ______TS("success: question is visible to student; visibility follows feedback question;"
                 + "comment is visible to teammate");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student3@course1.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
 
-        ______TS("success: question is visible to instructor; visibility follows feedback question;"
+        ______TS("success: question is visible to student; visibility follows feedback question;"
                 + "comment is visible to student not from the same team");
         assertTrue(frcLogic.isResponseCommentVisibleForUser("student2@course1.tmt", UserRole.STUDENT,
                 student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
 
-        ______TS("failure: question is visible to instructor; visibility follows feedback question;"
+        ______TS("failure: question is visible to student; visibility follows feedback question;"
                 + "comment is not visible to instructor");
         assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor3@course1.tmt", UserRole.INSTRUCTOR,
                 student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
