@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import com.google.cloud.datastore.DatastoreException;
 import com.google.rpc.Code;
 
+import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -40,6 +41,9 @@ class AdminExceptionTestAction extends Action {
         }
         if (error.equals(NullPointerException.class.getSimpleName())) {
             throw new NullPointerException("NullPointerException testing");
+        }
+        if (error.equals(DeadlineExceededException.class.getSimpleName())) {
+            throw new DeadlineExceededException();
         }
         if (error.equals(DatastoreException.class.getSimpleName())) {
             throw new DatastoreException(Code.DEADLINE_EXCEEDED_VALUE, "DatastoreException testing",
