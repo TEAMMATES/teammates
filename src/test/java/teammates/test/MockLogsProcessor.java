@@ -57,7 +57,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, String apiEndpoint, String googleId, String regkey, String email,
-            LogEvent logEvent, String exceptionClass) {
+            String logEvent, String exceptionClass) {
         insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace, sourceLocation, timestamp,
                 textPayloadMessage, apiEndpoint, googleId, regkey, email, logEvent, exceptionClass);
     }
@@ -67,7 +67,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, String apiEndpoint, String googleId, String regkey, String email,
-            LogEvent logEvent, String exceptionClass) {
+            String logEvent, String exceptionClass) {
         insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace, sourceLocation, timestamp,
                 textPayloadMessage, apiEndpoint, googleId, regkey, email, logEvent, exceptionClass);
     }
@@ -77,14 +77,14 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, String apiEndpoint, String googleId, String regkey, String email,
-            LogEvent logEvent, String exceptionClass) {
+            String logEvent, String exceptionClass) {
         insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, timestamp,
                 textPayloadMessage, apiEndpoint, googleId, regkey, email, logEvent, exceptionClass);
     }
 
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
             GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
-            String apiEndpoint, String googleId, String regkey, String email, LogEvent logEvent, String exceptionClass) {
+            String apiEndpoint, String googleId, String regkey, String email, String logEvent, String exceptionClass) {
         MockGeneralLogEntry logEntry = new MockGeneralLogEntry(logName, severity, trace, sourceLocation, timestamp,
                 apiEndpoint, googleId, regkey, email, logEvent, exceptionClass);
         logEntry.setMessage(textPayloadMessage);
@@ -93,7 +93,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String trace, String apiEndpoint, String googleId, String regkey, String email, LogEvent logEvent,
+            String trace, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
             SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken) {
 
         Predicate<MockGeneralLogEntry> filterPredicate = getPredicate(severity, minSeverity, startTime, endTime, trace,
@@ -121,7 +121,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     private Predicate<MockGeneralLogEntry> getPredicate(String severity, String minSeverity, Instant startTime,
             Instant endTime, String trace, String apiEndpoint, String googleId, String regkey, String email,
-            LogEvent logEvent, String exceptionClass) {
+            String logEvent, String exceptionClass) {
         assert startTime != null && endTime != null;
         return logEntry -> {
             boolean matchSeverity = true;
@@ -141,28 +141,25 @@ public class MockLogsProcessor extends LogsProcessor {
                 matchSeverity = LogSeverity.valueOf(minSeverity).getNumber()
                         <= LogSeverity.valueOf(logEntry.getSeverity()).getNumber();
             }
-            if (logEntry.getTrace() != null) {
+            if (trace != null) {
                 matchTrace = logEntry.getTrace().equals(trace);
             }
-            if (logEntry.getApiEndpoint() != null) {
+            if (apiEndpoint != null) {
                 matchApiEndpoint = logEntry.getApiEndpoint().equals(apiEndpoint);
             }
-            if (logEntry.getUserInfo() != null) {
-                MockGeneralLogEntry.UserInfo userInfo = logEntry.getUserInfo();
-                if (userInfo.googleId != null) {
-                    matchGoogleId = userInfo.googleId.equals(googleId);
-                }
-                if (userInfo.regkey != null) {
-                    matchRegkey = userInfo.regkey.equals(regkey);
-                }
-                if (userInfo.email != null) {
-                    matchEmail = userInfo.email.equals(email);
-                }
+            if (googleId != null) {
+                matchGoogleId = logEntry.getUserInfo().googleId.equals(googleId);
             }
-            if (logEntry.getLogEvent() != null) {
+            if (regkey != null) {
+                matchRegkey = logEntry.getUserInfo().regkey.equals(regkey);
+            }
+            if (email != null) {
+                matchEmail = logEntry.getUserInfo().email.equals(email);
+            }
+            if (logEvent != null) {
                 matchLogEvent = logEntry.getLogEvent().equals(logEvent);
             }
-            if (logEntry.getExceptionClass() != null) {
+            if (exceptionClass != null) {
                 matchExceptionClass = logEntry.getExceptionClass().equals(exceptionClass);
             }
             return matchSeverity && matchTimePeriod && matchTrace && matchApiEndpoint && matchGoogleId && matchRegkey
@@ -173,11 +170,11 @@ public class MockLogsProcessor extends LogsProcessor {
     public static class MockGeneralLogEntry extends GeneralLogEntry {
         private final String apiEndpoint;
         private final UserInfo userInfo;
-        private final LogEvent logEvent;
+        private final String logEvent;
         private final String exceptionClass;
 
         public MockGeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                long timestamp, String apiEndpoint, String googleId, String regkey, String email, LogEvent logEvent,
+                long timestamp, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
                 String exceptionClass) {
             super(logName, severity, trace, sourceLocation, timestamp);
             this.apiEndpoint = apiEndpoint;
@@ -194,7 +191,7 @@ public class MockLogsProcessor extends LogsProcessor {
             return userInfo;
         }
 
-        public LogEvent getLogEvent() {
+        public String getLogEvent() {
             return logEvent;
         }
 
