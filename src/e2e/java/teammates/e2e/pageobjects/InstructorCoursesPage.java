@@ -148,6 +148,14 @@ public class InstructorCoursesPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
+    public void copyCourse(String courseId) {
+        WebElement otherActionButton = getOtherActionsButton(courseId);
+        click(otherActionButton);
+        click(getCopyButton(courseId));
+
+        waitUntilAnimationFinish();
+    }
+
     public void moveCourseToRecycleBin(String courseId) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
@@ -288,6 +296,11 @@ public class InstructorCoursesPage extends AppPage {
         return getArchiveButtonInRow(courseRowNumber);
     }
 
+    private WebElement getCopyButton(String courseId) {
+        int courseRowNumber = getRowNumberOfCourse(courseId);
+        return getCopyButtonInRow(courseRowNumber);
+    }
+
     private WebElement getMoveToRecycleBinButton(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getMoveToRecycleBinButtonInRow(courseRowNumber);
@@ -391,6 +404,11 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getArchiveButtonInRow(int rowId) {
         By archiveButton = By.id("btn-archive-" + rowId);
         return browser.driver.findElement(archiveButton);
+    }
+
+    private WebElement getCopyButtonInRow(int rowId) {
+        By copyButton = By.id("btn-copy-" + rowId);
+        return browser.driver.findElement(copyButton);
     }
 
     private WebElement getMoveToRecycleBinButtonInRow(int rowId) {

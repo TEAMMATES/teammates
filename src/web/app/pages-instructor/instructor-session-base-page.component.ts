@@ -1,8 +1,8 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { concat, from, Observable, of } from 'rxjs';
-import { catchError, concatMap, finalize, last, switchMap, takeWhile } from 'rxjs/operators';
+import { concat, Observable, of } from 'rxjs';
+import { catchError, finalize, switchMap, takeWhile } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
@@ -51,12 +51,13 @@ export abstract class InstructorSessionBasePageComponent {
   /**
    * Copies a feedback session.
    */
-  protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
-      Observable<FeedbackSession> {
-    let createdFeedbackSession!: FeedbackSession;
+  protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string,
+      oldCourseId: string): Observable<FeedbackSession> {
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
+      oldSessionName: fromFeedbackSession.feedbackSessionName,
+      toCopyCourseId: oldCourseId,
 
       submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
       submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
@@ -70,50 +71,7 @@ export abstract class InstructorSessionBasePageComponent {
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
-    }).pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
-          createdFeedbackSession = feedbackSession;
-
-          // copy questions
-          return this.feedbackQuestionsService.getFeedbackQuestions({
-            courseId: fromFeedbackSession.courseId,
-            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          },
-          );
-        }),
-        switchMap((response: FeedbackQuestions) => {
-          if (response.questions.length === 0) {
-            // no questions to copy
-            return of(createdFeedbackSession);
-          }
-          return from(response.questions).pipe(
-              concatMap((feedbackQuestion: FeedbackQuestion) => {
-                return this.feedbackQuestionsService.createFeedbackQuestion(
-                    createdFeedbackSession.courseId, createdFeedbackSession.feedbackSessionName, {
-                      questionNumber: feedbackQuestion.questionNumber,
-                      questionBrief: feedbackQuestion.questionBrief,
-                      questionDescription: feedbackQuestion.questionDescription,
-
-                      questionDetails: feedbackQuestion.questionDetails,
-                      questionType: feedbackQuestion.questionType,
-
-                      giverType: feedbackQuestion.giverType,
-                      recipientType: feedbackQuestion.recipientType,
-
-                      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-                      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
-
-                      showResponsesTo: feedbackQuestion.showResponsesTo,
-                      showGiverNameTo: feedbackQuestion.showGiverNameTo,
-                      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-                    });
-              }),
-              last(),
-              switchMap(() => of(createdFeedbackSession)),
-          );
-        }),
-    );
+    });
   }
 
   /**
@@ -183,7 +141,8 @@ export abstract class InstructorSessionBasePageComponent {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
-          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
+          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId,
+            result.sessionToCopyCourseId)
               .pipe(catchError((err: any) => {
                 this.failedToCopySessions[copyToCourseId] = err.error.message;
                 return of(err);
@@ -210,7 +169,8 @@ export abstract class InstructorSessionBasePageComponent {
         intent: Intent.FULL_DETAIL,
       }).pipe(
           switchMap((feedbackSession: FeedbackSession) =>
-              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)),
+              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId,
+                result.sessionToCopyCourseId)),
           catchError((err: any) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return of(err);

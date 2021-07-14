@@ -73,6 +73,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithNewCourse);
         verifyPresentInDatastore(newCourse);
 
+        ______TS("copy course");
+        // TODO
+
         ______TS("archive course");
         CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };
         coursesPage.archiveCourse(newCourse.getId());
