@@ -51,7 +51,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
         String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
-        String apiEndpoint = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_API_ENDPOINT);
+        String actionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ACTION_CLASS);
         String googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
         String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
@@ -61,7 +61,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
 
         QueryLogsParams queryLogsParams = new QueryLogsParams(severity, minSeverity, startTime, endTime,
-                traceId, apiEndpoint, googleId, regkey, email, logEvent,
+                traceId, actionClass, googleId, regkey, email, logEvent,
                 new SourceLocation(sourceLocationFile, null, sourceLocationFunction), exceptionClass,
                 DEFAULT_PAGE_SIZE, nextPageToken);
         try {

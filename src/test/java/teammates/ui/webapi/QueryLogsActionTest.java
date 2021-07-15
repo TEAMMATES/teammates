@@ -47,7 +47,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry.SourceLocation infoLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file2", 2L, "func2");
         long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
         long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
-        String infoLogApiEndpoint = "info log apiEndpoint";
+        String infoLogActionClass = "info log actionClass";
         String infoLogGoogleId = "info log google id";
 
         String warningLogTrace1 = "warning log trace 1";
@@ -71,9 +71,9 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         String errorLogExceptionClass = "error log exception class";
 
         mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1,
-                infoLogApiEndpoint, infoLogGoogleId, null, null, LogEvent.REQUEST_RECEIVED.toString(), null);
+                infoLogActionClass, infoLogGoogleId, null, null, LogEvent.REQUEST_RECEIVED.toString(), null);
         mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2,
-                infoLogApiEndpoint, infoLogGoogleId, null, null, LogEvent.RESPONSE_DISPATCHED.toString(), null);
+                infoLogActionClass, infoLogGoogleId, null, null, LogEvent.RESPONSE_DISPATCHED.toString(), null);
         mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1,
                 warningLogTextPayload1, null, null, warningLogRegkey, warningLogEmail, null, null);
         mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2,
@@ -185,14 +185,14 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         assertEquals(errorLogTrace, logEntryFilteredByTrace1.getTrace());
         assertEquals(errorLogTrace, logEntryFilteredByTrace2.getTrace());
 
-        ______TS("Success case: filter by apiEndpoint");
-        String[] paramsApiEndpoint = {
+        ______TS("Success case: filter by actionClass");
+        String[] paramsActionClass = {
                 Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
-                Const.ParamsNames.QUERY_LOGS_API_ENDPOINT, infoLogApiEndpoint,
+                Const.ParamsNames.QUERY_LOGS_ACTION_CLASS, infoLogActionClass,
         };
-        actionOutput = getJsonResult(getAction(paramsApiEndpoint));
+        actionOutput = getJsonResult(getAction(paramsActionClass));
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         generalLogsData = (GeneralLogsData) actionOutput.getOutput();
@@ -200,11 +200,11 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         assertEquals(2, logEntries.size());
 
-        MockGeneralLogEntry logEntryFilteredByApiEndpoint1 = (MockGeneralLogEntry) logEntries.get(0);
-        MockGeneralLogEntry logEntryFilteredByApiEndpoint2 = (MockGeneralLogEntry) logEntries.get(1);
+        MockGeneralLogEntry logEntryFilteredByActionClass1 = (MockGeneralLogEntry) logEntries.get(0);
+        MockGeneralLogEntry logEntryFilteredByActionClass2 = (MockGeneralLogEntry) logEntries.get(1);
 
-        assertEquals(infoLogApiEndpoint, logEntryFilteredByApiEndpoint1.getApiEndpoint());
-        assertEquals(infoLogApiEndpoint, logEntryFilteredByApiEndpoint2.getApiEndpoint());
+        assertEquals(infoLogActionClass, logEntryFilteredByActionClass1.getActionClass());
+        assertEquals(infoLogActionClass, logEntryFilteredByActionClass2.getActionClass());
 
         ______TS("Success case: filter by user info");
         String[] paramsUserInfo1 = {

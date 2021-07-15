@@ -130,7 +130,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .setStartTime(queryLogsParams.getStartTime())
                 .setEndTime(queryLogsParams.getEndTime())
                 .setTraceId(queryLogsParams.getTraceId())
-                .setApiEndpoint(queryLogsParams.getActionClass())
+                .setActionClass(queryLogsParams.getActionClass())
                 .setUserInfoParams(queryLogsParams.getUserInfoParams())
                 .setLogEvent(queryLogsParams.getLogEvent())
                 .setSourceLocation(queryLogsParams.getSourceLocation())
@@ -265,8 +265,8 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.traceId != null) {
             logFilters.add("trace=\"" + s.traceId + "\"");
         }
-        if (s.apiEndpoint != null) {
-            logFilters.add("jsonPayload.actionClass=\"" + s.apiEndpoint + "\"");
+        if (s.actionClass != null) {
+            logFilters.add("jsonPayload.actionClass=\"" + s.actionClass + "\"");
         }
         if (s.userInfoParams != null) {
             if (s.userInfoParams.getGoogleId() != null) {
@@ -342,7 +342,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
         private String traceId;
-        private String apiEndpoint;
+        private String actionClass;
         private UserInfoParams userInfoParams;
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
@@ -397,8 +397,8 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setApiEndpoint(String apiEndpoint) {
-            this.apiEndpoint = apiEndpoint;
+        public LogSearchParams setActionClass(String actionClass) {
+            this.actionClass = actionClass;
             return this;
         }
 

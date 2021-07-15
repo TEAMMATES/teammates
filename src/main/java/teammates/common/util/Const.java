@@ -155,7 +155,7 @@ public final class Const {
         public static final String QUERY_LOGS_SEVERITY = "severity";
         public static final String QUERY_LOGS_MIN_SEVERITY = "minseverity";
         public static final String QUERY_LOGS_TRACE = "traceid";
-        public static final String QUERY_LOGS_API_ENDPOINT = "apiendpoint";
+        public static final String QUERY_LOGS_ACTION_CLASS = "actionclass";
         public static final String QUERY_LOGS_EMAIL = "email";
         public static final String QUERY_LOGS_EVENT = "logevent";
         public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
