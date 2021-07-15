@@ -4,9 +4,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.logging.type.LogSeverity;
+
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
+import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -50,47 +54,69 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general INFO logs.
      */
     public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, String actionClass, String googleId, String regkey, String email,
+            String logEvent, String exceptionClass) {
+        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace, sourceLocation, timestamp,
+                textPayloadMessage, actionClass, googleId, regkey, email, logEvent, exceptionClass);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
     public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, String actionClass, String googleId, String regkey, String email,
+            String logEvent, String exceptionClass) {
+        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace, sourceLocation, timestamp,
+                textPayloadMessage, actionClass, googleId, regkey, email, logEvent, exceptionClass);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
     public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, String actionClass, String googleId, String regkey, String email,
+            String logEvent, String exceptionClass) {
+        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, timestamp,
+                textPayloadMessage, actionClass, googleId, regkey, email, logEvent, exceptionClass);
     }
 
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
-            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
-        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, timestamp);
+            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
+            String actionClass, String googleId, String regkey, String email, String logEvent, String exceptionClass) {
+        MockGeneralLogEntry logEntry = new MockGeneralLogEntry(logName, severity, trace, sourceLocation, timestamp,
+                actionClass, googleId, regkey, email, logEvent, exceptionClass);
         logEntry.setMessage(textPayloadMessage);
         generalLogs.add(logEntry);
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        generalLogs.forEach(entry -> {
-            if (severities.contains(entry.getSeverity())
-                    && entry.getTimestamp() >= startTime.toEpochMilli()
-                    && entry.getTimestamp() <= endTime.toEpochMilli()) {
-                queryResults.add(entry);
-            }
-        });
+        if (queryLogsParams.getSeverityLevel() != null) {
+            generalLogs.forEach(entry -> {
+                if (queryLogsParams.getSeverityLevel().equals(entry.getSeverity())
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else if (queryLogsParams.getMinSeverity() != null) {
+            generalLogs.forEach(entry -> {
+                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber()
+                        <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else {
+            generalLogs.forEach(entry -> {
+                if (entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        }
         return new QueryLogsResults(queryResults, null);
     }
 
@@ -103,6 +129,42 @@ public class MockLogsProcessor extends LogsProcessor {
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) {
         return feedbackSessionLogs;
+    }
+
+    /**
+     * Allows mocking of {@link GeneralLogEntry}.
+     */
+    public static class MockGeneralLogEntry extends GeneralLogEntry {
+        private final String actionClass;
+        private final UserInfoParams userInfoParams;
+        private final String logEvent;
+        private final String exceptionClass;
+
+        public MockGeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
+                long timestamp, String actionClass, String googleId, String regkey, String email, String logEvent,
+                String exceptionClass) {
+            super(logName, severity, trace, sourceLocation, timestamp);
+            this.actionClass = actionClass;
+            this.userInfoParams = new UserInfoParams(googleId, regkey, email);
+            this.logEvent = logEvent;
+            this.exceptionClass = exceptionClass;
+        }
+
+        public String getActionClass() {
+            return actionClass;
+        }
+
+        public UserInfoParams getUserInfo() {
+            return userInfoParams;
+        }
+
+        public String getLogEvent() {
+            return logEvent;
+        }
+
+        public String getExceptionClass() {
+            return exceptionClass;
+        }
     }
 
 }

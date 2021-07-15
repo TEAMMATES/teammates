@@ -9,6 +9,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
+import teammates.common.util.LogEvent;
 import teammates.ui.output.GeneralLogsData;
 
 /**
@@ -36,7 +37,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         long endTimeForSuccessCases = Instant.now().toEpochMilli();
         long startTimeForSuccessCases = endTimeForSuccessCases - 1000 * 60 * 60 * 24;
 
-        String severities = "INFO,WARNING,ERROR";
+        String severity = "INFO";
         String infoLogTrace1 = "info log trace 1";
         String infoLogTrace2 = "info log trace 2";
         String infoLogTextPayload1 = "info log text palyload 1";
@@ -45,6 +46,9 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry.SourceLocation infoLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file2", 2L, "func2");
         long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
         long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
+        String infoLogActionClass = "info log actionClass";
+        String infoLogGoogleId = "info log google id";
+
         String warningLogTrace1 = "warning log trace 1";
         String warningLogTrace2 = "warning log trace 2";
         String warningLogTextPayload1 = "warning log text palyload 1";
@@ -53,29 +57,34 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry.SourceLocation warningLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file4", 4L, "func4");
         long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
         long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
-        String errorLogTrace1 = "error log trace 1";
-        String errorLogTrace2 = "error log trace 2";
+        String warningLogRegkey = "warning log regkey";
+        String warningLogEmail = "warning log email";
+
+        String errorLogTrace = "error log trace";
         String errorLogTextPayload1 = "error log text palyload 1";
         String errorLogTextPayload2 = "error log text palyload 2";
         GeneralLogEntry.SourceLocation errorLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file5", 5L, "func5");
         GeneralLogEntry.SourceLocation errorLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file6", 6L, "func6");
         long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
         long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
+        String errorLogExceptionClass = "error log exception class";
 
-        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1);
-        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2);
+        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1,
+                infoLogActionClass, infoLogGoogleId, null, null, LogEvent.REQUEST_RECEIVED.toString(), null);
+        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2,
+                infoLogActionClass, infoLogGoogleId, null, null, LogEvent.RESPONSE_DISPATCHED.toString(), null);
         mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1,
-                warningLogTextPayload1);
+                warningLogTextPayload1, null, null, warningLogRegkey, warningLogEmail, null, null);
         mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2,
-                warningLogTextPayload2);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace1, errorLogSourceLocation1, errorLogTimestamp1,
-                errorLogTextPayload1);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace2, errorLogSourceLocation2, errorLogTimestamp2,
-                errorLogTextPayload2);
+                warningLogTextPayload2, null, null, warningLogRegkey, warningLogEmail, null, null);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogSourceLocation1, errorLogTimestamp1,
+                errorLogTextPayload1, null, null, null, null, null, errorLogExceptionClass);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogSourceLocation2, errorLogTimestamp2,
+                errorLogTextPayload2, null, null, null, null, null, null);
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
+                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
@@ -83,7 +92,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Failure case: invalid search start time");
         String[] paramsInvalid2 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
+                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, "abc",
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
@@ -91,19 +100,19 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         ______TS("Failure case: invalid search end time");
         String[] paramsInvalid3 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
+                Const.ParamsNames.QUERY_LOGS_SEVERITY, severity,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, " ",
         };
         assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid3)));
 
-        ______TS("Success case: all HTTP parameters are valid");
-        String[] paramsSuccessful1 = {
-                Const.ParamsNames.QUERY_LOGS_SEVERITIES, severities,
+        ______TS("Success case: all HTTP parameters are valid; filter by minimum severity level");
+        String[] paramsMinSeverity = {
+                Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY, severity,
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForSuccessCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
-        actionOutput = getJsonResult(getAction(paramsSuccessful1));
+        actionOutput = getJsonResult(getAction(paramsMinSeverity));
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
@@ -144,15 +153,16 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         assertEquals("stderr", entry5.getLogName());
         assertEquals("ERROR", entry5.getSeverity());
-        assertEquals(errorLogTrace1, entry5.getTrace());
+        assertEquals(errorLogTrace, entry5.getTrace());
         assertEquals(errorLogSourceLocation1, entry5.getSourceLocation());
         assertEquals(errorLogTimestamp1, entry5.getTimestamp());
 
         assertEquals("stderr", entry6.getLogName());
         assertEquals("ERROR", entry6.getSeverity());
-        assertEquals(errorLogTrace2, entry6.getTrace());
+        assertEquals(errorLogTrace, entry6.getTrace());
         assertEquals(errorLogSourceLocation2, entry6.getSourceLocation());
         assertEquals(errorLogTimestamp2, entry6.getTimestamp());
+
     }
 
     @Test
