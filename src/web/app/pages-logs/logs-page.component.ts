@@ -5,22 +5,34 @@ import { concatMap, finalize, map } from 'rxjs/operators';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
-import { ApiConst } from '../../types/api-const';
-import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
+import { ActionNames, ApiConst } from '../../types/api-const';
+import { GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
+import { collapseAnim } from '../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
  * Model for searching of logs.
  */
 interface SearchLogsFormModel {
-  logsSeverity: Set<string>;
+  logsSeverity: string;
+  logsMinSeverity: string;
+  logsEvent: string;
+  logsFilter: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
+  traceId?: string;
+  googleId?: string;
+  regkey?: string;
+  email?: string;
+  apiEndpoint?: string;
+  sourceLocationFile?: string;
+  sourceLocationFunction?: string;
+  exceptionClass?: string;
 }
 
 /**
@@ -29,8 +41,18 @@ interface SearchLogsFormModel {
 interface QueryParams {
   searchFrom: string;
   searchUntil: string;
-  severities: string;
+  severity?: string;
+  minSeverity?: string;
+  logEvent?: string;
   nextPageToken?: string;
+  apiEndpoint?: string;
+  traceId?: string;
+  googleId?: string;
+  regkey?: string;
+  email?: string;
+  sourceLocationFile?: string;
+  sourceLocationFunction?: string;
+  exceptionClass?: string;
 }
 
 /**
@@ -40,20 +62,29 @@ interface QueryParams {
   selector: 'tm-logs-page',
   templateUrl: './logs-page.component.html',
   styleUrls: ['./logs-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
+  readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly SEVERITY: string = 'severity';
+  readonly MIN_SEVERITY: string = 'minSeverity';
+  readonly EVENT: string = 'event';
+  readonly API_ENDPOINTS: string[] = Object.values(ActionNames).sort();
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: new Set(),
+    logsSeverity: '',
+    logsMinSeverity: '',
+    logsEvent: '',
+    logsFilter: '',
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
+  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -61,6 +92,7 @@ export class LogsPageComponent implements OnInit {
   isSearching: boolean = false;
   hasResult: boolean = false;
   nextPageToken: string = '';
+  isFiltersExpanded: boolean = false;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -90,15 +122,8 @@ export class LogsPageComponent implements OnInit {
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
   }
 
-  toggleSelection(severity: string): void {
-    this.formModel.logsSeverity.has(severity)
-      ? this.formModel.logsSeverity.delete(severity)
-      : this.formModel.logsSeverity.add(severity);
-  }
-
   searchForLogs(): void {
-    if (this.formModel.logsSeverity.size === 0) {
-      this.statusMessageService.showErrorToast('Please select at least one severity level');
+    if (!this.isFormValid()) {
       return;
     }
 
@@ -106,27 +131,101 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.searchResults = [];
     this.nextPageToken = '';
+    this.isFiltersExpanded = false;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
     forkJoin(localDateTime)
-        .pipe(
-            concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
-                searchFrom: timestampFrom.toString(),
-                searchUntil: timestampUntil.toString(),
-                severities: Array.from(this.formModel.logsSeverity).join(','),
-              };
-              return this.logService.searchLogs(this.previousQueryParams);
-            }),
-            finalize(() => {
-              this.isSearching = false;
-              this.hasResult = true;
-            }))
-            .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-              (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .pipe(
+        concatMap(([timestampFrom, timestampUntil]: number[]) => {
+          this.setQueryParams(timestampFrom, timestampUntil);
+          return this.logService.searchLogs(this.previousQueryParams);
+        }),
+        finalize(() => {
+          this.isSearching = false;
+          this.hasResult = true;
+        }))
+      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private isFormValid(): boolean {
+    if (this.formModel.logsFilter === '') {
+      this.statusMessageService.showErrorToast('Please choose to filter by severity / minimum severity / event');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.SEVERITY && this.formModel.logsSeverity === '') {
+      this.statusMessageService.showErrorToast('Please choose a severity level');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.logsMinSeverity === '') {
+      this.statusMessageService.showErrorToast('Please choose a minimum severity level');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.EVENT && this.formModel.logsEvent === '') {
+      this.statusMessageService.showErrorToast('Please choose an event type');
+      return false;
+    }
+    if (!this.formModel.sourceLocationFile && this.formModel.sourceLocationFunction) {
+      this.isFiltersExpanded = true;
+      this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
+      return false;
+    }
+
+    return true;
+  }
+
+  private setQueryParams(timestampFrom: number, timestampUntil: number): void {
+    this.previousQueryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+    };
+
+    if (this.formModel.logsFilter === this.SEVERITY) {
+      this.previousQueryParams.severity = this.formModel.logsSeverity;
+    }
+
+    if (this.formModel.logsFilter === this.MIN_SEVERITY) {
+      this.previousQueryParams.minSeverity = this.formModel.logsMinSeverity;
+    }
+
+    if (this.formModel.logsFilter === this.EVENT) {
+      this.previousQueryParams.logEvent = this.formModel.logsEvent;
+    }
+
+    if (this.formModel.apiEndpoint) {
+      this.previousQueryParams.apiEndpoint = this.formModel.apiEndpoint;
+    }
+
+    if (this.formModel.traceId) {
+      this.previousQueryParams.traceId = this.formModel.traceId;
+    }
+
+    if (this.formModel.googleId) {
+      this.previousQueryParams.googleId = this.formModel.googleId;
+    }
+
+    if (this.formModel.regkey) {
+      this.previousQueryParams.regkey = this.formModel.regkey;
+    }
+
+    if (this.formModel.email) {
+      this.previousQueryParams.email = this.formModel.email;
+    }
+
+    if (this.formModel.sourceLocationFile) {
+      this.previousQueryParams.sourceLocationFile = this.formModel.sourceLocationFile;
+    }
+
+    if (this.formModel.sourceLocationFunction) {
+      this.previousQueryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
+    }
+
+    if (this.formModel.exceptionClass) {
+      this.previousQueryParams.exceptionClass = this.formModel.exceptionClass;
+    }
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
@@ -152,6 +251,7 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
+    let userInfo: any;
     if (log.message) {
       summary = `Source: ${log.sourceLocation.file}`;
       payload = this.formatTextPayloadForDisplay(log.message);
@@ -161,7 +261,7 @@ export class LogsPageComponent implements OnInit {
         summary += `${payload.requestMethod} `;
       }
       if (payload.requestUrl) {
-        summary += `${payload.requestUrl}`;
+        summary += `${payload.requestUrl} `;
       }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
@@ -172,18 +272,21 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         summary += `${payload.actionClass}`;
       }
+      if (payload.userInfo) {
+        userInfo = payload.userInfo;
+        payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
+      }
     }
     return {
       summary,
       httpStatus,
       responseTime,
+      userInfo,
+      traceId: log.trace,
+      sourceLocation: log.sourceLocation,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
-      details: JSON.parse(JSON.stringify({
-        payload,
-        sourceLocation: log.sourceLocation,
-        trace: log.trace,
-      })),
+      details: payload,
       isDetailsExpanded: false,
     };
   }
@@ -200,6 +303,43 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.previousQueryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  addTraceToFilter(trace: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.traceId = trace;
+    this.statusMessageService.showSuccessToast('Trace ID added to filters');
+  }
+
+  addSourceLocationToFilter(sourceLocation: SourceLocation): void {
+    this.isFiltersExpanded = true;
+    this.formModel.sourceLocationFile = sourceLocation.file;
+    this.formModel.sourceLocationFunction = sourceLocation.function;
+    this.statusMessageService.showSuccessToast('Source location added to filters');
+  }
+
+  addUserInfoToFilter(userInfo: any): void {
+    this.isFiltersExpanded = true;
+    if (userInfo.googleId) {
+      this.formModel.googleId = userInfo.googleId;
+    } else if (userInfo.regkey) {
+      this.formModel.regkey = userInfo.regkey;
+    } else if (userInfo.email) {
+      this.formModel.email = userInfo.email;
+    }
+
+    this.statusMessageService.showSuccessToast('User info added to filters');
+  }
+
+  clearFilters(): void {
+    this.formModel.traceId = '';
+    this.formModel.googleId = '';
+    this.formModel.regkey = '';
+    this.formModel.email = '';
+    this.formModel.apiEndpoint = '';
+    this.formModel.sourceLocationFile = '';
+    this.formModel.sourceLocationFunction = '';
+    this.formModel.exceptionClass = '';
   }
 }

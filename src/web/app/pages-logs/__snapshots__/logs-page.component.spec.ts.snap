@@ -2,13 +2,19 @@
 
 exports[`LogsPageComponent should snap when page is still loading 1`] = `
 <tm-logs-page
+  API_ENDPOINTS={[Function Array]}
+  EVENT={[Function String]}
+  EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
+  SEVERITY={[Function String]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
   logService={[Function LogService]}
@@ -50,13 +56,19 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
 
 exports[`LogsPageComponent should snap when searching for details in search form 1`] = `
 <tm-logs-page
+  API_ENDPOINTS={[Function Array]}
+  EVENT={[Function String]}
+  EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
+  SEVERITY={[Function String]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  isFiltersExpanded="false"
   isLoading="false"
   isSearching={[Function Boolean]}
   logService={[Function LogService]}
@@ -247,89 +259,8 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </tm-time-picker>
             </div>
           </div>
-        </div>
-        <div
-          class="col-4"
-        >
           <div
-            class="col-12"
-          >
-            <label
-              class="font-weight-bold"
-              for="log-severity-checkbox"
-            >
-              Log severity level
-            </label>
-          </div>
-          
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                INFO
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                WARNING
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                ERROR
-              </span>
-            </label>
-          </div>
-        </div>
-        <div
-          class="col-1 mt-4"
-        >
-          <button
-            class="float-right btn btn-primary"
-            id="query-button"
-          >
-            Query
-          </button>
-        </div>
-      </div>
-      <div
-        class="row form-group"
-      >
-        <div
-          class="col-6"
-        >
-          <div
-            class="col-12 mb-1"
+            class="col-12 mb-1 mt-4"
           >
             <label
               class="font-weight-bold"
@@ -494,7 +425,168 @@ exports[`LogsPageComponent should snap when searching for details in search form
             </div>
           </div>
         </div>
+        <div
+          class="col-4"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="log-severity-radio"
+            >
+              Log severity level / event
+            </label>
+          </div>
+          <div
+            class="form-check"
+          >
+            <label
+              class="form-check-label"
+              id="log-severity-radio"
+            >
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="severity"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="equal"
+                >
+                  severity = 
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="INFO"
+                  >
+                    INFO
+                  </option>
+                  <option
+                    value="WARNING"
+                  >
+                    WARNING
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    ERROR
+                  </option>
+                </select>
+              </div>
+              <br />
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="minSeverity"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="above"
+                >
+                  severity &gt;= 
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="INFO"
+                  >
+                    INFO
+                  </option>
+                  <option
+                    value="WARNING"
+                  >
+                    WARNING
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    ERROR
+                  </option>
+                </select>
+              </div>
+              <br />
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="event"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="all"
+                >
+                  All event logs  
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="REQUEST_RECEIVED"
+                  >
+                    REQUEST_RECEIVED
+                  </option>
+                  <option
+                    value="RESPONSE_DISPATCHED"
+                  >
+                    RESPONSE_DISPATCHED
+                  </option>
+                  <option
+                    value="EMAIL_SENT"
+                  >
+                    EMAIL_SENT
+                  </option>
+                  <option
+                    value="FEEDBACK_SESSION_AUDIT"
+                  >
+                    FEEDBACK_SESSION_AUDIT
+                  </option>
+                </select>
+              </div>
+              <br />
+            </label>
+          </div>
+        </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            id="query-button"
+          >
+            Query
+          </button>
+        </div>
       </div>
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-12"
+        >
+          <div
+            class="col-12 mb-1 mt-2"
+          >
+            <button
+              class="btn btn-success"
+            >
+              <i
+                class="fas fa-plus"
+              />
+               Advanced filters 
+            </button>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div><div>
     
@@ -520,13 +612,19 @@ exports[`LogsPageComponent should snap when searching for details in search form
 
 exports[`LogsPageComponent should snap with default fields 1`] = `
 <tm-logs-page
+  API_ENDPOINTS={[Function Array]}
+  EVENT={[Function String]}
+  EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
+  SEVERITY={[Function String]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  isFiltersExpanded="false"
   isLoading="false"
   isSearching="false"
   logService={[Function LogService]}
@@ -717,89 +815,8 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               </tm-time-picker>
             </div>
           </div>
-        </div>
-        <div
-          class="col-4"
-        >
           <div
-            class="col-12"
-          >
-            <label
-              class="font-weight-bold"
-              for="log-severity-checkbox"
-            >
-              Log severity level
-            </label>
-          </div>
-          
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                INFO
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                WARNING
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                ERROR
-              </span>
-            </label>
-          </div>
-        </div>
-        <div
-          class="col-1 mt-4"
-        >
-          <button
-            class="float-right btn btn-primary"
-            id="query-button"
-          >
-            Query
-          </button>
-        </div>
-      </div>
-      <div
-        class="row form-group"
-      >
-        <div
-          class="col-6"
-        >
-          <div
-            class="col-12 mb-1"
+            class="col-12 mb-1 mt-4"
           >
             <label
               class="font-weight-bold"
@@ -964,7 +981,168 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="col-4"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="log-severity-radio"
+            >
+              Log severity level / event
+            </label>
+          </div>
+          <div
+            class="form-check"
+          >
+            <label
+              class="form-check-label"
+              id="log-severity-radio"
+            >
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="severity"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="equal"
+                >
+                  severity = 
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="INFO"
+                  >
+                    INFO
+                  </option>
+                  <option
+                    value="WARNING"
+                  >
+                    WARNING
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    ERROR
+                  </option>
+                </select>
+              </div>
+              <br />
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="minSeverity"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="above"
+                >
+                  severity &gt;= 
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="INFO"
+                  >
+                    INFO
+                  </option>
+                  <option
+                    value="WARNING"
+                  >
+                    WARNING
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    ERROR
+                  </option>
+                </select>
+              </div>
+              <br />
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="event"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="all"
+                >
+                  All event logs  
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="REQUEST_RECEIVED"
+                  >
+                    REQUEST_RECEIVED
+                  </option>
+                  <option
+                    value="RESPONSE_DISPATCHED"
+                  >
+                    RESPONSE_DISPATCHED
+                  </option>
+                  <option
+                    value="EMAIL_SENT"
+                  >
+                    EMAIL_SENT
+                  </option>
+                  <option
+                    value="FEEDBACK_SESSION_AUDIT"
+                  >
+                    FEEDBACK_SESSION_AUDIT
+                  </option>
+                </select>
+              </div>
+              <br />
+            </label>
+          </div>
+        </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            id="query-button"
+          >
+            Query
+          </button>
+        </div>
       </div>
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-12"
+        >
+          <div
+            class="col-12 mb-1 mt-2"
+          >
+            <button
+              class="btn btn-success"
+            >
+              <i
+                class="fas fa-plus"
+              />
+               Advanced filters 
+            </button>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </div><div>
     
