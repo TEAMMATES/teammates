@@ -11,6 +11,8 @@ import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
+import teammates.common.datatransfer.QueryLogsParams;
+import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -90,12 +92,12 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public QueryLogsResults queryLogs(String severity, String minSeverity, Instant startTime, Instant endTime,
-            String trace, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
-            SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
 
-        Predicate<MockGeneralLogEntry> filterPredicate = getPredicate(severity, minSeverity, startTime, endTime, trace,
-                apiEndpoint, googleId, regkey, email, logEvent, sourceLocation, exceptionClass);
+        Predicate<MockGeneralLogEntry> filterPredicate = getPredicate(queryLogsParams.getSeverityLevel(),
+                queryLogsParams.getMinSeverity(), queryLogsParams.getStartTime(), queryLogsParams.getEndTime(),
+                queryLogsParams.getTraceId(), queryLogsParams.getActionClass(), queryLogsParams.getUserInfoParams(),
+                queryLogsParams.getLogEvent(), queryLogsParams.getSourceLocation(), queryLogsParams.getExceptionClass());
 
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         generalLogs.forEach(logEntry -> {
@@ -118,7 +120,7 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     private Predicate<MockGeneralLogEntry> getPredicate(String severity, String minSeverity, Instant startTime,
-            Instant endTime, String trace, String apiEndpoint, String googleId, String regkey, String email,
+            Instant endTime, String trace, String apiEndpoint, UserInfoParams userInfoParams,
             String logEvent, SourceLocation sourceLocation, String exceptionClass) {
         assert startTime != null && endTime != null;
         return logEntry -> {
@@ -146,17 +148,17 @@ public class MockLogsProcessor extends LogsProcessor {
             if (apiEndpoint != null) {
                 matchApiEndpoint = logEntry.getApiEndpoint() != null && logEntry.getApiEndpoint().equals(apiEndpoint);
             }
-            if (googleId != null) {
-                matchGoogleId = logEntry.getUserInfo() != null && logEntry.getUserInfo().googleId != null
-                        && logEntry.getUserInfo().googleId.equals(googleId);
+            if (userInfoParams.getGoogleId() != null) {
+                matchGoogleId = logEntry.getUserInfo() != null && logEntry.getUserInfo().getGoogleId() != null
+                        && logEntry.getUserInfo().getGoogleId().equals(userInfoParams.getGoogleId());
             }
-            if (regkey != null) {
-                matchRegkey = logEntry.getUserInfo() != null && logEntry.getUserInfo().regkey != null
-                        && logEntry.getUserInfo().regkey.equals(regkey);
+            if (userInfoParams.getRegkey() != null) {
+                matchRegkey = logEntry.getUserInfo() != null && logEntry.getUserInfo().getRegkey() != null
+                        && logEntry.getUserInfo().getRegkey().equals(userInfoParams.getRegkey());
             }
-            if (email != null) {
-                matchEmail = logEntry.getUserInfo() != null && logEntry.getUserInfo().email != null
-                        && logEntry.getUserInfo().email.equals(email);
+            if (userInfoParams.getEmail() != null) {
+                matchEmail = logEntry.getUserInfo() != null && logEntry.getUserInfo().getEmail() != null
+                        && logEntry.getUserInfo().getEmail().equals(userInfoParams.getEmail());
             }
             if (logEvent != null) {
                 matchLogEvent = logEntry.getLogEvent() != null && logEntry.getLogEvent().equals(logEvent);
@@ -184,7 +186,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public static class MockGeneralLogEntry extends GeneralLogEntry {
         private final String apiEndpoint;
-        private final UserInfo userInfo;
+        private final UserInfoParams userInfoParams;
         private final String logEvent;
         private final String exceptionClass;
 
@@ -193,7 +195,7 @@ public class MockLogsProcessor extends LogsProcessor {
                 String exceptionClass) {
             super(logName, severity, trace, sourceLocation, timestamp);
             this.apiEndpoint = apiEndpoint;
-            this.userInfo = new UserInfo(googleId, regkey, email);
+            this.userInfoParams = new UserInfoParams(googleId, regkey, email);
             this.logEvent = logEvent;
             this.exceptionClass = exceptionClass;
         }
@@ -202,8 +204,8 @@ public class MockLogsProcessor extends LogsProcessor {
             return apiEndpoint;
         }
 
-        public UserInfo getUserInfo() {
-            return userInfo;
+        public UserInfoParams getUserInfo() {
+            return userInfoParams;
         }
 
         public String getLogEvent() {
@@ -212,33 +214,6 @@ public class MockLogsProcessor extends LogsProcessor {
 
         public String getExceptionClass() {
             return exceptionClass;
-        }
-
-        /**
-         * Represents user information.
-         */
-        public static class UserInfo {
-            String googleId;
-            String regkey;
-            String email;
-
-            public UserInfo(String google, String regkey, String email) {
-                this.googleId = google;
-                this.regkey = regkey;
-                this.email = email;
-            }
-
-            public String getGoogleId() {
-                return googleId;
-            }
-
-            public String getRegkey() {
-                return regkey;
-            }
-
-            public String getEmail() {
-                return email;
-            }
         }
     }
 

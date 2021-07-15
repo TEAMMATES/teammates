@@ -5,6 +5,7 @@ import java.time.Instant;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
+import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
@@ -59,11 +60,12 @@ public class QueryLogsAction extends AdminOnlyAction {
         String sourceLocationFunction = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FUNCTION);
         String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
 
+        QueryLogsParams queryLogsParams = new QueryLogsParams(severity, minSeverity, startTime, endTime,
+                traceId, apiEndpoint, googleId, regkey, email, logEvent,
+                new SourceLocation(sourceLocationFile, null, sourceLocationFunction), exceptionClass,
+                DEFAULT_PAGE_SIZE, nextPageToken);
         try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(severity, minSeverity, startTime, endTime,
-                    traceId, apiEndpoint, googleId, regkey, email, logEvent,
-                    new SourceLocation(sourceLocationFile, null, sourceLocationFunction), exceptionClass,
-                    DEFAULT_PAGE_SIZE, nextPageToken);
+            QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {

@@ -29,6 +29,8 @@ import com.google.protobuf.util.JsonFormat;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
+import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -119,33 +121,29 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String apiEndpoint, String googleId, String regkey, String email, String logEvent,
-            GeneralLogEntry.SourceLocation sourceLocationFilter, String exceptionClass, Integer pageSize, String pageToken)
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams)
             throws LogServiceException {
 
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME)
-                .setStartTime(startTime)
-                .setEndTime(endTime)
-                .setTraceId(traceId)
-                .setApiEndpoint(apiEndpoint)
-                .setGoogleId(googleId)
-                .setRegkey(regkey)
-                .setEmail(email)
-                .setLogEvent(logEvent)
-                .setSourceLocation(sourceLocationFilter)
-                .setExceptionClass(exceptionClass);
-        if (severityLevel != null) {
-            logSearchParams.setSeverity(severityLevel);
-        } else if (minSeverity != null) {
-            logSearchParams.setMinSeverity(LogSeverity.valueOf(minSeverity));
+                .setStartTime(queryLogsParams.getStartTime())
+                .setEndTime(queryLogsParams.getEndTime())
+                .setTraceId(queryLogsParams.getTraceId())
+                .setApiEndpoint(queryLogsParams.getActionClass())
+                .setUserInfoParams(queryLogsParams.getUserInfoParams())
+                .setLogEvent(queryLogsParams.getLogEvent())
+                .setSourceLocation(queryLogsParams.getSourceLocation())
+                .setExceptionClass(queryLogsParams.getExceptionClass());
+        if (queryLogsParams.getSeverityLevel() != null) {
+            logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
+        } else if (queryLogsParams.getMinSeverity() != null) {
+            logSearchParams.setMinSeverity(LogSeverity.valueOf(queryLogsParams.getMinSeverity()));
         } else {
             logSearchParams.setMinSeverity(LogSeverity.INFO);
         }
 
-        PageParams pageParams = new PageParams(pageSize, pageToken);
+        PageParams pageParams = new PageParams(queryLogsParams.getPageSize(), queryLogsParams.getPageToken());
 
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, pageParams);
         List<GeneralLogEntry> logEntries = new ArrayList<>();
@@ -270,14 +268,16 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.apiEndpoint != null) {
             logFilters.add("jsonPayload.actionClass=\"" + s.apiEndpoint + "\"");
         }
-        if (s.googleId != null) {
-            logFilters.add("jsonPayload.userInfo.googleId=\"" + s.googleId + "\"");
-        }
-        if (s.regkey != null) {
-            logFilters.add("jsonPayload.userInfo.regkey=\"" + s.regkey + "\"");
-        }
-        if (s.email != null) {
-            logFilters.add("jsonPayload.userInfo.email=\"" + s.email + "\"");
+        if (s.userInfoParams != null) {
+            if (s.userInfoParams.getGoogleId() != null) {
+                logFilters.add("jsonPayload.userInfo.googleId=\"" + s.userInfoParams.getGoogleId() + "\"");
+            }
+            if (s.userInfoParams.getRegkey() != null) {
+                logFilters.add("jsonPayload.userInfo.regkey=\"" + s.userInfoParams.getRegkey() + "\"");
+            }
+            if (s.userInfoParams.getEmail() != null) {
+                logFilters.add("jsonPayload.userInfo.email=\"" + s.userInfoParams.getEmail() + "\"");
+            }
         }
         if (s.logEvent != null) {
             logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
@@ -343,9 +343,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Map<String, String> resourceLabels = new HashMap<>();
         private String traceId;
         private String apiEndpoint;
-        private String googleId;
-        private String regkey;
-        private String email;
+        private UserInfoParams userInfoParams;
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
         private String exceptionClass;
@@ -404,18 +402,8 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setGoogleId(String googleId) {
-            this.googleId = googleId;
-            return this;
-        }
-
-        public LogSearchParams setRegkey(String regkey) {
-            this.regkey = regkey;
-            return this;
-        }
-
-        public LogSearchParams setEmail(String email) {
-            this.email = email;
+        public LogSearchParams setUserInfoParams(UserInfoParams userInfoParams) {
+            this.userInfoParams = userInfoParams;
             return this;
         }
 
