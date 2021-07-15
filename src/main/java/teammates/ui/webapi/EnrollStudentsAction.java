@@ -32,7 +32,7 @@ class EnrollStudentsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return authType.LOGGED_IN;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
@@ -48,7 +48,7 @@ class EnrollStudentsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);

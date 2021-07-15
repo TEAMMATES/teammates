@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Represents the result of executing an {@link Action}.
  */
-abstract class ActionResult {
+public abstract class ActionResult {
 
     private final int statusCode;
 
@@ -18,9 +18,9 @@ abstract class ActionResult {
     /**
      * Packages and forwards the action result to the HTTP response.
      */
-    abstract void send(HttpServletResponse resp) throws IOException;
+    public abstract void send(HttpServletResponse resp) throws IOException;
 
-    int getStatusCode() {
+    public int getStatusCode() {
         return statusCode;
     }
 

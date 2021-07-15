@@ -48,7 +48,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         InstructorAttributes instructorAttributes;

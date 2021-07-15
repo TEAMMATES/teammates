@@ -44,7 +44,7 @@ class GetStudentProfilePictureAction extends Action {
     }
 
     @Override
-    ActionResult execute() {
+    public ActionResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
