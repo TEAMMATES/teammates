@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
@@ -64,7 +65,8 @@ export class LogsPageComponent implements OnInit {
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService,
+    private router: Router) { }
 
   ngOnInit(): void {
     const today: Date = new Date();
@@ -201,5 +203,9 @@ export class LogsPageComponent implements OnInit {
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  toHistogramPage(): void {
+    this.router.navigateByUrl('web/admin/logs/histogram');
   }
 }

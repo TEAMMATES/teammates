@@ -62,17 +62,70 @@ export class LogService {
   searchLogs(queryParams: {
     searchFrom: string,
     searchUntil: string,
-    severities: string,
+    severity?: string,
+    minSeverity?: string,
+    logEvent?: string,
     nextPageToken?: string,
+    apiEndpoint?: string,
+    traceId?: string,
+    googleId?: string,
+    regkey?: string,
+    email?: string,
+    sourceLocationFile?: string,
+    sourceLocationFunction?: string,
+    exceptionClass?: string,
   }): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       starttime: queryParams.searchFrom,
       endtime: queryParams.searchUntil,
-      severities: queryParams.severities,
     };
+
+    if (queryParams.severity) {
+      paramMap.severity = queryParams.severity;
+    }
+
+    if (queryParams.minSeverity) {
+      paramMap.minseverity = queryParams.minSeverity;
+    }
+
+    if (queryParams.logEvent) {
+      paramMap.logevent = queryParams.logEvent;
+    }
 
     if (queryParams.nextPageToken) {
       paramMap.nextpagetoken = queryParams.nextPageToken;
+    }
+
+    if (queryParams.apiEndpoint) {
+      paramMap.apiendpoint = queryParams.apiEndpoint;
+    }
+
+    if (queryParams.traceId) {
+      paramMap.traceid = queryParams.traceId;
+    }
+
+    if (queryParams.googleId) {
+      paramMap.googleid = queryParams.googleId;
+    }
+
+    if (queryParams.regkey) {
+      paramMap.regkey = queryParams.regkey;
+    }
+
+    if (queryParams.email) {
+      paramMap.email = queryParams.email;
+    }
+
+    if (queryParams.sourceLocationFile) {
+      paramMap.sourcelocationfile = queryParams.sourceLocationFile;
+    }
+
+    if (queryParams.sourceLocationFunction) {
+      paramMap.sourcelocationfunction = queryParams.sourceLocationFunction;
+    }
+
+    if (queryParams.exceptionClass) {
+      paramMap.exceptionclass = queryParams.exceptionClass;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);

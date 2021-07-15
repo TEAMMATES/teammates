@@ -1,10 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`LogsPageComponent should snap when page is still loading 1`] = `
-<tm-logs-page
+exports[`LogsHistogramPageComponent should snap when page is still loading 1`] = `
+<tm-logs-histogram-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  SEVERITIES={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -14,19 +13,19 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   logService={[Function LogService]}
   nextPageToken=""
   previousQueryParams={[Function Object]}
-  router={[Function Router]}
-  searchResults={[Function Array]}
+  route={[Function Router]}
+  searchResult={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Logs
+    Logs Histogram View
   </h1><p>
-    This page allows you to view the logs in the past 30 days.
+    This page provides a histogram view for error logs in the past 30 days.
   </p><button
     class="btn btn-info"
   >
-    Go to histogram
+    Go to logs page
   </button><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -41,23 +40,24 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
         Loading...
       </div>
     </div>
-  </tm-loading-spinner><div>
-    
+  </tm-loading-spinner><div
+    id="histogram"
+    style="height: 400px; width: 100%;"
+  >
     
     <div
-      class="center"
+      class="no-data-message"
     >
-      
+       There are no error logs in this time period. 
     </div>
   </div>
-</tm-logs-page>
+</tm-logs-histogram-page>
 `;
 
-exports[`LogsPageComponent should snap when searching for details in search form 1`] = `
-<tm-logs-page
+exports[`LogsHistogramPageComponent should snap when searching for details in search form 1`] = `
+<tm-logs-histogram-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  SEVERITIES={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -67,19 +67,19 @@ exports[`LogsPageComponent should snap when searching for details in search form
   logService={[Function LogService]}
   nextPageToken=""
   previousQueryParams={[Function Object]}
-  router={[Function Router]}
-  searchResults={[Function Array]}
+  route={[Function Router]}
+  searchResult={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Logs
+    Logs Histogram View
   </h1><p>
-    This page allows you to view the logs in the past 30 days.
+    This page provides a histogram view for error logs in the past 30 days.
   </p><button
     class="btn btn-info"
   >
-    Go to histogram
+    Go to logs page
   </button><hr /><div
     class="card bg-form no-border"
   >
@@ -90,7 +90,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
         class="row form-group"
       >
         <div
-          class="col-6"
+          class="col-5"
         >
           <div
             class="col-12 mb-1"
@@ -124,7 +124,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-4"
               id="logs-from-timepicker"
             >
               <tm-time-picker>
@@ -259,84 +259,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
           </div>
         </div>
         <div
-          class="col-4"
-        >
-          <div
-            class="col-12"
-          >
-            <label
-              class="font-weight-bold"
-              for="log-severity-checkbox"
-            >
-              Log severity level
-            </label>
-          </div>
-          
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                INFO
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                WARNING
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                ERROR
-              </span>
-            </label>
-          </div>
-        </div>
-        <div
-          class="col-1 mt-4"
-        >
-          <button
-            class="float-right btn btn-primary"
-            id="query-button"
-          >
-            Query
-          </button>
-        </div>
-      </div>
-      <div
-        class="row form-group"
-      >
-        <div
-          class="col-6"
+          class="col-5"
         >
           <div
             class="col-12 mb-1"
@@ -370,7 +293,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-4"
               id="logs-to-timepicker"
             >
               <tm-time-picker>
@@ -504,35 +427,40 @@ exports[`LogsPageComponent should snap when searching for details in search form
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div><div>
-    
-    
-    <tm-loading-spinner>
-      <div
-        class="loading-container"
-      >
         <div
-          class="row spinner-border text-primary"
-          role="status"
-        />
-        <div
-          class="row text-secondary"
+          class="col-1 mt-4"
         >
-          Loading...
+          <button
+            class="float-right btn btn-primary"
+            id="query-button"
+          >
+            Query
+          </button>
         </div>
       </div>
-    </tm-loading-spinner>
-  </div>
-</tm-logs-page>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner>
+</tm-logs-histogram-page>
 `;
 
-exports[`LogsPageComponent should snap with default fields 1`] = `
-<tm-logs-page
+exports[`LogsHistogramPageComponent should snap with default fields 1`] = `
+<tm-logs-histogram-page
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  SEVERITIES={[Function Array]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -542,19 +470,19 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   logService={[Function LogService]}
   nextPageToken=""
   previousQueryParams={[Function Object]}
-  router={[Function Router]}
-  searchResults={[Function Array]}
+  route={[Function Router]}
+  searchResult={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
   <h1>
-    Logs
+    Logs Histogram View
   </h1><p>
-    This page allows you to view the logs in the past 30 days.
+    This page provides a histogram view for error logs in the past 30 days.
   </p><button
     class="btn btn-info"
   >
-    Go to histogram
+    Go to logs page
   </button><hr /><div
     class="card bg-form no-border"
   >
@@ -565,7 +493,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
         class="row form-group"
       >
         <div
-          class="col-6"
+          class="col-5"
         >
           <div
             class="col-12 mb-1"
@@ -599,7 +527,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-4"
               id="logs-from-timepicker"
             >
               <tm-time-picker>
@@ -734,84 +662,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
           </div>
         </div>
         <div
-          class="col-4"
-        >
-          <div
-            class="col-12"
-          >
-            <label
-              class="font-weight-bold"
-              for="log-severity-checkbox"
-            >
-              Log severity level
-            </label>
-          </div>
-          
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                INFO
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                WARNING
-              </span>
-            </label>
-          </div>
-          <div
-            class="form-check"
-          >
-            <label
-              class="form-check-label"
-              id="log-severity-checkbox"
-            >
-              <input
-                class="form-check-input"
-                type="checkbox"
-              />
-              <span>
-                ERROR
-              </span>
-            </label>
-          </div>
-        </div>
-        <div
-          class="col-1 mt-4"
-        >
-          <button
-            class="float-right btn btn-primary"
-            id="query-button"
-          >
-            Query
-          </button>
-        </div>
-      </div>
-      <div
-        class="row form-group"
-      >
-        <div
-          class="col-6"
+          class="col-5"
         >
           <div
             class="col-12 mb-1"
@@ -845,7 +696,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               </button>
             </div>
             <div
-              class="col-md-3"
+              class="col-md-4"
               id="logs-to-timepicker"
             >
               <tm-time-picker>
@@ -979,16 +830,28 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
             </div>
           </div>
         </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            id="query-button"
+          >
+            Query
+          </button>
+        </div>
       </div>
     </div>
-  </div><div>
-    
+  </div><div
+    id="histogram"
+    style="height: 400px; width: 100%;"
+  >
     
     <div
-      class="center"
+      class="no-data-message"
     >
-      
+       There are no error logs in this time period. 
     </div>
   </div>
-</tm-logs-page>
+</tm-logs-histogram-page>
 `;
