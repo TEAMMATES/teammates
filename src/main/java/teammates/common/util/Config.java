@@ -59,6 +59,9 @@ public final class Config {
     /** The value of the "app.admins" in build.properties file. */
     public static final List<String> APP_ADMINS;
 
+    /** The value of the "app.maintainers" in build.properties file. */
+    public static final List<String> APP_MAINTAINERS;
+
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
 
@@ -120,6 +123,7 @@ public final class Config {
         OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
         APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
+        APP_MAINTAINERS = Arrays.asList(properties.getProperty("app.maintainers", "").split(","));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");

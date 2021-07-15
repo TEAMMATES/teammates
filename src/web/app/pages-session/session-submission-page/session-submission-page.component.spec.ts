@@ -526,6 +526,7 @@ describe('SessionSubmissionPageComponent', () => {
       isAdmin: false,
       isInstructor: false,
       isStudent: true,
+      isMaintainer: false,
     },
   };
 
