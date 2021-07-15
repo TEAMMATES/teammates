@@ -123,17 +123,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   searchForLogs(): void {
-    if (this.formModel.logsFilter === ''
-      || (this.formModel.logsFilter === this.SEVERITY && this.formModel.logsSeverity === '')
-      || (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.logsMinSeverity === '')
-      || (this.formModel.logsFilter === this.EVENT && this.formModel.logsEvent === '')) {
-      this.statusMessageService.showErrorToast('Please select severity level / event');
-      return;
-    }
-
-    if (!this.formModel.sourceLocationFile && this.formModel.sourceLocationFunction) {
-      this.isFiltersExpanded = true;
-      this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
+    if (!this.isFormValid()) {
       return;
     }
 
@@ -159,6 +149,32 @@ export class LogsPageComponent implements OnInit {
         }))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private isFormValid(): boolean {
+    if (this.formModel.logsFilter === '') {
+      this.statusMessageService.showErrorToast('Please choose to filter by severity / minimum severity / event');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.SEVERITY && this.formModel.logsSeverity === '') {
+      this.statusMessageService.showErrorToast('Please choose a severity level');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.logsMinSeverity === '') {
+      this.statusMessageService.showErrorToast('Please choose a minimum severity level');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.EVENT && this.formModel.logsEvent === '') {
+      this.statusMessageService.showErrorToast('Please choose an event type');
+      return false;
+    }
+    if (!this.formModel.sourceLocationFile && this.formModel.sourceLocationFunction) {
+      this.isFiltersExpanded = true;
+      this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
+      return false;
+    }
+
+    return true;
   }
 
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {

@@ -24,7 +24,7 @@
               <div>
                 <details open>
                   <summary class="title">source location:</summary>
-                  <pre class="clickable margin-left-3em wrap" (click)="addSourceLocationToFilter(log.sourceLocation)" [innerHTML]="log.sourceLocation | json"></pre>
+                  <pre class="clickable margin-left-3em wrap" title="Click to add to filter" (click)="addSourceLocationToFilter(log.sourceLocation)" [innerHTML]="log.sourceLocation | json"></pre>
                 </details>
               </div>
               <details open>
@@ -33,11 +33,11 @@
               </details>
               <details open *ngIf="log.userInfo">
                 <summary class="title">userInfo:</summary>
-                <pre class="clickable margin-left-3em wrap" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
+                <pre class="clickable margin-left-3em wrap" title="Click to add to filter" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
               </details>
-              <div>
-                <span class="title" *ngIf="log.traceId">trace: </span>
-                <span class="clickable" (click)="addTraceToFilter(log.traceId)">{{ log.traceId }}</span>
+              <div *ngIf="log.traceId">
+                <span class="title">trace: </span>
+                <span class="clickable" title="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceId }}</span>
               </div>
             </td>
           </tr>

@@ -178,7 +178,45 @@ describe('LogsPageComponent', () => {
     const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
-    expect(spy).lastCalledWith('Please select severity level / event');
+    expect(spy).lastCalledWith('Please choose a severity level');
+  });
+
+  it('should display error messgae if minimum severity level is not selected', () => {
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'minSeverity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+    };
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+    expect(spy).lastCalledWith('Please choose a minimum severity level');
+  });
+
+  it('should display error messgae if event type is not selected', () => {
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'event',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+    };
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+    expect(spy).lastCalledWith('Please choose an event type');
   });
 
   it('should display error messgae if source function is filled and source file is empty', () => {
