@@ -341,8 +341,14 @@ this session.`;
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
             'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
-          this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
         }
+
+        if (resp.status === 403) {
+          this.simpleModalService.openInformationModal('Feedback Session Is Not Visible!', SimpleModalType.DANGER,
+            'The session is not visible (most likely updated by the instructor after the submission link was sent).');
+        }
+        
+        this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
       });
   }
 
