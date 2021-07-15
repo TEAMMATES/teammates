@@ -108,9 +108,13 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
         tooltip
           .html(`File: ${d.sourceLocation.file} <br> Function: ${d.sourceLocation.function} <br> Frequency: ${d.numberOfTimes}`)
           .style('visibility', 'visible'))
-      .on('mousemove', () => tooltip
-        .style('top', `${d3.event.pageY - 10}px`)
-        .style('left', `${d3.event.pageX - 10}px`))
+      .on('mousemove', () => {
+        const top: number = d3.event.pageY - 10;
+        const left: number = d3.event.pageX + 10;
+        tooltip
+          .style('top', `${top}px`)
+          .style('left', `${left}px`);
+      })
       .on('mouseout', () => tooltip.html('').style('visibility', 'hidden'));
   }
 }
