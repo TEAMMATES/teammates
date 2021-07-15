@@ -347,7 +347,7 @@ this session.`;
           this.simpleModalService.openInformationModal('Feedback Session Is Not Visible!', SimpleModalType.DANGER,
             'The session is not visible (most likely updated by the instructor after the submission link was sent).');
         }
-        
+
         this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
       });
   }
