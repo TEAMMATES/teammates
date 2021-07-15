@@ -48,7 +48,7 @@
           <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="Course for which the feedback session is for.">Course ID</span>
           </div>
-          <div class="col-md-4 text-md-left">
+          <div class="col-md-auto text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
               <select id="add-course-id" class="form-control" [ngClass]="{'is-invalid': courseCandidates.length === 0}" [ngModel]="model.courseId" (ngModelChange)="courseIdChangeHandler($event)" [disabled]="courseCandidates.length === 0">
                 <option *ngFor="let course of courseCandidates" [ngValue]="course.courseId">{{ course.courseId }}</option>
@@ -59,10 +59,13 @@
             </div>
             <div id="edit-course-id" *ngIf="formMode === SessionEditFormMode.EDIT"> {{ model.courseId }} </div>
           </div>
-          <div class="col-md-2 text-md-right font-bold mt-3 mt-md-0" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+        </div>
+        <br/>
+        <div class="row text-center">
+          <div class="col-md-2 text-md-right font-bold" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             Time Zone
           </div>
-          <div id="time-zone" class="col-md-4 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
+          <div id="time-zone" class="col-md-2 text-md-left" [ngClass]="{'col-form-label': formMode === SessionEditFormMode.ADD}">
             <span class="ngb-tooltip-class" ngbTooltip="To change this, edit the course settings. TEAMMATES automatically adjusts to match the current time offset in your area, including clock changes due to daylight saving time.">{{ model.timeZone }}</span>
           </div>
         </div>
@@ -71,7 +74,7 @@
           <div class="col-md-2 text-md-right font-bold">
             Course Name
           </div>
-          <div id="course-name" class="col-md-4 text-md-left">
+          <div id="course-name" class="col-md-10 text-md-left">
             {{ model.courseName }}
           </div>
         </div>
@@ -81,7 +84,7 @@
             <span *ngIf="formMode === SessionEditFormMode.ADD" class="ngb-tooltip-class" ngbTooltip="Enter the name of the feedback session e.g. Feedback Session 1.">Session Name</span>
             <span *ngIf="formMode !== SessionEditFormMode.ADD">Session Name</span>
           </div>
-          <div class="col-md-7 text-md-left">
+          <div class="col-md-10 text-md-left">
             <div *ngIf="formMode === SessionEditFormMode.ADD">
               <input id="add-session-name" type="text" class="form-control" [ngModel]="model.feedbackSessionName" (ngModelChange)="triggerModelChange('feedbackSessionName', $event)" placeholder="e.g. Feedback for Project Presentation 1" maxlength="64" />
               <div>

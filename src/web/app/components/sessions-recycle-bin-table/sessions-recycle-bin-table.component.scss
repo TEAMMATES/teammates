@@ -19,3 +19,8 @@
 .actions-cell button {
   margin-right: var(--btn-margin);
 }
+
+.td-text-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}

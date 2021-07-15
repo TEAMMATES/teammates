@@ -43,7 +43,7 @@
       </thead>
       <tbody>
       <tr *ngFor="let sessionsTableRowModel of sessionsTableRowModels; let idx = index">
-        <td *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
+        <td class="td-text-break" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
         <td class="td-text-break">{{ sessionsTableRowModel.feedbackSession.feedbackSessionName }}</td>
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
           <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone" >{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
