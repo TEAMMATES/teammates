@@ -93,18 +93,31 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
-
-        Predicate<MockGeneralLogEntry> filterPredicate = getPredicate(queryLogsParams.getSeverityLevel(),
-                queryLogsParams.getMinSeverity(), queryLogsParams.getStartTime(), queryLogsParams.getEndTime(),
-                queryLogsParams.getTraceId(), queryLogsParams.getActionClass(), queryLogsParams.getUserInfoParams(),
-                queryLogsParams.getLogEvent(), queryLogsParams.getSourceLocation(), queryLogsParams.getExceptionClass());
-
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        generalLogs.forEach(logEntry -> {
-            if (filterPredicate.test((MockGeneralLogEntry) logEntry)) {
-                queryResults.add(logEntry);
-            }
-        });
+        if (queryLogsParams.getSeverityLevel() != null) {
+            generalLogs.forEach(entry -> {
+                if (queryLogsParams.getSeverityLevel().equals(entry.getSeverity())
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else if (queryLogsParams.getMinSeverity() != null) {
+            generalLogs.forEach(entry -> {
+                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber() <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else {
+            generalLogs.forEach(entry -> {
+                if (entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        }
         return new QueryLogsResults(queryResults, null);
     }
 
@@ -117,68 +130,6 @@ public class MockLogsProcessor extends LogsProcessor {
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) {
         return feedbackSessionLogs;
-    }
-
-    private Predicate<MockGeneralLogEntry> getPredicate(String severity, String minSeverity, Instant startTime,
-            Instant endTime, String trace, String actionClass, UserInfoParams userInfoParams,
-            String logEvent, SourceLocation sourceLocation, String exceptionClass) {
-        assert startTime != null && endTime != null;
-        return logEntry -> {
-            boolean matchSeverity = true;
-            boolean matchTimePeriod = startTime.toEpochMilli() <= logEntry.getTimestamp()
-                    && logEntry.getTimestamp() <= endTime.toEpochMilli();
-            boolean matchTrace = true;
-            boolean matchActionClass = true;
-            boolean matchGoogleId = true;
-            boolean matchRegkey = true;
-            boolean matchEmail = true;
-            boolean matchLogEvent = true;
-            boolean matchSourceLocation = true;
-            boolean matchExceptionClass = true;
-
-            if (severity != null) {
-                matchSeverity = logEntry.getSeverity().equals(severity);
-            } else if (minSeverity != null) {
-                matchSeverity = LogSeverity.valueOf(minSeverity).getNumber()
-                        <= LogSeverity.valueOf(logEntry.getSeverity()).getNumber();
-            }
-            if (trace != null) {
-                matchTrace = logEntry.getTrace().equals(trace);
-            }
-            if (actionClass != null) {
-                matchActionClass = logEntry.getActionClass() != null && logEntry.getActionClass().equals(actionClass);
-            }
-            if (userInfoParams.getGoogleId() != null) {
-                matchGoogleId = logEntry.getUserInfo() != null && logEntry.getUserInfo().getGoogleId() != null
-                        && logEntry.getUserInfo().getGoogleId().equals(userInfoParams.getGoogleId());
-            }
-            if (userInfoParams.getRegkey() != null) {
-                matchRegkey = logEntry.getUserInfo() != null && logEntry.getUserInfo().getRegkey() != null
-                        && logEntry.getUserInfo().getRegkey().equals(userInfoParams.getRegkey());
-            }
-            if (userInfoParams.getEmail() != null) {
-                matchEmail = logEntry.getUserInfo() != null && logEntry.getUserInfo().getEmail() != null
-                        && logEntry.getUserInfo().getEmail().equals(userInfoParams.getEmail());
-            }
-            if (logEvent != null) {
-                matchLogEvent = logEntry.getLogEvent() != null && logEntry.getLogEvent().equals(logEvent);
-            }
-            if (sourceLocation != null && sourceLocation.getFile() != null) {
-                matchSourceLocation = logEntry.getSourceLocation() != null
-                        && logEntry.getSourceLocation().getFile() != null
-                        && logEntry.getSourceLocation().getFile().equals(sourceLocation.getFile());
-                if (sourceLocation.getFunction() != null) {
-                    matchSourceLocation = matchSourceLocation && logEntry.getSourceLocation().getFunction() != null
-                            && logEntry.getSourceLocation().getFunction().equals(sourceLocation.getFunction());
-                }
-            }
-            if (exceptionClass != null) {
-                matchExceptionClass = logEntry.getExceptionClass() != null
-                        && logEntry.getExceptionClass().equals(exceptionClass);
-            }
-            return matchSeverity && matchTimePeriod && matchTrace && matchActionClass && matchGoogleId && matchRegkey
-                    && matchEmail && matchLogEvent && matchSourceLocation && matchExceptionClass;
-        };
     }
 
     /**
