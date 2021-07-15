@@ -79,7 +79,7 @@ export class LogsHistogramComponent implements OnInit, OnChanges {
       .style('position', 'absolute')
       .style('z-index', '10')
       .style('visibility', 'hidden')
-      .style('padding", "10px')
+      .style('padding', '10px')
       .style('background', '#000')
       .style('border-radius', '5px')
       .style('color', '#fff');
