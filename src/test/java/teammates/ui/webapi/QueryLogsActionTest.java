@@ -10,7 +10,6 @@ import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.LogEvent;
-import teammates.test.MockLogsProcessor.MockGeneralLogEntry;
 import teammates.ui.output.GeneralLogsData;
 
 /**

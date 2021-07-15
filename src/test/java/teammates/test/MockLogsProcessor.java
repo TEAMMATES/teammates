@@ -3,14 +3,12 @@ package teammates.test;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 import com.google.logging.type.LogSeverity;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
-import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
 import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
@@ -104,7 +102,8 @@ public class MockLogsProcessor extends LogsProcessor {
             });
         } else if (queryLogsParams.getMinSeverity() != null) {
             generalLogs.forEach(entry -> {
-                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber() <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber()
+                        <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
                         && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
                         && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
                     queryResults.add(entry);
