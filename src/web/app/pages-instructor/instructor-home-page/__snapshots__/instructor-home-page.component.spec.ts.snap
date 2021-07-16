@@ -399,7 +399,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -927,7 +927,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -1586,7 +1586,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -1849,7 +1849,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -2140,7 +2140,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"

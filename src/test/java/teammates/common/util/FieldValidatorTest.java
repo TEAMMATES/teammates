@@ -512,7 +512,7 @@ public class FieldValidatorTest extends BaseTestCase {
         String tooLongCourseId = StringHelperExtension.generateStringOfLength(
                                                            FieldValidator.COURSE_ID_MAX_LENGTH + 1);
         assertEquals("Invalid Course ID (too long) should return appropriate error string",
-                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" " 
+                     "\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\" "
                          + "is not acceptable to TEAMMATES as a/an course ID because it is too long. "
                          + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, "
                          + "and dollar signs. It cannot be longer than 64 characters, "
