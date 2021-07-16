@@ -9,7 +9,7 @@ import org.apache.solr.common.SolrDocument;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.InstructorsDb;
 
@@ -54,7 +54,7 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
     /**
      * Searches for instructors.
      */
-    public List<InstructorAttributes> searchInstructors(String queryString) throws SearchNotImplementedException {
+    public List<InstructorAttributes> searchInstructors(String queryString) throws SearchServiceException {
         SolrQuery query = getBasicQuery(queryString);
 
         QueryResponse response = performQuery(query);

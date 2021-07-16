@@ -49,21 +49,6 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btn-save-course")
     private WebElement submitButton;
 
-    @FindBy(id = "active-courses-table")
-    private WebElement activeCoursesTable;
-
-    @FindBy (id = "archived-courses-table")
-    private WebElement archivedCoursesTable;
-
-    @FindBy (id = "deleted-courses-table")
-    private WebElement deletedCoursesTable;
-
-    @FindBy(id = "deleted-table-heading")
-    private WebElement deleteTableHeading;
-
-    @FindBy(id = "archived-table-heading")
-    private WebElement archiveTableHeading;
-
     public InstructorCoursesPage(Browser browser) {
         super(browser);
     }
@@ -73,10 +58,22 @@ public class InstructorCoursesPage extends AppPage {
         return getPageTitle().contains("Courses");
     }
 
+    private WebElement getActiveCoursesTable() {
+        return browser.driver.findElement(By.id("active-courses-table"));
+    }
+
+    private WebElement getArchivedCoursesTable() {
+        return browser.driver.findElement(By.id("archived-courses-table"));
+    }
+
+    private WebElement getDeletedCoursesTable() {
+        return browser.driver.findElement(By.id("deleted-courses-table"));
+    }
+
     public void verifyActiveCoursesDetails(CourseAttributes[] courses) {
         String[][] courseDetails = getCourseDetails(courses);
         // use verifyTableBodyValues as active courses are sorted
-        verifyTableBodyValues(activeCoursesTable, courseDetails);
+        verifyTableBodyValues(getActiveCoursesTable(), courseDetails);
     }
 
     public void verifyActiveCourseStatistics(CourseAttributes course, String numSections, String numTeams,
@@ -198,13 +195,13 @@ public class InstructorCoursesPage extends AppPage {
 
     public void showDeleteTable() {
         if (!isElementVisible(By.id("deleted-course-id-0"))) {
-            click(deleteTableHeading);
+            click(By.id("deleted-table-heading"));
         }
     }
 
     public void showArchiveTable() {
         if (!isElementVisible(By.id("archived-course-id-0"))) {
-            click(archiveTableHeading);
+            click(By.id("archived-table-heading"));
         }
     }
 
@@ -246,17 +243,17 @@ public class InstructorCoursesPage extends AppPage {
 
     private WebElement getActiveTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
-        return activeCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
+        return getActiveCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private WebElement getArchivedTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfArchivedCourse(courseId);
-        return archivedCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
+        return getArchivedCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private WebElement getDeletedTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfDeletedCourse(courseId);
-        return deletedCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
+        return getDeletedCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private String[][] getCourseDetails(CourseAttributes[] courses) {
@@ -353,7 +350,7 @@ public class InstructorCoursesPage extends AppPage {
 
     private int getCourseCount() {
         try {
-            return activeCoursesTable.findElements(By.cssSelector("tbody tr")).size();
+            return getActiveCoursesTable().findElements(By.cssSelector("tbody tr")).size();
         } catch (NoSuchElementException e) {
             return 0;
         }
@@ -361,7 +358,7 @@ public class InstructorCoursesPage extends AppPage {
 
     private int getArchivedCourseCount() {
         try {
-            return archivedCoursesTable.findElements(By.cssSelector("tbody tr")).size();
+            return getArchivedCoursesTable().findElements(By.cssSelector("tbody tr")).size();
         } catch (NoSuchElementException e) {
             return 0;
         }
@@ -369,7 +366,7 @@ public class InstructorCoursesPage extends AppPage {
 
     private int getDeletedCourseCount() {
         try {
-            return deletedCoursesTable.findElements(By.cssSelector("tbody tr")).size();
+            return getDeletedCoursesTable().findElements(By.cssSelector("tbody tr")).size();
         } catch (NoSuchElementException e) {
             return 0;
         }

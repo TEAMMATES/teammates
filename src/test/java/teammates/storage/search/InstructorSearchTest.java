@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
@@ -204,7 +204,7 @@ public class InstructorSearchTest extends BaseSearchTest {
             return;
         }
 
-        assertThrows(SearchNotImplementedException.class,
+        assertThrows(SearchServiceException.class,
                 () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
     }
 
