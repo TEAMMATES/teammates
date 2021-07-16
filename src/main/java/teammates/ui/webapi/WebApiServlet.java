@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -162,9 +163,9 @@ public class WebApiServlet extends HttpServlet {
         String studentEmail = action.getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (regkey != null && studentEmail == null) {
-            StudentAttributes student = action.logic.getStudentForRegistrationKey(regkey);
-            if (student != null) {
-                studentEmail = student.getEmail();
+            Optional<StudentAttributes> student = action.getUnregisteredStudent();
+            if (student.isPresent()) {
+                studentEmail = student.get().getEmail();
             }
         }
 
