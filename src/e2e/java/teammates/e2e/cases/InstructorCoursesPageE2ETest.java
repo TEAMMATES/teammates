@@ -110,8 +110,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithCopyCourse);
-        verifyPresentInDatastore(copyCourse);
-        verifyPresentInDatastore(copySession);
+        verifyPresentInDatabase(copyCourse);
+        verifyPresentInDatabase(copySession);
 
         ______TS("archive course");
         CourseAttributes[] archivedCoursesWithNewCourse = { newCourse, courses[1] };

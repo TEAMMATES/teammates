@@ -84,22 +84,23 @@ class CreateFeedbackSessionAction extends Action {
         return new JsonResult(output);
     }
 
-    private void createFeedbackQuestions(String copyCourseId, String newCourseId, String feedbackSessionName, String oldSessionName) {
+    private void createFeedbackQuestions(String copyCourseId, String newCourseId, String feedbackSessionName,
+            String oldSessionName) {
         logic.getFeedbackQuestionsForSession(oldSessionName, copyCourseId).forEach(question -> {
             FeedbackQuestionAttributes attributes = FeedbackQuestionAttributes.builder()
-                .withCourseId(newCourseId)
-                .withFeedbackSessionName(feedbackSessionName)
-                .withGiverType(question.getGiverType())
-                .withRecipientType(question.getRecipientType())
-                .withQuestionNumber(question.getQuestionNumber())
-                .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackTo())
-                .withShowResponsesTo(question.getShowResponsesTo())
-                .withShowGiverNameTo(question.getShowGiverNameTo())
-                .withShowRecipientNameTo(question.getShowRecipientNameTo())
-                .withQuestionDetails(question.getQuestionDetails())
-                .withQuestionDescription(question.getQuestionDescription())
-                .build();
-            
+                    .withCourseId(newCourseId)
+                    .withFeedbackSessionName(feedbackSessionName)
+                    .withGiverType(question.getGiverType())
+                    .withRecipientType(question.getRecipientType())
+                    .withQuestionNumber(question.getQuestionNumber())
+                    .withNumberOfEntitiesToGiveFeedbackTo(question.getNumberOfEntitiesToGiveFeedbackTo())
+                    .withShowResponsesTo(question.getShowResponsesTo())
+                    .withShowGiverNameTo(question.getShowGiverNameTo())
+                    .withShowRecipientNameTo(question.getShowRecipientNameTo())
+                    .withQuestionDetails(question.getQuestionDetails())
+                    .withQuestionDescription(question.getQuestionDescription())
+                    .build();
+
             // validate questions (giver & recipient)
             String err = attributes.getQuestionDetails().validateGiverRecipientVisibility(attributes);
             if (!err.isEmpty()) {
