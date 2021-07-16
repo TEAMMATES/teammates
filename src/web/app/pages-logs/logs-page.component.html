@@ -118,11 +118,11 @@
       <div class="row form-group mt-4">
         <div class="col-5">
           <div class="col-12">
-            <label for="api-endpoint" class="font-weight-bold">API endpoint</label>
-            <select id="api-endpoint" class="form-control col-12" [(ngModel)]="formModel.apiEndpoint">
+            <label for="actionClass" class="font-weight-bold">Action class</label>
+            <select id="actionClass" class="form-control col-12" [(ngModel)]="formModel.actionClass">
               <option [value]=""></option>
-              <option *ngFor="let endpoint of API_ENDPOINTS" [value]="endpoint">
-                {{ endpoint }}
+              <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
+                {{ actionClass }}
               </option>
             </select>
           </div>

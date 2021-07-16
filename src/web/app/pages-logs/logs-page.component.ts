@@ -5,7 +5,7 @@ import { concatMap, finalize, map } from 'rxjs/operators';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
-import { ActionNames, ApiConst } from '../../types/api-const';
+import { ApiConst } from '../../types/api-const';
 import { GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
@@ -29,7 +29,7 @@ interface SearchLogsFormModel {
   googleId?: string;
   regkey?: string;
   email?: string;
-  apiEndpoint?: string;
+  actionClass?: string;
   sourceLocationFile?: string;
   sourceLocationFunction?: string;
   exceptionClass?: string;
@@ -45,7 +45,7 @@ interface QueryParams {
   minSeverity?: string;
   logEvent?: string;
   nextPageToken?: string;
-  apiEndpoint?: string;
+  actionClass?: string;
   traceId?: string;
   googleId?: string;
   regkey?: string;
@@ -72,7 +72,7 @@ export class LogsPageComponent implements OnInit {
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
-  readonly API_ENDPOINTS: string[] = Object.values(ActionNames).sort();
+  ACTION_CLASSES: string[] = [];
 
   formModel: SearchLogsFormModel = {
     logsSeverity: '',
@@ -84,7 +84,7 @@ export class LogsPageComponent implements OnInit {
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '' };
+  queryParams: QueryParams = { searchFrom: '', searchUntil: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -99,6 +99,7 @@ export class LogsPageComponent implements OnInit {
     private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     const today: Date = new Date();
     this.dateToday.year = today.getFullYear();
     this.dateToday.month = today.getMonth() + 1;
@@ -120,6 +121,10 @@ export class LogsPageComponent implements OnInit {
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
+
+    this.logService.getActionClassList()
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe((actionList: string[]) => this.ACTION_CLASSES = actionList.sort());
   }
 
   searchForLogs(): void {
@@ -141,7 +146,7 @@ export class LogsPageComponent implements OnInit {
       .pipe(
         concatMap(([timestampFrom, timestampUntil]: number[]) => {
           this.setQueryParams(timestampFrom, timestampUntil);
-          return this.logService.searchLogs(this.previousQueryParams);
+          return this.logService.searchLogs(this.queryParams);
         }),
         finalize(() => {
           this.isSearching = false;
@@ -178,53 +183,53 @@ export class LogsPageComponent implements OnInit {
   }
 
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
-    this.previousQueryParams = {
+    this.queryParams = {
       searchFrom: timestampFrom.toString(),
       searchUntil: timestampUntil.toString(),
     };
 
     if (this.formModel.logsFilter === this.SEVERITY) {
-      this.previousQueryParams.severity = this.formModel.logsSeverity;
+      this.queryParams.severity = this.formModel.logsSeverity;
     }
 
     if (this.formModel.logsFilter === this.MIN_SEVERITY) {
-      this.previousQueryParams.minSeverity = this.formModel.logsMinSeverity;
+      this.queryParams.minSeverity = this.formModel.logsMinSeverity;
     }
 
     if (this.formModel.logsFilter === this.EVENT) {
-      this.previousQueryParams.logEvent = this.formModel.logsEvent;
+      this.queryParams.logEvent = this.formModel.logsEvent;
     }
 
-    if (this.formModel.apiEndpoint) {
-      this.previousQueryParams.apiEndpoint = this.formModel.apiEndpoint;
+    if (this.formModel.actionClass) {
+      this.queryParams.actionClass = this.formModel.actionClass;
     }
 
     if (this.formModel.traceId) {
-      this.previousQueryParams.traceId = this.formModel.traceId;
+      this.queryParams.traceId = this.formModel.traceId;
     }
 
     if (this.formModel.googleId) {
-      this.previousQueryParams.googleId = this.formModel.googleId;
+      this.queryParams.googleId = this.formModel.googleId;
     }
 
     if (this.formModel.regkey) {
-      this.previousQueryParams.regkey = this.formModel.regkey;
+      this.queryParams.regkey = this.formModel.regkey;
     }
 
     if (this.formModel.email) {
-      this.previousQueryParams.email = this.formModel.email;
+      this.queryParams.email = this.formModel.email;
     }
 
     if (this.formModel.sourceLocationFile) {
-      this.previousQueryParams.sourceLocationFile = this.formModel.sourceLocationFile;
+      this.queryParams.sourceLocationFile = this.formModel.sourceLocationFile;
     }
 
     if (this.formModel.sourceLocationFunction) {
-      this.previousQueryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
+      this.queryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
     }
 
     if (this.formModel.exceptionClass) {
-      this.previousQueryParams.exceptionClass = this.formModel.exceptionClass;
+      this.queryParams.exceptionClass = this.formModel.exceptionClass;
     }
   }
 
@@ -299,8 +304,8 @@ export class LogsPageComponent implements OnInit {
 
   getNextPageLogs(): void {
     this.isSearching = true;
-    this.previousQueryParams.nextPageToken = this.nextPageToken;
-    this.logService.searchLogs(this.previousQueryParams)
+    this.queryParams.nextPageToken = this.nextPageToken;
+    this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
@@ -337,7 +342,7 @@ export class LogsPageComponent implements OnInit {
     this.formModel.googleId = '';
     this.formModel.regkey = '';
     this.formModel.email = '';
-    this.formModel.apiEndpoint = '';
+    this.formModel.actionClass = '';
     this.formModel.sourceLocationFile = '';
     this.formModel.sourceLocationFunction = '';
     this.formModel.exceptionClass = '';
