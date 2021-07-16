@@ -50,7 +50,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.addTextQuestion(loadedQuestion);
 
         feedbackEditPage.verifyTextQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -62,7 +62,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyTextQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails.setRecommendedLength(200);
@@ -70,7 +70,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.editTextQuestion(3, questionDetails);
 
         feedbackEditPage.verifyTextQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackResponseAttributes response = getResponse(questionId, receiver, "<p>This is the response for qn 1</p>");
         feedbackSubmitPage.submitTextResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -102,7 +102,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, InstructorAttributes instructor, String answer) {

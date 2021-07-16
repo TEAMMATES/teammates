@@ -76,7 +76,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
                         FieldValidator.COURSE_ID_FIELD_NAME, REASON_INCORRECT_FORMAT,
                         FieldValidator.COURSE_ID_MAX_LENGTH),
                 ipe.getMessage());
-        verifyAbsentInDatastore(s);
+        verifyAbsentInDatabase(s);
 
         ______TS("success : valid params");
         s.course = "valid-course";
@@ -85,7 +85,7 @@ public class StudentsDbTest extends BaseComponentTestCase {
         studentsDb.deleteStudent(s.course, s.email);
 
         studentsDb.createEntity(s);
-        verifyPresentInDatastore(s);
+        verifyPresentInDatabase(s);
         StudentAttributes retrievedStudent = studentsDb.getStudentForGoogleId(s.course, s.googleId);
         assertTrue(isEnrollInfoSameAs(retrievedStudent, s));
         assertNull(studentsDb.getStudentForGoogleId(s.course + "not existing", s.googleId));

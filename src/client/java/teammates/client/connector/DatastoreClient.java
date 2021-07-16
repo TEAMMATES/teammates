@@ -13,7 +13,7 @@ import teammates.common.util.Config;
 import teammates.storage.api.OfyHelper;
 
 /**
- * Enables access to any Datastore (local/production).
+ * Enables access to any datastore (local/production).
  */
 public abstract class DatastoreClient {
 

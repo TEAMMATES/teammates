@@ -16,28 +16,28 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 
 /**
- * Base class for all test cases which are allowed to access the Datastore.
+ * Base class for all test cases which are allowed to access the database.
  */
-public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithObjectifyAccess {
+public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObjectifyAccess {
 
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;
     private static final int OPERATION_RETRY_COUNT = 5;
     private static final int OPERATION_RETRY_DELAY_IN_MS = 1000;
 
-    protected void verifyPresentInDatastore(DataBundle data) {
-        data.accounts.values().forEach(this::verifyPresentInDatastore);
+    protected void verifyPresentInDatabase(DataBundle data) {
+        data.accounts.values().forEach(this::verifyPresentInDatabase);
 
-        data.instructors.values().forEach(this::verifyPresentInDatastore);
+        data.instructors.values().forEach(this::verifyPresentInDatabase);
 
         data.courses.values().stream()
                 .filter(course -> !course.isCourseDeleted())
-                .forEach(this::verifyPresentInDatastore);
+                .forEach(this::verifyPresentInDatabase);
 
-        data.students.values().forEach(this::verifyPresentInDatastore);
+        data.students.values().forEach(this::verifyPresentInDatabase);
     }
 
-    protected void verifyPresentInDatastore(EntityAttributes<?> expected) {
+    protected void verifyPresentInDatabase(EntityAttributes<?> expected) {
         int retryLimit = VERIFICATION_RETRY_COUNT;
         EntityAttributes<?> actual = getEntity(expected);
         while (actual == null && retryLimit > 0) {
@@ -81,7 +81,7 @@ public abstract class BaseTestCaseWithDatastoreAccess extends BaseTestCaseWithOb
         }
     }
 
-    protected void verifyAbsentInDatastore(EntityAttributes<?> entity) {
+    protected void verifyAbsentInDatabase(EntityAttributes<?> entity) {
         int retryLimit = VERIFICATION_RETRY_COUNT;
         EntityAttributes<?> actual = getEntity(entity);
         while (actual != null && retryLimit > 0) {
