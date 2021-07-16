@@ -6,7 +6,7 @@ import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
-import { GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
+import { ActionClasses, GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
@@ -124,7 +124,7 @@ export class LogsPageComponent implements OnInit {
 
     this.logService.getActionClassList()
       .pipe(finalize(() => this.isLoading = false))
-      .subscribe((actionList: string[]) => this.ACTION_CLASSES = actionList.sort());
+      .subscribe((actionClasses: ActionClasses) => this.ACTION_CLASSES = actionClasses.actionClasses.sort());
   }
 
   searchForLogs(): void {

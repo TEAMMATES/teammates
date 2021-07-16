@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogType, ResourceEndpoints } from '../types/api-const';
-import { FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
+import { ActionClasses, FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -131,7 +131,7 @@ export class LogService {
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
   }
 
-  getActionClassList(): Observable<string[]> {
-    return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS);
+  getActionClassList(): Observable<ActionClasses> {
+    return this.httpRequestService.get(ResourceEndpoints.ACTION_CLASS);
   }
 }
