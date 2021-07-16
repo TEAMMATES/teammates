@@ -55,7 +55,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.addRubricQuestion(loadedQuestion);
 
         feedbackEditPage.verifyRubricQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
@@ -67,7 +67,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyRubricQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         // add a new choice
@@ -93,9 +93,10 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails.setRubricWeightsForEachCell(new ArrayList<>());
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editRubricQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyRubricQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -113,7 +114,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackResponseAttributes response = getResponse(questionId, receiver, Arrays.asList(1, 1));
         feedbackSubmitPage.submitRubricResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -125,7 +126,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRubricResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, List<Integer> answers) {

@@ -314,8 +314,13 @@ task copyDistToStagedApp {
 }
 
 appengineStage {
-    dependsOn explodeWar
-    finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp, copyDistToStagedApp
+    if (project.hasProperty("flex")) {
+        dependsOn explodeWar
+        finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp, copyDistToStagedApp
+    } else {
+        dependsOn explodeWar, copyDistToExplodedWar
+        finalizedBy removeWarFromStagedApp, copyExplodedWarToStagedApp
+    }
 }
 
 // STATIC ANALYSIS TASKS
@@ -325,6 +330,9 @@ def isWindows = System.getProperty("os.name").toLowerCase().contains("windows")
 checkstyle {
     toolVersion = checkstyleVersion
     configFile = file("static-analysis/teammates-checkstyle.xml")
+    configProperties = [
+        suppressions: file("static-analysis/teammates-checkstyle-suppressions.xml")
+    ]
 }
 
 pmd {

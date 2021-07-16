@@ -140,8 +140,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                                                                FeedbackQuestionAttributes question) {
         List<FeedbackResponseAttributes> givenResponses = testData.feedbackResponses.values().stream()
                 .filter(f -> f.getFeedbackQuestionId().equals(Integer.toString(question.getQuestionNumber()))
-                        && f.getGiver().equals(currentStudent.getEmail())
-                        && !f.getRecipient().equals(currentStudent.getEmail()))
+                        && f.getGiver().equals(currentStudent.getEmail()))
                 .collect(Collectors.toList());
         return editIdentifiers(currentStudent, givenResponses);
     }
