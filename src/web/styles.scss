@@ -76,6 +76,8 @@ h6,
 
 .modal-body {
   padding: 1rem 1.25rem;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .modal-footer {

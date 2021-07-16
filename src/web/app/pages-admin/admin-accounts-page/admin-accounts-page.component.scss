@@ -1,3 +1,8 @@
 .control-label {
   font-weight: 600;
 }
+
+.td-text-break {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}

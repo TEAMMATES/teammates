@@ -6,3 +6,8 @@
 .inline {
   display: inline;
 }
+
+#course-details {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
