@@ -12,7 +12,7 @@ class GetActionClassesAction extends AdminOnlyAction {
     @Override
     ActionResult execute() {
         List<String> actionClasses = ActionFactory.ACTION_MAPPINGS.values().stream()
-                .flatMap(map -> map.values().stream().map(actionClass -> actionClass.getSimpleName()))
+                .flatMap(map -> map.values().stream().map(Class::getSimpleName))
                 .collect(Collectors.toList());
         return new JsonResult(new ActionClasses(actionClasses));
     }

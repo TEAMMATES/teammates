@@ -24,7 +24,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Override
     protected void testExecute() throws Exception {
         ______TS("retrieve list of action class names");
-
         GetActionClassesAction action = getAction();
         action.execute();
         JsonResult result = getJsonResult(action);
