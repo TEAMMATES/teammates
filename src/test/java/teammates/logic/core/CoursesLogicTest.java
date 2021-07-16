@@ -393,7 +393,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 "\"" + invalidCourse.getId() + "\" is not acceptable to TEAMMATES as a/an course ID because"
                 + " it is not in the correct format. "
                 + "A course ID can contain letters, numbers, fullstops, hyphens, underscores, and dollar signs. "
-                + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces.";
+                + "It cannot be longer than 64 characters, cannot be empty and cannot contain spaces.";
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesLogic.createCourseAndInstructor(i.googleId,
