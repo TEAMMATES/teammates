@@ -2,6 +2,8 @@ package teammates.common.datatransfer;
 
 import java.time.Instant;
 
+import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
+
 /**
  * Represents the parameters used for querying logs.
  */
@@ -14,26 +16,18 @@ public class QueryLogsParams {
     String actionClass;
     UserInfoParams userInfoParams;
     String logEvent;
-    GeneralLogEntry.SourceLocation sourceLocation;
+    SourceLocation sourceLocation;
     String exceptionClass;
     Integer pageSize;
     String pageToken;
 
-    public QueryLogsParams(String severityLevel, String minSeverity, Instant startTime, Instant endTime,
-            String traceId, String actionClass, String googleId, String regkey, String email, String logEvent,
-            GeneralLogEntry.SourceLocation sourceLocation, String exceptionClass, Integer pageSize, String pageToken) {
-        this.severityLevel = severityLevel;
-        this.minSeverity = minSeverity;
+    private QueryLogsParams(Instant startTime, Instant endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.traceId = traceId;
-        this.actionClass = actionClass;
-        this.userInfoParams = new UserInfoParams(googleId, regkey, email);
-        this.logEvent = logEvent;
-        this.sourceLocation = sourceLocation;
-        this.exceptionClass = exceptionClass;
-        this.pageSize = pageSize;
-        this.pageToken = pageToken;
+    }
+
+    public static Builder builder(Instant startTime, Instant endTime) {
+        return new Builder(startTime, endTime);
     }
 
     public String getSeverityLevel() {
@@ -108,6 +102,68 @@ public class QueryLogsParams {
 
         public String getEmail() {
             return email;
+        }
+    }
+
+    public static class Builder {
+        QueryLogsParams queryLogsParams;
+
+        private Builder(Instant startTime, Instant endTime) {
+            this.queryLogsParams = new QueryLogsParams(startTime, endTime);
+        }
+
+        public Builder withSeverityLevel(String severityLevel) {
+            queryLogsParams.severityLevel = severityLevel;
+            return this;
+        }
+
+        public Builder withMinSeverity(String minSeverity) {
+            queryLogsParams.minSeverity = minSeverity;
+            return this;
+        }
+
+        public Builder withTraceId(String traceId) {
+            queryLogsParams.traceId = traceId;
+            return this;
+        }
+
+        public Builder withActionClass(String actionClass) {
+            queryLogsParams.actionClass = actionClass;
+            return this;
+        }
+
+        public Builder withUserInfo(UserInfoParams userInfoParams) {
+            queryLogsParams.userInfoParams = userInfoParams;
+            return this;
+        }
+
+        public Builder withLogEvent(String logEvent) {
+            queryLogsParams.logEvent = logEvent;
+            return this;
+        }
+
+        public Builder withSourceLocation(SourceLocation sourceLocation) {
+            queryLogsParams.sourceLocation = sourceLocation;
+            return this;
+        }
+
+        public Builder withExceptionClass(String exceptionClass) {
+            queryLogsParams.exceptionClass = exceptionClass;
+            return this;
+        }
+
+        public Builder withPageSize(Integer pageSize) {
+            queryLogsParams.pageSize = pageSize;
+            return this;
+        }
+
+        public Builder withPageToken(String pageToken) {
+            queryLogsParams.pageToken = pageToken;
+            return this;
+        }
+
+        public QueryLogsParams build() {
+            return queryLogsParams;
         }
     }
 }

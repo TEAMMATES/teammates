@@ -124,24 +124,9 @@ public class GoogleCloudLoggingService implements LogService {
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams)
             throws LogServiceException {
 
-        LogSearchParams logSearchParams = new LogSearchParams()
+        LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
-                .addLogName(STDERR_LOG_NAME)
-                .setStartTime(queryLogsParams.getStartTime())
-                .setEndTime(queryLogsParams.getEndTime())
-                .setTraceId(queryLogsParams.getTraceId())
-                .setActionClass(queryLogsParams.getActionClass())
-                .setUserInfoParams(queryLogsParams.getUserInfoParams())
-                .setLogEvent(queryLogsParams.getLogEvent())
-                .setSourceLocation(queryLogsParams.getSourceLocation())
-                .setExceptionClass(queryLogsParams.getExceptionClass());
-        if (queryLogsParams.getSeverityLevel() != null) {
-            logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
-        } else if (queryLogsParams.getMinSeverity() != null) {
-            logSearchParams.setMinSeverity(LogSeverity.valueOf(queryLogsParams.getMinSeverity()));
-        } else {
-            logSearchParams.setMinSeverity(LogSeverity.INFO);
-        }
+                .addLogName(STDERR_LOG_NAME);
 
         PageParams pageParams = new PageParams(queryLogsParams.getPageSize(), queryLogsParams.getPageToken());
 
@@ -347,6 +332,26 @@ public class GoogleCloudLoggingService implements LogService {
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
         private String exceptionClass;
+
+        public static LogSearchParams from(QueryLogsParams queryLogsParams) {
+            LogSearchParams logSearchParams = new LogSearchParams()
+                    .setStartTime(queryLogsParams.getStartTime())
+                    .setEndTime(queryLogsParams.getEndTime())
+                    .setTraceId(queryLogsParams.getTraceId())
+                    .setActionClass(queryLogsParams.getActionClass())
+                    .setUserInfoParams(queryLogsParams.getUserInfoParams())
+                    .setLogEvent(queryLogsParams.getLogEvent())
+                    .setSourceLocation(queryLogsParams.getSourceLocation())
+                    .setExceptionClass(queryLogsParams.getExceptionClass());
+            if (queryLogsParams.getSeverityLevel() != null) {
+                logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
+            } else if (queryLogsParams.getMinSeverity() != null) {
+                logSearchParams.setMinSeverity(LogSeverity.valueOf(queryLogsParams.getMinSeverity()));
+            } else {
+                logSearchParams.setMinSeverity(LogSeverity.INFO);
+            }
+            return logSearchParams;
+        }
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
