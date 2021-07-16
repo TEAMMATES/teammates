@@ -25,9 +25,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
     private CourseAttributes[] courses = new CourseAttributes[4];
     private CourseAttributes newCourse;
     private CourseAttributes copyCourse;
-    private FeedbackSessionAttributes session;
     private FeedbackSessionAttributes copySession;
-    private InstructorAttributes instructor;
 
     @Override
     protected void prepareTestData() {
@@ -38,9 +36,9 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         courses[1] = testData.courses.get("CS2104");
         courses[2] = testData.courses.get("CS2105");
         courses[3] = testData.courses.get("CS1231");
-        session = testData.feedbackSessions.get("session");
-        instructor = testData.instructors.get("instructorCS1231");
-        
+        FeedbackSessionAttributes session = testData.feedbackSessions.get("session");
+        InstructorAttributes instructor = testData.instructors.get("instructorCS1231");
+
         newCourse = CourseAttributes.builder("tm.e2e.ICs.CS4100")
                 .withName("New Course")
                 .withTimezone(ZoneId.of("Asia/Singapore"))
@@ -50,7 +48,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
                 .withName("Copy Course")
                 .withTimezone(ZoneId.of("Asia/Singapore"))
                 .build();
-        
+
         copySession = FeedbackSessionAttributes
                 .builder("Second Session", copyCourse.getId())
                 .withCreatorEmail(instructor.getEmail())
@@ -106,7 +104,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         ______TS("copy course");
         CourseAttributes[] activeCoursesWithCopyCourse = { courses[0], courses[3], newCourse, copyCourse };
         coursesPage.copyCourse(courses[3].getId(), copyCourse);
-        
+
         coursesPage.verifyStatusMessage("The course has been added.");
         coursesPage.sortByCourseId();
         coursesPage.verifyActiveCoursesDetails(activeCoursesWithCopyCourse);
@@ -146,7 +144,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore active course");
         newCourse.deletedAt = null;
-        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { copyCourse, newCourse, courses[0], courses[3] };
+        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate =
+                { copyCourse, newCourse, courses[0], courses[3] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");

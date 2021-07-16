@@ -80,7 +80,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           </label>
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            id="new-course-name"
+            id="copy-course-name"
             maxlength="64"
             placeholder="e.g. Software Engineering"
             type="text"
@@ -106,7 +106,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
-              id="new-time-zone"
+              id="copy-time-zone"
             >
               
               <option
@@ -3190,7 +3190,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           </label>
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            id="new-course-name"
+            id="copy-course-name"
             maxlength="64"
             placeholder="e.g. Software Engineering"
             type="text"
@@ -3216,7 +3216,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
-              id="new-time-zone"
+              id="copy-time-zone"
             >
               
               <option
@@ -6283,7 +6283,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           </label>
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
-            id="new-course-name"
+            id="copy-course-name"
             maxlength="64"
             placeholder="e.g. Software Engineering"
             type="text"
@@ -6309,7 +6309,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           >
             <select
               class="form-control ng-untouched ng-pristine ng-valid"
-              id="new-time-zone"
+              id="copy-time-zone"
             >
               
               <option
