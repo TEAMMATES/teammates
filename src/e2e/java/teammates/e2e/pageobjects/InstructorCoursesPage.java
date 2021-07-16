@@ -25,6 +25,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btn-add-course")
     private WebElement addCourseButton;
 
+    @FindBy(id = "btn-confirm-copy-course")
+    private WebElement copyCourseButton;
+
     @FindBy(id = "new-course-id")
     private WebElement courseIdTextBox;
 
@@ -33,6 +36,15 @@ public class InstructorCoursesPage extends AppPage {
 
     @FindBy(id = "new-time-zone")
     private WebElement timeZoneDropdown;
+
+    @FindBy(id = "copy-course-id")
+    private WebElement copyCourseIdTextBox;
+
+    @FindBy(id = "copy-course-name")
+    private WebElement copyCourseNameTextBox;
+
+    @FindBy(id = "copy-time-zone")
+    private WebElement copyTimeZoneDropdown;
 
     @FindBy(id = "btn-save-course")
     private WebElement submitButton;
@@ -148,10 +160,16 @@ public class InstructorCoursesPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
-    public void copyCourse(String courseId) {
+    public void copyCourse(String courseId, CourseAttributes newCourse) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
         click(getCopyButton(courseId));
+        waitForPageToLoad();
+
+        fillTextBox(copyCourseIdTextBox, newCourse.getId());
+        fillTextBox(copyCourseNameTextBox, newCourse.getName());
+        selectCopyTimeZone(newCourse.getTimeZone().toString());
+        click(copyCourseButton);
 
         waitUntilAnimationFinish();
     }
@@ -278,6 +296,11 @@ public class InstructorCoursesPage extends AppPage {
 
     private void selectNewTimeZone(String timeZone) {
         Select dropdown = new Select(timeZoneDropdown);
+        dropdown.selectByValue(timeZone);
+    }
+
+    private void selectCopyTimeZone(String timeZone) {
+        Select dropdown = new Select(copyTimeZoneDropdown);
         dropdown.selectByValue(timeZone);
     }
 
