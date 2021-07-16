@@ -641,7 +641,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         
                         <tr>
                           
-                          <td>
+                          <td
+                            class="td-text-break"
+                          >
                             First Session
                           </td>
                           
@@ -1150,7 +1152,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         
                         <tr>
                           
-                          <td>
+                          <td
+                            class="td-text-break"
+                          >
                             First Session
                           </td>
                           
@@ -1303,7 +1307,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         </tr>
                         <tr>
                           
-                          <td>
+                          <td
+                            class="td-text-break"
+                          >
                             Second Session
                           </td>
                           
