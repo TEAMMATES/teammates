@@ -95,7 +95,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         deleteResponse(fra);
 
         frDb.createEntity(fra);
-        verifyPresentInDatastore(fra);
+        verifyPresentInDatabase(fra);
 
         String feedbackQuestionId = fra.feedbackQuestionId;
         String giverEmail = fra.giver;
@@ -289,7 +289,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         frDb.createEntity(fra);
 
         // sets the id for fra
-        verifyPresentInDatastore(fra);
+        verifyPresentInDatabase(fra);
 
         ______TS("duplicate - with same id.");
 
@@ -300,7 +300,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         ______TS("delete - with id specified");
 
         deleteResponse(fra);
-        verifyAbsentInDatastore(fra);
+        verifyAbsentInDatabase(fra);
 
         ______TS("null params");
 
@@ -653,7 +653,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                         .withResponseDetails(frd)
                         .build());
 
-        verifyPresentInDatastore(modifiedResponse);
+        verifyPresentInDatabase(modifiedResponse);
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
                                                     modifiedResponse.giver,
                                                     modifiedResponse.recipient);

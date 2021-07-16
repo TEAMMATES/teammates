@@ -3,6 +3,8 @@ package teammates.common.util;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
+import teammates.common.exception.DeadlineExceededException;
+
 /**
  * Stores the information of the current HTTP request.
  */
@@ -39,12 +41,23 @@ public final class RequestTracer {
     /**
      * Returns the remaining time (in millis) until the current request times out.
      */
-    public static long getRemainingTimeMillis() {
+    private static long getRemainingTimeMillis() {
         RequestTrace trace = THREAD_LOCAL.get();
         if (trace == null) {
-            return -1L;
+            return 1L;
         }
         return trace.timeoutTimestamp - Instant.now().toEpochMilli();
+    }
+
+    /**
+     * Throws {@link DeadlineExceededException} if the current thread has exceeded
+     * the limit for serving request.
+     */
+    public static void checkRemainingTime() {
+        long remainingTime = getRemainingTimeMillis();
+        if (remainingTime < 0) {
+            throw new DeadlineExceededException();
+        }
     }
 
     /**

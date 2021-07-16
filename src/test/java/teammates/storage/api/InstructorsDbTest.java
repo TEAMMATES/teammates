@@ -69,7 +69,7 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorsDb.deleteInstructor(i.getCourseId(), i.getEmail());
         instructorsDb.createEntity(i);
 
-        verifyPresentInDatastore(i);
+        verifyPresentInDatabase(i);
 
         ______TS("Failure: create a duplicate instructor");
 

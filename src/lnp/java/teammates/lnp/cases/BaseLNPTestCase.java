@@ -232,7 +232,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Creates the entities in the datastore from the JSON data file.
+     * Creates the entities in the database from the JSON data file.
      */
     protected void persistTestData() throws IOException, HttpRequestFailedException {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
@@ -297,7 +297,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     }
 
     /**
-     * Deletes the data that was created in the datastore from the JSON data file.
+     * Deletes the data that was created in the database from the JSON data file.
      */
     protected void deleteTestData() {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());

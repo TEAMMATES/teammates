@@ -89,16 +89,22 @@ public class SessionResultsData extends ApiOutput {
                     boolean isUserGiver = student.getEmail().equals(response.getGiver());
                     boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
+
                     if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
-                    } else if (isUserGiver) {
+                    }
+
+                    if (isUserGiver) {
                         qnOutput.responsesFromSelf.add(responseOutput);
-                    } else {
+                    }
+
+                    if (!isUserRecipient && !isUserGiver) {
                         // we don't need care about the keys of the map here
                         // as only the values of the map will be used
                         otherResponsesMap.computeIfAbsent(response.getRecipient(), k -> new ArrayList<>())
                                 .add(responseOutput);
                     }
+
                     qnOutput.allResponses.add(responseOutput);
                 }
             }

@@ -21,6 +21,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
@@ -275,6 +276,7 @@ public class EmailGenerator {
         List<FeedbackSessionAttributes> sessions = fsLogic.getAllFeedbackSessionsWithinTimeRange(startTime, endTime);
 
         for (FeedbackSessionAttributes session : sessions) {
+            RequestTracer.checkRemainingTime();
             String courseId = session.getCourseId();
             CourseAttributes course = coursesLogic.getCourse(courseId);
             List<StudentAttributes> students = studentsForEmail.stream().filter(

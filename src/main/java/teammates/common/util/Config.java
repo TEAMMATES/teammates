@@ -59,6 +59,9 @@ public final class Config {
     /** The value of the "app.admins" in build.properties file. */
     public static final List<String> APP_ADMINS;
 
+    /** The value of the "app.maintainers" in build.properties file. */
+    public static final List<String> APP_MAINTAINERS;
+
     /** The value of the "app.crashreport.email" in build.properties file. */
     public static final String SUPPORT_EMAIL;
 
@@ -120,6 +123,7 @@ public final class Config {
         OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
         APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
+        APP_MAINTAINERS = Arrays.asList(properties.getProperty("app.maintainers", "").split(","));
         SUPPORT_EMAIL = properties.getProperty("app.crashreport.email");
         EMAIL_SENDEREMAIL = properties.getProperty("app.email.senderemail");
         EMAIL_SENDERNAME = properties.getProperty("app.email.sendername");
@@ -140,7 +144,18 @@ public final class Config {
     }
 
     static String getBaseAppUrl() {
-        return isDevServer() ? "http://localhost:8080" : "https://" + APP_ID + ".appspot.com";
+        return isDevServer() ? "http://localhost:" + getPort() : "https://" + APP_ID + ".appspot.com";
+    }
+
+    /**
+     * Returns the port number at which the system will be run in.
+     */
+    public static int getPort() {
+        String portEnv = System.getenv("PORT");
+        if (portEnv == null || !portEnv.matches("\\d{2,5}")) {
+            return 8080;
+        }
+        return Integer.parseInt(portEnv);
     }
 
     /**
@@ -152,17 +167,20 @@ public final class Config {
         // This means that any developer can replicate this condition in dev server,
         // but it is their own choice and risk should they choose to do so.
 
-        String appName = System.getenv("GAE_APPLICATION");
         String version = System.getenv("GAE_VERSION");
-        String env = System.getenv("GAE_ENV");
-
-        if (appName == null || version == null || env == null) {
+        if (!APP_VERSION.equals(version)) {
             return true;
         }
 
-        return !appName.endsWith(APP_ID)
-                || !APP_VERSION.equals(version)
-                || !"standard".equals(env);
+        String env = System.getenv("GAE_ENV");
+        if ("standard".equals(env)) {
+            // GAE standard
+            String appName = System.getenv("GAE_APPLICATION");
+            return appName == null || !appName.endsWith(APP_ID);
+        }
+
+        // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
+        return env != null;
     }
 
     /**

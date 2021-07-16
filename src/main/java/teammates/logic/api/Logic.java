@@ -25,7 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -112,7 +112,7 @@ public class Logic {
      *
      * @return the created instructor
      * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
     public InstructorAttributes createInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -128,7 +128,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
@@ -456,7 +456,7 @@ public class Logic {
      * @return Null if no match found
      */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
         assert instructors != null;
         return studentsLogic.searchStudents(queryString, instructors);
@@ -469,7 +469,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
 
         return studentsLogic.searchStudentsInWholeSystem(queryString);
@@ -626,7 +626,7 @@ public class Logic {
      *
      * @return the created student.
      * @throws InvalidParametersException if the student is not valid.
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore.
+     * @throws EntityAlreadyExistsException if the student already exists in the database.
      */
     public StudentAttributes createStudent(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -1307,7 +1307,7 @@ public class Logic {
     }
 
     /**
-     * Persists the given data bundle to the datastore.
+     * Persists the given data bundle to the database.
      *
      * @see DataBundleLogic#persistDataBundle(DataBundle)
      */
@@ -1316,7 +1316,7 @@ public class Logic {
     }
 
     /**
-     * Removes the given data bundle from the datastore.
+     * Removes the given data bundle from the database.
      *
      * @see DataBundleLogic#removeDataBundle(DataBundle)
      */
@@ -1325,7 +1325,7 @@ public class Logic {
     }
 
     /**
-     * Puts searchable documents from the data bundle to the datastore.
+     * Puts searchable documents from the data bundle to the database.
      *
      * @see DataBundleLogic#putDocuments(DataBundle)
      */
