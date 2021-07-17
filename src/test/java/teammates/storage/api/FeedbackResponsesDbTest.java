@@ -615,7 +615,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
                         .withGiverSection(typicalResponse.getGiverSection())
                         .withRecipient(typicalResponse.getRecipient())
                         .withRecipientSection(typicalResponse.getRecipientSection())
-                        .withResponseDetails(typicalResponse.getResponseDetails())
+                        .withResponseDetails(typicalResponse.getResponseDetailsCopy())
                         .build());
 
         assertEquals(JsonUtils.toJson(typicalResponse), JsonUtils.toJson(updatedResponse));
@@ -657,7 +657,7 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         modifiedResponse = frDb.getFeedbackResponse(modifiedResponse.feedbackQuestionId,
                                                     modifiedResponse.giver,
                                                     modifiedResponse.recipient);
-        assertEquals("New answer text!", modifiedResponse.getResponseDetails().getAnswerString());
+        assertEquals("New answer text!", modifiedResponse.getResponseDetailsCopy().getAnswerString());
 
         ______TS("standard success case, recreate response when recipient/giver change");
 
@@ -704,14 +704,14 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertEquals("testSection", updatedResponse.getRecipientSection());
         assertEquals("testSection", actualResponse.getRecipientSection());
 
-        assertNotEquals("testResponse", typicalResponse.getResponseDetails().getAnswerString());
+        assertNotEquals("testResponse", typicalResponse.getResponseDetailsCopy().getAnswerString());
         updatedResponse = frDb.updateFeedbackResponse(
                 FeedbackResponseAttributes.updateOptionsBuilder(typicalResponse.getId())
                         .withResponseDetails(new FeedbackTextResponseDetails("testResponse"))
                         .build());
         actualResponse = frDb.getFeedbackResponse(typicalResponse.getId());
-        assertEquals("testResponse", updatedResponse.getResponseDetails().getAnswerString());
-        assertEquals("testResponse", actualResponse.getResponseDetails().getAnswerString());
+        assertEquals("testResponse", updatedResponse.getResponseDetailsCopy().getAnswerString());
+        assertEquals("testResponse", actualResponse.getResponseDetailsCopy().getAnswerString());
 
         frDb.deleteFeedbackResponse(typicalResponse.getId());
     }

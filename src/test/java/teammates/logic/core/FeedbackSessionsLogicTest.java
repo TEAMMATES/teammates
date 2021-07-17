@@ -1173,7 +1173,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withCourseId("nullCourse")
                         .withGiverSection("Section 1")
                         .withRecipientSection("Section 1")
-                        .withResponseDetails(existingResponse.getResponseDetails())
+                        .withResponseDetails(existingResponse.getResponseDetailsCopy())
                         .build();
         frLogic.createFeedbackResponse(newResponse);
         StudentAttributes student = dataBundle.students.get("student2InCourse1");

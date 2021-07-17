@@ -258,7 +258,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                              newAttributes.getRecipient())
                     .withCourseId(newAttributes.getCourseId())
                     .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
-                    .withResponseDetails(newAttributes.getResponseDetails())
+                    .withResponseDetails(newAttributes.getResponseDetailsCopy())
                     .withGiverSection(newAttributes.getGiverSection())
                     .withRecipientSection(newAttributes.getRecipientSection())
                     .build();

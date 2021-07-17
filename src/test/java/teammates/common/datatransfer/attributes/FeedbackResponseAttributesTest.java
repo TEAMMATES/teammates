@@ -31,7 +31,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(response.getGiverSection(), fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(response.getRecipientSection(), fra.getRecipientSection());
-        assertEquals(response.getResponseMetaData(), fra.getResponseDetails().getAnswerString());
+        assertEquals(response.getResponseMetaData(), fra.getResponseDetailsCopy().getAnswerString());
         assertEquals(response.getCreatedAt(), fra.getCreatedAt());
         assertEquals(response.getUpdatedAt(), fra.getUpdatedAt());
     }
@@ -56,7 +56,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(Const.DEFAULT_SECTION, fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(Const.DEFAULT_SECTION, fra.getRecipientSection());
-        assertEquals(response.getResponseMetaData(), fra.getResponseDetails().getAnswerString());
+        assertEquals(response.getResponseMetaData(), fra.getResponseDetailsCopy().getAnswerString());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, fra.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, fra.getUpdatedAt());
     }
@@ -154,7 +154,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals("giverSection", fra.getGiverSection());
         assertEquals("recipient@email.com", fra.getRecipient());
         assertEquals("recipientSection", fra.getRecipientSection());
-        assertEquals("My answer", fra.getResponseDetails().getAnswerString());
+        assertEquals("My answer", fra.getResponseDetailsCopy().getAnswerString());
     }
 
     @Test
@@ -179,7 +179,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                         "questionId", "giver@email.com", "recipient@email.com")
                 .withResponseDetails(new FeedbackTextResponseDetails("My original answer"))
                 .build();
-        FeedbackResponseDetails frdDeep = fra.getResponseDetails();
+        FeedbackResponseDetails frdDeep = fra.getResponseDetailsCopy();
 
         ((FeedbackTextResponseDetails) fra.responseDetails).setAnswer("My second answer");
         assertEquals(frdDeep.getAnswerString(), "My original answer");
@@ -233,7 +233,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals("section1", feedbackResponseAttributes.giverSection);
         assertEquals("recipient1", feedbackResponseAttributes.recipient);
         assertEquals("section2", feedbackResponseAttributes.recipientSection);
-        assertEquals("Test 1", feedbackResponseAttributes.getResponseDetails().getAnswerString());
+        assertEquals("Test 1", feedbackResponseAttributes.getResponseDetailsCopy().getAnswerString());
     }
 
     @Test

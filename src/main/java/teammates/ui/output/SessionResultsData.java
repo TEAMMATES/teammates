@@ -175,7 +175,7 @@ public class SessionResultsData extends ApiOutput {
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSection(response.getRecipientSection())
-                .withResponseDetails(response.getResponseDetails())
+                .withResponseDetails(response.getResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
                 .build();
@@ -273,7 +273,7 @@ public class SessionResultsData extends ApiOutput {
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSection(recipientSection)
-                .withResponseDetails(response.getResponseDetails())
+                .withResponseDetails(response.getResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
                 .build();

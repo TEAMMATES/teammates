@@ -230,12 +230,12 @@ public class StudentFeedbackResultsPage extends AppPage {
         if (question.getQuestionType().equals(FeedbackQuestionType.RUBRIC)) {
             return isRubricResponseEqual(responseField, response);
         } else {
-            return getAnswerString(question, response.getResponseDetails()).equals(responseField.getText());
+            return getAnswerString(question, response.getResponseDetailsCopy()).equals(responseField.getText());
         }
     }
 
     private boolean isRubricResponseEqual(WebElement responseField, FeedbackResponseAttributes response) {
-        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetails();
+        FeedbackRubricResponseDetails responseDetails = (FeedbackRubricResponseDetails) response.getResponseDetailsCopy();
         List<Integer> answers = responseDetails.getAnswer();
         for (int i = 0; i < answers.size(); i++) {
             WebElement rubricRow = responseField.findElements(By.cssSelector("#rubric-answers tr")).get(i);

@@ -177,7 +177,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         });
 
         List<FeedbackResponseDetails> responseDetails = feedbackResponsesToValidate.stream()
-                .map(FeedbackResponseAttributes::getResponseDetails)
+                .map(FeedbackResponseAttributes::getResponseDetailsCopy)
                 .collect(Collectors.toList());
 
         int numRecipients = feedbackQuestion.numberOfEntitiesToGiveFeedbackTo;

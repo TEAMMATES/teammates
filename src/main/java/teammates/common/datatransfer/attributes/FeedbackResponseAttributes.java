@@ -61,7 +61,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.recipientSection = copy.recipientSection;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
-        this.responseDetails = copy.getResponseDetails();
+        this.responseDetails = copy.getResponseDetailsCopy();
     }
 
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
@@ -203,7 +203,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return responseDetails.getJsonString();
     }
 
-    public FeedbackResponseDetails getResponseDetails() {
+    public FeedbackResponseDetails getResponseDetailsCopy() {
         return responseDetails.getDeepCopy();
     }
 

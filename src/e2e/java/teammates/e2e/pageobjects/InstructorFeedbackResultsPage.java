@@ -304,7 +304,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             // Missing response will only be shown if this user has some real responses
             assertEquals(NO_RESPONSE_LABEL, singleResponse.getText());
         } else {
-            assertEquals(getAnswerString(question, response.getResponseDetails()), singleResponse.getText());
+            assertEquals(getAnswerString(question, response.getResponseDetailsCopy()), singleResponse.getText());
         }
     }
 
@@ -613,7 +613,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             if (isMissingResponse(response)) {
                 expected[i][4] = NO_RESPONSE_LABEL;
             } else {
-                expected[i][4] = getAnswerString(question, response.getResponseDetails());
+                expected[i][4] = getAnswerString(question, response.getResponseDetailsCopy());
             }
         }
         return expected;
@@ -635,7 +635,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         if (response.getFeedbackSessionName() == null) {
             expected[2] = NO_RESPONSE_LABEL;
         } else {
-            expected[2] = getAnswerString(question, response.getResponseDetails());
+            expected[2] = getAnswerString(question, response.getResponseDetailsCopy());
         }
         return expected;
     }
@@ -656,7 +656,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         if (response.getFeedbackSessionName() == null) {
             expected[2] = NO_RESPONSE_LABEL;
         } else {
-            expected[2] = getAnswerString(question, response.getResponseDetails());
+            expected[2] = getAnswerString(question, response.getResponseDetailsCopy());
         }
         return expected;
     }

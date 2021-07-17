@@ -206,7 +206,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
-                int points = ((FeedbackContributionResponseDetails) response.getResponseDetails()).getAnswer();
+                int points = ((FeedbackContributionResponseDetails) response.getResponseDetailsCopy()).getAnswer();
                 teamSubmissionArray.get(team)[giverIndx][recipientIndx] = points;
             }
         }

@@ -26,7 +26,7 @@ public class FeedbackResponseData extends ApiOutput {
         this.feedbackResponseId = StringHelper.encrypt(feedbackResponseAttributes.getId());
         this.giverIdentifier = feedbackResponseAttributes.giver;
         this.recipientIdentifier = feedbackResponseAttributes.recipient;
-        this.responseDetails = feedbackResponseAttributes.getResponseDetails();
+        this.responseDetails = feedbackResponseAttributes.getResponseDetailsCopy();
     }
 
     public String getFeedbackResponseId() {
