@@ -94,7 +94,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyCourseNotArchivedInDatabase(instructorId, newCourse);
 
         ______TS("move active course to recycle bin");
-        newCourse.deletedAt = Instant.now();
+        newCourse.setDeletedAt(Instant.now());
         CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
         coursesPage.moveCourseToRecycleBin(newCourse.getId());
 
@@ -105,7 +105,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore active course");
-        newCourse.deletedAt = null;
+        newCourse.setDeletedAt(null);
         CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { newCourse, courses[0] };
         coursesPage.restoreCourse(newCourse.getId());
 
@@ -118,7 +118,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("move archived course to recycle bin");
         coursesPage.archiveCourse(newCourse.getId());
-        newCourse.deletedAt = Instant.now();
+        newCourse.setDeletedAt(Instant.now());
         coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
@@ -128,7 +128,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore archived course");
-        newCourse.deletedAt = null;
+        newCourse.setDeletedAt(null);
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");

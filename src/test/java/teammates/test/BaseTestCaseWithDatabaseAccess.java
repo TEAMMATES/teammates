@@ -167,7 +167,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {
         // Ignore time field as it is stamped at the time of creation in testing
-        expected.createdAt = actual.createdAt;
+        expected.setCreatedAt(actual.getCreatedAt());
     }
 
     private void equalizeIrrelevantData(FeedbackQuestionAttributes expected, FeedbackQuestionAttributes actual) {

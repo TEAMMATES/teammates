@@ -65,7 +65,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         assertEquals(1, courseList.size());
         assertEquals("icdct.tpa.id1", courseList.get(0).getId());
 
-        assertNotNull(logic.getCourse(instructor1OfCourse1.courseId).deletedAt);
+        assertNotNull(logic.getCourse(instructor1OfCourse1.courseId).getDeletedAt());
 
         ______TS("Masquerade mode, delete last course");
 
@@ -83,7 +83,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
         assertFalse(courseData.getDeletionTimestamp() == 0);
-        assertNotNull(logic.getCourse("icdct.tpa.id1").deletedAt);
+        assertNotNull(logic.getCourse("icdct.tpa.id1").getDeletedAt());
     }
 
     @Test
@@ -117,7 +117,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         logic.moveCourseToRecycleBin(instructor1OfCourse1.courseId);
         CourseAttributes courseInformation = logic.getCourse(instructor1OfCourse1.courseId);
-        assertNotNull(courseInformation.deletedAt);
+        assertNotNull(courseInformation.getDeletedAt());
 
         BinCourseAction binCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(binCourseAction);

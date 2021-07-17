@@ -46,7 +46,7 @@ public class RestoreCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been restored.", message.getMessage());
-        assertNull(logic.getCourse(instructor1OfCourse1.courseId).deletedAt);
+        assertNull(logic.getCourse(instructor1OfCourse1.courseId).getDeletedAt());
 
         ______TS("Typical case, restore a deleted course from Recycle Bin");
 
@@ -65,7 +65,7 @@ public class RestoreCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been restored.", message.getMessage());
-        assertNull(logic.getCourse(instructor1OfCourse1.courseId).deletedAt);
+        assertNull(logic.getCourse(instructor1OfCourse1.courseId).getDeletedAt());
 
         ______TS("Not enough parameters");
 

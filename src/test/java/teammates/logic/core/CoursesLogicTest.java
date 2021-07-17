@@ -482,7 +482,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertFalse(course1OfInstructor.isCourseDeleted());
 
         Instant deletedAt = coursesLogic.moveCourseToRecycleBin(course1OfInstructor.getId());
-        course1OfInstructor.deletedAt = deletedAt;
+        course1OfInstructor.setDeletedAt(deletedAt);
 
         // Ensure the course and related entities still exist in database
         verifyPresentInDatabase(course1OfInstructor);
@@ -514,7 +514,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertTrue(course3OfInstructor.isCourseDeleted());
 
         coursesLogic.restoreCourseFromRecycleBin(course3OfInstructor.getId());
-        course3OfInstructor.deletedAt = null;
+        course3OfInstructor.setDeletedAt(null);
 
         // Ensure the course and related entities still exist in database
         verifyPresentInDatabase(course3OfInstructor);
