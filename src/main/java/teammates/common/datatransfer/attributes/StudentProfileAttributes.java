@@ -16,15 +16,14 @@ import teammates.storage.entity.StudentProfile;
  */
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
-    public String googleId;
-
-    public String shortName;
-    public String email;
-    public String institute;
-    public String nationality;
-    public Gender gender;
-    public String moreInfo;
-    public Instant modifiedDate;
+    private String googleId;
+    private String shortName;
+    private String email;
+    private String institute;
+    private String nationality;
+    private Gender gender;
+    private String moreInfo;
+    private Instant modifiedDate;
 
     private StudentProfileAttributes(String googleId) {
         this.googleId = googleId;
@@ -92,28 +91,56 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         return shortName;
     }
 
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getInstitute() {
         return institute;
     }
 
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
     public String getNationality() {
         return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public Gender getGender() {
         return gender;
     }
 
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public String getMoreInfo() {
         return moreInfo;
     }
 
+    public void setMoreInfo(String moreInfo) {
+        this.moreInfo = moreInfo;
+    }
+
     public Instant getModifiedDate() {
         return modifiedDate;
+    }
+
+    public void setModifiedDate(Instant modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     @Override

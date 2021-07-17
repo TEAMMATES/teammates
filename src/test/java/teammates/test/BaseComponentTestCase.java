@@ -30,7 +30,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return logic.getStudentProfile(studentProfileAttributes.googleId);
+        return logic.getStudentProfile(studentProfileAttributes.getGoogleId());
     }
 
     @Override

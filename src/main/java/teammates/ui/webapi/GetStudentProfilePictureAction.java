@@ -63,11 +63,11 @@ class GetStudentProfilePictureAction extends Action {
             }
         }
 
-        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.googleId)) {
+        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.getGoogleId())) {
             return new ImageResult();
         }
 
-        byte[] bytes = fileStorage.getContent(studentProfile.googleId);
+        byte[] bytes = fileStorage.getContent(studentProfile.getGoogleId());
         return new ImageResult(bytes);
     }
 }

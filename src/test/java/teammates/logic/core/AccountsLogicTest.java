@@ -440,7 +440,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
         profilesLogic.updateOrCreateStudentProfile(
                 StudentProfileAttributes.updateOptionsBuilder(account.getGoogleId())
-                        .withShortName(studentProfile.shortName)
+                        .withShortName(studentProfile.getShortName())
                         .build());
 
         // verify the instructor is the last instructor of a course

@@ -69,8 +69,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        expectedProfile.email = null;
-        expectedProfile.shortName = null;
+        expectedProfile.setEmail(null);
+        expectedProfile.setShortName(null);
         String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
         loginAsStudent(student2InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
@@ -115,11 +115,11 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
         assertEquals("unregistered student in course 1", actualProfile.getName());
         assertNull(actualProfile.getEmail());
-        assertNull(expectedProfile.shortName, actualProfile.getShortName());
-        assertEquals(expectedProfile.institute, actualProfile.getInstitute());
-        assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
-        assertEquals(expectedProfile.nationality, actualProfile.getNationality());
-        assertEquals(expectedProfile.gender, actualProfile.getGender());
+        assertNull(expectedProfile.getShortName(), actualProfile.getShortName());
+        assertEquals(expectedProfile.getInstitute(), actualProfile.getInstitute());
+        assertEquals(expectedProfile.getMoreInfo(), actualProfile.getMoreInfo());
+        assertEquals(expectedProfile.getNationality(), actualProfile.getNationality());
+        assertEquals(expectedProfile.getGender(), actualProfile.getGender());
     }
 
     private void testGetCorrectProfile(StudentProfileAttributes expectedProfile,
@@ -129,12 +129,12 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
         assertEquals(expectedName, actualProfile.getName());
-        assertEquals(expectedProfile.email, actualProfile.getEmail());
-        assertEquals(expectedProfile.shortName, actualProfile.getShortName());
-        assertEquals(expectedProfile.institute, actualProfile.getInstitute());
-        assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
-        assertEquals(expectedProfile.nationality, actualProfile.getNationality());
-        assertEquals(expectedProfile.gender, actualProfile.getGender());
+        assertEquals(expectedProfile.getEmail(), actualProfile.getEmail());
+        assertEquals(expectedProfile.getShortName(), actualProfile.getShortName());
+        assertEquals(expectedProfile.getInstitute(), actualProfile.getInstitute());
+        assertEquals(expectedProfile.getMoreInfo(), actualProfile.getMoreInfo());
+        assertEquals(expectedProfile.getNationality(), actualProfile.getNationality());
+        assertEquals(expectedProfile.getGender(), actualProfile.getGender());
     }
 
     @Test

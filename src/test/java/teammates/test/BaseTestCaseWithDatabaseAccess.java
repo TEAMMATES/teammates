@@ -162,7 +162,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
     }
 
     private void equalizeIrrelevantData(StudentProfileAttributes expected, StudentProfileAttributes actual) {
-        expected.modifiedDate = actual.modifiedDate;
+        expected.setModifiedDate(actual.getModifiedDate());
     }
 
     private void equalizeIrrelevantData(CourseAttributes expected, CourseAttributes actual) {

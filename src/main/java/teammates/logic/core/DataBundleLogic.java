@@ -356,7 +356,7 @@ public final class DataBundleLogic {
             accountsDb.deleteAccount(account.getGoogleId());
         });
         dataBundle.profiles.values().forEach(profile -> {
-            profilesDb.deleteStudentProfile(profile.googleId);
+            profilesDb.deleteStudentProfile(profile.getGoogleId());
         });
     }
 
