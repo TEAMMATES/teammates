@@ -193,22 +193,22 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
 
     private void equalizeIrrelevantData(StudentAttributes expected, StudentAttributes actual) {
         // For these fields, we consider null and "" equivalent.
-        if (expected.googleId == null && actual.googleId.isEmpty()) {
-            expected.googleId = "";
+        if (expected.getGoogleId() == null && actual.getGoogleId().isEmpty()) {
+            expected.setGoogleId("");
         }
-        if (expected.team == null && actual.team.isEmpty()) {
-            expected.team = "";
+        if (expected.getTeam() == null && actual.getTeam().isEmpty()) {
+            expected.setTeam("");
         }
-        if (expected.comments == null && actual.comments.isEmpty()) {
-            expected.comments = "";
+        if (expected.getComments() == null && actual.getComments().isEmpty()) {
+            expected.setComments("");
         }
 
         // pretend keys match because the key is generated only before storing into database
-        if (actual.key != null) {
-            expected.key = actual.key;
+        if (actual.getKey() != null) {
+            expected.setKey(actual.getKey());
         }
 
-        expected.lastName = StringHelper.splitName(expected.name)[1];
+        expected.setLastName(StringHelper.splitName(expected.getName())[1]);
     }
 
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);

@@ -36,7 +36,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
         DeleteStudentAction deleteStudentAction = getAction(submissionParams);
@@ -47,7 +47,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         ______TS("success: delete a student by id");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(submissionParams);
@@ -58,7 +58,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         ______TS("failure: course does not exist");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
-                Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
+                Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(submissionParams);
@@ -119,7 +119,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
         verifyAccessibleForAdmin(submissionParams);

@@ -291,7 +291,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public FeedbackSubmitPage previewAsStudent(StudentAttributes student) {
-        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.team, student.name));
+        selectDropdownOptionByText(previewAsStudentDropdown, String.format("[%s] %s", student.getTeam(), student.getName()));
         click(previewAsStudentButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();

@@ -67,7 +67,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return logic.getStudentForEmail(student.course, student.email);
+        return logic.getStudentForEmail(student.getCourse(), student.getEmail());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {

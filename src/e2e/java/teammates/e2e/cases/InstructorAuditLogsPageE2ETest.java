@@ -77,7 +77,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         StudentFeedbackSubmissionPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                StudentFeedbackSubmissionPage.class, student.googleId);
+                StudentFeedbackSubmissionPage.class, student.getGoogleId());
         studentSubmissionPage.populateResponse();
         studentSubmissionPage.submit();
 

@@ -119,7 +119,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     private List<String> getGeneratedStudentOptions() {
         return testData.students.values().stream()
-                .filter(s -> s.getCourse().equals(student.course))
+                .filter(s -> s.getCourse().equals(student.getCourse()))
                 .map(s -> s.getName() + " (" + s.getTeam() + ")")
                 .collect(Collectors.toList());
     }

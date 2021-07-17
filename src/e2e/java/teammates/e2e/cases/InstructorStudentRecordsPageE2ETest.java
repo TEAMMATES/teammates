@@ -32,7 +32,7 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
 
         String instructorId = instructor.getGoogleId();
         String courseId = instructor.getCourseId();
-        String studentEmail = student.email;
+        String studentEmail = student.getEmail();
 
         AppUrl recordsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
                 .withCourseId(courseId)

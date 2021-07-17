@@ -55,7 +55,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         // Make student2InCourse2 and instructor1OfCourse1 belong to the same account.
         StudentAttributes student2InCourse2 = typicalBundle.students.get("student2InCourse2");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        student2InCourse2.googleId = instructor1OfCourse1.getGoogleId();
+        student2InCourse2.setGoogleId(instructor1OfCourse1.getGoogleId());
 
         removeAndRestoreDataBundle(typicalBundle);
     }
@@ -172,7 +172,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_asStudentWithCourseId_shouldReturnAllSessionsForCourse() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -190,7 +190,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_asStudent_shouldReturnAllSessionsForAccount() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -206,7 +206,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_unknownEntityType_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
     }
@@ -220,7 +220,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         ______TS("student can access");
         String[] studentEntityParam = {
@@ -229,7 +229,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyCanAccess(studentEntityParam);
 
         ______TS("student of the same course can access");
-        loginAsStudent(student1InCourse2.googleId);
+        loginAsStudent(student1InCourse2.getGoogleId());
         String[] courseParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse2.getCourse(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -237,7 +237,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyCanAccess(courseParam);
 
         ______TS("Student of another course cannot access");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(courseParam);
 
         ______TS("instructor can access");

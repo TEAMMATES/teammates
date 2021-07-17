@@ -330,7 +330,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return BACKDOOR.getStudent(student.course, student.email);
+        return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
     }
 
     protected String getKeyForStudent(StudentAttributes student) {

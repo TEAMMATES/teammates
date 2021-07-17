@@ -144,8 +144,8 @@ public final class CoursesLogic {
 
         Set<String> sectionNameSet = new HashSet<>();
         for (StudentAttributes sd : studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION)) {
-                sectionNameSet.add(sd.section);
+            if (!sd.getSection().equals(Const.DEFAULT_SECTION)) {
+                sectionNameSet.add(sd.getSection());
             }
         }
 
@@ -184,7 +184,7 @@ public final class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
 
         List<String> courseIds = studentDataList.stream()
-                .filter(student -> !getCourse(student.course).isCourseDeleted())
+                .filter(student -> !getCourse(student.getCourse()).isCourseDeleted())
                 .map(StudentAttributes::getCourse)
                 .collect(Collectors.toList());
 

@@ -41,7 +41,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").key;
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(registeredStudentKey),
@@ -60,7 +60,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").key;
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredStudentKey),

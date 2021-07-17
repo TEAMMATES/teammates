@@ -21,7 +21,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudent.googleId = testData.accounts.get("alice.tmms").getGoogleId();
+        newStudent.setGoogleId(testData.accounts.get("alice.tmms").getGoogleId());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 .withRegistrationKey(invalidEncryptedKey)
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
-        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newStudent.googleId);
+        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newStudent.getGoogleId());
 
         errorPage.verifyErrorMessage("No student with given registration key: " + invalidEncryptedKey);
 
@@ -45,7 +45,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newStudent.googleId);
+        confirmationPage.verifyJoiningUser(newStudent.getGoogleId());
         confirmationPage.confirmJoinCourse(StudentHomePage.class);
 
         ______TS("Already joined, no confirmation page");

@@ -56,7 +56,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     public void testExecute_withoutIntent_shouldReturnPartialData() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, studentAttributes.getCourse(),
@@ -132,7 +132,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         });
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
         assertThrows(EntityNotFoundException.class, () -> {
             String[] submissionParams = new String[] {
                     Const.ParamsNames.COURSE_ID, "randomId",
@@ -181,7 +181,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     public void testAccessControl_withoutIntent_shouldDoAuthenticationOfStudent() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         // try to access instructors in his own course
         String[] submissionParams = new String[] {

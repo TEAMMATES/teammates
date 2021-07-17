@@ -183,18 +183,18 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Set<String> teams = new HashSet<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if (!student.course.equals(course.getId())) {
+            if (!student.getCourse().equals(course.getId())) {
                 continue;
             }
-            if (!sections.contains(student.section)) {
-                sections.add(student.section);
+            if (!sections.contains(student.getSection())) {
+                sections.add(student.getSection());
                 numSections++;
             }
-            if (!teams.contains(student.team)) {
-                teams.add(student.team);
+            if (!teams.contains(student.getTeam())) {
+                teams.add(student.getTeam());
                 numTeams++;
             }
-            if (student.googleId.isEmpty()) {
+            if (student.getGoogleId().isEmpty()) {
                 numUnregistered++;
             }
             numStudents++;

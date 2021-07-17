@@ -92,7 +92,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("response to students, total 5");
 
         question = getQuestionFromDatabase("qn2InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").email;
+        email = dataBundle.students.get("student1InCourse1").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 4); // 5 students minus giver himself
 
@@ -110,15 +110,15 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         ______TS("empty case: response to team members, but alone");
 
         question = getQuestionFromDatabase("team.members.feedback");
-        email = dataBundle.students.get("student5InCourse1").email;
+        email = dataBundle.students.get("student5InCourse1").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 0);
 
         ______TS("response from team to itself");
 
         question = getQuestionFromDatabase("graceperiod.session.feedbackFromTeamToSelf");
-        email = dataBundle.students.get("student1InCourse1").email;
-        String teamName = dataBundle.students.get("student1InCourse1").team;
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        String teamName = dataBundle.students.get("student1InCourse1").getTeam();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 1);
         assertTrue(recipients.containsKey(teamName));
@@ -126,8 +126,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("special case: response to other team, instructor is also student");
         question = getQuestionFromDatabase("team.feedback");
-        email = dataBundle.students.get("student1InCourse1").email;
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
 
@@ -135,8 +135,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("to nobody (general feedback)");
         question = getQuestionFromDatabase("qn3InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").email;
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(Const.GENERAL_QUESTION), Const.GENERAL_QUESTION);
@@ -144,8 +144,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         ______TS("to self");
         question = getQuestionFromDatabase("qn1InSession1InCourse1");
-        email = dataBundle.students.get("student1InCourse1").email;
-        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").googleId);
+        email = dataBundle.students.get("student1InCourse1").getEmail();
+        accountsLogic.makeAccountInstructor(dataBundle.students.get("student1InCourse1").getGoogleId());
 
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.get(email), FeedbackQuestionsLogic.USER_NAME_FOR_SELF);

@@ -202,10 +202,10 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 dataBundle.students.forEach((studentKey, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
+                    csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
-                    csvRow.add(student.googleId);
-                    csvRow.add(student.email);
+                    csvRow.add(student.getGoogleId());
+                    csvRow.add(student.getEmail());
 
                     dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
                         csvRow.add(feedbackQuestion.getId());

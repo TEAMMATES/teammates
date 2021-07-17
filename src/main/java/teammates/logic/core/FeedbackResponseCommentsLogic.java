@@ -198,15 +198,15 @@ public final class FeedbackResponseCommentsLogic {
             String userEmail, CourseRoster roster, List<FeedbackParticipantType> showNameTo) {
         String responseGiverTeam = "giverTeam";
         if (roster.getStudentForEmail(response.getGiver()) != null) {
-            responseGiverTeam = roster.getStudentForEmail(response.getGiver()).team;
+            responseGiverTeam = roster.getStudentForEmail(response.getGiver()).getTeam();
         }
         String responseRecipientTeam = "recipientTeam";
         if (roster.getStudentForEmail(response.getRecipient()) != null) {
-            responseRecipientTeam = roster.getStudentForEmail(response.getRecipient()).team;
+            responseRecipientTeam = roster.getStudentForEmail(response.getRecipient()).getTeam();
         }
         String currentUserTeam = "currentUserTeam";
         if (roster.getStudentForEmail(userEmail) != null) {
-            currentUserTeam = roster.getStudentForEmail(userEmail).team;
+            currentUserTeam = roster.getStudentForEmail(userEmail).getTeam();
         }
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
@@ -284,7 +284,7 @@ public final class FeedbackResponseCommentsLogic {
                 && relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                 && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
-                && response.getRecipient().equals(student.team);
+                && response.getRecipient().equals(student.getTeam());
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS

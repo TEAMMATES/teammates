@@ -35,14 +35,14 @@ class GetRegkeyValidityAction extends Action {
             boolean isAllowedAccess = false;
 
             if (isValid) {
-                if (StringHelper.isEmpty(student.googleId)) {
+                if (StringHelper.isEmpty(student.getGoogleId())) {
                     // If registration key has not been used, always allow access
                     isAllowedAccess = true;
                 } else {
                     isUsed = true;
                     // If the registration key has been used to register, the logged in user needs to match
                     // Block access to not logged in user and mismatched user
-                    isAllowedAccess = userInfo != null && student.googleId.equals(userInfo.id);
+                    isAllowedAccess = userInfo != null && student.getGoogleId().equals(userInfo.id);
                 }
             }
 

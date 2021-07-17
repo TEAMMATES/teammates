@@ -170,7 +170,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         ______TS("Instructor with correct privilege moderate student session");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        params = generateParameters(feedbackSession, intent, "", student1InCourse1.email, "");
+        params = generateParameters(feedbackSession, intent, "", student1InCourse1.getEmail(), "");
 
         verifyInaccessibleForInstructorsOfOtherCourses(params);
         verifyInaccessibleForStudents(params);
@@ -186,7 +186,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, params);
 
         ______TS("Instructor preview student session");
-        params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.email);
+        params = generateParameters(feedbackSession, intent, "", "", student1InCourse1.getEmail());
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, params);

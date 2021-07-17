@@ -32,7 +32,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         student = testData.students.get("charlie.tmms@ICDet.CS2104");
-        student.email = TestProperties.TEST_EMAIL;
+        student.setEmail(TestProperties.TEST_EMAIL);
 
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
@@ -107,7 +107,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("download student list");
         detailsPage.downloadStudentList();
-        String status = student.googleId.isEmpty() ? "Yet to Join" : "Joined";
+        String status = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
         String lastName = student.getName().split(" ")[1];
         String[] studentInfo = { student.getTeam(), student.getName(), lastName, status, student.getEmail() };
         List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),

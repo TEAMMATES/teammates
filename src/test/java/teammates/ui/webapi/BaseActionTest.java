@@ -359,7 +359,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(params);
 
     }
@@ -456,7 +456,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
+        verifyCannotMasquerade(student1InCourse1.getGoogleId(), submissionParams);
         verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
 
     }
@@ -472,7 +472,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         loginAsInstructor(instructor1OfCourse2.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
+        verifyCannotMasquerade(student1InCourse1.getGoogleId(), submissionParams);
         verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
     }
 
@@ -481,7 +481,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         ______TS("course students can access");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 
@@ -491,7 +491,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         StudentAttributes otherStudent = typicalBundle.students.get("student1InCourse2");
 
-        loginAsStudent(otherStudent.googleId);
+        loginAsStudent(otherStudent.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 

@@ -740,7 +740,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail()));
     }
 
     private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
@@ -759,11 +759,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("success case: fully done by student 1");
         assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                                                                    student1OfCourse1.email));
+                student1OfCourse1.getEmail()));
 
         ______TS("success case: partially done by student 3");
         assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                                                                     student3OfCourse1.email));
+                student3OfCourse1.getEmail()));
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {

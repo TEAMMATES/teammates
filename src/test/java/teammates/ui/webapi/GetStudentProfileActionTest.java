@@ -57,7 +57,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
         String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
@@ -72,7 +72,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         expectedProfile.email = null;
         expectedProfile.shortName = null;
         String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
-        loginAsStudent(student2InCourse1.googleId);
+        loginAsStudent(student2InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -169,7 +169,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     public void testAccessControl_studentAccessHisOwnProfile_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCanAccess();
     }
 
@@ -177,7 +177,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_studentAccessHisTeammateProfile_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes teammate = typicalBundle.students.get("student2InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, teammate.getEmail(),
@@ -189,7 +189,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_studentAccessHisClassmateButNotTeammateProfile_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes classmate = typicalBundle.students.get("student5InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, classmate.getEmail(),
@@ -201,7 +201,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_studentAccessStudentInOtherCourse_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes studentNotInCourse1 = typicalBundle.students.get("student1InCourse2");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, studentNotInCourse1.getEmail(),
@@ -274,6 +274,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_withMasqueradeMode_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsAdmin();
-        verifyCanMasquerade(student1InCourse1.googleId);
+        verifyCanMasquerade(student1InCourse1.getGoogleId());
     }
 }

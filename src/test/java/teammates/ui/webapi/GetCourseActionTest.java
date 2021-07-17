@@ -59,7 +59,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
         expectedCourse = logic.getCourse(student1OfCourse1.getCourse());
-        loginAsStudent(student1OfCourse1.googleId);
+        loginAsStudent(student1OfCourse1.getGoogleId());
 
         ______TS("typical success case for student");
 
@@ -88,7 +88,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         verifyHttpParameterFailure();
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1OfCourse1.googleId);
+        loginAsStudent(student1OfCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
     }
@@ -101,7 +101,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         testNonExistentCourse();
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1OfCourse1.googleId);
+        loginAsStudent(student1OfCourse1.getGoogleId());
 
         testNonExistentCourse();
     }
@@ -190,7 +190,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
         logic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(student1InCourse2.getCourse(), student1InCourse2.email)
+                StudentAttributes.updateOptionsBuilder(student1InCourse2.getCourse(), student1InCourse2.getEmail())
                         .withGoogleId(instructor1OfCourse1.getGoogleId())
                         .build());
 

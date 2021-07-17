@@ -131,7 +131,7 @@ public class SessionResultsData extends ApiOutput {
             giverTeam = response.getGiver();
         } else if (isUserGiver) {
             giverName = "You";
-            giverTeam = student.team;
+            giverTeam = student.getTeam();
         } else {
             // we don't want student to figure out who is who by using the hash
             giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle).getName());
@@ -145,7 +145,7 @@ public class SessionResultsData extends ApiOutput {
         String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
-            recipientTeam = student.team;
+            recipientTeam = student.getTeam();
         } else if (isUserTeamRecipient) {
             recipientName = String.format("Your Team (%s)", response.getRecipient());
             recipientTeam = response.getRecipient();

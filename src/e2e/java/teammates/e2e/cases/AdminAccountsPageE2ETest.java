@@ -48,7 +48,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         ______TS("action: remove student from course");
 
         StudentAttributes student = testData.students.get("AAccounts.instr2-student-CS2103");
-        courseId = student.course;
+        courseId = student.getCourse();
 
         verifyPresentInDatabase(student);
         accountsPage.clickRemoveStudentFromCourse(courseId);

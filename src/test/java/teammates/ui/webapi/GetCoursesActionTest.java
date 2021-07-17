@@ -130,7 +130,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     public void testGetCoursesAction_withStudentEntityType_shouldReturnCorrectCourses() {
         String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT };
         StudentAttributes student = testData.students.get("student1InCourse1");
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
         assertEquals(3, courses.getCourses().size());
@@ -195,7 +195,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         verifyCannotAccess(studentParams);
 
         ______TS("Login as student, only student entity type can access");
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
         verifyCanAccess(studentParams);
         verifyCannotAccess(instructorParams);
     }

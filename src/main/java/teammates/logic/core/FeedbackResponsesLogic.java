@@ -181,9 +181,9 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question, StudentAttributes student) {
         if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             return getFeedbackResponsesFromTeamForQuestion(
-                    question.getId(), question.getCourseId(), student.team, null);
+                    question.getId(), question.getCourseId(), student.getTeam(), null);
         }
-        return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
+        return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
     }
 
     /**
@@ -545,7 +545,7 @@ public final class FeedbackResponsesLogic {
 
         for (StudentAttributes student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                    feedbackQuestionId, student.email));
+                    feedbackQuestionId, student.getEmail()));
         }
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(

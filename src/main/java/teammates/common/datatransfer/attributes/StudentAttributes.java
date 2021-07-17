@@ -15,16 +15,15 @@ import teammates.storage.entity.CourseStudent;
 
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
-    public String email;
-    public String course;
-
-    public String name;
-    public String googleId;
-    public String lastName;
-    public String comments;
-    public String team;
-    public String section;
-    public String key;
+    private String email;
+    private String course;
+    private String name;
+    private String googleId;
+    private String lastName;
+    private String comments;
+    private String team;
+    private String section;
+    private String key;
 
     private transient Instant createdAt;
     private transient Instant updatedAt;
@@ -102,24 +101,48 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getCourse() {
         return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 
     public String getGoogleId() {
         return googleId;
     }
 
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
     public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     /**
@@ -133,12 +156,24 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return section;
     }
 
+    public void setSection(String section) {
+        this.section = section;
+    }
+
     public String getTeam() {
         return team;
     }
 
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     public String getComments() {
         return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Override

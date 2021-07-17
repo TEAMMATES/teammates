@@ -815,7 +815,7 @@ public final class FeedbackSessionsLogic {
         } else if (studentsEmailInTeam != null && isStudent(role)) {
             if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.getRecipient().equals(student.team)) {
+                    && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                        && studentsEmailInTeam.contains(response.getGiver())) {

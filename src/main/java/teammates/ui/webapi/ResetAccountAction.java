@@ -32,7 +32,7 @@ class ResetAccountAction extends AdminOnlyAction {
                 return new JsonResult("Student does not exist.",
                         HttpStatus.SC_NOT_FOUND);
             }
-            wrongGoogleId = existingStudent.googleId;
+            wrongGoogleId = existingStudent.getGoogleId();
 
             try {
                 logic.resetStudentGoogleId(studentEmail, courseId);

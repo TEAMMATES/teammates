@@ -215,12 +215,12 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     protected void testExecute_asStudentWithFakeFeedbackSessionName_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
-        assertNull(logic.getFeedbackSession("fake-session-name", student1InCourse1.course));
+        assertNull(logic.getFeedbackSession("fake-session-name", student1InCourse1.getCourse()));
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "fake-session-name",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
@@ -233,7 +233,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     protected void testExecute_asStudentGetHasRespondedForSession_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -243,7 +243,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         assertEquals(feedbackResponse.getGiver(), student1InCourse1.getEmail());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
@@ -260,10 +260,10 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     protected void testExecute_asStudentGetHasRespondedForSessionWithoutFsParam_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
@@ -324,7 +324,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };

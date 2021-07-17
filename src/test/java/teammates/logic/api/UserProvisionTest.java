@@ -31,7 +31,7 @@ public class UserProvisionTest extends BaseLogicTest {
                 .withTeamName("Team 1")
                 .withComment("")
                 .build();
-        instructorAsStudent.googleId = instructor.getGoogleId();
+        instructorAsStudent.setGoogleId(instructor.getGoogleId());
         logic.createStudent(instructorAsStudent);
 
         UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.getGoogleId()));

@@ -33,7 +33,7 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
 
             List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             for (StudentAttributes student : studentList) {
-                if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
+                if (!logic.isFeedbackSessionCompletedByStudent(session, student.getEmail())) {
                     studentsToRemindList.add(student);
                 }
             }

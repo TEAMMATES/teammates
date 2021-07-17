@@ -35,7 +35,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     StudentSearchDocument createDocument(StudentAttributes student) {
-        CourseAttributes course = coursesDb.getCourse(student.course);
+        CourseAttributes course = coursesDb.getCourse(student.getCourse());
         return new StudentSearchDocument(student, course);
     }
 
@@ -48,11 +48,11 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     void sortResult(List<StudentAttributes> result) {
-        result.sort(Comparator.comparing((StudentAttributes student) -> student.course)
-                .thenComparing(student -> student.section)
-                .thenComparing(student -> student.team)
-                .thenComparing(student -> student.name)
-                .thenComparing(student -> student.email));
+        result.sort(Comparator.comparing((StudentAttributes student) -> student.getCourse())
+                .thenComparing(student -> student.getSection())
+                .thenComparing(student -> student.getTeam())
+                .thenComparing(student -> student.getName())
+                .thenComparing(student -> student.getEmail()));
     }
 
     /**

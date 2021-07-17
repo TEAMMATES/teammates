@@ -260,7 +260,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentAttributes studentInTwoCourses = dataBundle.students
                 .get("student2InCourse1");
         List<CourseAttributes> courseList = coursesLogic
-                .getCoursesForStudentAccount(studentInTwoCourses.googleId);
+                .getCoursesForStudentAccount(studentInTwoCourses.getGoogleId());
         CourseAttributes.sortById(courseList);
         assertEquals(2, courseList.size());
 
@@ -283,7 +283,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         StudentAttributes studentInOneCourse = dataBundle.students
                 .get("student1InCourse1");
-        courseList = coursesLogic.getCoursesForStudentAccount(studentInOneCourse.googleId);
+        courseList = coursesLogic.getCoursesForStudentAccount(studentInOneCourse.getGoogleId());
         assertEquals(1, courseList.size());
         course1 = dataBundle.courses.get("typicalCourse1");
         assertEquals(course1.getId(), courseList.get(0).getId());

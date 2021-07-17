@@ -279,7 +279,7 @@ public final class FeedbackQuestionsLogic {
         switch (recipientType) {
         case SELF:
             if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
-                recipients.put(studentGiver.team, studentGiver.team);
+                recipients.put(studentGiver.getTeam(), studentGiver.getTeam());
             } else {
                 recipients.put(giver, USER_NAME_FOR_SELF);
             }
@@ -288,8 +288,8 @@ public final class FeedbackQuestionsLogic {
             List<StudentAttributes> studentsInCourse = studentsLogic.getStudentsForCourse(question.getCourseId());
             for (StudentAttributes student : studentsInCourse) {
                 // Ensure student does not evaluate himself
-                if (!giver.equals(student.email)) {
-                    recipients.put(student.email, student.name);
+                if (!giver.equals(student.getEmail())) {
+                    recipients.put(student.getEmail(), student.getName());
                 }
             }
             break;
@@ -318,8 +318,8 @@ public final class FeedbackQuestionsLogic {
         case OWN_TEAM_MEMBERS:
             List<StudentAttributes> students = studentsLogic.getStudentsForTeam(giverTeam, question.getCourseId());
             for (StudentAttributes student : students) {
-                if (!student.email.equals(giver)) {
-                    recipients.put(student.email, student.name);
+                if (!student.getEmail().equals(giver)) {
+                    recipients.put(student.getEmail(), student.getName());
                 }
             }
             break;
@@ -327,7 +327,7 @@ public final class FeedbackQuestionsLogic {
             List<StudentAttributes> teamMembers = studentsLogic.getStudentsForTeam(giverTeam, question.getCourseId());
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
-                recipients.put(student.email, student.name);
+                recipients.put(student.getEmail(), student.getName());
             }
             break;
         case NONE:
@@ -362,8 +362,8 @@ public final class FeedbackQuestionsLogic {
         String giverEmail = "";
         String giverTeam = "";
         if (isStudentGiver) {
-            giverEmail = studentGiver.email;
-            giverTeam = studentGiver.team;
+            giverEmail = studentGiver.getEmail();
+            giverTeam = studentGiver.getTeam();
         } else if (isInstructorGiver) {
             giverEmail = instructorGiver.getEmail();
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
@@ -388,14 +388,14 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : studentsInCourse) {
                 if (isInstructorGiver && !instructorGiver.isAllowedForPrivilege(
-                        student.section, question.getFeedbackSessionName(),
+                        student.getSection(), question.getFeedbackSessionName(),
                         Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)) {
                     // instructor can only see students in allowed sections for him/her
                     continue;
                 }
                 // Ensure student does not evaluate himself
-                if (!giverEmail.equals(student.email)) {
-                    recipients.put(student.email, student.name);
+                if (!giverEmail.equals(student.getEmail())) {
+                    recipients.put(student.getEmail(), student.getName());
                 }
             }
             break;
@@ -451,8 +451,8 @@ public final class FeedbackQuestionsLogic {
                 students = courseRoster.getTeamToMembersTable().getOrDefault(giverTeam, Collections.emptyList());
             }
             for (StudentAttributes student : students) {
-                if (!student.email.equals(giverEmail)) {
-                    recipients.put(student.email, student.name);
+                if (!student.getEmail().equals(giverEmail)) {
+                    recipients.put(student.getEmail(), student.getName());
                 }
             }
             break;
@@ -465,7 +465,7 @@ public final class FeedbackQuestionsLogic {
             }
             for (StudentAttributes student : teamMembers) {
                 // accepts self feedback too
-                recipients.put(student.email, student.name);
+                recipients.put(student.getEmail(), student.getName());
             }
             break;
         case NONE:
@@ -605,11 +605,11 @@ public final class FeedbackQuestionsLogic {
                     studentsLogic.getStudentsForCourse(feedbackQuestionAttributes.getCourseId());
 
             if (generateOptionsFor == FeedbackParticipantType.STUDENTS_EXCLUDING_SELF) {
-                studentList.removeIf(studentInList -> studentInList.email.equals(emailOfEntityDoingQuestion));
+                studentList.removeIf(studentInList -> studentInList.getEmail().equals(emailOfEntityDoingQuestion));
             }
 
             for (StudentAttributes student : studentList) {
-                optionList.add(student.name + " (" + student.team + ")");
+                optionList.add(student.getName() + " (" + student.getTeam() + ")");
             }
 
             optionList.sort(null);
@@ -681,7 +681,7 @@ public final class FeedbackQuestionsLogic {
         boolean isStudentGiver = studentGiver != null;
         boolean isInstructorGiver = instructorGiver != null;
         if (isStudentGiver) {
-            giverTeam = studentGiver.team;
+            giverTeam = studentGiver.getTeam();
         } else if (isInstructorGiver) {
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         }

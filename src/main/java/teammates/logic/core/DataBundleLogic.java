@@ -154,7 +154,7 @@ public final class DataBundleLogic {
 
         Map<String, StudentAttributes> students = dataBundle.students;
         for (StudentAttributes student : students.values()) {
-            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
+            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.getCourse(), student.getEmail());
             studentsDb.putDocument(studentInDb);
         }
 
@@ -184,8 +184,8 @@ public final class DataBundleLogic {
             populateNullSection(student);
 
             // create adhoc account to maintain data integrity
-            if (!StringHelper.isEmpty(student.googleId)) {
-                googleIdAccountMap.putIfAbsent(student.googleId, makeAccount(student));
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
+                googleIdAccountMap.putIfAbsent(student.getGoogleId(), makeAccount(student));
             }
         }
     }
@@ -313,7 +313,7 @@ public final class DataBundleLogic {
     }
 
     private void populateNullSection(StudentAttributes student) {
-        student.section = student.section == null ? "None" : student.section;
+        student.setSection(student.getSection() == null ? "None" : student.getSection());
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
@@ -326,9 +326,9 @@ public final class DataBundleLogic {
     }
 
     private AccountAttributes makeAccount(StudentAttributes student) {
-        return AccountAttributes.builder(student.googleId)
-                .withName(student.name)
-                .withEmail(student.email)
+        return AccountAttributes.builder(student.getGoogleId())
+                .withName(student.getName())
+                .withEmail(student.getEmail())
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(false)
                 .build();

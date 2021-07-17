@@ -37,13 +37,13 @@ class GateKeeper {
      */
     void verifyAccessible(StudentAttributes student, CourseAttributes course) throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
-        verifyNotNull(student.course, "student's course ID");
+        verifyNotNull(student.getCourse(), "student's course ID");
         verifyNotNull(course, "course");
         verifyNotNull(course.getId(), "course ID");
 
-        if (!student.course.equals(course.getId())) {
+        if (!student.getCourse().equals(course.getId())) {
             throw new UnauthorizedAccessException("Course [" + course.getId() + "] is not accessible to student ["
-                                                  + student.email + "]");
+                                                  + student.getEmail() + "]");
         }
     }
 
@@ -53,13 +53,13 @@ class GateKeeper {
     void verifyAccessible(StudentAttributes student, FeedbackSessionAttributes feedbackSession)
             throws UnauthorizedAccessException {
         verifyNotNull(student, "student");
-        verifyNotNull(student.course, "student's course ID");
+        verifyNotNull(student.getCourse(), "student's course ID");
         verifyNotNull(feedbackSession, "feedback session");
         verifyNotNull(feedbackSession.getCourseId(), "feedback session's course ID");
 
-        if (!student.course.equals(feedbackSession.getCourseId())) {
+        if (!student.getCourse().equals(feedbackSession.getCourseId())) {
             throw new UnauthorizedAccessException("Feedback session [" + feedbackSession.getFeedbackSessionName()
-                                                  + "] is not accessible to student [" + student.email + "]");
+                                                  + "] is not accessible to student [" + student.getEmail() + "]");
         }
 
         if (!feedbackSession.isVisible()) {
@@ -303,7 +303,7 @@ class GateKeeper {
 
     private void verifyStudentCanViewProfile(StudentAttributes student, String courseId, String email)
             throws UnauthorizedAccessException {
-        if (!logic.isStudentsInSameTeam(courseId, email, student.email)) {
+        if (!logic.isStudentsInSameTeam(courseId, email, student.getEmail())) {
             throw new UnauthorizedAccessException("Student does not have enough privileges to view the profile.");
         }
     }

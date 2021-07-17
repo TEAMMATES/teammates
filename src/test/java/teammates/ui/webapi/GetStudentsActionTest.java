@@ -70,7 +70,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @Test
     public void testExecute_withCourseIdAndTeamName_shouldReturnAllStudentsOfTheTeam() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, studentAttributes.getCourse(),
@@ -112,7 +112,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         ______TS("unknown courseId and/or teamName (student access)");
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "randomId",
         };
@@ -158,7 +158,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
     @Test
     public void testAccessControl_withCourseIdAndTeamName_shouldDoAuthenticationOfStudent() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         ______TS("Acccess students' own team should pass");
         String[] submissionParams = new String[] {

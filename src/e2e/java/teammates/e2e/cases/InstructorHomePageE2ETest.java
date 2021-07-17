@@ -40,7 +40,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorHomePageE2ETest.json");
         studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
-        studentToEmail.email = TestProperties.TEST_EMAIL;
+        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
 

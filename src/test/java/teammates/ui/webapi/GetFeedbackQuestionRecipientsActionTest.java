@@ -66,20 +66,20 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     @Test
     public void testExecute_moderatedAndPreviewPersonToGetRecipients_shouldReturnSameRecipientsGotFromGiver() {
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] questionParams = generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData expectedRecipients = getRecipients(questionParams);
 
         ______TS("Test moderated person get recipient, should be same as recipients got from giver");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] moderateQuestionParams =
-                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", student1InCourse1.email, "");
+                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", student1InCourse1.getEmail(), "");
         FeedbackQuestionRecipientsData moderatedRecipients = getRecipients(moderateQuestionParams);
         verifyFeedbackQuestionRecipientsDataEquals(expectedRecipients, moderatedRecipients);
 
         ______TS("Test preview person get recipient, should be same as recipients got from giver");
         String[] previewQuestionParams =
-                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", student1InCourse1.email);
+                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", student1InCourse1.getEmail());
         FeedbackQuestionRecipientsData previewRecipients = getRecipients(previewQuestionParams);
         verifyFeedbackQuestionRecipientsDataEquals(expectedRecipients, previewRecipients);
     }
@@ -88,7 +88,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     public void testExecute_differentRecipientTypes_shouldReturnRecipientsCorrectly() {
 
         ______TS("Test typical recipient type: Self");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] selfQuestionParams =
                 generateParameters(firstSessionInCourse1, 1, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData selfRecipients = getRecipients(selfQuestionParams);
@@ -96,7 +96,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("student1InCourse1@gmail.tmt", selfRecipients.getRecipients().get(0).getIdentifier());
 
         ______TS("Test typical recipient type: Student");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] studentQuestionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData studentRecipients = getRecipients(studentQuestionParams);
@@ -116,7 +116,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("instructor3@course2.tmt", instructorRecipients.getRecipients().get(1).getIdentifier());
 
         ______TS("Test typical recipient type: Team");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] teamQuestionParams =
                 generateParameters(secondSessionInCourse1, 1, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData teamRecipients = getRecipients(teamQuestionParams);
@@ -124,7 +124,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("Team 1.2", teamRecipients.getRecipients().get(0).getIdentifier());
 
         ______TS("Test typical recipient type: Own team");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] ownTeamQuestionParams =
                 generateParameters(secondSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData ownTeamRecipients = getRecipients(ownTeamQuestionParams);
@@ -132,7 +132,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("Team 1.1", ownTeamRecipients.getRecipients().get(0).getIdentifier());
 
         ______TS("Test typical recipient type: Own team member");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] memberQuestionParams =
                 generateParameters(secondSessionInCourse1, 3, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData memberRecipients = getRecipients(memberQuestionParams);
@@ -142,7 +142,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("student4InCourse1@gmail.tmt", memberRecipients.getRecipients().get(2).getIdentifier());
 
         ______TS("Test typical recipient type: Own team member including self");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] memberWithSelfQuestionParams =
                 generateParameters(secondSessionInCourse1, 4, Intent.STUDENT_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData memberWithSelfRecipients = getRecipients(memberWithSelfQuestionParams);
@@ -196,7 +196,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         ______TS("Student intends to access instructor's question, should not be accessible");
         String[] studentAccessInstructorQuestionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.STUDENT_SUBMISSION, "", "", "");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(studentAccessInstructorQuestionParams);
 
         ______TS("Instructor intends to access student's question, should not be accessible");
@@ -216,9 +216,9 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyAccessibleForStudentsOfTheSameCourse(studentSubmissionParams);
 
         ______TS("Not logged in user access with correct unused regKey, should be accessible");
-        logic.resetStudentGoogleId(student3InCourse1.email, student3InCourse1.getCourse());
+        logic.resetStudentGoogleId(student3InCourse1.getEmail(), student3InCourse1.getCourse());
         StudentAttributes unregisteredStudent =
-                logic.getStudentForEmail(student3InCourse1.getCourse(), student3InCourse1.email);
+                logic.getStudentForEmail(student3InCourse1.getCourse(), student3InCourse1.getEmail());
         String[] unregisteredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
                         StringHelper.encrypt(unregisteredStudent.getKey()), "", "");
@@ -226,7 +226,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         ______TS("Access with correct but used regKey, should not be accessible by anyone");
         StudentAttributes registeredStudent =
-                logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.email);
+                logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail());
         String[] registeredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
                         StringHelper.encrypt(registeredStudent.getKey()), "", "");
@@ -245,7 +245,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         ______TS("Instructor moderates student's question, should be accessible if he has privilege");
         String[] moderatedStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        "", student1InCourse1.email, "");
+                        "", student1InCourse1.getEmail(), "");
 
         verifyInaccessibleForInstructorsOfOtherCourses(moderatedStudentSubmissionParams);
 
@@ -261,7 +261,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         ______TS("Instructor previews student's question, should be accessible if he has privilege");
         String[] previewStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        "", "", student1InCourse1.email);
+                        "", "", student1InCourse1.getEmail());
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, previewStudentSubmissionParams);

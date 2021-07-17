@@ -33,9 +33,9 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Success case: student gets his own image");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
-        writeFileToStorage(student1InCourse1.googleId, student1PicPath);
+        writeFileToStorage(student1InCourse1.getGoogleId(), student1PicPath);
 
         GetStudentProfilePictureAction action = getAction();
         ImageResult imageResult = getImageResult(action);
@@ -67,7 +67,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Success case: student gets his teammate's image");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         logoutUser();
-        loginAsStudent(student2InCourse1.googleId);
+        loginAsStudent(student2InCourse1.getGoogleId());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -138,7 +138,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
         assertEquals("No student found", message.getMessage());
 
-        deleteFile(student1InCourse1.googleId);
+        deleteFile(student1InCourse1.getGoogleId());
     }
 
     @Test
@@ -153,7 +153,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         //student from another team
         logoutUser();
-        loginAsStudent(student5InCourse1.googleId);
+        loginAsStudent(student5InCourse1.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -164,7 +164,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
 
         //student from another course
         logoutUser();
-        loginAsStudent(student1InCourse3.googleId);
+        loginAsStudent(student1InCourse3.getGoogleId());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -176,7 +176,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Success case: student can only view his own team in the course");
 
         logoutUser();
-        loginAsStudent(student2InCourse1.googleId);
+        loginAsStudent(student2InCourse1.getGoogleId());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -188,7 +188,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Success case: student can view his own photo but instructor or admin cannot");
 
         logoutUser();
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         verifyCanAccess();
         verifyInaccessibleForInstructors();

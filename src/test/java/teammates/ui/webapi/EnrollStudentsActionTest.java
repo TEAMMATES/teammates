@@ -54,7 +54,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     public void testExecute_withNewStudentWithEmptySectionName_shouldBeAddedToDatabaseWithDefaultSectionName() {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes newStudent = getTypicalNewStudent(courseId);
-        newStudent.section = "";
+        newStudent.setSection("");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -86,7 +86,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     public void testExecute_withExistingStudent_shouldBeUpdatedToDatabase() {
         StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
         String courseId = studentToUpdate.getCourse();
-        studentToUpdate.name = "new name";
+        studentToUpdate.setName("new name");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -107,9 +107,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         // Ensure that student5InCourse1 has a unique team name in the course.
         // Otherwise, it will give a duplicate team name error when changing section name.
         assertEquals(1, students.stream().filter(student ->
-                student.section.equals(studentToUpdate.section)).count());
+                student.getSection().equals(studentToUpdate.getSection())).count());
 
-        studentToUpdate.section = "New Section";
+        studentToUpdate.setSection("New Section");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -125,7 +125,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes originalStudent = typicalBundle.students.get("student1InCourse1");
         StudentAttributes newStudent = originalStudent.getCopy();
-        newStudent.email = "newEmail@example.com";
+        newStudent.setEmail("newEmail@example.com");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -142,11 +142,11 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes validNewStudent = getTypicalNewStudent(courseId);
         StudentAttributes invalidNewStudent = getTypicalNewStudent(courseId);
-        invalidNewStudent.email = "invalidEmail";
+        invalidNewStudent.setEmail("invalidEmail");
         StudentAttributes validExistingStudent = typicalBundle.students.get("student1InCourse1");
-        validExistingStudent.name = "new name";
+        validExistingStudent.setName("new name");
         StudentAttributes invalidExistingStudent = typicalBundle.students.get("student2InCourse1");
-        invalidExistingStudent.team = "invalid | team % name";
+        invalidExistingStudent.setTeam("invalid | team % name");
         StudentsEnrollRequest req = prepareRequest(
                 Arrays.asList(validNewStudent, invalidNewStudent, validExistingStudent, invalidExistingStudent));
 
@@ -167,26 +167,26 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String courseId = typicalBundle.courses.get("typicalCourse1").getId();
         StudentAttributes studentInCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student1 = getTypicalNewStudent(courseId);
-        student1.team = studentInCourse1.getTeam();
-        student1.section = "random section 1";
+        student1.setTeam(studentInCourse1.getTeam());
+        student1.setSection("random section 1");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, studentInCourse1.section);
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(), student1.getSection(), studentInCourse1.getSection());
     }
 
     @Test
     public void testExecute_withDuplicatedTeamNameAmongSectionsInInput_shouldThrowInvalidBodyException() {
         String courseId = typicalBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1 = getTypicalNewStudent(courseId);
-        student1.team = "typical random team";
-        student1.section = "random section 1";
+        student1.setTeam("typical random team");
+        student1.setSection("random section 1");
         StudentAttributes student2 = getTypicalNewStudent(courseId);
-        student2.team = student1.team;
-        student2.section = "random section 2";
-        student2.email = "differentemail@test.com";
+        student2.setTeam(student1.getTeam());
+        student2.setSection("random section 2");
+        student2.setEmail("differentemail@test.com");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1, student2));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, student2.section);
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(), student1.getSection(), student2.getSection());
     }
 
     @Test

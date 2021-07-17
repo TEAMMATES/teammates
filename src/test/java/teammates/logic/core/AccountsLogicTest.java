@@ -139,7 +139,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: invalid parameters");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), "wrong student"));
+                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), "wrong student"));
         AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
         ______TS("failure: googleID belongs to an existing student in the course");
@@ -156,7 +156,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentsLogic.createStudent(existingStudent);
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), existingId));
+                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), existingId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: without encryption and account already exists");
@@ -169,24 +169,24 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountData);
-        accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
+        accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.getKey()), correctStudentId);
 
-        studentData.googleId = accountData.getGoogleId();
+        studentData.setGoogleId(accountData.getGoogleId());
         verifyPresentInDatabase(studentData);
         assertEquals(
                 correctStudentId,
-                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
 
         ______TS("failure: already joined");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), correctStudentId));
+                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), correctStudentId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("failure: valid key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.key), "wrongstudent"));
+                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), "wrongstudent"));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
@@ -205,12 +205,12 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentData = studentsLogic.getStudentForEmail(courseId,
                 originalEmail);
 
-        String encryptedKey = StringHelper.encrypt(studentData.key);
+        String encryptedKey = StringHelper.encrypt(studentData.getKey());
         accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
-        studentData.googleId = correctStudentId;
+        studentData.setGoogleId(correctStudentId);
         verifyPresentInDatabase(studentData);
         assertEquals(correctStudentId,
-                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
 
         // check that we have the corresponding new account created.
         accountData.setGoogleId(correctStudentId);
@@ -225,19 +225,19 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.makeAccountInstructor(correctStudentId);
 
         // make the student 'unregistered' again
-        studentData.googleId = "";
+        studentData.setGoogleId("");
         studentsLogic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(studentData.course, studentData.email)
-                        .withGoogleId(studentData.googleId)
+                StudentAttributes.updateOptionsBuilder(studentData.getCourse(), studentData.getEmail())
+                        .withGoogleId(studentData.getGoogleId())
                         .build()
         );
         assertEquals("",
-                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
 
         // rejoin
         accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
         assertEquals(correctStudentId,
-                studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
+                studentsLogic.getStudentForEmail(studentData.getCourse(), studentData.getEmail()).getGoogleId());
 
         // check if still instructor
         assertTrue(accountsLogic.isAccountAnInstructor(correctStudentId));

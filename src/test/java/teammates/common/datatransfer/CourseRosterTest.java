@@ -39,8 +39,8 @@ public class CourseRosterTest extends BaseTestCase {
         assertFalse(roster.isStudentsInSameTeam("s1@gmail.com", "non-existent@gmail.com"));
         assertTrue(roster.isStudentsInSameTeam("s1@gmail.com", "s1@gmail.com"));
 
-        assertEquals(roster.getStudentForEmail("s1@gmail.com").email, "s1@gmail.com");
-        assertEquals(roster.getStudentForEmail("s1@gmail.com").team, "team 1");
+        assertEquals(roster.getStudentForEmail("s1@gmail.com").getEmail(), "s1@gmail.com");
+        assertEquals(roster.getStudentForEmail("s1@gmail.com").getTeam(), "team 1");
         assertNull(roster.getInstructorForEmail("ins@email.com"));
 
         ______TS("only 1 instructor, no students");

@@ -46,8 +46,8 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         ______TS("unregistered student: can access results");
         StudentAttributes unregistered = testData.students.get("Unregistered");
         AppUrl url = createUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
-                .withCourseId(unregistered.course)
-                .withStudentEmail(unregistered.email)
+                .withCourseId(unregistered.getCourse())
+                .withStudentEmail(unregistered.getEmail())
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withRegistrationKey(getKeyForStudent(unregistered));
         resultsPage = getNewPageInstance(url, StudentFeedbackResultsPage.class);
@@ -62,7 +62,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         url = createUrl(Const.WebPageURIs.STUDENT_SESSION_RESULTS_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
-        resultsPage = loginToPage(url, StudentFeedbackResultsPage.class, student.googleId);
+        resultsPage = loginToPage(url, StudentFeedbackResultsPage.class, student.getGoogleId());
 
         resultsPage.verifyFeedbackSessionDetails(openSession);
 
@@ -155,18 +155,18 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toList());
 
         List<FeedbackResponseAttributes> selfEvaluationResponses = questionResponses.stream()
-                .filter(fr -> fr.getGiver().equals(currentStudent.email) && fr.getRecipient().equals(currentStudent.email))
+                .filter(fr -> fr.getGiver().equals(currentStudent.getEmail()) && fr.getRecipient().equals(currentStudent.getEmail()))
                 .collect(Collectors.toList());
 
         List<FeedbackResponseAttributes> responsesByOthers = questionResponses.stream()
-                .filter(fr -> !fr.getGiver().equals(currentStudent.email) && visibleResponseGivers.contains(fr.getGiver()))
+                .filter(fr -> !fr.getGiver().equals(currentStudent.getEmail()) && visibleResponseGivers.contains(fr.getGiver()))
                 .collect(Collectors.toList());
 
         List<FeedbackResponseAttributes> responsesToSelf = new ArrayList<>();
         if (visibleResponseGivers.contains("RECEIVER")) {
             responsesToSelf = questionResponses.stream()
-                    .filter(fr -> !fr.getGiver().equals(currentStudent.email)
-                            && fr.getRecipient().equals(currentStudent.email))
+                    .filter(fr -> !fr.getGiver().equals(currentStudent.getEmail())
+                            && fr.getRecipient().equals(currentStudent.getEmail()))
                     .collect(Collectors.toList());
         }
 
@@ -198,8 +198,8 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         } else if (relevantParticipants.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             students.addAll(getOtherTeammates(giver));
         }
-        students.forEach(s -> relevantUsers.add(s.email));
-        students.forEach(s -> relevantUsers.add(s.team));
+        students.forEach(s -> relevantUsers.add(s.getEmail()));
+        students.forEach(s -> relevantUsers.add(s.getTeam()));
 
         if (relevantParticipants.contains(FeedbackParticipantType.RECEIVER)) {
             relevantUsers.add("RECEIVER");
