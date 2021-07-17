@@ -17,14 +17,6 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
-    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
-
-    /**
-     * Sorts the Instructors list alphabetically by name.
-     */
-    public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
-            Comparator.comparing(instructor -> instructor.name.toLowerCase());
-
     private String courseId;
     private String email;
     private String name;
@@ -41,7 +33,7 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         this.email = email;
 
         this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        this.displayedName = DEFAULT_DISPLAY_NAME;
+        this.displayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         this.isArchived = false;
         this.isDisplayedToStudents = true;
         this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -184,6 +176,13 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role), errors);
 
         return errors;
+    }
+
+    /**
+     * Sorts the instructors list alphabetically by name.
+     */
+    public static void sortByName(List<InstructorAttributes> instructors) {
+        instructors.sort(Comparator.comparing(instructor -> instructor.name.toLowerCase()));
     }
 
     @Override

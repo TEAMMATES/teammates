@@ -85,7 +85,7 @@ class CreateInstructorAction extends Action {
 
         String instrDisplayedName = displayedName;
         if (displayedName == null || displayedName.isEmpty()) {
-            instrDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+            instrDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
         instrDisplayedName = SanitizationHelper.sanitizeName(instrDisplayedName);

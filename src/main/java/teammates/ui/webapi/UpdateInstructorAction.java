@@ -103,7 +103,7 @@ class UpdateInstructorAction extends Action {
 
         String newDisplayedName = displayedName;
         if (newDisplayedName == null || newDisplayedName.isEmpty()) {
-            newDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+            newDisplayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         }
 
         instructorToEdit.setName(SanitizationHelper.sanitizeName(instructorName));

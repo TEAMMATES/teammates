@@ -29,7 +29,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertNull(instructor.getGoogleId());
         assertNull(instructor.getKey());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructor.getRole());
-        assertEquals(InstructorAttributes.DEFAULT_DISPLAY_NAME, instructor.getDisplayedName());
+        assertEquals(Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, instructor.getDisplayedName());
         assertFalse(instructor.isArchived());
         assertTrue(instructor.isDisplayedToStudents());
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
@@ -151,7 +151,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorAttributes.getRole());
         assertEquals(instructor.isDisplayedToStudents(), instructorAttributes.isDisplayedToStudents());
-        assertEquals(InstructorAttributes.DEFAULT_DISPLAY_NAME, instructorAttributes.getDisplayedName());
+        assertEquals(Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, instructorAttributes.getDisplayedName());
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
                 instructorAttributes.getPrivileges());
     }
