@@ -18,12 +18,12 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.test.AssertHelper;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link FeedbackResponseCommentsDb}.
  */
-public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithObjectifyAccess {
+public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 

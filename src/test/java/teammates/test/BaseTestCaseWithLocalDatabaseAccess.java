@@ -40,7 +40,7 @@ import teammates.storage.search.StudentSearchManager;
  * the tests need to be run in a single thread to prevent test data contamination across different tests.
  */
 @Test(singleThreaded = true)
-public abstract class BaseTestCaseWithObjectifyAccess extends BaseTestCaseWithDatabaseAccess {
+public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWithDatabaseAccess {
     private static final LocalDatastoreHelper LOCAL_DATASTORE_HELPER = LocalDatastoreHelper.newBuilder()
             .setConsistency(1.0)
             .setPort(TestProperties.TEST_LOCALDATASTORE_PORT)

@@ -15,12 +15,12 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link StudentsDb}.
  */
-public class StudentsDbTest extends BaseTestCaseWithObjectifyAccess {
+public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final StudentsDb studentsDb = StudentsDb.inst();
 

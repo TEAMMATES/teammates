@@ -3,12 +3,12 @@ package teammates.logic.api;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * Base class for all *Logic tests.
  */
-public abstract class BaseLogicTest extends BaseTestCaseWithObjectifyAccess {
+public abstract class BaseLogicTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     protected DataBundle dataBundle;
 

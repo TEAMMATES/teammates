@@ -9,12 +9,12 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.test.AssertHelper;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link AccountsDb}.
  */
-public class AccountsDbTest extends BaseTestCaseWithObjectifyAccess {
+public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final AccountsDb accountsDb = AccountsDb.inst();
 

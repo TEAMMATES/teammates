@@ -24,12 +24,12 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelperExtension;
 import teammates.test.AssertHelper;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.
  */
-public class FeedbackSessionsDbTest extends BaseTestCaseWithObjectifyAccess {
+public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
     private DataBundle dataBundle = getTypicalDataBundle();

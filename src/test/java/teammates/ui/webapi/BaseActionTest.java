@@ -35,7 +35,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.LogicExtension;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.MockEmailSender;
 import teammates.test.MockFileStorage;
@@ -53,7 +53,7 @@ import teammates.ui.request.BasicRequest;
  *
  * @param <T> The action class being tested.
  */
-public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithObjectifyAccess {
+public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithLocalDatabaseAccess {
 
     protected static final String GET = HttpGet.METHOD_NAME;
     protected static final String POST = HttpPost.METHOD_NAME;

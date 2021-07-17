@@ -18,12 +18,12 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.test.AssertHelper;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link InstructorsDb}.
  */
-public class InstructorsDbTest extends BaseTestCaseWithObjectifyAccess {
+public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final InstructorsDb instructorsDb = InstructorsDb.inst();
     private DataBundle dataBundle;

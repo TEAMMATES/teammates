@@ -7,12 +7,12 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link ProfilesDb}.
  */
-public class ProfilesDbTest extends BaseTestCaseWithObjectifyAccess {
+public class ProfilesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     private final ProfilesDb profilesDb = ProfilesDb.inst();
 
