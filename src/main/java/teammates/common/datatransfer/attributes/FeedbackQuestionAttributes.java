@@ -31,7 +31,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
     private List<FeedbackParticipantType> showRecipientNameTo;
     private transient Instant createdAt;
     private transient Instant updatedAt;
-    private String feedbackQuestionId;
+    private transient String feedbackQuestionId;
 
     private FeedbackQuestionAttributes() {
         this.showResponsesTo = new ArrayList<>();

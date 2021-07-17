@@ -21,12 +21,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     private String email;
     private String name;
     private String googleId;
-    private String key;
     private String role;
     private String displayedName;
     private boolean isArchived;
     private boolean isDisplayedToStudents;
     private InstructorPrivileges privileges;
+    private transient String key;
 
     private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;

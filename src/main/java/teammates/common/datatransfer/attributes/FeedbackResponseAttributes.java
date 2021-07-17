@@ -33,8 +33,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
     private String recipientSection;
     private transient Instant createdAt;
     private transient Instant updatedAt;
-
-    private String feedbackResponseId;
+    private transient String feedbackResponseId;
 
     private FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
         this.feedbackQuestionId = feedbackQuestionId;

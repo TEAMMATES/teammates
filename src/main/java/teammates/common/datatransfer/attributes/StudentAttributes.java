@@ -23,8 +23,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     private String comments;
     private String team;
     private String section;
-    private String key;
-
+    private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
