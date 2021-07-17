@@ -32,10 +32,10 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
 
         ______TS("success: delete a student by email");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
@@ -46,7 +46,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         ______TS("success: delete a student by id");
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_ID, student2InCourse1.googleId,
         };
 
@@ -68,7 +68,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         ______TS("failure: student does not exist");
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_ID, "RANDOM_STUDENT",
         };
 
@@ -82,26 +82,26 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         verifyHttpParameterFailure();
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         verifyHttpParameterFailure(submissionParams);
 
         submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, instructor1OfCourse1.email,
+                Const.ParamsNames.STUDENT_EMAIL, instructor1OfCourse1.getEmail(),
         };
 
         verifyHttpParameterFailure(submissionParams);
 
         submissionParams = new String[] {
-                Const.ParamsNames.STUDENT_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.STUDENT_ID, instructor1OfCourse1.getCourseId(),
         };
 
         verifyHttpParameterFailure(submissionParams);
 
         ______TS("failure: random email given - fails silently");
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, "RANDOM_EMAIL",
         };
 
@@ -118,7 +118,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student5InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 

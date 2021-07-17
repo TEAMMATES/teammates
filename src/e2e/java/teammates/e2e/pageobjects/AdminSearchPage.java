@@ -172,7 +172,7 @@ public class AdminSearchPage extends AppPage {
     public WebElement getInstructorRow(InstructorAttributes instructor) {
         String xpath = String.format(
                 "//table[@id='search-table-instructor']/tbody/tr[td[%d][span[text()='%s']] and td[%d]='%s']",
-                INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.name);
+                INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.getName());
         return browser.driver.findElement(By.xpath(xpath));
     }
 
@@ -295,9 +295,9 @@ public class AdminSearchPage extends AppPage {
         String actualInstitute = getInstructorInstitute(instructorRow);
         String actualManageAccountLink = getInstructorManageAccountLink(instructorRow);
 
-        String expectedCourseId = instructor.courseId;
-        String expectedName = instructor.name;
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.googleId);
+        String expectedCourseId = instructor.getCourseId();
+        String expectedName = instructor.getName();
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
         String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
 
         assertEquals(expectedCourseId, actualCourseId);
@@ -314,7 +314,7 @@ public class AdminSearchPage extends AppPage {
         String actualEmail = getInstructorEmail(instructorRow);
         String actualJoinLink = getInstructorJoinLink(instructorRow);
 
-        String expectedEmail = instructor.email;
+        String expectedEmail = instructor.getEmail();
 
         assertEquals(expectedEmail, actualEmail);
         assertNotEquals("", actualJoinLink);

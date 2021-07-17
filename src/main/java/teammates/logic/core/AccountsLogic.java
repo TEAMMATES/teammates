@@ -68,7 +68,7 @@ public final class AccountsLogic {
         // Retrieve institute field from one of the instructors of the course
         String institute = "";
         for (InstructorAttributes instructor : instructorList) {
-            String instructorGoogleId = instructor.googleId;
+            String instructorGoogleId = instructor.getGoogleId();
             if (instructorGoogleId == null) {
                 continue;
             }
@@ -116,11 +116,11 @@ public final class AccountsLogic {
         InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
 
         // Register the instructor
-        instructor.googleId = googleId;
+        instructor.setGoogleId(googleId);
         try {
             instructorsLogic.updateInstructorByEmail(
-                    InstructorAttributes.updateOptionsWithEmailBuilder(instructor.courseId, instructor.email)
-                            .withGoogleId(instructor.googleId)
+                    InstructorAttributes.updateOptionsWithEmailBuilder(instructor.getCourseId(), instructor.getEmail())
+                            .withGoogleId(instructor.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
             assert false : "Instructor disappeared while trying to register "
@@ -128,13 +128,13 @@ public final class AccountsLogic {
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = institute == null ? getCourseInstitute(instructor.courseId) : institute;
+        String instituteToSave = institute == null ? getCourseInstitute(instructor.getCourseId()) : institute;
 
         if (account == null) {
             try {
                 createAccount(AccountAttributes.builder(googleId)
-                        .withName(instructor.name)
-                        .withEmail(instructor.email)
+                        .withName(instructor.getName())
+                        .withEmail(instructor.getEmail())
                         .withInstitute(instituteToSave)
                         .withIsInstructor(true)
                         .build());
@@ -146,7 +146,7 @@ public final class AccountsLogic {
         }
 
         // Update the googleId of the student entity for the instructor which was created from sample data.
-        StudentAttributes student = studentsLogic.getStudentForEmail(instructor.courseId, instructor.email);
+        StudentAttributes student = studentsLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
             student.googleId = googleId;
             studentsLogic.updateStudentCascade(
@@ -175,7 +175,7 @@ public final class AccountsLogic {
         }
 
         if (instructorForKey.isRegistered()) {
-            if (instructorForKey.googleId.equals(googleId)) {
+            if (instructorForKey.getGoogleId().equals(googleId)) {
                 AccountAttributes existingAccount = accountsDb.getAccount(googleId);
                 if (existingAccount != null && existingAccount.isInstructor()) {
                     throw new EntityAlreadyExistsException("Instructor has already joined course");
@@ -186,7 +186,7 @@ public final class AccountsLogic {
         } else {
             // Check if this Google ID has already joined this course
             InstructorAttributes existingInstructor =
-                    instructorsLogic.getInstructorForGoogleId(instructorForKey.courseId, googleId);
+                    instructorsLogic.getInstructorForGoogleId(instructorForKey.getCourseId(), googleId);
 
             if (existingInstructor != null) {
                 throw new EntityAlreadyExistsException("Instructor has already joined course");

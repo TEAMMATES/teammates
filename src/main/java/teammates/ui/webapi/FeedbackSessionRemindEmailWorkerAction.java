@@ -41,7 +41,7 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
             // Filter out instructors who have submitted the feedback session
             List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
             for (InstructorAttributes instructor : instructorList) {
-                if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.email)) {
+                if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.getEmail())) {
                     instructorsToRemindList.add(instructor);
                 }
             }

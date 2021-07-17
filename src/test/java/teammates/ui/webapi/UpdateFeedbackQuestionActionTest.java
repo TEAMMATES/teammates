@@ -200,7 +200,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1ofCourse1.googleId);
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("contribSession");
         FeedbackQuestionAttributes fq =
@@ -333,7 +333,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         int totalStudents = 5;
         int totalInstructors = 5;
 
-        loginAsInstructor(instructor1ofCourse1.googleId);
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         ______TS("Check response rate before editing question 1");
 
@@ -466,7 +466,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("non-existent feedback question");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         assertThrows(EntityNotFoundException.class, () -> {
             getAction(new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"}).checkSpecificAccessControl();

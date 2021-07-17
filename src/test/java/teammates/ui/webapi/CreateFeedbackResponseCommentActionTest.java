@@ -554,10 +554,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCanMasquerade(instructor.googleId, submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
     @Test
@@ -569,7 +569,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(instructor,

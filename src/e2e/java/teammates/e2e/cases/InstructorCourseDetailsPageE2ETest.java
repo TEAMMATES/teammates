@@ -50,7 +50,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
                 .withCourseId(course.getId());
         InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
-                testData.instructors.get("ICDet.instr").googleId);
+                testData.instructors.get("ICDet.instr").getGoogleId());
 
         ______TS("verify loaded details");
         InstructorAttributes[] instructors = {

@@ -75,9 +75,9 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
         return instructors.stream()
-                .filter(i -> i.privileges.getCourseLevelPrivileges()
+                .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
                         .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.courseId).collect(Collectors.joining(" "));
+                .map(ins -> ins.getCourseId()).collect(Collectors.joining(" "));
     }
 
 }

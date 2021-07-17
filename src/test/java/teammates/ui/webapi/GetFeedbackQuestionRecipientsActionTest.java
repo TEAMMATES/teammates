@@ -71,7 +71,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         FeedbackQuestionRecipientsData expectedRecipients = getRecipients(questionParams);
 
         ______TS("Test moderated person get recipient, should be same as recipients got from giver");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] moderateQuestionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", student1InCourse1.email, "");
         FeedbackQuestionRecipientsData moderatedRecipients = getRecipients(moderateQuestionParams);
@@ -107,7 +107,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("student5InCourse1@gmail.tmt", studentRecipients.getRecipients().get(3).getIdentifier());
 
         ______TS("Test typical recipient type: Instructor");
-        loginAsInstructor(instructor1OfCourse2.googleId);
+        loginAsInstructor(instructor1OfCourse2.getGoogleId());
         String[] instructorQuestionParams =
                 generateParameters(firstSessionInCourse2, 2, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData instructorRecipients = getRecipients(instructorQuestionParams);
@@ -153,7 +153,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         assertEquals("student4InCourse1@gmail.tmt", memberWithSelfRecipients.getRecipients().get(3).getIdentifier());
 
         ______TS("Test typical recipient type: None");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] noneQuestionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
         FeedbackQuestionRecipientsData noneRecipients = getRecipients(noneQuestionParams);
@@ -200,7 +200,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyCannotAccess(studentAccessInstructorQuestionParams);
 
         ______TS("Instructor intends to access student's question, should not be accessible");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] instructorAccessStudentQuestionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
         verifyCannotAccess(instructorAccessStudentQuestionParams);
@@ -236,10 +236,10 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyCannotAccess(registeredStudentSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] invalidModeratedInstructorSubmissionParams =
                 generateParameters(secondSessionInCourse1, 1, Intent.INSTRUCTOR_SUBMISSION,
-                        "", instructor1OfCourse1.email, "");
+                        "", instructor1OfCourse1.getEmail(), "");
         verifyCannotAccess(invalidModeratedInstructorSubmissionParams);
 
         ______TS("Instructor moderates student's question, should be accessible if he has privilege");
@@ -250,7 +250,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
         verifyInaccessibleForInstructorsOfOtherCourses(moderatedStudentSubmissionParams);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(moderatedStudentSubmissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
@@ -278,7 +278,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, instructorSubmissionParams);
 
         ______TS("Instructor intends to access student's question, should not be accessible");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] instructorAccessStudentQuestionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.INSTRUCTOR_SUBMISSION, "", "", "");
         verifyCannotAccess(instructorAccessStudentQuestionParams);
@@ -287,7 +287,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 + "should be accessible if he has privilege");
         String[] moderatedInstructorSubmissionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
-                        "", instructor1OfCourse1.email, "");
+                        "", instructor1OfCourse1.getEmail(), "");
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 moderatedInstructorSubmissionParams);
@@ -296,15 +296,15 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 + " should be accessible if he has privilege");
         String[] previewInstructorSubmissionParams =
                 generateParameters(firstSessionInCourse1, 3, Intent.INSTRUCTOR_SUBMISSION,
-                        "", "", instructor1OfCourse1.email);
+                        "", "", instructor1OfCourse1.getEmail());
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorSubmissionParams);
 
         ______TS("Question not intended shown to instructor, moderated instructor should not be accessible");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] invalidModeratedInstructorSubmissionParams =
                 generateParameters(secondSessionInCourse1, 1, Intent.INSTRUCTOR_SUBMISSION,
-                        "", instructor1OfCourse1.email, "");
+                        "", instructor1OfCourse1.getEmail(), "");
         verifyCannotAccess(invalidModeratedInstructorSubmissionParams);
     }
 

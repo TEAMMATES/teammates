@@ -161,7 +161,7 @@ public final class DataBundleLogic {
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         for (InstructorAttributes instructor : instructors.values()) {
             InstructorAttributes instructorInDb =
-                    instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
+                    instructorsDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
             instructorsDb.putDocument(instructorInDb);
         }
     }
@@ -172,8 +172,8 @@ public final class DataBundleLogic {
             validateInstructorPrivileges(instructor);
 
             // create adhoc account to maintain data integrity
-            if (!StringHelper.isEmpty(instructor.googleId)) {
-                googleIdAccountMap.putIfAbsent(instructor.googleId, makeAccount(instructor));
+            if (!StringHelper.isEmpty(instructor.getGoogleId())) {
+                googleIdAccountMap.putIfAbsent(instructor.getGoogleId(), makeAccount(instructor));
             }
         }
     }
@@ -283,7 +283,7 @@ public final class DataBundleLogic {
             return;
         }
 
-        InstructorPrivileges privileges = instructor.privileges;
+        InstructorPrivileges privileges = instructor.getPrivileges();
 
         switch (instructor.getRole()) {
 
@@ -317,9 +317,9 @@ public final class DataBundleLogic {
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return AccountAttributes.builder(instructor.googleId)
-                .withName(instructor.name)
-                .withEmail(instructor.email)
+        return AccountAttributes.builder(instructor.getGoogleId())
+                .withName(instructor.getName())
+                .withEmail(instructor.getEmail())
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build();

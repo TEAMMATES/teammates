@@ -44,7 +44,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         ______TS("unknown intent");
         assertThrows(InvalidHttpParameterException.class, () -> {
             String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, instructor.courseId,
+                    Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                     Const.ParamsNames.INTENT, "Unknown",
             };
 
@@ -90,7 +90,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         loginAsInstructor(instructor.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
@@ -172,7 +172,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

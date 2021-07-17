@@ -144,7 +144,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                        course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionOpeningEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionOpeningEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionOpeningEmailForInstructor.html");
 
         ______TS("feedback session reminders");
 
@@ -160,12 +160,12 @@ public class EmailGeneratorTest extends BaseLogicTest {
         // Verify the student reminder email
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionReminderEmailForStudent.html");
         // Verify the Student email copy send to the instructor
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailCopyToInstructor.html", lineInEmailCopyToInstructor);
         // Verify the instructor reminder email
         String lineInEmailToInstructor =
                 "/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
         ______TS("feedback session closing alerts");
@@ -186,7 +186,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
             }
         }
         verifyEmailReceivedCorrectly(emails, student5.email, subject, "/sessionClosingEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionClosingEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosingEmailForInstructor.html");
 
         ______TS("feedback session closed alerts");
 
@@ -196,7 +196,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
                                 course.getName(), session.getFeedbackSessionName());
 
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionClosedEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosedEmailForInstructor.html");
 
         ______TS("feedback session published alerts");
 
@@ -207,7 +207,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionPublishedEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionPublishedEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionPublishedEmailForInstructor.html");
 
         ______TS("feedback session unpublished alerts");
 
@@ -218,7 +218,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                                 course.getName(), session.getFeedbackSessionName());
 
         verifyEmailReceivedCorrectly(emails, student1.email, subject, "/sessionUnpublishedEmailForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject, "/sessionUnpublishedEmailForInstructor.html");
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionUnpublishedEmailForInstructor.html");
 
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has joined the course");
@@ -302,7 +302,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, student1.email, subject,
                 "/sessionOpeningEmailTestingSanitzationForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionOpeningEmailTestingSanitizationForInstructor.html");
 
         ______TS("feedback session closed alerts: sanitization required");
@@ -315,7 +315,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, student1.email, subject,
                 "/sessionClosedEmailTestingSanitizationForStudent.html");
-        verifyEmailReceivedCorrectly(emails, instructor1.email, subject,
+        verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionClosedEmailTestingSanitizationForInstructor.html");
 
         ______TS("feedback sessions summary of course email: sanitization required");
@@ -342,7 +342,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withGoogleId("googleId")
                 .withName("Instructor Name")
                 .build();
-        instructor.key = regkey;
+        instructor.setKey(regkey);
 
         AccountAttributes inviter = AccountAttributes.builder("otherGoogleId")
                 .withEmail("instructor-joe@gmail.com")
@@ -373,7 +373,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
-        verifyEmail(email, instructor.email, subject, "/instructorCourseJoinEmail.html");
+        verifyEmail(email, instructor.getEmail(), subject, "/instructorCourseJoinEmail.html");
 
     }
 
@@ -415,18 +415,18 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor1.key))
+                .withRegistrationKey(StringHelper.encrypt(instructor1.getKey()))
                 .withInstructorInstitution("Test Institute")
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
         EmailWrapper email = new EmailGenerator()
-                .generateNewInstructorAccountJoinEmail(instructor1.email, instructor1.name, joinLink);
+                .generateNewInstructorAccountJoinEmail(instructor1.getEmail(), instructor1.getName(), joinLink);
         // InstructorAttributes sanitizes name before saving
         String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),
-                SanitizationHelper.sanitizeForHtml(instructor1.name));
+                SanitizationHelper.sanitizeForHtml(instructor1.getName()));
 
-        verifyEmail(email, instructor1.email, subject, "/instructorNewAccountEmailTestingSanitization.html");
+        verifyEmail(email, instructor1.getEmail(), subject, "/instructorNewAccountEmailTestingSanitization.html");
         assertEquals(email.getBcc(), Config.SUPPORT_EMAIL);
 
         ______TS("instructor course join email: sanitization required");
@@ -436,7 +436,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor1, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
-        verifyEmail(email, instructor1.email, subject, "/instructorCourseJoinEmailTestingSanitization.html");
+        verifyEmail(email, instructor1.getEmail(), subject, "/instructorCourseJoinEmailTestingSanitization.html");
 
         ______TS("instructor course join email after Google ID reset");
 
@@ -444,7 +444,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
 
-        verifyEmail(email, instructor1.email, subject,
+        verifyEmail(email, instructor1.getEmail(), subject,
                 "/instructorCourseRejoinAfterGoogleIdResetEmail.html");
 
         ______TS("instructor course join email after Google ID reset (with institute name set)");
@@ -454,7 +454,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
 
-        verifyEmail(email, instructor1.email, subject,
+        verifyEmail(email, instructor1.getEmail(), subject,
                 "/instructorCourseRejoinAfterGoogleIdResetEmailWithInstitute.html");
     }
 

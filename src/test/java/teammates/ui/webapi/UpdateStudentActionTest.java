@@ -36,7 +36,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        String instructorId = instructor1OfCourse1.googleId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
         loginAsInstructor(instructorId);
 
         ______TS("Invalid parameters");
@@ -46,7 +46,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         //null student email
         String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
         verifyHttpParameterFailure(invalidParams);
 
@@ -64,7 +64,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 newStudentTeam, student1InCourse1.section, newStudentComments, true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
@@ -77,9 +77,9 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         verifyNumberOfEmailsSent(1);
 
         EmailWrapper email = getEmailsSent().get(0);
-        String courseName = logic.getCourse(instructor1OfCourse1.courseId).getName();
+        String courseName = logic.getCourse(instructor1OfCourse1.getCourseId()).getName();
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
-                instructor1OfCourse1.courseId), email.getSubject());
+                instructor1OfCourse1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
 
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
@@ -90,7 +90,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 newStudentTeamToBeTrimmed, student1InCourse1.section, newStudentCommentsToBeTrimmed, true);
 
         String[] submissionParamsToBeTrimmed = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
@@ -112,7 +112,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
@@ -136,7 +136,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
@@ -159,7 +159,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 student1InCourse1.team, student1InCourse1.section, student1InCourse1.comments, false);
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
         };
 
@@ -184,7 +184,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 student5InCourse1.team, student1InCourse1.section, student1InCourse1.comments, true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 
@@ -235,7 +235,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                         studentToJoinMaxSection.comments, true);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, studentToJoinMaxSection.email,
         };
 
@@ -256,7 +256,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                         student5InCourse1.team, "", student5InCourse1.comments, true);
 
         String[] emptySectionSubmissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student5InCourse1.email,
         };
 
@@ -287,7 +287,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student3InCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
         };
 

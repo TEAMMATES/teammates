@@ -83,7 +83,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         ______TS("Success case: instructor with privilege views image of his student");
         logoutUser();
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -201,7 +201,7 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,

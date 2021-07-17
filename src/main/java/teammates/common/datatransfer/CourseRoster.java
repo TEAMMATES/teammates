@@ -88,7 +88,7 @@ public class CourseRoster {
         }
 
         for (InstructorAttributes i : instructors) {
-            instructorListByEmail.put(i.email, i);
+            instructorListByEmail.put(i.getEmail(), i);
         }
     }
 

@@ -25,7 +25,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
     @Test
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -114,7 +114,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
         verifyInaccessibleForUnregisteredUsers(params);
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(params);
     }
 }

@@ -88,14 +88,14 @@ public class TestDataValidityTest extends BaseTestCase {
                 });
 
                 dataBundle.instructors.forEach((id, instructor) -> {
-                    if (!isValidTestGoogleId(instructor.googleId, testPage)) {
+                    if (!isValidTestGoogleId(instructor.getGoogleId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid instructor google ID: " + instructor.googleId);
+                                .add("Invalid instructor google ID: " + instructor.getGoogleId());
                     }
 
-                    if (!isValidTestEmail(instructor.email)) {
+                    if (!isValidTestEmail(instructor.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid instructor email: " + instructor.email);
+                                .add("Invalid instructor email: " + instructor.getEmail());
                     }
                 });
 

@@ -45,7 +45,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         InstructorFeedbackEditPage feedbackEditPage =
-                loginToPage(url, InstructorFeedbackEditPage.class, instructor.googleId);
+                loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
@@ -152,7 +152,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the deleted sessions table below.");
         assertNotNull(getSoftDeletedSession(copiedSessionName,
-                instructor.googleId));
+                instructor.getGoogleId()));
     }
 
     private void verifyReorder(FeedbackQuestionAttributes question) {

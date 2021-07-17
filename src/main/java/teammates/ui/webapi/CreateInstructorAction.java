@@ -51,7 +51,7 @@ class CreateInstructorAction extends Action {
         try {
             InstructorAttributes createdInstructor = logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                    userInfo.id, instructorToAdd.email, instructorToAdd.courseId, null, false);
+                    userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), null, false);
             return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {
             return new JsonResult("An instructor with the same email address already exists in the course.",

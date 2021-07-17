@@ -63,7 +63,7 @@ class SearchStudentsAction extends Action {
             if (instructor.isRegistered()
                     && (instructor.hasCoownerPrivileges()
                     || instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR))) {
-                return instructor.googleId;
+                return instructor.getGoogleId();
             }
 
         }

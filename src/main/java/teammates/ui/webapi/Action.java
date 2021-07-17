@@ -234,7 +234,7 @@ public abstract class Action {
 
     InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
         InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-        privilege.constructCourseLevelPrivilege(instructor.privileges);
+        privilege.constructCourseLevelPrivilege(instructor.getPrivileges());
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)

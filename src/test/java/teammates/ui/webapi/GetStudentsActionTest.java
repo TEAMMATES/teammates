@@ -44,7 +44,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         loginAsInstructor(instructor.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
         GetStudentsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
@@ -150,7 +150,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
     }

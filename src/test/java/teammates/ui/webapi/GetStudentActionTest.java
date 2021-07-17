@@ -251,7 +251,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,

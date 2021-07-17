@@ -46,7 +46,7 @@ class ResetAccountAction extends AdminOnlyAction {
                 return new JsonResult("Instructor does not exist.",
                         HttpStatus.SC_NOT_FOUND);
             }
-            wrongGoogleId = existingInstructor.googleId;
+            wrongGoogleId = existingInstructor.getGoogleId();
             AccountAttributes account = logic.getAccount(wrongGoogleId);
             String institute = account.getInstitute();
 

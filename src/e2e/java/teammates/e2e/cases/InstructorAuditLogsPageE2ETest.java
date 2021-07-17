@@ -45,7 +45,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE);
-        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.googleId);
+        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
         String currentLogsFromDate = auditLogsPage.getLogsFromDate();
@@ -82,7 +82,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         studentSubmissionPage.submit();
 
         logout();
-        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.googleId);
+        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
 

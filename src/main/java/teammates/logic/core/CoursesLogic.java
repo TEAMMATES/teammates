@@ -199,7 +199,7 @@ public final class CoursesLogic {
         assert instructorList != null;
 
         List<String> courseIdList = instructorList.stream()
-                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 
@@ -224,7 +224,7 @@ public final class CoursesLogic {
         assert instructorList != null;
 
         List<String> softDeletedCourseIdList = instructorList.stream()
-                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 

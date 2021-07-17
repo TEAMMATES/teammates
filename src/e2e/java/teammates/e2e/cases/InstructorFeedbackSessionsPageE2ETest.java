@@ -77,7 +77,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSIONS_PAGE);
         InstructorFeedbackSessionsPage feedbackSessionsPage =
-                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.googleId);
+                loginToPage(url, InstructorFeedbackSessionsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         FeedbackSessionAttributes[] loadedSessions = { openSession, closedSession };
@@ -190,7 +190,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForSoftDelete);
         feedbackSessionsPage.verifySoftDeletedSessionsTable(softDeletedSessions);
         assertNotNull(getSoftDeletedSession(closedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("restore session");
         FeedbackSessionAttributes[] sessionsForRestore = { openSession, newSession, closedSession, copiedSession2,
@@ -202,7 +202,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForRestore);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
         assertNull(getSoftDeletedSession(closedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("permanently delete session");
         FeedbackSessionAttributes[] sessionsForDelete = { copiedSession, copiedSession2, closedSession,
@@ -228,9 +228,9 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         feedbackSessionsPage.verifySessionsTable(sessionsForRestoreAll);
         feedbackSessionsPage.verifyNumSoftDeleted(0);
         assertNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
         assertNull(getSoftDeletedSession(copiedSession2.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("delete all session");
         feedbackSessionsPage.moveToRecycleBin(copiedSession);

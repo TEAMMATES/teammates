@@ -37,7 +37,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        return loginToPage(url, InstructorFeedbackEditPage.class, instructor.googleId);
+        return loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
     }
 
     protected FeedbackSubmitPage loginToFeedbackSubmitPage() {

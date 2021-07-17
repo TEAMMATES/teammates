@@ -106,7 +106,7 @@ class GetFeedbackSessionsAction extends Action {
         }
 
         Map<String, InstructorAttributes> courseIdToInstructor = new HashMap<>();
-        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.courseId, instructor));
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         FeedbackSessionsData responseData = new FeedbackSessionsData(feedbackSessionAttributes);
         if (entityType.equals(Const.EntityType.STUDENT)) {

@@ -213,7 +213,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_instructorAccessProfileWithMissingStudentEmail_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
         verifyInaccessibleForInstructors(submissionParams);
     }
@@ -232,10 +232,10 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 
@@ -243,18 +243,18 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_instructorWithoutViewStudentInSectionPrivilege_shouldFail() throws Exception {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        instructor1OfCourse1.privileges
+        instructor1OfCourse1.getPrivileges()
                 .updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
         InstructorAttributes.UpdateOptionsWithEmail updateOptions =
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                        .withPrivileges(instructor1OfCourse1.privileges)
+                        .withPrivileges(instructor1OfCourse1.getPrivileges())
                         .build();
         logic.updateInstructor(updateOptions);
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
         verifyCannotAccess(submissionParams);

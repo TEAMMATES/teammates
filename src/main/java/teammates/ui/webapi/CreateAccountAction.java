@@ -40,13 +40,13 @@ class CreateAccountAction extends AdminOnlyAction {
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
+                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).getKey()))
                 .withInstructorInstitution(instructorInstitution)
                 .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).email, instructorName, joinLink);
+                instructorList.get(0).getEmail(), instructorName, joinLink);
         emailSender.sendEmail(email);
 
         JoinLinkData output = new JoinLinkData(joinLink);

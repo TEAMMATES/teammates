@@ -141,9 +141,9 @@ class GetInstructorPrivilegeAction extends Action {
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorPrivilegeData response = constructInstructorPrivileges(instructor, feedbackSessionName);
         if (sectionName != null) {
-            response.constructSectionLevelPrivilege(instructor.privileges, sectionName);
+            response.constructSectionLevelPrivilege(instructor.getPrivileges(), sectionName);
             if (feedbackSessionName != null) {
-                response.constructSessionLevelPrivilege(instructor.privileges, sectionName, feedbackSessionName);
+                response.constructSessionLevelPrivilege(instructor.getPrivileges(), sectionName, feedbackSessionName);
             }
         }
 

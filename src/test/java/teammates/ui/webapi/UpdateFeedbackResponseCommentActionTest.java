@@ -515,12 +515,12 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         instructorPrivileges.updatePrivilege("Section B",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
-        verifyCanMasquerade(instructor.googleId, submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
     @Test
@@ -532,17 +532,17 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
         instructorPrivileges.updatePrivilege("Section A",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         instructorPrivileges.updatePrivilege("Section A",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, false);
         instructorPrivileges.updatePrivilege("Section B",
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
         verifyCannotAccess(submissionParams);

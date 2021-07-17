@@ -730,7 +730,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.getEmail()));
     }
 
     private void testIsFeedbackSessionCompletedByStudent() {

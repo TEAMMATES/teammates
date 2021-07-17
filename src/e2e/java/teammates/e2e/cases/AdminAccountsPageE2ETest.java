@@ -38,7 +38,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         ______TS("action: remove instructor from course");
 
         InstructorAttributes instructor = testData.instructors.get("AAccounts.instr2-AAccounts.CS2103");
-        String courseId = instructor.courseId;
+        String courseId = instructor.getCourseId();
 
         verifyPresentInDatabase(instructor);
         accountsPage.clickRemoveInstructorFromCourse(courseId);

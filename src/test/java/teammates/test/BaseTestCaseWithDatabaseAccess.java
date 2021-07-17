@@ -186,8 +186,8 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
 
     private void equalizeIrrelevantData(InstructorAttributes expected, InstructorAttributes actual) {
         // pretend keys match because the key is generated only before storing into database
-        if (actual.key != null) {
-            expected.key = actual.key;
+        if (actual.getKey() != null) {
+            expected.setKey(actual.getKey());
         }
     }
 

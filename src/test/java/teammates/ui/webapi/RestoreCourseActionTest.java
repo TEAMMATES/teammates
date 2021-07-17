@@ -29,8 +29,8 @@ public class RestoreCourseActionTest
     @Test
     public void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         loginAsInstructor(instructorId);
 
@@ -46,7 +46,7 @@ public class RestoreCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been restored.", message.getMessage());
-        assertNull(logic.getCourse(instructor1OfCourse1.courseId).getDeletedAt());
+        assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()).getDeletedAt());
 
         ______TS("Typical case, restore a deleted course from Recycle Bin");
 
@@ -65,7 +65,7 @@ public class RestoreCourseActionTest
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("The course " + courseId + " has been restored.", message.getMessage());
-        assertNull(logic.getCourse(instructor1OfCourse1.courseId).getDeletedAt());
+        assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()).getDeletedAt());
 
         ______TS("Not enough parameters");
 

@@ -39,7 +39,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -103,7 +103,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(submissionParams);
 
         ______TS("only instructors of the same course can access full detail");
@@ -160,7 +160,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         ______TS("Instructor cannot directly get student session");
 
-        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").googleId);
+        loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
         verifyCannotAccess(params);
 
         ______TS("student cannot access other course session");
@@ -176,7 +176,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         verifyInaccessibleForStudents(params);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(params);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
@@ -213,7 +213,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         ______TS("Instructor moderates instructor submission with correct privilege will pass");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.email, "");
+        params = generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION, "", instructor1OfCourse1.getEmail(), "");
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, params);
@@ -222,7 +222,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
         String[] previewInstructorSubmissionParams =
                 generateParameters(feedbackSession, Intent.INSTRUCTOR_SUBMISSION,
-                        "", "", instructor1OfCourse1.email);
+                        "", "", instructor1OfCourse1.getEmail());
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_SESSION, previewInstructorSubmissionParams);
     }

@@ -96,14 +96,14 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 4); // 5 students minus giver himself
 
-        email = dataBundle.instructors.get("instructor1OfCourse1").email;
+        email = dataBundle.instructors.get("instructor1OfCourse1").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
 
         ______TS("response to instructors, total 3");
 
         question = getQuestionFromDatabase("qn2InSession1InCourse2");
-        email = dataBundle.instructors.get("instructor1OfCourse2").email;
+        email = dataBundle.instructors.get("instructor1OfCourse2").getEmail();
         recipients = fqLogic.getRecipientsForQuestion(question, email);
         assertEquals(recipients.size(), 2); // 3 - giver = 2
 
@@ -176,8 +176,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
         instructorGiver = dataBundle.instructors.get("instructor1OfCourse1");
         courseRoster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
-                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+                studentsLogic.getStudentsForCourse(instructorGiver.getCourseId()),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.getCourseId()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
         assertEquals(recipients.size(), 5); // instructor is not student so he can respond to all 5.
@@ -189,8 +189,8 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         question = getQuestionFromDatabase("qn2InSession1InCourse2");
         instructorGiver = dataBundle.instructors.get("instructor1OfCourse2");
         courseRoster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(instructorGiver.courseId),
-                instructorsLogic.getInstructorsForCourse(instructorGiver.courseId));
+                studentsLogic.getStudentsForCourse(instructorGiver.getCourseId()),
+                instructorsLogic.getInstructorsForCourse(instructorGiver.getCourseId()));
 
         recipients = fqLogic.getRecipientsOfQuestion(question, instructorGiver, null, null);
         assertEquals(recipients.size(), 2); // 3 - giver = 2

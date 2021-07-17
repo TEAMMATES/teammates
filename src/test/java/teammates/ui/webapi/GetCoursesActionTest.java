@@ -43,7 +43,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     @Test
     public void testGetCoursesAction_withNoParameter_shouldThrowHttpParameterException() {
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyHttpParameterFailure();
     }
 
@@ -51,7 +51,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     public void testGetCoursesAction_withInvalidEntityType_shouldReturnBadResponse() {
         String[] params = new String[] { Const.ParamsNames.ENTITY_TYPE, "invalid_entity_type" };
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         assertBadRequest(params);
     }
 
@@ -59,7 +59,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     public void testGetCoursesAction_withInstructorEntityTypeAndNoCourseStatus_shouldThrowParameterFailure() {
         String[] params = { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR, };
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyHttpParameterFailure(params);
     }
 
@@ -71,7 +71,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         };
 
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         assertBadRequest(params);
     }
 
@@ -82,7 +82,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
                 Const.ParamsNames.COURSE_STATUS, Const.CourseStatus.ACTIVE,
         };
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
         assertEquals(2, courses.getCourses().size());
@@ -100,7 +100,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         };
 
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
         assertEquals(1, courses.getCourses().size());
@@ -116,7 +116,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         };
 
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
 
         CoursesData courses = getValidCourses(params);
         assertEquals(2, courses.getCourses().size());
@@ -190,7 +190,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         StudentAttributes student = testData.students.get("student1InCourse1");
 
         ______TS("Login as instructor, only instructor entity type can access");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
         verifyCannotAccess(studentParams);
 

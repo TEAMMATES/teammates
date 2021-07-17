@@ -299,7 +299,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     public FeedbackSubmitPage previewAsInstructor(InstructorAttributes instructor) {
-        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.name);
+        selectDropdownOptionByText(previewAsInstructorDropdown, instructor.getName());
         click(previewAsInstructorButton);
         ThreadHelper.waitFor(2000);
         switchToNewWindow();

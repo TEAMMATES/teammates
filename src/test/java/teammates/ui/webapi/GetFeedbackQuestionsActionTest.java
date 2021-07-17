@@ -42,7 +42,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -193,7 +193,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(params);
 
         ______TS("only instructors of the same course can access");

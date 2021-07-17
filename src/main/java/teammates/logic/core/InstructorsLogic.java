@@ -168,12 +168,12 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
 
-        if (!originalInstructor.email.equals(updatedInstructor.email)) {
+        if (!originalInstructor.getEmail().equals(updatedInstructor.getEmail())) {
             // cascade responses
             List<FeedbackResponseAttributes> responsesFromUser =
                     frLogic.getFeedbackResponsesFromGiverForCourse(
@@ -212,7 +212,7 @@ public final class InstructorsLogic {
             }
             // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
-                    updatedInstructor.courseId, originalInstructor.email, updatedInstructor.email);
+                    updatedInstructor.getCourseId(), originalInstructor.getEmail(), updatedInstructor.getEmail());
         }
 
         return updatedInstructor;
@@ -240,7 +240,7 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         return instructorsDb.updateInstructorByEmail(updateOptions);
@@ -276,7 +276,7 @@ public final class InstructorsLogic {
 
         // cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.courseId, instructor.email);
+            deleteInstructorCascade(instructor.getCourseId(), instructor.getEmail());
         }
     }
 

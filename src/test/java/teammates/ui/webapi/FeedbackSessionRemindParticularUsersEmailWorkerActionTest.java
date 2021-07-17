@@ -47,11 +47,11 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] usersToRemind = new String[] {
-                student1.email, instructor1.email, "non-existent",
+                student1.email, instructor1.getEmail(), "non-existent",
         };
 
         FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(session1.getCourseId(),
-                session1.getFeedbackSessionName(), instructor1.googleId, usersToRemind);
+                session1.getFeedbackSessionName(), instructor1.getGoogleId(), usersToRemind);
 
         FeedbackSessionRemindParticularUsersEmailWorkerAction action = getAction(remindRequest);
         action.execute();
@@ -68,7 +68,7 @@ public class FeedbackSessionRemindParticularUsersEmailWorkerActionTest
                                        session1.getFeedbackSessionName()),
                          email.getSubject());
             String recipient = email.getRecipient();
-            assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
+            assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.getEmail()));
         }
     }
 

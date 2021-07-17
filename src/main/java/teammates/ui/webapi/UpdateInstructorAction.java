@@ -50,21 +50,21 @@ class UpdateInstructorAction extends Action {
             if (instructorRequest.getId() == null) {
                 updatedInstructor = logic.updateInstructor(
                         InstructorAttributes
-                                .updateOptionsWithEmailBuilder(instructorToEdit.courseId, instructorRequest.getEmail())
-                                .withName(instructorToEdit.name)
-                                .withDisplayedName(instructorToEdit.displayedName)
-                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
-                                .withRole(instructorToEdit.role)
+                                .updateOptionsWithEmailBuilder(instructorToEdit.getCourseId(), instructorRequest.getEmail())
+                                .withName(instructorToEdit.getName())
+                                .withDisplayedName(instructorToEdit.getDisplayedName())
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
+                                .withRole(instructorToEdit.getRole())
                                 .build());
             } else {
                 updatedInstructor = logic.updateInstructorCascade(
                         InstructorAttributes
-                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.courseId, instructorRequest.getId())
-                                .withEmail(instructorToEdit.email)
-                                .withName(instructorToEdit.name)
-                                .withDisplayedName(instructorToEdit.displayedName)
-                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents)
-                                .withRole(instructorToEdit.role)
+                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.getCourseId(), instructorRequest.getId())
+                                .withEmail(instructorToEdit.getEmail())
+                                .withName(instructorToEdit.getName())
+                                .withDisplayedName(instructorToEdit.getDisplayedName())
+                                .withIsDisplayedToStudents(instructorToEdit.isDisplayedToStudents())
+                                .withRole(instructorToEdit.getRole())
                                 .build());
             }
             InstructorData newInstructorData = new InstructorData(updatedInstructor);
@@ -106,11 +106,11 @@ class UpdateInstructorAction extends Action {
             newDisplayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
         }
 
-        instructorToEdit.name = SanitizationHelper.sanitizeName(instructorName);
-        instructorToEdit.email = SanitizationHelper.sanitizeEmail(instructorEmail);
-        instructorToEdit.role = SanitizationHelper.sanitizeName(instructorRole);
-        instructorToEdit.displayedName = SanitizationHelper.sanitizeName(newDisplayedName);
-        instructorToEdit.isDisplayedToStudents = isDisplayedToStudents;
+        instructorToEdit.setName(SanitizationHelper.sanitizeName(instructorName));
+        instructorToEdit.setEmail(SanitizationHelper.sanitizeEmail(instructorEmail));
+        instructorToEdit.setRole(SanitizationHelper.sanitizeName(instructorRole));
+        instructorToEdit.setDisplayedName(SanitizationHelper.sanitizeName(newDisplayedName));
+        instructorToEdit.setDisplayedToStudents(isDisplayedToStudents);
 
         return instructorToEdit;
     }

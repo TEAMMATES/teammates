@@ -50,7 +50,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
 
         ______TS("Unsuccessful case: not enough parameters");
 
@@ -121,10 +121,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor1.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor1.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
-        loginAsInstructor(instructor1.googleId);
+        loginAsInstructor(instructor1.getGoogleId());
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor1, submissionParams);
 
@@ -136,7 +136,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor2.googleId);
+        loginAsInstructor(instructor2.getGoogleId());
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor2, submissionParams);
 
@@ -255,7 +255,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, instructorParams);
 
@@ -326,9 +326,9 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
-        verifyCanMasquerade(instructor.googleId, instructorParams);
+        verifyCanMasquerade(instructor.getGoogleId(), instructorParams);
 
         ______TS("Instructor with only section A privilege cannot delete comment");
 

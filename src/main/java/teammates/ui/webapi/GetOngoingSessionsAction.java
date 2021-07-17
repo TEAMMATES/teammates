@@ -108,7 +108,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
     private AccountAttributes getRegisteredInstructorAccountFromInstructors(List<InstructorAttributes> instructors) {
         for (InstructorAttributes instructor : instructors) {
             if (instructor.isRegistered()) {
-                return logic.getAccount(instructor.googleId);
+                return logic.getAccount(instructor.getGoogleId());
             }
         }
         return null;

@@ -27,7 +27,7 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
 
         String student1Email = TestProperties.TEST_EMAIL;
         testData.accounts.get("instructorWithEvals").setEmail(student1Email);
-        testData.instructors.get("AutSesRem.instructor").email = student1Email;
+        testData.instructors.get("AutSesRem.instructor").setEmail(student1Email);
         testData.students.get("alice.tmms@AutSesRem.course").email = student1Email;
         testData.feedbackSessions.get("closedSession").setCreatorEmail(student1Email);
         testData.feedbackSessions.get("closingSession").setCreatorEmail(student1Email);

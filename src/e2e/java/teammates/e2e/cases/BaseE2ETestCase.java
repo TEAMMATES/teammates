@@ -321,7 +321,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return getInstructor(instructor.courseId, instructor.email);
+        return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {

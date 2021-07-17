@@ -297,8 +297,8 @@ public final class FeedbackQuestionsLogic {
             List<InstructorAttributes> instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.getCourseId());
             for (InstructorAttributes instr : instructorsInCourse) {
                 // Ensure instructor does not evaluate himself
-                if (!giver.equals(instr.email)) {
-                    recipients.put(instr.email, instr.name);
+                if (!giver.equals(instr.getEmail())) {
+                    recipients.put(instr.getEmail(), instr.getName());
                 }
             }
             break;
@@ -365,7 +365,7 @@ public final class FeedbackQuestionsLogic {
             giverEmail = studentGiver.email;
             giverTeam = studentGiver.team;
         } else if (isInstructorGiver) {
-            giverEmail = instructorGiver.email;
+            giverEmail = instructorGiver.getEmail();
             giverTeam = Const.USER_TEAM_FOR_INSTRUCTOR;
         }
 
@@ -412,8 +412,8 @@ public final class FeedbackQuestionsLogic {
                     continue;
                 }
                 // Ensure instructor does not evaluate himself
-                if (!giverEmail.equals(instr.email)) {
-                    recipients.put(instr.email, instr.name);
+                if (!giverEmail.equals(instr.getEmail())) {
+                    recipients.put(instr.getEmail(), instr.getName());
                 }
             }
             break;

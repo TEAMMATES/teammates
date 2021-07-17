@@ -50,7 +50,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
-        FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.googleId);
+        FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
         submitPage.verifyFeedbackSessionDetails(openSession);
@@ -130,7 +130,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withParam("previewas", instructor.getEmail());
-        submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.googleId);
+        submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         submitPage.verifyFeedbackSessionDetails(openSession);
         submitPage.verifyNumQuestions(1);

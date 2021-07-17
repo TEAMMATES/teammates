@@ -375,7 +375,7 @@ public class EmailGenerator {
                 .toAbsoluteString();
 
         String emailBody = Templates.populateTemplate(template,
-                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
@@ -388,7 +388,7 @@ public class EmailGenerator {
                 "${feedbackAction}", FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW,
                 "${additionalContactInformation}", additionalContactInformation);
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(EmailType.FEEDBACK_SESSION_REMINDER);
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
@@ -611,7 +611,7 @@ public class EmailGenerator {
         String instructorFragment = generateInstructorPreamble(course.getId(), course.getName());
 
         String emailBody = Templates.populateTemplate(template,
-                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.name),
+                "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
                 "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
@@ -624,7 +624,7 @@ public class EmailGenerator {
                 "${feedbackAction}", feedbackAction,
                 "${additionalContactInformation}", additionalContactInformation);
 
-        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.email);
+        EmailWrapper email = getEmptyEmailAddressedToEmail(instructor.getEmail());
         email.setType(type);
         email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
         email.setContent(emailBody);
@@ -775,7 +775,7 @@ public class EmailGenerator {
 
     private String fillUpInstructorJoinFragment(InstructorAttributes instructor) {
         String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withRegistrationKey(StringHelper.encrypt(instructor.getKey()))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
@@ -787,7 +787,7 @@ public class EmailGenerator {
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(
             InstructorAttributes instructor, String institute) {
         AppUrl url = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withRegistrationKey(StringHelper.encrypt(instructor.getKey()))
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         if (institute != null) {
             url = url.withInstructorInstitution(institute);

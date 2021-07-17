@@ -71,7 +71,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
         InstructorData instructorData = new InstructorData(instructorAttributes);
         if (intent == Intent.FULL_DETAIL) {
-            instructorData.setGoogleId(instructorAttributes.googleId);
+            instructorData.setGoogleId(instructorAttributes.getGoogleId());
         }
 
         return new JsonResult(instructorData);

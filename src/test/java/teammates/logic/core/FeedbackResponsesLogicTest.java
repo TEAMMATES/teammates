@@ -406,8 +406,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse(fq.getCourseId()),
                 instructorsLogic.getInstructorsForCourse(fq.getCourseId()));
 
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.email, UserRole.INSTRUCTOR, true, roster));
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.email, UserRole.INSTRUCTOR, false, roster));
+        assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.getEmail(), UserRole.INSTRUCTOR, true, roster));
+        assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.getEmail(), UserRole.INSTRUCTOR, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
 
         ______TS("test if visible to own team members");

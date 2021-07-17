@@ -131,13 +131,13 @@ public final class FeedbackSessionsLogic {
             List<InstructorAttributes> instructorList) {
 
         List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
-                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesLogic.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .collect(Collectors.toList());
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId));
+            fsList.addAll(getFeedbackSessionsListForCourse(instructor.getCourseId()));
         }
 
         return fsList;
@@ -152,13 +152,13 @@ public final class FeedbackSessionsLogic {
             List<InstructorAttributes> instructorList) {
 
         List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
-                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesLogic.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .collect(Collectors.toList());
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(getSoftDeletedFeedbackSessionsListForCourse(instructor.courseId));
+            fsList.addAll(getSoftDeletedFeedbackSessionsListForCourse(instructor.getCourseId()));
         }
 
         return fsList;
@@ -483,7 +483,7 @@ public final class FeedbackSessionsLogic {
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
+                    fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.getEmail()));
             if (!instructorQns.isEmpty()) {
                 expectedTotal += 1;
             }

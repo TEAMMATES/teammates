@@ -60,9 +60,9 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return instructor.googleId == null
-                ? logic.getInstructorForEmail(instructor.courseId, instructor.email)
-                : logic.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
+        return instructor.getGoogleId() == null
+                ? logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())
+                : logic.getInstructorForGoogleId(instructor.getCourseId(), instructor.getGoogleId());
     }
 
     @Override
