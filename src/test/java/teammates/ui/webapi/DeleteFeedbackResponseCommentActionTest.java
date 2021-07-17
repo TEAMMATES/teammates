@@ -101,7 +101,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
         comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
         comment.feedbackResponseId = response.getId();
 
@@ -164,7 +164,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
         comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
@@ -196,7 +196,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
         comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
@@ -234,7 +234,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
         comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {
@@ -286,7 +286,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         assertEquals(FeedbackParticipantType.TEAMS, question.getGiverType());
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
         comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
 
         String[] submissionParams = new String[] {

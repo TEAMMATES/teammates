@@ -179,7 +179,7 @@ public final class InstructorsLogic {
                     frLogic.getFeedbackResponsesFromGiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseFromUser : responsesFromUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.getFeedbackQuestionId());
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.SELF) {
                     try {
@@ -196,7 +196,7 @@ public final class InstructorsLogic {
                     frLogic.getFeedbackResponsesForReceiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseToUser : responsesToUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.getFeedbackQuestionId());
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         && question.getRecipientType() == FeedbackParticipantType.SELF)) {

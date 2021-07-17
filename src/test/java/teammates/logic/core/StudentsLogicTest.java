@@ -227,12 +227,12 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         FeedbackResponseAttributes responseToBeDeleted = dataBundle.feedbackResponses.get("response2ForQ2S2C1");
         FeedbackQuestionAttributes feedbackQuestionInDb =
-                fqLogic.getFeedbackQuestion(responseToBeDeleted.feedbackSessionName,
-                        responseToBeDeleted.courseId,
-                        Integer.parseInt(responseToBeDeleted.feedbackQuestionId));
+                fqLogic.getFeedbackQuestion(responseToBeDeleted.getFeedbackSessionName(),
+                        responseToBeDeleted.getCourseId(),
+                        Integer.parseInt(responseToBeDeleted.getFeedbackQuestionId()));
         responseToBeDeleted =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
+                        responseToBeDeleted.getGiver(), responseToBeDeleted.getRecipient());
 
         // response exist
         assertNotNull(responseToBeDeleted);
@@ -244,7 +244,7 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         responseToBeDeleted =
                 frLogic.getFeedbackResponse(feedbackQuestionInDb.getId(),
-                        responseToBeDeleted.giver, responseToBeDeleted.recipient);
+                        responseToBeDeleted.getGiver(), responseToBeDeleted.getRecipient());
 
         // response should not exist
         assertNull(responseToBeDeleted);
@@ -505,21 +505,21 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         // get the response from DB
         FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C2");
-        int qnNumber = Integer.parseInt(fra.feedbackQuestionId);
-        String qnId = fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, qnNumber).getId();
-        fra = frLogic.getFeedbackResponse(qnId, fra.giver, fra.recipient);
+        int qnNumber = Integer.parseInt(fra.getFeedbackQuestionId());
+        String qnId = fqLogic.getFeedbackQuestion(fra.getFeedbackSessionName(), fra.getCourseId(), qnNumber).getId();
+        fra = frLogic.getFeedbackResponse(qnId, fra.getGiver(), fra.getRecipient());
         assertNotNull(fra);
         // the team is the recipient of the response
-        assertEquals(student2InCourse2.getTeam(), fra.recipient);
+        assertEquals(student2InCourse2.getTeam(), fra.getRecipient());
         // this is the only response the instructor has given for the session
-        String feedbackSessionName = fra.feedbackSessionName;
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(feedbackSessionName))
+        String feedbackSessionName = fra.getFeedbackSessionName();
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(feedbackSessionName))
                 .count());
         // suppose the instructor has responses for the session
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
 
         // after the student is moved from the course
         // team response will also be removed
@@ -530,7 +530,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         // the instructor no longer has responses for the session
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
     }
 
     @Test

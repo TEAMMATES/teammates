@@ -605,24 +605,24 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() throws Exception {
         FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes fqa =
-                fqLogic.getFeedbackQuestion(fra.feedbackSessionName, fra.courseId, Integer.parseInt(fra.feedbackQuestionId));
-        FeedbackResponseAttributes responseInDb = frLogic.getFeedbackResponse(fqa.getId(), fra.giver, fra.recipient);
+                fqLogic.getFeedbackQuestion(fra.getFeedbackSessionName(), fra.getCourseId(), Integer.parseInt(fra.getFeedbackQuestionId()));
+        FeedbackResponseAttributes responseInDb = frLogic.getFeedbackResponse(fqa.getId(), fra.getGiver(), fra.getRecipient());
         assertNotNull(responseInDb);
 
         // the student only gives this response for the session
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.courseId, responseInDb.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(responseInDb.feedbackSessionName))
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(responseInDb.getCourseId(), responseInDb.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(responseInDb.getFeedbackSessionName()))
                 .count());
         // he is in the giver set
         assertTrue(frLogic.getGiverSetThatAnswerFeedbackSession(fqa.getCourseId(), fqa.getFeedbackSessionName())
-                .contains(responseInDb.giver));
+                .contains(responseInDb.getGiver()));
 
         // after deletion the question
-        fqLogic.deleteFeedbackQuestionCascade(responseInDb.feedbackQuestionId);
+        fqLogic.deleteFeedbackQuestionCascade(responseInDb.getFeedbackQuestionId());
 
         // the student should not in the giver set
         assertFalse(frLogic.getGiverSetThatAnswerFeedbackSession(fqa.getCourseId(), fqa.getFeedbackSessionName())
-                .contains(responseInDb.giver));
+                .contains(responseInDb.getGiver()));
     }
 
     @Test

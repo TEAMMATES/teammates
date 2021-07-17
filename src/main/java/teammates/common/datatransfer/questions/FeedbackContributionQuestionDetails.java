@@ -201,8 +201,8 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponseAttributes response : teamResponseList) {
-                int giverIndx = memberEmailList.indexOf(response.giver);
-                int recipientIndx = memberEmailList.indexOf(response.recipient);
+                int giverIndx = memberEmailList.indexOf(response.getGiver());
+                int recipientIndx = memberEmailList.indexOf(response.getRecipient());
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }

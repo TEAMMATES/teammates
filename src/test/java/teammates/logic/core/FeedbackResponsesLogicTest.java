@@ -98,11 +98,11 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes existingResponse =
                 FeedbackResponseAttributes.builder(
                         responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(), "student3InCourse1@gmail.tmt")
-                .withFeedbackSessionName(responseToUpdate.feedbackSessionName)
-                .withCourseId(responseToUpdate.courseId)
-                .withGiverSection(responseToUpdate.giverSection)
-                .withRecipientSection(responseToUpdate.recipientSection)
-                .withResponseDetails(responseToUpdate.responseDetails)
+                .withFeedbackSessionName(responseToUpdate.getFeedbackSessionName())
+                .withCourseId(responseToUpdate.getCourseId())
+                .withGiverSection(responseToUpdate.getGiverSection())
+                .withRecipientSection(responseToUpdate.getRecipientSection())
+                .withResponseDetails(responseToUpdate.getResponseDetails())
                 .build();
 
         frLogic.createFeedbackResponse(existingResponse);
@@ -117,39 +117,39 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("success: recipient changed to something else");
 
-        responseToUpdate.recipient = "student5InCourse1@gmail.tmt";
+        responseToUpdate.setRecipient("student5InCourse1@gmail.tmt");
 
         frLogic.updateFeedbackResponseCascade(
                 FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
-                        .withRecipient(responseToUpdate.recipient)
+                        .withRecipient(responseToUpdate.getRecipient())
                         .build());
 
         assertEquals(responseToUpdate.toString(),
-                frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-                responseToUpdate.recipient).toString());
+                frLogic.getFeedbackResponse(responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(),
+                        responseToUpdate.getRecipient()).toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, responseToUpdate.giver, "student2InCourse1@gmail.tmt"));
+                responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(), "student2InCourse1@gmail.tmt"));
 
         ______TS("success: both giver and recipient changed (teammate changed response)");
 
         responseToUpdate = getResponseFromDatabase("response1GracePeriodFeedback");
-        responseToUpdate.giver = "student5InCourse1@gmail.tmt";
-        responseToUpdate.recipient = "Team 1.1";
+        responseToUpdate.setGiver("student5InCourse1@gmail.tmt");
+        responseToUpdate.setRecipient("Team 1.1");
 
         assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
+                responseToUpdate.getFeedbackQuestionId(), "student4InCourse1@gmail.tmt", "Team 1.2"));
 
         frLogic.updateFeedbackResponseCascade(
                 FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
-                        .withGiver(responseToUpdate.giver)
-                        .withRecipient(responseToUpdate.recipient)
+                        .withGiver(responseToUpdate.getGiver())
+                        .withRecipient(responseToUpdate.getRecipient())
                         .build());
 
         assertEquals(responseToUpdate.toString(),
-                frLogic.getFeedbackResponse(responseToUpdate.feedbackQuestionId, responseToUpdate.giver,
-                responseToUpdate.recipient).toString());
+                frLogic.getFeedbackResponse(responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(),
+                        responseToUpdate.getRecipient()).toString());
         assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.feedbackQuestionId, "student4InCourse1@gmail.tmt", "Team 1.2"));
+                responseToUpdate.getFeedbackQuestionId(), "student4InCourse1@gmail.tmt", "Team 1.2"));
 
         ______TS("success: update giver, recipient, giverSection and recipientSection, "
                 + "should do cascade update to comments");
@@ -164,10 +164,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                         .withRecipient("test@example.com")
                         .withRecipientSection("recipientSection")
                         .build());
-        assertEquals("test@example.com", updatedResponse.giver);
-        assertEquals("giverSection", updatedResponse.giverSection);
-        assertEquals("test@example.com", updatedResponse.recipient);
-        assertEquals("recipientSection", updatedResponse.recipientSection);
+        assertEquals("test@example.com", updatedResponse.getGiver());
+        assertEquals("giverSection", updatedResponse.getGiverSection());
+        assertEquals("test@example.com", updatedResponse.getRecipient());
+        assertEquals("recipientSection", updatedResponse.getRecipientSection());
         assertTrue(frcLogic.getFeedbackResponseCommentForResponse(responseToUpdate.getId()).isEmpty());
         List<FeedbackResponseCommentAttributes> associatedComments =
                 frcLogic.getFeedbackResponseCommentForResponse(updatedResponse.getId());
@@ -264,21 +264,21 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes responseShouldBeDeleted =
                 getResponseFromDatabase(questionTypeBundle, "response1ForQ1ContribSession2Course2");
         // make sure it's the last response by the student
-        assertEquals(1, numResponsesFromGiverInSession(responseShouldBeDeleted.giver,
-                                                       responseShouldBeDeleted.feedbackSessionName,
-                                                       responseShouldBeDeleted.courseId));
+        assertEquals(1, numResponsesFromGiverInSession(responseShouldBeDeleted.getGiver(),
+                responseShouldBeDeleted.getFeedbackSessionName(),
+                responseShouldBeDeleted.getCourseId()));
         StudentAttributes student = questionTypeBundle.students.get("student2InCourse2");
         // the response is given by the student
-        assertEquals(student.getEmail(), responseShouldBeDeleted.giver);
+        assertEquals(student.getEmail(), responseShouldBeDeleted.getGiver());
 
-        int originalResponseRate = getResponseRate(responseShouldBeDeleted.feedbackSessionName,
-                                                   responseShouldBeDeleted.courseId);
+        int originalResponseRate = getResponseRate(responseShouldBeDeleted.getFeedbackSessionName(),
+                responseShouldBeDeleted.getCourseId());
 
         frLogic.updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(), student.getTeam(),
                 student.getTeam() + "tmp");
 
-        int responseRateAfterDeletion = getResponseRate(responseShouldBeDeleted.feedbackSessionName,
-                                                        responseShouldBeDeleted.courseId);
+        int responseRateAfterDeletion = getResponseRate(responseShouldBeDeleted.getFeedbackSessionName(),
+                responseShouldBeDeleted.getCourseId());
         assertEquals(originalResponseRate - 1, responseRateAfterDeletion);
     }
 
@@ -288,29 +288,29 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes responseShouldBeDeleted =
                 getResponseFromDatabase(questionTypeBundle, "response1ForQ1RankSession");
         // make sure it's not the last response by the student
-        assertTrue(1 < numResponsesFromGiverInSession(responseShouldBeDeleted.giver,
-                                                      responseShouldBeDeleted.feedbackSessionName,
-                                                      responseShouldBeDeleted.courseId));
+        assertTrue(1 < numResponsesFromGiverInSession(responseShouldBeDeleted.getGiver(),
+                responseShouldBeDeleted.getFeedbackSessionName(),
+                responseShouldBeDeleted.getCourseId()));
         StudentAttributes student = questionTypeBundle.students.get("student1InCourse1");
         // the response is given by the student
-        assertEquals(student.getEmail(), responseShouldBeDeleted.giver);
+        assertEquals(student.getEmail(), responseShouldBeDeleted.getGiver());
 
-        int originalResponseRate = getResponseRate(responseShouldBeDeleted.feedbackSessionName,
-                                                   responseShouldBeDeleted.courseId);
+        int originalResponseRate = getResponseRate(responseShouldBeDeleted.getFeedbackSessionName(),
+                responseShouldBeDeleted.getCourseId());
 
         frLogic.updateFeedbackResponsesForChangingTeam(student.getCourse(), student.getEmail(), student.getTeam(),
                 student.getTeam() + "tmp");
 
-        int responseRateAfterDeletion = getResponseRate(responseShouldBeDeleted.feedbackSessionName,
-                                                        responseShouldBeDeleted.courseId);
+        int responseRateAfterDeletion = getResponseRate(responseShouldBeDeleted.getFeedbackSessionName(),
+                responseShouldBeDeleted.getCourseId());
         assertEquals(originalResponseRate, responseRateAfterDeletion);
     }
 
     private int numResponsesFromGiverInSession(String studentEmail, String sessionName, String courseId) {
         int numResponses = 0;
         for (FeedbackResponseAttributes response : questionTypeBundle.feedbackResponses.values()) {
-            if (response.giver.equals(studentEmail) && response.feedbackSessionName.equals(sessionName)
-                    && response.courseId.equals(courseId)) {
+            if (response.getGiver().equals(studentEmail) && response.getFeedbackSessionName().equals(sessionName)
+                    && response.getCourseId().equals(courseId)) {
                 numResponses++;
             }
         }
@@ -412,7 +412,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("test if visible to own team members");
 
-        fr.giver = student.email;
+        fr.setGiver(student.email);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
 
         ______TS("test if visible to receiver/reciever team members");
@@ -420,24 +420,24 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq.setRecipientType(FeedbackParticipantType.TEAMS);
         fq.getShowRecipientNameTo().clear();
         fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
-        fr.recipient = student.team;
+        fr.setRecipient(student.team);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
 
         fq.setRecipientType(FeedbackParticipantType.STUDENTS);
-        fr.recipient = student.email;
+        fr.setRecipient(student.email);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student2.email, UserRole.STUDENT, false, roster));
 
         fq.setRecipientType(FeedbackParticipantType.TEAMS);
         fq.getShowRecipientNameTo().clear();
         fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        fr.recipient = student.team;
+        fr.setRecipient(student.team);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
 
         fq.setRecipientType(FeedbackParticipantType.STUDENTS);
-        fr.recipient = student.email;
+        fr.setRecipient(student.email);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
@@ -451,13 +451,13 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq.getShowGiverNameTo().clear();
         fq.getShowGiverNameTo().add(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
-        fr.recipient = student5.team;
-        fr.giver = student.team;
+        fr.setRecipient(student5.team);
+        fr.setGiver(student.team);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
 
-        fr.giver = student.email;
+        fr.setGiver(student.email);
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
@@ -468,7 +468,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         fq.getShowRecipientNameTo().clear();
         fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
         fq.getShowResponsesTo().add(FeedbackParticipantType.STUDENTS);
-        fr.recipient = "Team 1.1";
+        fr.setRecipient("Team 1.1");
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
 
         ______TS("null question");
@@ -575,20 +575,20 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response1ForQ1S1C1");
 
         // this is the only response the student has given for the session
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(fra.feedbackSessionName))
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(fra.getFeedbackSessionName()))
                 .count());
         // the student has answers for the session
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
 
-        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.feedbackQuestionId);
+        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.getFeedbackQuestionId());
 
         // there is no student X as respondents
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
     }
 
     @Test
@@ -597,20 +597,20 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response1ForQ3S1C1");
 
         // this is the only response the instructor has given for the session
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(fra.feedbackSessionName))
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(fra.getFeedbackSessionName()))
                 .count());
         // the instructor has answers for the session
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
 
-        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.feedbackQuestionId);
+        frLogic.deleteFeedbackResponsesForQuestionCascade(fra.getFeedbackQuestionId());
 
         // there is not instructor X in instructor respondents
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
     }
 
     @Test
@@ -619,18 +619,18 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response3ForQ2S1C1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         // giver is student
-        assertEquals(FeedbackParticipantType.STUDENTS, fqLogic.getFeedbackQuestion(fra.feedbackQuestionId).getGiverType());
+        assertEquals(FeedbackParticipantType.STUDENTS, fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
         // student is the recipient
-        assertEquals(fra.recipient, student2InCourse1.getEmail());
+        assertEquals(fra.getRecipient(), student2InCourse1.getEmail());
 
         // this is the only response the giver has given for the session
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(fra.feedbackSessionName))
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(fra.getFeedbackSessionName()))
                 .count());
         // the student has answers for the session
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
 
         // after the giver is removed from the course
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
@@ -639,7 +639,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // there is no student X as respondents
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
     }
 
     @Test
@@ -649,18 +649,18 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
         // giver is instructor
         assertEquals(FeedbackParticipantType.SELF,
-                fqLogic.getFeedbackQuestion(fra.feedbackQuestionId).getGiverType());
+                fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
         // student is the recipient
-        assertEquals(fra.recipient, student1InCourse2.getEmail());
+        assertEquals(fra.getRecipient(), student1InCourse2.getEmail());
 
         // this is the only response the instructor has given for the session
-        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.courseId, fra.giver).stream()
-                .filter(response -> response.feedbackSessionName.equals(fra.feedbackSessionName))
+        assertEquals(1, frLogic.getFeedbackResponsesFromGiverForCourse(fra.getCourseId(), fra.getGiver()).stream()
+                .filter(response -> response.getFeedbackSessionName().equals(fra.getFeedbackSessionName()))
                 .count());
         // the instructor has answers for the session
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
 
         // after the giver is removed from the course
         frLogic.deleteFeedbackResponsesInvolvedEntityOfCourseCascade(
@@ -669,7 +669,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // there is no instructor X as respondents
         assertFalse(
                 frLogic.getGiverSetThatAnswerFeedbackSession(fra.getCourseId(),
-                        fra.getFeedbackSessionName()).contains(fra.giver));
+                        fra.getFeedbackSessionName()).contains(fra.getGiver()));
     }
 
     @Test
@@ -817,14 +817,14 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         String qnId;
         try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
-            qnId = fqLogic.getFeedbackQuestion(response.feedbackSessionName, response.courseId, qnNumber).getId();
+            int qnNumber = Integer.parseInt(response.getFeedbackQuestionId());
+            qnId = fqLogic.getFeedbackQuestion(response.getFeedbackSessionName(), response.getCourseId(), qnNumber).getId();
         } catch (NumberFormatException e) {
-            qnId = response.feedbackQuestionId;
+            qnId = response.getFeedbackQuestionId();
         }
 
         return frLogic.getFeedbackResponse(
-                qnId, response.giver, response.recipient);
+                qnId, response.getGiver(), response.getRecipient());
     }
 
     private FeedbackResponseAttributes getResponseFromDatabase(String jsonId) {

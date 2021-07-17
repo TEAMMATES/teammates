@@ -229,8 +229,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
-                && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+        if (newAttributes.getRecipient().equals(oldResponse.getRecipientEmail())
+                && newAttributes.getGiver().equals(oldResponse.getGiverEmail())) {
 
             // update only if change
             boolean hasSameAttributes =
@@ -244,8 +244,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 return newAttributes;
             }
 
-            oldResponse.setGiverSection(newAttributes.giverSection);
-            oldResponse.setRecipientSection(newAttributes.recipientSection);
+            oldResponse.setGiverSection(newAttributes.getGiverSection());
+            oldResponse.setRecipientSection(newAttributes.getRecipientSection());
             oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
 
             saveEntity(oldResponse);

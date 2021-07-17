@@ -798,16 +798,16 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         String questionId = null;
         try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+            int qnNumber = Integer.parseInt(response.getFeedbackQuestionId());
             questionId = fqLogic.getFeedbackQuestion(
-                        response.feedbackSessionName, response.courseId,
+                    response.getFeedbackSessionName(), response.getCourseId(),
                         qnNumber).getId();
         } catch (NumberFormatException e) {
-            questionId = response.feedbackQuestionId;
+            questionId = response.getFeedbackQuestionId();
         }
 
         return frLogic.getFeedbackResponse(questionId,
-                response.giver, response.recipient);
+                response.getGiver(), response.getRecipient());
     }
 
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {

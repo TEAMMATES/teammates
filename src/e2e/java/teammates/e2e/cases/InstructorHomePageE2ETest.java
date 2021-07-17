@@ -205,8 +205,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         Set<String> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
-                .filter(r -> r.feedbackSessionName.equals(sessionName))
-                .forEach(r -> uniqueGivers.add(r.giver));
+                .filter(r -> r.getFeedbackSessionName().equals(sessionName))
+                .forEach(r -> uniqueGivers.add(r.getGiver()));
         int numResponses = uniqueGivers.size();
 
         return numResponses + " / " + numStudents;

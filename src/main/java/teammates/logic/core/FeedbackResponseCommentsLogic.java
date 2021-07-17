@@ -135,8 +135,8 @@ public final class FeedbackResponseCommentsLogic {
         for (FeedbackResponseCommentAttributes comment : comments) {
             frcDb.updateFeedbackResponseComment(
                     FeedbackResponseCommentAttributes.updateOptionsBuilder(comment.getId())
-                            .withGiverSection(response.giverSection)
-                            .withReceiverSection(response.recipientSection)
+                            .withGiverSection(response.getGiverSection())
+                            .withReceiverSection(response.getRecipientSection())
                             .build()
             );
         }
@@ -197,12 +197,12 @@ public final class FeedbackResponseCommentsLogic {
     private boolean isFeedbackParticipantNameVisibleToUser(FeedbackResponseAttributes response,
             String userEmail, CourseRoster roster, List<FeedbackParticipantType> showNameTo) {
         String responseGiverTeam = "giverTeam";
-        if (roster.getStudentForEmail(response.giver) != null) {
-            responseGiverTeam = roster.getStudentForEmail(response.giver).team;
+        if (roster.getStudentForEmail(response.getGiver()) != null) {
+            responseGiverTeam = roster.getStudentForEmail(response.getGiver()).team;
         }
         String responseRecipientTeam = "recipientTeam";
-        if (roster.getStudentForEmail(response.recipient) != null) {
-            responseRecipientTeam = roster.getStudentForEmail(response.recipient).team;
+        if (roster.getStudentForEmail(response.getRecipient()) != null) {
+            responseRecipientTeam = roster.getStudentForEmail(response.getRecipient()).team;
         }
         String currentUserTeam = "currentUserTeam";
         if (roster.getStudentForEmail(userEmail) != null) {
@@ -221,7 +221,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case RECEIVER:
-                if (userEmail.equals(response.recipient)) {
+                if (userEmail.equals(response.getRecipient())) {
                     return true;
                 }
                 break;
@@ -236,7 +236,7 @@ public final class FeedbackResponseCommentsLogic {
                 }
                 break;
             case GIVER:
-                if (userEmail.equals(response.giver)) {
+                if (userEmail.equals(response.getGiver())) {
                     return true;
                 }
                 break;
@@ -284,19 +284,19 @@ public final class FeedbackResponseCommentsLogic {
                 && relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                 && isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.RECEIVER)
-                && response.recipient.equals(student.team);
+                && response.getRecipient().equals(student.team);
 
         boolean isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers =
                 (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                 || isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                               FeedbackParticipantType.OWN_TEAM_MEMBERS))
-                && (studentsEmailInTeam.contains(response.giver)
-                        || (isUserStudent && student.getTeam().equals(response.giver)));
+                && (studentsEmailInTeam.contains(response.getGiver())
+                        || (isUserStudent && student.getTeam().equals(response.getGiver())));
 
         boolean isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipientsTeamMembers =
                 isResponseCommentVisibleTo(relatedQuestion, relatedComment,
                                            FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                && studentsEmailInTeam.contains(response.recipient);
+                && studentsEmailInTeam.contains(response.getRecipient());
 
         return isUserInResponseRecipientTeamAndRelatedResponseCommentVisibleToRecipients
                 || isUserInResponseGiverTeamAndRelatedResponseCommentVisibleToGiversTeamMembers
@@ -312,11 +312,11 @@ public final class FeedbackResponseCommentsLogic {
                                                                FeedbackParticipantType.INSTRUCTORS);
 
         boolean isUserResponseRecipientAndRelatedResponseCommentVisibleToRecipients =
-                response.recipient.equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
+                response.getRecipient().equals(userEmail) && isResponseCommentVisibleTo(relatedQuestion,
                         relatedComment, FeedbackParticipantType.RECEIVER);
 
         boolean isUserResponseGiverAndRelatedResponseCommentVisibleToGivers =
-                response.giver.equals(userEmail) && isVisibleToGiver;
+                response.getGiver().equals(userEmail) && isVisibleToGiver;
 
         boolean isUserRelatedResponseCommentGiver = relatedComment.commentGiver.equals(userEmail);
 

@@ -203,12 +203,12 @@ public final class FeedbackResponsesLogic {
         if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
             // The second check is used to accommodate legacy data where team giver is a student email
-            if (roster.isStudentInTeam(userEmail, response.giver)
-                    || roster.isStudentsInSameTeam(userEmail, response.giver)) {
+            if (roster.isStudentInTeam(userEmail, response.getGiver())
+                    || roster.isStudentsInSameTeam(userEmail, response.getGiver())) {
                 return true;
             }
         } else {
-            if (response.giver.equals(userEmail)) {
+            if (response.getGiver().equals(userEmail)) {
                 return true;
             }
         }
@@ -233,20 +233,20 @@ public final class FeedbackResponsesLogic {
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
+                if (roster.isStudentsInSameTeam(response.getGiver(), userEmail)) {
                     return true;
                 }
                 break;
             case RECEIVER:
                 // Response to team
                 if (question.getRecipientType().isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
+                    if (roster.isStudentInTeam(userEmail, response.getRecipient())) {
                         // this is a team name
                         return true;
                     }
                     break;
                     // Response to individual
-                } else if (response.recipient.equals(userEmail)) {
+                } else if (response.getRecipient().equals(userEmail)) {
                     return true;
                 } else {
                     break;
@@ -254,12 +254,12 @@ public final class FeedbackResponsesLogic {
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
                 if (question.getRecipientType().isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
+                    if (roster.isStudentInTeam(userEmail, response.getRecipient())) {
                         // this is a team name
                         return true;
                     }
                     break;
-                } else if (roster.isStudentsInSameTeam(response.recipient, userEmail)) {
+                } else if (roster.isStudentsInSameTeam(response.getRecipient(), userEmail)) {
                     // Response to individual
                     return true;
                 }
@@ -332,8 +332,8 @@ public final class FeedbackResponsesLogic {
         FeedbackResponseAttributes newResponse = frDb.updateFeedbackResponse(updateOptions);
 
         boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
-        boolean isGiverSectionChanged = !oldResponse.giverSection.equals(newResponse.giverSection);
-        boolean isRecipientSectionChanged = !oldResponse.recipientSection.equals(newResponse.recipientSection);
+        boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
+        boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
 
         if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
             List<FeedbackResponseCommentAttributes> responseComments =
@@ -347,11 +347,11 @@ public final class FeedbackResponsesLogic {
                 }
 
                 if (isGiverSectionChanged) {
-                    updateOptionsBuilder.withGiverSection(newResponse.giverSection);
+                    updateOptionsBuilder.withGiverSection(newResponse.getGiverSection());
                 }
 
                 if (isRecipientSectionChanged) {
-                    updateOptionsBuilder.withReceiverSection(newResponse.recipientSection);
+                    updateOptionsBuilder.withReceiverSection(newResponse.getRecipientSection());
                 }
 
                 frcLogic.updateFeedbackResponseComment(updateOptionsBuilder.build());
@@ -373,7 +373,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
         for (FeedbackResponseAttributes response : responsesFromUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            question = fqLogic.getFeedbackQuestion(response.getFeedbackQuestionId());
             if (question.getGiverType() == FeedbackParticipantType.TEAMS
                     || isRecipientTypeTeamMembers(question)) {
                 deleteFeedbackResponseCascade(response.getId());
@@ -384,7 +384,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesToUser =
                 getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
         for (FeedbackResponseAttributes response : responsesToUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            question = fqLogic.getFeedbackQuestion(response.getFeedbackQuestionId());
             if (isRecipientTypeTeamMembers(question)) {
                 deleteFeedbackResponseCascade(response.getId());
             }

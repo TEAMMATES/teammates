@@ -171,9 +171,9 @@ public class StudentFeedbackResultsPage extends AppPage {
                                             Set<String> visibleGivers, Set<String> visibleRecipients) {
         List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
         for (FeedbackResponseAttributes response : otherResponses) {
-            boolean isRecipientVisible = visibleRecipients.contains(response.giver)
+            boolean isRecipientVisible = visibleRecipients.contains(response.getGiver())
                     || recipient.equals(CURRENT_STUDENT_IDENTIFIER);
-            boolean isGiverVisible = visibleGivers.contains(response.giver)
+            boolean isGiverVisible = visibleGivers.contains(response.getGiver())
                     || (visibleGivers.contains("RECEIVER") && response.getRecipient().equals(CURRENT_STUDENT_IDENTIFIER))
                     || response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER);
             if (isRecipientVisible) {

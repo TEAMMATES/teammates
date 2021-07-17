@@ -15,26 +15,22 @@ import teammates.storage.entity.FeedbackResponse;
 
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
 
-    public String feedbackQuestionId;
+    private String feedbackQuestionId;
     /**
-    * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
-    * "anonymous", etc.
-    */
-    public String giver;
+     * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
+     * "anonymous", etc.
+     */
+    private String giver;
     /**
      * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
      * name, "%GENERAL%", etc.
      */
-    public String recipient;
-
-    public String feedbackSessionName;
-    public String courseId;
-
-    public FeedbackResponseDetails responseDetails;
-
-    public String giverSection;
-    public String recipientSection;
-
+    private String recipient;
+    private String feedbackSessionName;
+    private String courseId;
+    private FeedbackResponseDetails responseDetails;
+    private String giverSection;
+    private String recipientSection;
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
@@ -114,16 +110,32 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return courseId;
     }
 
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getFeedbackQuestionId() {
         return feedbackQuestionId;
+    }
+
+    public void setFeedbackQuestionId(String feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
     }
 
     public String getGiver() {
         return giver;
     }
 
+    public void setGiver(String giver) {
+        this.giver = giver;
+    }
+
     public String getRecipient() {
         return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getGiverSection() {
@@ -199,16 +211,20 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         // nothing to sanitize before saving
     }
 
+    public FeedbackResponseDetails getResponseDetails() {
+        return responseDetails;
+    }
+
+    public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
+        responseDetails = newFeedbackResponseDetails.getDeepCopy();
+    }
+
     public String getSerializedFeedbackResponseDetail() {
         return responseDetails.getJsonString();
     }
 
     public FeedbackResponseDetails getResponseDetailsCopy() {
         return responseDetails.getDeepCopy();
-    }
-
-    public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
-        responseDetails = newFeedbackResponseDetails.getDeepCopy();
     }
 
     private FeedbackResponseDetails deserializeResponseFromSerializedString(String serializedResponseDetails,

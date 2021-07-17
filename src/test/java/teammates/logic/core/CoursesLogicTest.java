@@ -558,10 +558,10 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyPresentInDatabase(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         FeedbackResponseAttributes typicalResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes typicalQuestion =
-                fqLogic.getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
-                        Integer.parseInt(typicalResponse.feedbackQuestionId));
+                fqLogic.getFeedbackQuestion(typicalResponse.getFeedbackSessionName(), typicalResponse.getCourseId(),
+                        Integer.parseInt(typicalResponse.getFeedbackQuestionId()));
         typicalResponse = frLogic
-                .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.giver, typicalResponse.recipient);
+                .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.getGiver(), typicalResponse.getRecipient());
         verifyPresentInDatabase(typicalResponse);
         FeedbackResponseCommentAttributes typicalComment =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");

@@ -226,8 +226,8 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                                                              List<FeedbackResponseAttributes> responses) {
         List<FeedbackResponseAttributes> editedResponses = deepCopyResponses(responses);
         editedResponses.forEach(fr -> {
-            fr.giver = getIdentifier(currentStudent, fr.getGiver());
-            fr.recipient = getIdentifier(currentStudent, fr.getRecipient());
+            fr.setGiver(getIdentifier(currentStudent, fr.getGiver()));
+            fr.setRecipient(getIdentifier(currentStudent, fr.getRecipient()));
         });
         return editedResponses;
     }

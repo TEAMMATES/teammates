@@ -592,7 +592,7 @@ public final class FeedbackSessionsLogic {
 
         // build response
         for (FeedbackResponseAttributes response : allResponses) {
-            FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.feedbackQuestionId);
+            FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.getFeedbackQuestionId());
             if (correspondingQuestion == null) {
                 // orphan response without corresponding question, ignore it
                 continue;
@@ -807,38 +807,38 @@ public final class FeedbackSessionsLogic {
 
         boolean isVisibleResponse = false;
         if (isInstructor(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.recipient.equals(userEmail)
+                || response.getRecipient().equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || response.giver.equals(userEmail)
+                || response.getGiver().equals(userEmail)
                 || isStudent(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && isStudent(role)) {
             if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.recipient.equals(student.team)) {
+                    && response.getRecipient().equals(student.team)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                       && studentsEmailInTeam.contains(response.giver)) {
+                       && studentsEmailInTeam.contains(response.getGiver())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.giver)) {
+                       && studentsEmailInTeam.contains(response.getGiver())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.recipient)) {
+                       && studentsEmailInTeam.contains(response.getRecipient())) {
                 isVisibleResponse = true;
             }
         }
         if (isVisibleResponse && instructor != null) {
             boolean isGiverSectionRestricted =
-                    !instructor.isAllowedForPrivilege(response.giverSection,
-                                                      response.feedbackSessionName,
+                    !instructor.isAllowedForPrivilege(response.getGiverSection(),
+                            response.getFeedbackSessionName(),
                                                       Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
                     relatedQuestion.getRecipientType() != FeedbackParticipantType.NONE
-                    && !instructor.isAllowedForPrivilege(response.recipientSection,
-                                                         response.feedbackSessionName,
+                    && !instructor.isAllowedForPrivilege(response.getRecipientSection(),
+                            response.getFeedbackSessionName(),
                                                          Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;

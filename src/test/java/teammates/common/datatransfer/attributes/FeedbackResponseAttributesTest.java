@@ -166,9 +166,9 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseAttributes fra2 = new FeedbackResponseAttributes(fra1);
 
-        ((FeedbackTextResponseDetails) fra2.responseDetails).setAnswer("My second answer");
-        assertEquals(fra1.responseDetails.getAnswerString(), "My original answer");
-        assertEquals(fra2.responseDetails.getAnswerString(), "My second answer");
+        ((FeedbackTextResponseDetails) fra2.getResponseDetails()).setAnswer("My second answer");
+        assertEquals(fra1.getResponseDetails().getAnswerString(), "My original answer");
+        assertEquals(fra2.getResponseDetails().getAnswerString(), "My second answer");
 
     }
 
@@ -181,7 +181,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
                 .build();
         FeedbackResponseDetails frdDeep = fra.getResponseDetailsCopy();
 
-        ((FeedbackTextResponseDetails) fra.responseDetails).setAnswer("My second answer");
+        ((FeedbackTextResponseDetails) fra.getResponseDetails()).setAnswer("My second answer");
         assertEquals(frdDeep.getAnswerString(), "My original answer");
     }
 
@@ -197,7 +197,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         updatedDetails.setAnswer("Modified deep copy answer");
 
         assertEquals(updatedDetails.getAnswerString(), "Modified deep copy answer");
-        assertEquals(fra.responseDetails.getAnswerString(), "Updated answer");
+        assertEquals(fra.getResponseDetails().getAnswerString(), "Updated answer");
 
     }
 
@@ -225,14 +225,14 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
 
         feedbackResponseAttributes.update(updateOptions);
 
-        assertEquals("session", feedbackResponseAttributes.feedbackSessionName);
-        assertEquals("course", feedbackResponseAttributes.courseId);
-        assertEquals("questionId", feedbackResponseAttributes.feedbackQuestionId);
+        assertEquals("session", feedbackResponseAttributes.getFeedbackSessionName());
+        assertEquals("course", feedbackResponseAttributes.getCourseId());
+        assertEquals("questionId", feedbackResponseAttributes.getFeedbackQuestionId());
         assertEquals(FeedbackQuestionType.TEXT, feedbackResponseAttributes.getFeedbackQuestionType());
-        assertEquals("giver1", feedbackResponseAttributes.giver);
-        assertEquals("section1", feedbackResponseAttributes.giverSection);
-        assertEquals("recipient1", feedbackResponseAttributes.recipient);
-        assertEquals("section2", feedbackResponseAttributes.recipientSection);
+        assertEquals("giver1", feedbackResponseAttributes.getGiver());
+        assertEquals("section1", feedbackResponseAttributes.getGiverSection());
+        assertEquals("recipient1", feedbackResponseAttributes.getRecipient());
+        assertEquals("section2", feedbackResponseAttributes.getRecipientSection());
         assertEquals("Test 1", feedbackResponseAttributes.getResponseDetailsCopy().getAnswerString());
     }
 

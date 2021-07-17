@@ -229,14 +229,14 @@ public final class DataBundleLogic {
         for (FeedbackResponseAttributes response : responses) {
             int questionNumber;
             try {
-                questionNumber = Integer.parseInt(response.feedbackQuestionId);
+                questionNumber = Integer.parseInt(response.getFeedbackQuestionId());
             } catch (NumberFormatException e) {
                 // question ID already injected
                 continue;
             }
-            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            String sessionKey = makeSessionKey(response.getFeedbackSessionName(), response.getCourseId());
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
-            response.feedbackQuestionId = questionIdMap.get(questionKey);
+            response.setFeedbackQuestionId(questionIdMap.get(questionKey));
         }
     }
 

@@ -46,10 +46,10 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("The feedback response does not exist."));
         }
 
-        String courseId = response.courseId;
-        String feedbackSessionName = response.feedbackSessionName;
+        String courseId = response.getCourseId();
+        String feedbackSessionName = response.getFeedbackSessionName();
         FeedbackSessionAttributes session = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        String questionId = response.feedbackQuestionId;
+        String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
@@ -91,9 +91,9 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case INSTRUCTOR_RESULT:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-            gateKeeper.verifyAccessible(instructor, session, response.giverSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection(),
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection(),
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             if (!question.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
                 throw new InvalidHttpParameterException("Invalid question type for instructor comment");
@@ -126,7 +126,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         }
         String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
-        String courseId = response.courseId;
+        String courseId = response.getCourseId();
         String email;
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -161,8 +161,8 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             throw new InvalidHttpParameterException("Unknown intent " + intent);
         }
 
-        String feedbackQuestionId = response.feedbackQuestionId;
-        String feedbackSessionName = response.feedbackSessionName;
+        String feedbackQuestionId = response.getFeedbackQuestionId();
+        String feedbackSessionName = response.getFeedbackSessionName();
 
         FeedbackResponseCommentAttributes feedbackResponseComment = FeedbackResponseCommentAttributes
                 .builder()
@@ -172,8 +172,8 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                 .withCommentText(commentText)
                 .withFeedbackQuestionId(feedbackQuestionId)
                 .withFeedbackResponseId(feedbackResponseId)
-                .withGiverSection(response.giverSection)
-                .withReceiverSection(response.recipientSection)
+                .withGiverSection(response.getGiverSection())
+                .withReceiverSection(response.getRecipientSection())
                 .withCommentFromFeedbackParticipant(isFromParticipant)
                 .withCommentGiverType(commentGiverType)
                 .withVisibilityFollowingFeedbackQuestion(isFollowingQuestionVisibility)

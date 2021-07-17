@@ -84,7 +84,7 @@ public class SessionResultsBundle {
      * Checks if the giver/recipient for a response is visible/hidden from the current user.
      */
     private boolean isResponseParticipantVisible(boolean isGiver, FeedbackResponseAttributes response) {
-        FeedbackQuestionAttributes question = questionsMap.get(response.feedbackQuestionId);
+        FeedbackQuestionAttributes question = questionsMap.get(response.getFeedbackQuestionId());
         FeedbackParticipantType participantType;
         String responseId = response.getId();
 

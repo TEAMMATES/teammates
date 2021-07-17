@@ -117,14 +117,14 @@ public class TestDataValidityTest extends BaseTestCase {
                                 .add("Invalid response course ID: " + response.getCourseId());
                     }
 
-                    if (response.giver.contains("@") && !isValidTestEmail(response.giver)) {
+                    if (response.getGiver().contains("@") && !isValidTestEmail(response.getGiver())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response giver email: " + response.giver);
+                                .add("Invalid response giver email: " + response.getGiver());
                     }
 
-                    if (response.recipient.contains("@") && !isValidTestEmail(response.recipient)) {
+                    if (response.getRecipient().contains("@") && !isValidTestEmail(response.getRecipient())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid response recipient email: " + response.recipient);
+                                .add("Invalid response recipient email: " + response.getRecipient());
                     }
                 });
             });
