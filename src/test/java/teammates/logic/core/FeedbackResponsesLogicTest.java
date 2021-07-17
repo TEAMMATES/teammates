@@ -173,7 +173,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 frcLogic.getFeedbackResponseCommentForResponse(updatedResponse.getId());
         assertFalse(associatedComments.isEmpty());
         assertTrue(associatedComments.stream()
-                .allMatch(c -> "giverSection".equals(c.getGiverSection()) && "recipientSection".equals(c.getReceiverSection())));
+                .allMatch(c -> "giverSection".equals(c.getGiverSection())
+                        && "recipientSection".equals(c.getReceiverSection())));
 
         ______TS("failure: invalid params");
 
@@ -493,9 +494,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         // the student has some responses
         List<FeedbackResponseAttributes> responsesForStudent1 =
                 frLogic.getFeedbackResponsesFromGiverForCourse(studentToDelete.getCourse(), studentToDelete.getEmail());
-        responsesForStudent1
-                .addAll(
-                        frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.getCourse(), studentToDelete.getEmail()));
+        responsesForStudent1.addAll(
+                frLogic.getFeedbackResponsesForReceiverForCourse(studentToDelete.getCourse(), studentToDelete.getEmail()));
         assertFalse(responsesForStudent1.isEmpty());
         assertTrue(
                 frLogic.getGiverSetThatAnswerFeedbackSession(session1InCourse1.getCourseId(),
@@ -619,7 +619,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response3ForQ2S1C1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         // giver is student
-        assertEquals(FeedbackParticipantType.STUDENTS, fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
+        assertEquals(FeedbackParticipantType.STUDENTS,
+                fqLogic.getFeedbackQuestion(fra.getFeedbackQuestionId()).getGiverType());
         // student is the recipient
         assertEquals(fra.getRecipient(), student2InCourse1.getEmail());
 

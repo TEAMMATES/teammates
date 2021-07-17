@@ -61,7 +61,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("questions with giver type students");
         logout();
-        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class, student.getGoogleId());
+        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class,
+                student.getGoogleId());
 
         submitPage.verifyNumQuestions(4);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn1InSession1"));

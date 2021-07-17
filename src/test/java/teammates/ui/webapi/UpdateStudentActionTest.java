@@ -180,8 +180,9 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
 
         assertNotEquals(student1InCourse1.getSection(), student5InCourse1.getSection());
 
-        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(), student1InCourse1.getEmail(),
-                student5InCourse1.getTeam(), student1InCourse1.getSection(), student1InCourse1.getComments(), true);
+        StudentUpdateRequest updateRequest = new StudentUpdateRequest(student1InCourse1.getName(),
+                student1InCourse1.getEmail(), student5InCourse1.getTeam(), student1InCourse1.getSection(),
+                student1InCourse1.getComments(), true);
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),

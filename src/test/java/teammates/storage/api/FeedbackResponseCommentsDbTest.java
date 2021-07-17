@@ -99,8 +99,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("typical success case");
 
-        FeedbackResponseCommentAttributes frcaExpected =
-                frcDb.getFeedbackResponseComment(frcaData.getCourseId(), frcaData.getCreatedAt(), frcaData.getCommentGiver());
+        FeedbackResponseCommentAttributes frcaExpected = frcDb.getFeedbackResponseComment(
+                frcaData.getCourseId(), frcaData.getCreatedAt(), frcaData.getCommentGiver());
 
         FeedbackResponseCommentAttributes frcaActual =
                 frcDb.getFeedbackResponseComment(frcaExpected.getId());
@@ -144,8 +144,10 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("non-existent giver");
 
-        assertNull(frcDb.getFeedbackResponseComment(frca.getId().toString(), "nonExistentGiverEmail", frca.getCreatedAt()));
-        assertNull(frcDb.getFeedbackResponseComment(frcaData.getCourseId(), frcaData.getCreatedAt(), "nonExistentGiverEmail"));
+        assertNull(frcDb.getFeedbackResponseComment(
+                frca.getId().toString(), "nonExistentGiverEmail", frca.getCreatedAt()));
+        assertNull(frcDb.getFeedbackResponseComment(
+                frcaData.getCourseId(), frcaData.getCreatedAt(), "nonExistentGiverEmail"));
     }
 
     private void testGetFeedbackResponseCommentForGiver() {
@@ -228,8 +230,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
         frcaTemp = frcDb.getFeedbackResponseComment(frcaTemp.getFeedbackResponseId(),
                 frcaTemp.getCommentGiver(), frcaTemp.getCreatedAt());
 
-        FeedbackResponseCommentAttributes frcaExpected =
-                frcDb.getFeedbackResponseComment(frcaTemp.getCourseId(), frcaTemp.getCreatedAt(), frcaTemp.getCommentGiver());
+        FeedbackResponseCommentAttributes frcaExpected = frcDb.getFeedbackResponseComment(
+                frcaTemp.getCourseId(), frcaTemp.getCreatedAt(), frcaTemp.getCommentGiver());
         frcaExpected.setCommentText("This is new Text");
         FeedbackResponseCommentAttributes updatedComment = frcDb.updateFeedbackResponseComment(
                 FeedbackResponseCommentAttributes.updateOptionsBuilder(frcaExpected.getId())
@@ -528,8 +530,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("typical success case");
 
-        assertFalse(
-                frcDb.getFeedbackResponseCommentsForSession(frcaData.getCourseId(), frcaData.getFeedbackSessionName()).isEmpty());
+        assertFalse(frcDb.getFeedbackResponseCommentsForSession(
+                frcaData.getCourseId(), frcaData.getFeedbackSessionName()).isEmpty());
 
         frcDb.deleteFeedbackResponseComments(
                 AttributesDeletionQuery.builder()
@@ -537,8 +539,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                         .withFeedbackSessionName(frcaData.getFeedbackSessionName())
                         .build());
 
-        assertEquals(0,
-                frcDb.getFeedbackResponseCommentsForSession(frcaData.getCourseId(), frcaData.getFeedbackSessionName()).size());
+        assertEquals(0, frcDb.getFeedbackResponseCommentsForSession(
+                frcaData.getCourseId(), frcaData.getFeedbackSessionName()).size());
     }
 
     @Test
@@ -554,8 +556,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
 
         ______TS("typical success case");
 
-        assertFalse(
-                frcDb.getFeedbackResponseCommentsForSession(frcaData.getCourseId(), frcaData.getFeedbackSessionName()).isEmpty());
+        assertFalse(frcDb.getFeedbackResponseCommentsForSession(
+                frcaData.getCourseId(), frcaData.getFeedbackSessionName()).isEmpty());
         // the two existing comment are in the same course
         assertEquals(frcaData.getCourseId(), anotherFrcaData.getCourseId());
         assertNotNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
@@ -576,8 +578,8 @@ public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
                         .withCourseId(frcaData.getCourseId())
                         .build());
 
-        assertTrue(
-                frcDb.getFeedbackResponseCommentsForSession(frcaData.getCourseId(), frcaData.getFeedbackSessionName()).isEmpty());
+        assertTrue(frcDb.getFeedbackResponseCommentsForSession(
+                frcaData.getCourseId(), frcaData.getFeedbackSessionName()).isEmpty());
         // same course's comments are deleted
         assertNull(frcDb.getFeedbackResponseComment(frcaData.getId()));
         assertNull(frcDb.getFeedbackResponseComment(anotherFrcaData.getId()));

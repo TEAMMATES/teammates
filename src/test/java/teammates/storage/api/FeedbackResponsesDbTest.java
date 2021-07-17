@@ -186,7 +186,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertNotNull(fra);
         FeedbackResponseAttributes fraFromAnotherSession = fras.get("response1ForQ1S2C1");
         fraFromAnotherSession = frDb.getFeedbackResponse(
-                fraFromAnotherSession.getFeedbackQuestionId(), fraFromAnotherSession.getGiver(), fraFromAnotherSession.getRecipient());
+                fraFromAnotherSession.getFeedbackQuestionId(), fraFromAnotherSession.getGiver(),
+                fraFromAnotherSession.getRecipient());
         assertNotNull(fraFromAnotherSession);
         // response are belong to the same course
         assertEquals(fra.getCourseId(), fraFromAnotherSession.getCourseId());
@@ -249,7 +250,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
         assertNotNull(fra);
         FeedbackResponseAttributes fraFromAnotherCourse = fras.get("response1ForQ1S1C2");
         fraFromAnotherCourse = frDb.getFeedbackResponse(
-                fraFromAnotherCourse.getFeedbackQuestionId(), fraFromAnotherCourse.getGiver(), fraFromAnotherCourse.getRecipient());
+                fraFromAnotherCourse.getFeedbackQuestionId(), fraFromAnotherCourse.getGiver(),
+                fraFromAnotherCourse.getRecipient());
         assertNotNull(fraFromAnotherCourse);
         // response are belong to different courses
         assertNotEquals(fra.getCourseId(), fraFromAnotherCourse.getCourseId());
@@ -752,8 +754,8 @@ public class FeedbackResponsesDbTest extends BaseComponentTestCase {
     }
 
     private void deleteResponse(FeedbackResponseAttributes attributes) {
-        FeedbackResponseAttributes feedbackResponse =
-                frDb.getFeedbackResponse(attributes.getFeedbackQuestionId(), attributes.getGiver(), attributes.getRecipient());
+        FeedbackResponseAttributes feedbackResponse = frDb.getFeedbackResponse(
+                attributes.getFeedbackQuestionId(), attributes.getGiver(), attributes.getRecipient());
         if (feedbackResponse != null) {
             frDb.deleteFeedbackResponse(feedbackResponse.getId());
         }

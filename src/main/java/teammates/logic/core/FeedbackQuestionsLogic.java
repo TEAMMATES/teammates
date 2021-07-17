@@ -294,7 +294,8 @@ public final class FeedbackQuestionsLogic {
             }
             break;
         case INSTRUCTORS:
-            List<InstructorAttributes> instructorsInCourse = instructorsLogic.getInstructorsForCourse(question.getCourseId());
+            List<InstructorAttributes> instructorsInCourse =
+                    instructorsLogic.getInstructorsForCourse(question.getCourseId());
             for (InstructorAttributes instr : instructorsInCourse) {
                 // Ensure instructor does not evaluate himself
                 if (!giver.equals(instr.getEmail())) {

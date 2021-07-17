@@ -213,7 +213,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> studentsLogic.updateStudentCascade(
-                        StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.getCourse(), finalStudent4InCourse1.getEmail())
+                        StudentAttributes.updateOptionsBuilder(finalStudent4InCourse1.getCourse(),
+                                finalStudent4InCourse1.getEmail())
                                 .withNewEmail("invalid email")
                                 .build()
                 ));
@@ -258,7 +259,7 @@ public class StudentsLogicTest extends BaseLogicTest {
         verifyPresentInDatabase(student1InCourse1);
 
         StudentAttributes updatedStudent =
-                        studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.getCourse(), student1InCourse1.getEmail());
+                studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.getCourse(), student1InCourse1.getEmail());
 
         assertNotEquals(student1InCourse1.getKey(), updatedStudent.getKey());
 
@@ -308,7 +309,8 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
         String course1Id = dataBundle.courses.get("typicalCourse1").getId();
-        String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(course1Id, student1InCourse1.getGoogleId()).getKey();
+        String studentKey = studentsLogic.getStudentForCourseIdAndGoogleId(
+                course1Id, student1InCourse1.getGoogleId()).getKey();
         StudentAttributes actualStudent = studentsLogic.getStudentForRegistrationKey(StringHelper.encrypt(studentKey));
         assertEquals(student1InCourse1.getGoogleId(), actualStudent.getGoogleId());
     }

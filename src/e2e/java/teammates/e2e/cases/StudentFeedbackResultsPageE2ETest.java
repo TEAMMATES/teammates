@@ -155,11 +155,13 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
                 .collect(Collectors.toList());
 
         List<FeedbackResponseAttributes> selfEvaluationResponses = questionResponses.stream()
-                .filter(fr -> fr.getGiver().equals(currentStudent.getEmail()) && fr.getRecipient().equals(currentStudent.getEmail()))
+                .filter(fr -> fr.getGiver().equals(currentStudent.getEmail())
+                        && fr.getRecipient().equals(currentStudent.getEmail()))
                 .collect(Collectors.toList());
 
         List<FeedbackResponseAttributes> responsesByOthers = questionResponses.stream()
-                .filter(fr -> !fr.getGiver().equals(currentStudent.getEmail()) && visibleResponseGivers.contains(fr.getGiver()))
+                .filter(fr -> !fr.getGiver().equals(currentStudent.getEmail())
+                        && visibleResponseGivers.contains(fr.getGiver()))
                 .collect(Collectors.toList());
 
         List<FeedbackResponseAttributes> responsesToSelf = new ArrayList<>();

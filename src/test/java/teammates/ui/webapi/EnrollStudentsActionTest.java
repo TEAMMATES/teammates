@@ -171,7 +171,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         student1.setSection("random section 1");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(), student1.getSection(), studentInCourse1.getSection());
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(),
+                student1.getSection(), studentInCourse1.getSection());
     }
 
     @Test

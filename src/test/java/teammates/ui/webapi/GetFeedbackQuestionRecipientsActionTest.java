@@ -72,14 +72,14 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
 
         ______TS("Test moderated person get recipient, should be same as recipients got from giver");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        String[] moderateQuestionParams =
-                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", student1InCourse1.getEmail(), "");
+        String[] moderateQuestionParams = generateParameters(
+                firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", student1InCourse1.getEmail(), "");
         FeedbackQuestionRecipientsData moderatedRecipients = getRecipients(moderateQuestionParams);
         verifyFeedbackQuestionRecipientsDataEquals(expectedRecipients, moderatedRecipients);
 
         ______TS("Test preview person get recipient, should be same as recipients got from giver");
-        String[] previewQuestionParams =
-                generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", student1InCourse1.getEmail());
+        String[] previewQuestionParams = generateParameters(
+                firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION, "", "", student1InCourse1.getEmail());
         FeedbackQuestionRecipientsData previewRecipients = getRecipients(previewQuestionParams);
         verifyFeedbackQuestionRecipientsDataEquals(expectedRecipients, previewRecipients);
     }

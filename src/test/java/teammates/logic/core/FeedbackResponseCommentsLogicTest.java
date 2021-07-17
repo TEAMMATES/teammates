@@ -55,9 +55,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         frComment.setCommentGiver("instructor1@course2.com");
 
         ednee = assertThrows(EntityDoesNotExistException.class, () -> frcLogic.createFeedbackResponseComment(finalFrc[0]));
-        assertEquals(
-                "User " + frComment.getCommentGiver() + " is not a registered instructor for course " + frComment.getCourseId() + ".",
-                ednee.getMessage());
+        assertEquals("User " + frComment.getCommentGiver() + " is not a registered instructor for course "
+                + frComment.getCourseId() + ".", ednee.getMessage());
         frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         finalFrc[0] = frComment;
 

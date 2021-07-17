@@ -292,7 +292,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.setPrivileges(new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(
-                InstructorAttributes.updateOptionsWithGoogleIdBuilder(instructorToEdit.getCourseId(), instructorToEdit.getGoogleId())
+                InstructorAttributes
+                        .updateOptionsWithGoogleIdBuilder(instructorToEdit.getCourseId(),
+                                instructorToEdit.getGoogleId())
                         .withName(instructorToEdit.getName())
                         .withEmail(instructorToEdit.getEmail())
                         .withIsArchived(instructorToEdit.isArchived())
@@ -330,7 +332,8 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> instructorsDb.updateInstructorByGoogleId(
                         InstructorAttributes
-                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.getCourseId(), instructorToEdit.getGoogleId())
+                                .updateOptionsWithGoogleIdBuilder(instructorToEdit.getCourseId(),
+                                        instructorToEdit.getGoogleId())
                                 .withName(instructorToEdit.getName())
                                 .withEmail(instructorToEdit.getEmail())
                                 .withRole(instructorToEdit.getRole())
@@ -626,7 +629,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.setPrivileges(new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER));
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByEmail(
-                InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.getCourseId(), instructorToEdit.getEmail())
+                InstructorAttributes
+                        .updateOptionsWithEmailBuilder(instructorToEdit.getCourseId(),
+                                instructorToEdit.getEmail())
                         .withGoogleId(instructorToEdit.getGoogleId())
                         .withName(instructorToEdit.getName())
                         .withIsArchived(instructorToEdit.isArchived())
@@ -663,7 +668,9 @@ public class InstructorsDbTest extends BaseComponentTestCase {
         instructorToEdit.setRole("invalid role");
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> instructorsDb.updateInstructorByEmail(
-                        InstructorAttributes.updateOptionsWithEmailBuilder(instructorToEdit.getCourseId(), instructorToEdit.getEmail())
+                        InstructorAttributes
+                                .updateOptionsWithEmailBuilder(instructorToEdit.getCourseId(),
+                                        instructorToEdit.getEmail())
                                 .withGoogleId(instructorToEdit.getGoogleId())
                                 .withName(instructorToEdit.getName())
                                 .withRole(instructorToEdit.getRole())

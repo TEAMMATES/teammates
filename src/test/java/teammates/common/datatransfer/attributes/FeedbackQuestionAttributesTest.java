@@ -322,7 +322,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
-        assertEquals(JsonUtils.toJson(questionDetails), JsonUtils.toJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
+        assertEquals(JsonUtils.toJson(questionDetails),
+                JsonUtils.toJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
         assertEquals(questionDescription, feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
         assertEquals(numOfEntities, feedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo());
@@ -394,8 +395,9 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                               + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getGiverType().toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + System.lineSeparator()
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getRecipientType().toString(),
-                                              FieldValidator.RECIPIENT_TYPE_NAME) + System.lineSeparator()
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                              fq.getRecipientType().toString(), FieldValidator.RECIPIENT_TYPE_NAME)
+                              + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                               fq.getShowGiverNameTo().get(0).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
@@ -425,18 +427,20 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      "Giver's team",
                                      "Teams in this course") + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowGiverNameTo().get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                       fq.getShowGiverNameTo().get(0).toString(), FieldValidator.VIEWER_TYPE_NAME)
+                       + System.lineSeparator()
                        + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                        fq.getShowRecipientNameTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show recipient name to STUDENTS without showing response first."
                        + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(1).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME);
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                       fq.getShowResponsesTo().get(0).toString(), FieldValidator.VIEWER_TYPE_NAME)
+                       + System.lineSeparator()
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                       fq.getShowResponsesTo().get(1).toString(), FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
@@ -447,18 +451,20 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      "Giver's team members",
                                      "Teams in this course") + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowGiverNameTo().get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                       fq.getShowGiverNameTo().get(0).toString(), FieldValidator.VIEWER_TYPE_NAME)
+                       + System.lineSeparator()
                        + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
                                        fq.getShowRecipientNameTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show recipient name to STUDENTS without showing response first."
                        + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(0).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(1).toString(),
-                                       FieldValidator.VIEWER_TYPE_NAME);
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                       fq.getShowResponsesTo().get(0).toString(), FieldValidator.VIEWER_TYPE_NAME)
+                       + System.lineSeparator()
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
+                                       fq.getShowResponsesTo().get(1).toString(), FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 

@@ -266,7 +266,8 @@ public final class DataBundleLogic {
 
             // format of feedbackResponseId: questionNumber%giverEmail%recipient
             String[] responseIdParam = comment.getFeedbackResponseId().split("%", 3);
-            comment.setFeedbackResponseId(comment.getFeedbackQuestionId() + "%" + responseIdParam[1] + "%" + responseIdParam[2]);
+            comment.setFeedbackResponseId(comment.getFeedbackQuestionId() + "%" + responseIdParam[1]
+                    + "%" + responseIdParam[2]);
         }
     }
 

@@ -538,7 +538,8 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(2);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
+        FeedbackTextQuestionDetails questionDetails =
+                (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
         clickSaveNewQuestionButton();
     }
