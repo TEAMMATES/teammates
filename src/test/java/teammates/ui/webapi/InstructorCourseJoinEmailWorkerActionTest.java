@@ -45,7 +45,7 @@ public class InstructorCourseJoinEmailWorkerActionTest
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
                 ParamsNames.INSTRUCTOR_EMAIL, instr1InCourse1.email,
-                ParamsNames.INVITER_ID, inviter.googleId,
+                ParamsNames.INVITER_ID, inviter.getGoogleId(),
                 ParamsNames.IS_INSTRUCTOR_REJOINING, "false",
         };
 

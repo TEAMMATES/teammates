@@ -25,7 +25,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return logic.getAccount(account.googleId);
+        return logic.getAccount(account.getGoogleId());
     }
 
     @Override

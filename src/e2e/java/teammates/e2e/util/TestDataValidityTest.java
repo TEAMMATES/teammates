@@ -57,14 +57,14 @@ public class TestDataValidityTest extends BaseTestCase {
                 DataBundle dataBundle = JsonUtils.fromJson(jsonString, DataBundle.class);
 
                 dataBundle.accounts.forEach((id, account) -> {
-                    if (!isValidTestGoogleId(account.googleId, testPage)) {
+                    if (!isValidTestGoogleId(account.getGoogleId(), testPage)) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account google ID: " + account.googleId);
+                                .add("Invalid account google ID: " + account.getGoogleId());
                     }
 
-                    if (!isValidTestEmail(account.email)) {
+                    if (!isValidTestEmail(account.getEmail())) {
                         errors.computeIfAbsent(pathString, k -> new ArrayList<>())
-                                .add("Invalid account email: " + account.email);
+                                .add("Invalid account email: " + account.getEmail());
                     }
                 });
 

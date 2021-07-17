@@ -48,7 +48,7 @@ class ResetAccountAction extends AdminOnlyAction {
             }
             wrongGoogleId = existingInstructor.googleId;
             AccountAttributes account = logic.getAccount(wrongGoogleId);
-            String institute = account.institute;
+            String institute = account.getInstitute();
 
             try {
                 logic.resetInstructorGoogleId(instructorEmail, courseId);

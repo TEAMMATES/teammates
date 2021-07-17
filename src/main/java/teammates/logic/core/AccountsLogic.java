@@ -56,7 +56,7 @@ public final class AccountsLogic {
 
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
-        return a != null && a.isInstructor;
+        return a != null && a.isInstructor();
     }
 
     public String getCourseInstitute(String courseId) {
@@ -74,7 +74,7 @@ public final class AccountsLogic {
             }
             AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
             if (instructorAcc != null) {
-                institute = instructorAcc.institute;
+                institute = instructorAcc.getInstitute();
                 break;
             }
         }
@@ -177,7 +177,7 @@ public final class AccountsLogic {
         if (instructorForKey.isRegistered()) {
             if (instructorForKey.googleId.equals(googleId)) {
                 AccountAttributes existingAccount = accountsDb.getAccount(googleId);
-                if (existingAccount != null && existingAccount.isInstructor) {
+                if (existingAccount != null && existingAccount.isInstructor()) {
                     throw new EntityAlreadyExistsException("Instructor has already joined course");
                 }
             } else {

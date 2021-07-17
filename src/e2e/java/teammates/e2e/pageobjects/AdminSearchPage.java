@@ -259,7 +259,7 @@ public class AdminSearchPage extends AppPage {
 
         String expectedName = student.name;
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.googleId);
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.institute);
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
         String expectedComment = StringHelper.convertToEmptyStringIfNull(student.comments);
 
         assertEquals(expectedDetails, actualDetails);
@@ -298,7 +298,7 @@ public class AdminSearchPage extends AppPage {
         String expectedCourseId = instructor.courseId;
         String expectedName = instructor.name;
         String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.googleId);
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.institute);
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);

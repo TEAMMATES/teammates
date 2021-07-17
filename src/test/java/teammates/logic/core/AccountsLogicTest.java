@@ -171,7 +171,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         accountsLogic.createAccount(accountData);
         accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.key), correctStudentId);
 
-        studentData.googleId = accountData.googleId;
+        studentData.googleId = accountData.getGoogleId();
         verifyPresentInDatabase(studentData);
         assertEquals(
                 correctStudentId,
@@ -213,10 +213,10 @@ public class AccountsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentForEmail(studentData.course, studentData.email).googleId);
 
         // check that we have the corresponding new account created.
-        accountData.googleId = correctStudentId;
-        accountData.email = originalEmail;
-        accountData.name = "name";
-        accountData.isInstructor = false;
+        accountData.setGoogleId(correctStudentId);
+        accountData.setEmail(originalEmail);
+        accountData.setName("name");
+        accountData.setInstructor(false);
         verifyPresentInDatabase(accountData);
 
         ______TS("success: join course as student does not revoke instructor status");
@@ -293,20 +293,20 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         AccountAttributes nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         InstructorAttributes newIns = InstructorAttributes
-                .builder(instructor.courseId, nonInstrAccount.email)
-                .withName(nonInstrAccount.name)
+                .builder(instructor.courseId, nonInstrAccount.getEmail())
+                .withName(nonInstrAccount.getName())
                 .build();
 
         instructorsLogic.createInstructor(newIns);
-        encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        assertFalse(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
+        encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.getEmail());
+        assertFalse(accountsLogic.getAccount(nonInstrAccount.getGoogleId()).isInstructor());
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.getGoogleId(), null, null);
 
-        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
-        assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
-        assertTrue(accountsLogic.getAccount(nonInstrAccount.googleId).isInstructor);
-        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.googleId));
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.getEmail());
+        assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.googleId);
+        assertTrue(accountsLogic.getAccount(nonInstrAccount.getGoogleId()).isInstructor());
+        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
 
         ______TS("success: instructor join and assigned institute when some instructors have not joined course");
 
@@ -319,34 +319,34 @@ public class AccountsLogicTest extends BaseLogicTest {
         instructorsLogic.createInstructor(newIns);
 
         nonInstrAccount = dataBundle.accounts.get("student2InCourse1");
-        nonInstrAccount.email = "newInstructor@gmail.com";
-        nonInstrAccount.name = " newInstructor";
-        nonInstrAccount.googleId = "newInstructorGoogleId";
-        newIns = InstructorAttributes.builder(instructor.courseId, nonInstrAccount.email)
-                .withName(nonInstrAccount.name)
+        nonInstrAccount.setEmail("newInstructor@gmail.com");
+        nonInstrAccount.setName(" newInstructor");
+        nonInstrAccount.setGoogleId("newInstructorGoogleId");
+        newIns = InstructorAttributes.builder(instructor.courseId, nonInstrAccount.getEmail())
+                .withName(nonInstrAccount.getName())
                 .build();
 
         instructorsLogic.createInstructor(newIns);
-        encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
+        encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.getEmail());
 
-        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.googleId, null, null);
+        accountsLogic.joinCourseForInstructor(encryptedKey[0], nonInstrAccount.getGoogleId(), null, null);
 
-        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
-        assertEquals(nonInstrAccount.googleId, joinedInstructor.googleId);
-        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.googleId));
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.getEmail());
+        assertEquals(nonInstrAccount.getGoogleId(), joinedInstructor.googleId);
+        assertTrue(accountsLogic.isAccountAnInstructor(nonInstrAccount.getGoogleId()));
 
-        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.googleId);
-        assertEquals("TEAMMATES Test Institute 1", instructorAccount.institute);
+        AccountAttributes instructorAccount = accountsLogic.getAccount(nonInstrAccount.getGoogleId());
+        assertEquals("TEAMMATES Test Institute 1", instructorAccount.getInstitute());
 
-        accountsLogic.deleteAccountCascade(nonInstrAccount.googleId);
+        accountsLogic.deleteAccountCascade(nonInstrAccount.getGoogleId());
 
         ______TS("failure: instructor already joined");
 
         nonInstrAccount = dataBundle.accounts.get("student1InCourse1");
         instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
 
-        encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.email);
-        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.email);
+        encryptedKey[0] = getEncryptedKeyForInstructor(instructor.courseId, nonInstrAccount.getEmail());
+        joinedInstructor = instructorsLogic.getInstructorForEmail(instructor.courseId, nonInstrAccount.getEmail());
         InstructorAttributes[] finalInstructor = new InstructorAttributes[] { joinedInstructor };
         eaee = assertThrows(EntityAlreadyExistsException.class,
                 () -> accountsLogic.joinCourseForInstructor(encryptedKey[0], finalInstructor[0].googleId, null, null));
@@ -435,11 +435,11 @@ public class AccountsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = dataBundle.instructors.get("instructor5");
         AccountAttributes account = dataBundle.accounts.get("instructor5");
         // create a profile for the account
-        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(account.googleId)
+        StudentProfileAttributes studentProfile = StudentProfileAttributes.builder(account.getGoogleId())
                 .withShortName("Test")
                 .build();
         profilesLogic.updateOrCreateStudentProfile(
-                StudentProfileAttributes.updateOptionsBuilder(account.googleId)
+                StudentProfileAttributes.updateOptionsBuilder(account.getGoogleId())
                         .withShortName(studentProfile.shortName)
                         .build());
 

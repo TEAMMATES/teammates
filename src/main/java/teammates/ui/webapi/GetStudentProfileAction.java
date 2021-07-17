@@ -71,7 +71,7 @@ class GetStudentProfileAction extends Action {
             studentProfile = StudentProfileAttributes.builder("").build();
         } else {
             studentProfile = logic.getStudentProfile(studentId);
-            studentName = logic.getAccount(studentId).name;
+            studentName = logic.getAccount(studentId).getName();
         }
 
         if (studentProfile == null) {

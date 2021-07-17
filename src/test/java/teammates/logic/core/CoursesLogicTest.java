@@ -381,7 +381,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during course creation");
 
-        accountsLogic.makeAccountInstructor(a.googleId);
+        accountsLogic.makeAccountInstructor(a.getGoogleId());
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")

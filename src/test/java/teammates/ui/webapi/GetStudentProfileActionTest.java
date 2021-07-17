@@ -35,8 +35,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testExecute_withExistingProfileAndNoParameter_shouldReturnOwnProfile() {
         AccountAttributes student1InCourse1 = typicalBundle.accounts.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        String expectedName = student1InCourse1.name;
-        loginAsStudent(student1InCourse1.googleId);
+        String expectedName = student1InCourse1.getName();
+        loginAsStudent(student1InCourse1.getGoogleId());
         testGetCorrectProfile(expectedProfile, expectedName);
     }
 
@@ -44,8 +44,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testExecute_withMissingCourseId_shouldReturnOwnProfile() {
         AccountAttributes student1InCourse1 = typicalBundle.accounts.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        String expectedName = student1InCourse1.name;
-        loginAsStudent(student1InCourse1.googleId);
+        String expectedName = student1InCourse1.getName();
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
@@ -56,7 +56,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testExecute_withMissingStudentEmail_shouldReturnOwnProfile() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        String expectedName = typicalBundle.accounts.get("student1InCourse1").name;
+        String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
         loginAsStudent(student1InCourse1.googleId);
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -71,7 +71,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
         expectedProfile.email = null;
         expectedProfile.shortName = null;
-        String expectedName = typicalBundle.accounts.get("student1InCourse1").name;
+        String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
         loginAsStudent(student2InCourse1.googleId);
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
@@ -83,9 +83,9 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     public void testExecute_withProfileNotYetCreated_shouldReturnEmptyProfile() {
         AccountAttributes student2InCourse1 = typicalBundle.accounts.get("student2InCourse1");
-        String expectedName = student2InCourse1.name;
-        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student2InCourse1.googleId).build();
-        loginAsStudent(student2InCourse1.googleId);
+        String expectedName = student2InCourse1.getName();
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student2InCourse1.getGoogleId()).build();
+        loginAsStudent(student2InCourse1.getGoogleId());
         testGetCorrectProfile(expectedProfile, expectedName);
     }
 

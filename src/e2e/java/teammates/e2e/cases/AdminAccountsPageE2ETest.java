@@ -67,7 +67,7 @@ public class AdminAccountsPageE2ETest extends BaseE2ETestCase {
         accountsPage.waitForPageToLoad();
 
         account = getAccount(googleId);
-        assertFalse(account.isInstructor);
+        assertFalse(account.isInstructor());
         accountsPage.verifyAccountDetails(account);
 
         // instructor entities should also be deleted

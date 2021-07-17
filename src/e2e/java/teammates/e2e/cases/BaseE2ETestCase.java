@@ -253,7 +253,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return getAccount(account.googleId);
+        return getAccount(account.getGoogleId());
     }
 
     @Override
