@@ -70,6 +70,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         FeedbackContributionQuestionDetails feedbackContributionQuestionDetails = new FeedbackContributionQuestionDetails();
 
         DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTest.json");
+        populateQuestionAndResponseIds(responseBundle);
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 

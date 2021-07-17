@@ -984,7 +984,6 @@
     "qn1InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1006,7 +1005,6 @@
     "qn2InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1030,7 +1028,6 @@
     "qn3InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn3InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1061,7 +1058,6 @@
     "qn4InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn4InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1092,7 +1088,6 @@
     "qn5InSession1InCourse1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn5InSession1InCourse1",
       "questionDetails": {
         "questionText": "How much has each team member including yourself, contributed to the project?",
         "questionType": "CONTRIB"
@@ -1116,7 +1111,7 @@
     "response1ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1129,7 +1124,7 @@
     "response2ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1142,7 +1137,7 @@
     "response3ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student1InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1155,7 +1150,7 @@
     "response4ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1168,7 +1163,7 @@
     "response5ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1181,7 +1176,7 @@
     "response6ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student2InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1194,7 +1189,7 @@
     "response7ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student1InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1207,7 +1202,7 @@
     "response8ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student2InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1220,7 +1215,7 @@
     "response9ForQ1S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn1InSession1InCourse1",
+      "feedbackQuestionId": "1",
       "giver": "student3InCourse1@gmail.tmt",
       "recipient": "student3InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1233,7 +1228,7 @@
     "response1ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "student5InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1246,7 +1241,7 @@
     "response2ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student5InCourse1@gmail.tmt",
       "recipient": "student6InCourse1@gmail.tmt",
       "giverSection": "Section 2",
@@ -1259,7 +1254,7 @@
     "response3ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student6InCourse1@gmail.tmt",
       "recipient": "student5InCourse1@gmail.tmt",
       "giverSection": "Section 1",
@@ -1272,7 +1267,7 @@
     "response4ForQ2S1C1": {
       "feedbackSessionName": "First feedback session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "qn2InSession1InCourse1",
+      "feedbackQuestionId": "2",
       "giver": "student6InCourse1@gmail.tmt",
       "recipient": "student6InCourse1@gmail.tmt",
       "giverSection": "Section 1",
