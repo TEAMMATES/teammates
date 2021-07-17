@@ -26,7 +26,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
 
     @Override
     @SuppressWarnings("PMD.PreserveStackTrace")
-    JsonResult execute() {
+    public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
         long startTime;
         try {

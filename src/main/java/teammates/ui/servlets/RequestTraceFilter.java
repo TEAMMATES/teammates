@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,6 +22,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * Extracts trace ID of HTTP requests.

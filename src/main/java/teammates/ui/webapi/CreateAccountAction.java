@@ -25,7 +25,7 @@ import teammates.ui.request.AccountCreateRequest;
 class CreateAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();

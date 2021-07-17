@@ -37,7 +37,7 @@ class DeleteInstructorAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

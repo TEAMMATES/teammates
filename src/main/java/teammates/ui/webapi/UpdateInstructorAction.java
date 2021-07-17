@@ -35,7 +35,7 @@ class UpdateInstructorAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorCreateRequest instructorRequest = getAndValidateRequestBody(InstructorCreateRequest.class);

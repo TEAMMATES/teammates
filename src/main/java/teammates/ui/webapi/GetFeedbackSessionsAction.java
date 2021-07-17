@@ -65,7 +65,7 @@ class GetFeedbackSessionsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getRequestParamValue(Const.ParamsNames.COURSE_ID);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 

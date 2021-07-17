@@ -90,7 +90,7 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    void checkAccessControl() throws UnauthorizedAccessException {
+    public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
         if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
             throw new UnauthorizedAccessException("User " + userInfo.id
@@ -266,6 +266,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    abstract ActionResult execute();
+    public abstract ActionResult execute();
 
 }

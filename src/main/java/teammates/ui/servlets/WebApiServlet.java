@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -24,11 +24,14 @@ import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ActionFactory;
+import teammates.ui.webapi.ActionResult;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * Servlet that handles all requests from the web application.
  */
-@SuppressWarnings("serial")
 @MultipartConfig
 public class WebApiServlet extends HttpServlet {
 

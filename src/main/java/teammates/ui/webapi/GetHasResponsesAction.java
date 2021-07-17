@@ -90,7 +90,7 @@ class GetHasResponsesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
