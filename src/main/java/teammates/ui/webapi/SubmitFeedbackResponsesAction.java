@@ -50,7 +50,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
         }
         FeedbackSessionAttributes feedbackSession =
-                getNonNullFeedbackSession(feedbackQuestion.feedbackSessionName, feedbackQuestion.courseId);
+                getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
 
         verifyInstructorCanSeeQuestionIfInModeration(feedbackQuestion);
         verifySessionOpenExceptForModeration(feedbackSession);
@@ -180,7 +180,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
                 .map(FeedbackResponseAttributes::getResponseDetailsCopy)
                 .collect(Collectors.toList());
 
-        int numRecipients = feedbackQuestion.numberOfEntitiesToGiveFeedbackTo;
+        int numRecipients = feedbackQuestion.getNumberOfEntitiesToGiveFeedbackTo();
         if (numRecipients == Const.MAX_POSSIBLE_RECIPIENTS
                 || numRecipients > recipientsOfTheQuestion.size()) {
             numRecipients = recipientsOfTheQuestion.size();

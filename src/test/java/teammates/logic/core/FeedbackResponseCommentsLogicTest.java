@@ -407,7 +407,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     private String getQuestionIdInDataBundle(String questionInDataBundle) {
         FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get(questionInDataBundle);
         question = fqLogic.getFeedbackQuestion(
-                                   question.feedbackSessionName, question.courseId, question.questionNumber);
+                question.getFeedbackSessionName(), question.getCourseId(), question.getQuestionNumber());
         return question.getId();
     }
 

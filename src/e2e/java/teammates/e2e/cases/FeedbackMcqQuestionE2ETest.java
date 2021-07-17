@@ -60,8 +60,8 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails = (FeedbackMcqQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyMcqQuestionDetails(3, questionDetails);
@@ -77,7 +77,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         List<String> choices = questionDetails.getMcqChoices();
         choices.add("Edited choice");
         questionDetails.setMcqChoices(choices);
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editMcqQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 

@@ -40,7 +40,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return logic.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber);
+        return logic.getFeedbackQuestion(fq.getFeedbackSessionName(), fq.getCourseId(), fq.getQuestionNumber());
     }
 
     @Override

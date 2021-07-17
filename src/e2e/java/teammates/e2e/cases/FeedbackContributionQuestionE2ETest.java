@@ -62,8 +62,8 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         questionDetails = (FeedbackContributionQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyContributionQuestionDetails(3, questionDetails);
@@ -72,7 +72,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         ______TS("edit question");
         questionDetails = (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setNotSureAllowed(false);
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editContributionQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 

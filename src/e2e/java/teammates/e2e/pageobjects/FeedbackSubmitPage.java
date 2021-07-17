@@ -592,13 +592,13 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     private void verifyVisibilityList(int qnNumber, FeedbackQuestionAttributes questionAttributes) {
-        if (questionAttributes.showResponsesTo.isEmpty()) {
+        if (questionAttributes.getShowResponsesTo().isEmpty()) {
             verifyVisibilityStringPresent(qnNumber, "No-one can see your responses");
         }
-        if (questionAttributes.recipientType.equals(FeedbackParticipantType.SELF)) {
+        if (questionAttributes.getRecipientType().equals(FeedbackParticipantType.SELF)) {
             verifyVisibilityStringPresent(qnNumber, "You can see your own feedback in the results page later on.");
         }
-        for (FeedbackParticipantType viewerType : questionAttributes.showResponsesTo) {
+        for (FeedbackParticipantType viewerType : questionAttributes.getShowResponsesTo()) {
             verifyVisibilityStringPresent(qnNumber, getVisibilityString(questionAttributes, viewerType));
         }
     }
@@ -616,21 +616,21 @@ public class FeedbackSubmitPage extends AppPage {
 
     private String getVisibilityString(FeedbackQuestionAttributes questionAttributes,
                                        FeedbackParticipantType viewerType) {
-        if (!questionAttributes.showResponsesTo.contains(viewerType)) {
+        if (!questionAttributes.getShowResponsesTo().contains(viewerType)) {
             return "";
         }
 
-        StringBuilder message = new StringBuilder(getViewerString(viewerType, questionAttributes.recipientType));
+        StringBuilder message = new StringBuilder(getViewerString(viewerType, questionAttributes.getRecipientType()));
         message.append(" can see your response");
-        if (questionAttributes.showRecipientNameTo.contains(viewerType)) {
+        if (questionAttributes.getShowRecipientNameTo().contains(viewerType)) {
             message.append(", the name of the recipient");
-            if (questionAttributes.showGiverNameTo.contains(viewerType)) {
+            if (questionAttributes.getShowGiverNameTo().contains(viewerType)) {
                 message.append(", and your name");
             } else {
                 message.append(", but not your name");
             }
         } else {
-            if (questionAttributes.showGiverNameTo.contains(viewerType)) {
+            if (questionAttributes.getShowGiverNameTo().contains(viewerType)) {
                 message.append(", and your name, but not the name of the recipient");
             } else {
                 message.append(", but not the name of the recipient, or your name");

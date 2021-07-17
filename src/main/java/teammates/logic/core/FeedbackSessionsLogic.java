@@ -813,11 +813,11 @@ public final class FeedbackSessionsLogic {
                 || isStudent(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && isStudent(role)) {
-            if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+            if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.recipient.equals(student.team)) {
                 isVisibleResponse = true;
-            } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
+            } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
                        && studentsEmailInTeam.contains(response.giver)) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
@@ -836,7 +836,7 @@ public final class FeedbackSessionsLogic {
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
-                    relatedQuestion.recipientType != FeedbackParticipantType.NONE
+                    relatedQuestion.getRecipientType() != FeedbackParticipantType.NONE
                     && !instructor.isAllowedForPrivilege(response.recipientSection,
                                                          response.feedbackSessionName,
                                                          Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);

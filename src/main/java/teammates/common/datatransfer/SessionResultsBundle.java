@@ -91,10 +91,10 @@ public class SessionResultsBundle {
         boolean isVisible;
         if (isGiver) {
             isVisible = responseGiverVisibilityTable.get(responseId);
-            participantType = question.giverType;
+            participantType = question.getGiverType();
         } else {
             isVisible = responseRecipientVisibilityTable.get(responseId);
-            participantType = question.recipientType;
+            participantType = question.getRecipientType();
         }
         boolean isTypeNone = participantType == FeedbackParticipantType.NONE;
 

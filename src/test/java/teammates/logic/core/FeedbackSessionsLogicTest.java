@@ -781,9 +781,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private FeedbackQuestionAttributes getQuestionFromDatabase(String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(
-                questionToGet.feedbackSessionName,
-                questionToGet.courseId,
-                questionToGet.questionNumber);
+                questionToGet.getFeedbackSessionName(),
+                questionToGet.getCourseId(),
+                questionToGet.getQuestionNumber());
 
         return questionToGet;
     }

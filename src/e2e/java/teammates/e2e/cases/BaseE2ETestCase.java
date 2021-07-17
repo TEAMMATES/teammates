@@ -281,7 +281,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
     }
 
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {

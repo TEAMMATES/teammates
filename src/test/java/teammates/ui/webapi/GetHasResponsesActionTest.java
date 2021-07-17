@@ -138,7 +138,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
-                fQuestion.questionNumber);
+                fQuestion.getQuestionNumber());
 
         loginAsInstructor(instructor1OfCourse1.googleId);
         assertTrue(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
@@ -162,7 +162,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
         fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
-                fQuestion.questionNumber);
+                fQuestion.getQuestionNumber());
 
         InstructorAttributes currentInstructor = instructors.get(0);
 
@@ -188,7 +188,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(feedbackSessionAttributes.getCourseId());
         FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
         fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
-                fQuestion.questionNumber);
+                fQuestion.getQuestionNumber());
 
         InstructorAttributes currentInstructor = instructors.get(0);
 

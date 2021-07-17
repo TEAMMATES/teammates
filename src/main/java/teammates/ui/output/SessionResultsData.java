@@ -122,7 +122,7 @@ public class SessionResultsData extends ApiOutput {
 
         // process giver
         boolean isUserGiver = student.getEmail().equals(response.getGiver());
-        boolean isUserTeamGiver = question.giverType == FeedbackParticipantType.TEAMS
+        boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
         String giverTeam = "";
@@ -219,7 +219,7 @@ public class SessionResultsData extends ApiOutput {
         String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
         String giverSection = response.getGiverSection();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
-        if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
+        if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS) {
             InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(response.getGiver());
             giverName = instructor.getName();
             giverLastName = StringHelper.splitName(giverName)[1]; // get the last name from full name
@@ -235,7 +235,7 @@ public class SessionResultsData extends ApiOutput {
         String recipientTeam =
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
         String recipientSection = response.getRecipientSection();
-        if (question.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
             InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(response.getRecipient());
             recipientName = instructor.getName();
             recipientLastName = StringHelper.splitName(giverName)[1]; // get the last name from full name
@@ -286,7 +286,7 @@ public class SessionResultsData extends ApiOutput {
      */
     private static NameInfo getGiverNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
-        FeedbackParticipantType participantType = question.giverType;
+        FeedbackParticipantType participantType = question.getGiverType();
 
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();

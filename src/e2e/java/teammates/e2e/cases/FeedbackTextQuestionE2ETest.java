@@ -57,8 +57,8 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         questionDetails = (FeedbackTextQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyTextQuestionDetails(3, questionDetails);
@@ -66,7 +66,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("edit question");
         questionDetails.setRecommendedLength(200);
-        copiedQuestion.questionDetails = questionDetails;
+        copiedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editTextQuestion(3, questionDetails);
 
         feedbackEditPage.verifyTextQuestionDetails(3, questionDetails);

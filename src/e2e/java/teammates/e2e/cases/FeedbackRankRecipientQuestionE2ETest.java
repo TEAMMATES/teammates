@@ -63,8 +63,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         questionDetails = (FeedbackRankRecipientsQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
                 copiedQuestion.getQuestionDetailsCopy().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyRankQuestionDetails(3, questionDetails);
@@ -75,7 +75,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         questionDetails.setAreDuplicatesAllowed(false);
         questionDetails.setMaxOptionsToBeRanked(3);
         questionDetails.setMinOptionsToBeRanked(Const.POINTS_NO_VALUE);
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editRankQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 

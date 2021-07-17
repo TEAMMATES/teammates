@@ -558,22 +558,22 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.giverType);
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
 
         ______TS("failure: recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF");
         feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
         feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.recipientType);
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF");
         feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
         feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.SELF);
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_FEEDBACK_PATH,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.giverType);
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.recipientType);
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
 
         ______TS("failure: invalid restrictions on visibility options");
         feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
@@ -583,7 +583,7 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.showResponsesTo);
+                feedbackQuestionAttributes.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and invalid restrictions on visibility options");
         feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.SELF);
@@ -591,10 +591,10 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.giverType);
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.showResponsesTo);
+                feedbackQuestionAttributes.getShowResponsesTo());
 
         ______TS("failure: recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF and invalid restrictions on "
                 + "visibility options");
@@ -603,10 +603,10 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.recipientType);
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.showResponsesTo);
+                feedbackQuestionAttributes.getShowResponsesTo());
 
         ______TS("failure: giver type is not STUDENT and recipient type is not OWN_TEAM_MEMBERS_INCLUDING_SELF"
                 + " and invalid restrictions on visibility options");
@@ -615,11 +615,11 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER));
         assertEquals(FeedbackContributionQuestionDetails.CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS,
                 details.validateGiverRecipientVisibility(feedbackQuestionAttributes));
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.giverType);
-        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.recipientType);
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackQuestionAttributes.getGiverType());
+        assertEquals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF, feedbackQuestionAttributes.getRecipientType());
         assertEquals(Arrays.asList(FeedbackParticipantType.RECEIVER, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.INSTRUCTORS),
-                feedbackQuestionAttributes.showResponsesTo);
+                feedbackQuestionAttributes.getShowResponsesTo());
 
     }
 

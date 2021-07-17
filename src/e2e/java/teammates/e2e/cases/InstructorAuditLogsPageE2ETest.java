@@ -86,6 +86,6 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
 
-        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.feedbackSessionName));
+        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }

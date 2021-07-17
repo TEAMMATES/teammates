@@ -179,9 +179,9 @@ public final class FeedbackResponsesLogic {
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student) {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             return getFeedbackResponsesFromTeamForQuestion(
-                    question.getId(), question.courseId, student.team, null);
+                    question.getId(), question.getCourseId(), student.team, null);
         }
         return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
     }
@@ -200,7 +200,7 @@ public final class FeedbackResponsesLogic {
         }
 
         // Early return if user is giver
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
             // The second check is used to accommodate legacy data where team giver is a student email
             if (roster.isStudentInTeam(userEmail, response.giver)
@@ -221,8 +221,8 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
             String userEmail, UserRole role, boolean isGiverName, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = isGiverName
-                                                 ? question.showGiverNameTo
-                                                 : question.showRecipientNameTo;
+                                                 ? question.getShowGiverNameTo()
+                                                 : question.getShowRecipientNameTo();
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
@@ -239,7 +239,7 @@ public final class FeedbackResponsesLogic {
                 break;
             case RECEIVER:
                 // Response to team
-                if (question.recipientType.isTeam()) {
+                if (question.getRecipientType().isTeam()) {
                     if (roster.isStudentInTeam(userEmail, response.recipient)) {
                         // this is a team name
                         return true;
@@ -253,7 +253,7 @@ public final class FeedbackResponsesLogic {
                 }
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
-                if (question.recipientType.isTeam()) {
+                if (question.getRecipientType().isTeam()) {
                     if (roster.isStudentInTeam(userEmail, response.recipient)) {
                         // this is a team name
                         return true;
@@ -286,17 +286,17 @@ public final class FeedbackResponsesLogic {
             return true;
         }
         boolean isStudentRecipientType =
-                   question.recipientType.equals(FeedbackParticipantType.STUDENTS)
-                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                || question.recipientType.equals(FeedbackParticipantType.GIVER)
-                   && question.giverType.equals(FeedbackParticipantType.STUDENTS);
+                   question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
+                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                || question.getRecipientType().equals(FeedbackParticipantType.GIVER)
+                   && question.getGiverType().equals(FeedbackParticipantType.STUDENTS);
 
-        if ((isStudentRecipientType || question.recipientType.isTeam())
+        if ((isStudentRecipientType || question.getRecipientType().isTeam())
                 && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.giverType == FeedbackParticipantType.TEAMS
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS
                 || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
@@ -374,7 +374,7 @@ public final class FeedbackResponsesLogic {
                 getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
         for (FeedbackResponseAttributes response : responsesFromUser) {
             question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.giverType == FeedbackParticipantType.TEAMS
+            if (question.getGiverType() == FeedbackParticipantType.TEAMS
                     || isRecipientTypeTeamMembers(question)) {
                 deleteFeedbackResponseCascade(response.getId());
             }
@@ -443,8 +443,8 @@ public final class FeedbackResponsesLogic {
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
-        return question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+        return question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
+               || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     /**

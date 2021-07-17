@@ -297,7 +297,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
             return;
         }
 
-        WebElement questionPanel = getQuestionPanel(groupedResponses, question.questionNumber);
+        WebElement questionPanel = getQuestionPanel(groupedResponses, question.getQuestionNumber());
         verifyQuestionText(questionPanel, question);
         WebElement singleResponse = questionPanel.findElement(By.id("response"));
         if (isMissingResponse(response)) {
@@ -694,8 +694,8 @@ public class InstructorFeedbackResultsPage extends AppPage {
 
         for (int i = 0; i < recipients.size(); i++) {
             String recipient = recipients.get(i);
-            expectedStatistics[i][0] = getTeam(question.recipientType, recipient, students);
-            expectedStatistics[i][1] = getName(question.recipientType, recipient, instructors, students);
+            expectedStatistics[i][0] = getTeam(question.getRecipientType(), recipient, students);
+            expectedStatistics[i][1] = getName(question.getRecipientType(), recipient, instructors, students);
         }
 
         return expectedStatistics;

@@ -75,9 +75,9 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("copy question from other session");
         FeedbackQuestionAttributes questionToCopy = testData.feedbackQuestions.get("qn1");
-        questionToCopy.courseId = course.getId();
-        questionToCopy.feedbackSessionName = feedbackSession.getFeedbackSessionName();
-        questionToCopy.questionNumber = 2;
+        questionToCopy.setCourseId(course.getId());
+        questionToCopy.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
+        questionToCopy.setQuestionNumber(2);
         feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetailsCopy().getQuestionText());
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");

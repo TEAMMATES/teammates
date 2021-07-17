@@ -19,11 +19,11 @@ abstract class BasicFeedbackSubmissionAction extends Action {
      */
     boolean canInstructorSeeQuestion(FeedbackQuestionAttributes feedbackQuestion) {
         boolean isGiverVisibleToInstructor =
-                feedbackQuestion.showGiverNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowGiverNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isRecipientVisibleToInstructor =
-                feedbackQuestion.showRecipientNameTo.contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowRecipientNameTo().contains(FeedbackParticipantType.INSTRUCTORS);
         boolean isResponseVisibleToInstructor =
-                feedbackQuestion.showResponsesTo.contains(FeedbackParticipantType.INSTRUCTORS);
+                feedbackQuestion.getShowResponsesTo().contains(FeedbackParticipantType.INSTRUCTORS);
         return isResponseVisibleToInstructor && isGiverVisibleToInstructor && isRecipientVisibleToInstructor;
     }
 

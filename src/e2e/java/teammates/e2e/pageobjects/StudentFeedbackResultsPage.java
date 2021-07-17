@@ -141,7 +141,7 @@ public class StudentFeedbackResultsPage extends AppPage {
 
     private void verifyGivenResponses(FeedbackQuestionAttributes question, List<FeedbackResponseAttributes> givenResponses) {
         for (FeedbackResponseAttributes response : givenResponses) {
-            WebElement responseField = getGivenResponseField(question.questionNumber, response.getRecipient());
+            WebElement responseField = getGivenResponseField(question.getQuestionNumber(), response.getRecipient());
             assertTrue(isResponseEqual(question, responseField, response));
         }
     }
@@ -169,7 +169,7 @@ public class StudentFeedbackResultsPage extends AppPage {
     private void verifyResponseForRecipient(FeedbackQuestionAttributes question, String recipient,
                                             List<FeedbackResponseAttributes> otherResponses,
                                             Set<String> visibleGivers, Set<String> visibleRecipients) {
-        List<WebElement> responseViews = getAllResponseViews(question.questionNumber);
+        List<WebElement> responseViews = getAllResponseViews(question.getQuestionNumber());
         for (FeedbackResponseAttributes response : otherResponses) {
             boolean isRecipientVisible = visibleRecipients.contains(response.giver)
                     || recipient.equals(CURRENT_STUDENT_IDENTIFIER);
@@ -177,7 +177,7 @@ public class StudentFeedbackResultsPage extends AppPage {
                     || (visibleGivers.contains("RECEIVER") && response.getRecipient().equals(CURRENT_STUDENT_IDENTIFIER))
                     || response.getGiver().equals(CURRENT_STUDENT_IDENTIFIER);
             if (isRecipientVisible) {
-                int recipientIndex = getRecipientIndex(question.questionNumber, recipient);
+                int recipientIndex = getRecipientIndex(question.getQuestionNumber(), recipient);
                 WebElement responseView = responseViews.get(recipientIndex);
                 List<WebElement> responsesFields = getAllResponseFields(responseView);
                 if (isGiverVisible) {
@@ -195,7 +195,7 @@ public class StudentFeedbackResultsPage extends AppPage {
     private void verifyAnonymousResponseView(FeedbackQuestionAttributes question,
                                              List<FeedbackResponseAttributes> expectedResponses,
                                              boolean isGiverVisible) {
-        List<WebElement> anonymousViews = getAllResponseViews(question.questionNumber).stream()
+        List<WebElement> anonymousViews = getAllResponseViews(question.getQuestionNumber()).stream()
                 .filter(v -> isAnonymous(v.findElement(By.id("response-recipient")).getText()))
                 .collect(Collectors.toList());
         if (anonymousViews.isEmpty()) {

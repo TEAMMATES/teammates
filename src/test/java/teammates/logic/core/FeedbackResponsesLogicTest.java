@@ -403,8 +403,8 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes fr = getResponseFromDatabase("response1ForQ3S1C1");
 
         CourseRoster roster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(fq.courseId),
-                instructorsLogic.getInstructorsForCourse(fq.courseId));
+                studentsLogic.getStudentsForCourse(fq.getCourseId()),
+                instructorsLogic.getInstructorsForCourse(fq.getCourseId()));
 
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.email, UserRole.INSTRUCTOR, true, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, instructor.email, UserRole.INSTRUCTOR, false, roster));
@@ -417,26 +417,26 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("test if visible to receiver/reciever team members");
 
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.showRecipientNameTo.clear();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
+        fq.setRecipientType(FeedbackParticipantType.TEAMS);
+        fq.getShowRecipientNameTo().clear();
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
         fr.recipient = student.team;
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
 
-        fq.recipientType = FeedbackParticipantType.STUDENTS;
+        fq.setRecipientType(FeedbackParticipantType.STUDENTS);
         fr.recipient = student.email;
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student2.email, UserRole.STUDENT, false, roster));
 
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.showRecipientNameTo.clear();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        fq.setRecipientType(FeedbackParticipantType.TEAMS);
+        fq.getShowRecipientNameTo().clear();
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         fr.recipient = student.team;
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
 
-        fq.recipientType = FeedbackParticipantType.STUDENTS;
+        fq.setRecipientType(FeedbackParticipantType.STUDENTS);
         fr.recipient = student.email;
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.email, UserRole.STUDENT, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.email, UserRole.STUDENT, false, roster));
@@ -444,12 +444,12 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("test if visible to receiver/giver team members for team questions");
 
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.showRecipientNameTo.clear();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        fq.giverType = FeedbackParticipantType.TEAMS;
-        fq.showGiverNameTo.clear();
-        fq.showGiverNameTo.add(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
+        fq.setRecipientType(FeedbackParticipantType.TEAMS);
+        fq.getShowRecipientNameTo().clear();
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
+        fq.setGiverType(FeedbackParticipantType.TEAMS);
+        fq.getShowGiverNameTo().clear();
+        fq.getShowGiverNameTo().add(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
         fr.recipient = student5.team;
         fr.giver = student.team;
@@ -464,10 +464,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         ______TS("test anonymous team recipients");
         // Only members of the recipient team should be able to see the recipient name
-        fq.recipientType = FeedbackParticipantType.TEAMS;
-        fq.showRecipientNameTo.clear();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
-        fq.showResponsesTo.add(FeedbackParticipantType.STUDENTS);
+        fq.setRecipientType(FeedbackParticipantType.TEAMS);
+        fq.getShowRecipientNameTo().clear();
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
+        fq.getShowResponsesTo().add(FeedbackParticipantType.STUDENTS);
         fr.recipient = "Team 1.1";
         assertFalse(frLogic.isNameVisibleToUser(fq, fr, student5.email, UserRole.STUDENT, false, roster));
 
@@ -800,9 +800,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private FeedbackQuestionAttributes getQuestionFromDatabase(DataBundle dataBundle, String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
-        questionToGet = fqLogic.getFeedbackQuestion(questionToGet.feedbackSessionName,
-                                                    questionToGet.courseId,
-                                                    questionToGet.questionNumber);
+        questionToGet = fqLogic.getFeedbackQuestion(questionToGet.getFeedbackSessionName(),
+                questionToGet.getCourseId(),
+                questionToGet.getQuestionNumber());
 
         return questionToGet;
     }

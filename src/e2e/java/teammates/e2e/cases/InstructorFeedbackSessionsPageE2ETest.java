@@ -250,7 +250,7 @@ public class InstructorFeedbackSessionsPageE2ETest extends BaseE2ETestCase {
         String sessionName = session.getFeedbackSessionName();
         boolean hasQuestion = testData.feedbackQuestions.values()
                 .stream()
-                .anyMatch(q -> q.feedbackSessionName.equals(sessionName));
+                .anyMatch(q -> q.getFeedbackSessionName().equals(sessionName));
 
         if (!hasQuestion) {
             return "0 / 0";

@@ -101,9 +101,9 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         Set<FeedbackQuestionAttributes> qnsWithResponse = getQnsWithResponses(currentStudent);
         questions.forEach(qn -> {
             if (qnsWithResponse.contains(qn)) {
-                resultsPage.verifyQuestionDetails(qn.questionNumber, qn);
+                resultsPage.verifyQuestionDetails(qn.getQuestionNumber(), qn);
             } else {
-                resultsPage.verifyQuestionNotPresent(qn.questionNumber);
+                resultsPage.verifyQuestionNotPresent(qn.getQuestionNumber());
             }
         });
     }

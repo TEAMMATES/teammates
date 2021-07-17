@@ -208,8 +208,8 @@ public final class DataBundleLogic {
     private Map<String, String> makeQuestionIdMap(List<FeedbackQuestionAttributes> createdQuestions) {
         Map<String, String> questionIdMap = new HashMap<>();
         for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
-            String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
-            String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
+            String sessionKey = makeSessionKey(createdQuestion.getFeedbackSessionName(), createdQuestion.getCourseId());
+            String questionKey = makeQuestionKey(sessionKey, createdQuestion.getQuestionNumber());
             questionIdMap.put(questionKey, createdQuestion.getId());
         }
         return questionIdMap;

@@ -32,7 +32,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         FeedbackQuestion expectedQuestion = new FeedbackQuestion(fqa.getFeedbackSessionName(), fqa.getCourseId(),
                 fqa.getSerializedQuestionDetails(), fqa.getQuestionDescription(), fqa.getQuestionNumber(),
                 fqa.getQuestionType(), fqa.getGiverType(), fqa.getRecipientType(), fqa.getNumberOfEntitiesToGiveFeedbackTo(),
-                fqa.getShowResponsesTo(), fqa.showGiverNameTo, fqa.showRecipientNameTo);
+                fqa.getShowResponsesTo(), fqa.getShowGiverNameTo(), fqa.getShowRecipientNameTo());
 
         FeedbackQuestion actualQuestion = fqa.toEntity();
 
@@ -185,15 +185,15 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         qn.setFeedbackQuestionId(1L);
 
         FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.valueOf(qn);
-        assertEquals("singleWord", fqa.questionDetails.getQuestionText());
-        assertNull(((FeedbackTextQuestionDetails) fqa.questionDetails).getRecommendedLength());
+        assertEquals("singleWord", fqa.getQuestionDetails().getQuestionText());
+        assertNull(((FeedbackTextQuestionDetails) fqa.getQuestionDetails()).getRecommendedLength());
 
         ______TS("legacy data: plain text: multiple words, should deserialize correctly");
         qn.setQuestionText("multiple words text");
 
         FeedbackQuestionAttributes fqaMulti = FeedbackQuestionAttributes.valueOf(qn);
-        assertEquals("multiple words text", fqaMulti.questionDetails.getQuestionText());
-        assertNull(((FeedbackTextQuestionDetails) fqaMulti.questionDetails).getRecommendedLength());
+        assertEquals("multiple words text", fqaMulti.getQuestionDetails().getQuestionText());
+        assertNull(((FeedbackTextQuestionDetails) fqaMulti.getQuestionDetails()).getRecommendedLength());
 
         ______TS("json text: should deserialize as json");
         String jsonQuestionText = "{\n"
@@ -203,8 +203,8 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 + "}";
         qn.setQuestionText(jsonQuestionText);
         FeedbackQuestionAttributes fqaJson = FeedbackQuestionAttributes.valueOf(qn);
-        assertEquals("normal question", fqaJson.questionDetails.getQuestionText());
-        assertEquals(70, ((FeedbackTextQuestionDetails) fqaJson.questionDetails).getRecommendedLength().intValue());
+        assertEquals("normal question", fqaJson.getQuestionDetails().getQuestionText());
+        assertEquals(70, ((FeedbackTextQuestionDetails) fqaJson.getQuestionDetails()).getRecommendedLength().intValue());
     }
 
     @Test
@@ -351,7 +351,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(new ArrayList<>(), observedFeedbackQuestionAttributes.getShowGiverNameTo());
         assertEquals(new ArrayList<>(), observedFeedbackQuestionAttributes.getShowRecipientNameTo());
         assertNull(observedFeedbackQuestionAttributes.getQuestionDescription());
-        assertNull(observedFeedbackQuestionAttributes.questionDetails);
+        assertNull(observedFeedbackQuestionAttributes.getQuestionDetails());
         assertEquals(0, observedFeedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo());
         assertNull(observedFeedbackQuestionAttributes.getCreatedAt());
         assertNull(observedFeedbackQuestionAttributes.getUpdatedAt());
@@ -392,86 +392,86 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                                     FieldValidator.COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
                                     FieldValidator.COURSE_ID_FIELD_NAME, FieldValidator.COURSE_ID_MAX_LENGTH)
                               + System.lineSeparator()
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.giverType.toString(),
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getGiverType().toString(),
                                               FieldValidator.GIVER_TYPE_NAME) + System.lineSeparator()
-                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.recipientType.toString(),
+                              + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getRecipientType().toString(),
                                               FieldValidator.RECIPIENT_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                              fq.showGiverNameTo.get(0).toString(),
+                                              fq.getShowGiverNameTo().get(0).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                               + "Trying to show giver name to STUDENTS without showing response first."
                               + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                              fq.showRecipientNameTo.get(0).toString(),
+                                              fq.getShowRecipientNameTo().get(0).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                               + "Trying to show recipient name to STUDENTS without showing response first."
                               + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                              fq.showResponsesTo.get(0).toString(),
+                                              fq.getShowResponsesTo().get(0).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                               + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                              fq.showResponsesTo.get(1).toString(),
+                                              fq.getShowResponsesTo().get(1).toString(),
                                               FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
-        fq.feedbackSessionName = "First Feedback Session";
-        fq.courseId = "CS1101";
-        fq.giverType = FeedbackParticipantType.TEAMS;
-        fq.recipientType = FeedbackParticipantType.OWN_TEAM;
+        fq.setFeedbackSessionName("First Feedback Session");
+        fq.setCourseId("CS1101");
+        fq.setGiverType(FeedbackParticipantType.TEAMS);
+        fq.setRecipientType(FeedbackParticipantType.OWN_TEAM);
 
         assertFalse(fq.isValid());
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      "Giver's team",
                                      "Teams in this course") + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowGiverNameTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                       fq.showRecipientNameTo.get(0).toString(),
+                                       fq.getShowRecipientNameTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show recipient name to STUDENTS without showing response first."
                        + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(1).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
-        fq.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
+        fq.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
         assertFalse(fq.isValid());
 
         errorMessage = String.format(FieldValidator.PARTICIPANT_TYPE_TEAM_ERROR_MESSAGE,
                                      "Giver's team members",
                                      "Teams in this course") + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showGiverNameTo.get(0).toString(),
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowGiverNameTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show giver name to STUDENTS without showing response first." + System.lineSeparator()
                        + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE,
-                                       fq.showRecipientNameTo.get(0).toString(),
+                                       fq.getShowRecipientNameTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
                        + "Trying to show recipient name to STUDENTS without showing response first."
                        + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(0).toString(),
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(0).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME) + System.lineSeparator()
-                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.showResponsesTo.get(1).toString(),
+                       + String.format(FieldValidator.PARTICIPANT_TYPE_ERROR_MESSAGE, fq.getShowResponsesTo().get(1).toString(),
                                        FieldValidator.VIEWER_TYPE_NAME);
 
         assertEquals(errorMessage, StringHelper.toString(fq.getInvalidityInfo()));
 
-        fq.recipientType = FeedbackParticipantType.TEAMS;
+        fq.setRecipientType(FeedbackParticipantType.TEAMS);
 
-        fq.showGiverNameTo = new ArrayList<>();
-        fq.showGiverNameTo.add(FeedbackParticipantType.RECEIVER);
+        fq.setShowGiverNameTo(new ArrayList<>());
+        fq.getShowGiverNameTo().add(FeedbackParticipantType.RECEIVER);
 
-        fq.showRecipientNameTo = new ArrayList<>();
-        fq.showRecipientNameTo.add(FeedbackParticipantType.RECEIVER);
+        fq.setShowRecipientNameTo(new ArrayList<>());
+        fq.getShowRecipientNameTo().add(FeedbackParticipantType.RECEIVER);
 
-        fq.showResponsesTo = new ArrayList<>();
-        fq.showResponsesTo.add(FeedbackParticipantType.RECEIVER);
+        fq.setShowResponsesTo(new ArrayList<>());
+        fq.getShowResponsesTo().add(FeedbackParticipantType.RECEIVER);
 
         assertTrue(fq.isValid());
     }
@@ -519,62 +519,62 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
                 .withNumberOfEntitiesToGiveFeedbackTo(Const.MAX_POSSIBLE_RECIPIENTS)
                 .build();
 
-        assertTrue(question.showGiverNameTo.isEmpty());
-        assertTrue(question.showRecipientNameTo.isEmpty());
+        assertTrue(question.getShowGiverNameTo().isEmpty());
+        assertTrue(question.getShowRecipientNameTo().isEmpty());
         // check that other types are not removed
-        assertTrue(question.showResponsesTo.contains(FeedbackParticipantType.STUDENTS));
-        assertEquals(question.showResponsesTo.size(), 1);
+        assertTrue(question.getShowResponsesTo().contains(FeedbackParticipantType.STUDENTS));
+        assertEquals(question.getShowResponsesTo().size(), 1);
 
         ______TS("test students->teams");
 
-        question.giverType = FeedbackParticipantType.STUDENTS;
-        question.recipientType = FeedbackParticipantType.TEAMS;
+        question.setGiverType(FeedbackParticipantType.STUDENTS);
+        question.setRecipientType(FeedbackParticipantType.TEAMS);
 
         participants.clear();
         participants.add(FeedbackParticipantType.INSTRUCTORS);
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<>(participants);
+        question.setShowGiverNameTo(new ArrayList<>(participants));
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showRecipientNameTo = new ArrayList<>(participants);
-        question.showResponsesTo = new ArrayList<>(participants);
+        question.setShowRecipientNameTo(new ArrayList<>(participants));
+        question.setShowResponsesTo(new ArrayList<>(participants));
 
         question.removeIrrelevantVisibilityOptions();
 
-        assertEquals(question.showGiverNameTo.size(), 2);
-        assertEquals(question.showRecipientNameTo.size(), 3);
-        assertEquals(question.showResponsesTo.size(), 3);
-        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertEquals(question.getShowGiverNameTo().size(), 2);
+        assertEquals(question.getShowRecipientNameTo().size(), 3);
+        assertEquals(question.getShowResponsesTo().size(), 3);
+        assertFalse(question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowRecipientNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
 
         ______TS("test students->team members including giver");
 
-        question.giverType = FeedbackParticipantType.STUDENTS;
-        question.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+        question.setGiverType(FeedbackParticipantType.STUDENTS);
+        question.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
 
         participants.clear();
         participants.add(FeedbackParticipantType.INSTRUCTORS);
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
-        question.showGiverNameTo = new ArrayList<>(participants);
+        question.setShowGiverNameTo(new ArrayList<>(participants));
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showRecipientNameTo = new ArrayList<>(participants);
-        question.showResponsesTo = new ArrayList<>(participants);
+        question.setShowRecipientNameTo(new ArrayList<>(participants));
+        question.setShowResponsesTo(new ArrayList<>(participants));
 
         question.removeIrrelevantVisibilityOptions();
 
-        assertEquals(question.showGiverNameTo.size(), 3);
-        assertEquals(question.showRecipientNameTo.size(), 4);
-        assertEquals(question.showResponsesTo.size(), 4);
-        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
-        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
-        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        assertEquals(question.getShowGiverNameTo().size(), 3);
+        assertEquals(question.getShowRecipientNameTo().size(), 4);
+        assertEquals(question.getShowResponsesTo().size(), 4);
+        assertFalse(question.getShowGiverNameTo().contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        assertFalse(question.getShowRecipientNameTo().contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
+        assertFalse(question.getShowResponsesTo().contains(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF));
 
         ______TS("test students->instructors");
 
-        question.giverType = FeedbackParticipantType.STUDENTS;
-        question.recipientType = FeedbackParticipantType.INSTRUCTORS;
+        question.setGiverType(FeedbackParticipantType.STUDENTS);
+        question.setRecipientType(FeedbackParticipantType.INSTRUCTORS);
 
         participants.clear();
         participants.add(FeedbackParticipantType.RECEIVER);
@@ -582,23 +582,23 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<>(participants);
-        question.showRecipientNameTo = new ArrayList<>(participants);
-        question.showResponsesTo = new ArrayList<>(participants);
+        question.setShowGiverNameTo(new ArrayList<>(participants));
+        question.setShowRecipientNameTo(new ArrayList<>(participants));
+        question.setShowResponsesTo(new ArrayList<>(participants));
 
         question.removeIrrelevantVisibilityOptions();
 
-        assertEquals(question.showGiverNameTo.size(), 4);
-        assertEquals(question.showRecipientNameTo.size(), 4);
-        assertEquals(question.showResponsesTo.size(), 4);
-        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertEquals(question.getShowGiverNameTo().size(), 4);
+        assertEquals(question.getShowRecipientNameTo().size(), 4);
+        assertEquals(question.getShowResponsesTo().size(), 4);
+        assertFalse(question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowRecipientNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
 
         ______TS("test students->own team");
 
-        question.giverType = FeedbackParticipantType.STUDENTS;
-        question.recipientType = FeedbackParticipantType.OWN_TEAM;
+        question.setGiverType(FeedbackParticipantType.STUDENTS);
+        question.setRecipientType(FeedbackParticipantType.OWN_TEAM);
 
         participants.clear();
         participants.add(FeedbackParticipantType.RECEIVER);
@@ -606,23 +606,23 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<>(participants);
-        question.showRecipientNameTo = new ArrayList<>(participants);
-        question.showResponsesTo = new ArrayList<>(participants);
+        question.setShowGiverNameTo(new ArrayList<>(participants));
+        question.setShowRecipientNameTo(new ArrayList<>(participants));
+        question.setShowResponsesTo(new ArrayList<>(participants));
 
         question.removeIrrelevantVisibilityOptions();
 
-        assertEquals(question.showGiverNameTo.size(), 4);
-        assertEquals(question.showRecipientNameTo.size(), 4);
-        assertEquals(question.showResponsesTo.size(), 4);
-        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertEquals(question.getShowGiverNameTo().size(), 4);
+        assertEquals(question.getShowRecipientNameTo().size(), 4);
+        assertEquals(question.getShowResponsesTo().size(), 4);
+        assertFalse(question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowRecipientNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
 
         ______TS("test students->own team members");
 
-        question.giverType = FeedbackParticipantType.STUDENTS;
-        question.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS;
+        question.setGiverType(FeedbackParticipantType.STUDENTS);
+        question.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
         participants.clear();
         participants.add(FeedbackParticipantType.RECEIVER);
@@ -630,28 +630,28 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         participants.add(FeedbackParticipantType.OWN_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS);
         participants.add(FeedbackParticipantType.STUDENTS);
-        question.showGiverNameTo = new ArrayList<>(participants);
-        question.showRecipientNameTo = new ArrayList<>(participants);
-        question.showResponsesTo = new ArrayList<>(participants);
+        question.setShowGiverNameTo(new ArrayList<>(participants));
+        question.setShowRecipientNameTo(new ArrayList<>(participants));
+        question.setShowResponsesTo(new ArrayList<>(participants));
 
         question.removeIrrelevantVisibilityOptions();
 
-        assertEquals(question.showGiverNameTo.size(), 4);
-        assertEquals(question.showRecipientNameTo.size(), 4);
-        assertEquals(question.showResponsesTo.size(), 4);
-        assertFalse(question.showGiverNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showRecipientNameTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
-        assertFalse(question.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertEquals(question.getShowGiverNameTo().size(), 4);
+        assertEquals(question.getShowRecipientNameTo().size(), 4);
+        assertEquals(question.getShowResponsesTo().size(), 4);
+        assertFalse(question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowRecipientNameTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
+        assertFalse(question.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS));
     }
 
     @Test
     public void testGetQuestionDetails_shouldDoDeepCopy() {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
         FeedbackQuestionDetails details = fqa.getQuestionDetailsCopy();
-        fqa.questionDetails.setQuestionText("updated question");
+        fqa.getQuestionDetails().setQuestionText("updated question");
 
         assertEquals("Question text.", details.getQuestionText());
-        assertEquals("updated question", fqa.questionDetails.getQuestionText());
+        assertEquals("updated question", fqa.getQuestionDetails().getQuestionText());
     }
 
     @Test
@@ -662,7 +662,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         details.setQuestionText("updated question");
 
         assertEquals("updated question", details.getQuestionText());
-        assertEquals("my question", fqa.questionDetails.getQuestionText());
+        assertEquals("my question", fqa.getQuestionDetails().getQuestionText());
     }
 
     @Test
