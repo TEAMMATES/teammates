@@ -567,7 +567,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
         typicalComment = frcLogic
                 .getFeedbackResponseComment(typicalResponse.getId(),
-                        typicalComment.commentGiver, typicalComment.createdAt);
+                        typicalComment.getCommentGiver(), typicalComment.getCreatedAt());
         verifyPresentInDatabase(typicalComment);
 
         coursesLogic.deleteCourseCascade(course1OfInstructor.getId());

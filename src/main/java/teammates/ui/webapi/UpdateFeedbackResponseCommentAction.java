@@ -42,10 +42,10 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("Feedback response comment is not found"));
         }
 
-        String courseId = frc.courseId;
-        String feedbackResponseId = frc.feedbackResponseId;
+        String courseId = frc.getCourseId();
+        String feedbackResponseId = frc.getFeedbackResponseId();
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        String feedbackSessionName = frc.feedbackSessionName;
+        String feedbackSessionName = frc.getFeedbackSessionName();
         FeedbackSessionAttributes session = getNonNullFeedbackSession(feedbackSessionName, courseId);
         assert response != null;
         String questionId = response.getFeedbackQuestionId();
@@ -109,8 +109,8 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("Feedback response comment is not found"));
         }
 
-        String feedbackResponseId = frc.feedbackResponseId;
-        String courseId = frc.courseId;
+        String feedbackResponseId = frc.getFeedbackResponseId();
+        String courseId = frc.getCourseId();
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         assert response != null;
 

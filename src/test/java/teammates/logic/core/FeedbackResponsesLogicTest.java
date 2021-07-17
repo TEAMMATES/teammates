@@ -173,7 +173,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
                 frcLogic.getFeedbackResponseCommentForResponse(updatedResponse.getId());
         assertFalse(associatedComments.isEmpty());
         assertTrue(associatedComments.stream()
-                .allMatch(c -> "giverSection".equals(c.giverSection) && "recipientSection".equals(c.receiverSection)));
+                .allMatch(c -> "giverSection".equals(c.getGiverSection()) && "recipientSection".equals(c.getReceiverSection())));
 
         ______TS("failure: invalid params");
 
@@ -348,9 +348,9 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertEquals(8, responsesFromGiver.size());
         assertEquals(2, responseCommentsForStudent.size());
         // student's comment
-        assertTrue(responseCommentsForStudent.stream().anyMatch(r -> r.isCommentFromFeedbackParticipant));
+        assertTrue(responseCommentsForStudent.stream().anyMatch(r -> r.isCommentFromFeedbackParticipant()));
         // instructor comment
-        assertTrue(responseCommentsForStudent.stream().anyMatch(r -> !r.isCommentFromFeedbackParticipant));
+        assertTrue(responseCommentsForStudent.stream().anyMatch(r -> !r.isCommentFromFeedbackParticipant()));
 
         frLogic.updateFeedbackResponsesForChangingEmail(
                 studentToUpdate.course, studentToUpdate.email, "new@email.tmt");

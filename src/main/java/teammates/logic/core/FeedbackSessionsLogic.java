@@ -618,8 +618,8 @@ public final class FeedbackSessionsLogic {
 
         // build comment
         for (FeedbackResponseCommentAttributes frc : allComments) {
-            FeedbackResponseAttributes relatedResponse = relatedResponsesMap.get(frc.feedbackResponseId);
-            FeedbackQuestionAttributes relatedQuestion = relatedQuestionsMap.get(frc.feedbackQuestionId);
+            FeedbackResponseAttributes relatedResponse = relatedResponsesMap.get(frc.getFeedbackResponseId());
+            FeedbackQuestionAttributes relatedQuestion = relatedQuestionsMap.get(frc.getFeedbackQuestionId());
             // the comment needs to be relevant to the question and response
             if (relatedQuestion == null || relatedResponse == null) {
                 continue;

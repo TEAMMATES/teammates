@@ -572,7 +572,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertFalse(
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
                         typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
-                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
+                        .noneMatch(comment -> comment.getFeedbackQuestionId().equals(typicalQuestion.getId())));
 
         fqLogic.deleteFeedbackQuestionCascade(typicalQuestion.getId());
 
@@ -582,7 +582,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
         assertTrue(
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
                         typicalQuestion.getCourseId(), typicalQuestion.getFeedbackSessionName(), null).stream()
-                        .noneMatch(comment -> comment.feedbackQuestionId.equals(typicalQuestion.getId())));
+                        .noneMatch(comment -> comment.getFeedbackQuestionId().equals(typicalQuestion.getId())));
 
         // verify that questions are shifted
         List<FeedbackQuestionAttributes> questionsOfSessions =

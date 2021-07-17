@@ -311,9 +311,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(commentsGivenByTheInstructor.isEmpty());
 
         // last editor is updated
-        assertTrue(commentsGivenByTheInstructor.stream().anyMatch(c -> "new@email.tmt".equals(c.lastEditorEmail)));
+        assertTrue(commentsGivenByTheInstructor.stream().anyMatch(c -> "new@email.tmt".equals(c.getLastEditorEmail())));
         assertFalse(commentsGivenByTheInstructor.stream()
-                .anyMatch(c -> instructorToBeUpdated.getEmail().equals(c.lastEditorEmail)));
+                .anyMatch(c -> instructorToBeUpdated.getEmail().equals(c.getLastEditorEmail())));
     }
 
     private void testUpdateInstructorByGoogleIdCascade() throws Exception {

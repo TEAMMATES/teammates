@@ -46,7 +46,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 typicalBundle.feedbackResponseComments.get("comment1FromInstructor1");
 
         feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponseComment.getFeedbackResponseId(),
-                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
+                feedbackResponseComment.getCommentGiver(), feedbackResponseComment.getCreatedAt());
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -102,8 +102,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
-        comment.feedbackResponseId = response.getId();
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
+        comment.setFeedbackResponseId(response.getId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
@@ -165,7 +165,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -197,7 +197,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -235,7 +235,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -287,7 +287,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         assertEquals(FeedbackParticipantType.TEAMS, question.getGiverType());
         response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),

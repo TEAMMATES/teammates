@@ -45,7 +45,7 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
+        return logic.getFeedbackResponseComment(frc.getFeedbackResponseId(), frc.getCommentGiver(), frc.getCreatedAt());
     }
 
     @Override

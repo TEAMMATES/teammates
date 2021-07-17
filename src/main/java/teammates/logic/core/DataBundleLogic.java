@@ -255,18 +255,18 @@ public final class DataBundleLogic {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
             int questionNumber;
             try {
-                questionNumber = Integer.parseInt(comment.feedbackQuestionId);
+                questionNumber = Integer.parseInt(comment.getFeedbackQuestionId());
             } catch (NumberFormatException e) {
                 // question ID already injected
                 continue;
             }
-            String sessionKey = makeSessionKey(comment.feedbackSessionName, comment.courseId);
+            String sessionKey = makeSessionKey(comment.getFeedbackSessionName(), comment.getCourseId());
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
-            comment.feedbackQuestionId = questionIdMap.get(questionKey);
+            comment.setFeedbackQuestionId(questionIdMap.get(questionKey));
 
             // format of feedbackResponseId: questionNumber%giverEmail%recipient
-            String[] responseIdParam = comment.feedbackResponseId.split("%", 3);
-            comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+            String[] responseIdParam = comment.getFeedbackResponseId().split("%", 3);
+            comment.setFeedbackResponseId(comment.getFeedbackQuestionId() + "%" + responseIdParam[1] + "%" + responseIdParam[2]);
         }
     }
 

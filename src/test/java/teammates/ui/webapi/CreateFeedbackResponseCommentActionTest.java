@@ -141,10 +141,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 getInstructorComments(response1ForQ1.getId(), "Comment to first response");
         assertEquals(1, frcList.size());
         FeedbackResponseCommentAttributes frc = frcList.get(0);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals(instructor1OfCourse1.getEmail(), frc.commentGiver);
-        assertFalse(frc.isCommentFromFeedbackParticipant);
-        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals(instructor1OfCourse1.getEmail(), frc.getCommentGiver());
+        assertFalse(frc.isCommentFromFeedbackParticipant());
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion());
     }
 
     @Test
@@ -255,10 +255,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 "Comment to first response, published session");
         assertEquals(1, frcList.size());
         FeedbackResponseCommentAttributes frc = frcList.get(0);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals("instructor1@course1.tmt", frc.commentGiver);
-        assertFalse(frc.isCommentFromFeedbackParticipant);
-        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals("instructor1@course1.tmt", frc.getCommentGiver());
+        assertFalse(frc.isCommentFromFeedbackParticipant());
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion());
     }
 
     @Test
@@ -307,8 +307,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId());
         assertEquals(comment.getCommentText(), "Student submission comment");
         assertEquals(student1InCourse1.getEmail(), comment.getCommentGiver());
-        assertTrue(comment.isCommentFromFeedbackParticipant);
-        assertTrue(comment.isVisibilityFollowingFeedbackQuestion);
+        assertTrue(comment.isCommentFromFeedbackParticipant());
+        assertTrue(comment.isVisibilityFollowingFeedbackQuestion());
         assertEquals(FeedbackParticipantType.STUDENTS, comment.getCommentGiverType());
 
         ______TS("Successful case: instructor submission");
@@ -327,8 +327,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         comment = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ1.getId());
         assertEquals(comment.getCommentText(), "Instructor submission comment");
         assertEquals(instructor1OfCourse1.getEmail(), comment.getCommentGiver());
-        assertTrue(comment.isCommentFromFeedbackParticipant);
-        assertTrue(comment.isVisibilityFollowingFeedbackQuestion);
+        assertTrue(comment.isCommentFromFeedbackParticipant());
+        assertTrue(comment.isVisibilityFollowingFeedbackQuestion());
         assertEquals(FeedbackParticipantType.INSTRUCTORS, comment.getCommentGiverType());
     }
 
@@ -597,7 +597,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private List<FeedbackResponseCommentAttributes> getInstructorComments(String responseId, String commentText) {
         return logic.getFeedbackResponseCommentForResponse(responseId)
                 .stream()
-                .filter(comment -> comment.commentText.equals(commentText))
+                .filter(comment -> comment.getCommentText().equals(commentText))
                 .collect(Collectors.toList());
     }
 

@@ -120,10 +120,10 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObj
         } else if (expected instanceof FeedbackResponseCommentAttributes) {
             FeedbackResponseCommentAttributes expectedFrc = (FeedbackResponseCommentAttributes) expected;
             FeedbackResponseCommentAttributes actualFrc = (FeedbackResponseCommentAttributes) actual;
-            assertEquals(expectedFrc.courseId, actualFrc.courseId);
-            assertEquals(expectedFrc.commentGiver, actualFrc.commentGiver);
-            assertEquals(expectedFrc.feedbackSessionName, actualFrc.feedbackSessionName);
-            assertEquals(expectedFrc.commentText, actualFrc.commentText);
+            assertEquals(expectedFrc.getCourseId(), actualFrc.getCourseId());
+            assertEquals(expectedFrc.getCommentGiver(), actualFrc.getCommentGiver());
+            assertEquals(expectedFrc.getFeedbackSessionName(), actualFrc.getFeedbackSessionName());
+            assertEquals(expectedFrc.getCommentText(), actualFrc.getCommentText());
 
         } else if (expected instanceof FeedbackResponseAttributes) {
             FeedbackResponseAttributes expectedFr = (FeedbackResponseAttributes) expected;
