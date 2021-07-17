@@ -314,7 +314,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         scrollElementToCenter(getQuestionForm(questionNum));
         assertEquals(feedbackQuestion.getQuestionType(), getQuestionType(questionNum));
         assertEquals(feedbackQuestion.getQuestionNumber(), getQuestionNumber(questionNum));
-        assertEquals(feedbackQuestion.getQuestionDetails().getQuestionText(), getQuestionBrief(questionNum));
+        assertEquals(feedbackQuestion.getQuestionDetailsCopy().getQuestionText(), getQuestionBrief(questionNum));
         assertEquals(getQuestionDescription(questionNum), feedbackQuestion.getQuestionDescription());
         verifyFeedbackPathSettings(questionNum, feedbackQuestion);
         verifyQuestionVisibilitySettings(questionNum, feedbackQuestion);
@@ -512,7 +512,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private void inputQuestionDetails(int questionNum, FeedbackQuestionAttributes feedbackQuestion) {
-        setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetails().getQuestionText());
+        setQuestionBrief(questionNum, feedbackQuestion.getQuestionDetailsCopy().getQuestionText());
         setQuestionDescription(questionNum, feedbackQuestion.getQuestionDescription());
         FeedbackQuestionType questionType = feedbackQuestion.getQuestionType();
         if (!questionType.equals(FeedbackQuestionType.CONTRIB)) {
@@ -538,7 +538,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(2);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetails();
+        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         fillTextBox(getRecommendedTextLengthField(questionNum), questionDetails.getRecommendedLength().toString());
         clickSaveNewQuestionButton();
     }
@@ -564,7 +564,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(3);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputMcqDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -590,7 +590,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         addNewQuestion(4);
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
-        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetails();
+        FeedbackMsqQuestionDetails questionDetails = (FeedbackMsqQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputMsqDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -615,7 +615,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackNumericalScaleQuestionDetails questionDetails =
-                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackNumericalScaleQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputNumScaleDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -667,7 +667,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackConstantSumQuestionDetails questionDetails =
-                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackConstantSumQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputConstSumDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -687,7 +687,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackContributionQuestionDetails questionDetails =
-                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackContributionQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputContributionDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -736,7 +736,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRubricQuestionDetails questionDetails =
-                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackRubricQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRubricDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -762,7 +762,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRankOptionsQuestionDetails questionDetails =
-                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackRankOptionsQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRankDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }
@@ -772,7 +772,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         int questionNum = getNumQuestions();
         inputQuestionDetails(questionNum, feedbackQuestion);
         FeedbackRankQuestionDetails questionDetails =
-                (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetails();
+                (FeedbackRankQuestionDetails) feedbackQuestion.getQuestionDetailsCopy();
         inputRankDetails(questionNum, questionDetails);
         clickSaveNewQuestionButton();
     }

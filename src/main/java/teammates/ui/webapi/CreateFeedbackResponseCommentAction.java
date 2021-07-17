@@ -95,7 +95,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
             gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
                     Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-            if (!question.getQuestionDetails().isInstructorCommentsOnResponsesAllowed()) {
+            if (!question.getQuestionDetailsCopy().isInstructorCommentsOnResponsesAllowed()) {
                 throw new InvalidHttpParameterException("Invalid question type for instructor comment");
             }
             break;

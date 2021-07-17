@@ -77,10 +77,10 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         assertNotNull(typicalResponse.getFeedbackQuestionId());
         assertEquals(expected.getFeedbackQuestionId(), typicalResponse.getFeedbackQuestionId());
         assertEquals(expected.getQuestionNumber(), typicalResponse.getQuestionNumber());
-        assertEquals(expected.getQuestionDetails().getQuestionText(), typicalResponse.getQuestionBrief());
+        assertEquals(expected.getQuestionDetailsCopy().getQuestionText(), typicalResponse.getQuestionBrief());
         assertEquals(expected.getQuestionDescription(), typicalResponse.getQuestionDescription());
 
-        assertEquals(JsonUtils.toJson(expected.getQuestionDetails()),
+        assertEquals(JsonUtils.toJson(expected.getQuestionDetailsCopy()),
                 JsonUtils.toJson(typicalResponse.getQuestionDetails()));
 
         assertEquals(expected.getQuestionType(), typicalResponse.getQuestionType());

@@ -47,7 +47,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
         FeedbackRankRecipientsQuestionDetails questionDetails =
-                (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetails();
+                (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyRankQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -60,9 +60,9 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackRankRecipientsQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackRankRecipientsQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
         copiedQuestion.courseId = course.getId();
         copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
         copiedQuestion.setQuestionNumber(3);
@@ -71,7 +71,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setAreDuplicatesAllowed(false);
         questionDetails.setMaxOptionsToBeRanked(3);
         questionDetails.setMinOptionsToBeRanked(Const.POINTS_NO_VALUE);
@@ -92,7 +92,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         InstructorAttributes receiver = testData.instructors.get("instructor");
         InstructorAttributes receiver2 = testData.instructors.get("instructor2");
         feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
-                (FeedbackRankQuestionDetails) question.getQuestionDetails());
+                (FeedbackRankQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();

@@ -583,12 +583,12 @@ public final class FeedbackQuestionsLogic {
 
         if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MCQ) {
             FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
-                    (FeedbackMcqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+                    (FeedbackMcqQuestionDetails) feedbackQuestionAttributes.getQuestionDetailsCopy();
             optionList = feedbackMcqQuestionDetails.getMcqChoices();
             generateOptionsFor = feedbackMcqQuestionDetails.getGenerateOptionsFor();
         } else if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MSQ) {
             FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
-                    (FeedbackMsqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+                    (FeedbackMsqQuestionDetails) feedbackQuestionAttributes.getQuestionDetailsCopy();
             optionList = feedbackMsqQuestionDetails.getMsqChoices();
             generateOptionsFor = feedbackMsqQuestionDetails.getGenerateOptionsFor();
         } else {
@@ -664,12 +664,12 @@ public final class FeedbackQuestionsLogic {
 
         if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MCQ) {
             FeedbackMcqQuestionDetails feedbackMcqQuestionDetails =
-                    (FeedbackMcqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+                    (FeedbackMcqQuestionDetails) feedbackQuestionAttributes.getQuestionDetailsCopy();
             feedbackMcqQuestionDetails.setMcqChoices(optionList);
             feedbackQuestionAttributes.setQuestionDetails(feedbackMcqQuestionDetails);
         } else if (feedbackQuestionAttributes.getQuestionType() == FeedbackQuestionType.MSQ) {
             FeedbackMsqQuestionDetails feedbackMsqQuestionDetails =
-                    (FeedbackMsqQuestionDetails) feedbackQuestionAttributes.getQuestionDetails();
+                    (FeedbackMsqQuestionDetails) feedbackQuestionAttributes.getQuestionDetailsCopy();
             feedbackMsqQuestionDetails.setMsqChoices(optionList);
             feedbackQuestionAttributes.setQuestionDetails(feedbackMsqQuestionDetails);
         }

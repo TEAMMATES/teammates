@@ -78,7 +78,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         questionToCopy.courseId = course.getId();
         questionToCopy.feedbackSessionName = feedbackSession.getFeedbackSessionName();
         questionToCopy.questionNumber = 2;
-        feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetails().getQuestionText());
+        feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetailsCopy().getQuestionText());
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
         feedbackEditPage.verifyNumQuestions(2);
@@ -99,7 +99,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         ______TS("edit question");
         FeedbackQuestionAttributes editedQuestion = getTemplateQuestion();
         editedQuestion.setQuestionNumber(1);
-        String questionBrief = editedQuestion.getQuestionDetails().getQuestionText();
+        String questionBrief = editedQuestion.getQuestionDetailsCopy().getQuestionText();
         editedQuestion.setQuestionDetails(new FeedbackTextQuestionDetails(questionBrief));
         editedQuestion.setQuestionDescription("<p><em>New Description</em></p>");
         feedbackEditPage.editQuestionDetails(1, editedQuestion);

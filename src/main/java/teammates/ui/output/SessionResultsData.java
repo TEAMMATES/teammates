@@ -49,7 +49,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((questionId, responses) -> {
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
-            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, null, bundle));
             // put normal responses
@@ -79,7 +79,7 @@ public class SessionResultsData extends ApiOutput {
 
         questionsWithResponses.forEach((questionId, responses) -> {
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
-            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, student.getEmail(), bundle));
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();

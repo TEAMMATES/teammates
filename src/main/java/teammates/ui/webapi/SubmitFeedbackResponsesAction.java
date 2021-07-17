@@ -187,7 +187,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         }
 
         List<String> questionSpecificErrors =
-                feedbackQuestion.getQuestionDetails()
+                feedbackQuestion.getQuestionDetailsCopy()
                         .validateResponsesDetails(responseDetails, numRecipients);
 
         if (!questionSpecificErrors.isEmpty()) {

@@ -69,7 +69,7 @@ public class FeedbackSubmitPage extends AppPage {
     }
 
     public void verifyQuestionDetails(int qnNumber, FeedbackQuestionAttributes questionAttributes) {
-        assertEquals(getQuestionBrief(qnNumber), questionAttributes.getQuestionDetails().getQuestionText());
+        assertEquals(getQuestionBrief(qnNumber), questionAttributes.getQuestionDetailsCopy().getQuestionText());
         verifyVisibilityList(qnNumber, questionAttributes);
         if (questionAttributes.getQuestionDescription() != null) {
             assertEquals(getQuestionDescription(qnNumber), questionAttributes.getQuestionDescription());

@@ -66,7 +66,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getId(), feedbackQuestionAttributes.getId());
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionDetails().getQuestionText());
+        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionDetailsCopy().getQuestionText());
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
@@ -104,7 +104,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getId(), feedbackQuestionAttributes.getId());
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionDetails().getQuestionText());
+        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionDetailsCopy().getQuestionText());
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
@@ -322,7 +322,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
         assertEquals(feedbackSession, feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(courseId, feedbackQuestionAttributes.getCourseId());
-        assertEquals(JsonUtils.toJson(questionDetails), JsonUtils.toJson(feedbackQuestionAttributes.getQuestionDetails()));
+        assertEquals(JsonUtils.toJson(questionDetails), JsonUtils.toJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
         assertEquals(questionDescription, feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(questionNumber, feedbackQuestionAttributes.getQuestionNumber());
         assertEquals(numOfEntities, feedbackQuestionAttributes.getNumberOfEntitiesToGiveFeedbackTo());
@@ -486,12 +486,12 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         fq.setQuestionDetails(questionDetails);
 
         assertTrue(fq.isValid());
-        assertEquals(fq.getQuestionDetails().getQuestionText(), "New format text question");
+        assertEquals(fq.getQuestionDetailsCopy().getQuestionText(), "New format text question");
 
         ______TS("Text question: old string format");
 
         fq = typicalBundle.feedbackQuestions.get("qn2InSession1InCourse1");
-        assertEquals(fq.getQuestionDetails().getQuestionText(), "Rate 1 other student's product");
+        assertEquals(fq.getQuestionDetailsCopy().getQuestionText(), "Rate 1 other student's product");
     }
 
     @Test
@@ -647,7 +647,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     @Test
     public void testGetQuestionDetails_shouldDoDeepCopy() {
         FeedbackQuestionAttributes fqa = getNewFeedbackQuestionAttributes();
-        FeedbackQuestionDetails details = fqa.getQuestionDetails();
+        FeedbackQuestionDetails details = fqa.getQuestionDetailsCopy();
         fqa.questionDetails.setQuestionText("updated question");
 
         assertEquals("Question text.", details.getQuestionText());
@@ -702,7 +702,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals("courseId", questionAttributes.getCourseId());
         assertEquals("session", questionAttributes.getFeedbackSessionName());
         assertEquals(FeedbackQuestionType.TEXT, questionAttributes.getQuestionType());
-        assertEquals("question text", questionAttributes.getQuestionDetails().getQuestionText());
+        assertEquals("question text", questionAttributes.getQuestionDetailsCopy().getQuestionText());
         assertEquals("description", questionAttributes.getQuestionDescription());
         assertEquals(2, questionAttributes.getQuestionNumber());
         assertEquals(FeedbackParticipantType.STUDENTS, questionAttributes.getGiverType());
@@ -741,7 +741,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals("courseId", questionAttributes.getCourseId());
         assertEquals("session", questionAttributes.getFeedbackSessionName());
         assertEquals(FeedbackQuestionType.TEXT, questionAttributes.getQuestionType());
-        assertEquals("question text", questionAttributes.getQuestionDetails().getQuestionText());
+        assertEquals("question text", questionAttributes.getQuestionDetailsCopy().getQuestionText());
         assertEquals(1, questionAttributes.getQuestionNumber());
         assertEquals(FeedbackParticipantType.INSTRUCTORS, questionAttributes.getGiverType());
         assertEquals(FeedbackParticipantType.SELF, questionAttributes.getRecipientType());

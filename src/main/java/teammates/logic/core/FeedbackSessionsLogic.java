@@ -676,7 +676,7 @@ public final class FeedbackSessionsLogic {
         // first get all possible giver recipient pairs
         Map<String, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
         for (FeedbackQuestionAttributes feedbackQuestion : relatedQuestionsMap.values()) {
-            if (feedbackQuestion.getQuestionDetails().shouldGenerateMissingResponses(feedbackQuestion)) {
+            if (feedbackQuestion.getQuestionDetailsCopy().shouldGenerateMissingResponses(feedbackQuestion)) {
                 questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(),
                         fqLogic.buildCompleteGiverRecipientMap(feedbackSession, feedbackQuestion, courseRoster));
             } else {

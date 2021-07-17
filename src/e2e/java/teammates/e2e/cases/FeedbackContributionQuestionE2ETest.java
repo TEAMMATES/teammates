@@ -46,7 +46,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
         FeedbackContributionQuestionDetails questionDetails =
-                (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetails();
+                (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyContributionQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -59,9 +59,9 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackContributionQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackContributionQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
         copiedQuestion.courseId = course.getId();
         copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
         copiedQuestion.setQuestionNumber(3);
@@ -70,7 +70,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackContributionQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setNotSureAllowed(false);
         loadedQuestion.questionDetails = questionDetails;
         feedbackEditPage.editContributionQuestion(2, questionDetails);
@@ -89,7 +89,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         StudentAttributes receiver = testData.students.get("benny.tmms@FContrQn.CS2104");
         StudentAttributes receiver2 = testData.students.get("charlie.tmms@FContrQn.CS2104");
         feedbackSubmitPage.verifyContributionQuestion(1,
-                (FeedbackContributionQuestionDetails) question.getQuestionDetails());
+                (FeedbackContributionQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();

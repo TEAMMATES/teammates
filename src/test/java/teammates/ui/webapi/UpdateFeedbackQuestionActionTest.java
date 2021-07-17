@@ -70,8 +70,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(typicalQuestion.getQuestionNumber(), response.getQuestionNumber());
         assertEquals(2, typicalQuestion.getQuestionNumber());
 
-        assertEquals(typicalQuestion.getQuestionDetails().getQuestionText(), response.getQuestionBrief());
-        assertEquals("this is the brief", typicalQuestion.getQuestionDetails().getQuestionText());
+        assertEquals(typicalQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
+        assertEquals("this is the brief", typicalQuestion.getQuestionDetailsCopy().getQuestionText());
 
         assertEquals(typicalQuestion.getQuestionDescription(), response.getQuestionDescription());
         assertEquals("this is the description", typicalQuestion.getQuestionDescription());
@@ -79,10 +79,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(typicalQuestion.getQuestionType(), response.getQuestionType());
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
-        assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetails()),
+        assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetailsCopy()),
                 JsonUtils.toJson(response.getQuestionDetails()));
         assertEquals(800, ((FeedbackTextQuestionDetails)
-                typicalQuestion.getQuestionDetails()).getRecommendedLength().intValue());
+                typicalQuestion.getQuestionDetailsCopy()).getRecommendedLength().intValue());
 
         assertEquals(typicalQuestion.getGiverType(), typicalQuestion.getGiverType());
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -215,7 +215,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setQuestionNumber(fq.getQuestionNumber());
         updateRequest.setGiverType(fq.getGiverType());
         updateRequest.setRecipientType(fq.getRecipientType());
-        updateRequest.setQuestionDetails(fq.getQuestionDetails());
+        updateRequest.setQuestionDetails(fq.getQuestionDetailsCopy());
 
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
@@ -292,7 +292,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
 
         // recommended length does not change
-        assertNull(((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetails()).getRecommendedLength());
+        assertNull(((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetailsCopy()).getRecommendedLength());
     }
 
     @Test

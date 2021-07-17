@@ -279,7 +279,7 @@ public class StudentFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     private void verifyExpectedRubricStats() {
         FeedbackRubricQuestionDetails rubricsQnDetails =
-                (FeedbackRubricQuestionDetails) testData.feedbackQuestions.get("qn10").getQuestionDetails();
+                (FeedbackRubricQuestionDetails) testData.feedbackQuestions.get("qn10").getQuestionDetailsCopy();
         List<String> subQns = rubricsQnDetails.getRubricSubQuestions();
         String[] formattedSubQns = { "a) " + subQns.get(0), "b) " + subQns.get(1), "c) " + subQns.get(2) };
 

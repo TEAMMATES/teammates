@@ -275,7 +275,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private void verifyQuestionText(WebElement questionPanel, FeedbackQuestionAttributes question) {
-        assertEquals(question.getQuestionDetails().getQuestionText(), getQuestionText(questionPanel));
+        assertEquals(question.getQuestionDetailsCopy().getQuestionText(), getQuestionText(questionPanel));
     }
 
     private void verifyGroupedResponses(FeedbackQuestionAttributes question, WebElement userPanel, String userName,
@@ -662,7 +662,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String[][] getMcqResponseSummary(FeedbackQuestionAttributes question) {
-        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetails();
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy();
         List<String> choices = questionDetails.getMcqChoices();
         List<Double> weights = questionDetails.getMcqWeights();
         Double otherWeight = questionDetails.getMcqOtherWeight();
@@ -711,13 +711,13 @@ public class InstructorFeedbackResultsPage extends AppPage {
         case MSQ:
             return response.getAnswerString().replace(", ", System.lineSeparator());
         case RUBRIC:
-            return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetails(),
+            return getRubricAnsString((FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRubricResponseDetails) response);
         case RANK_OPTIONS:
-            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetails(),
+            return getRankOptionsAnsString((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackRankOptionsResponseDetails) response);
         case CONSTSUM:
-            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetails(),
+            return getConstSumOptionsAnsString((FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy(),
                     (FeedbackConstantSumResponseDetails) response);
         case CONTRIB:
             return getContribAnsString((FeedbackContributionResponseDetails) response);

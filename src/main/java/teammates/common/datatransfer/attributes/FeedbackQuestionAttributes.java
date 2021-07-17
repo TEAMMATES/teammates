@@ -106,7 +106,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         faq.feedbackSessionName = this.feedbackSessionName;
         faq.courseId = this.courseId;
-        faq.questionDetails = this.getQuestionDetails();
+        faq.questionDetails = this.getQuestionDetailsCopy();
         faq.questionDescription = this.questionDescription;
         faq.questionNumber = this.questionNumber;
         faq.giverType = this.giverType;
@@ -174,7 +174,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return true;
         }
 
-        return this.getQuestionDetails().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetails());
+        return this.getQuestionDetailsCopy().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetailsCopy());
     }
 
     @Override
@@ -372,7 +372,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.questionDetails = newQuestionDetails.getDeepCopy();
     }
 
-    public FeedbackQuestionDetails getQuestionDetails() {
+    public FeedbackQuestionDetails getQuestionDetailsCopy() {
         return questionDetails.getDeepCopy();
     }
 
