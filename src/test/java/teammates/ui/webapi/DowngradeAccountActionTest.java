@@ -49,7 +49,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         assertEquals("Instructor account is successfully downgraded to student.", response.getMessage());
-        assertFalse(logic.getAccount(instructor1ofCourse1.getGoogleId()).isInstructor);
+        assertFalse(logic.getAccount(instructor1ofCourse1.getGoogleId()).isInstructor());
 
         ______TS("Failure: Downgrades an invalid account");
 

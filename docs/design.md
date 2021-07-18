@@ -185,7 +185,7 @@ The `Storage` component performs CRUD (Create, Read, Update, Delete) operations 
 It contains minimal logic beyond what is directly relevant to CRUD operations.
 In particular, it is reponsible for:
 - Validating data inside entities before creating/updating them, to ensure they are in a valid state.
-- Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
+- Hiding the complexities of the database from the `Logic` component. 
 - Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
   - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
 
@@ -205,7 +205,7 @@ This is because we want to keep the data schema flexible so that new entity type
 
 ### Storage API
 
-Represented by the `*Db` classes. These classes act as the bridge to the Google Cloud Datastore.
+Represented by the `*Db` classes. These classes act as the bridge to the database.
 
 ### Policies
 

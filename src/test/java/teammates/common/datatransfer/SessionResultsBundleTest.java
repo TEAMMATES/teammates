@@ -21,6 +21,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testGetQuestionResponseMap() {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
+        populateQuestionAndResponseIds(responseBundle);
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
@@ -53,6 +54,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
     @Test
     public void testGetQuestionMissingResponseMap() {
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
+        populateQuestionAndResponseIds(responseBundle);
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
@@ -87,6 +89,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
     public void testIsResponseGiverRecipientVisible_typicalCase_shouldReturnCorrectValues() {
 
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
+        populateQuestionAndResponseIds(responseBundle);
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 
@@ -125,6 +128,7 @@ public class SessionResultsBundleTest extends BaseTestCase {
     public void testIsCommentGiverVisible_typicalCase_shouldReturnCorrectValues() {
 
         DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsBundleTest.json");
+        populateQuestionAndResponseIds(responseBundle);
 
         FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
 

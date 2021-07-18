@@ -32,7 +32,7 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
 
     @Override
     InstructorSearchDocument createDocument(InstructorAttributes instructor) {
-        CourseAttributes course = coursesDb.getCourse(instructor.courseId);
+        CourseAttributes course = coursesDb.getCourse(instructor.getCourseId());
         return new InstructorSearchDocument(instructor, course);
     }
 
@@ -45,10 +45,10 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
 
     @Override
     void sortResult(List<InstructorAttributes> result) {
-        result.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.courseId)
-                .thenComparing(instructor -> instructor.role)
-                .thenComparing(instructor -> instructor.name)
-                .thenComparing(instructor -> instructor.email));
+        result.sort(Comparator.comparing((InstructorAttributes instructor) -> instructor.getCourseId())
+                .thenComparing(instructor -> instructor.getRole())
+                .thenComparing(instructor -> instructor.getName())
+                .thenComparing(instructor -> instructor.getEmail()));
     }
 
     /**

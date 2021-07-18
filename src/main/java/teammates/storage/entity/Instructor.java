@@ -123,7 +123,7 @@ public class Instructor extends BaseEntity {
     public boolean getIsArchived() {
         if (isArchived == null) {
             // the legacy data corresponding to isArchived is stored as a null value (not a missing value)
-            // in the datastore
+            // in the database
             return false;
         }
         return isArchived;

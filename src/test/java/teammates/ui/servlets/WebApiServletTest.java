@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.util.Collections;
 import java.util.HashMap;

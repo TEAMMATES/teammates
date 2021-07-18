@@ -30,7 +30,7 @@ class CreateCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         CourseCreateRequest courseCreateRequest = getAndValidateRequestBody(CourseCreateRequest.class);
 
         String newCourseTimeZone = courseCreateRequest.getTimeZone();

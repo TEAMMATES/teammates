@@ -49,8 +49,8 @@ public class AccountAttributesTest extends BaseAttributesTest {
     @Test
     public void testToEntity() {
         AccountAttributes account = createValidAccountAttributesObject();
-        Account expectedAccount = new Account(account.googleId, account.name,
-                account.isInstructor, account.email, account.institute);
+        Account expectedAccount = new Account(account.getGoogleId(), account.getName(),
+                account.isInstructor(), account.getEmail(), account.getInstitute());
 
         Account actualAccount = account.toEntity();
 
@@ -78,10 +78,10 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes expectedAccount = createAccountAttributesToSanitize();
         actualAccount.sanitizeForSaving();
 
-        assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.googleId), actualAccount.googleId);
-        assertEquals(SanitizationHelper.sanitizeName(expectedAccount.name), actualAccount.name);
-        assertEquals(SanitizationHelper.sanitizeEmail(expectedAccount.email), actualAccount.email);
-        assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.institute), actualAccount.institute);
+        assertEquals(SanitizationHelper.sanitizeGoogleId(expectedAccount.getGoogleId()), actualAccount.getGoogleId());
+        assertEquals(SanitizationHelper.sanitizeName(expectedAccount.getName()), actualAccount.getName());
+        assertEquals(SanitizationHelper.sanitizeEmail(expectedAccount.getEmail()), actualAccount.getEmail());
+        assertEquals(SanitizationHelper.sanitizeTitle(expectedAccount.getInstitute()), actualAccount.getInstitute());
     }
 
     @Test
@@ -160,7 +160,7 @@ public class AccountAttributesTest extends BaseAttributesTest {
         assertEquals(genericAccount.isInstructor(), observedAccountAttributes.isInstructor());
         assertEquals(genericAccount.getEmail(), observedAccountAttributes.getEmail());
         assertEquals(genericAccount.getInstitute(), observedAccountAttributes.getInstitute());
-        assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.createdAt);
+        assertEquals(genericAccount.getCreatedAt(), observedAccountAttributes.getCreatedAt());
     }
 
     @Test
@@ -170,12 +170,12 @@ public class AccountAttributesTest extends BaseAttributesTest {
         AccountAttributes copy = account.getCopy();
 
         assertNotSame(account, copy);
-        assertFalse(account.isInstructor);
+        assertFalse(account.isInstructor());
 
-        assertEquals(account.googleId, copy.googleId);
-        assertEquals(account.name, copy.name);
-        assertEquals(account.institute, copy.institute);
-        assertEquals(account.email, copy.email);
+        assertEquals(account.getGoogleId(), copy.getGoogleId());
+        assertEquals(account.getName(), copy.getName());
+        assertEquals(account.getInstitute(), copy.getInstitute());
+        assertEquals(account.getEmail(), copy.getEmail());
     }
 
     @Test

@@ -19,6 +19,7 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
   pointsPerOption: Record<string, number[]> = {};
   totalPointsPerOption: Record<string, number> = {};
   averagePointsPerOption: Record<string, number> = {};
+  averagePointsExcludingSelf: Record<string, number> = {};
 
   constructor(question: FeedbackConstantSumQuestionDetails) {
     super(question);
@@ -30,6 +31,9 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
     this.pointsPerOption = {};
     this.totalPointsPerOption = {};
     this.averagePointsPerOption = {};
+    this.averagePointsExcludingSelf = {};
+
+    const pointsPerOptionToSelf: Record<string, number> = {};
 
     const isRecipientTeam: boolean = this.recipientType === FeedbackParticipantType.TEAMS
         || this.recipientType === FeedbackParticipantType.TEAMS_EXCLUDING_SELF;
@@ -39,6 +43,10 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
 
       this.pointsPerOption[identifier] = this.pointsPerOption[identifier] || [];
       this.pointsPerOption[identifier].push(response.responseDetails.answers[0]);
+
+      if (response.giver === response.recipient) {
+        pointsPerOptionToSelf[identifier] = response.responseDetails.answers[0];
+      }
 
       if (!this.emailToTeamName[identifier]) {
         this.emailToTeamName[identifier] = isRecipientTeam ? '' : response.recipientTeam;
@@ -54,7 +62,13 @@ export class ConstsumRecipientsQuestionStatisticsCalculation
       const sum: number = answers.reduce((a: number, b: number) => a + b, 0);
       this.totalPointsPerOption[recipient] = sum;
       this.averagePointsPerOption[recipient] = +(answers.length === 0 ? 0 : sum / answers.length).toFixed(2);
+      this.averagePointsExcludingSelf[recipient] = this.averagePointsPerOption[recipient];
+      if (this.averagePointsPerOption[recipient] && pointsPerOptionToSelf[recipient] !== undefined) {
+        this.averagePointsExcludingSelf[recipient] =
+            +(answers.length === 1 ? 0 : (sum - pointsPerOptionToSelf[recipient]) / (answers.length - 1)).toFixed(2);
+      }
     }
+
   }
 
 }
