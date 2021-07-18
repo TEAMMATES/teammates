@@ -55,7 +55,7 @@ class JoinCourseAction extends Action {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        sendJoinEmail(student.course, student.name, student.email, false);
+        sendJoinEmail(student.getCourse(), student.getName(), student.getEmail(), false);
 
         return new JsonResult("Student successfully joined course", HttpStatus.SC_OK);
     }
@@ -73,7 +73,7 @@ class JoinCourseAction extends Action {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        sendJoinEmail(instructor.courseId, instructor.name, instructor.email, true);
+        sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
 
         return new JsonResult("Instructor successfully joined course", HttpStatus.SC_OK);
     }

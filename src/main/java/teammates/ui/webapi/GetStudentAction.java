@@ -43,7 +43,7 @@ class GetStudentAction extends Action {
             }
 
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
-            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.section,
+            gateKeeper.verifyAccessible(instructor, logic.getCourse(courseId), student.getSection(),
                     Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS);
         } else if (regKey != null) {
             getUnregisteredStudent().orElseThrow(() -> new UnauthorizedAccessException(UNAUTHORIZED_ACCESS));
@@ -83,7 +83,7 @@ class GetStudentAction extends Action {
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
             studentData.setKey(StringHelper.encrypt(student.getKey()));
-            studentData.setGoogleId(student.googleId);
+            studentData.setGoogleId(student.getGoogleId());
         }
 
         if (studentEmail == null) {

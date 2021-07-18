@@ -55,12 +55,12 @@ class DeleteInstructorAction extends Action {
         }
 
         // Deleting last instructor from the course is not allowed if you're not the admin
-        if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.email)) {
+        if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.getEmail())) {
             return new JsonResult("The instructor you are trying to delete is the last instructor in the course. "
                     + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
         }
 
-        logic.deleteInstructorCascade(courseId, instructor.email);
+        logic.deleteInstructorCascade(courseId, instructor.getEmail());
 
         return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
     }

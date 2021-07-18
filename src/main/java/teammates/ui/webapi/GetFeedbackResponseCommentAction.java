@@ -42,7 +42,7 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         if (feedbackResponseAttributes == null) {
             throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
         }
-        String courseId = feedbackResponseAttributes.courseId;
+        String courseId = feedbackResponseAttributes.getCourseId();
         FeedbackSessionAttributes feedbackSession =
                 getNonNullFeedbackSession(feedbackResponseAttributes.getFeedbackSessionName(),
                         feedbackResponseAttributes.getCourseId());

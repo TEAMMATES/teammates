@@ -255,7 +255,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcSession",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");

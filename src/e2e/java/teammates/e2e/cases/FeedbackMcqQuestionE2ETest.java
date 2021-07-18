@@ -44,7 +44,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
-        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) loadedQuestion.getQuestionDetails();
+        FeedbackMcqQuestionDetails questionDetails = (FeedbackMcqQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyMcqQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -57,18 +57,18 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackMcqQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackMcqQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyMcqQuestionDetails(3, questionDetails);
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackMcqQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackMcqQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setHasAssignedWeights(false);
         questionDetails.setMcqWeights(new ArrayList<>());
         questionDetails.setOtherEnabled(false);
@@ -77,7 +77,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         List<String> choices = questionDetails.getMcqChoices();
         choices.add("Edited choice");
         questionDetails.setMcqChoices(choices);
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editMcqQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 
@@ -92,7 +92,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         ______TS("verify loaded question");
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         feedbackSubmitPage.verifyMcqQuestion(1, "",
-                (FeedbackMcqQuestionDetails) question.getQuestionDetails());
+                (FeedbackMcqQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("verify question with generated options");
         feedbackSubmitPage.verifyGeneratedMcqQuestion(3, "", getGeneratedStudentOptions());
@@ -119,7 +119,7 @@ public class FeedbackMcqQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
     private List<String> getGeneratedStudentOptions() {
         return testData.students.values().stream()
-                .filter(s -> s.getCourse().equals(student.course))
+                .filter(s -> s.getCourse().equals(student.getCourse()))
                 .map(s -> s.getName() + " (" + s.getTeam() + ")")
                 .collect(Collectors.toList());
     }

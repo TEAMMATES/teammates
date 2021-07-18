@@ -20,7 +20,7 @@ class SearchInstructorsAction extends AdminOnlyAction {
         if (googleId != null) {
             AccountAttributes account = logic.getAccount(googleId);
             if (account != null) {
-                return StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                return StringHelper.isEmpty(account.getInstitute()) ? "None" : account.getInstitute();
             }
         }
         return null;

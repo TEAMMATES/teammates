@@ -730,7 +730,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.getEmail()));
     }
 
     private void testIsFeedbackSessionCompletedByStudent() {
@@ -740,7 +740,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail()));
     }
 
     private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
@@ -759,11 +759,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("success case: fully done by student 1");
         assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                                                                    student1OfCourse1.email));
+                student1OfCourse1.getEmail()));
 
         ______TS("success case: partially done by student 3");
         assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                                                                     student3OfCourse1.email));
+                student3OfCourse1.getEmail()));
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
@@ -781,9 +781,9 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     private FeedbackQuestionAttributes getQuestionFromDatabase(String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(
-                questionToGet.feedbackSessionName,
-                questionToGet.courseId,
-                questionToGet.questionNumber);
+                questionToGet.getFeedbackSessionName(),
+                questionToGet.getCourseId(),
+                questionToGet.getQuestionNumber());
 
         return questionToGet;
     }
@@ -798,16 +798,16 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         String questionId = null;
         try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+            int qnNumber = Integer.parseInt(response.getFeedbackQuestionId());
             questionId = fqLogic.getFeedbackQuestion(
-                        response.feedbackSessionName, response.courseId,
+                    response.getFeedbackSessionName(), response.getCourseId(),
                         qnNumber).getId();
         } catch (NumberFormatException e) {
-            questionId = response.feedbackQuestionId;
+            questionId = response.getFeedbackQuestionId();
         }
 
         return frLogic.getFeedbackResponse(questionId,
-                response.giver, response.recipient);
+                response.getGiver(), response.getRecipient());
     }
 
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
@@ -1173,7 +1173,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withCourseId("nullCourse")
                         .withGiverSection("Section 1")
                         .withRecipientSection("Section 1")
-                        .withResponseDetails(existingResponse.getResponseDetails())
+                        .withResponseDetails(existingResponse.getResponseDetailsCopy())
                         .build();
         frLogic.createFeedbackResponse(newResponse);
         StudentAttributes student = dataBundle.students.get("student2InCourse1");

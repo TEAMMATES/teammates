@@ -144,8 +144,8 @@ public final class CoursesLogic {
 
         Set<String> sectionNameSet = new HashSet<>();
         for (StudentAttributes sd : studentDataList) {
-            if (!sd.section.equals(Const.DEFAULT_SECTION)) {
-                sectionNameSet.add(sd.section);
+            if (!sd.getSection().equals(Const.DEFAULT_SECTION)) {
+                sectionNameSet.add(sd.getSection());
             }
         }
 
@@ -184,7 +184,7 @@ public final class CoursesLogic {
         List<StudentAttributes> studentDataList = studentsLogic.getStudentsForGoogleId(googleId);
 
         List<String> courseIds = studentDataList.stream()
-                .filter(student -> !getCourse(student.course).isCourseDeleted())
+                .filter(student -> !getCourse(student.getCourse()).isCourseDeleted())
                 .map(StudentAttributes::getCourse)
                 .collect(Collectors.toList());
 
@@ -199,7 +199,7 @@ public final class CoursesLogic {
         assert instructorList != null;
 
         List<String> courseIdList = instructorList.stream()
-                .filter(instructor -> !coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 
@@ -224,7 +224,7 @@ public final class CoursesLogic {
         assert instructorList != null;
 
         List<String> softDeletedCourseIdList = instructorList.stream()
-                .filter(instructor -> coursesDb.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> coursesDb.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .map(InstructorAttributes::getCourseId)
                 .collect(Collectors.toList());
 

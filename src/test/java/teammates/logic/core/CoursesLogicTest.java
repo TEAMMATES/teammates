@@ -260,7 +260,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         StudentAttributes studentInTwoCourses = dataBundle.students
                 .get("student2InCourse1");
         List<CourseAttributes> courseList = coursesLogic
-                .getCoursesForStudentAccount(studentInTwoCourses.googleId);
+                .getCoursesForStudentAccount(studentInTwoCourses.getGoogleId());
         CourseAttributes.sortById(courseList);
         assertEquals(2, courseList.size());
 
@@ -283,7 +283,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         StudentAttributes studentInOneCourse = dataBundle.students
                 .get("student1InCourse1");
-        courseList = coursesLogic.getCoursesForStudentAccount(studentInOneCourse.googleId);
+        courseList = coursesLogic.getCoursesForStudentAccount(studentInOneCourse.getGoogleId());
         assertEquals(1, courseList.size());
         course1 = dataBundle.courses.get("typicalCourse1");
         assertEquals(course1.getId(), courseList.get(0).getId());
@@ -350,7 +350,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 .build();
 
         AssertionError ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
                         CourseAttributes.builder(c.getId())
                                 .withName(c.getName())
                                 .withTimezone(c.getTimeZone())
@@ -361,16 +361,16 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: account doesn't have instructor privileges");
 
-        AccountAttributes a = AccountAttributes.builder(i.googleId)
-                .withName(i.name)
+        AccountAttributes a = AccountAttributes.builder(i.getGoogleId())
+                .withName(i.getName())
                 .withIsInstructor(false)
-                .withEmail(i.email)
+                .withEmail(i.getEmail())
                 .withInstitute("TEAMMATES Test Institute 5")
                 .build();
 
         accountsLogic.createAccount(a);
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
                         CourseAttributes.builder(c.getId())
                                 .withName(c.getName())
                                 .withTimezone(c.getTimeZone())
@@ -381,7 +381,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during course creation");
 
-        accountsLogic.makeAccountInstructor(a.googleId);
+        accountsLogic.makeAccountInstructor(a.getGoogleId());
 
         CourseAttributes invalidCourse = CourseAttributes
                 .builder("invalid id")
@@ -396,7 +396,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                 + "It cannot be longer than 40 characters, cannot be empty and cannot contain spaces.";
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
                         CourseAttributes.builder(invalidCourse.getId())
                                 .withName(invalidCourse.getName())
                                 .withTimezone(invalidCourse.getTimeZone())
@@ -415,7 +415,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         instructorsLogic.createInstructor(i); //create a duplicate instructor
 
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
                         CourseAttributes.builder(courseWithDuplicateInstructor.getId())
                                 .withName(courseWithDuplicateInstructor.getName())
                                 .withTimezone(courseWithDuplicateInstructor.getTimeZone())
@@ -427,10 +427,10 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("fails: error during instructor creation due to invalid parameters");
 
-        i.email = "ins.for.iccai.gmail.tmt";
+        i.setEmail("ins.for.iccai.gmail.tmt");
 
         ae = assertThrows(AssertionError.class,
-                () -> coursesLogic.createCourseAndInstructor(i.googleId,
+                () -> coursesLogic.createCourseAndInstructor(i.getGoogleId(),
                         CourseAttributes.builder(courseWithDuplicateInstructor.getId())
                                 .withName(courseWithDuplicateInstructor.getName())
                                 .withTimezone(courseWithDuplicateInstructor.getTimeZone())
@@ -442,12 +442,12 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         ______TS("success: typical case");
 
-        i.email = "ins.for.iccai@gmail.tmt";
+        i.setEmail("ins.for.iccai@gmail.tmt");
 
         //remove the duplicate instructor object from the database.
-        instructorsLogic.deleteInstructorCascade(i.courseId, i.email);
+        instructorsLogic.deleteInstructorCascade(i.getCourseId(), i.getEmail());
 
-        coursesLogic.createCourseAndInstructor(i.googleId,
+        coursesLogic.createCourseAndInstructor(i.getGoogleId(),
                 CourseAttributes.builder(courseWithDuplicateInstructor.getId())
                         .withName(courseWithDuplicateInstructor.getName())
                         .withTimezone(courseWithDuplicateInstructor.getTimeZone())
@@ -482,7 +482,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertFalse(course1OfInstructor.isCourseDeleted());
 
         Instant deletedAt = coursesLogic.moveCourseToRecycleBin(course1OfInstructor.getId());
-        course1OfInstructor.deletedAt = deletedAt;
+        course1OfInstructor.setDeletedAt(deletedAt);
 
         // Ensure the course and related entities still exist in database
         verifyPresentInDatabase(course1OfInstructor);
@@ -514,7 +514,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertTrue(course3OfInstructor.isCourseDeleted());
 
         coursesLogic.restoreCourseFromRecycleBin(course3OfInstructor.getId());
-        course3OfInstructor.deletedAt = null;
+        course3OfInstructor.setDeletedAt(null);
 
         // Ensure the course and related entities still exist in database
         verifyPresentInDatabase(course3OfInstructor);
@@ -558,16 +558,16 @@ public class CoursesLogicTest extends BaseLogicTest {
         verifyPresentInDatabase(dataBundle.feedbackQuestions.get("qn1InSession1InCourse1"));
         FeedbackResponseAttributes typicalResponse = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes typicalQuestion =
-                fqLogic.getFeedbackQuestion(typicalResponse.feedbackSessionName, typicalResponse.courseId,
-                        Integer.parseInt(typicalResponse.feedbackQuestionId));
+                fqLogic.getFeedbackQuestion(typicalResponse.getFeedbackSessionName(), typicalResponse.getCourseId(),
+                        Integer.parseInt(typicalResponse.getFeedbackQuestionId()));
         typicalResponse = frLogic
-                .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.giver, typicalResponse.recipient);
+                .getFeedbackResponse(typicalQuestion.getId(), typicalResponse.getGiver(), typicalResponse.getRecipient());
         verifyPresentInDatabase(typicalResponse);
         FeedbackResponseCommentAttributes typicalComment =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
         typicalComment = frcLogic
                 .getFeedbackResponseComment(typicalResponse.getId(),
-                        typicalComment.commentGiver, typicalComment.createdAt);
+                        typicalComment.getCommentGiver(), typicalComment.getCreatedAt());
         verifyPresentInDatabase(typicalComment);
 
         coursesLogic.deleteCourseCascade(course1OfInstructor.getId());

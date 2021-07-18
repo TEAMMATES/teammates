@@ -116,7 +116,7 @@ public final class InstructorsLogic {
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
-        instructorReturnList.sort(InstructorAttributes.COMPARE_BY_NAME);
+        InstructorAttributes.sortByName(instructorReturnList);
 
         return instructorReturnList;
     }
@@ -168,18 +168,18 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
 
-        if (!originalInstructor.email.equals(updatedInstructor.email)) {
+        if (!originalInstructor.getEmail().equals(updatedInstructor.getEmail())) {
             // cascade responses
             List<FeedbackResponseAttributes> responsesFromUser =
                     frLogic.getFeedbackResponsesFromGiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseFromUser : responsesFromUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.getFeedbackQuestionId());
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.SELF) {
                     try {
@@ -196,7 +196,7 @@ public final class InstructorsLogic {
                     frLogic.getFeedbackResponsesForReceiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseToUser : responsesToUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.getFeedbackQuestionId());
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         && question.getRecipientType() == FeedbackParticipantType.SELF)) {
@@ -212,7 +212,7 @@ public final class InstructorsLogic {
             }
             // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
-                    updatedInstructor.courseId, originalInstructor.email, updatedInstructor.email);
+                    updatedInstructor.getCourseId(), originalInstructor.getEmail(), updatedInstructor.getEmail());
         }
 
         return updatedInstructor;
@@ -240,7 +240,7 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         return instructorsDb.updateInstructorByEmail(updateOptions);
@@ -276,7 +276,7 @@ public final class InstructorsLogic {
 
         // cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.courseId, instructor.email);
+            deleteInstructorCascade(instructor.getCourseId(), instructor.getEmail());
         }
     }
 

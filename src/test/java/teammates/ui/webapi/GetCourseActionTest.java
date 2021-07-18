@@ -39,7 +39,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes expectedCourse = logic.getCourse(instructor1OfCourse1.getCourseId());
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("typical success case for instructor");
 
@@ -59,7 +59,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
         expectedCourse = logic.getCourse(student1OfCourse1.getCourse());
-        loginAsStudent(student1OfCourse1.googleId);
+        loginAsStudent(student1OfCourse1.getGoogleId());
 
         ______TS("typical success case for student");
 
@@ -81,14 +81,14 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1OfCourse1.googleId);
+        loginAsStudent(student1OfCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
     }
@@ -96,12 +96,12 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     @Test
     protected void testExecute_nonExistentCourse_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         testNonExistentCourse();
 
         StudentAttributes student1OfCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1OfCourse1.googleId);
+        loginAsStudent(student1OfCourse1.getGoogleId());
 
         testNonExistentCourse();
     }
@@ -190,11 +190,11 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
         StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
         logic.updateStudentCascade(
-                StudentAttributes.updateOptionsBuilder(student1InCourse2.getCourse(), student1InCourse2.email)
-                        .withGoogleId(instructor1OfCourse1.googleId)
+                StudentAttributes.updateOptionsBuilder(student1InCourse2.getCourse(), student1InCourse2.getEmail())
+                        .withGoogleId(instructor1OfCourse1.getGoogleId())
                         .build());
 
-        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        loginAsStudentInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("StudentInstructor can access course with only instructor privileges");
 

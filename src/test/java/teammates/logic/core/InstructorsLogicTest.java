@@ -67,7 +67,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String name = "New Instructor";
         String email = "ILT.instr@email.tmt";
         String role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        String displayedName = InstructorAttributes.DEFAULT_DISPLAY_NAME;
+        String displayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         InstructorPrivileges privileges =
                 new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instr = InstructorAttributes.builder(courseId, email)
@@ -87,13 +87,13 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 () -> instructorsLogic.createInstructor(instr));
         AssertHelper.assertContains("Trying to create an entity that exists", ednee.getMessage());
 
-        instructorsLogic.deleteInstructorCascade(instr.courseId, instr.email);
+        instructorsLogic.deleteInstructorCascade(instr.getCourseId(), instr.getEmail());
 
         ______TS("failure: invalid parameter");
 
-        instr.email = "invalidEmail.tmt";
+        instr.setEmail("invalidEmail.tmt");
         String expectedError =
-                "\"" + instr.email + "\" is not acceptable to TEAMMATES as a/an email "
+                "\"" + instr.getEmail() + "\" is not acceptable to TEAMMATES as a/an email "
                 + "because it is not in the correct format. An email address contains "
                 + "some text followed by one '@' sign followed by some more text, "
                 + "and should end with a top level domain address like .com. "
@@ -121,10 +121,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         InstructorAttributes instr = instructorsLogic.getInstructorForEmail(courseId, email);
 
-        assertEquals(courseId, instr.courseId);
-        assertEquals(email, instr.email);
-        assertEquals("idOfInstructor1OfCourse1", instr.googleId);
-        assertEquals("Instructor1 Course1", instr.name);
+        assertEquals(courseId, instr.getCourseId());
+        assertEquals(email, instr.getEmail());
+        assertEquals("idOfInstructor1OfCourse1", instr.getGoogleId());
+        assertEquals("Instructor1 Course1", instr.getName());
 
         ______TS("failure: null parameters");
 
@@ -147,10 +147,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         InstructorAttributes instr = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
 
-        assertEquals(courseId, instr.courseId);
-        assertEquals(googleId, instr.googleId);
-        assertEquals("instructor1@course1.tmt", instr.email);
-        assertEquals("Instructor1 Course1", instr.name);
+        assertEquals(courseId, instr.getCourseId());
+        assertEquals(googleId, instr.getGoogleId());
+        assertEquals("instructor1@course1.tmt", instr.getEmail());
+        assertEquals("Instructor1 Course1", instr.getName());
 
         ______TS("failure: null parameters");
 
@@ -173,13 +173,13 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String email = "instructorNotYetJoined@email.tmt";
 
         InstructorAttributes instr = instructorsDb.getInstructorForEmail(courseId, email);
-        key = instr.key;
+        key = instr.getKey();
 
         InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(key));
 
-        assertEquals(instr.courseId, retrieved.courseId);
-        assertEquals(instr.name, retrieved.name);
-        assertEquals(instr.email, retrieved.email);
+        assertEquals(instr.getCourseId(), retrieved.getCourseId());
+        assertEquals(instr.getName(), retrieved.getName());
+        assertEquals(instr.getEmail(), retrieved.getEmail());
 
         ______TS("failure: null parameter");
         assertThrows(AssertionError.class,
@@ -201,7 +201,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         idMap.put("idOfInstructor3", false);
 
         for (InstructorAttributes i : instructors) {
-            idMap.computeIfPresent(i.googleId, (key, value) -> true);
+            idMap.computeIfPresent(i.getGoogleId(), (key, value) -> true);
         }
 
         assertTrue(idMap.get("idOfInstructor1OfCourse1").booleanValue());
@@ -289,7 +289,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         instructorsLogic.updateInstructorByGoogleIdCascade(
                 InstructorAttributes
                         .updateOptionsWithGoogleIdBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getGoogleId())
                         .withEmail("new@email.tmt")
                         .build());
 
@@ -311,9 +311,9 @@ public class InstructorsLogicTest extends BaseLogicTest {
         assertFalse(commentsGivenByTheInstructor.isEmpty());
 
         // last editor is updated
-        assertTrue(commentsGivenByTheInstructor.stream().anyMatch(c -> "new@email.tmt".equals(c.lastEditorEmail)));
+        assertTrue(commentsGivenByTheInstructor.stream().anyMatch(c -> "new@email.tmt".equals(c.getLastEditorEmail())));
         assertFalse(commentsGivenByTheInstructor.stream()
-                .anyMatch(c -> instructorToBeUpdated.getEmail().equals(c.lastEditorEmail)));
+                .anyMatch(c -> instructorToBeUpdated.getEmail().equals(c.getLastEditorEmail())));
     }
 
     private void testUpdateInstructorByGoogleIdCascade() throws Exception {
@@ -327,15 +327,15 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String googleIdOfVisibleInstructor = "idOfInstructorNotDisplayed1";
 
         InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
-        instructorToBeUpdated.name = "New Name";
-        instructorToBeUpdated.email = "new-email@course1.tmt";
+        instructorToBeUpdated.setName("New Name");
+        instructorToBeUpdated.setEmail("new-email@course1.tmt");
 
         InstructorAttributes updatedInstructor = instructorsLogic.updateInstructorByGoogleIdCascade(
                 InstructorAttributes
                         .updateOptionsWithGoogleIdBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
-                        .withName(instructorToBeUpdated.name)
-                        .withEmail(instructorToBeUpdated.email)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getGoogleId())
+                        .withName(instructorToBeUpdated.getName())
+                        .withEmail(instructorToBeUpdated.getEmail())
                         .build());
 
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForGoogleId(courseId, googleId);
@@ -346,15 +346,15 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         InstructorAttributes nonVisibleInstructorToBeUpdated = instructorsLogic.getInstructorForGoogleId(
                 courseIdWithNoInstructorsDisplayed, googleIdOfNonVisibleInstructor);
-        nonVisibleInstructorToBeUpdated.name = "New Name";
-        nonVisibleInstructorToBeUpdated.email = "new-email@course1.tmt";
+        nonVisibleInstructorToBeUpdated.setName("New Name");
+        nonVisibleInstructorToBeUpdated.setEmail("new-email@course1.tmt");
 
         InstructorAttributes nonVisibleUpdatedInstructor = instructorsLogic.updateInstructorByGoogleIdCascade(
                 InstructorAttributes
                         .updateOptionsWithGoogleIdBuilder(
-                                nonVisibleInstructorToBeUpdated.courseId, nonVisibleInstructorToBeUpdated.googleId)
-                        .withName(nonVisibleInstructorToBeUpdated.name)
-                        .withEmail(nonVisibleInstructorToBeUpdated.email)
+                                nonVisibleInstructorToBeUpdated.getCourseId(), nonVisibleInstructorToBeUpdated.getGoogleId())
+                        .withName(nonVisibleInstructorToBeUpdated.getName())
+                        .withEmail(nonVisibleInstructorToBeUpdated.getEmail())
                         .build());
 
         InstructorAttributes nonVisibleInstructorUpdated = instructorsLogic
@@ -365,12 +365,12 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: instructor doesn't exist");
 
-        instructorsLogic.deleteInstructorCascade(courseId, instructorUpdated.email);
+        instructorsLogic.deleteInstructorCascade(courseId, instructorUpdated.getEmail());
 
         InstructorAttributes.UpdateOptionsWithGoogleId updateOptions =
                 InstructorAttributes
                         .updateOptionsWithGoogleIdBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getGoogleId())
                         .withName("New Name")
                         .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
@@ -380,12 +380,12 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: course doesn't exist");
 
         courseId = "random-course";
-        instructorToBeUpdated.courseId = courseId;
+        instructorToBeUpdated.setCourseId(courseId);
 
         InstructorAttributes.UpdateOptionsWithGoogleId anotherUpdateOptions =
                 InstructorAttributes
                         .updateOptionsWithGoogleIdBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.googleId)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getGoogleId())
                         .withName("New Name")
                         .build();
         ednee = assertThrows(EntityDoesNotExistException.class,
@@ -418,15 +418,15 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String newGoogleId = "newIdForInstructor1";
 
         InstructorAttributes instructorToBeUpdated = instructorsLogic.getInstructorForEmail(courseId, email);
-        instructorToBeUpdated.googleId = newGoogleId;
-        instructorToBeUpdated.name = newName;
+        instructorToBeUpdated.setGoogleId(newGoogleId);
+        instructorToBeUpdated.setName(newName);
 
         InstructorAttributes updatedInstructor = instructorsLogic.updateInstructorByEmail(
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.email)
-                        .withName(instructorToBeUpdated.name)
-                        .withGoogleId(instructorToBeUpdated.googleId)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getEmail())
+                        .withName(instructorToBeUpdated.getName())
+                        .withGoogleId(instructorToBeUpdated.getGoogleId())
                         .build());
 
         InstructorAttributes instructorUpdated = instructorsLogic.getInstructorForEmail(courseId, email);
@@ -435,12 +435,12 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: instructor doesn't belong to course");
 
-        instructorsLogic.deleteInstructorCascade(courseId, instructorToBeUpdated.email);
+        instructorsLogic.deleteInstructorCascade(courseId, instructorToBeUpdated.getEmail());
 
         InstructorAttributes.UpdateOptionsWithEmail updateOptions =
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.email)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getEmail())
                         .withName("New Name")
                         .build();
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
@@ -450,12 +450,12 @@ public class InstructorsLogicTest extends BaseLogicTest {
         ______TS("failure: course doesn't exist");
 
         courseId = "random-course";
-        instructorToBeUpdated.courseId = courseId;
+        instructorToBeUpdated.setCourseId(courseId);
 
         InstructorAttributes.UpdateOptionsWithEmail anotherUpdateOptions =
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(
-                                instructorToBeUpdated.courseId, instructorToBeUpdated.email)
+                                instructorToBeUpdated.getCourseId(), instructorToBeUpdated.getEmail())
                         .withName("New Name")
                         .build();
         ednee = assertThrows(EntityDoesNotExistException.class,
@@ -543,7 +543,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         // this is an archived instructor
         assertTrue(
-                instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived);
+                instructorsLogic.getInstructorForEmail(instructor5.getCourseId(), instructor5.getEmail()).isArchived());
 
         instructorsLogic.deleteInstructorsForGoogleIdCascade(instructor5.getGoogleId());
 
@@ -611,10 +611,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
     }
 
     private void verifySameInstructor(InstructorAttributes instructor1, InstructorAttributes instructor2) {
-        assertEquals(instructor1.googleId, instructor2.googleId);
-        assertEquals(instructor1.courseId, instructor2.courseId);
-        assertEquals(instructor1.name, instructor2.name);
-        assertEquals(instructor1.email, instructor2.email);
+        assertEquals(instructor1.getGoogleId(), instructor2.getGoogleId());
+        assertEquals(instructor1.getCourseId(), instructor2.getCourseId());
+        assertEquals(instructor1.getName(), instructor2.getName());
+        assertEquals(instructor1.getEmail(), instructor2.getEmail());
     }
 
     private void testGetCoOwnersForCourse() {
@@ -633,13 +633,13 @@ public class InstructorsLogicTest extends BaseLogicTest {
             if (!(instructor.getCourseId().equals(courseId) && instructor.hasCoownerPrivileges())) {
                 continue;
             }
-            coOwnersEmailsFromDataBundle.add(instructor.email);
+            coOwnersEmailsFromDataBundle.add(instructor.getEmail());
         }
 
         // Generate ArrayList<String> of emails of all coOwners from instructorsLogic.getCoOwnersForCourse
         List<String> generatedCoOwnersEmails = new ArrayList<>();
         for (InstructorAttributes generatedCoOwner : generatedCoOwners) {
-            generatedCoOwnersEmails.add(generatedCoOwner.email);
+            generatedCoOwnersEmails.add(generatedCoOwner.getEmail());
         }
 
         assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)

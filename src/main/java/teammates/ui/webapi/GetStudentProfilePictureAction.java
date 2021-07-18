@@ -58,16 +58,16 @@ class GetStudentProfilePictureAction extends Action {
                 return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
             }
 
-            if (!StringHelper.isEmpty(student.googleId)) {
-                studentProfile = logic.getStudentProfile(student.googleId);
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
+                studentProfile = logic.getStudentProfile(student.getGoogleId());
             }
         }
 
-        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.googleId)) {
+        if (studentProfile == null || !fileStorage.doesFileExist(studentProfile.getGoogleId())) {
             return new ImageResult();
         }
 
-        byte[] bytes = fileStorage.getContent(studentProfile.googleId);
+        byte[] bytes = fileStorage.getContent(studentProfile.getGoogleId());
         return new ImageResult(bytes);
     }
 }

@@ -42,10 +42,10 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("Feedback response comment is not found"));
         }
 
-        String courseId = frc.courseId;
-        String feedbackResponseId = frc.feedbackResponseId;
+        String courseId = frc.getCourseId();
+        String feedbackResponseId = frc.getFeedbackResponseId();
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        String feedbackSessionName = frc.feedbackSessionName;
+        String feedbackSessionName = frc.getFeedbackSessionName();
         FeedbackSessionAttributes session = getNonNullFeedbackSession(feedbackSessionName, courseId);
         assert response != null;
         String questionId = response.getFeedbackQuestionId();
@@ -89,9 +89,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             if (instructor != null && frc.getCommentGiver().equals(instructor.getEmail())) { // giver, allowed by default
                 return;
             }
-            gateKeeper.verifyAccessible(instructor, session, response.giverSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:
@@ -109,8 +109,8 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("Feedback response comment is not found"));
         }
 
-        String feedbackResponseId = frc.feedbackResponseId;
-        String courseId = frc.courseId;
+        String feedbackResponseId = frc.getFeedbackResponseId();
+        String courseId = frc.getCourseId();
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         assert response != null;
 

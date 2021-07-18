@@ -33,7 +33,7 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(frc.getFeedbackQuestionId());
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
-        String courseId = frc.courseId;
+        String courseId = frc.getCourseId();
 
         switch (intent) {
         case STUDENT_SUBMISSION:
@@ -64,14 +64,14 @@ class DeleteFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
 
-            if (instructor != null && frc.commentGiver.equals(instructor.email)) { // giver, allowed by default
+            if (instructor != null && frc.getCommentGiver().equals(instructor.getEmail())) { // giver, allowed by default
                 return;
             }
 
             FeedbackResponseAttributes response = logic.getFeedbackResponse(frc.getFeedbackResponseId());
-            gateKeeper.verifyAccessible(instructor, session, response.giverSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:

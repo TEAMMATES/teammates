@@ -55,12 +55,12 @@ class CreateFeedbackQuestionAction extends Action {
                 .build();
 
         // validate questions (giver & recipient)
-        String err = attributes.getQuestionDetails().validateGiverRecipientVisibility(attributes);
+        String err = attributes.getQuestionDetailsCopy().validateGiverRecipientVisibility(attributes);
         if (!err.isEmpty()) {
             throw new InvalidHttpRequestBodyException(err);
         }
         // validate questions (question details)
-        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetails();
+        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetailsCopy();
         if (questionDetails instanceof FeedbackMsqQuestionDetails) {
             FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
             int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(

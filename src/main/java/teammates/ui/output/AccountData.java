@@ -20,7 +20,7 @@ public class AccountData extends ApiOutput {
         this.isInstructor = accountInfo.isInstructor();
         this.email = accountInfo.getEmail();
         this.institute = accountInfo.getInstitute();
-        this.createdAtTimeStamp = accountInfo.createdAt.toEpochMilli();
+        this.createdAtTimeStamp = accountInfo.getCreatedAt().toEpochMilli();
     }
 
     public String getInstitute() {

@@ -32,7 +32,7 @@ class ResetAccountAction extends AdminOnlyAction {
                 return new JsonResult("Student does not exist.",
                         HttpStatus.SC_NOT_FOUND);
             }
-            wrongGoogleId = existingStudent.googleId;
+            wrongGoogleId = existingStudent.getGoogleId();
 
             try {
                 logic.resetStudentGoogleId(studentEmail, courseId);
@@ -46,9 +46,9 @@ class ResetAccountAction extends AdminOnlyAction {
                 return new JsonResult("Instructor does not exist.",
                         HttpStatus.SC_NOT_FOUND);
             }
-            wrongGoogleId = existingInstructor.googleId;
+            wrongGoogleId = existingInstructor.getGoogleId();
             AccountAttributes account = logic.getAccount(wrongGoogleId);
-            String institute = account.institute;
+            String institute = account.getInstitute();
 
             try {
                 logic.resetInstructorGoogleId(instructorEmail, courseId);

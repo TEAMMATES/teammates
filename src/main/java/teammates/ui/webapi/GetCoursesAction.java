@@ -82,7 +82,7 @@ class GetCoursesAction extends Action {
         }
 
         Map<String, InstructorAttributes> courseIdToInstructor = new HashMap<>();
-        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.courseId, instructor));
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         CourseAttributes.sortById(courses);
         CoursesData coursesData = new CoursesData(courses);

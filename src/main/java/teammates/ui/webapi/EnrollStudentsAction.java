@@ -76,7 +76,7 @@ class EnrollStudentsAction extends Action {
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
         for (StudentAttributes student : studentsToEnroll) {
             RequestTracer.checkRemainingTime();
-            if (existingStudentsEmail.contains(student.email)) {
+            if (existingStudentsEmail.contains(student.getEmail())) {
                 // The student has been enrolled in the course.
                 StudentAttributes.UpdateOptions updateOptions =
                         StudentAttributes.updateOptionsBuilder(student.getCourse(), student.getEmail())
@@ -91,7 +91,7 @@ class EnrollStudentsAction extends Action {
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
                             exception.getMessage()));
                 }
             } else {
@@ -101,7 +101,7 @@ class EnrollStudentsAction extends Action {
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
                             exception.getMessage()));
                 }
             }

@@ -63,14 +63,14 @@ class UpdateInstructorPrivilegeAction extends Action {
             updateSessionLevelPrivileges(sectionName, sessionName, sessionLevelPrivilegesMap, instructorToUpdate);
         }
 
-        instructorToUpdate.privileges.validatePrivileges();
+        instructorToUpdate.getPrivileges().validatePrivileges();
         updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         try {
             instructorToUpdate = logic.updateInstructor(
                     InstructorAttributes
-                            .updateOptionsWithEmailBuilder(instructorToUpdate.courseId, instructorToUpdate.getEmail())
-                            .withPrivileges(instructorToUpdate.privileges)
+                            .updateOptionsWithEmailBuilder(instructorToUpdate.getCourseId(), instructorToUpdate.getEmail())
+                            .withPrivileges(instructorToUpdate.getPrivileges())
                             .build());
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
@@ -80,12 +80,12 @@ class UpdateInstructorPrivilegeAction extends Action {
 
         InstructorPrivilegeData response = new InstructorPrivilegeData();
 
-        response.constructCourseLevelPrivilege(instructorToUpdate.privileges);
+        response.constructCourseLevelPrivilege(instructorToUpdate.getPrivileges());
 
         if (sessionName != null) {
-            response.constructSessionLevelPrivilege(instructorToUpdate.privileges, sectionName, sessionName);
+            response.constructSessionLevelPrivilege(instructorToUpdate.getPrivileges(), sectionName, sessionName);
         } else if (sectionName != null) {
-            response.constructSectionLevelPrivilege(instructorToUpdate.privileges, sectionName);
+            response.constructSectionLevelPrivilege(instructorToUpdate.getPrivileges(), sectionName);
         }
 
         return new JsonResult(response);
@@ -93,21 +93,21 @@ class UpdateInstructorPrivilegeAction extends Action {
 
     private void updateCourseLevelPrivileges(Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
+            toUpdate.getPrivileges().updatePrivilege(entry.getKey(), entry.getValue());
         }
     }
 
     private void updateSectionLevelPrivileges(
             String sectionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
+            toUpdate.getPrivileges().updatePrivilege(sectionName, entry.getKey(), entry.getValue());
         }
     }
 
     private void updateSessionLevelPrivileges(
             String sectionName, String sessionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.privileges.updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
+            toUpdate.getPrivileges().updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
         }
     }
 
@@ -133,10 +133,10 @@ class UpdateInstructorPrivilegeAction extends Action {
         boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
                 && instrWithModifyInstructorPrivilege != null
                 && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.googleId
-                .equals(instructorToEdit.googleId));
+                || instrWithModifyInstructorPrivilege.getGoogleId()
+                .equals(instructorToEdit.getGoogleId()));
         if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
         }
     }
 }

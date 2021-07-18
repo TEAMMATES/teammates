@@ -66,12 +66,12 @@ public class ProfilesDb extends EntitiesDb<StudentProfile, StudentProfileAttribu
             return newAttributes;
         }
 
-        studentProfile.setShortName(newAttributes.shortName);
-        studentProfile.setEmail(newAttributes.email);
-        studentProfile.setInstitute(newAttributes.institute);
-        studentProfile.setNationality(newAttributes.nationality);
-        studentProfile.setGender(newAttributes.gender.name().toLowerCase());
-        studentProfile.setMoreInfo(newAttributes.moreInfo);
+        studentProfile.setShortName(newAttributes.getShortName());
+        studentProfile.setEmail(newAttributes.getEmail());
+        studentProfile.setInstitute(newAttributes.getInstitute());
+        studentProfile.setNationality(newAttributes.getNationality());
+        studentProfile.setGender(newAttributes.getGender().name().toLowerCase());
+        studentProfile.setMoreInfo(newAttributes.getMoreInfo());
         studentProfile.setModifiedDate(Instant.now());
 
         saveEntity(studentProfile);
