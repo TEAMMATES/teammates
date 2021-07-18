@@ -76,8 +76,8 @@ describe('LogsPageComponent', () => {
     };
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [testLog], nextPageToken: 'testToken' }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

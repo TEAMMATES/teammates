@@ -29,10 +29,8 @@ import {
 import { DEFAULT_INSTRUCTOR_PRIVILEGE } from '../../../types/instructor-privilege';
 import { SortBy, SortOrder } from '../../../types/sort-properties';
 import {
-  DateFormat,
   SessionEditFormMode,
   SessionEditFormModel,
-  TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
 import {
   CopySessionResult,
@@ -265,21 +263,23 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
   addNewSessionHandler(): void {
     this.sessionEditFormModel.isSaving = true;
 
-    const submissionStartTime: number = this.resolveLocalDateTime(
+    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
         this.sessionEditFormModel.timeZone);
-    const submissionEndTime: number = this.resolveLocalDateTime(
+    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
         this.sessionEditFormModel.timeZone);
     let sessionVisibleTime: number = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
-          this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone);
+      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
+          this.sessionEditFormModel.timeZone);
     }
     let responseVisibleTime: number = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
-          this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone);
+      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
+          this.sessionEditFormModel.timeZone);
     }
 
     this.feedbackSessionsService.createFeedbackSession(this.sessionEditFormModel.courseId, {
@@ -347,20 +347,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       this.sessionEditFormModel.isSaving = false;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
-  }
-
-  /**
-   * Resolves the local date time to an UNIX timestamp.
-   */
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone: string): number {
-    const inst: any = this.timezoneService.getMomentInstance(null, timeZone);
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-
-    return inst.toDate().getTime();
   }
 
   /**

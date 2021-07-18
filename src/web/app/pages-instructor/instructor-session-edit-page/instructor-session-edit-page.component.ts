@@ -44,17 +44,17 @@ import { Intent } from '../../../types/api-request';
 import { VisibilityControl } from '../../../types/visibility-control';
 import { CopySessionModalResult } from '../../components/copy-session-modal/copy-session-modal-model';
 import { CopySessionModalComponent } from '../../components/copy-session-modal/copy-session-modal.component';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import {
   QuestionEditFormMode,
   QuestionEditFormModel,
 } from '../../components/question-edit-form/question-edit-form-model';
 import {
-  DateFormat,
   SessionEditFormMode,
   SessionEditFormModel,
-  TimeFormat,
 } from '../../components/session-edit-form/session-edit-form-model';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 import { InstructorSessionBasePageComponent } from '../instructor-session-base-page.component';
 import { QuestionToCopyCandidate } from './copy-questions-from-other-sessions-modal/copy-questions-from-other-sessions-modal-model';
@@ -377,21 +377,23 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
     this.sessionEditFormModel.isSaving = true;
 
-    const submissionStartTime: number = this.resolveLocalDateTime(
+    const submissionStartTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
         this.sessionEditFormModel.timeZone);
-    const submissionEndTime: number = this.resolveLocalDateTime(
+    const submissionEndTime: number = this.timezoneService.resolveLocalDateTime(
         this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
         this.sessionEditFormModel.timeZone);
     let sessionVisibleTime: number = 0;
     if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
-      sessionVisibleTime = this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
-          this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone);
+      sessionVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customSessionVisibleDate, this.sessionEditFormModel.customSessionVisibleTime,
+          this.sessionEditFormModel.timeZone);
     }
     let responseVisibleTime: number = 0;
     if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
-      responseVisibleTime = this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
-          this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone);
+      responseVisibleTime = this.timezoneService.resolveLocalDateTime(
+          this.sessionEditFormModel.customResponseVisibleDate, this.sessionEditFormModel.customResponseVisibleTime,
+          this.sessionEditFormModel.timeZone);
     }
 
     this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
@@ -425,20 +427,6 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    */
   cancelEditingSessionHandler(): void {
     this.sessionEditFormModel = JSON.parse(JSON.stringify(this.feedbackSessionModelBeforeEditing));
-  }
-
-  /**
-   * Resolves the local date time to an UNIX timestamp.
-   */
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone: string): number {
-    const inst: any = this.timezoneService.getMomentInstance(null, timeZone);
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-
-    return inst.toDate().getTime();
   }
 
   /**

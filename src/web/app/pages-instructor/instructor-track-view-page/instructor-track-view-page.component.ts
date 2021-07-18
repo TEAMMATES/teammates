@@ -24,11 +24,11 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
-import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -187,8 +187,8 @@ export class InstructorTrackViewPageComponent implements OnInit {
       day: today.getDate(),
     };
 
-    const logsDateFrom: number = this.resolveLocalDateTime(this.logsDateFrom, this.logsTimeFrom);
-    const logsDateTo: number = this.resolveLocalDateTime(this.logsDateTo, this.logsTimeTo);
+    const logsDateFrom: number = this.timezoneService.resolveLocalDateTime(this.logsDateFrom, this.logsTimeFrom);
+    const logsDateTo: number = this.timezoneService.resolveLocalDateTime(this.logsDateTo, this.logsTimeTo);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.formModel.courseId,
@@ -253,17 +253,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
       },
       () => { this.isSearching = false; },
     );
-  }
-
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat): number {
-    const inst: any = this.timezoneService.getMomentInstance(null, this.timezoneService.guessTimezone());
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-
-    return inst.toDate().getTime();
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {

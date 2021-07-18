@@ -16,10 +16,10 @@ import {
   Students,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
-import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -112,8 +112,10 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   search(): void {
     this.isSearching = true;
     this.searchResults = [];
-    const searchFrom: number = this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
-    const searchUntil: number = this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo);
+    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateTo, this.formModel.logsTimeTo);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.formModel.courseId,
@@ -157,17 +159,6 @@ export class InstructorAuditLogsPageComponent implements OnInit {
           this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students];
         }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
-  }
-
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat): number {
-    const inst: any = this.timezoneService.getMomentInstance(null, this.timezoneService.guessTimezone());
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-
-    return inst.toDate().getTime();
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {

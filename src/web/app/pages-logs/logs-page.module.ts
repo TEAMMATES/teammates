@@ -5,8 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoadingSpinnerModule } from '../components/loading-spinner/loading-spinner.module';
 import { LogsTableModule } from '../components/logs-table/logs-table.module';
-import { SessionEditFormModule } from '../components/session-edit-form/session-edit-form.module';
 import { SortableTableModule } from '../components/sortable-table/sortable-table.module';
+import { TimepickerModule } from '../components/timepicker/timepicker.module';
 import { LogsPageComponent } from './logs-page.component';
 
 const routes: Routes = [
@@ -28,7 +28,7 @@ const routes: Routes = [
     SortableTableModule,
     LogsTableModule,
     NgbDatepickerModule,
-    SessionEditFormModule,
+    TimepickerModule,
   ],
   declarations: [
     LogsPageComponent,

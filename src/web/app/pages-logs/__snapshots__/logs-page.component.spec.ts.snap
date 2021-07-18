@@ -117,7 +117,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -244,7 +244,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -363,7 +363,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -490,7 +490,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -587,7 +587,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -714,7 +714,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -833,7 +833,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -960,7 +960,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>

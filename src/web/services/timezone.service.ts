@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 import { default as timezone } from '../data/timezone.json';
 import { HttpRequestService } from './http-request.service';
 
+import { DateFormat } from '../app/components/datepicker/datepicker.component';
+import { TimeFormat } from '../app/components/timepicker/timepicker.component';
 import { ResourceEndpoints } from '../types/api-const';
 import { TimeZones } from '../types/api-output';
 
@@ -77,6 +79,22 @@ export class TimezoneService {
       return moment.tz(timeZone);
     }
     return moment(timestamp).tz(timeZone);
+  }
+
+  /**
+   * Resolves the local date time to a UNIX timestamp.
+   */
+  resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone?: string): number {
+    const inst: any = this.getMomentInstance(null, timeZone || this.guessTimezone());
+    inst.set('year', date.year);
+    inst.set('month', date.month - 1); // moment month is from 0-11
+    inst.set('date', date.day);
+    inst.set('hour', time.hour);
+    inst.set('minute', time.minute);
+    inst.set('second', 0);
+    inst.set('millisecond', 0);
+
+    return inst.toDate().getTime();
   }
 
 }

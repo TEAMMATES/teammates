@@ -5,9 +5,9 @@ import { StatusMessageService } from '../../services/status-message.service';
 import { TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
 import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
+import { DateFormat } from '../components/datepicker/datepicker.component';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
-import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
+import { TimeFormat } from '../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -104,8 +104,10 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.searchResults = [];
     this.nextPageToken = '';
-    const searchFrom: number = this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
-    const searchUntil: number = this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo);
+    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateTo, this.formModel.logsTimeTo);
 
     this.previousQueryParams = {
       searchFrom: searchFrom.toString(),
@@ -128,17 +130,6 @@ export class LogsPageComponent implements OnInit {
   private processLogs(generalLogs: GeneralLogs): void {
     this.nextPageToken = generalLogs.nextPageToken || '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
-  }
-
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat): number {
-    const inst: any = this.timezoneService.getMomentInstance(null, this.timezoneService.guessTimezone());
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-
-    return inst.toDate().getTime();
   }
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
