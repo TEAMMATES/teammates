@@ -134,7 +134,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("googleId");
 
                 return headers;
@@ -149,7 +148,6 @@ public final class StudentProfileLNPTest extends BaseLNPTestCase {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
                     csvRow.add(student.getGoogleId());
 
                     csvData.add(csvRow);

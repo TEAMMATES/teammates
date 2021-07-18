@@ -73,7 +73,7 @@ public class RequestTraceFilter implements Filter {
         // For user-invoked requests, we keep the time limit at 1 minute (as how it was
         // in the previous GAE runtime environment) in order to not let user wait for excessively long,
         // as well as a reminder for us to keep optimizing our API response time.
-        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 10;
+        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 60;
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);
 
