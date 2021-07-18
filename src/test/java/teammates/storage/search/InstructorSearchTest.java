@@ -8,7 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
@@ -111,7 +111,7 @@ public class InstructorSearchTest extends BaseSearchTest {
         // current displayed names in data bundle are either helper or instructor, which matches on many other fields
         InstructorAttributes assistantProf = helperInCourse1.getCopy();
         String displayedName = "Assistant Prof Smith";
-        assistantProf.displayedName = displayedName;
+        assistantProf.setDisplayedName(displayedName);
         instructorsDb.updateInstructorByEmail(
                 InstructorAttributes.updateOptionsWithEmailBuilder(assistantProf.getCourseId(), assistantProf.getEmail())
                         .withDisplayedName(assistantProf.getDisplayedName())
@@ -121,7 +121,7 @@ public class InstructorSearchTest extends BaseSearchTest {
 
         ______TS("success: search for instructors in whole system; deleted instructors no longer searchable");
 
-        instructorsDb.deleteInstructor(ins1InCourse1.courseId, ins1InCourse1.email);
+        instructorsDb.deleteInstructor(ins1InCourse1.getCourseId(), ins1InCourse1.getEmail());
         results = instructorsDb.searchInstructorsInWholeSystem("instructor1");
         verifySearchResults(results, ins1InCourse2, ins1InCourse3, ins1InCourse4, ins1InTestingSanitizationCourse);
 
@@ -204,7 +204,7 @@ public class InstructorSearchTest extends BaseSearchTest {
             return;
         }
 
-        assertThrows(SearchNotImplementedException.class,
+        assertThrows(SearchServiceException.class,
                 () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
     }
 
@@ -231,7 +231,7 @@ public class InstructorSearchTest extends BaseSearchTest {
      */
     private static void standardizeInstructorsForComparison(InstructorAttributes... instructors) {
         for (InstructorAttributes instructor : instructors) {
-            instructor.key = null;
+            instructor.setKey(null);
         }
     }
 }

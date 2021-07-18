@@ -229,7 +229,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId); // "googleId" is used for logging in, not "email"
+                    csvRow.add(instructor.getGoogleId()); // "googleId" is used for logging in, not "email"
                     csvRow.add("no");
                     csvRow.add(COURSE_ID);
                     csvRow.add(FEEDBACK_SESSION_NAME);

@@ -58,7 +58,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             return newAttributes;
         }
 
-        account.setIsInstructor(newAttributes.isInstructor);
+        account.setIsInstructor(newAttributes.isInstructor());
 
         saveEntity(account);
 

@@ -125,15 +125,15 @@ public class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, FeedbackQu
             return newAttributes;
         }
 
-        feedbackQuestion.setQuestionNumber(newAttributes.questionNumber);
+        feedbackQuestion.setQuestionNumber(newAttributes.getQuestionNumber());
         feedbackQuestion.setQuestionText(newAttributes.getSerializedQuestionDetails());
-        feedbackQuestion.setQuestionDescription(newAttributes.questionDescription);
-        feedbackQuestion.setGiverType(newAttributes.giverType);
-        feedbackQuestion.setRecipientType(newAttributes.recipientType);
-        feedbackQuestion.setShowResponsesTo(newAttributes.showResponsesTo);
-        feedbackQuestion.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        feedbackQuestion.setShowRecipientNameTo(newAttributes.showRecipientNameTo);
-        feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.numberOfEntitiesToGiveFeedbackTo);
+        feedbackQuestion.setQuestionDescription(newAttributes.getQuestionDescription());
+        feedbackQuestion.setGiverType(newAttributes.getGiverType());
+        feedbackQuestion.setRecipientType(newAttributes.getRecipientType());
+        feedbackQuestion.setShowResponsesTo(newAttributes.getShowResponsesTo());
+        feedbackQuestion.setShowGiverNameTo(newAttributes.getShowGiverNameTo());
+        feedbackQuestion.setShowRecipientNameTo(newAttributes.getShowRecipientNameTo());
+        feedbackQuestion.setNumberOfEntitiesToGiveFeedbackTo(newAttributes.getNumberOfEntitiesToGiveFeedbackTo());
 
         saveEntity(feedbackQuestion);
 

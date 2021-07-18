@@ -11,7 +11,7 @@ import org.apache.solr.common.SolrDocument;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.storage.api.CoursesDb;
 import teammates.storage.api.StudentsDb;
@@ -35,7 +35,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     StudentSearchDocument createDocument(StudentAttributes student) {
-        CourseAttributes course = coursesDb.getCourse(student.course);
+        CourseAttributes course = coursesDb.getCourse(student.getCourse());
         return new StudentSearchDocument(student, course);
     }
 
@@ -48,11 +48,11 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     void sortResult(List<StudentAttributes> result) {
-        result.sort(Comparator.comparing((StudentAttributes student) -> student.course)
-                .thenComparing(student -> student.section)
-                .thenComparing(student -> student.team)
-                .thenComparing(student -> student.name)
-                .thenComparing(student -> student.email));
+        result.sort(Comparator.comparing((StudentAttributes student) -> student.getCourse())
+                .thenComparing(student -> student.getSection())
+                .thenComparing(student -> student.getTeam())
+                .thenComparing(student -> student.getName())
+                .thenComparing(student -> student.getEmail()));
     }
 
     /**
@@ -61,7 +61,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
      * @param instructors the constraint that restricts the search result
      */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         SolrQuery query = getBasicQuery(queryString);
 
         if (instructors != null) {
@@ -75,9 +75,9 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
         return instructors.stream()
-                .filter(i -> i.privileges.getCourseLevelPrivileges()
+                .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
                         .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.courseId).collect(Collectors.joining(" "));
+                .map(ins -> ins.getCourseId()).collect(Collectors.joining(" "));
     }
 
 }

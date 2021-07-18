@@ -37,7 +37,7 @@ class GetCoursesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:
@@ -82,7 +82,7 @@ class GetCoursesAction extends Action {
         }
 
         Map<String, InstructorAttributes> courseIdToInstructor = new HashMap<>();
-        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.courseId, instructor));
+        instructors.forEach(instructor -> courseIdToInstructor.put(instructor.getCourseId(), instructor));
 
         CourseAttributes.sortById(courses);
         CoursesData coursesData = new CoursesData(courses);

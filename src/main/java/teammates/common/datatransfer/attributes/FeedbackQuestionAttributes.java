@@ -18,21 +18,20 @@ import teammates.storage.entity.FeedbackQuestion;
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 
-    public String feedbackSessionName;
-    public String courseId;
-    public FeedbackQuestionDetails questionDetails;
-    public String questionDescription;
-    public int questionNumber;
-    public FeedbackParticipantType giverType;
-    public FeedbackParticipantType recipientType;
-    public int numberOfEntitiesToGiveFeedbackTo;
-    public List<FeedbackParticipantType> showResponsesTo;
-    public List<FeedbackParticipantType> showGiverNameTo;
-    public List<FeedbackParticipantType> showRecipientNameTo;
+    private String feedbackSessionName;
+    private String courseId;
+    private FeedbackQuestionDetails questionDetails;
+    private String questionDescription;
+    private int questionNumber;
+    private FeedbackParticipantType giverType;
+    private FeedbackParticipantType recipientType;
+    private int numberOfEntitiesToGiveFeedbackTo;
+    private List<FeedbackParticipantType> showResponsesTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
+    private List<FeedbackParticipantType> showRecipientNameTo;
     private transient Instant createdAt;
     private transient Instant updatedAt;
-
-    private String feedbackQuestionId;
+    private transient String feedbackQuestionId;
 
     private FeedbackQuestionAttributes() {
         this.showResponsesTo = new ArrayList<>();
@@ -106,7 +105,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         faq.feedbackSessionName = this.feedbackSessionName;
         faq.courseId = this.courseId;
-        faq.questionDetails = this.getQuestionDetails();
+        faq.questionDetails = this.getQuestionDetailsCopy();
         faq.questionDescription = this.questionDescription;
         faq.questionNumber = this.questionNumber;
         faq.giverType = this.giverType;
@@ -174,7 +173,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return true;
         }
 
-        return this.getQuestionDetails().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetails());
+        return this.getQuestionDetailsCopy().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetailsCopy());
     }
 
     @Override
@@ -368,11 +367,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.questionDescription = SanitizationHelper.sanitizeForRichText(this.questionDescription);
     }
 
+    public FeedbackQuestionDetails getQuestionDetails() {
+        return questionDetails;
+    }
+
     public void setQuestionDetails(FeedbackQuestionDetails newQuestionDetails) {
         this.questionDetails = newQuestionDetails.getDeepCopy();
     }
 
-    public FeedbackQuestionDetails getQuestionDetails() {
+    public FeedbackQuestionDetails getQuestionDetailsCopy() {
         return questionDetails.getDeepCopy();
     }
 
@@ -388,8 +391,16 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return feedbackSessionName;
     }
 
+    public void setFeedbackSessionName(String feedbackSessionName) {
+        this.feedbackSessionName = feedbackSessionName;
+    }
+
     public String getCourseId() {
         return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getQuestionDescription() {

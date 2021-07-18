@@ -182,14 +182,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             return newAttributes;
         }
 
-        frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
-        frc.setCommentText(newAttributes.commentText);
-        frc.setShowCommentTo(newAttributes.showCommentTo);
-        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setLastEditorEmail(newAttributes.lastEditorEmail);
-        frc.setLastEditedAt(newAttributes.lastEditedAt);
-        frc.setGiverSection(newAttributes.giverSection);
-        frc.setReceiverSection(newAttributes.receiverSection);
+        frc.setFeedbackResponseId(newAttributes.getFeedbackResponseId());
+        frc.setCommentText(newAttributes.getCommentText());
+        frc.setShowCommentTo(newAttributes.getShowCommentTo());
+        frc.setShowGiverNameTo(newAttributes.getShowGiverNameTo());
+        frc.setLastEditorEmail(newAttributes.getLastEditorEmail());
+        frc.setLastEditedAt(newAttributes.getLastEditedAt());
+        frc.setGiverSection(newAttributes.getGiverSection());
+        frc.setReceiverSection(newAttributes.getReceiverSection());
 
         saveEntity(frc);
 

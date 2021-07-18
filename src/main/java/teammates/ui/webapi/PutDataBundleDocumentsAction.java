@@ -25,7 +25,7 @@ class PutDataBundleDocumentsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
         logic.putDocuments(dataBundle);
         return new JsonResult("Data bundle documents successfully added.", HttpStatus.SC_OK);

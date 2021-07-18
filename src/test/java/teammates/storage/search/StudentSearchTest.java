@@ -10,7 +10,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.storage.api.StudentsDb;
 import teammates.test.AssertHelper;
 import teammates.test.TestProperties;
@@ -83,7 +83,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for students; deleted student no longer searchable");
 
-        studentsDb.deleteStudent(stu1InCourse1.course, stu1InCourse1.email);
+        studentsDb.deleteStudent(stu1InCourse1.getCourse(), stu1InCourse1.getEmail());
 
         studentList = studentsDb.search("student1", ins1OfCourse1);
 
@@ -170,9 +170,9 @@ public class StudentSearchTest extends BaseSearchTest {
             return;
         }
 
-        assertThrows(SearchNotImplementedException.class,
+        assertThrows(SearchServiceException.class,
                 () -> studentsDb.search("anything", new ArrayList<>()));
-        assertThrows(SearchNotImplementedException.class,
+        assertThrows(SearchServiceException.class,
                 () -> studentsDb.searchStudentsInWholeSystem("anything"));
     }
 
