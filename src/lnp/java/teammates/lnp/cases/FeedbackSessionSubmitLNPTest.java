@@ -184,7 +184,6 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("googleId");
                 headers.add("studentEmail");
                 for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
@@ -203,7 +202,6 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
                     csvRow.add(student.getGoogleId());
                     csvRow.add(student.getEmail());
 
