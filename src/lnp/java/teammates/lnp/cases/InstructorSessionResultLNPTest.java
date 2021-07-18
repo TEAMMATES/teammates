@@ -240,8 +240,10 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     }
 
                     // For loading feedback question IDs
-                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
-                        csvRow.add(feedbackQuestion.getId());
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, fq) -> {
+                        FeedbackQuestionAttributes fqa = backdoor.getFeedbackQuestion(
+                                fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
+                        csvRow.add(fqa.getId());
                     });
 
                     csvData.add(csvRow);
