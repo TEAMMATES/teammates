@@ -1,10 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import moment from 'moment-timezone';
-import { forkJoin, Observable } from 'rxjs';
-import { concatMap, finalize, map } from 'rxjs/operators';
+import { finalize } from 'rxjs/operators';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
+import { TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
 import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
@@ -106,27 +104,25 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.searchResults = [];
     this.nextPageToken = '';
-    const localDateTime: Observable<number>[] = [
-      this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
-      this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
-    ];
+    const searchFrom: number = this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+    const searchUntil: number = this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo);
 
-    forkJoin(localDateTime)
+    this.previousQueryParams = {
+      searchFrom: searchFrom.toString(),
+      searchUntil: searchUntil.toString(),
+      severities: Array.from(this.formModel.logsSeverity).join(','),
+    };
+    this.logService.searchLogs(this.previousQueryParams)
         .pipe(
-            concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
-                searchFrom: timestampFrom.toString(),
-                searchUntil: timestampUntil.toString(),
-                severities: Array.from(this.formModel.logsSeverity).join(','),
-              };
-              return this.logService.searchLogs(this.previousQueryParams);
-            }),
             finalize(() => {
               this.isSearching = false;
               this.hasResult = true;
-            }))
-            .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-              (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            }),
+        ).subscribe((generalLogs: GeneralLogs) => {
+          this.processLogs(generalLogs);
+        }, (e: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(e.error.message);
+        });
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
@@ -134,17 +130,15 @@ export class LogsPageComponent implements OnInit {
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
   }
 
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
-    const inst: any = moment();
+  private resolveLocalDateTime(date: DateFormat, time: TimeFormat): number {
+    const inst: any = this.timezoneService.getMomentInstance(null, this.timezoneService.guessTimezone());
     inst.set('year', date.year);
-    inst.set('month', date.month - 1);
+    inst.set('month', date.month - 1); // moment month is from 0-11
     inst.set('date', date.day);
     inst.set('hour', time.hour);
     inst.set('minute', time.minute);
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
 
-    return this.timezoneService.getResolvedTimestamp(localDateTime, this.timezoneService.guessTimezone(), fieldName)
-        .pipe(map((result: TimeResolvingResult) => result.timestamp));
+    return inst.toDate().getTime();
   }
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {

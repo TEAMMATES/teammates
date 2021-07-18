@@ -1,9 +1,8 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
-import { concatMap, finalize, flatMap, map, switchMap, tap } from 'rxjs/operators';
+import { concatMap, finalize, flatMap, map, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import {
   CommonVisibilitySetting,
@@ -18,7 +17,7 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TableComparatorService } from '../../../services/table-comparator.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { VisibilityStateMachine } from '../../../services/visibility-state-machine';
 import {
   Course,
@@ -378,45 +377,40 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
     this.feedbackSessionModelBeforeEditing = JSON.parse(JSON.stringify(this.sessionEditFormModel));
     this.sessionEditFormModel.isSaving = true;
 
-    forkJoin([
-      this.resolveLocalDateTime(this.sessionEditFormModel.submissionStartDate,
-          this.sessionEditFormModel.submissionStartTime, this.sessionEditFormModel.timeZone,
-          'Submission opening time'),
-      this.resolveLocalDateTime(this.sessionEditFormModel.submissionEndDate,
-          this.sessionEditFormModel.submissionEndTime, this.sessionEditFormModel.timeZone,
-          'Submission closing time'),
-      this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM ?
-          this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
-              this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone,
-              'Session visible time')
-          : of(0),
-      this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM ?
-          this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
-              this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone,
-              'Response visible time')
-          : of(0),
-    ]).pipe(
-        switchMap((vals: number[]) => {
-          return this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
-            instructions: this.sessionEditFormModel.instructions,
+    const submissionStartTime: number = this.resolveLocalDateTime(
+        this.sessionEditFormModel.submissionStartDate, this.sessionEditFormModel.submissionStartTime,
+        this.sessionEditFormModel.timeZone);
+    const submissionEndTime: number = this.resolveLocalDateTime(
+        this.sessionEditFormModel.submissionEndDate, this.sessionEditFormModel.submissionEndTime,
+        this.sessionEditFormModel.timeZone);
+    let sessionVisibleTime: number = 0;
+    if (this.sessionEditFormModel.sessionVisibleSetting === SessionVisibleSetting.CUSTOM) {
+      sessionVisibleTime = this.resolveLocalDateTime(this.sessionEditFormModel.customSessionVisibleDate,
+          this.sessionEditFormModel.customSessionVisibleTime, this.sessionEditFormModel.timeZone);
+    }
+    let responseVisibleTime: number = 0;
+    if (this.sessionEditFormModel.responseVisibleSetting === ResponseVisibleSetting.CUSTOM) {
+      responseVisibleTime = this.resolveLocalDateTime(this.sessionEditFormModel.customResponseVisibleDate,
+          this.sessionEditFormModel.customResponseVisibleTime, this.sessionEditFormModel.timeZone);
+    }
 
-            submissionStartTimestamp: vals[0],
-            submissionEndTimestamp: vals[1],
-            gracePeriod: this.sessionEditFormModel.gracePeriod,
+    this.feedbackSessionsService.updateFeedbackSession(this.courseId, this.feedbackSessionName, {
+      instructions: this.sessionEditFormModel.instructions,
 
-            sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
-            customSessionVisibleTimestamp: vals[2],
+      submissionStartTimestamp: submissionStartTime,
+      submissionEndTimestamp: submissionEndTime,
+      gracePeriod: this.sessionEditFormModel.gracePeriod,
 
-            responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
-            customResponseVisibleTimestamp: vals[3],
+      sessionVisibleSetting: this.sessionEditFormModel.sessionVisibleSetting,
+      customSessionVisibleTimestamp: sessionVisibleTime,
 
-            isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
-            isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-          });
-        }),
-        finalize(() => {
-          this.sessionEditFormModel.isSaving = false;
-        }),
+      responseVisibleSetting: this.sessionEditFormModel.responseVisibleSetting,
+      customResponseVisibleTimestamp: responseVisibleTime,
+
+      isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
+      isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
+    }).pipe(
+        finalize(() => this.sessionEditFormModel.isSaving = false),
     ).subscribe((feedbackSession: FeedbackSession) => {
       this.sessionEditFormModel = this.getSessionEditFormModel(feedbackSession);
 
@@ -436,23 +430,15 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
   /**
    * Resolves the local date time to an UNIX timestamp.
    */
-  private resolveLocalDateTime(
-      date: DateFormat, time: TimeFormat, timeZone: string, fieldName: string): Observable<number> {
-    const inst: any = moment();
+  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, timeZone: string): number {
+    const inst: any = this.timezoneService.getMomentInstance(null, timeZone);
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11
     inst.set('date', date.day);
     inst.set('hour', time.hour);
     inst.set('minute', time.minute);
 
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-    return this.timezoneService.getResolvedTimestamp(localDateTime, timeZone, fieldName).pipe(
-        tap((result: TimeResolvingResult) => {
-          if (result.message.length !== 0) {
-            this.statusMessageService.showWarningToast(result.message);
-          }
-        }),
-        map((result: TimeResolvingResult) => result.timestamp));
+    return inst.toDate().getTime();
   }
 
   /**
