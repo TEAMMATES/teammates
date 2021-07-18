@@ -39,27 +39,15 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String institute = "TEAMMATES Test Institute 1";
 
         ______TS("Not enough parameters");
-        AccountCreateRequest badRequest = buildCreateRequest(null, institute, email);
 
-        try {
-            getAction(badRequest).execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals("name cannot be null", e.getMessage());
-        }
+        assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(null, institute, email)).execute());
 
-        badRequest = buildCreateRequest(name, null, email);
-        try {
-            getAction(badRequest).execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals("institute cannot be null", e.getMessage());
-        }
+        assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(name, null, email)).execute());
 
-        badRequest = buildCreateRequest(name, institute, null);
-        try {
-            getAction(badRequest).execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals("email cannot be null", e.getMessage());
-        }
+        assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(name, institute, null)).execute());
 
         ______TS("Normal case");
 
@@ -98,16 +86,8 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
-        CreateAccountAction finalA = getAction(req);
-        try {
-            finalA.execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            String expectedError =
-                    "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                            + "it contains invalid characters. A/An person name must start with an "
-                            + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
-            assertEquals(expectedError, e.getMessage());
-        }
+        final CreateAccountAction finalA = getAction(req);
+        assertThrows(InvalidHttpRequestBodyException.class, () -> finalA.execute());
 
         verifyNoEmailsSent();
     }
