@@ -18,7 +18,7 @@ import teammates.common.util.ThreadHelper;
 /**
  * Base class for all test cases which are allowed to access the database.
  */
-public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCaseWithObjectifyAccess {
+public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
 
     private static final int VERIFICATION_RETRY_COUNT = 5;
     private static final int VERIFICATION_RETRY_DELAY_IN_MS = 1000;

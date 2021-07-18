@@ -25,13 +25,13 @@ public final class InstructorsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static InstructorsLogic instance = new InstructorsLogic();
+    private static final InstructorsLogic instance = new InstructorsLogic();
 
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private FeedbackQuestionsLogic fqLogic;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -39,6 +39,12 @@ public final class InstructorsLogic {
 
     public static InstructorsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
     /* ====================================

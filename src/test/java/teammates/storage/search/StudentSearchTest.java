@@ -21,7 +21,7 @@ import teammates.test.TestProperties;
  */
 public class StudentSearchTest extends BaseSearchTest {
 
-    private final StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     @Test
     public void allTests() throws Exception {

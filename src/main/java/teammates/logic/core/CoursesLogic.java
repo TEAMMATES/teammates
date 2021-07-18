@@ -31,7 +31,7 @@ public final class CoursesLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static CoursesLogic instance = new CoursesLogic();
+    private static final CoursesLogic instance = new CoursesLogic();
 
     /* Explanation: This class depends on CoursesDb class but no other *Db classes.
      * That is because reading/writing entities from/to the database is the
@@ -41,15 +41,15 @@ public final class CoursesLogic {
      * other entity types.
      */
 
-    private static final CoursesDb coursesDb = new CoursesDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private AccountsLogic accountsLogic;
+    private FeedbackSessionsLogic feedbackSessionsLogic;
+    private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private CoursesLogic() {
         // prevent initialization
@@ -57,6 +57,16 @@ public final class CoursesLogic {
 
     public static CoursesLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        accountsLogic = AccountsLogic.inst();
+        feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**
