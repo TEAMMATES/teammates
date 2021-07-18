@@ -39,7 +39,7 @@ describe('ConstsumOptionsQuestionStatisticsComponent', () => {
       recipientEmail: 'alice@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answers: [50, 50],
+        answers: [50, 50, 0],
         questionType: FeedbackQuestionType.CONSTSUM,
       } as FeedbackConstantSumResponseDetails,
     },
@@ -53,7 +53,7 @@ describe('ConstsumOptionsQuestionStatisticsComponent', () => {
       recipientEmail: 'bob@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answers: [30, 70],
+        answers: [30, 70, 0],
         questionType: FeedbackQuestionType.CONSTSUM,
       } as FeedbackConstantSumResponseDetails,
     },
@@ -67,7 +67,7 @@ describe('ConstsumOptionsQuestionStatisticsComponent', () => {
       recipientEmail: 'charles@gmail.com',
       recipientSection: '',
       responseDetails: {
-        answers: [10, 90],
+        answers: [10, 90, 0],
         questionType: FeedbackQuestionType.CONSTSUM,
       } as FeedbackConstantSumResponseDetails,
     },
@@ -75,19 +75,19 @@ describe('ConstsumOptionsQuestionStatisticsComponent', () => {
 
   it('should calculate statistics correctly', () => {
 
-    component.question.constSumOptions = ['optionA', 'optionB'];
+    component.question.constSumOptions = ['optionA', 'optionB', 'optionC'];
     component.responses = responses;
 
     component.calculateStatistics();
 
     const expectedPointsPerOption: Record<string, number[]> = {
-      optionA: [10, 30, 50], optionB: [50, 70, 90],
+      optionA: [10, 30, 50], optionB: [50, 70, 90], optionC: [0, 0, 0],
     };
     const expectedTotalPointsPerOption: Record<string, number> = {
-      optionA: 90, optionB: 210,
+      optionA: 90, optionB: 210, optionC: 0,
     };
     const expectedAveragePointsPerOption: Record<string, number> = {
-      optionA: 30, optionB: 70,
+      optionA: 30, optionB: 70, optionC: 0,
     };
 
     expect(component.pointsPerOption).toEqual(expectedPointsPerOption);
