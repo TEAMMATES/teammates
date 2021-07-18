@@ -10,7 +10,7 @@ import org.eclipse.jetty.webapp.JettyWebXmlConfiguration;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
-import teammates.ui.webapi.DevServerLoginServlet;
+import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.

@@ -30,7 +30,7 @@ class UpdateStudentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return authType.LOGGED_IN;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
@@ -46,7 +46,7 @@ class UpdateStudentAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 

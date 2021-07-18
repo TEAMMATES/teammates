@@ -27,7 +27,7 @@ class SearchInstructorsAction extends AdminOnlyAction {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<InstructorAttributes> instructors;
         try {

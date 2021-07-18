@@ -19,7 +19,7 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String instructorId = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_ID);

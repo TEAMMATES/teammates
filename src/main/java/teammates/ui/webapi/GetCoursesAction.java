@@ -37,7 +37,7 @@ class GetCoursesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
         case Const.EntityType.STUDENT:

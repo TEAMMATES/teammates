@@ -101,7 +101,7 @@ class GetInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String instructorRole = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ROLE_NAME);
 
         if (instructorRole != null) {

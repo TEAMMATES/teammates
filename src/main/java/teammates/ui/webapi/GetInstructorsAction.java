@@ -56,7 +56,7 @@ class GetInstructorsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(courseId);
 
