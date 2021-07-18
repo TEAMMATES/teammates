@@ -253,7 +253,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return getAccount(account.googleId);
+        return getAccount(account.getGoogleId());
     }
 
     @Override
@@ -281,7 +281,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
     }
 
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
@@ -290,7 +290,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return getFeedbackResponseComment(frc.feedbackResponseId);
+        return getFeedbackResponseComment(frc.getFeedbackResponseId());
     }
 
     protected FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
@@ -299,7 +299,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return getFeedbackResponse(fr.getFeedbackQuestionId(), fr.getGiver(), fr.getRecipient());
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -321,7 +321,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return getInstructor(instructor.courseId, instructor.email);
+        return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
@@ -330,7 +330,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return BACKDOOR.getStudent(student.course, student.email);
+        return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
     }
 
     protected String getKeyForStudent(StudentAttributes student) {

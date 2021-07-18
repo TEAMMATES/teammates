@@ -83,7 +83,7 @@ public class StudentSearchTest extends BaseSearchTest {
 
         ______TS("success: search for students; deleted student no longer searchable");
 
-        studentsDb.deleteStudent(stu1InCourse1.course, stu1InCourse1.email);
+        studentsDb.deleteStudent(stu1InCourse1.getCourse(), stu1InCourse1.getEmail());
 
         studentList = studentsDb.search("student1", ins1OfCourse1);
 

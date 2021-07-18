@@ -198,16 +198,16 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId);
+                    csvRow.add(instructor.getGoogleId());
                     csvRow.add("yes");
-                    csvRow.add(instructor.courseId);
+                    csvRow.add(instructor.getCourseId());
 
                     // Create and add student enrollment data with a team number corresponding to each section number
                     List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
                     int startIndex = csvTestDataIndex * NUM_STUDENTS_PER_SECTION;
 
                     for (int i = startIndex; i < startIndex + NUM_STUDENTS_PER_SECTION; i++) {
-                        String name = instructor.name + ".Student" + (NUM_STUDENTS - i);
+                        String name = instructor.getName() + ".Student" + (NUM_STUDENTS - i);
                         String email = STUDENT_NAME_PREFIX + i + STUDENT_EMAIL_SUBFIX;
                         String team = String.valueOf((NUM_STUDENTS - i) / NUM_STUDENTS_PER_SECTION);
                         String section = String.valueOf((NUM_STUDENTS - i) / NUM_STUDENTS_PER_SECTION);

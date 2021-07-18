@@ -25,12 +25,12 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return logic.getAccount(account.googleId);
+        return logic.getAccount(account.getGoogleId());
     }
 
     @Override
     protected StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes) {
-        return logic.getStudentProfile(studentProfileAttributes.googleId);
+        return logic.getStudentProfile(studentProfileAttributes.getGoogleId());
     }
 
     @Override
@@ -40,17 +40,17 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return logic.getFeedbackQuestion(fq.feedbackSessionName, fq.courseId, fq.questionNumber);
+        return logic.getFeedbackQuestion(fq.getFeedbackSessionName(), fq.getCourseId(), fq.getQuestionNumber());
     }
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return logic.getFeedbackResponseComment(frc.feedbackResponseId, frc.commentGiver, frc.createdAt);
+        return logic.getFeedbackResponseComment(frc.getFeedbackResponseId(), frc.getCommentGiver(), frc.getCreatedAt());
     }
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return logic.getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return logic.getFeedbackResponse(fr.getFeedbackQuestionId(), fr.getGiver(), fr.getRecipient());
     }
 
     @Override
@@ -60,14 +60,14 @@ public class BaseComponentTestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return instructor.googleId == null
-                ? logic.getInstructorForEmail(instructor.courseId, instructor.email)
-                : logic.getInstructorForGoogleId(instructor.courseId, instructor.googleId);
+        return instructor.getGoogleId() == null
+                ? logic.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())
+                : logic.getInstructorForGoogleId(instructor.getCourseId(), instructor.getGoogleId());
     }
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return logic.getStudentForEmail(student.course, student.email);
+        return logic.getStudentForEmail(student.getCourse(), student.getEmail());
     }
 
     protected void removeAndRestoreTypicalDataBundle() {

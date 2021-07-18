@@ -31,11 +31,11 @@ public class UserProvisionTest extends BaseLogicTest {
                 .withTeamName("Team 1")
                 .withComment("")
                 .build();
-        instructorAsStudent.googleId = instructor.googleId;
+        instructorAsStudent.setGoogleId(instructor.getGoogleId());
         logic.createStudent(instructorAsStudent);
 
-        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.googleId));
-        assertEquals(instructor.googleId, user.id);
+        UserInfo user = userProvision.getCurrentUser(new UserInfoCookie(instructor.getGoogleId()));
+        assertEquals(instructor.getGoogleId(), user.id);
         assertFalse(user.isAdmin);
         assertTrue(user.isInstructor);
         assertTrue(user.isStudent);

@@ -223,7 +223,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         List<StudentAttributes> unregistered = new ArrayList<>();
 
         for (StudentAttributes s : allStudents) {
-            if (s.googleId == null || s.googleId.trim().isEmpty()) {
+            if (s.getGoogleId() == null || s.getGoogleId().trim().isEmpty()) {
                 unregistered.add(s);
             }
         }
@@ -258,7 +258,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
+        boolean isEmailChanged = !student.getEmail().equals(newAttributes.getEmail());
 
         if (isEmailChanged) {
             newAttributes = createEntity(newAttributes);
@@ -281,12 +281,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 return newAttributes;
             }
 
-            student.setName(newAttributes.name);
-            student.setLastName(newAttributes.lastName);
-            student.setComments(newAttributes.comments);
-            student.setGoogleId(newAttributes.googleId);
-            student.setTeamName(newAttributes.team);
-            student.setSectionName(newAttributes.section);
+            student.setName(newAttributes.getName());
+            student.setLastName(newAttributes.getLastName());
+            student.setComments(newAttributes.getComments());
+            student.setGoogleId(newAttributes.getGoogleId());
+            student.setTeamName(newAttributes.getTeam());
+            student.setSectionName(newAttributes.getSection());
 
             putDocument(newAttributes);
 

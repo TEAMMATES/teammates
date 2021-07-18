@@ -126,8 +126,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         assertEquals(response.getMessage(), "Account is successfully reset.");
         StudentAttributes student = logic.getStudentForEmail(student1OfCourse1.getCourse(), student1OfCourse1.getEmail());
         assertNotNull(student);
-        assertEquals("", student.googleId);
-        assertNull(logic.getStudentForGoogleId(student1OfCourse1.getCourse(), student1OfCourse1.googleId));
+        assertEquals("", student.getGoogleId());
+        assertNull(logic.getStudentForGoogleId(student1OfCourse1.getCourse(), student1OfCourse1.getGoogleId()));
 
         ______TS("typical success case: reset student account which has been already reset: failed silently");
 
@@ -140,8 +140,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         assertEquals(response.getMessage(), "Account is successfully reset.");
         student = logic.getStudentForEmail(student1OfCourse1.getCourse(), student1OfCourse1.getEmail());
         assertNotNull(student);
-        assertEquals("", student.googleId);
-        assertNull(logic.getStudentForGoogleId(student1OfCourse1.getCourse(), student1OfCourse1.googleId));
+        assertEquals("", student.getGoogleId());
+        assertNull(logic.getStudentForGoogleId(student1OfCourse1.getCourse(), student1OfCourse1.getGoogleId()));
     }
 
     @Override

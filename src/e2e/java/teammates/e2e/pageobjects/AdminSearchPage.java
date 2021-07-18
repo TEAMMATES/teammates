@@ -106,13 +106,13 @@ public class AdminSearchPage extends AppPage {
     }
 
     public WebElement getStudentRow(StudentAttributes student) {
-        String details = String.format("%s [%s] (%s)", student.course,
-                student.section == null ? Const.DEFAULT_SECTION : student.section, student.team);
+        String details = String.format("%s [%s] (%s)", student.getCourse(),
+                student.getSection() == null ? Const.DEFAULT_SECTION : student.getSection(), student.getTeam());
         List<WebElement> rows = browser.driver.findElements(By.cssSelector("#search-table-student tbody tr"));
         for (WebElement row : rows) {
             List<WebElement> columns = row.findElements(By.tagName("td"));
             if (columns.get(STUDENT_COL_DETAILS - 1).getAttribute("innerHTML").contains(details)
-                    && columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML").contains(student.name)) {
+                    && columns.get(STUDENT_COL_NAME - 1).getAttribute("innerHTML").contains(student.getName())) {
                 return row;
             }
         }
@@ -172,7 +172,7 @@ public class AdminSearchPage extends AppPage {
     public WebElement getInstructorRow(InstructorAttributes instructor) {
         String xpath = String.format(
                 "//table[@id='search-table-instructor']/tbody/tr[td[%d][span[text()='%s']] and td[%d]='%s']",
-                INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.name);
+                INSTRUCTOR_COL_COURSE_ID, instructor.getCourseId(), INSTRUCTOR_COL_NAME, instructor.getName());
         return browser.driver.findElement(By.xpath(xpath));
     }
 
@@ -257,10 +257,10 @@ public class AdminSearchPage extends AppPage {
         String actualComment = getStudentComments(studentRow);
         String actualManageAccountLink = getStudentManageAccountLink(studentRow);
 
-        String expectedName = student.name;
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.googleId);
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.institute);
-        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.comments);
+        String expectedName = student.getName();
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(student.getGoogleId());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
+        String expectedComment = StringHelper.convertToEmptyStringIfNull(student.getComments());
 
         assertEquals(expectedDetails, actualDetails);
         assertEquals(expectedName, actualName);
@@ -278,7 +278,7 @@ public class AdminSearchPage extends AppPage {
         String actualJoinLink = getStudentJoinLink(studentRow);
         int actualNumExpandedRows = getNumExpandedRows(studentRow);
 
-        String expectedEmail = student.email;
+        String expectedEmail = student.getEmail();
 
         assertEquals(expectedEmail, actualEmail);
         assertNotEquals("", actualJoinLink);
@@ -295,10 +295,10 @@ public class AdminSearchPage extends AppPage {
         String actualInstitute = getInstructorInstitute(instructorRow);
         String actualManageAccountLink = getInstructorManageAccountLink(instructorRow);
 
-        String expectedCourseId = instructor.courseId;
-        String expectedName = instructor.name;
-        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.googleId);
-        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.institute);
+        String expectedCourseId = instructor.getCourseId();
+        String expectedName = instructor.getName();
+        String expectedGoogleId = StringHelper.convertToEmptyStringIfNull(instructor.getGoogleId());
+        String expectedInstitute = StringHelper.convertToEmptyStringIfNull(account.getInstitute());
 
         assertEquals(expectedCourseId, actualCourseId);
         assertEquals(expectedName, actualName);
@@ -314,7 +314,7 @@ public class AdminSearchPage extends AppPage {
         String actualEmail = getInstructorEmail(instructorRow);
         String actualJoinLink = getInstructorJoinLink(instructorRow);
 
-        String expectedEmail = instructor.email;
+        String expectedEmail = instructor.getEmail();
 
         assertEquals(expectedEmail, actualEmail);
         assertNotEquals("", actualJoinLink);
