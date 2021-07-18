@@ -57,6 +57,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
         testGetCoOwnersForCourse();
         testUpdateInstructorByGoogleIdCascade();
         testUpdateInstructorByEmail();
+        testUpdateToEnsureValidityOfInstructorsForTheCourse();
     }
 
     private void testAddInstructor() throws Exception {
@@ -644,6 +645,46 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         assertTrue(coOwnersEmailsFromDataBundle.containsAll(generatedCoOwnersEmails)
                 && generatedCoOwnersEmails.containsAll(coOwnersEmailsFromDataBundle));
+    }
+
+    private void testUpdateToEnsureValidityOfInstructorsForTheCourse() {
+        ______TS("Should not grant the currently being edited instructor the privilege of modifying instructors");
+
+        ______TS("The course has more than 1 instructor with modifying instructor privilege");
+        String courseId = "idOfTypicalCourse1";
+        InstructorAttributes instructorToUpdate =
+                InstructorAttributes.builder(courseId, "idOfInstructor4@gmail.com")
+                        .withGoogleId("idOfInstructor4")
+                        .withPrivileges(
+                                new InstructorPrivileges(
+                                        Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR
+                                )
+                        ).build();
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+
+        ______TS("The course has 1 registered instructor with modifying instructor privilege");
+        courseId = "idOfArchivedCourse";
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+
+        ______TS("Should grant the currently being edited instructor the privilege of modifying instructors");
+
+        ______TS("The course only has 1 instructor with modifying instructor privilege which is being edited");
+        courseId = "idOfCourseNoEvals";
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+
+        ______TS("The course only has 1 instructor with modifying instructor privilege which is not registered");
+        instructorToUpdate.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        courseId = "idOfSampleCourse-demo";
+        instructorsLogic.deleteInstructorCascade(courseId, "iwosc@yahoo.tmt");
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+
+        assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
 }
