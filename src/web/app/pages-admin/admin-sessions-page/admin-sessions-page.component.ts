@@ -62,7 +62,7 @@ export class AdminSessionsPageComponent implements OnInit {
     this.filterTimezone = this.timezoneService.guessTimezone();
     this.tableTimezone = this.timezoneService.guessTimezone();
 
-    const now: any = moment();
+    const now: moment.Moment = moment();
     this.startDate = {
       year: now.year(),
       month: now.month() + 1,
@@ -77,7 +77,7 @@ export class AdminSessionsPageComponent implements OnInit {
       minute: now.minute(),
     };
 
-    const nextWeek: any = moment(now).add(1, 'weeks');
+    const nextWeek: moment.Moment = moment(now).add(1, 'weeks');
     this.endDate = {
       year: nextWeek.year(),
       month: nextWeek.month() + 1,

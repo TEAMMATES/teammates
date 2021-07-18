@@ -234,7 +234,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     }
 
     // set opening time to near future
-    const nearFuture: any = moment().add(1, 'hours');
+    const nearFuture: moment.Moment = moment().add(1, 'hours');
     this.sessionEditFormModel.submissionStartDate = {
       year: nearFuture.year(),
       month: nearFuture.month() + 1, // moment return 0-11 for month
@@ -245,7 +245,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       hour: nearFuture.hour() === 0 ? 23 : nearFuture.hour(),
     };
     // set the closing time to tomorrow
-    const tomorrow: any = moment().add(1, 'days');
+    const tomorrow: moment.Moment = moment().add(1, 'days');
     this.sessionEditFormModel.submissionEndDate = {
       year: tomorrow.year(),
       month: tomorrow.month() + 1, // moment return 0-11 for month

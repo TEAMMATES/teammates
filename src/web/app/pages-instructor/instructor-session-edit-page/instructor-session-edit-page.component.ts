@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import moment from 'moment-timezone';
 import { forkJoin, Observable, of } from 'rxjs';
 import { concatMap, finalize, flatMap, map, switchMap } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
@@ -353,7 +354,7 @@ export class InstructorSessionEditPageComponent extends InstructorSessionBasePag
    * Get the local date and time of timezone from timestamp.
    */
   private getDateTimeAtTimezone(timestamp: number, timeZone: string): {date: DateFormat; time: TimeFormat} {
-    const momentInstance: any = this.timezoneService.getMomentInstance(timestamp, timeZone);
+    const momentInstance: moment.Moment = this.timezoneService.getMomentInstance(timestamp, timeZone);
     const date: DateFormat = {
       year: momentInstance.year(),
       month: momentInstance.month() + 1, // moment return 0-11 for month
