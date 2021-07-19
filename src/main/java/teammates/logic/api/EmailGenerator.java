@@ -90,8 +90,8 @@ public class EmailGenerator {
     }
 
     /**
-     * Generate email to notify feedback session creator (or is it every instructor in the course ? )
-     * that the feedback session is opening soon, in case the feedback session opening info was set wrongly.
+     * Generate email to notify course co-owners that the feedback session is opening soon,
+     * in case the feedback session opening info was set wrongly.
      */
     public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSessionAttributes session) {
         String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}",
