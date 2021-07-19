@@ -120,10 +120,12 @@ public abstract class Action {
         Map<String, String> info = new HashMap<>();
 
         String googleId = userInfo == null ? null : userInfo.getId();
-        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+        String regkey = null;
         String studentEmail = null;
-        if (regkey != null) {
-            studentEmail = logic.getStudentForRegistrationKey(regkey).getEmail();
+        Optional<StudentAttributes> student = getUnregisteredStudent();
+        if (student.isPresent()) {
+            regkey = student.get().getKey();
+            studentEmail = student.get().getEmail();
         }
 
         info.put("googleId", googleId);
