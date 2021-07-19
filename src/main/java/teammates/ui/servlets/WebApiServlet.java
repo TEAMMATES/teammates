@@ -112,13 +112,13 @@ public class WebApiServlet extends HttpServlet {
             Map<String, Object> responseDetails = new HashMap<>();
             responseDetails.put("responseStatus", statusCode);
             responseDetails.put("responseTime", timeElapsed);
-            responseDetails.put("userInfo", action.getUserInfo());
 
             String logMessage = "%s " + RequestTracer.getTraceId() + " %s with %s in " + timeElapsed + "ms";
             if (action == null) {
                 logMessage = String.format(logMessage, "Response", "dispatched", statusCode);
             } else {
                 responseDetails.put("actionClass", action.getClass().getSimpleName());
+                responseDetails.put("userInfo", action.getUserInfo());
                 logMessage = String.format(logMessage, action.getClass().getSimpleName(), "finished", statusCode);
             }
 
