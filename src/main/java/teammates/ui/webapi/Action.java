@@ -122,7 +122,7 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
         String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
         String studentEmail = null;
-        if (regkey != null){
+        if (regkey != null) {
             studentEmail = logic.getStudentForRegistrationKey(regkey).getEmail();
         }
 
