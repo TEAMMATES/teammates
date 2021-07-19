@@ -70,7 +70,6 @@ export abstract class InstructorSessionBasePageComponent {
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
-      isOpeningSoonEmailEnabled: fromFeedbackSession.isOpeningSoonEmailEnabled,
     }).pipe(
         switchMap((feedbackSession: FeedbackSession) => {
           createdFeedbackSession = feedbackSession;

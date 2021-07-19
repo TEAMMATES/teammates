@@ -35,7 +35,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private boolean isOpeningEmailEnabled;
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
-    private boolean isOpeningSoonEmailEnabled;
 
     private FeedbackSessionAttributes(String feedbackSessionName, String courseId) {
         this.feedbackSessionName = feedbackSessionName;
@@ -47,7 +46,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isOpeningEmailEnabled = true;
         this.isClosingEmailEnabled = true;
         this.isPublishedEmailEnabled = true;
-        this.isOpeningSoonEmailEnabled = true;
 
         this.timeZone = Const.DEFAULT_TIME_ZONE;
         this.gracePeriod = Duration.ZERO;
@@ -78,7 +76,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.isOpeningEmailEnabled = fs.isOpeningEmailEnabled();
         feedbackSessionAttributes.isClosingEmailEnabled = fs.isClosingEmailEnabled();
         feedbackSessionAttributes.isPublishedEmailEnabled = fs.isPublishedEmailEnabled();
-        feedbackSessionAttributes.isOpeningSoonEmailEnabled = fs.isOpeningSoonEmailEnabled();
 
         return feedbackSessionAttributes;
     }
@@ -116,7 +113,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone.getId(), getGracePeriodMinutes(),
                 sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
-                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled, isOpeningSoonEmailEnabled);
+                isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
     }
 
     @Override
@@ -313,7 +310,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-               + ", isOpeningSoonEmailEnabled=" + isOpeningSoonEmailEnabled
                + "]";
         // todo should sentOpeningSoonEmail be added ? why are some attributes not present here (sentClosingEmail etc)
     }
@@ -499,15 +495,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
     }
 
-    public boolean isOpeningSoonEmailEnabled() {
-        return isOpeningSoonEmailEnabled;
-    }
-
-    // tests
-    public void setOpeningSoonEmailEnabled(boolean openingSoonEmailEnabled) {
-        isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
-    }
-
     /**
      * Updates with {@link UpdateOptions}.
      */
@@ -526,7 +513,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.sentPublishedEmailOption.ifPresent(s -> sentPublishedEmail = s);
         updateOptions.isClosingEmailEnabledOption.ifPresent(s -> isClosingEmailEnabled = s);
         updateOptions.isPublishedEmailEnabledOption.ifPresent(s -> isPublishedEmailEnabled = s);
-        updateOptions.isOpeningSoonEmailEnabledOption.ifPresent(s -> isOpeningSoonEmailEnabled = s);
     }
 
     /**
@@ -593,7 +579,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> sentPublishedEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> isClosingEmailEnabledOption = UpdateOption.empty();
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
-        private UpdateOption<Boolean> isOpeningSoonEmailEnabledOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
             assert feedbackSessionName != null;
@@ -630,7 +615,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                     + ", sentPublishedEmail = " + sentPublishedEmailOption
                     + ", isClosingEmailEnabled = " + isClosingEmailEnabledOption
                     + ", isPublishedEmailEnabled = " + isPublishedEmailEnabledOption
-                    + ", isOpeningSoonEmailEnabledOption = " + isOpeningSoonEmailEnabledOption
                     + "]";
         }
 
@@ -777,11 +761,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
         public B withIsPublishedEmailEnabled(boolean isPublishedEmailEnabled) {
             updateOptions.isPublishedEmailEnabledOption = UpdateOption.of(isPublishedEmailEnabled);
-            return thisBuilder;
-        }
-
-        public B withIsOpeningSoonEmailEnabled(boolean isOpeningSoonEmailEnabledOption) {
-            updateOptions.isOpeningSoonEmailEnabledOption = UpdateOption.of(isOpeningSoonEmailEnabledOption);
             return thisBuilder;
         }
 

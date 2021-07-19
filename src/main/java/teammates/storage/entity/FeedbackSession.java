@@ -71,8 +71,6 @@ public class FeedbackSession extends BaseEntity {
 
     private boolean sentPublishedEmail;
 
-    private boolean isOpeningSoonEmailEnabled;
-
     private boolean isOpeningEmailEnabled;
 
     private boolean isClosingEmailEnabled;
@@ -89,7 +87,7 @@ public class FeedbackSession extends BaseEntity {
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
             boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
             boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
-            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled, boolean isOpeningSoonEmailEnabled) {
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -110,7 +108,6 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
         this.isClosingEmailEnabled = isClosingEmailEnabled;
         this.isPublishedEmailEnabled = isPublishedEmailEnabled;
-        this.isOpeningSoonEmailEnabled = isOpeningSoonEmailEnabled;
         this.feedbackSessionId = generateId(this.feedbackSessionName, this.courseId);
     }
 
@@ -266,14 +263,6 @@ public class FeedbackSession extends BaseEntity {
         this.isOpeningEmailEnabled = isOpeningEmailEnabled;
     }
 
-    public boolean isOpeningSoonEmailEnabled() {
-        return isOpeningSoonEmailEnabled;
-    }
-
-    public void setOpeningSoonEmailEnabled(boolean openingSoonEmailEnabled) {
-        isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
-    }
-
     public boolean isClosingEmailEnabled() {
         return isClosingEmailEnabled;
     }
@@ -305,7 +294,6 @@ public class FeedbackSession extends BaseEntity {
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
-                + ", isOpeningSoonEmailEnabled=" + isOpeningSoonEmailEnabled
                 + "]";
         // todo should the tostring be changed to include sentOpeningEmail?
         // (that's a field attribute that's only relevant to instructors)

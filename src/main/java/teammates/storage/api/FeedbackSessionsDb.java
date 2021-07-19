@@ -275,8 +275,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                             && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
                             && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isOpeningSoonEmailEnabled(), newAttributes.isOpeningSoonEmailEnabled())
-                            && thisDb.<Boolean>hasSameValue(
                                     feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
                     if (hasSameAttributes) {
                         log.info(String.format(
@@ -299,7 +297,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
                     feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
                     feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
                     feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
-                    feedbackSession.setOpeningSoonEmailEnabled(newAttributes.isOpeningSoonEmailEnabled());
 
                     saveEntity(feedbackSession);
 
@@ -390,7 +387,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
         return load()
                 .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentOpeningSoonEmail =", false)
-                .filter("isOpeningSoonEmailEnabled =", true)
                 .list();
     }
 

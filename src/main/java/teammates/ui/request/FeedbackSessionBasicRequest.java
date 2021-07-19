@@ -30,7 +30,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
 
     private boolean isClosingEmailEnabled;
     private boolean isPublishedEmailEnabled;
-    private boolean isOpeningSoonEmailEnabled;
 
     public String getInstructions() {
         return instructions;
@@ -86,10 +85,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
         return isPublishedEmailEnabled;
     }
 
-    public boolean isOpeningSoonEmailEnabled() {
-        return isOpeningSoonEmailEnabled;
-    }
-
     public void setInstructions(String instructions) {
         this.instructions = instructions;
     }
@@ -128,10 +123,6 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
 
     public void setPublishedEmailEnabled(boolean publishedEmailEnabled) {
         isPublishedEmailEnabled = publishedEmailEnabled;
-    }
-
-    public void setOpeningSoonEmailEnabled(boolean openingSoonEmailEnabled) {
-        isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
     }
 
     @Override

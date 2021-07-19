@@ -59,7 +59,6 @@ export const EXAMPLE_SESSION_EDIT_FORM_MODEL: SessionEditFormModel = {
 
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
-  isOpeningSoonEmailEnabled: true,
 
   templateSessionName: 'Example session',
 
@@ -193,7 +192,6 @@ export const EXAMPLE_FEEDBACK_SESSION: FeedbackSession = {
   publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
   isClosingEmailEnabled: true,
   isPublishedEmailEnabled: true,
-  isOpeningSoonEmailEnabled: true,
   createdAtTimestamp: 0,
 };
 

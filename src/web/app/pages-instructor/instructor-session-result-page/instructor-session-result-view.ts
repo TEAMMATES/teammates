@@ -34,7 +34,6 @@ export abstract class InstructorSessionResultView implements OnInit {
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
-    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
   @Input() instructorCommentTableModel: Record<string, CommentTableModel> = {};

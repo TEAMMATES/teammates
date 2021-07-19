@@ -112,7 +112,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
-    isOpeningSoonEmailEnabled: true,
 
     templateSessionName: '',
 
@@ -306,7 +305,6 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
             isClosingEmailEnabled: this.sessionEditFormModel.isClosingEmailEnabled,
             isPublishedEmailEnabled: this.sessionEditFormModel.isPublishedEmailEnabled,
-            isOpeningSoonEmailEnabled: this.sessionEditFormModel.isOpeningSoonEmailEnabled,
           });
         }),
     ).subscribe((feedbackSession: FeedbackSession) => {

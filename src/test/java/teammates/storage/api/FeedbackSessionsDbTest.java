@@ -494,32 +494,6 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         assertEquals(JsonUtils.toJson(modifiedSession), JsonUtils.toJson(updatedSession));
     }
 
-    @Test
-    public void testUpdateFeedbackSession_testIfOpeningSoonEmailEnabledWorksCorrectly()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
-        ______TS("success case - test if isOpeningSoonEmailEnabled changes from true to false correctly ");
-        FeedbackSessionAttributes modifiedSession = getNewFeedbackSession();
-        modifiedSession.setOpeningSoonEmailEnabled(true); // making sure correctly set
-        fsDb.deleteFeedbackSession(modifiedSession.getFeedbackSessionName(), modifiedSession.getCourseId());
-        fsDb.createEntity(modifiedSession);
-        verifyPresentInDatabase(modifiedSession);
-        modifiedSession.setOpeningSoonEmailEnabled(false);
-
-        FeedbackSessionAttributes updatedSession = fsDb.updateFeedbackSession(
-                FeedbackSessionAttributes
-                        .updateOptionsBuilder(modifiedSession.getFeedbackSessionName(), modifiedSession.getCourseId())
-                        .withInstructions(modifiedSession.getInstructions())
-                        .withGracePeriod(Duration.ofMinutes(modifiedSession.getGracePeriodMinutes()))
-                        .withSentOpenEmail(modifiedSession.isSentOpenEmail())
-                        .withIsOpeningSoonEmailEnabled(false)
-                        .build());
-
-        FeedbackSessionAttributes actualFs =
-                fsDb.getFeedbackSession(modifiedSession.getCourseId(), modifiedSession.getFeedbackSessionName());
-        assertEquals(JsonUtils.toJson(modifiedSession), JsonUtils.toJson(actualFs));
-        assertEquals(JsonUtils.toJson(modifiedSession), JsonUtils.toJson(updatedSession));
-    }
-
     // the test is to ensure that optimized saving policy is implemented without false negative
     @Test
     public void testUpdateFeedbackSession_singleFieldUpdate_shouldUpdateCorrectly() throws Exception {

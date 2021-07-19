@@ -76,7 +76,6 @@ describe('InstructorTrackViewPageComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: true,
-    isOpeningSoonEmailEnabled: true,
     createdAtTimestamp: 0,
   };
 
@@ -94,7 +93,6 @@ describe('InstructorTrackViewPageComponent', () => {
     publishStatus: FeedbackSessionPublishStatus.NOT_PUBLISHED,
     isClosingEmailEnabled: true,
     isPublishedEmailEnabled: false,
-    isOpeningSoonEmailEnabled: true, // todo should this be true? check this test / see if more tests needed
     createdAtTimestamp: 0,
   };
 

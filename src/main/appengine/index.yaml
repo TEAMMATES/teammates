@@ -38,7 +38,5 @@ indexes:
 - kind: FeedbackSession
   properties:
   - direction: asc
-    name: isOpeningSoonEmailEnabled
-  - direction: asc
     name: sentOpeningSoonEmail
 

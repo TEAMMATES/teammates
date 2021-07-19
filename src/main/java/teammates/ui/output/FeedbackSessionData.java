@@ -35,7 +35,6 @@ public class FeedbackSessionData extends ApiOutput {
 
     private Boolean isClosingEmailEnabled;
     private Boolean isPublishedEmailEnabled;
-    private Boolean isOpeningSoonEmailEnabled;
 
     private long createdAtTimestamp;
     @Nullable
@@ -95,7 +94,6 @@ public class FeedbackSessionData extends ApiOutput {
 
         this.isClosingEmailEnabled = feedbackSessionAttributes.isClosingEmailEnabled();
         this.isPublishedEmailEnabled = feedbackSessionAttributes.isPublishedEmailEnabled();
-        this.isOpeningSoonEmailEnabled = feedbackSessionAttributes.isOpeningSoonEmailEnabled();
 
         this.createdAtTimestamp = feedbackSessionAttributes.getCreatedTime().toEpochMilli();
         if (feedbackSessionAttributes.getDeletedTime() == null) {
@@ -169,10 +167,6 @@ public class FeedbackSessionData extends ApiOutput {
         return isPublishedEmailEnabled;
     }
 
-    public Boolean getIsOpeningSoonEmailEnabled() {
-        return isOpeningSoonEmailEnabled;
-    }
-
     public void setResultVisibleFromTimestamp(Long resultVisibleFromTimestamp) {
         this.resultVisibleFromTimestamp = resultVisibleFromTimestamp;
     }
@@ -207,10 +201,6 @@ public class FeedbackSessionData extends ApiOutput {
 
     public void setPublishedEmailEnabled(Boolean publishedEmailEnabled) {
         isPublishedEmailEnabled = publishedEmailEnabled;
-    }
-
-    public void setIsOpeningSoonEmailEnabled(Boolean openingSoonEmailEnabled) {
-        isOpeningSoonEmailEnabled = openingSoonEmailEnabled;
     }
 
     public long getCreatedAtTimestamp() {
