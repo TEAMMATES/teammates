@@ -28,7 +28,7 @@ class RestoreCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
 
         String idOfCourseToRestore = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String statusMessage;

@@ -31,7 +31,7 @@ class PostStudentProfilePictureAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         try {
             Part image = req.getPart("studentprofilephoto");
             if (image == null) {

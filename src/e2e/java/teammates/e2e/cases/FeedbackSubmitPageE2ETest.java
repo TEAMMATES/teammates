@@ -35,7 +35,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         testData = loadDataBundle("/FeedbackSubmitPageE2ETest.json");
         testData.feedbackSessions.get("Grace Period Session").setEndTime(Instant.now());
         student = testData.students.get("Alice");
-        student.email = TestProperties.TEST_EMAIL;
+        student.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("FSubmit.instr");
@@ -50,7 +50,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_SUBMISSION_PAGE)
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName());
-        FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.googleId);
+        FeedbackSubmitPage submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session data");
         submitPage.verifyFeedbackSessionDetails(openSession);
@@ -61,7 +61,8 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
         ______TS("questions with giver type students");
         logout();
-        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class, student.googleId);
+        submitPage = loginToPage(getStudentSubmitPageUrl(student, openSession), FeedbackSubmitPage.class,
+                student.getGoogleId());
 
         submitPage.verifyNumQuestions(4);
         submitPage.verifyQuestionDetails(1, testData.feedbackQuestions.get("qn1InSession1"));
@@ -130,7 +131,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(openSession.getCourseId())
                 .withSessionName(openSession.getFeedbackSessionName())
                 .withParam("previewas", instructor.getEmail());
-        submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.googleId);
+        submitPage = loginToPage(url, FeedbackSubmitPage.class, instructor.getGoogleId());
 
         submitPage.verifyFeedbackSessionDetails(openSession);
         submitPage.verifyNumQuestions(1);
@@ -174,7 +175,7 @@ public class FeedbackSubmitPageE2ETest extends BaseE2ETestCase {
 
     private AppUrl getStudentSubmitPageUrl(StudentAttributes student, FeedbackSessionAttributes session) {
         return createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(student.course)
+                .withCourseId(student.getCourse())
                 .withSessionName(session.getFeedbackSessionName());
     }
 

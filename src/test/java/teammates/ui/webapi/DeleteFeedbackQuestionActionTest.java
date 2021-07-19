@@ -68,7 +68,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomQuestionId",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");

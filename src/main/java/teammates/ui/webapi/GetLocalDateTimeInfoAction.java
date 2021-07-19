@@ -31,7 +31,7 @@ class GetLocalDateTimeInfoAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String localDateTimeStr = getNonNullRequestParamValue(Const.ParamsNames.LOCAL_DATE_TIME);
         String zoneIdStr = getNonNullRequestParamValue(Const.ParamsNames.TIME_ZONE);
 
