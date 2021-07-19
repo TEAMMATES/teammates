@@ -31,9 +31,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
     @Test
     protected void testExecute() {
         InstructorAttributes instructorToEdit = typicalBundle.instructors.get("instructorNotDisplayedToStudent1");
-        String instructorId = instructorToEdit.googleId;
-        String courseId = instructorToEdit.courseId;
-        String instructorDisplayName = instructorToEdit.displayedName;
+        String instructorId = instructorToEdit.getGoogleId();
+        String courseId = instructorToEdit.getCourseId();
+        String instructorDisplayName = instructorToEdit.getDisplayedName();
 
         loginAsInstructor(instructorId);
 
@@ -47,8 +47,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         String newInstructorEmail = "newEmail@email.com";
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, instructorToEdit.role,
-                instructorDisplayName, instructorToEdit.isDisplayedToStudents);
+                newInstructorEmail, instructorToEdit.getRole(),
+                instructorDisplayName, instructorToEdit.isDisplayedToStudents());
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
@@ -57,19 +57,19 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
         InstructorAttributes editedInstructor = logic.getInstructorForGoogleId(courseId, instructorId);
-        assertEquals(newInstructorName, editedInstructor.name);
+        assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
-        assertEquals(newInstructorEmail, editedInstructor.email);
+        assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
-        assertTrue(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
+        assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
         ______TS("Failure case: edit failed due to invalid parameters");
 
         String invalidEmail = "wrongEmail.com";
-        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
+        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
 
@@ -84,7 +84,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         ______TS("Failure case: after editing instructor, no instructors are displayed");
 
-        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.name,
+        reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
@@ -114,9 +114,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         response = (InstructorData) actionOutput.getOutput();
 
         editedInstructor = logic.getInstructorForGoogleId(courseId, instructorId);
-        assertEquals(newInstructorEmail, editedInstructor.email);
+        assertEquals(newInstructorEmail, editedInstructor.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
-        assertEquals(newInstructorName, editedInstructor.name);
+        assertEquals(newInstructorName, editedInstructor.getName());
         assertEquals(newInstructorName, response.getName());
 
         //remove the new instructor entity that was created
@@ -165,7 +165,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         ______TS("only instructors of the same course can access");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

@@ -27,7 +27,17 @@ import teammates.storage.entity.FeedbackSession;
  * @see FeedbackSession
  * @see FeedbackSessionAttributes
  */
-public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+
+    private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
+
+    private FeedbackSessionsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackSessionsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a list of feedback sessions that is ongoing, i.e. starting before {@code rangeEnd}
@@ -182,7 +192,6 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Gets a list of undeleted feedback sessions which end in the future (2 hour ago onward)
      * and possibly need a closed email to be sent.
-     * // why does it say 2 hours? the get function used below uses "getInstantDaysOffsetFromNow(2 days)
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingClosedEmail() {
         return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingClosedEmail()).stream()
@@ -191,9 +200,10 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
-     * Gets a list of undeleted feedback sessions which open in the future (2 hour ago onward??)
+     * Gets a list of undeleted feedback sessions which open in the future
      * and possibly need a opening soon email to be sent.
-     * todo check if time range is correct
+     * todo ??? check if time range is correct (why do the javadocs of these functions say 2 hours?)
+     * the get function used below uses "getInstantDaysOffsetFromNow(2 days)
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
         return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail()).stream()

@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +53,7 @@ public abstract class Action {
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
+    private StudentAttributes unregisteredStudent;
 
     // buffer to store the request body
     private String requestBody;
@@ -90,7 +93,7 @@ public abstract class Action {
     /**
      * Checks if the requesting user has sufficient authority to access the resource.
      */
-    void checkAccessControl() throws UnauthorizedAccessException {
+    public void checkAccessControl() throws UnauthorizedAccessException {
         String userParam = getRequestParamValue(Const.ParamsNames.USER_ID);
         if (userInfo != null && userParam != null && !userInfo.isAdmin && !userInfo.id.equals(userParam)) {
             throw new UnauthorizedAccessException("User " + userInfo.id
@@ -109,6 +112,24 @@ public abstract class Action {
 
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();
+    }
+
+    /**
+     * Gets the user information of the current user.
+     */
+    public Map<String, String> getUserInfoForLogging() {
+        Map<String, String> info = new HashMap<>();
+
+        String googleId = userInfo == null ? null : userInfo.getId();
+
+        info.put("googleId", googleId);
+        if (unregisteredStudent == null) {
+            info.put("regkey", getRequestParamValue(Const.ParamsNames.REGKEY));
+        } else {
+            info.put("regkey", unregisteredStudent.getKey());
+            info.put("email", unregisteredStudent.getEmail());
+        }
+        return info;
     }
 
     private void initAuthInfo() {
@@ -227,6 +248,7 @@ public abstract class Action {
             if (studentAttributes == null) {
                 return Optional.empty();
             }
+            unregisteredStudent = studentAttributes;
             return Optional.of(studentAttributes);
         }
         return Optional.empty();
@@ -234,7 +256,7 @@ public abstract class Action {
 
     InstructorPrivilegeData constructInstructorPrivileges(InstructorAttributes instructor, String feedbackSessionName) {
         InstructorPrivilegeData privilege = new InstructorPrivilegeData();
-        privilege.constructCourseLevelPrivilege(instructor.privileges);
+        privilege.constructCourseLevelPrivilege(instructor.getPrivileges());
         if (feedbackSessionName != null) {
             privilege.setCanSubmitSessionInSections(
                     instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS)
@@ -266,6 +288,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    abstract ActionResult execute();
+    public abstract ActionResult execute();
 
 }

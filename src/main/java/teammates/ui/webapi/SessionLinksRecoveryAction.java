@@ -26,7 +26,7 @@ class SessionLinksRecoveryAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (!StringHelper.isMatching(recoveryEmailAddress, REGEX_EMAIL)) {

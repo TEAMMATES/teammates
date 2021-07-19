@@ -11,11 +11,11 @@ import teammates.common.util.RequestTracer;
 /**
  * Cron job: schedules feedback session opening soon emails to be sent.
  */
-public class FeedbackSessionOpeningSoonRemindersAction extends AdminOnlyAction {
+class FeedbackSessionOpeningSoonRemindersAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         List<FeedbackSessionAttributes> sessions = logic.getFeedbackSessionsOpeningWithinTimeLimit();
         for (FeedbackSessionAttributes session : sessions) {
             RequestTracer.checkRemainingTime();

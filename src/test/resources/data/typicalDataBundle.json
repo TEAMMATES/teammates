@@ -263,7 +263,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor Not Yet Joined Course 1",
       "email": "instructorNotYetJoinedCourse1@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse1",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -599,7 +598,6 @@
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor Not Yet Joined Course",
       "email": "instructorNotYetJoined@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -724,8 +722,7 @@
       "name": "student1 In unregisteredCourse",
       "comments": "",
       "team": "Team 1",
-      "section": "Section 1",
-      "key": "regKeyForStuNotYetJoinCourse"
+      "section": "Section 1"
     },
     "student2InUnregisteredCourse": {
       "googleId": "",
@@ -734,8 +731,7 @@
       "name": "student2 In unregisteredCourse",
       "comments": "",
       "team": "Team 2",
-      "section": "Section 2",
-      "key": "regKey2ForStuNotYetJoinCourse"
+      "section": "Section 2"
     },
     "student1InArchivedCourse": {
       "googleId": "student1InArchivedCourse",

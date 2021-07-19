@@ -16,7 +16,7 @@ import teammates.common.util.FieldValidator;
  */
 public class DataBundleLogicTest extends BaseLogicTest {
 
-    private static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    private final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     @Override
     protected void prepareTestData() {

@@ -181,9 +181,15 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
-    // todo are these function names slightly misleading? isOpenedWithin(24 hours) might be more accurate?
-    public boolean isOpenedAfter(long hours) {
-        return Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
+    // todo ??? how to name this function? it's half similar to the isClosedAfter function
+
+    /**
+     * Returns true if session's start time is opening from now to anytime before
+     * now() + the specific number of {@param hours} supplied in the argument.
+     */
+    public boolean isOpeningBetweenNowAndBefore(long hours) {
+        return startTime.isAfter(Instant.now())
+                && Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
     }
 
     public boolean isClosedAfter(long hours) {
@@ -201,9 +207,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                && difference.compareTo(Duration.ofHours(hours)) < 0;
     }
 
-    // todo not sure if this function is needed
     public boolean isOpeningWithinTimeLimit(long hours) {
-        return false;
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, startTime);
+
+        return now.isBefore(startTime)
+                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+                && difference.compareTo(Duration.ofHours(hours)) < 0;
+
     }
 
     /**

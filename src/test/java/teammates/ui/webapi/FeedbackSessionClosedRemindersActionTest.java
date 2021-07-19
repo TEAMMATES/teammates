@@ -65,8 +65,9 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withEndTime(session1.getEndTime())
                         .build());
         // todo why should sentOpenEmail be false after closing fs?
-        // todo im guessing i should set sentOpeningEmail to be false for this case too?
+        // todo im guessing i should set sentOpeningEmail to be false, following sentOpenEmail
         session1.setSentOpenEmail(false); // fsLogic will set the flag to false
+        session1.setSentOpeningSoonEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session1);
 
         // Ditto, but with disabled closed reminder
@@ -85,6 +86,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
                         .build());
         session2.setSentOpenEmail(false); // fsLogic will set the flag to false
+        session2.setSentOpeningSoonEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session2);
 
         // Still in grace period; closed reminder should not be sent
@@ -101,6 +103,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withEndTime(session3.getEndTime())
                         .build());
         session3.setSentOpenEmail(false); // fsLogic will set the flag to false
+        session3.setSentOpeningSoonEmail(false); // fsLogic will set the flag to false
         verifyPresentInDatabase(session3);
 
         action = getAction();

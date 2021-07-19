@@ -125,7 +125,7 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
+      "isPublishedEmailEnabled": true
     },
     "openSession": {
       "feedbackSessionName": "Second Session",
@@ -145,7 +145,7 @@
       "sentPublishedEmail": false,
       "isOpeningEmailEnabled": true,
       "isClosingEmailEnabled": true,
-      "isPublishedEmailEnabled": true,
+      "isPublishedEmailEnabled": true
     }
   },
   "feedbackQuestions": {

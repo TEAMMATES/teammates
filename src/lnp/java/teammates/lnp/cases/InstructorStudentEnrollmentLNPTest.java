@@ -94,7 +94,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
 
@@ -109,17 +108,16 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId);
-                    csvRow.add("no");
-                    csvRow.add(instructor.courseId);
+                    csvRow.add(instructor.getGoogleId());
+                    csvRow.add(instructor.getCourseId());
 
                     // Create and add student enrollment data with a team number corresponding to each section number
                     List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
 
                     for (int i = 0; i < NUM_STUDENTS_PER_INSTRUCTOR; i++) {
 
-                        String name = instructor.name + ".Student" + i;
-                        String email = instructor.name + ".Student" + i + "@gmail.tmt";
+                        String name = instructor.getName() + ".Student" + i;
+                        String email = instructor.getName() + ".Student" + i + "@gmail.tmt";
                         String team = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
                         String section = String.valueOf(i / NUM_STUDENTS_PER_SECTION);
                         String comment = "no comment";
