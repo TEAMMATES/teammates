@@ -56,7 +56,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").key;
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(registeredStudentKey),
@@ -73,7 +73,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").key;
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredStudentKey),
@@ -110,7 +110,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: instructor is already registered");
 
         String registeredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").key;
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(registeredInstructorKey),
@@ -127,7 +127,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").key;
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredInstructorKey),

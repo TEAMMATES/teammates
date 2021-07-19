@@ -38,7 +38,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
             return;
         }
 
-        String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
+        String instructorId = testData.accounts.get("instructor1OfCourse1").getGoogleId();
         AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
         InstructorSearchPage searchPage = loginToPage(searchPageUrl, InstructorSearchPage.class, instructorId);
@@ -113,7 +113,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         };
 
         searchPage.verifyStudentDetails(course2, studentsAfterDelete);
-        verifyAbsentInDatastore(studentToDelete);
+        verifyAbsentInDatabase(studentToDelete);
 
     }
 

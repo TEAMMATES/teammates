@@ -45,7 +45,7 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE);
-        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.googleId);
+        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
         String currentLogsFromDate = auditLogsPage.getLogsFromDate();
@@ -77,15 +77,15 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         StudentFeedbackSubmissionPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                StudentFeedbackSubmissionPage.class, student.googleId);
+                StudentFeedbackSubmissionPage.class, student.getGoogleId());
         studentSubmissionPage.populateResponse();
         studentSubmissionPage.submit();
 
         logout();
-        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.googleId);
+        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
 
-        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.feedbackSessionName));
+        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }

@@ -37,7 +37,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         List<String> expectedSectionNames = logic.getSectionNamesForCourse(instructor1OfCourse1.getCourseId());
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("typical success case for instructor");
 
@@ -56,7 +56,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     @Test
     protected void testExecute_nonExistCourse_shouldFail() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("failed case for non-existent course");
 
@@ -96,7 +96,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         verifyInaccessibleForUnregisteredUsers(instructorParams);
 
         ______TS("Login as instructor, then can access");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
     }
 

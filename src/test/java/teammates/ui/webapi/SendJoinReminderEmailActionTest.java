@@ -32,13 +32,13 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
     @Test
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.email);
+        verifyHttpParameterFailure(Const.ParamsNames.INSTRUCTOR_EMAIL, instructor1OfCourse1.getEmail());
 
         ______TS("Typical case: Send email to remind an instructor to register for the course");
 
@@ -46,7 +46,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         InstructorAttributes anotherInstructorOfCourse1 = typicalBundle.instructors.get("instructorNotYetJoinCourse1");
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.getEmail(),
         };
 
         SendJoinReminderEmailAction sendJoinReminderEmailAction = getAction(submissionParams);
@@ -55,21 +55,21 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         MessageOutput msg = (MessageOutput) result.getOutput();
-        assertEquals("An email has been sent to " + anotherInstructorOfCourse1.email, msg.getMessage());
+        assertEquals("An email has been sent to " + anotherInstructorOfCourse1.getEmail(), msg.getMessage());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         Map<String, String> paramMap = taskAdded.getParamMap();
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
-        assertEquals(anotherInstructorOfCourse1.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        assertEquals(anotherInstructorOfCourse1.getEmail(), paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
 
         ______TS("Typical case: Send email to remind a student to register for the course");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
         sendJoinReminderEmailAction = getAction(submissionParams);
@@ -78,14 +78,14 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         msg = (MessageOutput) result.getOutput();
-        assertEquals("An email has been sent to " + student1InCourse1.email, msg.getMessage());
+        assertEquals("An email has been sent to " + student1InCourse1.getEmail(), msg.getMessage());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
 
         taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         paramMap = taskAdded.getParamMap();
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
-        assertEquals(student1InCourse1.email, paramMap.get(Const.ParamsNames.STUDENT_EMAIL));
+        assertEquals(student1InCourse1.getEmail(), paramMap.get(Const.ParamsNames.STUDENT_EMAIL));
 
         ______TS("Masquerade mode: Send emails to all unregistered student to remind registering for the course");
 
@@ -108,8 +108,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         logic.createStudent(unregisteredStudent2);
 
         /* Reassign the attributes to retrieve their keys */
-        unregisteredStudent1 = logic.getStudentForEmail(courseId, unregisteredStudent1.email);
-        unregisteredStudent2 = logic.getStudentForEmail(courseId, unregisteredStudent2.email);
+        unregisteredStudent1 = logic.getStudentForEmail(courseId, unregisteredStudent1.getEmail());
+        unregisteredStudent2 = logic.getStudentForEmail(courseId, unregisteredStudent2.getEmail());
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
@@ -131,8 +131,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
             assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
         }
 
-        logic.deleteStudentCascade(courseId, unregisteredStudent1.email);
-        logic.deleteStudentCascade(courseId, unregisteredStudent2.email);
+        logic.deleteStudentCascade(courseId, unregisteredStudent1.getEmail());
+        logic.deleteStudentCascade(courseId, unregisteredStudent2.getEmail());
 
         ______TS("Typical case: no unregistered students in course");
 
@@ -177,7 +177,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
 
         String[] invalidCourseIdSubmissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "invalidCourseId",
-                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.email,
+                Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.getEmail(),
         };
 
         entityNotFoundException = assertThrows(EntityNotFoundException.class, () ->
@@ -189,7 +189,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
     @Test
     protected void testAccessControl() throws Exception {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").getCourseId(),
         };
 
         ______TS("Sending registration emails to all students");
@@ -200,8 +200,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         ______TS("Sending registration emails to student");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.STUDENT_EMAIL, typicalBundle.students.get("student1InCourse1").email,
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").getCourseId(),
+                Const.ParamsNames.STUDENT_EMAIL, typicalBundle.students.get("student1InCourse1").getEmail(),
         };
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_STUDENT, submissionParams);
@@ -209,8 +209,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         ______TS("Sending registration emails to instructor");
 
         submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, typicalBundle.instructors.get("instructor1OfCourse1").email,
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, typicalBundle.instructors.get("instructor1OfCourse1").getEmail(),
         };
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
                 Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, submissionParams);

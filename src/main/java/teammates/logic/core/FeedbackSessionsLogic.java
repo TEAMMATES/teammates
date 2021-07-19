@@ -30,6 +30,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
+import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 
@@ -53,16 +54,16 @@ public final class FeedbackSessionsLogic {
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-    private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
+    private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
 
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private CoursesLogic coursesLogic;
+    private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -70,6 +71,15 @@ public final class FeedbackSessionsLogic {
 
     public static FeedbackSessionsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        coursesLogic = CoursesLogic.inst();
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**
@@ -130,13 +140,13 @@ public final class FeedbackSessionsLogic {
             List<InstructorAttributes> instructorList) {
 
         List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
-                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesLogic.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .collect(Collectors.toList());
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(getFeedbackSessionsListForCourse(instructor.courseId));
+            fsList.addAll(getFeedbackSessionsListForCourse(instructor.getCourseId()));
         }
 
         return fsList;
@@ -151,13 +161,13 @@ public final class FeedbackSessionsLogic {
             List<InstructorAttributes> instructorList) {
 
         List<InstructorAttributes> courseNotDeletedInstructorList = instructorList.stream()
-                .filter(instructor -> !coursesLogic.getCourse(instructor.courseId).isCourseDeleted())
+                .filter(instructor -> !coursesLogic.getCourse(instructor.getCourseId()).isCourseDeleted())
                 .collect(Collectors.toList());
 
         List<FeedbackSessionAttributes> fsList = new ArrayList<>();
 
         for (InstructorAttributes instructor : courseNotDeletedInstructorList) {
-            fsList.addAll(getSoftDeletedFeedbackSessionsListForCourse(instructor.courseId));
+            fsList.addAll(getSoftDeletedFeedbackSessionsListForCourse(instructor.getCourseId()));
         }
 
         return fsList;
@@ -482,7 +492,7 @@ public final class FeedbackSessionsLogic {
 
         for (InstructorAttributes instructor : instructors) {
             List<FeedbackQuestionAttributes> instructorQns =
-                    fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.email));
+                    fqLogic.getFeedbackQuestionsForInstructor(questions, fsa.isCreator(instructor.getEmail()));
             if (!instructorQns.isEmpty()) {
                 expectedTotal += 1;
             }
@@ -532,6 +542,7 @@ public final class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
+        RequestTracer.checkRemainingTime();
 
         // load response(s)
         StudentAttributes student = getStudent(courseId, userEmail, role);
@@ -556,6 +567,7 @@ public final class FeedbackSessionsLogic {
                 allResponses.addAll(viewableResponses);
             }
         }
+        RequestTracer.checkRemainingTime();
 
         // load comment(s)
         List<FeedbackResponseCommentAttributes> allComments;
@@ -564,6 +576,7 @@ public final class FeedbackSessionsLogic {
         } else {
             allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
         }
+        RequestTracer.checkRemainingTime();
 
         // related questions, responses, and comment
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
@@ -588,7 +601,7 @@ public final class FeedbackSessionsLogic {
 
         // build response
         for (FeedbackResponseAttributes response : allResponses) {
-            FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.feedbackQuestionId);
+            FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.getFeedbackQuestionId());
             if (correspondingQuestion == null) {
                 // orphan response without corresponding question, ignore it
                 continue;
@@ -610,11 +623,12 @@ public final class FeedbackSessionsLogic {
             responseRecipientVisibilityTable.put(response.getId(),
                     frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, role, false, roster));
         }
+        RequestTracer.checkRemainingTime();
 
         // build comment
         for (FeedbackResponseCommentAttributes frc : allComments) {
-            FeedbackResponseAttributes relatedResponse = relatedResponsesMap.get(frc.feedbackResponseId);
-            FeedbackQuestionAttributes relatedQuestion = relatedQuestionsMap.get(frc.feedbackQuestionId);
+            FeedbackResponseAttributes relatedResponse = relatedResponsesMap.get(frc.getFeedbackResponseId());
+            FeedbackQuestionAttributes relatedQuestion = relatedQuestionsMap.get(frc.getFeedbackQuestionId());
             // the comment needs to be relevant to the question and response
             if (relatedQuestion == null || relatedResponse == null) {
                 continue;
@@ -630,6 +644,7 @@ public final class FeedbackSessionsLogic {
             // generate comment giver name visibility table
             commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
         }
+        RequestTracer.checkRemainingTime();
 
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
@@ -639,6 +654,7 @@ public final class FeedbackSessionsLogic {
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
                     relatedQuestionsMap, existingResponses, roster, section);
         }
+        RequestTracer.checkRemainingTime();
 
         return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
@@ -669,7 +685,7 @@ public final class FeedbackSessionsLogic {
         // first get all possible giver recipient pairs
         Map<String, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
         for (FeedbackQuestionAttributes feedbackQuestion : relatedQuestionsMap.values()) {
-            if (feedbackQuestion.getQuestionDetails().shouldGenerateMissingResponses(feedbackQuestion)) {
+            if (feedbackQuestion.getQuestionDetailsCopy().shouldGenerateMissingResponses(feedbackQuestion)) {
                 questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(),
                         fqLogic.buildCompleteGiverRecipientMap(feedbackSession, feedbackQuestion, courseRoster));
             } else {
@@ -800,38 +816,38 @@ public final class FeedbackSessionsLogic {
 
         boolean isVisibleResponse = false;
         if (isInstructor(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.recipient.equals(userEmail)
+                || response.getRecipient().equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || response.giver.equals(userEmail)
+                || response.getGiver().equals(userEmail)
                 || isStudent(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
         } else if (studentsEmailInTeam != null && isStudent(role)) {
-            if (relatedQuestion.recipientType == FeedbackParticipantType.TEAMS
+            if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.recipient.equals(student.team)) {
+                    && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;
-            } else if (relatedQuestion.giverType == FeedbackParticipantType.TEAMS
-                       && studentsEmailInTeam.contains(response.giver)) {
+            } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
+                       && studentsEmailInTeam.contains(response.getGiver())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.giver)) {
+                       && studentsEmailInTeam.contains(response.getGiver())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.recipient)) {
+                       && studentsEmailInTeam.contains(response.getRecipient())) {
                 isVisibleResponse = true;
             }
         }
         if (isVisibleResponse && instructor != null) {
             boolean isGiverSectionRestricted =
-                    !instructor.isAllowedForPrivilege(response.giverSection,
-                                                      response.feedbackSessionName,
+                    !instructor.isAllowedForPrivilege(response.getGiverSection(),
+                            response.getFeedbackSessionName(),
                                                       Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
             // If instructors are not restricted to view the giver's section,
             // they are allowed to view responses to GENERAL, subject to visibility options
             boolean isRecipientSectionRestricted =
-                    relatedQuestion.recipientType != FeedbackParticipantType.NONE
-                    && !instructor.isAllowedForPrivilege(response.recipientSection,
-                                                         response.feedbackSessionName,
+                    relatedQuestion.getRecipientType() != FeedbackParticipantType.NONE
+                    && !instructor.isAllowedForPrivilege(response.getRecipientSection(),
+                            response.getFeedbackSessionName(),
                                                          Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
 
             boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;

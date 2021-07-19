@@ -14,7 +14,7 @@ import teammates.common.util.EmailWrapper;
 class InstructorCourseJoinEmailWorkerAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {

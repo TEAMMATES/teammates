@@ -11,7 +11,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.InstructorsDb;
 
@@ -25,13 +26,13 @@ public final class InstructorsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static InstructorsLogic instance = new InstructorsLogic();
+    private static final InstructorsLogic instance = new InstructorsLogic();
 
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private FeedbackQuestionsLogic fqLogic;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -39,6 +40,12 @@ public final class InstructorsLogic {
 
     public static InstructorsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
     /* ====================================
@@ -61,7 +68,7 @@ public final class InstructorsLogic {
      * @return null if no result found
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
 
@@ -74,7 +81,7 @@ public final class InstructorsLogic {
      *
      * @return the created instructor
      * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
     public InstructorAttributes createInstructor(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -116,7 +123,7 @@ public final class InstructorsLogic {
 
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
-        instructorReturnList.sort(InstructorAttributes.COMPARE_BY_NAME);
+        InstructorAttributes.sortByName(instructorReturnList);
 
         return instructorReturnList;
     }
@@ -168,18 +175,18 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByGoogleId(updateOptions);
 
-        if (!originalInstructor.email.equals(updatedInstructor.email)) {
+        if (!originalInstructor.getEmail().equals(updatedInstructor.getEmail())) {
             // cascade responses
             List<FeedbackResponseAttributes> responsesFromUser =
                     frLogic.getFeedbackResponsesFromGiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseFromUser : responsesFromUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseFromUser.getFeedbackQuestionId());
                 if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         || question.getGiverType() == FeedbackParticipantType.SELF) {
                     try {
@@ -196,7 +203,7 @@ public final class InstructorsLogic {
                     frLogic.getFeedbackResponsesForReceiverForCourse(
                             originalInstructor.getCourseId(), originalInstructor.getEmail());
             for (FeedbackResponseAttributes responseToUser : responsesToUser) {
-                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.feedbackQuestionId);
+                FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(responseToUser.getFeedbackQuestionId());
                 if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
                         || (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
                         && question.getRecipientType() == FeedbackParticipantType.SELF)) {
@@ -212,7 +219,7 @@ public final class InstructorsLogic {
             }
             // cascade comments
             frcLogic.updateFeedbackResponseCommentsEmails(
-                    updatedInstructor.courseId, originalInstructor.email, updatedInstructor.email);
+                    updatedInstructor.getCourseId(), originalInstructor.getEmail(), updatedInstructor.getEmail());
         }
 
         return updatedInstructor;
@@ -240,7 +247,7 @@ public final class InstructorsLogic {
         newInstructor.update(updateOptions);
 
         boolean isOriginalInstructorDisplayed = originalInstructor.isDisplayedToStudents();
-        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.courseId, isOriginalInstructorDisplayed,
+        verifyAtLeastOneInstructorIsDisplayed(originalInstructor.getCourseId(), isOriginalInstructorDisplayed,
                 newInstructor.isDisplayedToStudents());
 
         return instructorsDb.updateInstructorByEmail(updateOptions);
@@ -276,7 +283,7 @@ public final class InstructorsLogic {
 
         // cascade delete instructors
         for (InstructorAttributes instructor : instructors) {
-            deleteInstructorCascade(instructor.courseId, instructor.email);
+            deleteInstructorCascade(instructor.getCourseId(), instructor.getEmail());
         }
     }
 
@@ -306,4 +313,32 @@ public final class InstructorsLogic {
         }
     }
 
+    /**
+     * Checks if there are any other registered instructors that can modify instructors.
+     * If there are none, the instructor currently being edited will be granted the privilege
+     * of modifying instructors automatically.
+     *
+     * @param courseId         Id of the course.
+     * @param instructorToEdit Instructor that will be edited.
+     *                         This may be modified within the method.
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrWithModifyInstructorPrivilege = null;
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrWithModifyInstructorPrivilege = instructor;
+            }
+        }
+        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
+                && instrWithModifyInstructorPrivilege != null
+                && (!instrWithModifyInstructorPrivilege.isRegistered()
+                || instrWithModifyInstructorPrivilege.getGoogleId()
+                .equals(instructorToEdit.getGoogleId()));
+        if (isLastRegInstructorWithPrivilege) {
+            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
+    }
 }

@@ -25,7 +25,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.RegenerateStudentException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -44,17 +44,17 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
+    protected final AccountsLogic accountsLogic = AccountsLogic.inst();
+    protected final StudentsLogic studentsLogic = StudentsLogic.inst();
+    protected final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    protected final CoursesLogic coursesLogic = CoursesLogic.inst();
+    protected final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    protected final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    protected final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    protected final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    protected final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    protected final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     /**
      * Preconditions: <br>
@@ -112,7 +112,7 @@ public class Logic {
      *
      * @return the created instructor
      * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the instructor already exists in the database
      */
     public InstructorAttributes createInstructor(InstructorAttributes instructor)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -128,7 +128,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public List<InstructorAttributes> searchInstructorsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
 
         return instructorsLogic.searchInstructorsInWholeSystem(queryString);
@@ -141,6 +141,19 @@ public class Logic {
      */
     public void putInstructorDocuments(List<InstructorAttributes> instructors) {
         instructorsLogic.putDocuments(instructors);
+    }
+
+    /**
+     * Update instructor being edited to ensure validity of instructors for the course.
+     *
+     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+
+        assert courseId != null;
+        assert instructorToEdit != null;
+
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }
 
     /**
@@ -456,7 +469,7 @@ public class Logic {
      * @return Null if no match found
      */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
         assert instructors != null;
         return studentsLogic.searchStudents(queryString, instructors);
@@ -469,7 +482,7 @@ public class Logic {
      * @return Null if no match found.
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         assert queryString != null;
 
         return studentsLogic.searchStudentsInWholeSystem(queryString);
@@ -626,7 +639,7 @@ public class Logic {
      *
      * @return the created student.
      * @throws InvalidParametersException if the student is not valid.
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore.
+     * @throws EntityAlreadyExistsException if the student already exists in the database.
      */
     public StudentAttributes createStudent(StudentAttributes student)
             throws InvalidParametersException, EntityAlreadyExistsException {
@@ -1307,7 +1320,7 @@ public class Logic {
     }
 
     /**
-     * Persists the given data bundle to the datastore.
+     * Persists the given data bundle to the database.
      *
      * @see DataBundleLogic#persistDataBundle(DataBundle)
      */
@@ -1316,7 +1329,7 @@ public class Logic {
     }
 
     /**
-     * Removes the given data bundle from the datastore.
+     * Removes the given data bundle from the database.
      *
      * @see DataBundleLogic#removeDataBundle(DataBundle)
      */
@@ -1325,7 +1338,7 @@ public class Logic {
     }
 
     /**
-     * Puts searchable documents from the data bundle to the datastore.
+     * Puts searchable documents from the data bundle to the database.
      *
      * @see DataBundleLogic#putDocuments(DataBundle)
      */
@@ -1345,5 +1358,4 @@ public class Logic {
         assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
-
 }

@@ -5,6 +5,8 @@ on:
     branches:
       - master 
       - release
+  schedule:
+    - cron: "0 0 * * *" # end of every day
 jobs:
   LnP-testing:
     runs-on: ubuntu-latest
@@ -25,9 +27,11 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Create Config Files
         run: ./gradlew createConfigs
-      - name: Run local Datastore emulator
-        run: ./gradlew runDatastoreEmulator
+      - name: Run Solr search service + local Datastore emulator
+        run: docker-compose up -d
       - name: Start Server
         run: ./gradlew serverRun &
+      - name: Wait until server is running
+        run: ./wait-for-server.sh
       - name: Start Tests
         run: ./gradlew lnpTests

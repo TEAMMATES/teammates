@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  datastore:
+    build:
+      context: datastore-dev
+    volumes:
+      - ./src/main/appengine/index.yaml:/root/.config/gcloud/emulators/datastore/WEB-INF/index.yaml
+    ports:
+      - 8484:8484
+  solr:
+    build:
+      context: solr
+    ports:
+      - 8983:8983

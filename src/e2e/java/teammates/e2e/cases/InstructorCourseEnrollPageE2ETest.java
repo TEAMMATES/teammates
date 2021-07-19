@@ -23,7 +23,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_ENROLL_PAGE)
                 .withCourseId(testData.courses.get("ICEnroll.CS2104").getId());
         InstructorCourseEnrollPage enrollPage = loginToPage(url, InstructorCourseEnrollPage.class,
-                testData.instructors.get("ICEnroll.teammates.test").googleId);
+                testData.instructors.get("ICEnroll.teammates.test").getGoogleId());
 
         ______TS("Add rows to enroll spreadsheet");
         int numRowsToAdd = 30;
@@ -48,14 +48,14 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage = getNewPageInstance(url, InstructorCourseEnrollPage.class);
         enrollPage.verifyExistingStudentsTableContains(studentsEnrollingToEmptyCourse);
 
-        // verify students in datastore
+        // verify students in database
         assertEquals(getStudent(student1), student1);
         assertEquals(getStudent(student2), student2);
         assertEquals(getStudent(student3), student3);
 
         ______TS("Enroll and modify students in existing course");
         // modify team details of existing student
-        student3.team = "Team 3";
+        student3.setTeam("Team 3");
         // add valid new student
         StudentAttributes student4 = createCourseStudent("Section 2", "Team 2", "Danny Engrid",
                 "danny.e.tmms@gmail.tmt", "Comment for Danny");
@@ -77,7 +77,7 @@ public class InstructorCourseEnrollPageE2ETest extends BaseE2ETestCase {
         enrollPage.verifyResultsPanelContains(newStudentsData, modifiedStudentsData, modifiedWithoutChangeStudentsData,
                 errorStudentsData, unmodifiedStudentsData);
 
-        // verify students in datastore
+        // verify students in database
         assertEquals(getStudent(student1), student1);
         assertEquals(getStudent(student2), student2);
         assertEquals(getStudent(student3), student3);

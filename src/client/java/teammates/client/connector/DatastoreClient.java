@@ -10,10 +10,11 @@ import com.googlecode.objectify.util.Closeable;
 
 import teammates.client.util.ClientProperties;
 import teammates.common.util.Config;
+import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
 
 /**
- * Enables access to any Datastore (local/production).
+ * Enables access to any datastore (local/production).
  */
 public abstract class DatastoreClient {
 
@@ -37,6 +38,7 @@ public abstract class DatastoreClient {
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
         OfyHelper.registerEntityClasses();
         Closeable objectifySession = ObjectifyService.begin();
+        LogicStarter.initializeDependencies();
 
         try {
             doOperation();

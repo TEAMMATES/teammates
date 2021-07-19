@@ -14,7 +14,7 @@ import teammates.ui.output.TimeZonesData;
 class GetTimeZonesAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String tzVersion = ZoneRulesProvider.getVersions("UTC").firstKey();
         Instant now = Instant.now();
         Map<String, Integer> tzOffsets = new TreeMap<>();
