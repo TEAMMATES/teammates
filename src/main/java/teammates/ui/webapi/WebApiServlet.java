@@ -159,14 +159,12 @@ public class WebApiServlet extends HttpServlet {
         }
 
         String googleId = action.userInfo == null ? null : action.userInfo.getId();
-        String regkey = action.getRequestParamValue(Const.ParamsNames.REGKEY);
-        String studentEmail = action.getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
-
-        if (regkey != null && studentEmail == null) {
-            Optional<StudentAttributes> student = action.getUnregisteredStudent();
-            if (student.isPresent()) {
-                studentEmail = student.get().getEmail();
-            }
+        String regkey = null;
+        String studentEmail = null;
+        Optional<StudentAttributes> student = action.getUnregisteredStudent();
+        if (student.isPresent()) {
+            regkey = student.get().getKey();
+            studentEmail = student.get().getEmail();
         }
 
         Map<String, String> userInfo = new HashMap<>();
