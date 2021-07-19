@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import moment from 'moment-timezone';
-import { forkJoin, Observable } from 'rxjs';
-import { concatMap, finalize, map } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable } from 'rxjs';
+import { concatMap, expand, finalize, map, reduce } from 'rxjs/operators';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
 import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
+import { LogsHistogramDataModel } from '../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
@@ -30,7 +30,7 @@ interface SearchLogsFormModel {
 interface QueryParams {
   searchFrom: string;
   searchUntil: string;
-  severities: string;
+  severity: string;
   nextPageToken?: string;
 }
 
@@ -54,19 +54,20 @@ export class LogsPageComponent implements OnInit {
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
+  queryParams: QueryParams = { searchFrom: '', searchUntil: '', severity: '' };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
+  histogramResult: LogsHistogramDataModel[] = [];
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
+  isTableView: boolean = true;
   nextPageToken: string = '';
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService,
-    private router: Router) { }
+    private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
     const today: Date = new Date();
@@ -99,29 +100,38 @@ export class LogsPageComponent implements OnInit {
   }
 
   searchForLogs(): void {
-    if (this.formModel.logsSeverity.size === 0) {
-      this.statusMessageService.showErrorToast('Please select at least one severity level');
-      return;
-    }
-
-    this.hasResult = false;
     this.isSearching = true;
+    this.histogramResult = [];
     this.searchResults = [];
     this.nextPageToken = '';
+    this.hasResult = false;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
+    if (this.isTableView) {
+      this.searchForLogsTableView(localDateTime);
+    } else {
+      this.searchForLogsHistogramView(localDateTime);
+    }
+  }
+
+  searchForLogsTableView(localDateTime: Observable<number>[]): void {
+    if (this.formModel.logsSeverity.size === 0) {
+      this.statusMessageService.showErrorToast('Please select at least one severity level');
+      return;
+    }
+
     forkJoin(localDateTime)
         .pipe(
             concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
+              this.queryParams = {
                 searchFrom: timestampFrom.toString(),
                 searchUntil: timestampUntil.toString(),
-                severities: Array.from(this.formModel.logsSeverity).join(','),
+                severity: Array.from(this.formModel.logsSeverity).join(','),
               };
-              return this.logService.searchLogs(this.previousQueryParams);
+              return this.logService.searchLogs(this.queryParams);
             }),
             finalize(() => {
               this.isSearching = false;
@@ -131,9 +141,48 @@ export class LogsPageComponent implements OnInit {
               (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
+  searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
+    forkJoin(localDateTime)
+      .pipe(
+        concatMap(([timestampFrom, timestampUntil]: number[]) => {
+          this.queryParams = {
+            searchFrom: timestampFrom.toString(),
+            searchUntil: timestampUntil.toString(),
+            severity: 'ERROR',
+          };
+          return this.logService.searchLogs(this.queryParams);
+        }))
+      .pipe(
+        expand((logs: GeneralLogs) => {
+          if (logs.nextPageToken !== undefined) {
+            this.queryParams.nextPageToken = logs.nextPageToken;
+            return this.logService.searchLogs(this.queryParams);
+          }
+
+          return EMPTY;
+        }),
+        reduce((acc: GeneralLogEntry[], res: GeneralLogs) => acc.concat(res.logEntries), [] as GeneralLogEntry[]),
+        finalize(() => {
+          this.isSearching = false;
+          this.hasResult = true;
+        }),
+      )
+      .subscribe((logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
   private processLogs(generalLogs: GeneralLogs): void {
     this.nextPageToken = generalLogs.nextPageToken || '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+  }
+
+  private processLogsForHistogram(logs: GeneralLogEntry[]): void {
+    const sourceToFrequencyMap: Map<string, number> = logs.reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
+      acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
+      new Map<string, number>());
+    sourceToFrequencyMap.forEach((value: number, key: string) => {
+      this.histogramResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
+    });
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -198,14 +247,16 @@ export class LogsPageComponent implements OnInit {
 
   getNextPageLogs(): void {
     this.isSearching = true;
-    this.previousQueryParams.nextPageToken = this.nextPageToken;
-    this.logService.searchLogs(this.previousQueryParams)
+    this.queryParams.nextPageToken = this.nextPageToken;
+    this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
       (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
-  toHistogramPage(): void {
-    this.router.navigateByUrl('web/admin/logs/histogram');
+  switchView(): void {
+    this.isTableView = !this.isTableView;
+    this.searchResults = [];
+    this.histogramResult = [];
   }
 }

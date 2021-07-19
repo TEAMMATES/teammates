@@ -1,6 +1,7 @@
 <h1>Logs</h1>
 <p>This page allows you to view the logs in the past {{ LOGS_RETENTION_PERIOD_IN_DAYS }} days.</p>
-<button (click)="toHistogramPage()" class="btn btn-info">Go to histogram</button>
+<button (click)="switchView()" *ngIf="isTableView" class="btn btn-info">Switch to histogram view</button>
+<button (click)="switchView()" *ngIf="!isTableView" class="btn btn-info">Switch to table view</button>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -22,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-4" *ngIf="isTableView">
         <div class="col-12">
           <label for="log-severity-checkbox" class="font-weight-bold">Log severity level</label>
         </div>
@@ -59,9 +60,20 @@
   </div>
 </div>
 
-<div>
+<div *ngIf="isTableView">
   <tm-logs-table *ngIf="hasResult" [logs]="searchResults"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>
+</div>
+
+<div *ngIf="!isTableView">
+  <div id="histogram" style="height: 400px; width: 100%;" *tmIsLoading="isSearching">
+    <tm-logs-histogram [data]="histogramResult" *ngIf="histogramResult.length>0; else noDataMessage"></tm-logs-histogram>
+  </div>
+  <ng-template #noDataMessage>
+    <div class="no-data-message">
+      There are no error logs in this time period.
+    </div>
+  </ng-template>
 </div>

@@ -66,7 +66,7 @@ export class LogService {
     minSeverity?: string,
     logEvent?: string,
     nextPageToken?: string,
-    apiEndpoint?: string,
+    actionClass?: string,
     traceId?: string,
     googleId?: string,
     regkey?: string,
@@ -96,8 +96,8 @@ export class LogService {
       paramMap.nextpagetoken = queryParams.nextPageToken;
     }
 
-    if (queryParams.apiEndpoint) {
-      paramMap.apiendpoint = queryParams.apiEndpoint;
+    if (queryParams.actionClass) {
+      paramMap.actionclass = queryParams.actionClass;
     }
 
     if (queryParams.traceId) {

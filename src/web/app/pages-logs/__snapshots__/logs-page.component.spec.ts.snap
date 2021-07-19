@@ -9,12 +9,13 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  histogramResult={[Function Array]}
   isLoading={[Function Boolean]}
   isSearching="false"
+  isTableView={[Function Boolean]}
   logService={[Function LogService]}
   nextPageToken=""
-  previousQueryParams={[Function Object]}
-  router={[Function Router]}
+  queryParams={[Function Object]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -26,7 +27,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   </p><button
     class="btn btn-info"
   >
-    Go to histogram
+    Switch to histogram view
   </button><hr /><tm-loading-spinner>
     <div
       class="loading-container"
@@ -62,12 +63,13 @@ exports[`LogsPageComponent should snap when searching for details in search form
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  histogramResult={[Function Array]}
   isLoading="false"
   isSearching={[Function Boolean]}
+  isTableView={[Function Boolean]}
   logService={[Function LogService]}
   nextPageToken=""
-  previousQueryParams={[Function Object]}
-  router={[Function Router]}
+  queryParams={[Function Object]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -79,7 +81,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   </p><button
     class="btn btn-info"
   >
-    Go to histogram
+    Switch to histogram view
   </button><hr /><div
     class="card bg-form no-border"
   >
@@ -258,6 +260,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
             </div>
           </div>
         </div>
+        
         <div
           class="col-4"
         >
@@ -537,12 +540,13 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  histogramResult={[Function Array]}
   isLoading="false"
   isSearching="false"
+  isTableView={[Function Boolean]}
   logService={[Function LogService]}
   nextPageToken=""
-  previousQueryParams={[Function Object]}
-  router={[Function Router]}
+  queryParams={[Function Object]}
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -554,7 +558,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   </p><button
     class="btn btn-info"
   >
-    Go to histogram
+    Switch to histogram view
   </button><hr /><div
     class="card bg-form no-border"
   >
@@ -733,6 +737,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
             </div>
           </div>
         </div>
+        
         <div
           class="col-4"
         >
