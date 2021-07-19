@@ -53,38 +53,33 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of general INFO logs.
      */
-    public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage, String actionClass, String googleId, String regkey, String email,
-            String logEvent, String exceptionClass) {
+    public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation, long timestamp,
+            String textPayloadMessage) {
         insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace, sourceLocation, timestamp,
-                textPayloadMessage, actionClass, googleId, regkey, email, logEvent, exceptionClass);
+                textPayloadMessage);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
-    public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage, String actionClass, String googleId, String regkey, String email,
-            String logEvent, String exceptionClass) {
+    public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation, long timestamp,
+            String textPayloadMessage) {
         insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace, sourceLocation, timestamp,
-                textPayloadMessage, actionClass, googleId, regkey, email, logEvent, exceptionClass);
+                textPayloadMessage);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
-    public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage, String actionClass, String googleId, String regkey, String email,
-            String logEvent, String exceptionClass) {
+    public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation, long timestamp,
+            String textPayloadMessage) {
         insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, timestamp,
-                textPayloadMessage, actionClass, googleId, regkey, email, logEvent, exceptionClass);
+                textPayloadMessage);
     }
 
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
-            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
-            String actionClass, String googleId, String regkey, String email, String logEvent, String exceptionClass) {
-        MockGeneralLogEntry logEntry = new MockGeneralLogEntry(logName, severity, trace, sourceLocation, timestamp,
-                actionClass, googleId, regkey, email, logEvent, exceptionClass);
+            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
+        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, timestamp);
         logEntry.setMessage(textPayloadMessage);
         generalLogs.add(logEntry);
     }
@@ -129,42 +124,6 @@ public class MockLogsProcessor extends LogsProcessor {
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) {
         return feedbackSessionLogs;
-    }
-
-    /**
-     * Allows mocking of {@link GeneralLogEntry}.
-     */
-    public static class MockGeneralLogEntry extends GeneralLogEntry {
-        private final String actionClass;
-        private final UserInfoParams userInfoParams;
-        private final String logEvent;
-        private final String exceptionClass;
-
-        public MockGeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                long timestamp, String actionClass, String googleId, String regkey, String email, String logEvent,
-                String exceptionClass) {
-            super(logName, severity, trace, sourceLocation, timestamp);
-            this.actionClass = actionClass;
-            this.userInfoParams = new UserInfoParams(googleId, regkey, email);
-            this.logEvent = logEvent;
-            this.exceptionClass = exceptionClass;
-        }
-
-        public String getActionClass() {
-            return actionClass;
-        }
-
-        public UserInfoParams getUserInfo() {
-            return userInfoParams;
-        }
-
-        public String getLogEvent() {
-            return logEvent;
-        }
-
-        public String getExceptionClass() {
-            return exceptionClass;
-        }
     }
 
 }

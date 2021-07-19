@@ -46,8 +46,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry.SourceLocation infoLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file2", 2L, "func2");
         long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
         long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
-        String infoLogActionClass = "info log actionClass";
-        String infoLogGoogleId = "info log google id";
 
         String warningLogTrace1 = "warning log trace 1";
         String warningLogTrace2 = "warning log trace 2";
@@ -57,8 +55,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry.SourceLocation warningLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file4", 4L, "func4");
         long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
         long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
-        String warningLogRegkey = "warning log regkey";
-        String warningLogEmail = "warning log email";
 
         String errorLogTrace = "error log trace";
         String errorLogTextPayload1 = "error log text palyload 1";
@@ -67,20 +63,17 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry.SourceLocation errorLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file6", 6L, "func6");
         long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
         long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
-        String errorLogExceptionClass = "error log exception class";
 
-        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1,
-                infoLogActionClass, infoLogGoogleId, null, null, LogEvent.REQUEST_RECEIVED.toString(), null);
-        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2,
-                infoLogActionClass, infoLogGoogleId, null, null, LogEvent.RESPONSE_DISPATCHED.toString(), null);
+        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1);
+        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2);
         mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1,
-                warningLogTextPayload1, null, null, warningLogRegkey, warningLogEmail, null, null);
+                warningLogTextPayload1);
         mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2,
-                warningLogTextPayload2, null, null, warningLogRegkey, warningLogEmail, null, null);
+                warningLogTextPayload2);
         mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogSourceLocation1, errorLogTimestamp1,
-                errorLogTextPayload1, null, null, null, null, null, errorLogExceptionClass);
+                errorLogTextPayload1);
         mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogSourceLocation2, errorLogTimestamp2,
-                errorLogTextPayload2, null, null, null, null, null, null);
+                errorLogTextPayload2);
 
         ______TS("Failure case: search end time is before search start time");
         String[] paramsInvalid1 = {
