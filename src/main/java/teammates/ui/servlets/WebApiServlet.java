@@ -3,7 +3,6 @@ package teammates.ui.servlets;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +13,6 @@ import org.apache.http.HttpStatus;
 
 import com.google.cloud.datastore.DatastoreException;
 
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
@@ -22,7 +20,6 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Const;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
@@ -115,7 +112,7 @@ public class WebApiServlet extends HttpServlet {
             Map<String, Object> responseDetails = new HashMap<>();
             responseDetails.put("responseStatus", statusCode);
             responseDetails.put("responseTime", timeElapsed);
-            putUserInfo(responseDetails, action);
+            responseDetails.put("userInfo", action.getUserInfo());
 
             String logMessage = "%s " + RequestTracer.getTraceId() + " %s with %s in " + timeElapsed + "ms";
             if (action == null) {
@@ -154,28 +151,6 @@ public class WebApiServlet extends HttpServlet {
     private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(resp);
-    }
-
-    private void putUserInfo(Map<String, Object> responseDetails, Action action) {
-        if (action == null) {
-            return;
-        }
-
-        String googleId = action.userInfo == null ? null : action.userInfo.getId();
-        String regkey = null;
-        String studentEmail = null;
-        Optional<StudentAttributes> student = action.getUnregisteredStudent();
-        if (student.isPresent()) {
-            regkey = student.get().getKey();
-            studentEmail = student.get().getEmail();
-        }
-
-        Map<String, String> userInfo = new HashMap<>();
-        userInfo.put("googleId", googleId);
-        userInfo.put("regkey", regkey);
-        userInfo.put("email", studentEmail);
-
-        responseDetails.put("userInfo", userInfo);
     }
 
 }

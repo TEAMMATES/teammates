@@ -9,7 +9,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
-import teammates.common.util.LogEvent;
 import teammates.ui.output.GeneralLogsData;
 
 /**
