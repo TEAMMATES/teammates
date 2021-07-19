@@ -8,18 +8,18 @@ import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
  * Represents the parameters used for querying logs.
  */
 public class QueryLogsParams {
-    String severityLevel;
-    String minSeverity;
-    Instant startTime;
-    Instant endTime;
-    String traceId;
-    String actionClass;
-    UserInfoParams userInfoParams;
-    String logEvent;
-    SourceLocation sourceLocation;
-    String exceptionClass;
-    Integer pageSize;
-    String pageToken;
+    private String severityLevel;
+    private String minSeverity;
+    private Instant startTime;
+    private Instant endTime;
+    private String traceId;
+    private String actionClass;
+    private UserInfoParams userInfoParams;
+    private String logEvent;
+    private SourceLocation sourceLocation;
+    private String exceptionClass;
+    private Integer pageSize;
+    private String pageToken;
 
     private QueryLogsParams(Instant startTime, Instant endTime) {
         this.startTime = startTime;

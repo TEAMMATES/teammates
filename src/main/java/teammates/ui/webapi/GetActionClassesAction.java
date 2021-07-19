@@ -10,7 +10,7 @@ import teammates.ui.output.ActionClasses;
  */
 class GetActionClassesAction extends AdminOnlyAction {
     @Override
-    ActionResult execute() {
+    JsonResult execute() {
         List<String> actionClasses = ActionFactory.ACTION_MAPPINGS.values().stream()
                 .flatMap(map -> map.values().stream().map(Class::getSimpleName))
                 .collect(Collectors.toList());
