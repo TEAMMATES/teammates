@@ -26,9 +26,20 @@ import teammates.storage.entity.FeedbackResponseComment;
  * @see FeedbackResponseComment
  * @see FeedbackResponseCommentAttributes
  */
-public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
+public final class FeedbackResponseCommentsDb
+        extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
     private static final Logger log = Logger.getLogger();
+
+    private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
+
+    private FeedbackResponseCommentsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackResponseCommentsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a feedback response comment.

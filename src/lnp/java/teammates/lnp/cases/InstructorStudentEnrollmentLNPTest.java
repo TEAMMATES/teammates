@@ -94,7 +94,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
 
@@ -110,7 +109,6 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(instructor.getGoogleId());
-                    csvRow.add("no");
                     csvRow.add(instructor.getCourseId());
 
                     // Create and add student enrollment data with a team number corresponding to each section number

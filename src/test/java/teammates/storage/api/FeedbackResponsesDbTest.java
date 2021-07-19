@@ -24,15 +24,15 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
  */
-public class FeedbackResponsesDbTest extends BaseComponentTestCase {
+public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
     private DataBundle dataBundle;
     private Map<String, FeedbackResponseAttributes> fras;
 
