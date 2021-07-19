@@ -177,6 +177,7 @@ export class LogsPageComponent implements OnInit {
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
     this.queryParams.searchFrom = timestampFrom.toString();
     this.queryParams.searchUntil = timestampUntil.toString();
+    this.queryParams.nextPageToken = undefined;
 
     if (this.formModel.logsFilter === this.SEVERITY) {
       this.queryParams.severity = this.formModel.logsSeverity;
