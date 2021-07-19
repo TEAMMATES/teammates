@@ -25,20 +25,12 @@ interface SearchLogsFormModel {
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-  traceId?: string;
-  googleId?: string;
-  regkey?: string;
-  email?: string;
-  actionClass?: string;
-  sourceLocationFile?: string;
-  sourceLocationFunction?: string;
-  exceptionClass?: string;
 }
 
 /**
- * Query parameters for HTTP request
+ * Query parameters for logs endpoint.
  */
-interface QueryParams {
+export interface QueryParams {
   searchFrom: string;
   searchUntil: string;
   severity?: string;
@@ -173,7 +165,7 @@ export class LogsPageComponent implements OnInit {
       this.statusMessageService.showErrorToast('Please choose an event type');
       return false;
     }
-    if (!this.formModel.sourceLocationFile && this.formModel.sourceLocationFunction) {
+    if (!this.queryParams.sourceLocationFile && this.queryParams.sourceLocationFunction) {
       this.isFiltersExpanded = true;
       this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
       return false;
@@ -183,53 +175,25 @@ export class LogsPageComponent implements OnInit {
   }
 
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
-    this.queryParams = {
-      searchFrom: timestampFrom.toString(),
-      searchUntil: timestampUntil.toString(),
-    };
+    this.queryParams.searchFrom = timestampFrom.toString();
+    this.queryParams.searchUntil = timestampUntil.toString();
 
     if (this.formModel.logsFilter === this.SEVERITY) {
       this.queryParams.severity = this.formModel.logsSeverity;
+      this.queryParams.minSeverity = undefined;
+      this.queryParams.logEvent = undefined;
     }
 
     if (this.formModel.logsFilter === this.MIN_SEVERITY) {
       this.queryParams.minSeverity = this.formModel.logsMinSeverity;
+      this.queryParams.severity = undefined;
+      this.queryParams.logEvent = undefined;
     }
 
     if (this.formModel.logsFilter === this.EVENT) {
       this.queryParams.logEvent = this.formModel.logsEvent;
-    }
-
-    if (this.formModel.actionClass) {
-      this.queryParams.actionClass = this.formModel.actionClass;
-    }
-
-    if (this.formModel.traceId) {
-      this.queryParams.traceId = this.formModel.traceId;
-    }
-
-    if (this.formModel.googleId) {
-      this.queryParams.googleId = this.formModel.googleId;
-    }
-
-    if (this.formModel.regkey) {
-      this.queryParams.regkey = this.formModel.regkey;
-    }
-
-    if (this.formModel.email) {
-      this.queryParams.email = this.formModel.email;
-    }
-
-    if (this.formModel.sourceLocationFile) {
-      this.queryParams.sourceLocationFile = this.formModel.sourceLocationFile;
-    }
-
-    if (this.formModel.sourceLocationFunction) {
-      this.queryParams.sourceLocationFunction = this.formModel.sourceLocationFunction;
-    }
-
-    if (this.formModel.exceptionClass) {
-      this.queryParams.exceptionClass = this.formModel.exceptionClass;
+      this.queryParams.minSeverity = undefined;
+      this.queryParams.severity = undefined;
     }
   }
 
@@ -313,38 +277,38 @@ export class LogsPageComponent implements OnInit {
 
   addTraceToFilter(trace: string): void {
     this.isFiltersExpanded = true;
-    this.formModel.traceId = trace;
+    this.queryParams.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
     this.isFiltersExpanded = true;
-    this.formModel.sourceLocationFile = sourceLocation.file;
-    this.formModel.sourceLocationFunction = sourceLocation.function;
+    this.queryParams.sourceLocationFile = sourceLocation.file;
+    this.queryParams.sourceLocationFunction = sourceLocation.function;
     this.statusMessageService.showSuccessToast('Source location added to filters');
   }
 
   addUserInfoToFilter(userInfo: any): void {
     this.isFiltersExpanded = true;
     if (userInfo.googleId) {
-      this.formModel.googleId = userInfo.googleId;
+      this.queryParams.googleId = userInfo.googleId;
     } else if (userInfo.regkey) {
-      this.formModel.regkey = userInfo.regkey;
+      this.queryParams.regkey = userInfo.regkey;
     } else if (userInfo.email) {
-      this.formModel.email = userInfo.email;
+      this.queryParams.email = userInfo.email;
     }
 
     this.statusMessageService.showSuccessToast('User info added to filters');
   }
 
   clearFilters(): void {
-    this.formModel.traceId = '';
-    this.formModel.googleId = '';
-    this.formModel.regkey = '';
-    this.formModel.email = '';
-    this.formModel.actionClass = '';
-    this.formModel.sourceLocationFile = '';
-    this.formModel.sourceLocationFunction = '';
-    this.formModel.exceptionClass = '';
+    this.queryParams.traceId = '';
+    this.queryParams.googleId = '';
+    this.queryParams.regkey = '';
+    this.queryParams.email = '';
+    this.queryParams.actionClass = '';
+    this.queryParams.sourceLocationFile = '';
+    this.queryParams.sourceLocationFunction = '';
+    this.queryParams.exceptionClass = '';
   }
 }

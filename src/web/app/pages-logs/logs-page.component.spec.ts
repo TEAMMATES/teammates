@@ -137,15 +137,15 @@ describe('LogsPageComponent', () => {
       logsMinSeverity: '',
       logsEvent: 'REQUEST_RECEIVED',
       logsFilter: 'event',
-      traceId: 'testTrace',
-      googleId: 'testGoogleId',
-      sourceLocationFile: 'testFile',
-      sourceLocationFunction: 'testFunction',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
     };
+    component.queryParams.traceId = 'testTrace';
+    component.queryParams.googleId = 'testGoogleId';
+    component.queryParams.sourceLocationFile = 'testFile';
+    component.queryParams.sourceLocationFunction = 'testFunction';
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
@@ -227,13 +227,12 @@ describe('LogsPageComponent', () => {
       logsMinSeverity: '',
       logsEvent: '',
       logsFilter: 'severity',
-      sourceLocationFile: '',
-      sourceLocationFunction: 'testFunction',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
     };
+    component.queryParams.sourceLocationFunction = 'testFunction';
     const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();

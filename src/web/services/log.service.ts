@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { QueryParams } from '../app/pages-logs/logs-page.component';
 import { LogType, ResourceEndpoints } from '../types/api-const';
 import { ActionClasses, FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
@@ -59,22 +60,7 @@ export class LogService {
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
 
-  searchLogs(queryParams: {
-    searchFrom: string,
-    searchUntil: string,
-    severity?: string,
-    minSeverity?: string,
-    logEvent?: string,
-    nextPageToken?: string,
-    actionClass?: string,
-    traceId?: string,
-    googleId?: string,
-    regkey?: string,
-    email?: string,
-    sourceLocationFile?: string,
-    sourceLocationFunction?: string,
-    exceptionClass?: string,
-  }): Observable<GeneralLogs> {
+  searchLogs(queryParams: QueryParams): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       starttime: queryParams.searchFrom,
       endtime: queryParams.searchUntil,
