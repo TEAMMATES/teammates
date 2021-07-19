@@ -20,7 +20,7 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
         String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
         if (googleIdOfInstructorToNotify == null) {

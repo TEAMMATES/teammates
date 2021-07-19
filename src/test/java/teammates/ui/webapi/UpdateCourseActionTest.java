@@ -33,8 +33,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     @Test
     public void testExecute() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor.googleId;
-        String courseId = instructor.courseId;
+        String instructorId = instructor.getGoogleId();
+        String courseId = instructor.getCourseId();
         String courseName = logic.getCourse(courseId).getName();
         String courseTimeZone = "UTC";
         String statusMessage = "";
@@ -189,7 +189,7 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
     @Test
     protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        String courseId = instructor.courseId;
+        String courseId = instructor.getCourseId();
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };

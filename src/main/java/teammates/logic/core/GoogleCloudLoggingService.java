@@ -41,8 +41,6 @@ import teammates.common.util.Const;
  * Holds functions for operations related to Google Cloud Logging.
  */
 public class GoogleCloudLoggingService implements LogService {
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
     private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
@@ -57,6 +55,9 @@ public class GoogleCloudLoggingService implements LogService {
 
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
+
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {

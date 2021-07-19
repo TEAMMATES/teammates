@@ -22,8 +22,7 @@ public class QueryLogsAction extends AdminOnlyAction {
     private static final long TWENTY_FOUR_HOURS_IN_MILLIS = 1000L * 60 * 60 * 24;
 
     @Override
-    ActionResult execute() {
-
+    public JsonResult execute() {
         Instant endTime = Instant.now();
         try {
             String endTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
