@@ -14,7 +14,7 @@ import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 
 /**
- * The data transfer object for Course entities.
+ * The data transfer object for {@link Course} entities.
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 

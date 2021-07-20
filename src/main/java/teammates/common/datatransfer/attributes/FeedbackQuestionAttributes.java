@@ -15,6 +15,9 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
+/**
+ * The data transfer object for {@link FeedbackQuestion} entities.
+ */
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 

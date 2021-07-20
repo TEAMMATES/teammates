@@ -26,6 +26,9 @@ public class QueryLogsParams {
         this.endTime = endTime;
     }
 
+    /**
+     * Returns a builder for {@link QueryLogsParams}.
+     */
     public static Builder builder(Instant startTime, Instant endTime) {
         return new Builder(startTime, endTime);
     }
@@ -105,6 +108,9 @@ public class QueryLogsParams {
         }
     }
 
+    /**
+     * Builder for {@link QueryLogsParams}.
+     */
     public static class Builder {
         private QueryLogsParams queryLogsParams;
 

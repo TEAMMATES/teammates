@@ -21,6 +21,9 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 
+/**
+ * Contains specific structure and processing logic for contribution feedback questions.
+ */
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME = "Team contribution question";
@@ -339,6 +342,9 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = notSureAllowed;
     }
 
+    /**
+     * Represents a list of participants to their question statistics for one contribution question.
+     */
     public static class ContributionStatistics {
         public final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
 
@@ -347,6 +353,13 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         }
     }
 
+    /**
+     * Represents the statistics of one feedback participant in one contribution question.
+     *
+     * <p>This class is a container for some representative values from {@link TeamEvalResult}.
+     *
+     * @see TeamEvalResult
+     */
     public static class ContributionStatisticsEntry {
         public final int claimed;
         public final int perceived;

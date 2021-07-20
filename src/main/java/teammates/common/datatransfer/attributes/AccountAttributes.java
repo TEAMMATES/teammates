@@ -11,7 +11,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
 
 /**
- * A data transfer object for Account entities.
+ * The data transfer object for {@link Account} entities.
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 

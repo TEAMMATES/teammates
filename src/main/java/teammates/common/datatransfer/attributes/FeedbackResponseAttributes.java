@@ -13,6 +13,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
+/**
+ * The data transfer object for {@link FeedbackResponse} entities.
+ */
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
 
     private String feedbackQuestionId;

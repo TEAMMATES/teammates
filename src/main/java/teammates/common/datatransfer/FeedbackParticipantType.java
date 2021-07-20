@@ -1,5 +1,8 @@
 package teammates.common.datatransfer;
 
+/**
+ * Represents the type of an entity that is involved in a feedback question or response.
+ */
 public enum FeedbackParticipantType {
     // booleans represent: isValidGiver?, isValidRecipient? isValidViewer?
     SELF(true, true, false),

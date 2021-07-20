@@ -6,6 +6,9 @@ import java.util.List;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 
+/**
+ * Contains specific structure and processing logic for MCQ feedback questions.
+ */
 public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME = "Multiple-choice (single answer) question";

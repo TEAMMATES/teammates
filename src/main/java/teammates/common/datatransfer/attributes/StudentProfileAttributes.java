@@ -12,7 +12,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 
 /**
- * The data transfer object for StudentProfile entities.
+ * The data transfer object for {@link StudentProfile} entities.
  */
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 

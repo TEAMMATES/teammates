@@ -12,6 +12,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackSession;
 
+/**
+ * The data transfer object for {@link FeedbackSession} entities.
+ */
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
 
     private String feedbackSessionName;

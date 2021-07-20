@@ -12,7 +12,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
- * Represents a data transfer object for {@link FeedbackResponseComment} entities.
+ * The data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 

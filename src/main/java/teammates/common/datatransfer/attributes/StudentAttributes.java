@@ -13,6 +13,9 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
+/**
+ * The data transfer object for {@link CourseStudent} entities.
+ */
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     private String email;
