@@ -22,7 +22,7 @@ import teammates.common.util.Const.TaskQueue;
  */
 public final class ActionFactory {
 
-    protected static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
+    static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
     private static final String GET = HttpGet.METHOD_NAME;
     private static final String POST = HttpPost.METHOD_NAME;

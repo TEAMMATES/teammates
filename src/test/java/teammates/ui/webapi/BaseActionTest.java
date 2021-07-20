@@ -55,23 +55,23 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithLocalDatabaseAccess {
 
-    protected static final String GET = HttpGet.METHOD_NAME;
-    protected static final String POST = HttpPost.METHOD_NAME;
-    protected static final String PUT = HttpPut.METHOD_NAME;
-    protected static final String DELETE = HttpDelete.METHOD_NAME;
+    static final String GET = HttpGet.METHOD_NAME;
+    static final String POST = HttpPost.METHOD_NAME;
+    static final String PUT = HttpPut.METHOD_NAME;
+    static final String DELETE = HttpDelete.METHOD_NAME;
 
-    protected DataBundle typicalBundle = getTypicalDataBundle();
-    protected LogicExtension logic = new LogicExtension();
-    protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
-    protected MockEmailSender mockEmailSender = new MockEmailSender();
-    protected MockFileStorage mockFileStorage = new MockFileStorage();
-    protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
-    protected MockUserProvision mockUserProvision = new MockUserProvision();
-    protected MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
+    DataBundle typicalBundle = getTypicalDataBundle();
+    LogicExtension logic = new LogicExtension();
+    MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
+    MockEmailSender mockEmailSender = new MockEmailSender();
+    MockFileStorage mockFileStorage = new MockFileStorage();
+    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
+    MockUserProvision mockUserProvision = new MockUserProvision();
+    MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
-    protected abstract String getActionUri();
+    abstract String getActionUri();
 
-    protected abstract String getRequestMethod();
+    abstract String getRequestMethod();
 
     /**
      * Gets an action with empty request body and empty multipart config.
@@ -256,7 +256,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         mockUserProvision.logoutUser();
     }
 
-    protected void grantInstructorWithSectionPrivilege(
+    void grantInstructorWithSectionPrivilege(
             InstructorAttributes instructor, String privilege, String[] sections)
             throws InvalidParametersException, EntityDoesNotExistException {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
@@ -275,19 +275,19 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     // 'High-level' access-control tests: here it tests access control of an action for the full range of user types.
 
-    protected void verifyAnyUserCanAccess(String... params) {
+    void verifyAnyUserCanAccess(String... params) {
         verifyAccessibleWithoutLogin(params);
         verifyAccessibleForUnregisteredUsers(params);
         verifyAccessibleForAdmin(params);
     }
 
-    protected void verifyAnyLoggedInUserCanAccess(String... params) {
+    void verifyAnyLoggedInUserCanAccess(String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyAccessibleForUnregisteredUsers(params);
         verifyAccessibleForAdmin(params);
     }
 
-    protected void verifyOnlyAdminCanAccess(String... params) {
+    void verifyOnlyAdminCanAccess(String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(params);
@@ -295,7 +295,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyAccessibleForAdmin(params);
     }
 
-    protected void verifyOnlyInstructorsCanAccess(String... params) {
+    void verifyOnlyInstructorsCanAccess(String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(params);
@@ -304,7 +304,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyAccessibleForAdminToMasqueradeAsInstructor(params);
     }
 
-    protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
+    void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
@@ -313,7 +313,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
-    protected void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
             String privilege, String[] submissionParams)
             throws InvalidParametersException, EntityDoesNotExistException {
         verifyInaccessibleWithoutLogin(submissionParams);
@@ -325,7 +325,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     // 'Mid-level' access control tests: here it tests access control of an action for one user type.
 
-    protected void verifyAccessibleWithoutLogin(String... params) {
+    void verifyAccessibleWithoutLogin(String... params) {
 
         ______TS("Non-logged-in users can access");
 
@@ -334,7 +334,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyInaccessibleWithoutLogin(String... params) {
+    void verifyInaccessibleWithoutLogin(String... params) {
 
         ______TS("Non-logged-in users cannot access");
 
@@ -343,7 +343,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyAccessibleForUnregisteredUsers(String... params) {
+    void verifyAccessibleForUnregisteredUsers(String... params) {
 
         ______TS("Non-registered users can access");
 
@@ -353,7 +353,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyInaccessibleForUnregisteredUsers(String... params) {
+    void verifyInaccessibleForUnregisteredUsers(String... params) {
 
         ______TS("Non-registered users cannot access");
 
@@ -363,7 +363,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyAccessibleForAdmin(String... params) {
+    void verifyAccessibleForAdmin(String... params) {
 
         ______TS("Admin can access");
 
@@ -372,7 +372,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyInaccessibleForAdmin(String... params) {
+    void verifyInaccessibleForAdmin(String... params) {
 
         ______TS("Admin cannot access");
 
@@ -381,7 +381,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyInaccessibleForStudents(String... params) {
+    void verifyInaccessibleForStudents(String... params) {
 
         ______TS("Students cannot access");
 
@@ -392,7 +392,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyInaccessibleForInstructors(String... params) {
+    void verifyInaccessibleForInstructors(String... params) {
 
         ______TS("Instructors cannot access");
 
@@ -403,7 +403,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(
+    void verifyAccessibleForAdminToMasqueradeAsInstructor(
             InstructorAttributes instructor, String[] submissionParams) {
 
         ______TS("admin can access");
@@ -413,7 +413,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
-    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
+    void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
 
         ______TS("admin can access");
 
@@ -424,7 +424,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCanMasquerade(instructor1OfCourse1.getGoogleId(), submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
+    void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Session privilege cannot access");
 
@@ -434,7 +434,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
+    void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
 
         ______TS("without Submit-Session-In-Sections privilege cannot access");
 
@@ -444,7 +444,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutCorrectCoursePrivilege(
+    void verifyInaccessibleWithoutCorrectCoursePrivilege(
             String privilege, String[] submissionParams)
             throws InvalidParametersException, EntityDoesNotExistException {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
@@ -473,7 +473,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
                 .build());
     }
 
-    protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
+    void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course instructor can access");
 
@@ -489,7 +489,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     }
 
-    protected void verifyAccessibleForInstructorsOfOtherCourse(String[] submissionParams) {
+    void verifyAccessibleForInstructorsOfOtherCourse(String[] submissionParams) {
 
         ______TS("other course's instructor can access");
 
@@ -504,7 +504,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
     }
 
-    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
+    void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course students can access");
 
@@ -513,7 +513,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCanAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleForStudentsOfOtherCourse(String[] submissionParams) {
+    void verifyInaccessibleForStudentsOfOtherCourse(String[] submissionParams) {
 
         ______TS("other course student cannot access");
 
@@ -523,7 +523,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
+    void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
 
         ______TS("other course instructor cannot access");
 
@@ -533,7 +533,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyAccessibleForMaintainers(String... params) {
+    void verifyAccessibleForMaintainers(String... params) {
 
         ______TS("Maintainer can access");
 

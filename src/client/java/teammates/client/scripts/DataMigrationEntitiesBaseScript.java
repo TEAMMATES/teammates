@@ -49,9 +49,9 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         new File(BASE_LOG_URI).mkdir();
     }
 
-    protected AtomicLong numberOfScannedKey;
-    protected AtomicLong numberOfAffectedEntities;
-    protected AtomicLong numberOfUpdatedEntities;
+    AtomicLong numberOfScannedKey;
+    AtomicLong numberOfAffectedEntities;
+    AtomicLong numberOfUpdatedEntities;
 
     // buffer of entities to save
     private List<T> entitiesSavingBuffer;

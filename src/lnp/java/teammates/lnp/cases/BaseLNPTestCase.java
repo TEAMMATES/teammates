@@ -47,18 +47,18 @@ import teammates.test.FileHelper;
  */
 public abstract class BaseLNPTestCase extends BaseTestCase {
 
-    protected static final String GET = HttpGet.METHOD_NAME;
-    protected static final String POST = HttpPost.METHOD_NAME;
-    protected static final String PUT = HttpPut.METHOD_NAME;
-    protected static final String DELETE = HttpDelete.METHOD_NAME;
+    static final String GET = HttpGet.METHOD_NAME;
+    static final String POST = HttpPost.METHOD_NAME;
+    static final String PUT = HttpPut.METHOD_NAME;
+    static final String DELETE = HttpDelete.METHOD_NAME;
 
     private static final Logger log = Logger.getLogger();
 
     private static final int RESULT_COUNT = 3;
 
-    protected final BackDoor backdoor = BackDoor.getInstance();
-    protected String timeStamp;
-    protected LNPSpecification specification;
+    final BackDoor backdoor = BackDoor.getInstance();
+    String timeStamp;
+    LNPSpecification specification;
 
     /**
      * Returns the test data used for the current test.
@@ -117,7 +117,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
                         this.getClass().getSimpleName(), this.timeStamp);
     }
 
-    protected String createFileAndDirectory(String directory, String fileName) throws IOException {
+    String createFileAndDirectory(String directory, String fileName) throws IOException {
         File dir = new File(directory);
         if (!dir.exists()) {
             dir.mkdir();
