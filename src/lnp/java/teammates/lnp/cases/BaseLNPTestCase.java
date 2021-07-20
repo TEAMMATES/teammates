@@ -32,7 +32,6 @@ import com.google.gson.stream.JsonReader;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.lnp.util.BackDoor;
@@ -52,7 +51,8 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String POST = HttpPost.METHOD_NAME;
     protected static final String PUT = HttpPut.METHOD_NAME;
     protected static final String DELETE = HttpDelete.METHOD_NAME;
-    protected static final Logger log = Logger.getLogger();
+
+    private static final Logger log = Logger.getLogger();
 
     private static final int RESULT_COUNT = 3;
 
@@ -222,15 +222,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
-    protected void createTestData() {
+    protected void createTestData() throws IOException, HttpRequestFailedException {
         LNPTestData testData = getTestData();
-        try {
-            createJsonDataFile(testData);
-            persistTestData();
-            createCsvConfigDataFile(testData);
-        } catch (IOException | HttpRequestFailedException ex) {
-            log.severe(TeammatesException.toStringWithStackTrace(ex));
-        }
+        createJsonDataFile(testData);
+        persistTestData();
+        createCsvConfigDataFile(testData);
     }
 
     /**

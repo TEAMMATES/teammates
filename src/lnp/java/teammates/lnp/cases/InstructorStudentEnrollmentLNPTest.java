@@ -19,6 +19,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
@@ -180,7 +181,7 @@ public class InstructorStudentEnrollmentLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();
