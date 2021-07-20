@@ -6,9 +6,6 @@
     <!-- Ignore auto-generated code -->
     <suppress checks="." files="com[/\\]google[/\\]appengine[/\\]logging[/\\]v1[/\\].*\.java"/>
 
-    <!-- Most variables in scripts are constants -->
-    <suppress checks="ConstantName" files="client[/\\]scripts[/\\].*\.java"/>
-
     <!-- Scripts inherently need main method to run -->
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
 
