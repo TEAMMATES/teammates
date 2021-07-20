@@ -16,7 +16,6 @@
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]AppUrl\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]util[/\\]Url\.java"/>
-    <suppress checks="MissingJavadocType" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
