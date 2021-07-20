@@ -346,7 +346,7 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * Represents a list of participants to their question statistics for one contribution question.
      */
     public static class ContributionStatistics {
-        public final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
+        private final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
 
         public Map<String, ContributionStatisticsEntry> getResults() {
             return results;
@@ -361,10 +361,10 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
      * @see TeamEvalResult
      */
     public static class ContributionStatisticsEntry {
-        public final int claimed;
-        public final int perceived;
-        public final Map<String, Integer> claimedOthers;
-        public final int[] perceivedOthers;
+        private final int claimed;
+        private final int perceived;
+        private final Map<String, Integer> claimedOthers;
+        private final int[] perceivedOthers;
 
         public ContributionStatisticsEntry(int claimed, int perceived, Map<String, Integer> claimedOthers,
                                            int[] perceivedOthers) {

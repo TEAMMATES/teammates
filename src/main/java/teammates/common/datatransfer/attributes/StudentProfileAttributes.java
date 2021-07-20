@@ -261,9 +261,11 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      * Represents the gender of a student.
      */
     public enum Gender {
+        // CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
         MALE,
         FEMALE,
         OTHER;
+        // CHECKSTYLE.ON:JavadocVariable
 
         /**
          * Returns the Gender enum value corresponding to {@code gender}, or OTHER by default.

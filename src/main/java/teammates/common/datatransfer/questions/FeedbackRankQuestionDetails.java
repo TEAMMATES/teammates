@@ -7,9 +7,9 @@ import teammates.common.util.Const;
  */
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
-    protected int minOptionsToBeRanked;
-    protected int maxOptionsToBeRanked;
-    protected boolean areDuplicatesAllowed;
+    int minOptionsToBeRanked;
+    int maxOptionsToBeRanked;
+    boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);

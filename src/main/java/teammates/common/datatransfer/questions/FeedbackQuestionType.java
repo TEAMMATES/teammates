@@ -3,6 +3,7 @@ package teammates.common.datatransfer.questions;
 /**
  * Feedback Question Type Definitions.
  */
+// CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
 public enum FeedbackQuestionType {
     TEXT(FeedbackTextQuestionDetails.class, FeedbackTextResponseDetails.class),
     MCQ(FeedbackMcqQuestionDetails.class, FeedbackMcqResponseDetails.class),

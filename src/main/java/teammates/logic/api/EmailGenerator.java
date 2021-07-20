@@ -807,7 +807,7 @@ public class EmailGenerator {
     public EmailWrapper generateCompiledLogsEmail(List<ErrorLogEntry> logs) {
         StringBuilder emailBody = new StringBuilder();
         for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).message, logs.get(i).severity));
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).getMessage(), logs.get(i).getSeverity()));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
