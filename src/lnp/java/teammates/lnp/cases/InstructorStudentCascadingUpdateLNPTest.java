@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -72,11 +71,6 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
             return testData;
         }
         testData = new LNPTestData() {
-            @Override
-            protected Map<String, AccountAttributes> generateAccounts() {
-                return new HashMap<>();
-            }
-
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
