@@ -33,7 +33,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         this.maxOptionsToBeRanked = maxOptionsToBeRanked;
     }
 
-    public boolean areDuplicatesAllowed() {
+    public boolean isAreDuplicatesAllowed() {
         return areDuplicatesAllowed;
     }
 

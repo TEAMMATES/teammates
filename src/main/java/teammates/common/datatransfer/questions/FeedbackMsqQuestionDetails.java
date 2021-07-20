@@ -295,7 +295,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.otherEnabled = otherEnabled;
     }
 
-    public boolean hasAssignedWeights() {
+    public boolean isHasAssignedWeights() {
         return hasAssignedWeights;
     }
 

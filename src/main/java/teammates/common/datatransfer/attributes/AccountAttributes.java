@@ -26,6 +26,9 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.googleId = googleId;
     }
 
+    /**
+     * Gets the {@link AccountAttributes} instance of the given {@link Account}.
+     */
     public static AccountAttributes valueOf(Account a) {
         AccountAttributes accountAttributes = new AccountAttributes(a.getGoogleId());
 

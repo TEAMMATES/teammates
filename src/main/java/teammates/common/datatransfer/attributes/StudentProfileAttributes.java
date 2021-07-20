@@ -36,6 +36,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.modifiedDate = Instant.now();
     }
 
+    /**
+     * Gets the {@link StudentProfileAttributes} instance of the given {@link StudentProfile}.
+     */
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(sp.getGoogleId());
 
@@ -69,6 +72,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         return new Builder(googleId);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public StudentProfileAttributes getCopy() {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(googleId);
 

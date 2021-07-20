@@ -156,7 +156,7 @@ public class FeedbackMcqQuestionDetails extends FeedbackQuestionDetails {
         return "";
     }
 
-    public boolean hasAssignedWeights() {
+    public boolean isHasAssignedWeights() {
         return hasAssignedWeights;
     }
 

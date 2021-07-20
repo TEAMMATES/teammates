@@ -62,6 +62,9 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.responseDetails = copy.getResponseDetailsCopy();
     }
 
+    /**
+     * Gets the {@link FeedbackResponseAttributes} instance of the given {@link FeedbackResponse}.
+     */
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
                 new FeedbackResponseAttributes(

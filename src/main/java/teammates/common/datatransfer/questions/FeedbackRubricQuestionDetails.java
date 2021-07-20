@@ -196,7 +196,7 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         return new ArrayList<>();
     }
 
-    public boolean hasAssignedWeights() {
+    public boolean isHasAssignedWeights() {
         return hasAssignedWeights;
     }
 

@@ -10,7 +10,6 @@
     <suppress checks="UncommentedMain" files="client[/\\]scripts[/\\].*\.java"/>
 
     <!-- To be implemented slowly -->
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]common[/\\]datatransfer[/\\].*\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Const\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]FieldValidator\.java"/>
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>

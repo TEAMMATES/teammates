@@ -49,6 +49,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return new Builder();
     }
 
+    /**
+     * Gets the {@link FeedbackQuestionAttributes} instance of the given {@link FeedbackQuestion}.
+     */
     public static FeedbackQuestionAttributes valueOf(FeedbackQuestion fq) {
         FeedbackQuestionAttributes faq = new FeedbackQuestionAttributes();
 
@@ -103,6 +106,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public FeedbackQuestionAttributes getCopy() {
         FeedbackQuestionAttributes faq = new FeedbackQuestionAttributes();
 
@@ -161,6 +167,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return getInvalidityInfo().isEmpty();
     }
 
+    /**
+     * Returns true if the response is visible to the given participant type.
+     */
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }
@@ -317,6 +326,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return true;
     }
 
+    /**
+     * Removes irrelevant/extraneous response visibility option settings from the question.
+     */
     public void removeIrrelevantVisibilityOptions() {
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<>();
 
@@ -348,10 +360,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             }
         }
 
-        removeVisibilities(optionsToRemove);
-    }
-
-    private void removeVisibilities(List<FeedbackParticipantType> optionsToRemove) {
         if (showRecipientNameTo != null) {
             showResponsesTo.removeAll(optionsToRemove);
         }
