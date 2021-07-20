@@ -27,7 +27,17 @@ import teammates.storage.entity.FeedbackResponse;
  * @see FeedbackResponse
  * @see FeedbackResponseAttributes
  */
-public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
+public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
+
+    private static final FeedbackResponsesDb instance = new FeedbackResponsesDb();
+
+    private FeedbackResponsesDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackResponsesDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.

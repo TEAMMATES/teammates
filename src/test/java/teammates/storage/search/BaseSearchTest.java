@@ -3,12 +3,12 @@ package teammates.storage.search;
 import org.testng.annotations.BeforeMethod;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * Base class for all search tests.
  */
-public abstract class BaseSearchTest extends BaseComponentTestCase {
+public abstract class BaseSearchTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     protected DataBundle dataBundle;
 

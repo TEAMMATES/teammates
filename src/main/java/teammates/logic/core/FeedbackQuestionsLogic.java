@@ -39,15 +39,15 @@ public final class FeedbackQuestionsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
+    private static final FeedbackQuestionsLogic instance = new FeedbackQuestionsLogic();
 
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private CoursesLogic coursesLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackSessionsLogic fsLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private FeedbackQuestionsLogic() {
         // prevent initialization
@@ -55,6 +55,14 @@ public final class FeedbackQuestionsLogic {
 
     public static FeedbackQuestionsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        coursesLogic = CoursesLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        fsLogic = FeedbackSessionsLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**

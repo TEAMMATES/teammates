@@ -32,13 +32,13 @@ import teammates.common.util.FieldValidator;
  */
 public class FeedbackQuestionsLogicTest extends BaseLogicTest {
 
-    private static AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
 
     @Override
     protected void prepareTestData() {

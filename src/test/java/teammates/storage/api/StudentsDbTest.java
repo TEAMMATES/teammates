@@ -15,14 +15,14 @@ import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link StudentsDb}.
  */
-public class StudentsDbTest extends BaseComponentTestCase {
+public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    private StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     @Test
     public void testTimestamp() throws Exception {
