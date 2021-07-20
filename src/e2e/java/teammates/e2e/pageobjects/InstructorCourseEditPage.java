@@ -279,7 +279,7 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElements(By.cssSelector(".card-header")).size() - 1;
     }
 
-    /* Methods for clicking buttons and links */
+    // Methods for clicking buttons and links
 
     private void clickEditCourseButton() {
         click(editCourseButton);
@@ -320,7 +320,7 @@ public class InstructorCourseEditPage extends AppPage {
         click(getAddSessionLevelPrivilegesLink(instrNum, panelNum));
     }
 
-    /* Methods that return WebElements of the page */
+    // Methods that return WebElements of the page
 
     public String getCourseId() {
         return courseIdTextBox.getAttribute("value");
@@ -485,7 +485,7 @@ public class InstructorCourseEditPage extends AppPage {
         return sessionLevelTableRow.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
     }
 
-    /* Methods for indexing */
+    // Methods for indexing
 
     private int getRoleIndex(String role) {
         switch(role) {

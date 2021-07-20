@@ -44,9 +44,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     // see https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
     private static final int BATCH_SIZE = 100;
 
-    /*
-     * Creates the folder that will contain the stored log.
-     */
+    // Creates the folder that will contain the stored log.
     static {
         new File(BASE_LOG_URI).mkdir();
     }

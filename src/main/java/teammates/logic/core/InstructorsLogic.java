@@ -48,11 +48,6 @@ public final class InstructorsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
-    /* ====================================
-     * methods related to google search API
-     * ====================================
-     */
-
     /**
      * Batch creates or updates documents for the given Instructors.
      * @param instructors a list of instructors to be put into documents
@@ -71,10 +66,6 @@ public final class InstructorsLogic {
             throws SearchServiceException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
-
-    /* ====================================
-     * ====================================
-     */
 
     /**
      * Creates an instructor.

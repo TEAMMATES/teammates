@@ -11,10 +11,7 @@ import java.time.ZoneId;
  */
 public final class Const {
 
-    /*
-     * This section holds constants that are defined as constants primarily
-     * because they are repeated in many places.
-     */
+    // This section holds constants that are defined as constants primarily because they are repeated in many places.
 
     public static final String USER_NOBODY_TEXT = "-";
 
@@ -34,10 +31,8 @@ public final class Const {
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
-    /*
-     * These constants are used as variable values to mean that the variable
-     * is in a 'special' state.
-     */
+    // These constants are used as variable values to mean that the variable is in a 'special' state.
+
     public static final int INT_UNINITIALIZED = -9999;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
@@ -65,9 +60,7 @@ public final class Const {
 
     public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
 
-    /*
-     * Other Constants
-     */
+    // Other Constants
 
     private Const() {
         // Utility class containing constants
