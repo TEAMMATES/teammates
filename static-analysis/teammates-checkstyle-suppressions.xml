@@ -16,6 +16,5 @@
     <suppress checks="JavadocVariable" files="teammates[/\\]common[/\\]util[/\\]Templates\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]Logic\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]LogicExtension\.java"/>
-    <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
 </suppressions>
