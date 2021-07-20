@@ -579,7 +579,6 @@ public class SessionResultsData extends ApiOutput {
                 responseOutput = new ResponseOutput();
             }
 
-            //CHECKSTYLE.OFF:MissingJavadocMethod
             private Builder withIsMissingResponse(boolean isMissingResponse) {
                 responseOutput.isMissingResponse = isMissingResponse;
                 return this;
@@ -663,7 +662,6 @@ public class SessionResultsData extends ApiOutput {
             ResponseOutput build() {
                 return responseOutput;
             }
-            //CHECKSTYLE.ON:MissingJavadocMethod
         }
     }
 
@@ -709,7 +707,6 @@ public class SessionResultsData extends ApiOutput {
                 commentOutput = new CommentOutput(frc);
             }
 
-            //CHECKSTYLE.OFF:MissingJavadocMethod
             Builder withCommentGiver(@Nullable String commentGiver) {
                 commentOutput.commentGiver = commentGiver;
                 return this;
@@ -733,7 +730,6 @@ public class SessionResultsData extends ApiOutput {
             CommentOutput build() {
                 return commentOutput;
             }
-            //CHECKSTYLE.ON:MissingJavadocMethod
         }
     }
 
