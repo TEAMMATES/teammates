@@ -59,9 +59,12 @@ export class SessionResultPageComponent implements OnInit {
   feedbackSessionName: string = '';
   regKey: string = '';
   loggedInUser: string = '';
+  visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
+  hasAnonymousQuestion: boolean = false;
+  hasNonAnonymousQuestion: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
@@ -183,6 +186,14 @@ export class SessionResultPageComponent implements OnInit {
             this.questions = sessionResults.questions.sort(
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+
+            for (let question of this.questions) {
+              if (question.feedbackQuestion.showGiverNameTo.includes(this.visibilityRecipient)) {
+                this.hasNonAnonymousQuestion = true;
+              } else {
+                this.hasAnonymousQuestion = true;
+              }
+            }
           }, (resp: ErrorMessageOutput) => {
             this.handleError(resp);
           });
