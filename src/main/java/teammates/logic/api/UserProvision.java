@@ -32,7 +32,7 @@ public class UserProvision {
         return user;
     }
 
-    protected UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
+    UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         if (uic == null || !uic.isValid()) {
             return null;
         }

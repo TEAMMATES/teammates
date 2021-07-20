@@ -35,15 +35,15 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.LogicExtension;
+import teammates.logic.api.MockEmailSender;
+import teammates.logic.api.MockFileStorage;
+import teammates.logic.api.MockLogsProcessor;
+import teammates.logic.api.MockTaskQueuer;
+import teammates.logic.api.MockUserProvision;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.FileHelper;
-import teammates.test.MockEmailSender;
-import teammates.test.MockFileStorage;
 import teammates.test.MockHttpServletRequest;
-import teammates.test.MockLogsProcessor;
 import teammates.test.MockPart;
-import teammates.test.MockTaskQueuer;
-import teammates.test.MockUserProvision;
 import teammates.ui.request.BasicRequest;
 
 /**

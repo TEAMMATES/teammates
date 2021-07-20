@@ -37,12 +37,12 @@ public class TaskQueuer {
     // Using this method, the actual logic can still be black-boxed
     // while at the same time allowing this API to be mocked during test.
 
-    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
+    private void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
         addDeferredTask(queueName, workerUrl, paramMap, requestBody, 0);
     }
 
-    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
-                                   long countdownTime) {
+    void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
+                         long countdownTime) {
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         service.addDeferredTask(task, countdownTime);
     }
