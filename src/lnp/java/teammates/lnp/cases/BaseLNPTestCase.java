@@ -60,6 +60,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected String timeStamp;
     protected LNPSpecification specification;
 
+    /**
+     * Returns the test data used for the current test.
+     */
     protected abstract LNPTestData getTestData();
 
     /**

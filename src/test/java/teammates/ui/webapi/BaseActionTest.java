@@ -151,12 +151,27 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         prepareTestData();
     }
 
+    /**
+     * Prepares the test data used for the current test.
+     */
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
     }
 
+    /**
+     * Tests the {@link Action#execute()} method.
+     *
+     * <p>Some actions, particularly those with large number of different outcomes,
+     * can alternatively separate each test case to different test blocks.
+     */
     protected abstract void testExecute() throws Exception;
 
+    /**
+     * Tests the {@link Action#checkAccessControl()} method.
+     *
+     * <p>Some actions, particularly those with large number of different access control settings,
+     * can alternatively separate each test case to different test blocks.
+     */
     protected abstract void testAccessControl() throws Exception;
 
     /**
@@ -225,6 +240,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         assertFalse(user.isAdmin);
     }
 
+    /**
+     * Logs in the user to the test environment as a maintainer.
+     */
     protected void loginAsMaintainer() {
         UserInfo user = mockUserProvision.loginUser(Config.APP_MAINTAINERS.get(0));
         assertTrue(user.isMaintainer);
@@ -593,43 +611,70 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         assertThrows(InvalidHttpParameterException.class, c::execute);
     }
 
+    /**
+     * Verifies that the executed action does not result in any background task being added.
+     */
     protected void verifyNoTasksAdded() {
         Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(0, tasksAdded.keySet().size());
     }
 
+    /**
+     * Verifies that the executed action results in the specified background tasks being added.
+     */
     protected void verifySpecifiedTasksAdded(String taskName, int taskCount) {
         Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
+    /**
+     * Verifies that the executed action does not result in any email being sent.
+     */
     protected void verifyNoEmailsSent() {
         assertTrue(getEmailsSent().isEmpty());
     }
 
+    /**
+     * Returns the list of emails sent as part of the executed action.
+     */
     protected List<EmailWrapper> getEmailsSent() {
         return mockEmailSender.getEmailsSent();
     }
 
+    /**
+     * Verifies that the executed action results in the specified number of emails being sent.
+     */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
+    /**
+     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
+     */
     protected void verifyEntityNotFound(String... params) {
         Action c = getAction(params);
         assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
+    /**
+     * Writes a file into the mock file storage.
+     */
     protected void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
         byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
         String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
         mockFileStorage.create(targetFileName, bytes, contentType);
     }
 
+    /**
+     * Deletes a file from the mock file storage.
+     */
     protected void deleteFile(String fileName) {
         mockFileStorage.delete(fileName);
     }
 
+    /**
+     * Returns true if the specified file exists in the mock file storage.
+     */
     protected boolean doesFileExist(String fileName) {
         return mockFileStorage.doesFileExist(fileName);
     }

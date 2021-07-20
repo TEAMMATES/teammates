@@ -140,7 +140,7 @@
         </module>
         <module name="SingleLineJavadoc"/>
         <module name="JavadocVariable">
-            <property name="scope" value="public"/>
+            <property name="scope" value="protected"/>
         </module>
         <module name="CommentsIndentation"/>
         <module name="ImportOrder">
@@ -180,7 +180,7 @@
         </module>
         <module name="MissingJavadocMethod">
             <property name="allowedAnnotations" value="Test, Override, BeforeSuite, BeforeClass, BeforeTest, BeforeMethod, AfterSuite, AfterClass, AfterTest, AfterMethod"/>
-            <property name="scope" value="public"/>
+            <property name="scope" value="protected"/>
             <property name="allowMissingPropertyJavadoc" value="true"/>
             <property name="tokens" value="METHOD_DEF"/>
             <property name="ignoreMethodNamesRegex" value="main|inst|build|(with.+)"/>

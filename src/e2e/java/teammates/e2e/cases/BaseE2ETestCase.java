@@ -53,12 +53,25 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         prepareBrowser();
     }
 
+    /**
+     * Prepares the browser used for the current test.
+     */
     protected void prepareBrowser() {
         browser = new Browser();
     }
 
-    protected abstract void prepareTestData() throws Exception;
+    /**
+     * Prepares the test data used for the current test.
+     */
+    protected abstract void prepareTestData();
 
+    /**
+     * Contains all the tests for the page.
+     *
+     * <p>This approach is chosen so that setup and teardown are only needed once per test page,
+     * thereby saving time. While it necessitates failed tests to be restarted from the beginning,
+     * test failures are rare and thus not causing significant overhead.
+     */
     protected abstract void testAll();
 
     @Override
@@ -66,22 +79,14 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    protected String getTestDownloadsFolder() {
-        return TestProperties.TEST_DOWNLOADS_FOLDER;
-    }
-
     @AfterClass
     public void baseClassTearDown(ITestContext context) {
-        boolean isSuccess = context.getFailedTests().getAllMethods()
-                .stream()
-                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
-        releaseBrowser(isSuccess);
-    }
-
-    protected void releaseBrowser(boolean isSuccess) {
         if (browser == null) {
             return;
         }
+        boolean isSuccess = context.getFailedTests().getAllMethods()
+                .stream()
+                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
             browser.close();
         }
@@ -141,7 +146,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Deletes file with fileName from the downloads folder.
      */
     protected void deleteDownloadsFile(String fileName) {
-        String filePath = getTestDownloadsFolder() + fileName;
+        String filePath = TestProperties.TEST_DOWNLOADS_FOLDER + fileName;
         FileHelper.deleteFile(filePath);
     }
 
@@ -149,7 +154,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Verifies downloaded file has correct fileName and contains expected content.
      */
     protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
-        String filePath = getTestDownloadsFolder() + expectedFileName;
+        String filePath = TestProperties.TEST_DOWNLOADS_FOLDER + expectedFileName;
         int retryLimit = TestProperties.TEST_TIMEOUT;
         boolean actual = Files.exists(Paths.get(filePath));
         while (!actual && retryLimit > 0) {
@@ -169,6 +174,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
+    /**
+     * Visits the URL and gets the page object representation of the visited web page in the browser.
+     */
     protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
         browser.goToUrl(url.toAbsoluteString());
         return AppPage.getNewPageInstance(browser, typeOfPage);

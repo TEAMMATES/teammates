@@ -109,7 +109,9 @@ public abstract class AppPage {
     }
 
     /**
-     * Fails if the new page content does not match content expected in a page of
+     * Gets a new page object representation of the currently open web page in the browser.
+     *
+     * <p>Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
