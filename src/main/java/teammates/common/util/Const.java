@@ -20,6 +20,8 @@ public final class Const {
 
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
 
+    public static final String DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR = "Instructor";
+
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
     public static final int SECTION_SIZE_LIMIT = 100;

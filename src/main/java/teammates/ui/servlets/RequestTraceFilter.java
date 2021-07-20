@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -22,6 +22,7 @@ import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * Extracts trace ID of HTTP requests.
@@ -72,7 +73,7 @@ public class RequestTraceFilter implements Filter {
         // For user-invoked requests, we keep the time limit at 1 minute (as how it was
         // in the previous GAE runtime environment) in order to not let user wait for excessively long,
         // as well as a reminder for us to keep optimizing our API response time.
-        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 10;
+        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 60;
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);
 

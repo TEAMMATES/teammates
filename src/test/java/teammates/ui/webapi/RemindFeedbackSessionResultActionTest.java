@@ -36,7 +36,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         usersToRemind[0] = studentToEmail.getEmail();
         usersToRemind[1] = instructorToEmail.getEmail();
 
-        loginAsInstructor(instructor1ofCourse1.googleId);
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         ______TS("Unsuccessful case: Not enough parameters");
         verifyHttpParameterFailure();

@@ -191,13 +191,13 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         CourseAttributes typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
-        student1 = logic.getStudentForEmail(student1.course, student1.email);
+        student1 = logic.getStudentForEmail(student1.getCourse(), student1.getEmail());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(student1.key),
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(student1.getKey()),
         };
 
         publishSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
@@ -232,7 +232,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         };
 
         publishSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 
@@ -247,7 +247,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -264,7 +264,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         publishSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
         loginAsAdmin();
-        verifyCanMasquerade(student1InCourse1.googleId, submissionParams);
+        verifyCanMasquerade(student1InCourse1.getGoogleId(), submissionParams);
     }
 
     @Test
@@ -280,7 +280,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
         };
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         // Malicious api call using course Id of the student to bypass the check

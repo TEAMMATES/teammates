@@ -40,12 +40,12 @@ class GetStudentProfileAction extends Action {
                 throw new UnauthorizedAccessException(MESSAGE_STUDENT_NOT_FOUND);
             }
             gateKeeper.verifyAccessibleForCurrentUserAsInstructorOrTeamMember(userInfo.id, courseId,
-                    student.section, studentEmail);
+                    student.getSection(), studentEmail);
         }
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
 
         String studentId;
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -71,7 +71,7 @@ class GetStudentProfileAction extends Action {
             studentProfile = StudentProfileAttributes.builder("").build();
         } else {
             studentProfile = logic.getStudentProfile(studentId);
-            studentName = logic.getAccount(studentId).name;
+            studentName = logic.getAccount(studentId).getName();
         }
 
         if (studentProfile == null) {

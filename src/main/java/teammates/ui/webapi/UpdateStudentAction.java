@@ -30,7 +30,7 @@ class UpdateStudentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return authType.LOGGED_IN;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
@@ -46,7 +46,7 @@ class UpdateStudentAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -69,9 +69,9 @@ class UpdateStudentAction extends Action {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
             String newEmail = studentToUpdate.getEmail();
-            studentToUpdate.email = student.getEmail();
-            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.course);
-            studentToUpdate.email = newEmail;
+            studentToUpdate.setEmail(student.getEmail());
+            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.getCourse());
+            studentToUpdate.setEmail(newEmail);
 
             logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
@@ -82,7 +82,7 @@ class UpdateStudentAction extends Action {
                             .withComment(updateRequest.getComments())
                             .build());
 
-            if (!student.email.equals(updateRequest.getEmail())) {
+            if (!student.getEmail().equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
 
                 if (updateRequest.getIsSessionSummarySendEmail()) {
