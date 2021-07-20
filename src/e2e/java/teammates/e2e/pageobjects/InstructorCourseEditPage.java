@@ -22,29 +22,29 @@ import teammates.common.util.ThreadHelper;
  * Represents the instructor course edit page of the website.
  */
 public class InstructorCourseEditPage extends AppPage {
-    public static final int INSTRUCTOR_TYPE_COOWNER = 0;
-    public static final int INSTRUCTOR_TYPE_MANAGER = 1;
-    public static final int INSTRUCTOR_TYPE_OBSERVER = 2;
-    public static final int INSTRUCTOR_TYPE_TUTOR = 3;
-    public static final int INSTRUCTOR_TYPE_CUSTOM = 4;
+    private static final int INSTRUCTOR_TYPE_COOWNER = 0;
+    private static final int INSTRUCTOR_TYPE_MANAGER = 1;
+    private static final int INSTRUCTOR_TYPE_OBSERVER = 2;
+    private static final int INSTRUCTOR_TYPE_TUTOR = 3;
+    private static final int INSTRUCTOR_TYPE_CUSTOM = 4;
 
-    public static final int COURSE_MODIFY_COURSE = 0;
-    public static final int COURSE_MODIFY_INSTRUCTORS = 1;
-    public static final int COURSE_MODIFY_SESSIONS = 2;
-    public static final int COURSE_MODIFY_STUDENTS = 3;
-    public static final int COURSE_VIEW_STUDENTS = 4;
-    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
-    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
-    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
+    private static final int COURSE_MODIFY_COURSE = 0;
+    private static final int COURSE_MODIFY_INSTRUCTORS = 1;
+    private static final int COURSE_MODIFY_SESSIONS = 2;
+    private static final int COURSE_MODIFY_STUDENTS = 3;
+    private static final int COURSE_VIEW_STUDENTS = 4;
+    private static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
+    private static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
+    private static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
 
-    public static final int SECTION_VIEW_STUDENTS = 0;
-    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
-    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 2;
-    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 3;
+    private static final int SECTION_VIEW_STUDENTS = 0;
+    private static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
+    private static final int SECTION_VIEW_RESPONSES_IN_SESSION = 2;
+    private static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 3;
 
-    public static final int SESSION_GIVE_RESPONSES = 0;
-    public static final int SESSION_VIEW_RESPONSES = 1;
-    public static final int SESSION_MODIFY_RESPONSES = 2;
+    private static final int SESSION_GIVE_RESPONSES = 0;
+    private static final int SESSION_VIEW_RESPONSES = 1;
+    private static final int SESSION_MODIFY_RESPONSES = 2;
 
     @FindBy(id = "course-id")
     private WebElement courseIdTextBox;

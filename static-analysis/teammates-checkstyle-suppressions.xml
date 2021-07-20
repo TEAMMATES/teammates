@@ -21,5 +21,4 @@
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]api[/\\]LogicExtension\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]logic[/\\]core[/\\].*\.java"/>
     <suppress checks="MissingJavadocMethod" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
-    <suppress checks="JavadocVariable" files="teammates[/\\]e2e[/\\]pageobjects[/\\].*\.java"/>
 </suppressions>
