@@ -1055,8 +1055,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           class="card mb-3 alert-success-border"
         >
           <div
-            class="card-header alert-success cursor-pointer"
-            id="feedback-session-details"
+            class="card-header alert-success cursor-pointer text-break-class"
           >
              Feedback session 1 
             <div
@@ -1279,8 +1278,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
           class="card mb-3 alert-success-border"
         >
           <div
-            class="card-header alert-success cursor-pointer"
-            id="feedback-session-details"
+            class="card-header alert-success cursor-pointer text-break-class"
           >
              Feedback session 2 
             <div
