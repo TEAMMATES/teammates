@@ -26,7 +26,7 @@ class PutDataBundleAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
 
         try {

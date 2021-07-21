@@ -73,11 +73,11 @@ public class FeedbackSessionRemindEmailWorkerActionTest
         List<String> instructorNotifiedList = new ArrayList<>();
         for (InstructorAttributes instructor : logic.getInstructorsForCourse(session1.getCourseId())) {
             if (!giverSet.contains(instructor.getEmail())) {
-                instructorRecipientList.add(instructor.email);
+                instructorRecipientList.add(instructor.getEmail());
             }
         }
         instructorNotifiedList.add(logic.getInstructorForGoogleId(session1.getCourseId(),
-                instructor1.getGoogleId()).email);
+                instructor1.getGoogleId()).getEmail());
 
         String courseName = logic.getCourse(session1.getCourseId()).getName();
         List<TaskWrapper> tasksAdded = mockTaskQueuer.getTasksAdded();

@@ -93,16 +93,14 @@ public class JsonUtilsTest extends BaseTestCase {
                 + "    \"questionType\": \"TEXT\"\n"
                 + "  },\n"
                 + "  \"giverSection\": \"giverSection\",\n"
-                + "  \"recipientSection\": \"recipientSection\",\n"
-                + "  \"feedbackResponseId\": \"questionId%giver@email.com%recipient@email.com\"\n"
+                + "  \"recipientSection\": \"recipientSection\"\n"
                 + "}", JsonUtils.toJson(fra));
 
         assertEquals("{\"feedbackQuestionId\":\"questionId\",\"giver\":\"giver@email.com\","
                 + "\"recipient\":\"recipient@email.com\",\"feedbackSessionName\":\"Session1\","
                 + "\"courseId\":\"CS3281\",\"responseDetails\":{\"answer\":\"My answer\","
                 + "\"questionType\":\"TEXT\"},\"giverSection\":\"giverSection\","
-                + "\"recipientSection\":\"recipientSection\","
-                + "\"feedbackResponseId\":\"questionId%giver@email.com%recipient@email.com\"}",
+                + "\"recipientSection\":\"recipientSection\"}",
                 JsonUtils.toCompactJson(fra));
     }
 }

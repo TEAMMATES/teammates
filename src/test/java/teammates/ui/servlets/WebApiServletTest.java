@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -16,14 +16,14 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
 
 /**
  * SUT: {@link WebApiServlet}.
  */
-public class WebApiServletTest extends BaseTestCaseWithObjectifyAccess {
+public class WebApiServletTest extends BaseTestCase {
 
     private static final WebApiServlet SERVLET = new WebApiServlet();
 

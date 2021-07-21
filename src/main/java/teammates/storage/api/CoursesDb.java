@@ -20,7 +20,17 @@ import teammates.storage.entity.Course;
  * @see Course
  * @see CourseAttributes
  */
-public class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
+public final class CoursesDb extends EntitiesDb<Course, CourseAttributes> {
+
+    private static final CoursesDb instance = new CoursesDb();
+
+    private CoursesDb() {
+        // prevent initialization
+    }
+
+    public static CoursesDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a course.

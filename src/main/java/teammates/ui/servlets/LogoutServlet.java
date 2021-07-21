@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 
@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet that handles logout.
  */
-@SuppressWarnings("serial")
 public class LogoutServlet extends AuthServlet {
 
     @Override

@@ -31,7 +31,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
     @Override
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
 

@@ -31,11 +31,21 @@ import teammates.storage.search.StudentSearchManager;
  * @see CourseStudent
  * @see StudentAttributes
  */
-public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
+public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
+
+    private static final StudentsDb instance = new StudentsDb();
+
+    private StudentsDb() {
+        // prevent initialization
+    }
+
+    public static StudentsDb inst() {
+        return instance;
+    }
 
     private StudentSearchManager getSearchManager() {
         return SearchManagerFactory.getStudentSearchManager();
@@ -223,7 +233,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         List<StudentAttributes> unregistered = new ArrayList<>();
 
         for (StudentAttributes s : allStudents) {
-            if (s.googleId == null || s.googleId.trim().isEmpty()) {
+            if (s.getGoogleId() == null || s.getGoogleId().trim().isEmpty()) {
                 unregistered.add(s);
             }
         }
@@ -258,7 +268,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
+        boolean isEmailChanged = !student.getEmail().equals(newAttributes.getEmail());
 
         if (isEmailChanged) {
             newAttributes = createEntity(newAttributes);
@@ -281,12 +291,12 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 return newAttributes;
             }
 
-            student.setName(newAttributes.name);
-            student.setLastName(newAttributes.lastName);
-            student.setComments(newAttributes.comments);
-            student.setGoogleId(newAttributes.googleId);
-            student.setTeamName(newAttributes.team);
-            student.setSectionName(newAttributes.section);
+            student.setName(newAttributes.getName());
+            student.setLastName(newAttributes.getLastName());
+            student.setComments(newAttributes.getComments());
+            student.setGoogleId(newAttributes.getGoogleId());
+            student.setTeamName(newAttributes.getTeam());
+            student.setSectionName(newAttributes.getSection());
 
             putDocument(newAttributes);
 
