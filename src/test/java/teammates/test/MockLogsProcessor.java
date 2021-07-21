@@ -52,28 +52,28 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of general INFO logs.
      */
-    public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation, long timestamp,
-            String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace, sourceLocation, timestamp,
-                textPayloadMessage);
+    public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
+            long timestamp, String textPayloadMessage) {
+        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
+                sourceLocation, timestamp, textPayloadMessage);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
-    public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation, long timestamp,
-            String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace, sourceLocation, timestamp,
-                textPayloadMessage);
+    public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
+            long timestamp, String textPayloadMessage) {
+        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
+                sourceLocation, timestamp, textPayloadMessage);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
-    public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation, long timestamp,
-            String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace, sourceLocation, timestamp,
-                textPayloadMessage);
+    public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
+            long timestamp, String textPayloadMessage) {
+        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
+                sourceLocation, timestamp, textPayloadMessage);
     }
 
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
