@@ -44,7 +44,7 @@
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
     <div *ngFor="let question of questions">
-      <div class="card bg-light mt-4" *ngIf="!(hasAnonymousQuestion && hasNonAnonymousQuestion) || (question.responsesToSelf.length !== 1 || question.feedbackQuestion.showGiverNameTo.includes(visibilityRecipient))">
+      <div class="card bg-light mt-4" *ngIf="!(hasAnonymousResponse && hasNonAnonymousResponse) || (question.responsesToSelf.length !== 1 || question.feedbackQuestion.showGiverNameTo.includes(visibilityRecipient))">
         <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
           <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
           <div id="other-responses" *ngIf="canStudentSeeResponses(question)">

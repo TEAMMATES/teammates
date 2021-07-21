@@ -63,8 +63,8 @@ export class SessionResultPageComponent implements OnInit {
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
-  hasAnonymousQuestion: boolean = false;
-  hasNonAnonymousQuestion: boolean = false;
+  hasAnonymousResponse: boolean = false;
+  hasNonAnonymousResponse: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
@@ -187,13 +187,13 @@ export class SessionResultPageComponent implements OnInit {
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
 
-            this.hasNonAnonymousQuestion = false;
-            this.hasAnonymousQuestion = false;
+            this.hasNonAnonymousResponse = false;
+            this.hasAnonymousResponse = false;
             for (const question of this.questions) {
               if (question.feedbackQuestion.showGiverNameTo.includes(this.visibilityRecipient)) {
-                this.hasNonAnonymousQuestion = true;
+                this.hasNonAnonymousResponse = true;
               } else {
-                this.hasAnonymousQuestion = true;
+                this.hasAnonymousResponse = true;
               }
             }
           }, (resp: ErrorMessageOutput) => {
