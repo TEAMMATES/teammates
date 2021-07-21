@@ -187,6 +187,8 @@ export class SessionResultPageComponent implements OnInit {
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
 
+            this.hasNonAnonymousQuestion = false;
+            this.hasAnonymousQuestion = false;
             for (const question of this.questions) {
               if (question.feedbackQuestion.showGiverNameTo.includes(this.visibilityRecipient)) {
                 this.hasNonAnonymousQuestion = true;
