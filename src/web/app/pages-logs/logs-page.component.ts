@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
-import { LogService } from '../../services/log.service';
+import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
@@ -25,26 +25,7 @@ interface SearchLogsFormModel {
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-}
-
-/**
- * Query parameters for logs endpoint.
- */
-export interface QueryParams {
-  searchFrom: string;
-  searchUntil: string;
-  severity?: string;
-  minSeverity?: string;
-  logEvent?: string;
-  nextPageToken?: string;
-  actionClass?: string;
-  traceId?: string;
-  googleId?: string;
-  regkey?: string;
-  email?: string;
-  sourceLocationFile?: string;
-  sourceLocationFunction?: string;
-  exceptionClass?: string;
+  advancedFilters: AdvancedFilters;
 }
 
 /**
@@ -75,8 +56,9 @@ export class LogsPageComponent implements OnInit {
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
+    advancedFilters: {},
   };
-  queryParams: QueryParams = { searchFrom: '', searchUntil: '' };
+  queryParams: LogsEndpointQueryParams = { searchFrom: '', searchUntil: '', advancedFilters: {} };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -165,7 +147,7 @@ export class LogsPageComponent implements OnInit {
       this.statusMessageService.showErrorToast('Please choose an event type');
       return false;
     }
-    if (!this.queryParams.sourceLocationFile && this.queryParams.sourceLocationFunction) {
+    if (!this.formModel.advancedFilters.sourceLocationFile && this.formModel.advancedFilters.sourceLocationFunction) {
       this.isFiltersExpanded = true;
       this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
       return false;
@@ -174,27 +156,26 @@ export class LogsPageComponent implements OnInit {
     return true;
   }
 
+  /**
+   * Sets the query parameters with the given timestamps and filters in form model.
+   */
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
-    this.queryParams.searchFrom = timestampFrom.toString();
-    this.queryParams.searchUntil = timestampUntil.toString();
-    this.queryParams.nextPageToken = undefined;
+    this.queryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+      advancedFilters: JSON.parse(JSON.stringify(this.formModel.advancedFilters)),
+    };
 
     if (this.formModel.logsFilter === this.SEVERITY) {
       this.queryParams.severity = this.formModel.logsSeverity;
-      this.queryParams.minSeverity = undefined;
-      this.queryParams.logEvent = undefined;
     }
 
     if (this.formModel.logsFilter === this.MIN_SEVERITY) {
       this.queryParams.minSeverity = this.formModel.logsMinSeverity;
-      this.queryParams.severity = undefined;
-      this.queryParams.logEvent = undefined;
     }
 
     if (this.formModel.logsFilter === this.EVENT) {
       this.queryParams.logEvent = this.formModel.logsEvent;
-      this.queryParams.minSeverity = undefined;
-      this.queryParams.severity = undefined;
     }
   }
 
@@ -278,38 +259,38 @@ export class LogsPageComponent implements OnInit {
 
   addTraceToFilter(trace: string): void {
     this.isFiltersExpanded = true;
-    this.queryParams.traceId = trace;
+    this.formModel.advancedFilters.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
     this.isFiltersExpanded = true;
-    this.queryParams.sourceLocationFile = sourceLocation.file;
-    this.queryParams.sourceLocationFunction = sourceLocation.function;
+    this.formModel.advancedFilters.sourceLocationFile = sourceLocation.file;
+    this.formModel.advancedFilters.sourceLocationFunction = sourceLocation.function;
     this.statusMessageService.showSuccessToast('Source location added to filters');
   }
 
   addUserInfoToFilter(userInfo: any): void {
     this.isFiltersExpanded = true;
     if (userInfo.googleId) {
-      this.queryParams.googleId = userInfo.googleId;
+      this.formModel.advancedFilters.googleId = userInfo.googleId;
     } else if (userInfo.regkey) {
-      this.queryParams.regkey = userInfo.regkey;
+      this.formModel.advancedFilters.regkey = userInfo.regkey;
     } else if (userInfo.email) {
-      this.queryParams.email = userInfo.email;
+      this.formModel.advancedFilters.email = userInfo.email;
     }
 
     this.statusMessageService.showSuccessToast('User info added to filters');
   }
 
   clearFilters(): void {
-    this.queryParams.traceId = '';
-    this.queryParams.googleId = '';
-    this.queryParams.regkey = '';
-    this.queryParams.email = '';
-    this.queryParams.actionClass = '';
-    this.queryParams.sourceLocationFile = '';
-    this.queryParams.sourceLocationFunction = '';
-    this.queryParams.exceptionClass = '';
+    this.formModel.advancedFilters.traceId = '';
+    this.formModel.advancedFilters.googleId = '';
+    this.formModel.advancedFilters.regkey = '';
+    this.formModel.advancedFilters.email = '';
+    this.formModel.advancedFilters.actionClass = '';
+    this.formModel.advancedFilters.sourceLocationFile = '';
+    this.formModel.advancedFilters.sourceLocationFunction = '';
+    this.formModel.advancedFilters.exceptionClass = '';
   }
 }

@@ -56,6 +56,7 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     component.isLoading = false;
     component.isSearching = true;
@@ -81,6 +82,7 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     fixture.detectChanges();
 
@@ -91,6 +93,7 @@ describe('LogsPageComponent', () => {
       searchFrom: '0',
       searchUntil: '0',
       severity: 'INFO',
+      advancedFilters: {},
     });
   });
 
@@ -111,6 +114,7 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     fixture.detectChanges();
 
@@ -121,6 +125,7 @@ describe('LogsPageComponent', () => {
       searchFrom: '0',
       searchUntil: '0',
       minSeverity: 'INFO',
+      advancedFilters: {},
     });
   });
 
@@ -141,11 +146,13 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {
+        traceId: 'testTrace',
+        googleId: 'testGoogleId',
+        sourceLocationFile: 'testFile',
+        sourceLocationFunction: 'testFunction',
+      },
     };
-    component.queryParams.traceId = 'testTrace';
-    component.queryParams.googleId = 'testGoogleId';
-    component.queryParams.sourceLocationFile = 'testFile';
-    component.queryParams.sourceLocationFunction = 'testFunction';
     fixture.detectChanges();
 
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
@@ -155,10 +162,12 @@ describe('LogsPageComponent', () => {
       searchFrom: '0',
       searchUntil: '0',
       logEvent: 'REQUEST_RECEIVED',
-      traceId: 'testTrace',
-      googleId: 'testGoogleId',
-      sourceLocationFile: 'testFile',
-      sourceLocationFunction: 'testFunction',
+      advancedFilters: {
+        traceId: 'testTrace',
+        googleId: 'testGoogleId',
+        sourceLocationFile: 'testFile',
+        sourceLocationFunction: 'testFunction',
+      },
     });
   });
 
@@ -174,6 +183,7 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
@@ -193,6 +203,7 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
@@ -212,6 +223,7 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
@@ -231,8 +243,8 @@ describe('LogsPageComponent', () => {
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: { sourceLocationFunction: 'testFunction' },
     };
-    component.queryParams.sourceLocationFunction = 'testFunction';
     const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
     fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
