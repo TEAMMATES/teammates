@@ -118,7 +118,7 @@ public class WebApiServlet extends HttpServlet {
                 logMessage = String.format(logMessage, "Response", "dispatched", statusCode);
             } else {
                 responseDetails.put("actionClass", action.getClass().getSimpleName());
-                responseDetails.put("userInfo", action.getUserInfo());
+                responseDetails.put("userInfo", action.getUserInfoForLogging());
                 logMessage = String.format(logMessage, action.getClass().getSimpleName(), "finished", statusCode);
             }
 

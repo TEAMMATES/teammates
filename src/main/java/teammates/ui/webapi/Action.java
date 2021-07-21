@@ -116,7 +116,7 @@ public abstract class Action {
     /**
      * Gets the user information of the current user.
      */
-    public Map<String, String> getUserInfo() {
+    public Map<String, String> getUserInfoForLogging() {
         Map<String, String> info = new HashMap<>();
 
         String googleId = userInfo == null ? null : userInfo.getId();
