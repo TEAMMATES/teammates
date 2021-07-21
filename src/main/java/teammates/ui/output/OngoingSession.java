@@ -27,7 +27,7 @@ public class OngoingSession {
         String instructorHomePageLink = "";
         if (account != null) {
             instructorHomePageLink = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE)
-                    .withUserId(account.googleId)
+                    .withUserId(account.getGoogleId())
                     .toString();
         }
         this.instructorHomePageLink = instructorHomePageLink;

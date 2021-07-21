@@ -34,11 +34,11 @@ public final class StudentsLogic {
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
             "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
-    private static StudentsLogic instance = new StudentsLogic();
+    private static final StudentsLogic instance = new StudentsLogic();
 
-    private static final StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackResponsesLogic frLogic;
 
     private StudentsLogic() {
         // prevent initialization
@@ -46,6 +46,10 @@ public final class StudentsLogic {
 
     public static StudentsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        frLogic = FeedbackResponsesLogic.inst();
     }
 
     /**
@@ -124,7 +128,7 @@ public final class StudentsLogic {
 
         List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);
         for (StudentAttributes teammate : teammates) {
-            if (teammate.email.equals(student.email)) {
+            if (teammate.getEmail().equals(student.getEmail())) {
                 return true;
             }
         }
@@ -136,7 +140,7 @@ public final class StudentsLogic {
         if (student1 == null) {
             return false;
         }
-        return isStudentInTeam(courseId, student1.team, student2Email);
+        return isStudentInTeam(courseId, student1.getTeam(), student2Email);
     }
 
     /**
@@ -160,21 +164,21 @@ public final class StudentsLogic {
         StudentAttributes updatedStudent = studentsDb.updateStudent(updateOptions);
 
         // cascade email change, if any
-        if (!originalStudent.email.equals(updatedStudent.email)) {
+        if (!originalStudent.getEmail().equals(updatedStudent.getEmail())) {
             frLogic.updateFeedbackResponsesForChangingEmail(
-                    updatedStudent.course, originalStudent.email, updatedStudent.email);
+                    updatedStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail());
         }
 
         // adjust submissions if moving to a different team
-        if (isTeamChanged(originalStudent.team, updatedStudent.team)) {
-            frLogic.updateFeedbackResponsesForChangingTeam(updatedStudent.course, updatedStudent.email,
-                    originalStudent.team, updatedStudent.team);
+        if (isTeamChanged(originalStudent.getTeam(), updatedStudent.getTeam())) {
+            frLogic.updateFeedbackResponsesForChangingTeam(updatedStudent.getCourse(), updatedStudent.getEmail(),
+                    originalStudent.getTeam(), updatedStudent.getTeam());
         }
 
         // update the new section name in responses
-        if (isSectionChanged(originalStudent.section, updatedStudent.section)) {
-            frLogic.updateFeedbackResponsesForChangingSection(updatedStudent.course, updatedStudent.email,
-                    originalStudent.section, updatedStudent.section);
+        if (isSectionChanged(originalStudent.getSection(), updatedStudent.getSection())) {
+            frLogic.updateFeedbackResponsesForChangingSection(updatedStudent.getCourse(), updatedStudent.getEmail(),
+                    originalStudent.getSection(), updatedStudent.getSection());
         }
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
@@ -258,7 +262,7 @@ public final class StudentsLogic {
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
         }
-        return students.get(0).section;
+        return students.get(0).getSection();
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -270,17 +274,17 @@ public final class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.section.equals(previousStudent.section)) {
+            if (currentStudent.getSection().equals(previousStudent.getSection())) {
                 studentsCount++;
             } else {
                 if (studentsCount > Const.SECTION_SIZE_LIMIT) {
-                    invalidSectionList.add(previousStudent.section);
+                    invalidSectionList.add(previousStudent.getSection());
                 }
                 studentsCount = 1;
             }
 
             if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
-                invalidSectionList.add(currentStudent.section);
+                invalidSectionList.add(currentStudent.getSection());
             }
         }
 
@@ -308,16 +312,16 @@ public final class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.team.equals(previousStudent.team)
-                    && !currentStudent.section.equals(previousStudent.section)
-                    && !invalidTeamList.contains(currentStudent.team)) {
+            if (currentStudent.getTeam().equals(previousStudent.getTeam())
+                    && !currentStudent.getSection().equals(previousStudent.getSection())
+                    && !invalidTeamList.contains(currentStudent.getTeam())) {
 
                 errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
-                        currentStudent.team,
-                        previousStudent.section,
-                        currentStudent.section));
+                        currentStudent.getTeam(),
+                        previousStudent.getSection(),
+                        currentStudent.getSection()));
 
-                invalidTeamList.add(currentStudent.team);
+                invalidTeamList.add(currentStudent.getTeam());
             }
         }
 
@@ -335,7 +339,7 @@ public final class StudentsLogic {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
             RequestTracer.checkRemainingTime();
-            deleteStudentCascade(courseId, student.email);
+            deleteStudentCascade(courseId, student.getEmail());
         }
     }
 
@@ -366,7 +370,7 @@ public final class StudentsLogic {
 
         // Cascade delete students
         for (StudentAttributes student : students) {
-            deleteStudentCascade(student.course, student.email);
+            deleteStudentCascade(student.getCourse(), student.getEmail());
         }
     }
 
@@ -387,7 +391,7 @@ public final class StudentsLogic {
     private boolean isInEnrollList(StudentAttributes student,
             List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
-            if (studentInfo.email.equalsIgnoreCase(student.email)) {
+            if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;
             }
         }

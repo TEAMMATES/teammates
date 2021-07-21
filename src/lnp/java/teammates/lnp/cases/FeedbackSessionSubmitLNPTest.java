@@ -184,7 +184,6 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("googleId");
                 headers.add("studentEmail");
                 for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
@@ -202,13 +201,14 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 dataBundle.students.forEach((studentKey, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
-                    csvRow.add(student.googleId);
-                    csvRow.add(student.email);
+                    csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
+                    csvRow.add(student.getGoogleId());
+                    csvRow.add(student.getEmail());
 
-                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
-                        csvRow.add(feedbackQuestion.getId());
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, fq) -> {
+                        FeedbackQuestionAttributes fqa = backdoor.getFeedbackQuestion(
+                                fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
+                        csvRow.add(fqa.getId());
                     });
 
                     csvData.add(csvRow);

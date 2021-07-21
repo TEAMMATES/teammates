@@ -49,7 +49,7 @@ public class StudentHomePageE2ETest extends BaseE2ETestCase {
         List<String> courseIds = new ArrayList<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if ("tm.e2e.SHome.student".equals(student.googleId)) {
+            if ("tm.e2e.SHome.student".equals(student.getGoogleId())) {
                 courseIds.add(student.getCourse());
             }
         }

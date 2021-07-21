@@ -77,7 +77,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withRegistrationKey(StringHelper.encrypt(instructor.getKey()))
                 .withInstructorInstitution(institute)
                 .withInstitutionMac(StringHelper.generateSignature(institute))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
