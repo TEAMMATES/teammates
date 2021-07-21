@@ -53,6 +53,7 @@ public abstract class Action {
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
+    Map<String, String> userInfoForUserWithNoAccount = new HashMap<>();
 
     // buffer to store the request body
     private String requestBody;
@@ -120,17 +121,13 @@ public abstract class Action {
         Map<String, String> info = new HashMap<>();
 
         String googleId = userInfo == null ? null : userInfo.getId();
-        String regkey = null;
-        String studentEmail = null;
-        Optional<StudentAttributes> student = getUnregisteredStudent();
-        if (student.isPresent()) {
-            regkey = student.get().getKey();
-            studentEmail = student.get().getEmail();
-        }
 
         info.put("googleId", googleId);
-        info.put("regkey", regkey);
-        info.put("email", studentEmail);
+        if (!userInfoForUserWithNoAccount.isEmpty()) {
+            info.putAll(userInfoForUserWithNoAccount);
+        } else {
+            info.put("regkey", getRequestParamValue(Const.ParamsNames.REGKEY));
+        }
         return info;
     }
 
@@ -250,6 +247,8 @@ public abstract class Action {
             if (studentAttributes == null) {
                 return Optional.empty();
             }
+            userInfoForUserWithNoAccount.put("regkey", key);
+            userInfoForUserWithNoAccount.put("email", studentAttributes.getEmail());
             return Optional.of(studentAttributes);
         }
         return Optional.empty();
