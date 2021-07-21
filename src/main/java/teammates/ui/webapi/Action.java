@@ -123,10 +123,10 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         info.put("googleId", googleId);
-        if (!userInfoForUserWithNoAccount.isEmpty()) {
-            info.putAll(userInfoForUserWithNoAccount);
-        } else {
+        if (userInfoForUserWithNoAccount.isEmpty()) {
             info.put("regkey", getRequestParamValue(Const.ParamsNames.REGKEY));
+        } else {
+            info.putAll(userInfoForUserWithNoAccount);
         }
         return info;
     }
