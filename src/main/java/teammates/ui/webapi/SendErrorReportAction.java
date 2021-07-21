@@ -21,7 +21,7 @@ class SendErrorReportAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         ErrorReportRequest report = getAndValidateRequestBody(ErrorReportRequest.class);
 
         // Severe logs will trigger email to the system admin

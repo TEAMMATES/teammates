@@ -20,11 +20,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     private static final Logger log = Logger.getLogger();
 
-    public Instant createdAt;
-    public Instant deletedAt;
+    private Instant createdAt;
+    private Instant deletedAt;
     private String name;
     private ZoneId timeZone;
-
     private String id;
 
     private CourseAttributes(String courseId) {
@@ -80,20 +79,28 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return timeZone;
     }
 
+    public void setTimeZone(ZoneId timeZone) {
+        this.timeZone = timeZone;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public boolean isCourseDeleted() {
-        return this.deletedAt != null;
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
+    public boolean isCourseDeleted() {
+        return this.deletedAt != null;
     }
 
     @Override

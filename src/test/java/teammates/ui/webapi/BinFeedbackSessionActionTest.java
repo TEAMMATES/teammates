@@ -67,7 +67,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(submissionParams);
 
         ______TS("other verifications");

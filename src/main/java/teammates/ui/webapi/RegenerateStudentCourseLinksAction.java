@@ -36,7 +36,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
             SUCCESSFUL_REGENERATION + " but the email failed to send.";
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String studentEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
@@ -56,7 +56,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
                                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
         return new JsonResult(
-                new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.key)));
+                new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.getKey())));
     }
 
     /**
