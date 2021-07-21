@@ -88,8 +88,9 @@ public class RequestTraceFilter implements Filter {
         requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
         Map<String, Object> userInfo = new HashMap<>();
         userInfo.put("regkey", requestParams.get(Const.ParamsNames.REGKEY));
-        userInfo.put("email", requestParams.get(Const.ParamsNames.STUDENT_EMAIL));
-        requestDetails.put("userInfo", userInfo);
+        if (!userInfo.isEmpty()) {
+            requestDetails.put("userInfo", userInfo);
+        }
 
         String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
         log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
