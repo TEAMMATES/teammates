@@ -225,6 +225,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         assertFalse(user.isAdmin);
     }
 
+    protected void loginAsMaintainer() {
+        UserInfo user = mockUserProvision.loginUser(Config.APP_MAINTAINERS.get(0));
+        assertTrue(user.isMaintainer);
+    }
+
     /**
      * Logs the current user out of the test environment.
      */
@@ -507,6 +512,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
         loginAsInstructor(otherInstructor.getGoogleId());
         verifyCannotAccess(submissionParams);
+    }
+
+    protected void verifyAccessibleForMaintainers(String... params) {
+        verifyInaccessibleWithoutLogin(params);
+        verifyInaccessibleForUnregisteredUsers(params);
+
+        loginAsMaintainer();
+        verifyCanAccess(params);
     }
 
     // 'Low-level' access control tests: here it tests an action once with the given parameters.

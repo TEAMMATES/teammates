@@ -12,13 +12,14 @@ import com.google.logging.type.LogSeverity;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
+import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
 /**
  * Queries the logs.
  */
-public class QueryLogsAction extends AdminOnlyAction {
+public class QueryLogsAction extends Action {
     private static final String DEFAULT_SEVERITIES = "INFO";
     private static final int DEFAULT_PAGE_SIZE = 20;
 
@@ -27,6 +28,18 @@ public class QueryLogsAction extends AdminOnlyAction {
     private static final List<String> LOG_SEVERITIES = Arrays.stream(LogSeverity.values())
             .map(Enum::toString)
             .collect(Collectors.toList());
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.LOGGED_IN;
+    }
+
+    @Override
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
+        if (!userInfo.isMaintainer || !userInfo.isAdmin) {
+            throw new UnauthorizedAccessException("Only Maintainers or Admin are allowed to access this resource.");
+        }
+    }
 
     @Override
     public JsonResult execute() {

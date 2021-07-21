@@ -158,6 +158,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     @Test
     @Override
     protected void testAccessControl() throws Exception {
-        verifyOnlyAdminCanAccess();
+        verifyAccessibleForAdmin();
+        verifyAccessibleForMaintainers();
     }
 }
