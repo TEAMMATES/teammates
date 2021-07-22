@@ -559,11 +559,28 @@ public final class FeedbackSessionsLogic {
                 throw new UnsupportedOperationException("Specify section filtering is not supported for student result");
             }
             allResponses = new ArrayList<>();
+            boolean hasAnonymousResponse = false;
+            boolean hasVisibleResponse = false;
+            boolean needToCheckForSingleAnonymousResponse = false;
+
+            // check if there exists both visible and anonymous responses
+            for (FeedbackQuestionAttributes question: allQuestions) {
+                if (question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER)) {
+                    hasVisibleResponse = true;
+                } else {
+                    hasAnonymousResponse = true;
+                }
+
+                if (hasVisibleResponse && hasAnonymousResponse) {
+                    needToCheckForSingleAnonymousResponse = true;
+                    break;
+                }
+            }
             // load viewable responses for students proactively
             // this is cost-effective as in most of time responses for the whole session will not be viewable to students
             for (FeedbackQuestionAttributes question : allQuestions) {
                 List<FeedbackResponseAttributes> viewableResponses =
-                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
+                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster, needToCheckForSingleAnonymousResponse);
                 allResponses.addAll(viewableResponses);
             }
         }
