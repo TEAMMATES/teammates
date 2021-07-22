@@ -515,8 +515,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     }
 
     protected void verifyAccessibleForMaintainers(String... params) {
-        verifyInaccessibleWithoutLogin(params);
-        verifyInaccessibleForUnregisteredUsers(params);
+
+        ______TS("Maintainer can access");
 
         loginAsMaintainer();
         verifyCanAccess(params);

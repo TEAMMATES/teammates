@@ -160,5 +160,9 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
     protected void testAccessControl() throws Exception {
         verifyAccessibleForAdmin();
         verifyAccessibleForMaintainers();
+        verifyInaccessibleForStudents();
+        verifyInaccessibleForInstructors();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
 }
