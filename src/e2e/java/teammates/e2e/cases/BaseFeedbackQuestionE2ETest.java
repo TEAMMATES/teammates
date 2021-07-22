@@ -37,20 +37,20 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        return loginToPage(url, InstructorFeedbackEditPage.class, instructor.googleId);
+        return loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
     }
 
     protected FeedbackSubmitPage loginToFeedbackSubmitPage() {
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(student.course)
+                .withCourseId(student.getCourse())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
-        return loginToPage(url, FeedbackSubmitPage.class, student.googleId);
+        return loginToPage(url, FeedbackSubmitPage.class, student.getGoogleId());
     }
 
     protected FeedbackSubmitPage getFeedbackSubmitPage() {
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
-                .withCourseId(student.course)
+                .withCourseId(student.getCourse())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
         return getNewPageInstance(url, FeedbackSubmitPage.class);

@@ -12,7 +12,7 @@ import teammates.common.util.Const;
 class DowngradeAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String instructorId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
 
         try {

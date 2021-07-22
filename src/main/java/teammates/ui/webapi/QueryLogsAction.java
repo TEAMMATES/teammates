@@ -29,7 +29,7 @@ public class QueryLogsAction extends AdminOnlyAction {
             .collect(Collectors.toList());
 
     @Override
-    ActionResult execute() {
+    public JsonResult execute() {
         String severitiesStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITIES);
         if (severitiesStr == null) {
             severitiesStr = DEFAULT_SEVERITIES;

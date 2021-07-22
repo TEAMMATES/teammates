@@ -27,7 +27,17 @@ import teammates.storage.entity.FeedbackSession;
  * @see FeedbackSession
  * @see FeedbackSessionAttributes
  */
-public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+
+    private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
+
+    private FeedbackSessionsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackSessionsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a list of feedback sessions that is ongoing, i.e. starting before {@code rangeEnd}

@@ -2,6 +2,8 @@ package teammates.test;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.Assert;
 import org.testng.annotations.AfterClass;
@@ -64,6 +66,34 @@ public class BaseTestCase {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Populates the feedback question and response IDs within the data bundle.
+     *
+     * <p>For tests where simulated database is used, the backend will assign the question and response IDs
+     * when the entities are persisted into the database, and modify the relation IDs accordingly.
+     * However, for tests that do not use simulated database (e.g. pure data structure tests),
+     * the assignment of IDs have to be simulated.
+     */
+    protected void populateQuestionAndResponseIds(DataBundle dataBundle) {
+        Map<String, Map<Integer, String>> sessionToQuestionNumberToId = new HashMap<>();
+
+        dataBundle.feedbackQuestions.forEach((key, question) -> {
+            // Assign the same ID as the key as a later function requires a match between the key and the question ID
+            question.setId(key);
+            Map<Integer, String> questionNumberToId = sessionToQuestionNumberToId.computeIfAbsent(
+                    question.getCourseId() + "%" + question.getFeedbackSessionName(), k -> new HashMap<>());
+            questionNumberToId.put(question.getQuestionNumber(), key);
+        });
+
+        dataBundle.feedbackResponses.forEach((key, response) -> {
+            response.setId(key);
+            String feedbackQuestionId = sessionToQuestionNumberToId
+                    .get(response.getCourseId() + "%" + response.getFeedbackSessionName())
+                    .get(Integer.valueOf(response.getFeedbackQuestionId()));
+            response.setFeedbackQuestionId(feedbackQuestionId);
+        });
     }
 
     /**

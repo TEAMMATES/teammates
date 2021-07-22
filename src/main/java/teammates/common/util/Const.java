@@ -20,6 +20,8 @@ public final class Const {
 
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
 
+    public static final String DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR = "Instructor";
+
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
     public static final int SECTION_SIZE_LIMIT = 100;
@@ -297,6 +299,7 @@ public final class Const {
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String LOGS = URI_PREFIX + "/logs/query";
+        public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";

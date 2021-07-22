@@ -3,9 +3,10 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
+import { GeneralLogEntry } from 'src/web/types/api-output';
 import { LogService } from '../../services/log.service';
+import { StatusMessageService } from '../../services/status-message.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { GeneralLogEntry } from '../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 import Spy = jasmine.Spy;
@@ -15,6 +16,7 @@ describe('LogsPageComponent', () => {
   let fixture: ComponentFixture<LogsPageComponent>;
   let logService: LogService;
   let timezoneService: TimezoneService;
+  let statusMessageService: StatusMessageService;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -27,6 +29,7 @@ describe('LogsPageComponent', () => {
     fixture = TestBed.createComponent(LogsPageComponent);
     logService = TestBed.inject(LogService);
     timezoneService = TestBed.inject(TimezoneService);
+    statusMessageService = TestBed.inject(StatusMessageService);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -46,14 +49,16 @@ describe('LogsPageComponent', () => {
   });
 
   it('should snap when searching for details in search form', () => {
-    const logSeverity: Set<string> = new Set();
-    logSeverity.add('ERROR');
     component.formModel = {
-      logsSeverity: logSeverity,
+      logsSeverity: 'ERROR',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: '',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     component.isLoading = false;
     component.isSearching = true;
@@ -63,33 +68,23 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for logs when search button is clicked', () => {
-    const testLog: GeneralLogEntry = {
-      logName: 'stdout',
-      severity: 'INFO',
-      trace: 'testTrace',
-      sourceLocation: {
-        file: 'file',
-        line: 10,
-        function: 'function',
-      },
-      timestamp: 1549095330000,
-      message: 'message',
-    };
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
-        .returnValue(of({ logEntries: [testLog], nextPageToken: 'testToken' }));
+        .returnValue(of({ logEntries: [] }));
     const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
         .returnValue(of({ timestamp: 0, message: '' }));
 
     component.isLoading = false;
     component.isSearching = false;
-    const logSeverity: Set<string> = new Set();
-    logSeverity.add('INFO');
     component.formModel = {
-      logsSeverity: logSeverity,
+      logsSeverity: 'INFO',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'severity',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
     };
     fixture.detectChanges();
 
@@ -100,9 +95,162 @@ describe('LogsPageComponent', () => {
       searchFrom: '0',
       searchUntil: '0',
       severity: 'INFO',
+      advancedFilters: {},
     });
+  });
 
-    expect(component.searchResults.length).toEqual(1);
+  it('should search for logs with minimum severity', () => {
+    const logSpy: Spy = spyOn(logService, 'searchLogs').and
+        .returnValue(of({ logEntries: [] }));
+    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
+        .returnValue(of({ timestamp: 0, message: '' }));
+
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: 'INFO',
+      logsEvent: '',
+      logsFilter: 'minSeverity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
+    fixture.detectChanges();
+
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+
+    expect(timeSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy).toHaveBeenCalledWith({
+      searchFrom: '0',
+      searchUntil: '0',
+      minSeverity: 'INFO',
+      advancedFilters: {},
+    });
+  });
+
+  it('should search for logs with event type', () => {
+    const logSpy: Spy = spyOn(logService, 'searchLogs').and
+        .returnValue(of({ logEntries: [] }));
+    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
+        .returnValue(of({ timestamp: 0, message: '' }));
+
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: '',
+      logsEvent: 'REQUEST_RECEIVED',
+      logsFilter: 'event',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {
+        traceId: 'testTrace',
+        googleId: 'testGoogleId',
+        sourceLocationFile: 'testFile',
+        sourceLocationFunction: 'testFunction',
+      },
+    };
+    fixture.detectChanges();
+
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+
+    expect(timeSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy).toHaveBeenCalledWith({
+      searchFrom: '0',
+      searchUntil: '0',
+      logEvent: 'REQUEST_RECEIVED',
+      advancedFilters: {
+        traceId: 'testTrace',
+        googleId: 'testGoogleId',
+        sourceLocationFile: 'testFile',
+        sourceLocationFunction: 'testFunction',
+      },
+    });
+  });
+
+  it('should display error message if severity level is not selected', () => {
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'severity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+    expect(spy).lastCalledWith('Please choose a severity level');
+  });
+
+  it('should display error message if minimum severity level is not selected', () => {
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'minSeverity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+    expect(spy).lastCalledWith('Please choose a minimum severity level');
+  });
+
+  it('should display error message if event type is not selected', () => {
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: '',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'event',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+    expect(spy).lastCalledWith('Please choose an event type');
+  });
+
+  it('should display error message if source function is filled and source file is empty', () => {
+    component.isLoading = false;
+    component.isSearching = false;
+    component.formModel = {
+      logsSeverity: 'INFO',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'severity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: { sourceLocationFunction: 'testFunction' },
+    };
+    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+    expect(spy).lastCalledWith('Please fill in Source location file or clear Source location function');
   });
 
   it('should disable load button if there is no next page token', () => {
@@ -123,15 +271,8 @@ describe('LogsPageComponent', () => {
     component.isLoading = false;
     component.isSearching = false;
     component.isTableView = false;
-    component.formModel = {
-      logsSeverity: new Set(),
-      logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
-      logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
-    };
-    fixture.detectChanges();
 
+    fixture.detectChanges();
     fixture.debugElement.nativeElement.querySelector('#query-button').click();
 
     expect(timeSpy).toHaveBeenCalledTimes(2);
@@ -141,6 +282,7 @@ describe('LogsPageComponent', () => {
       searchUntil: '0',
       severity: 'ERROR',
       nextPageToken: 'token',
+      advancedFilters: {},
     }]);
   });
 
@@ -186,6 +328,9 @@ describe('LogsPageComponent', () => {
       .returnValue(of({ logEntries: [testLog1, testLog2, testLog3] }));
     spyOn(timezoneService, 'getResolvedTimestamp').and.returnValue(of({ timestamp: 0, message: '' }));
 
+    component.isLoading = false;
+    component.isSearching = false;
+    component.isTableView = false;
     component.searchForLogs();
 
     expect(component.histogramResult.length).toEqual(2);
