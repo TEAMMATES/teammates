@@ -171,7 +171,7 @@ describe('LogsPageComponent', () => {
     });
   });
 
-  it('should display error messgae if severity level is not selected', () => {
+  it('should display error message if severity level is not selected', () => {
     component.isLoading = false;
     component.isSearching = false;
     component.formModel = {
@@ -191,7 +191,7 @@ describe('LogsPageComponent', () => {
     expect(spy).lastCalledWith('Please choose a severity level');
   });
 
-  it('should display error messgae if minimum severity level is not selected', () => {
+  it('should display error message if minimum severity level is not selected', () => {
     component.isLoading = false;
     component.isSearching = false;
     component.formModel = {
@@ -211,7 +211,7 @@ describe('LogsPageComponent', () => {
     expect(spy).lastCalledWith('Please choose a minimum severity level');
   });
 
-  it('should display error messgae if event type is not selected', () => {
+  it('should display error message if event type is not selected', () => {
     component.isLoading = false;
     component.isSearching = false;
     component.formModel = {
@@ -231,7 +231,7 @@ describe('LogsPageComponent', () => {
     expect(spy).lastCalledWith('Please choose an event type');
   });
 
-  it('should display error messgae if source function is filled and source file is empty', () => {
+  it('should display error message if source function is filled and source file is empty', () => {
     component.isLoading = false;
     component.isSearching = false;
     component.formModel = {
