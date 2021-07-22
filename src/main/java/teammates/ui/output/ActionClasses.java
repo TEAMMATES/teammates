@@ -1,12 +1,13 @@
 package teammates.ui.output;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The API output format for retrieving list of action classes.
+ * The API output format for retreiving list of action classes.
  */
 public class ActionClasses extends ApiOutput {
-    private final List<String> actionClasses;
+    private List<String> actionClasses = new ArrayList<>();
 
     public ActionClasses(List<String> actionClasses) {
         this.actionClasses = actionClasses;
