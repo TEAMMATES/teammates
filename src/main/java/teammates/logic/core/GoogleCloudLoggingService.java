@@ -122,8 +122,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams)
-            throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
@@ -277,6 +276,8 @@ public class GoogleCloudLoggingService implements LogService {
             }
         }
         if (s.exceptionClass != null) {
+            // TODO: investigate whether an exception happening equals to the exception name
+            //  being passed to the textPayload.
             logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {

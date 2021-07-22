@@ -82,9 +82,9 @@ public class QueryLogsParams {
      * Represents parameter of user information used for querying logs.
      */
     public static class UserInfoParams {
-        String googleId;
-        String regkey;
-        String email;
+        private final String googleId;
+        private final String regkey;
+        private final String email;
 
         public UserInfoParams(String google, String regkey, String email) {
             this.googleId = google;
@@ -106,7 +106,7 @@ public class QueryLogsParams {
     }
 
     public static class Builder {
-        QueryLogsParams queryLogsParams;
+        private QueryLogsParams queryLogsParams;
 
         private Builder(Instant startTime, Instant endTime) {
             this.queryLogsParams = new QueryLogsParams(startTime, endTime);

@@ -53,7 +53,7 @@ public abstract class Action {
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
-    Map<String, String> userInfoForUserWithNoAccount = new HashMap<>();
+    private StudentAttributes studentWithoutAccount;
 
     // buffer to store the request body
     private String requestBody;
@@ -123,10 +123,11 @@ public abstract class Action {
         String googleId = userInfo == null ? null : userInfo.getId();
 
         info.put("googleId", googleId);
-        if (userInfoForUserWithNoAccount.isEmpty()) {
+        if (studentWithoutAccount == null) {
             info.put("regkey", getRequestParamValue(Const.ParamsNames.REGKEY));
         } else {
-            info.putAll(userInfoForUserWithNoAccount);
+            info.put("regkey", studentWithoutAccount.getKey());
+            info.put("email", studentWithoutAccount.getEmail());
         }
         return info;
     }
@@ -247,8 +248,7 @@ public abstract class Action {
             if (studentAttributes == null) {
                 return Optional.empty();
             }
-            userInfoForUserWithNoAccount.put("regkey", key);
-            userInfoForUserWithNoAccount.put("email", studentAttributes.getEmail());
+            studentWithoutAccount = studentAttributes;
             return Optional.of(studentAttributes);
         }
         return Optional.empty();

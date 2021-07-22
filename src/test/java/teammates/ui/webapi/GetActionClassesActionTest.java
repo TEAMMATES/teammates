@@ -27,7 +27,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Test
     @Override
     protected void testExecute() throws Exception {
-        ______TS("Retrieve the list of action class names");
         List<String> expectedActionClasses = Arrays.asList(
                 "DeleteFeedbackResponseCommentAction",
                 "CreateFeedbackResponseCommentAction",
