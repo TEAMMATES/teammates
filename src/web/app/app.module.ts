@@ -25,6 +25,7 @@ import { InstructorPageComponent } from './pages-instructor/instructor-page.comp
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
+import { MaintainerPageComponent } from "./page-maintainer/maintainer-page.component";
 
 const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
 const customUrlSerializerProvider: Provider = {
@@ -82,6 +83,11 @@ let routes: Routes = [
         loadChildren: () => import('./pages-admin/admin-pages.module').then((m: any) => m.AdminPagesModule),
       },
       {
+        path: 'maintainer',
+        component: MaintainerPageComponent,
+        loadChildren: () => import('./page-maintainer/maintainer-page.module').then((m: any) => m.MaintainerPageModule),
+      },
+      {
         path: '**',
         pathMatch: 'full',
         redirectTo: 'front',
@@ -134,6 +140,7 @@ if (environment.maintenance) {
     InstructorPageComponent,
     AdminPageComponent,
     MaintenancePageComponent,
+    MaintainerPageComponent,
   ],
   imports: [
     SimpleModalModule,
