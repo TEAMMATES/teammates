@@ -36,7 +36,7 @@ public class QueryLogsAction extends Action {
 
     @Override
     void checkSpecificAccessControl() throws UnauthorizedAccessException {
-        if (!userInfo.isMaintainer || !userInfo.isAdmin) {
+        if (!userInfo.isMaintainer && !userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Only Maintainers or Admin are allowed to access this resource.");
         }
     }
