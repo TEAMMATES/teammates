@@ -2,35 +2,30 @@ import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
 import { forkJoin, Observable } from 'rxjs';
 import { concatMap, finalize, map } from 'rxjs/operators';
-import { LogService } from '../../services/log.service';
+import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
-import { GeneralLogEntry, GeneralLogs } from '../../types/api-output';
+import { ActionClasses, GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
+import { collapseAnim } from '../components/teammates-common/collapse-anim';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
  * Model for searching of logs.
  */
 interface SearchLogsFormModel {
-  logsSeverity: Set<string>;
+  logsSeverity: string;
+  logsMinSeverity: string;
+  logsEvent: string;
+  logsFilter: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-}
-
-/**
- * Query parameters for HTTP request
- */
-interface QueryParams {
-  searchFrom: string;
-  searchUntil: string;
-  severities: string;
-  nextPageToken?: string;
+  advancedFilters: AdvancedFilters;
 }
 
 /**
@@ -40,20 +35,30 @@ interface QueryParams {
   selector: 'tm-logs-page',
   templateUrl: './logs-page.component.html',
   styleUrls: ['./logs-page.component.scss'],
+  animations: [collapseAnim],
 })
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
+  readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly SEVERITY: string = 'severity';
+  readonly MIN_SEVERITY: string = 'minSeverity';
+  readonly EVENT: string = 'event';
+  ACTION_CLASSES: string[] = [];
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: new Set(),
+    logsSeverity: '',
+    logsMinSeverity: '',
+    logsEvent: '',
+    logsFilter: '',
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
+    advancedFilters: {},
   };
-  previousQueryParams: QueryParams = { searchFrom: '', searchUntil: '', severities: '' };
+  queryParams: LogsEndpointQueryParams = { searchFrom: '', searchUntil: '', advancedFilters: {} };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -61,12 +66,14 @@ export class LogsPageComponent implements OnInit {
   isSearching: boolean = false;
   hasResult: boolean = false;
   nextPageToken: string = '';
+  isFiltersExpanded: boolean = false;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
     private statusMessageService: StatusMessageService) { }
 
   ngOnInit(): void {
+    this.isLoading = true;
     const today: Date = new Date();
     this.dateToday.year = today.getFullYear();
     this.dateToday.month = today.getMonth() + 1;
@@ -88,17 +95,14 @@ export class LogsPageComponent implements OnInit {
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
-  }
 
-  toggleSelection(severity: string): void {
-    this.formModel.logsSeverity.has(severity)
-      ? this.formModel.logsSeverity.delete(severity)
-      : this.formModel.logsSeverity.add(severity);
+    this.logService.getActionClassList()
+      .pipe(finalize(() => this.isLoading = false))
+      .subscribe((actionClasses: ActionClasses) => this.ACTION_CLASSES = actionClasses.actionClasses.sort());
   }
 
   searchForLogs(): void {
-    if (this.formModel.logsSeverity.size === 0) {
-      this.statusMessageService.showErrorToast('Please select at least one severity level');
+    if (!this.isFormValid()) {
       return;
     }
 
@@ -106,27 +110,73 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.searchResults = [];
     this.nextPageToken = '';
+    this.isFiltersExpanded = false;
     const localDateTime: Observable<number>[] = [
       this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
     forkJoin(localDateTime)
-        .pipe(
-            concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              this.previousQueryParams = {
-                searchFrom: timestampFrom.toString(),
-                searchUntil: timestampUntil.toString(),
-                severities: Array.from(this.formModel.logsSeverity).join(','),
-              };
-              return this.logService.searchLogs(this.previousQueryParams);
-            }),
-            finalize(() => {
-              this.isSearching = false;
-              this.hasResult = true;
-            }))
-            .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-              (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+      .pipe(
+        concatMap(([timestampFrom, timestampUntil]: number[]) => {
+          this.setQueryParams(timestampFrom, timestampUntil);
+          return this.logService.searchLogs(this.queryParams);
+        }),
+        finalize(() => {
+          this.isSearching = false;
+          this.hasResult = true;
+        }))
+      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private isFormValid(): boolean {
+    if (this.formModel.logsFilter === '') {
+      this.statusMessageService.showErrorToast('Please choose to filter by severity / minimum severity / event');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.SEVERITY && this.formModel.logsSeverity === '') {
+      this.statusMessageService.showErrorToast('Please choose a severity level');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.logsMinSeverity === '') {
+      this.statusMessageService.showErrorToast('Please choose a minimum severity level');
+      return false;
+    }
+    if (this.formModel.logsFilter === this.EVENT && this.formModel.logsEvent === '') {
+      this.statusMessageService.showErrorToast('Please choose an event type');
+      return false;
+    }
+    if (!this.formModel.advancedFilters.sourceLocationFile && this.formModel.advancedFilters.sourceLocationFunction) {
+      this.isFiltersExpanded = true;
+      this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
+      return false;
+    }
+
+    return true;
+  }
+
+  /**
+   * Sets the query parameters with the given timestamps and filters in form model.
+   */
+  private setQueryParams(timestampFrom: number, timestampUntil: number): void {
+    this.queryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+      advancedFilters: JSON.parse(JSON.stringify(this.formModel.advancedFilters)),
+    };
+
+    if (this.formModel.logsFilter === this.SEVERITY) {
+      this.queryParams.severity = this.formModel.logsSeverity;
+    }
+
+    if (this.formModel.logsFilter === this.MIN_SEVERITY) {
+      this.queryParams.minSeverity = this.formModel.logsMinSeverity;
+    }
+
+    if (this.formModel.logsFilter === this.EVENT) {
+      this.queryParams.logEvent = this.formModel.logsEvent;
+    }
   }
 
   private processLogs(generalLogs: GeneralLogs): void {
@@ -152,6 +202,7 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
+    let userInfo: any;
     if (log.message) {
       summary = `Source: ${log.sourceLocation.file}`;
       payload = this.formatTextPayloadForDisplay(log.message);
@@ -161,7 +212,7 @@ export class LogsPageComponent implements OnInit {
         summary += `${payload.requestMethod} `;
       }
       if (payload.requestUrl) {
-        summary += `${payload.requestUrl}`;
+        summary += `${payload.requestUrl} `;
       }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
@@ -172,18 +223,21 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         summary += `${payload.actionClass}`;
       }
+      if (payload.userInfo) {
+        userInfo = payload.userInfo;
+        payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
+      }
     }
     return {
       summary,
       httpStatus,
       responseTime,
+      userInfo,
+      traceId: log.trace,
+      sourceLocation: log.sourceLocation,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
-      details: JSON.parse(JSON.stringify({
-        payload,
-        sourceLocation: log.sourceLocation,
-        trace: log.trace,
-      })),
+      details: payload,
       isDetailsExpanded: false,
     };
   }
@@ -196,10 +250,47 @@ export class LogsPageComponent implements OnInit {
 
   getNextPageLogs(): void {
     this.isSearching = true;
-    this.previousQueryParams.nextPageToken = this.nextPageToken;
-    this.logService.searchLogs(this.previousQueryParams)
+    this.queryParams.nextPageToken = this.nextPageToken;
+    this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
-      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  addTraceToFilter(trace: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.traceId = trace;
+    this.statusMessageService.showSuccessToast('Trace ID added to filters');
+  }
+
+  addSourceLocationToFilter(sourceLocation: SourceLocation): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.sourceLocationFile = sourceLocation.file;
+    this.formModel.advancedFilters.sourceLocationFunction = sourceLocation.function;
+    this.statusMessageService.showSuccessToast('Source location added to filters');
+  }
+
+  addUserInfoToFilter(userInfo: any): void {
+    this.isFiltersExpanded = true;
+    if (userInfo.googleId) {
+      this.formModel.advancedFilters.googleId = userInfo.googleId;
+    } else if (userInfo.regkey) {
+      this.formModel.advancedFilters.regkey = userInfo.regkey;
+    } else if (userInfo.email) {
+      this.formModel.advancedFilters.email = userInfo.email;
+    }
+
+    this.statusMessageService.showSuccessToast('User info added to filters');
+  }
+
+  clearFilters(): void {
+    this.formModel.advancedFilters.traceId = '';
+    this.formModel.advancedFilters.googleId = '';
+    this.formModel.advancedFilters.regkey = '';
+    this.formModel.advancedFilters.email = '';
+    this.formModel.advancedFilters.actionClass = '';
+    this.formModel.advancedFilters.sourceLocationFile = '';
+    this.formModel.advancedFilters.sourceLocationFunction = '';
+    this.formModel.advancedFilters.exceptionClass = '';
   }
 }
