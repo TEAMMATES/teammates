@@ -564,7 +564,7 @@ public final class FeedbackSessionsLogic {
             boolean needToCheckForSingleAnonymousResponse = false;
 
             // check if there exists both visible and anonymous responses
-            for (FeedbackQuestionAttributes question: allQuestions) {
+            for (FeedbackQuestionAttributes question : allQuestions) {
                 if (question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER)) {
                     hasVisibleResponse = true;
                 } else {
@@ -580,7 +580,8 @@ public final class FeedbackSessionsLogic {
             // this is cost-effective as in most of time responses for the whole session will not be viewable to students
             for (FeedbackQuestionAttributes question : allQuestions) {
                 List<FeedbackResponseAttributes> viewableResponses =
-                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster, needToCheckForSingleAnonymousResponse);
+                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(
+                                question, student, roster, needToCheckForSingleAnonymousResponse);
                 allResponses.addAll(viewableResponses);
             }
         }

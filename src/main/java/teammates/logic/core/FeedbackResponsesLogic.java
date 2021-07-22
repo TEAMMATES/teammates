@@ -564,7 +564,8 @@ public final class FeedbackResponsesLogic {
      * Returns viewable feedback responses for a student.
      */
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
-            FeedbackQuestionAttributes question, StudentAttributes student, CourseRoster courseRoster, boolean needToCheckForSingleAnonymousResponse) {
+            FeedbackQuestionAttributes question, StudentAttributes student, CourseRoster courseRoster,
+            boolean needToCheckForSingleAnonymousResponse) {
         UniqueResponsesSet viewableResponses = new UniqueResponsesSet();
 
         // Add responses that the student submitted himself
@@ -612,9 +613,9 @@ public final class FeedbackResponsesLogic {
             }
         }
 
-        // Remove responses if there is only 1 respond and the giver name of that question is anonymous
-        if (needToCheckForSingleAnonymousResponse 
-                && !question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER) 
+        // Remove responses if there is only 1 respond and the giver name of that question is not to be shown
+        if (needToCheckForSingleAnonymousResponse
+                && !question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER)
                 && viewableResponses.getResponses().size() <= 1) {
             viewableResponses.removeAll();
         }
