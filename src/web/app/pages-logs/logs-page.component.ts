@@ -127,7 +127,7 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  searchForLogsTableView(localDateTime: Observable<number>[]): void {
+  private searchForLogsTableView(localDateTime: Observable<number>[]): void {
     forkJoin(localDateTime)
       .pipe(
         concatMap(([timestampFrom, timestampUntil]: number[]) => {
@@ -138,7 +138,7 @@ export class LogsPageComponent implements OnInit {
           this.isSearching = false;
           this.hasResult = true;
         }))
-      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+      .subscribe((generalLogs: GeneralLogs) => this.processLogsForTableView(generalLogs),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
@@ -191,7 +191,7 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
+  private searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
     forkJoin(localDateTime)
       .pipe(
         concatMap(([timestampFrom, timestampUntil]: number[]) => {
@@ -222,7 +222,7 @@ export class LogsPageComponent implements OnInit {
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
-  private processLogs(generalLogs: GeneralLogs): void {
+  private processLogsForTableView(generalLogs: GeneralLogs): void {
     this.nextPageToken = generalLogs.nextPageToken || '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
   }
@@ -254,9 +254,15 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
+    let traceIdForSummary: string | undefined;
     let userInfo: any;
+
+    if (log.trace) {
+      traceIdForSummary = this.formatTraceForSummary(log.trace);
+    }
+
     if (log.message) {
-      summary = `Source: ${log.sourceLocation.file}`;
+      summary = log.message;
       payload = this.formatTextPayloadForDisplay(log.message);
     } else if (log.details) {
       payload = log.details;
@@ -280,11 +286,13 @@ export class LogsPageComponent implements OnInit {
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
       }
     }
+
     return {
       summary,
       httpStatus,
       responseTime,
       userInfo,
+      traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
@@ -300,12 +308,19 @@ export class LogsPageComponent implements OnInit {
       .replace(/\t/g, '&#9;');
   }
 
+  /**
+   * Remove the resource name infront.
+   */
+  private formatTraceForSummary(trace: string): string | undefined {
+    return trace.split('/').pop();
+  }
+
   getNextPageLogs(): void {
     this.isSearching = true;
     this.queryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
-      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+      .subscribe((generalLogs: GeneralLogs) => this.processLogsForTableView(generalLogs),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
