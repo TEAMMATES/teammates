@@ -8,7 +8,7 @@ describe('MaintainerPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MaintainerPageComponent ]
+      declarations: [MaintainerPageComponent],
     })
     .compileComponents();
   }));

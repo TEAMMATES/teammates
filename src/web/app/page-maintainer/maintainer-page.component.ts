@@ -4,10 +4,13 @@ import { environment } from '../../environments/environment';
 import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
 
+/**
+ * Base skeleton for maintainer pages.
+ */
 @Component({
   selector: 'tm-maintainer-page',
   templateUrl: './maintainer-page.component.html',
-  styleUrls: ['./maintainer-page.component.scss']
+  styleUrls: ['./maintainer-page.component.scss'],
 })
 export class MaintainerPageComponent implements OnInit {
 

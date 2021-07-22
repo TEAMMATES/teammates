@@ -19,13 +19,13 @@ import { TeammatesRouterModule } from './components/teammates-router/teammates-r
 import { ToastModule } from './components/toast/toast.module';
 import { CustomUrlSerializer } from './custom-url-serializer';
 import { MaintenancePageComponent } from './maintenance-page.component';
+import { MaintainerPageComponent } from './page-maintainer/maintainer-page.component';
 import { ClickOutsideDirective, PageComponent } from './page.component';
 import { AdminPageComponent } from './pages-admin/admin-page.component';
 import { InstructorPageComponent } from './pages-instructor/instructor-page.component';
 import { StaticPageComponent } from './pages-static/static-page.component';
 import { StudentPageComponent } from './pages-student/student-page.component';
 import { PublicPageComponent } from './public-page.component';
-import { MaintainerPageComponent } from "./page-maintainer/maintainer-page.component";
 
 const customUrlSerializer: CustomUrlSerializer = new CustomUrlSerializer();
 const customUrlSerializerProvider: Provider = {
