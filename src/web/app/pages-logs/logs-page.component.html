@@ -1,5 +1,7 @@
 <h1>Logs</h1>
 <p>This page allows you to view the logs in the past {{ LOGS_RETENTION_PERIOD_IN_DAYS }} days.</p>
+<button (click)="switchView()" *ngIf="isTableView" class="btn btn-info">Switch to histogram view</button>
+<button (click)="switchView()" *ngIf="!isTableView" class="btn btn-info">Switch to table view</button>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -17,29 +19,10 @@
             </button>
           </div>
           <div id="logs-from-timepicker" class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
+            <ngb-timepicker [(ngModel)]="formModel.logsTimeFrom" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
-      </div>
-      <div class="col-4">
-        <div class="col-12">
-          <label for="log-severity-checkbox" class="font-weight-bold">Log severity level</label>
-        </div>
-        <div class="form-check" *ngFor="let severity of SEVERITIES">
-          <label class="form-check-label" id="log-severity-checkbox">
-            <input type="checkbox" class="form-check-input"
-                   [checked]="formModel.logsSeverity.has(severity)" (click)="toggleSelection(severity)">
-            <span>{{ severity }}</span>
-          </label>
-        </div>
-      </div>
-      <div class="col-1 mt-4">
-        <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
-      </div>
-    </div>
-    <div class="row form-group">
-      <div class="col-6">
-        <div class="col-12 mb-1">
+        <div class="col-12 mb-1 mt-4">
           <label for="logs-to-datepicker" class="font-weight-bold">Search period until</label>
         </div>
         <div class="input-group">
@@ -50,17 +33,122 @@
             </button>
           </div>
           <div id="logs-to-timepicker" class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
+            <ngb-timepicker [(ngModel)]="formModel.logsTimeTo" [spinners]="false"></ngb-timepicker>
           </div>
+        </div>
+      </div>
+      <div class="col-4" *ngIf="isTableView">
+        <div class="col-12">
+          <label for="log-severity-radio" class="font-weight-bold">Log severity level / event</label>
+        </div>
+        <div class="form-check">
+          <label class="form-check-label" id="log-severity-radio">
+            <div>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="severity" [value]="SEVERITY" [(ngModel)]="formModel.logsFilter">
+              <label for="equal">severity =&nbsp;</label>
+              <select class="form-control inline" [(ngModel)]="formModel.logsSeverity">
+                <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
+              </select>
+            </div>
+            <br>
+            <div>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="minSeverity" [value]="MIN_SEVERITY" [(ngModel)]="formModel.logsFilter">
+              <label for="above">severity >=&nbsp;</label>
+              <select class="form-control inline" [(ngModel)]="formModel.logsMinSeverity">
+                <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
+              </select>
+            </div>
+            <br>
+            <div>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="event" [value]="EVENT" [(ngModel)]="formModel.logsFilter">
+              <label for="all">All event logs &nbsp;</label>
+              <select class="form-control inline" [(ngModel)]="formModel.logsEvent">
+                <option *ngFor="let event of EVENTS" [value]="event">{{ event }}</option>
+              </select>
+            </div>
+            <br>
+          </label>
+        </div>
+      </div>
+      <div class="col-1 mt-4">
+        <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
+      </div>
+    </div>
+    <div class="row form-group" *ngIf="isTableView">
+      <div class="col-12">
+        <div class="col-12 mb-1 mt-2">
+          <button class="btn btn-success" (click)="isFiltersExpanded = !isFiltersExpanded;">
+            <i [ngClass]="isFiltersExpanded ? 'fas fa-minus' : 'fas fa-plus'"></i> Advanced filters
+          </button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="isFiltersExpanded && isTableView" @collapseAnim>
+      <div class="row form-group mt-4">
+        <div class="col-5">
+          <div class="col-12">
+            <label for="trace-id" class="font-weight-bold">Trace ID</label>
+            <input id="trace-id" class="form-control" [(ngModel)]="formModel.advancedFilters.traceId">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="source-file" class="font-weight-bold">Source location file</label>
+            <input id="source-file" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.sourceLocationFile">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="source-function" class="font-weight-bold">Source location function</label>
+            <input id="source-function" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.sourceLocationFunction">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="action-class" class="font-weight-bold">Action class</label>
+            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
+              <option [value]=""></option>
+              <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
+                {{ actionClass }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-5">
+          <div class="col-12">
+            <label for="google-id" class="font-weight-bold">User Google ID</label>
+            <input id="google-id" class="form-control" [(ngModel)]="formModel.advancedFilters.googleId">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="regkey" class="font-weight-bold">User Registration Key</label>
+            <input id="regkey" class="form-control" [(ngModel)]="formModel.advancedFilters.regkey">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="email" class="font-weight-bold">User Email</label>
+            <input id="email" class="form-control" [(ngModel)]="formModel.advancedFilters.email">
+          </div>
+          <div class="col-12 mt-4">
+            <label for="exception-class" class="font-weight-bold">Exception/Error class</label>
+            <input id="exception-class" class="form-control" [(ngModel)]="formModel.advancedFilters.exceptionClass">
+          </div>
+        </div>
+        <div class="col-2 mt-4">
+          <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<div>
-  <tm-logs-table *ngIf="hasResult" [logs]="searchResults"></tm-logs-table>
+<div *ngIf="isTableView">
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
+    (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>
+</div>
+
+<div *ngIf="!isTableView">
+  <div id="histogram" style="height: 400px; width: 100%;" *tmIsLoading="isSearching">
+    <tm-logs-histogram [data]="histogramResult" *ngIf="histogramResult.length>0; else noDataMessage"></tm-logs-histogram>
+  </div>
+  <ng-template #noDataMessage>
+    <div class="no-data-message">
+      There are no error logs in this time period.
+    </div>
+  </ng-template>
 </div>
