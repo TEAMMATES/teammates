@@ -49,10 +49,10 @@ export class LogsPageComponent implements OnInit {
   ACTION_CLASSES: string[] = [];
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: '',
-    logsMinSeverity: '',
-    logsEvent: '',
-    logsFilter: '',
+    logsSeverity: 'INFO',
+    logsMinSeverity: 'INFO',
+    logsEvent: 'REQUEST_LOG',
+    logsFilter: this.EVENT,
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
@@ -77,18 +77,18 @@ export class LogsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    const today: Date = new Date();
-    this.dateToday.year = today.getFullYear();
-    this.dateToday.month = today.getMonth() + 1;
-    this.dateToday.day = today.getDate();
+    const now: Date = new Date();
+    this.dateToday.year = now.getFullYear();
+    this.dateToday.month = now.getMonth() + 1;
+    this.dateToday.day = now.getDate();
 
-    const earliestSearchDate: Date = new Date(Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
+    const earliestSearchDate: Date = new Date(now.getTime() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    const fromDate: Date = new Date();
-    fromDate.setDate(today.getDate() - 1);
+    // Start with logs from the past hour
+    const fromDate: Date = new Date(now.getTime() - 60 * 60 * 1000);
 
     this.formModel.logsDateFrom = {
       year: fromDate.getFullYear(),
@@ -96,8 +96,8 @@ export class LogsPageComponent implements OnInit {
       day: fromDate.getDate(),
     };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
-    this.formModel.logsTimeTo = { hour: 23, minute: 59 };
+    this.formModel.logsTimeFrom = { hour: fromDate.getHours(), minute: fromDate.getMinutes() };
+    this.formModel.logsTimeTo = { hour: now.getHours(), minute: now.getMinutes() };
 
     this.logService.getActionClassList()
       .pipe(finalize(() => this.isLoading = false))
