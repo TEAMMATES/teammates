@@ -76,7 +76,7 @@ public class InstructorHomePage extends AppPage {
     public void sendReminderEmail(int courseTabIndex, int sessionIndex, StudentAttributes student) {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-remind-" + sessionIndex)));
-        selectStudentToEmail(student.email);
+        selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-send-reminder")));
     }
 
@@ -84,7 +84,7 @@ public class InstructorHomePage extends AppPage {
         WebElement courseTab = getCourseTab(courseTabIndex);
         click(courseTab.findElement(By.id("btn-results-" + sessionIndex)));
         click(waitForElementPresence(By.id("btn-resend-" + sessionIndex)));
-        selectStudentToEmail(student.email);
+        selectStudentToEmail(student.getEmail());
         click(browser.driver.findElement(By.id("btn-confirm-resend-results")));
     }
 

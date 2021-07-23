@@ -39,7 +39,7 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
     public FeedbackQuestionData(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetails();
+        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetailsCopy();
 
         this.feedbackQuestionId = feedbackQuestionAttributes.getFeedbackQuestionId();
         this.questionNumber = feedbackQuestionAttributes.getQuestionNumber();

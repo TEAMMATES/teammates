@@ -29,9 +29,9 @@ import teammates.common.exception.InvalidParametersException;
  */
 public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
 
     private DataBundle courseRosterDataBundle;
 
@@ -54,7 +54,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("fail: non-existent course");
 
-        frComment.courseId = "no-such-course";
+        frComment.setCourseId("no-such-course");
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> frcLogic.createFeedbackResponseComment(finalFrc[0]));
@@ -65,23 +65,22 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("fail: giver is not an instructor for the course");
 
-        frComment.commentGiver = "instructor1@course2.com";
+        frComment.setCommentGiver("instructor1@course2.com");
 
         ednee = assertThrows(EntityDoesNotExistException.class, () -> frcLogic.createFeedbackResponseComment(finalFrc[0]));
-        assertEquals(
-                "User " + frComment.commentGiver + " is not a registered instructor for course " + frComment.courseId + ".",
-                ednee.getMessage());
+        assertEquals("User " + frComment.getCommentGiver() + " is not a registered instructor for course "
+                + frComment.getCourseId() + ".", ednee.getMessage());
         frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         finalFrc[0] = frComment;
 
         ______TS("fail: feedback session is not a session for the course");
 
-        frComment.feedbackSessionName = "Instructor feedback session";
+        frComment.setFeedbackSessionName("Instructor feedback session");
 
         ednee = assertThrows(EntityDoesNotExistException.class, () -> frcLogic.createFeedbackResponseComment(finalFrc[0]));
         assertEquals(
-                "Feedback session " + frComment.feedbackSessionName + " is not a session for course "
-                        + frComment.courseId + ".",
+                "Feedback session " + frComment.getFeedbackSessionName() + " is not a session for course "
+                        + frComment.getCourseId() + ".",
                 ednee.getMessage());
 
         frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
@@ -89,8 +88,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         ______TS("typical successful case");
 
         frComment.setId(null);
-        frComment.feedbackQuestionId = getQuestionIdInDataBundle("qn1InSession1InCourse1");
-        frComment.feedbackResponseId = getResponseIdInDataBundle("response2ForQ1S1C1", "qn1InSession1InCourse1");
+        frComment.setFeedbackQuestionId(getQuestionIdInDataBundle("qn1InSession1InCourse1"));
+        frComment.setFeedbackResponseId(getResponseIdInDataBundle("response2ForQ1S1C1", "qn1InSession1InCourse1"));
 
         frcLogic.createFeedbackResponseComment(frComment);
         verifyPresentInDatabase(frComment);
@@ -99,8 +98,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     @Test
     public void testCreateFeedbackResponseComment_invalidCommentGiverType_exceptionShouldBeThrown() {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-        frComment.commentGiverType = FeedbackParticipantType.SELF;
-        frComment.isCommentFromFeedbackParticipant = true;
+        frComment.setCommentGiverType(FeedbackParticipantType.SELF);
+        frComment.setCommentFromFeedbackParticipant(true);
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> frcLogic.createFeedbackResponseComment(frComment));
         assertEquals("Unknown giver type: " + FeedbackParticipantType.SELF, ednee.getMessage());
@@ -109,9 +108,9 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     @Test
     public void testCreateFeedbackResponseComment_unknownFeedbackParticipant_exceptionShouldBeThrown() {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-        frComment.commentGiverType = STUDENTS;
-        frComment.isCommentFromFeedbackParticipant = true;
-        frComment.commentGiver = "XYZ";
+        frComment.setCommentGiverType(FeedbackParticipantType.STUDENTS);
+        frComment.setCommentFromFeedbackParticipant(true);
+        frComment.setCommentGiver("XYZ");
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> frcLogic.createFeedbackResponseComment(frComment));
         assertEquals("User XYZ is not a registered student for course idOfTypicalCourse1.", ednee.getMessage());
@@ -120,8 +119,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     @Test
     public void testCreateFeedbackResponseComment_invalidVisibilitySettings_exceptionShouldBeThrown() {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
-        frComment.isCommentFromFeedbackParticipant = true;
-        frComment.isVisibilityFollowingFeedbackQuestion = false;
+        frComment.setCommentFromFeedbackParticipant(true);
+        frComment.setVisibilityFollowingFeedbackQuestion(false);
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> frcLogic.createFeedbackResponseComment(frComment));
         assertEquals("Comment by feedback participant not following visibility setting of the question.",
@@ -135,8 +134,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("fail: invalid parameters");
 
-        frComment.courseId = "invalid course id";
-        frComment.commentGiver = "invalid giver email";
+        frComment.setCourseId("invalid course id");
+        frComment.setCommentGiver("invalid giver email");
 
         verifyNullFromGetFrCommentForSession(frComment);
         verifyNullFromGetFrComment(frComment);
@@ -146,44 +145,44 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                                 frComment.courseId, frComment.feedbackSessionName, null);
+                        frComment.getCourseId(), frComment.getFeedbackSessionName(), null);
         FeedbackResponseCommentAttributes actualFrComment = actualFrComments.get(0);
 
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        assertEquals(frComment.getCourseId(), actualFrComment.getCourseId());
+        assertEquals(frComment.getCommentGiver(), actualFrComment.getCommentGiver());
+        assertEquals(frComment.getFeedbackSessionName(), actualFrComment.getFeedbackSessionName());
 
         ______TS("Typical successful case by feedback response comment details");
 
         actualFrComment =
                 frcLogic.getFeedbackResponseComment(
-                                 frComment.feedbackResponseId, frComment.commentGiver, frComment.createdAt);
+                        frComment.getFeedbackResponseId(), frComment.getCommentGiver(), frComment.getCreatedAt());
 
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        assertEquals(frComment.getCourseId(), actualFrComment.getCourseId());
+        assertEquals(frComment.getCommentGiver(), actualFrComment.getCommentGiver());
+        assertEquals(frComment.getFeedbackSessionName(), actualFrComment.getFeedbackSessionName());
 
         ______TS("Typical successful case by feedback response id");
 
-        actualFrComments = frcLogic.getFeedbackResponseCommentForResponse(frComment.feedbackResponseId);
+        actualFrComments = frcLogic.getFeedbackResponseCommentForResponse(frComment.getFeedbackResponseId());
         actualFrComment = actualFrComments.get(0);
 
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        assertEquals(frComment.getCourseId(), actualFrComment.getCourseId());
+        assertEquals(frComment.getCommentGiver(), actualFrComment.getCommentGiver());
+        assertEquals(frComment.getFeedbackSessionName(), actualFrComment.getFeedbackSessionName());
 
         ______TS("Typical successful case by feedback response comment id");
 
         actualFrComment = frcLogic.getFeedbackResponseComment(frComment.getId());
 
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(frComment.commentGiver, actualFrComment.commentGiver);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        assertEquals(frComment.getCourseId(), actualFrComment.getCourseId());
+        assertEquals(frComment.getCommentGiver(), actualFrComment.getCommentGiver());
+        assertEquals(frComment.getFeedbackSessionName(), actualFrComment.getFeedbackSessionName());
 
         ______TS("Typical successful case for giver");
 
         actualFrComments = frcLogic.getFeedbackResponseCommentsForGiver(
-                                            frComment.courseId, frComment.commentGiver);
+                frComment.getCourseId(), frComment.getCommentGiver());
         FeedbackResponseCommentAttributes tempFrComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         expectedFrComments.add(tempFrComment);
         tempFrComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q2S1C1");
@@ -194,10 +193,10 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertEquals(expectedFrComments.size(), actualFrComments.size());
 
         for (int i = 0; i < expectedFrComments.size(); i++) {
-            assertEquals(expectedFrComments.get(i).courseId, actualFrComments.get(i).courseId);
-            assertEquals(expectedFrComments.get(i).commentGiver, actualFrComments.get(i).commentGiver);
-            assertEquals(expectedFrComments.get(i).feedbackSessionName,
-                         actualFrComments.get(i).feedbackSessionName);
+            assertEquals(expectedFrComments.get(i).getCourseId(), actualFrComments.get(i).getCourseId());
+            assertEquals(expectedFrComments.get(i).getCommentGiver(), actualFrComments.get(i).getCommentGiver());
+            assertEquals(expectedFrComments.get(i).getFeedbackSessionName(),
+                    actualFrComments.get(i).getFeedbackSessionName());
         }
 
     }
@@ -207,21 +206,21 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
 
         ______TS("typical success case");
-        frComment.commentText = "Updated feedback response comment";
+        frComment.setCommentText("Updated feedback response comment");
         FeedbackResponseCommentAttributes updatedComment = frcLogic.updateFeedbackResponseComment(
                 FeedbackResponseCommentAttributes.updateOptionsBuilder(frComment.getId())
-                        .withCommentText(frComment.commentText)
+                        .withCommentText(frComment.getCommentText())
                         .build()
         );
-        assertEquals(frComment.commentText, updatedComment.commentText);
+        assertEquals(frComment.getCommentText(), updatedComment.getCommentText());
         verifyPresentInDatabase(frComment);
         List<FeedbackResponseCommentAttributes> actualFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        frComment.courseId, frComment.feedbackSessionName, null);
+                        frComment.getCourseId(), frComment.getFeedbackSessionName(), null);
 
         FeedbackResponseCommentAttributes actualFrComment = null;
         for (FeedbackResponseCommentAttributes comment : actualFrComments) {
-            if (comment.commentText.equals(frComment.commentText)) {
+            if (comment.getCommentText().equals(frComment.getCommentText())) {
                 actualFrComment = comment;
                 break;
             }
@@ -230,20 +229,20 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case update feedback response comment giver email");
 
-        String oldEmail = frComment.commentGiver;
+        String oldEmail = frComment.getCommentGiver();
         String updatedEmail = "newEmail@gmail.tmt";
-        frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, oldEmail, updatedEmail);
+        frcLogic.updateFeedbackResponseCommentsEmails(frComment.getCourseId(), oldEmail, updatedEmail);
 
         actualFrComment = frcLogic.getFeedbackResponseComment(
-                                           frComment.feedbackResponseId, updatedEmail, frComment.createdAt);
+                frComment.getFeedbackResponseId(), updatedEmail, frComment.getCreatedAt());
 
-        assertEquals(frComment.courseId, actualFrComment.courseId);
-        assertEquals(updatedEmail, actualFrComment.commentGiver);
-        assertEquals(updatedEmail, actualFrComment.lastEditorEmail);
-        assertEquals(frComment.feedbackSessionName, actualFrComment.feedbackSessionName);
+        assertEquals(frComment.getCourseId(), actualFrComment.getCourseId());
+        assertEquals(updatedEmail, actualFrComment.getCommentGiver());
+        assertEquals(updatedEmail, actualFrComment.getLastEditorEmail());
+        assertEquals(frComment.getFeedbackSessionName(), actualFrComment.getFeedbackSessionName());
 
         // reset email
-        frcLogic.updateFeedbackResponseCommentsEmails(frComment.courseId, updatedEmail, oldEmail);
+        frcLogic.updateFeedbackResponseCommentsEmails(frComment.getCourseId(), updatedEmail, oldEmail);
     }
 
     @Test
@@ -251,7 +250,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         FeedbackResponseCommentAttributes frComment = restoreFrCommentFromDataBundle("comment1FromT1C1ToR1Q1S1C1");
         FeedbackResponseCommentAttributes actualFrComment =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        frComment.courseId, frComment.feedbackSessionName, null).get(1);
+                        frComment.getCourseId(), frComment.getFeedbackSessionName(), null).get(1);
 
         ______TS("silent fail nothing to delete");
 
@@ -274,7 +273,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         verifyPresentInDatabase(frComment);
         frcLogic.deleteFeedbackResponseComments(
                 AttributesDeletionQuery.builder()
-                        .withResponseId(frComment.feedbackResponseId)
+                        .withResponseId(frComment.getFeedbackResponseId())
                         .build());
         verifyAbsentInDatabase(frComment);
     }
@@ -382,11 +381,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 new ArrayList<>(courseRosterDataBundle.instructors.values()));
 
         ______TS("success: the list that comment giver's name shown to is null; always return true");
-        comment.showGiverNameTo = null;
+        comment.setShowGiverNameTo(null);
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "", roster));
 
         ______TS("success: comment's visibility follows feedback question; always return ture");
-        comment.isVisibilityFollowingFeedbackQuestion = true;
+        comment.setVisibilityFollowingFeedbackQuestion(true);
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, "", roster));
 
         ______TS("success: comment is always visible to its giver");
@@ -398,12 +397,12 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         // test user's participant type is in the list that comment giver's name is shown to
         comment = dataBundle.feedbackResponseComments.get(comment1FromT1C1ToR1Q2S1C1);
         relatedResponse = dataBundle.feedbackResponses.get(response1ForQ2S1C1);
-        relatedResponse.giver = student1InCourse1Email;
+        relatedResponse.setGiver(student1InCourse1Email);
 
         ______TS("success: comment is only visible to instructors");
-        comment.commentGiver = student6InCourse1Email;
-        comment.commentGiverType = STUDENTS;
-        comment.showGiverNameTo = Arrays.asList(INSTRUCTORS);
+        comment.setCommentGiver(student6InCourse1Email);
+        comment.setCommentGiverType(STUDENTS);
+        comment.setShowGiverNameTo(Arrays.asList(INSTRUCTORS));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, instructor2InCourse1Email, roster));
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse1Email, roster));
@@ -411,24 +410,24 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse2Email, roster));
 
         ______TS("success: comment is only visible to response recipient");
-        comment.commentGiver = student4InCourse1Email;
-        comment.commentGiverType = STUDENTS;
-        comment.showGiverNameTo = Arrays.asList(RECEIVER);
+        comment.setCommentGiver(student4InCourse1Email);
+        comment.setCommentGiverType(STUDENTS);
+        comment.setShowGiverNameTo(Arrays.asList(RECEIVER));
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, instructor2InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
 
         ______TS("success: comment is only visible to response recipient team");
-        comment.showGiverNameTo = Arrays.asList(RECEIVER_TEAM_MEMBERS);
+        comment.setShowGiverNameTo(Arrays.asList(RECEIVER_TEAM_MEMBERS));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student6InCourse1Email, roster));
 
         ______TS("success: comment is only visible to response giver team");
-        comment.showGiverNameTo = Arrays.asList(OWN_TEAM_MEMBERS);
+        comment.setShowGiverNameTo(Arrays.asList(OWN_TEAM_MEMBERS));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student3InCourse1Email, roster));
 
         ______TS("success: comment is only visible to students");
-        comment.showGiverNameTo = Arrays.asList(STUDENTS);
+        comment.setShowGiverNameTo(Arrays.asList(STUDENTS));
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, instructor2InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student6InCourse1Email, roster));
@@ -437,11 +436,11 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse2Email, roster));
 
         ______TS("success: comment is only visible to response giver");
-        comment.showGiverNameTo = Arrays.asList(GIVER);
+        comment.setShowGiverNameTo(Arrays.asList(GIVER));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse1Email, roster));
 
         ______TS("success: comment is only visible to instructor, response giver and recipient's team");
-        comment.showGiverNameTo = Arrays.asList(INSTRUCTORS, GIVER, RECEIVER_TEAM_MEMBERS);
+        comment.setShowGiverNameTo(Arrays.asList(INSTRUCTORS, GIVER, RECEIVER_TEAM_MEMBERS));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, instructor2InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student6InCourse1Email, roster));
@@ -450,7 +449,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse2Email, roster));
 
         ______TS("success: comment is only visible to response giver's team and recipient");
-        comment.showGiverNameTo = Arrays.asList(OWN_TEAM_MEMBERS, RECEIVER);
+        comment.setShowGiverNameTo(Arrays.asList(OWN_TEAM_MEMBERS, RECEIVER));
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, instructor2InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, student6InCourse1Email, roster));
@@ -459,8 +458,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         assertFalse(frcLogic.isNameVisibleToUser(comment, relatedResponse, student1InCourse2Email, roster));
 
         ______TS("success: comment is visible to everyone");
-        comment.showGiverNameTo = Arrays.asList(INSTRUCTORS, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, RECEIVER,
-                STUDENTS, GIVER);
+        comment.setShowGiverNameTo(Arrays.asList(INSTRUCTORS, OWN_TEAM_MEMBERS, RECEIVER_TEAM_MEMBERS, RECEIVER,
+                STUDENTS, GIVER));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, instructor2InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student5InCourse1Email, roster));
         assertTrue(frcLogic.isNameVisibleToUser(comment, relatedResponse, student6InCourse1Email, roster));
@@ -474,22 +473,22 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()),
                 new ArrayList<>(dataBundle.instructors.values()));
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ2S1C1");
-        response.giver = "student2InCourse1@gmail.tmt";
-        comment.showGiverNameTo = Arrays.asList(OWN_TEAM_MEMBERS);
+        response.setGiver("student2InCourse1@gmail.tmt");
+        comment.setShowGiverNameTo(Arrays.asList(OWN_TEAM_MEMBERS));
         assertTrue(frcLogic.isNameVisibleToUser(comment, response, "student1InCourse1@gmail.tmt", roster));
     }
 
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
         List<FeedbackResponseCommentAttributes> frCommentsGot =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                        frComment.courseId, frComment.feedbackSessionName, null);
+                        frComment.getCourseId(), frComment.getFeedbackSessionName(), null);
         assertEquals(0, frCommentsGot.size());
     }
 
     private void verifyNullFromGetFrComment(FeedbackResponseCommentAttributes frComment) {
         FeedbackResponseCommentAttributes frCommentGot =
                 frcLogic.getFeedbackResponseComment(
-                                 frComment.feedbackResponseId, frComment.commentGiver, frComment.createdAt);
+                        frComment.getFeedbackResponseId(), frComment.getCommentGiver(), frComment.getCreatedAt());
         assertNull(frCommentGot);
     }
 
@@ -499,16 +498,16 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 dataBundle.feedbackResponseComments.get(existingFrCommentInDataBundle);
 
         FeedbackResponseCommentAttributes frComment = FeedbackResponseCommentAttributes.builder()
-                .withCourseId(existingFrComment.courseId)
-                .withFeedbackSessionName(existingFrComment.feedbackSessionName)
-                .withCommentGiver(existingFrComment.commentGiver)
-                .withCommentText(existingFrComment.commentText)
-                .withFeedbackQuestionId(existingFrComment.feedbackQuestionId)
-                .withFeedbackResponseId(existingFrComment.feedbackResponseId)
-                .withCommentGiverType(existingFrComment.commentGiverType)
+                .withCourseId(existingFrComment.getCourseId())
+                .withFeedbackSessionName(existingFrComment.getFeedbackSessionName())
+                .withCommentGiver(existingFrComment.getCommentGiver())
+                .withCommentText(existingFrComment.getCommentText())
+                .withFeedbackQuestionId(existingFrComment.getFeedbackQuestionId())
+                .withFeedbackResponseId(existingFrComment.getFeedbackResponseId())
+                .withCommentGiverType(existingFrComment.getCommentGiverType())
                 .withCommentFromFeedbackParticipant(false)
                 .build();
-        frComment.createdAt = existingFrComment.getCreatedAt();
+        frComment.setCreatedAt(existingFrComment.getCreatedAt());
 
         restoreFrCommentIdFromExistingOne(frComment, existingFrComment);
 
@@ -521,26 +520,26 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         List<FeedbackResponseCommentAttributes> existingFrComments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(
-                                 existingFrComment.courseId,
-                                 existingFrComment.feedbackSessionName, null);
+                        existingFrComment.getCourseId(),
+                        existingFrComment.getFeedbackSessionName(), null);
 
         FeedbackResponseCommentAttributes existingFrCommentWithId = null;
         for (FeedbackResponseCommentAttributes c : existingFrComments) {
-            if (c.commentText.equals(existingFrComment.commentText)) {
+            if (c.getCommentText().equals(existingFrComment.getCommentText())) {
                 existingFrCommentWithId = c;
                 break;
             }
         }
         if (existingFrCommentWithId != null) {
             frComment.setId(existingFrCommentWithId.getId());
-            frComment.feedbackResponseId = existingFrCommentWithId.feedbackResponseId;
+            frComment.setFeedbackResponseId(existingFrCommentWithId.getFeedbackResponseId());
         }
     }
 
     private String getQuestionIdInDataBundle(String questionInDataBundle) {
         FeedbackQuestionAttributes question = dataBundle.feedbackQuestions.get(questionInDataBundle);
         question = fqLogic.getFeedbackQuestion(
-                                   question.feedbackSessionName, question.courseId, question.questionNumber);
+                question.getFeedbackSessionName(), question.getCourseId(), question.getQuestionNumber());
         return question.getId();
     }
 
@@ -548,8 +547,8 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         FeedbackResponseAttributes response = dataBundle.feedbackResponses.get(responseInDataBundle);
         response = frLogic.getFeedbackResponse(
                                    getQuestionIdInDataBundle(questionInDataBundle),
-                                   response.giver,
-                                   response.recipient);
+                response.getGiver(),
+                response.getRecipient());
         return response.getId();
     }
 }

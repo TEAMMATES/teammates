@@ -56,7 +56,7 @@ class GetInstructorsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(courseId);
 
@@ -85,7 +85,7 @@ class GetInstructorsAction extends Action {
                 data = new InstructorsData();
                 for (InstructorAttributes instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
-                    instructorData.setGoogleId(instructor.googleId);
+                    instructorData.setGoogleId(instructor.getGoogleId());
                     if (userInfo.isAdmin) {
                         instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
                     }

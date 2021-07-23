@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import org.apache.http.client.methods.HttpGet;
 import org.testng.annotations.Test;

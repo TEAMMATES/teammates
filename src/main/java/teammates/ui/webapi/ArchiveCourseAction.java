@@ -28,7 +28,7 @@ class ArchiveCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String idOfCourseToArchive = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         CourseArchiveRequest courseArchiveRequest = getAndValidateRequestBody(CourseArchiveRequest.class);

@@ -19,7 +19,7 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String feedbackSessionName = getNonNullRequestParamValue(ParamsNames.FEEDBACK_SESSION_NAME);
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
         String instructorId = getNonNullRequestParamValue(ParamsNames.INSTRUCTOR_ID);
@@ -33,7 +33,7 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
 
             List<StudentAttributes> studentsToRemindList = new ArrayList<>();
             for (StudentAttributes student : studentList) {
-                if (!logic.isFeedbackSessionCompletedByStudent(session, student.email)) {
+                if (!logic.isFeedbackSessionCompletedByStudent(session, student.getEmail())) {
                     studentsToRemindList.add(student);
                 }
             }
@@ -41,7 +41,7 @@ class FeedbackSessionRemindEmailWorkerAction extends AdminOnlyAction {
             // Filter out instructors who have submitted the feedback session
             List<InstructorAttributes> instructorsToRemindList = new ArrayList<>();
             for (InstructorAttributes instructor : instructorList) {
-                if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.email)) {
+                if (!logic.isFeedbackSessionCompletedByInstructor(session, instructor.getEmail())) {
                     instructorsToRemindList.add(instructor);
                 }
             }

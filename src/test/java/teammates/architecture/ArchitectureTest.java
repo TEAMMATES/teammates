@@ -30,6 +30,7 @@ public class ArchitectureTest {
 
     private static final String UI_PACKAGE = "teammates.ui";
     private static final String UI_WEBAPI_PACKAGE = UI_PACKAGE + ".webapi";
+    private static final String UI_SERVLETS_PACKAGE = UI_PACKAGE + ".servlets";
     private static final String UI_OUTPUT_PACKAGE = UI_PACKAGE + ".output";
     private static final String UI_REQUEST_PACKAGE = UI_PACKAGE + ".request";
 
@@ -189,7 +190,13 @@ public class ArchitectureTest {
     public void testArchitecture_ui_controllerShouldBeSelfContained() {
         noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
+                .and().resideOutsideOfPackage(includeSubpackages(UI_SERVLETS_PACKAGE))
                 .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_WEBAPI_PACKAGE))
+                .check(forClasses(UI_PACKAGE));
+
+        noClasses().that().resideInAPackage(includeSubpackages(UI_PACKAGE))
+                .and().resideOutsideOfPackage(includeSubpackages(UI_SERVLETS_PACKAGE))
+                .should().accessClassesThat().resideInAPackage(includeSubpackages(UI_SERVLETS_PACKAGE))
                 .check(forClasses(UI_PACKAGE));
     }
 
@@ -290,7 +297,13 @@ public class ArchitectureTest {
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)
+                                && !"LogicStarter".equals(input.getSimpleName());
+                    }
+                })
                 .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
                     @Override
                     public boolean apply(JavaClass input) {
@@ -490,7 +503,7 @@ public class ArchitectureTest {
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .and().doNotHaveSimpleName("BaseTestCaseWithObjectifyAccess")
+                .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);
     }

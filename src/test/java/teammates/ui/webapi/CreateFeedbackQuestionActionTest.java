@@ -253,7 +253,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");
