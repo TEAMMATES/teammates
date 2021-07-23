@@ -1,16 +1,30 @@
 package teammates.logic.core;
 
+import java.lang.reflect.Type;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.reflect.TypeToken;
+
+import org.apache.commons.math3.random.RandomDataGenerator;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.FileHelper;
+import teammates.common.util.JsonUtils;
 
 /**
  * Holds functions for operations related to logs reading/writing in local dev environment.
@@ -21,10 +35,52 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class LocalLoggingService implements LogService {
 
-    private static final List<FeedbackSessionLogEntry> LOCAL_LOG_ENTRIES = new ArrayList<>();
+    private static final List<FeedbackSessionLogEntry> FEEDBACK_SESSION_LOG_ENTRIES = new ArrayList<>();
+	private static final List<GeneralLogEntry> LOCAL_LOG_ENTRIES = loadLocalLogEntries();
 
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+
+	enum LogSeverity {
+		INFO(1),
+		WARNING(2),
+		ERROR(3);
+
+		private final int severityLevel;
+
+		LogSeverity(int severityLevel) {
+			this.severityLevel = severityLevel;
+		}
+
+		public int getSeverityLevel() {
+			return severityLevel;
+		}
+	}
+
+	private static List<GeneralLogEntry> loadLocalLogEntries() {
+		long retentionPeriod = Long.valueOf(30) * 24 * 60 * 60 * 1000;
+		long currentTimestamp = new Date().getTime();
+		long earliestSearchableTimestamp = currentTimestamp - retentionPeriod;
+		try {
+			String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
+			Type type = new TypeToken<Collection<GeneralLogEntry>>(){}.getType();
+			Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, type);
+			return logEntriesCollection.stream()
+					.map(log -> {
+						long timestamp = new RandomDataGenerator().nextLong(earliestSearchableTimestamp, currentTimestamp);
+						GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(log.getLogName(), log.getSeverity(),
+								log.getTrace(), log.getSourceLocation(), timestamp);
+						logEntryWithUpdatedTimestamp.setDetails(log.getDetails());
+						logEntryWithUpdatedTimestamp.setMessage(log.getMessage());
+						return logEntryWithUpdatedTimestamp;
+					})
+					.sorted((x, y) -> Long.compare(x.getTimestamp(), y.getTimestamp()))
+					.collect(Collectors.toList());
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ArrayList<>();
+		}
+	}
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
@@ -33,10 +89,74 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                      Integer pageSize, String pageToken) {
-        // Not supported in dev server
-        return new QueryLogsResults(Collections.emptyList(), null);
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
+		int startIndex;
+		int pageSize = queryLogsParams.getPageSize();
+		try {
+			startIndex = Integer.parseInt(queryLogsParams.getPageToken());
+		} catch (NumberFormatException e) {
+			startIndex = 0;
+		}
+		
+		List<GeneralLogEntry> result = LOCAL_LOG_ENTRIES.stream()
+				.filter(logs -> queryLogsParams.getSeverityLevel() == null
+						|| logs.getSeverity().equals(queryLogsParams.getSeverityLevel()))
+				.filter(logs -> queryLogsParams.getMinSeverity() == null || LogSeverity.valueOf(logs.getSeverity()).getSeverityLevel()
+						>= LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getSeverityLevel())
+				.filter(logs -> queryLogsParams.getStartTime() == null
+						|| logs.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli())
+				.filter(logs -> queryLogsParams.getEndTime() == null
+						|| logs.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli())
+				.filter(logs -> queryLogsParams.getTraceId() == null
+						|| (logs.getTrace() != null && logs.getTrace().equals(queryLogsParams.getTraceId())))
+				.filter(logs -> queryLogsParams.getActionClass() == null
+						|| (logs.getDetails() != null && logs.getDetails().get("actionClass") != null 
+							&& logs.getDetails().get("actionClass").equals(queryLogsParams.getActionClass())))
+				.filter(logs -> {
+					UserInfoParams queryUserInfo = queryLogsParams.getUserInfoParams();
+					if (queryUserInfo.getGoogleId() == null && queryUserInfo.getEmail() == null && queryUserInfo.getRegkey() == null) {
+						return true;
+					}
+					if (logs.getDetails() == null || logs.getDetails().get("userInfo") == null) {
+						return false;
+					}
+
+					Object userInfo = logs.getDetails().get("userInfo");
+					Map<String, String> userInfoMap = new ObjectMapper().convertValue(userInfo, new TypeReference<Map<String,String>>(){});
+					if (queryUserInfo.getEmail() != null
+							&& (userInfoMap.get("email") == null || !userInfoMap.get("email").equals(queryUserInfo.getEmail()))) {
+						return false;
+					}
+					if (queryUserInfo.getGoogleId() != null 
+							&& (userInfoMap.get("googleId") == null || !userInfoMap.get("googleId").equals(queryUserInfo.getGoogleId()))) {
+						return false;
+					}
+					if (queryUserInfo.getRegkey() != null 
+							&& (userInfoMap.get("regkey") == null || !userInfoMap.get("regkey").equals(queryUserInfo.getRegkey()))) {
+						return false;
+					}
+					return true;
+				})
+				.filter(logs -> queryLogsParams.getLogEvent() == null
+						|| (logs.getDetails() != null && logs.getDetails().get("event") != null
+							&& logs.getDetails().get("event").equals(queryLogsParams.getLogEvent())))
+				.filter(logs -> queryLogsParams.getSourceLocation().getFile() == null
+						|| logs.getSourceLocation().getFile().equals(queryLogsParams.getSourceLocation().getFile()))
+				.filter(logs -> queryLogsParams.getSourceLocation().getFunction() == null
+						|| logs.getSourceLocation().getFunction().equals(queryLogsParams.getSourceLocation().getFunction()))
+				.filter(logs -> queryLogsParams.getExceptionClass() == null
+						|| (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
+				.skip(startIndex)
+				.limit(pageSize)
+				.collect(Collectors.toList());
+
+		startIndex += pageSize;
+		String nextPageToken = Integer.toString(startIndex);
+		if (result.size() < pageSize) {
+			nextPageToken = null;
+		}
+				
+        return new QueryLogsResults(result, nextPageToken);
     }
 
     @Override
@@ -46,13 +166,13 @@ public class LocalLoggingService implements LogService {
 
         FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(student, feedbackSession,
                 fslType, Instant.now().toEpochMilli());
-        LOCAL_LOG_ENTRIES.add(logEntry);
+        FEEDBACK_SESSION_LOG_ENTRIES.add(logEntry);
     }
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) {
-        return LOCAL_LOG_ENTRIES
+        return FEEDBACK_SESSION_LOG_ENTRIES
                 .stream()
                 .filter(log -> log.getFeedbackSession().getCourseId().equals(courseId))
                 .filter(log -> email == null || log.getStudent().getEmail().equals(email))
@@ -61,5 +181,4 @@ public class LocalLoggingService implements LogService {
                 .filter(log -> endTime == null || log.getTimestamp() <= endTime.toEpochMilli())
                 .collect(Collectors.toList());
     }
-
 }

@@ -1,0 +1,1020 @@
+[
+  {
+    "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course2, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%course2, courseId=CS2222, email=john@gmail.com])] into Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)\n\tat teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)\n\tat teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)\n\tat teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)\n\tat teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)\n\tat teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)\n\tat teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)\n\tat teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:707)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:109)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 32 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 42 more\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/2c9634f520c5c5555d145dc8ca2fd530",
+    "sourceLocation": {
+      "file": "teammates.storage.search.SearchManager",
+      "line": "121",
+      "function": "putDocuments"
+    }
+  },
+  {
+    "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course1, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%CS1111, courseId=CS1111, email=john@gmail.com])] into Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)\n\tat teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)\n\tat teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)\n\tat teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)\n\tat teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)\n\tat teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)\n\tat teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)\n\tat teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:707)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:109)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 32 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 42 more\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/7646fa1144abdc2c0e49ed44473db83d",
+    "sourceLocation": {
+      "file": "teammates.storage.search.SearchManager",
+      "line": "121",
+      "function": "putDocuments"
+    }
+  },
+  {
+    "message": "Failed to search for document(s) course from Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003)\n\tat teammates.storage.search.SearchManager.performQuery(SearchManager.java:80)\n\tat teammates.storage.search.InstructorSearchManager.searchInstructors(InstructorSearchManager.java:60)\n\tat teammates.storage.api.InstructorsDb.searchInstructorsInWholeSystem(InstructorsDb.java:81)\n\tat teammates.logic.core.InstructorsLogic.searchInstructorsInWholeSystem(InstructorsLogic.java:65)\n\tat teammates.logic.api.Logic.searchInstructorsInWholeSystem(Logic.java:134)\n\tat teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:36)\n\tat teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 29 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 39 more\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/28b2e71f6637a81ca80b4ff6e298b76f",
+    "sourceLocation": {
+      "file": "teammates.storage.search.SearchManager",
+      "line": "82",
+      "function": "performQuery"
+    }
+  },
+  {
+    "message": "UnsupportedOperationException caught by WebApiServlet: \njava.lang.UnsupportedOperationException: remove\n\tat java.base/java.util.Iterator.remove(Iterator.java:102)\n\tat java.base/java.util.Collection.removeIf(Collection.java:545)\n\tat teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)\n\tat teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/00a2977fe8042522ad5a7623426838d5",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "97",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "message": "UnsupportedOperationException caught by WebApiServlet: \njava.lang.UnsupportedOperationException: remove\n\tat java.base/java.util.Iterator.remove(Iterator.java:102)\n\tat java.base/java.util.Collection.removeIf(Collection.java:545)\n\tat teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)\n\tat teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/13e37c50d69eb5fcf9b0894a972615de",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "97",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "124",
+      "function": "doFilter"
+    }
+  },
+  {
+    "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "124",
+      "function": "doFilter"
+    }
+  },
+  {
+    "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "124",
+      "function": "doFilter"
+    }
+  },
+  {
+    "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "124",
+      "function": "doFilter"
+    }
+  },
+  {
+    "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/427800dc172e7dd1273058587f623d44",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "97",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/38ba471e420a8ab6824dd27587606455",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "97",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "ERROR",
+    "logName": "projects/teammates-john/logs/stderr",
+    "trace": "projects/teammates-john/traces/390cccd2e016a2453fda9334a16380f3",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "97",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "message": "ActionMappingException caught by WebApiServlet: \nteammates.common.exception.ActionMappingException: Resource with URI /webapi/actionclass is not found.\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:106)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "WARNING",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/c259ca3dcee1b766a04c0cd11788df72",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "141",
+      "function": "throwErrorBasedOnRequester"
+    }
+  },
+  {
+    "message": "ActionMappingException caught by WebApiServlet: \nteammates.common.exception.ActionMappingException: Resource with URI /webapi/actionclass is not found.\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:106)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "severity": "WARNING",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/347963879f8558f877a1b3c5138481e6",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "141",
+      "function": "throwErrorBasedOnRequester"
+    }
+  },
+  {
+    "details": {
+      "message": "GetCoursesAction 96e9ab4558a915faab3ab64abec75bff finished with 200 in 50ms",
+      "responseStatus": 200,
+      "responseTime": 50,
+      "actionClass": "GetCoursesAction",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "event": "RESPONSE_DISPATCHED"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/96e9ab4558a915faab3ab64abec75bff",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {},
+      "requestParams": {
+        "courseid": "john.gma-demo",
+        "entitytype": "student"
+      },
+      "requestHeaders": {
+        "sec-fetch-mode": "cors",
+        "sec-ch-ua-mobile": "?0",
+        "sec-fetch-site": "same-origin",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Https": "on",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-Cloud-Trace-Context": "a634ac4aabf18c504643919c99ad0a25/2658284820730339119",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-Api-Ticket": "ChBjNmRlODJiN2VhNzI2YzJhGhMIrNef6tHz8QIVagJYCB35awGd",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-User-IP": "1234567890",
+        "Host": "teammates-john.appspot.com",
+        "traceparent": "00-a634ac4aabf18c504643919c99ad0a25-24e41ff5d371df2f-00",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-City": "singapore",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "ngsw-bypass": "true",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Referer": "https://teammates-john.appspot.com/web/student/home",
+        "X-AppEngine-Request-Log-Id": "1234cc9200ff09232c12468d5700016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
+      },
+      "message": "Request a634ac4aabf18c504643919c99ad0a25 received: /webapi/sessions",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "event": "REQUEST_RECEIVED",
+      "requestMethod": "GET",
+      "requestUrl": "/webapi/sessions"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/a634ac4aabf18c504643919c99ad0a25",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "actionClass": "GetFeedbackSessionsAction",
+      "event": "RESPONSE_DISPATCHED",
+      "responseStatus": 200,
+      "responseTime": 38,
+      "userInfo": {
+        "googleId": "john"
+      },
+      "message": "GetFeedbackSessionsAction a634ac4aabf18c504643919c99ad0a25 finished with 200 in 38ms"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/a634ac4aabf18c504643919c99ad0a25",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "requestMethod": "GET",
+      "message": "Request b54295378b3053abdfdce052a13fcd61 received: /webapi/hasResponses",
+      "requestHeaders": {
+        "X-AppEngine-Request-Log-Id": "1234cc9200ff0ac3298ea3b5b300016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Region": "?",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-City": "singapore",
+        "sec-fetch-mode": "cors",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "sec-ch-ua-mobile": "?0",
+        "X-Cloud-Trace-Context": "b54295378b3053abdfdce052a13fcd61/3367832180066565668",
+        "Referer": "https://teammates-john.appspot.com/web/student/home",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "traceparent": "00-b54295378b3053abdfdce052a13fcd61-2ebcf18633ff3e24-00",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Https": "on",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Api-Ticket": "ChBhYTIxOWE4YjYzZDE0Mjc4GhMIqZem6tHz8QIV8ktcCh3iXg4H",
+        "ngsw-bypass": "true",
+        "Host": "teammates-john.appspot.com"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "userInfo": {},
+      "requestParams": {
+        "entitytype": "student",
+        "courseid": "john.gma-demo"
+      },
+      "event": "REQUEST_RECEIVED",
+      "requestUrl": "/webapi/hasResponses"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/b54295378b3053abdfdce052a13fcd61",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {
+        "googleId": "john"
+      },
+      "message": "GetHasResponsesAction b54295378b3053abdfdce052a13fcd61 finished with 200 in 233ms",
+      "responseTime": 233,
+      "event": "RESPONSE_DISPATCHED",
+      "responseStatus": 200,
+      "actionClass": "GetHasResponsesAction"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/b54295378b3053abdfdce052a13fcd61",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "requestHeaders": {
+        "X-Forwarded-Proto": "https",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Accept": "application/json, text/plain, */*",
+        "X-Cloud-Trace-Context": "c425735cff46e7f3bccfb157532427b3/4445492762933050457",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "X-AppEngine-Api-Ticket": "ChA2ZjY4NzY0ODBhYTI3YTljGhMIi8P86tHz8QIV8ktcCh3iXg4H",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Region": "?",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff01d48b1d2bd40400016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Https": "on",
+        "traceparent": "00-c425735cff46e7f3bccfb157532427b3-3db1901d5a31bc59-00",
+        "Accept-Encoding": "gzip, deflate, br",
+        "ngsw-bypass": "true",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-Country": "SG",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "Host": "teammates-john.appspot.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7"
+      },
+      "requestUrl": "/webapi/auth",
+      "requestMethod": "GET",
+      "message": "Request c425735cff46e7f3bccfb157532427b3 received: /webapi/auth",
+      "userInfo": {},
+      "event": "REQUEST_RECEIVED",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "requestParams": {}
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/c425735cff46e7f3bccfb157532427b3",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "requestHeaders": {
+        "X-Cloud-Trace-Context": "46d3b7728bef2051240c940f8f692101/1939848748658061012",
+        "sec-fetch-dest": "empty",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Api-Ticket": "ChAwYTI0MGJiMzMwYmI3OWQ4GhMIi4f96tHz8QIV8ktcCh3iXg4H",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Region": "?",
+        "Host": "teammates-john.appspot.com",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Country": "SG",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-AppEngine-Https": "on",
+        "ngsw-bypass": "true",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff01f68b16b96c9500016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept-Encoding": "gzip, deflate, br",
+        "traceparent": "00-46d3b7728bef2051240c940f8f692101-1aebba28bdbfeed4-00",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com"
+      },
+      "requestParams": {
+        "nextUrl": "/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types"
+      },
+      "requestUrl": "/webapi/auth",
+      "message": "Request 46d3b7728bef2051240c940f8f692101 received: /webapi/auth",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "userInfo": {},
+      "event": "REQUEST_RECEIVED",
+      "requestMethod": "GET"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/46d3b7728bef2051240c940f8f692101",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "actionClass": "GetAuthInfoAction",
+      "event": "RESPONSE_DISPATCHED",
+      "responseStatus": 200,
+      "userInfo": {
+        "googleId": "john"
+      },
+      "responseTime": 26,
+      "message": "GetAuthInfoAction c425735cff46e7f3bccfb157532427b3 finished with 200 in 26ms"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/c425735cff46e7f3bccfb157532427b3",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "message": "GetAuthInfoAction 46d3b7728bef2051240c940f8f692101 finished with 200 in 56ms",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "actionClass": "GetAuthInfoAction",
+      "responseTime": 56,
+      "responseStatus": 200,
+      "event": "RESPONSE_DISPATCHED"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/46d3b7728bef2051240c940f8f692101",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "requestUrl": "/webapi/session",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "event": "REQUEST_RECEIVED",
+      "requestHeaders": {
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-Cloud-Trace-Context": "538496e2a1fd3470989c57682ca6e6da/7116358024119472472",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Host": "teammates-john.appspot.com",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-Forwarded-Proto": "https",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-City": "singapore",
+        "traceparent": "00-538496e2a1fd3470989c57682ca6e6da-62c261eb3a245158-00",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Country": "SG",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "ngsw-bypass": "true",
+        "X-AppEngine-Api-Ticket": "ChBjZjRkODU5MmJmMTJlNWVlGhMI7LeE69Hz8QIV8ktcCh3iXg4H",
+        "X-AppEngine-Https": "on",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-User-IP": "1234567890",
+        "Accept": "application/json, text/plain, */*",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff03ceec4d5a293100016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "X-AppEngine-Region": "?"
+      },
+      "message": "Request 538496e2a1fd3470989c57682ca6e6da received: /webapi/session",
+      "requestMethod": "GET",
+      "requestParams": {
+        "intent": "STUDENT_SUBMISSION",
+        "fsname": "Session with different question types",
+        "courseid": "john.gma-demo"
+      },
+      "userInfo": {}
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/538496e2a1fd3470989c57682ca6e6da",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {},
+      "requestHeaders": {
+        "Accept-Encoding": "gzip, deflate, br",
+        "ngsw-bypass": "true",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "sec-fetch-site": "same-origin",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-User-IP": "1234567890",
+        "Accept": "application/json, text/plain, */*",
+        "sec-ch-ua-mobile": "?0",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "sec-fetch-mode": "cors",
+        "X-AppEngine-Https": "on",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff03cedfb750c1fc00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-City": "singapore",
+        "Host": "teammates-john.appspot.com",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-Cloud-Trace-Context": "8bfbb699d5ce3347374c9fffa1b82df0/15055714833819040400",
+        "X-AppEngine-Api-Ticket": "ChAwN2MxNDI3Mjc2NjE2ZTE2GhMI37eE69Hz8QIVlQJYCB0C0QPP",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "traceparent": "00-8bfbb699d5ce3347374c9fffa1b82df0-d0f0a4df6d5cfa90-00"
+      },
+      "requestParams": {
+        "courseid": "john.gma-demo"
+      },
+      "requestMethod": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "event": "REQUEST_RECEIVED",
+      "message": "Request 8bfbb699d5ce3347374c9fffa1b82df0 received: /webapi/student",
+      "requestUrl": "/webapi/student"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/8bfbb699d5ce3347374c9fffa1b82df0",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {
+        "googleId": "john"
+      },
+      "responseTime": 47,
+      "message": "GetFeedbackSessionAction 538496e2a1fd3470989c57682ca6e6da finished with 200 in 47ms",
+      "actionClass": "GetFeedbackSessionAction",
+      "event": "RESPONSE_DISPATCHED",
+      "responseStatus": 200
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/538496e2a1fd3470989c57682ca6e6da",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {
+        "googleId": "john"
+      },
+      "responseStatus": 200,
+      "actionClass": "GetStudentAction",
+      "responseTime": 118,
+      "message": "GetStudentAction 8bfbb699d5ce3347374c9fffa1b82df0 finished with 200 in 118ms",
+      "event": "RESPONSE_DISPATCHED"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/8bfbb699d5ce3347374c9fffa1b82df0",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "message": "Request 6ef4fe8d7426117a6c20ffd2897b6a3e received: /webapi/questions",
+      "event": "REQUEST_RECEIVED",
+      "requestMethod": "GET",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "requestParams": {
+        "fsname": "Session with different question types",
+        "intent": "STUDENT_SUBMISSION",
+        "courseid": "john.gma-demo"
+      },
+      "requestHeaders": {
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Api-Ticket": "ChBjZDQ2YjgwY2ZkOGE4ZWE0GhMItIGM69Hz8QIVagJYCB35awGd",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "Accept": "application/json, text/plain, */*",
+        "sec-fetch-site": "same-origin",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff05b3b4f6edf60d00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-User-IP": "1234567890",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Https": "on",
+        "X-AppEngine-Region": "?",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "sec-fetch-mode": "cors",
+        "traceparent": "00-6ef4fe8d7426117a6c20ffd2897b6a3e-58746a687177ea1d-00",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "Host": "teammates-john.appspot.com",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-Cloud-Trace-Context": "6ef4fe8d7426117a6c20ffd2897b6a3e/6373836369448921629",
+        "ngsw-bypass": "true"
+      },
+      "requestUrl": "/webapi/questions",
+      "userInfo": {}
+    },
+    "severity": "INFO",
+    "labels": {
+      "clone_id": "00c61b117c59adba70c9d45f0875040f3b943ebfe23523cf34fd799b6a8c1608f66da3a0cb91212084ef28e8cfa75569810372438804533be101ef1127c92239fc83673d"
+    },
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/6ef4fe8d7426117a6c20ffd2897b6a3e",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "requestUrl": "/webapi/logs/session",
+      "userInfo": {
+        "email": "john@gmail.com"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "requestMethod": "POST",
+      "message": "Request 11e95f944a2cc285fb51f71c53c300c8 received: /webapi/logs/session",
+      "requestParams": {
+        "courseid": "john.gma-demo",
+        "studentemail": "john@gmail.com",
+        "fsltype": "access",
+        "fsname": "Session with different question types"
+      },
+      "requestHeaders": {
+        "X-Forwarded-Proto": "https",
+        "sec-ch-ua-mobile": "?0",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff0679c81a6656af00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Content-Length": "0",
+        "Host": "teammates-john.appspot.com",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "sec-fetch-dest": "empty",
+        "x-csrf-token": "205FD5CC1C83BB3E43D50F1B59EA1AC9DBB050F10E9E66A7CC489173BD16749C",
+        "Accept": "application/json, text/plain, */*",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Origin": "https://teammates-john.appspot.com",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-Https": "on",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "X-AppEngine-City": "singapore",
+        "sec-fetch-mode": "cors",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-Api-Ticket": "ChAxMTgwZmJiYjc5MTU2NTE1GhMIyI2P69Hz8QIV8ktcCh3iXg4H",
+        "X-Cloud-Trace-Context": "11e95f944a2cc285fb51f71c53c300c8/11913445494316718549",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "traceparent": "00-11e95f944a2cc285fb51f71c53c300c8-a5550f8e93b9d9d5-00"
+      },
+      "event": "REQUEST_RECEIVED"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/11e95f944a2cc285fb51f71c53c300c8",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "event": "RESPONSE_DISPATCHED",
+      "responseStatus": 200,
+      "message": "GetFeedbackQuestionsAction 6ef4fe8d7426117a6c20ffd2897b6a3e finished with 200 in 164ms",
+      "userInfo": {
+        "googleId": "john"
+      },
+      "actionClass": "GetFeedbackQuestionsAction",
+      "responseTime": 164
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/6ef4fe8d7426117a6c20ffd2897b6a3e",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "courseId": "john.gma-demo",
+      "accessType": "access",
+      "studentEmail": "john@gmail.com",
+      "message": "Feedback session audit event: access",
+      "feedbackSessionName": "Session with different question types",
+      "event": "FEEDBACK_SESSION_AUDIT"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/11e95f944a2cc285fb51f71c53c300c8",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.CreateFeedbackSessionLogAction",
+      "line": "59",
+      "function": "execute"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {
+        "googleId": "john",
+        "email": "john@gmail.com"
+      },
+      "responseTime": 220,
+      "responseStatus": 200,
+      "event": "RESPONSE_DISPATCHED",
+      "actionClass": "CreateFeedbackSessionLogAction",
+      "message": "CreateFeedbackSessionLogAction 11e95f944a2cc285fb51f71c53c300c8 finished with 200 in 220ms"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/11e95f944a2cc285fb51f71c53c300c8",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.WebApiServlet",
+      "line": "125",
+      "function": "invokeServlet"
+    }
+  },
+  {
+    "details": {
+      "requestParams": {
+        "intent": "STUDENT_SUBMISSION",
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgIDo14eBCQy"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "requestUrl": "/webapi/question/recipients",
+      "userInfo": {},
+      "event": "REQUEST_RECEIVED",
+      "requestHeaders": {
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-Https": "on",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "ngsw-bypass": "true",
+        "sec-fetch-site": "same-origin",
+        "X-Cloud-Trace-Context": "d73f6c7d81b47828149125d9718d7ebe/1837500663609627165",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Api-Ticket": "ChBiNmFmYzhmZDljZTZkZjgwGhMIx7Sd69Hz8QIVlQJYCB0C0QPP",
+        "Accept": "application/json, text/plain, */*",
+        "sec-ch-ua-mobile": "?0",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff0a0d47b9198eff0000016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "sec-fetch-mode": "cors",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "traceparent": "00-d73f6c7d81b47828149125d9718d7ebe-19801d1e38ff121d-00",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "Accept-Encoding": "gzip, deflate, br",
+        "sec-fetch-dest": "empty",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744"
+      },
+      "message": "Request d73f6c7d81b47828149125d9718d7ebe received: /webapi/question/recipients",
+      "requestMethod": "GET"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/d73f6c7d81b47828149125d9718d7ebe",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "userInfo": {},
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "message": "Request c459170ea3987f19aafc98bf4d0f4935 received: /webapi/question/recipients",
+      "event": "REQUEST_RECEIVED",
+      "requestHeaders": {
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Accept-Encoding": "gzip, deflate, br",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "sec-fetch-site": "same-origin",
+        "X-AppEngine-Region": "?",
+        "X-AppEngine-Country": "SG",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "X-Cloud-Trace-Context": "c459170ea3987f19aafc98bf4d0f4935/4973408567043934241",
+        "Accept": "application/json, text/plain, */*",
+        "sec-ch-ua-mobile": "?0",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Api-Ticket": "ChA1YWI5MTUxYmIxOTMyMTcwGhMImL6d69Hz8QIVagJYCB35awGd",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Https": "on",
+        "sec-fetch-mode": "cors",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "traceparent": "00-c459170ea3987f19aafc98bf4d0f4935-450518bdd189c821-00",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "ngsw-bypass": "true",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff0a12185b3078af00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
+      },
+      "requestMethod": "GET",
+      "requestUrl": "/webapi/question/recipients",
+      "requestParams": {
+        "intent": "STUDENT_SUBMISSION",
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgIDo14eBCwy"
+      }
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/c459170ea3987f19aafc98bf4d0f4935",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "requestMethod": "GET",
+      "event": "REQUEST_RECEIVED",
+      "requestHeaders": {
+        "sec-fetch-mode": "cors",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff0a1b69364511a500016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-AppEngine-Api-Ticket": "ChA4YzA4MGZjMjdiOGMyYzlkGhMI6dCd69Hz8QIVagJYCB35awGd",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "X-AppEngine-Region": "?",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "X-AppEngine-Country": "SG",
+        "sec-fetch-site": "same-origin",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "traceparent": "00-044e8cd2e7f586c51444fd64977c97e5-1d6e349682c551de-00",
+        "X-AppEngine-City": "singapore",
+        "Accept": "application/json, text/plain, */*",
+        "sec-ch-ua-mobile": "?0",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "Host": "teammates-john.appspot.com",
+        "ngsw-bypass": "true",
+        "X-Cloud-Trace-Context": "044e8cd2e7f586c51444fd64977c97e5/2120690295581790686",
+        "X-AppEngine-Https": "on",
+        "sec-fetch-dest": "empty",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-Forwarded-Proto": "https"
+      },
+      "requestParams": {
+        "intent": "STUDENT_SUBMISSION",
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgIDo14fBCAy"
+      },
+      "message": "Request 044e8cd2e7f586c51444fd64977c97e5 received: /webapi/question/recipients",
+      "requestUrl": "/webapi/question/recipients",
+      "userInfo": {},
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/044e8cd2e7f586c51444fd64977c97e5",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "requestHeaders": {
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "ngsw-bypass": "true",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "X-AppEngine-Country": "SG",
+        "X-Cloud-Trace-Context": "aa91e41422b276145cf490d92d2222db/9534901213619311853",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Api-Ticket": "ChAyMjVmMWY2NzhmZmFmNWM4GhMIu9md69Hz8QIV8ktcCh3iXg4H",
+        "sec-fetch-mode": "cors",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "traceparent": "00-aa91e41422b276145cf490d92d2222db-8452c622be3854ed-00",
+        "X-Forwarded-Proto": "https",
+        "Accept-Encoding": "gzip, deflate, br",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Region": "?",
+        "sec-fetch-site": "same-origin",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "X-AppEngine-Https": "on",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-User-IP": "1234567890",
+        "X-AppEngine-City": "singapore",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff0a1fbb3192f82100016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "Accept": "application/json, text/plain, */*",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Timeout-Ms": "599999"
+      },
+      "event": "REQUEST_RECEIVED",
+      "userInfo": {},
+      "message": "Request aa91e41422b276145cf490d92d2222db received: /webapi/question/recipients",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "requestMethod": "GET",
+      "requestUrl": "/webapi/question/recipients",
+      "requestParams": {
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgIDo14fBCgy",
+        "intent": "STUDENT_SUBMISSION"
+      }
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/aa91e41422b276145cf490d92d2222db",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  },
+  {
+    "details": {
+      "message": "Request ef44b59a7fc5f4148906c6ffc7d0f8ab received: /webapi/question/recipients",
+      "requestHeaders": {
+        "sec-fetch-mode": "cors",
+        "Accept": "application/json, text/plain, */*",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-AppEngine-CityLatLong": "1.355379,103.867744",
+        "X-AppEngine-Request-Log-Id": "1234cc9400ff0a3d9481c8324d00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
+        "sec-ch-ua-mobile": "?0",
+        "X-AppEngine-Timeout-Ms": "599999",
+        "Accept-Encoding": "gzip, deflate, br",
+        "X-Forwarded-For": "1234567890, 123.345.1.1",
+        "Accept-Language": "en;q=0.8,en-US;q=0.7",
+        "Forwarded": "for=\"1234567890\";proto=https",
+        "sec-fetch-site": "same-origin",
+        "X-Forwarded-Proto": "https",
+        "X-AppEngine-User-IP": "1234567890",
+        "ngsw-bypass": "true",
+        "sec-fetch-dest": "empty",
+        "X-AppEngine-Region": "?",
+        "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
+        "Host": "teammates-john.appspot.com",
+        "X-AppEngine-Api-Ticket": "ChA0NjczODE1ZGU3N2ExZGIxGhMIlJWe69Hz8QIVFQVYCB2fbwCJ",
+        "X-Cloud-Trace-Context": "ef44b59a7fc5f4148906c6ffc7d0f8ab/16392458674948255293",
+        "X-AppEngine-Country": "SG",
+        "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
+        "X-AppEngine-Https": "on",
+        "Referer": "https://teammates-john.appspot.com/web/student/sessions/submission?courseid=john.gma-demo&fsname=Session%20with%20different%20question%20types",
+        "X-AppEngine-City": "singapore",
+        "traceparent": "00-ef44b59a7fc5f4148906c6ffc7d0f8ab-e37db6505b8fae3d-00"
+      },
+      "requestMethod": "GET",
+      "requestParams": {
+        "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgIDo14ehCAy",
+        "intent": "STUDENT_SUBMISSION"
+      },
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "event": "REQUEST_RECEIVED",
+      "requestUrl": "/webapi/question/recipients",
+      "userInfo": {}
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "projects/teammates-john/traces/ef44b59a7fc5f4148906c6ffc7d0f8ab",
+    "sourceLocation": {
+      "file": "teammates.ui.webapi.RequestTraceFilter",
+      "line": "94",
+      "function": "doFilter"
+    }
+  }
+]
