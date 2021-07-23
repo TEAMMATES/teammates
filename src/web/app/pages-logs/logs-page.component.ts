@@ -294,7 +294,7 @@ export class LogsPageComponent implements OnInit {
    * Display the first 9 digits of the trace.
    */
   private formatTraceForSummary(trace: string): string | undefined {
-    return trace.split('/').pop()?.slice(0, 9);
+    return trace.slice(0, 9);
   }
 
   getNextPageLogs(): void {
