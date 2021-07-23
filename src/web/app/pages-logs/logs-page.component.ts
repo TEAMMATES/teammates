@@ -46,6 +46,7 @@ export class LogsPageComponent implements OnInit {
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
+  readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
   ACTION_CLASSES: string[] = [];
 
   formModel: SearchLogsFormModel = {
@@ -192,6 +193,7 @@ export class LogsPageComponent implements OnInit {
   }
 
   private searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
+    let numberOfPagesRetrieved: number = 0;
     forkJoin(localDateTime)
       .pipe(
         concatMap(([timestampFrom, timestampUntil]: number[]) => {
@@ -205,7 +207,8 @@ export class LogsPageComponent implements OnInit {
         }))
       .pipe(
         expand((logs: GeneralLogs) => {
-          if (logs.nextPageToken !== undefined) {
+          if (logs.nextPageToken !== undefined && numberOfPagesRetrieved < this.MAXIMUM_PAGES_FOR_ERROR_LOGS) {
+            numberOfPagesRetrieved += 1;
             this.queryParams.nextPageToken = logs.nextPageToken;
             return this.logService.searchLogs(this.queryParams);
           }
@@ -309,10 +312,10 @@ export class LogsPageComponent implements OnInit {
   }
 
   /**
-   * Remove the resource name infront.
+   * Display the first 9 digits of the trace.
    */
   private formatTraceForSummary(trace: string): string | undefined {
-    return trace.split('/').pop();
+    return trace.split('/').pop()?.slice(0, 9);
   }
 
   getNextPageLogs(): void {
