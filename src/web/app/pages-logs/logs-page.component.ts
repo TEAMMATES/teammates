@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import moment from 'moment-timezone';
-import { forkJoin, Observable } from 'rxjs';
-import { concatMap, finalize, map } from 'rxjs/operators';
+import { EMPTY, forkJoin, Observable } from 'rxjs';
+import { concatMap, expand, finalize, map, reduce } from 'rxjs/operators';
 import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
 import { ActionClasses, GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
+import { LogsHistogramDataModel } from '../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
 import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
 import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
@@ -45,6 +46,7 @@ export class LogsPageComponent implements OnInit {
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
+  readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
   ACTION_CLASSES: string[] = [];
 
   formModel: SearchLogsFormModel = {
@@ -62,9 +64,11 @@ export class LogsPageComponent implements OnInit {
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
+  histogramResult: LogsHistogramDataModel[] = [];
   isLoading: boolean = false;
   isSearching: boolean = false;
   hasResult: boolean = false;
+  isTableView: boolean = true;
   nextPageToken: string = '';
   isFiltersExpanded: boolean = false;
 
@@ -102,12 +106,13 @@ export class LogsPageComponent implements OnInit {
   }
 
   searchForLogs(): void {
-    if (!this.isFormValid()) {
+    if (this.isTableView && !this.isFormValid()) {
       return;
     }
 
     this.hasResult = false;
     this.isSearching = true;
+    this.histogramResult = [];
     this.searchResults = [];
     this.nextPageToken = '';
     this.isFiltersExpanded = false;
@@ -116,6 +121,14 @@ export class LogsPageComponent implements OnInit {
       this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
     ];
 
+    if (this.isTableView) {
+      this.searchForLogsTableView(localDateTime);
+    } else {
+      this.searchForLogsHistogramView(localDateTime);
+    }
+  }
+
+  private searchForLogsTableView(localDateTime: Observable<number>[]): void {
     forkJoin(localDateTime)
       .pipe(
         concatMap(([timestampFrom, timestampUntil]: number[]) => {
@@ -126,7 +139,7 @@ export class LogsPageComponent implements OnInit {
           this.isSearching = false;
           this.hasResult = true;
         }))
-      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+      .subscribe((generalLogs: GeneralLogs) => this.processLogsForTableView(generalLogs),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
@@ -179,9 +192,51 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  private processLogs(generalLogs: GeneralLogs): void {
+  private searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
+    let numberOfPagesRetrieved: number = 0;
+    forkJoin(localDateTime)
+      .pipe(
+        concatMap(([timestampFrom, timestampUntil]: number[]) => {
+          this.queryParams = {
+            searchFrom: timestampFrom.toString(),
+            searchUntil: timestampUntil.toString(),
+            severity: 'ERROR',
+            advancedFilters: {},
+          };
+          return this.logService.searchLogs(this.queryParams);
+        }))
+      .pipe(
+        expand((logs: GeneralLogs) => {
+          if (logs.nextPageToken !== undefined && numberOfPagesRetrieved < this.MAXIMUM_PAGES_FOR_ERROR_LOGS) {
+            numberOfPagesRetrieved += 1;
+            this.queryParams.nextPageToken = logs.nextPageToken;
+            return this.logService.searchLogs(this.queryParams);
+          }
+
+          return EMPTY;
+        }),
+        reduce((acc: GeneralLogEntry[], res: GeneralLogs) => acc.concat(res.logEntries), [] as GeneralLogEntry[]),
+        finalize(() => {
+          this.isSearching = false;
+          this.hasResult = true;
+        }),
+      )
+      .subscribe((logResults: GeneralLogEntry[]) => this.processLogsForHistogram(logResults),
+        (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  private processLogsForTableView(generalLogs: GeneralLogs): void {
     this.nextPageToken = generalLogs.nextPageToken || '';
     generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+  }
+
+  private processLogsForHistogram(logs: GeneralLogEntry[]): void {
+    const sourceToFrequencyMap: Map<string, number> = logs.reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
+      acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
+      new Map<string, number>());
+    sourceToFrequencyMap.forEach((value: number, key: string) => {
+      this.histogramResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
+    });
   }
 
   private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
@@ -202,9 +257,15 @@ export class LogsPageComponent implements OnInit {
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
+    let traceIdForSummary: string | undefined;
     let userInfo: any;
+
+    if (log.trace) {
+      traceIdForSummary = this.formatTraceForSummary(log.trace);
+    }
+
     if (log.message) {
-      summary = `Source: ${log.sourceLocation.file}`;
+      summary = log.message;
       payload = this.formatTextPayloadForDisplay(log.message);
     } else if (log.details) {
       payload = log.details;
@@ -228,11 +289,13 @@ export class LogsPageComponent implements OnInit {
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
       }
     }
+
     return {
       summary,
       httpStatus,
       responseTime,
       userInfo,
+      traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
@@ -248,12 +311,19 @@ export class LogsPageComponent implements OnInit {
       .replace(/\t/g, '&#9;');
   }
 
+  /**
+   * Display the first 9 digits of the trace.
+   */
+  private formatTraceForSummary(trace: string): string | undefined {
+    return trace.split('/').pop()?.slice(0, 9);
+  }
+
   getNextPageLogs(): void {
     this.isSearching = true;
     this.queryParams.nextPageToken = this.nextPageToken;
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
-      .subscribe((generalLogs: GeneralLogs) => this.processLogs(generalLogs),
+      .subscribe((generalLogs: GeneralLogs) => this.processLogsForTableView(generalLogs),
         (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
@@ -292,5 +362,11 @@ export class LogsPageComponent implements OnInit {
     this.formModel.advancedFilters.sourceLocationFile = '';
     this.formModel.advancedFilters.sourceLocationFunction = '';
     this.formModel.advancedFilters.exceptionClass = '';
+  }
+
+  switchView(): void {
+    this.isTableView = !this.isTableView;
+    this.searchResults = [];
+    this.histogramResult = [];
   }
 }
