@@ -29,6 +29,7 @@ import com.google.protobuf.util.JsonFormat;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -120,16 +121,12 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken) throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
         LogSearchParams logSearchParams = new LogSearchParams()
                 .addLogName(STDOUT_LOG_NAME)
-                .addLogName(STDERR_LOG_NAME)
-                .setSeverities(severities)
-                .setStartTime(startTime)
-                .setEndTime(endTime);
+                .addLogName(STDERR_LOG_NAME);
 
-        PageParams pageParams = new PageParams(pageSize, pageToken);
+        PageParams pageParams = new PageParams(queryLogsParams.getPageSize(), queryLogsParams.getPageToken());
 
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, pageParams);
         List<GeneralLogEntry> logEntries = new ArrayList<>();
