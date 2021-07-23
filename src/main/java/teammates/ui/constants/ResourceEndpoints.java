@@ -53,7 +53,8 @@ public enum ResourceEndpoints {
     STUDENT_COURSE_LINKS_REGENERATION(ResourceURIs.STUDENT_COURSE_LINKS_REGENERATION),
     SEARCH_INSTRUCTORS(ResourceURIs.SEARCH_INSTRUCTORS),
     SEARCH_STUDENTS(ResourceURIs.SEARCH_STUDENTS),
-    LOGS(ResourceURIs.LOGS);
+    LOGS(ResourceURIs.LOGS),
+    ACTION_CLASS(ResourceURIs.ACTION_CLASS);
     //CHECKSTYLE.ON:JavadocVariable
 
     private final String url;
