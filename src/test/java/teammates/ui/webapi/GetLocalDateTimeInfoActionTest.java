@@ -108,7 +108,7 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
         logoutUser();
         verifyInaccessibleWithoutLogin(params);
 
-        ______TS("Only user who is instructor can access");
+        ______TS("Only user who is instructor, maintainer or admin can access");
 
         verifyInaccessibleForStudents(params);
         verifyInaccessibleForUnregisteredUsers(params);
@@ -116,5 +116,8 @@ public class GetLocalDateTimeInfoActionTest extends BaseActionTest<GetLocalDateT
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(params);
+
+        verifyAccessibleForAdmin();
+        verifyAccessibleForMaintainers();
     }
 }
