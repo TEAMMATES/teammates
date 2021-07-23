@@ -71,7 +71,6 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetFeedbackSessionAction.class,
                 UpdateFeedbackSessionAction.class,
                 FeedbackSessionClosingRemindersAction.class,
-                GetLocalDateTimeInfoAction.class,
                 GetTimeZonesAction.class,
                 FeedbackSessionRemindParticularUsersEmailWorkerAction.class,
                 GetFeedbackResponsesAction.class,

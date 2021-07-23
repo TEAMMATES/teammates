@@ -771,7 +771,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <div
                       class="col-md-5"
                     >
-                      <tm-time-picker
+                      <tm-timepicker
                         id="submission-start-time"
                       >
                         <select
@@ -900,7 +900,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </option>
                           
                         </select>
-                      </tm-time-picker>
+                      </tm-timepicker>
                     </div>
                   </div>
                 </div>
@@ -946,7 +946,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                     <div
                       class="col-md-5"
                     >
-                      <tm-time-picker
+                      <tm-timepicker
                         id="submission-end-time"
                       >
                         <select
@@ -1075,7 +1075,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                           </option>
                           
                         </select>
-                      </tm-time-picker>
+                      </tm-timepicker>
                     </div>
                   </div>
                 </div>
@@ -3396,7 +3396,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     <div
                       class="col-md-5"
                     >
-                      <tm-time-picker
+                      <tm-timepicker
                         id="submission-start-time"
                       >
                         <select
@@ -3525,7 +3525,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           </option>
                           
                         </select>
-                      </tm-time-picker>
+                      </tm-timepicker>
                     </div>
                   </div>
                 </div>
@@ -3571,7 +3571,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                     <div
                       class="col-md-5"
                     >
-                      <tm-time-picker
+                      <tm-timepicker
                         id="submission-end-time"
                       >
                         <select
@@ -3700,7 +3700,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                           </option>
                           
                         </select>
-                      </tm-time-picker>
+                      </tm-timepicker>
                     </div>
                   </div>
                 </div>

@@ -6,7 +6,6 @@ import { NgbDatepickerModule, NgbTimepickerModule } from '@ng-bootstrap/ng-boots
 import { LoadingSpinnerModule } from '../components/loading-spinner/loading-spinner.module';
 import { LogsHistogramModule } from '../components/logs-histogram/logs-histogram.module';
 import { LogsTableModule } from '../components/logs-table/logs-table.module';
-import { SessionEditFormModule } from '../components/session-edit-form/session-edit-form.module';
 import { SortableTableModule } from '../components/sortable-table/sortable-table.module';
 import { LogsPageComponent } from './logs-page.component';
 
@@ -30,7 +29,6 @@ const routes: Routes = [
     LogsTableModule,
     NgbDatepickerModule,
     NgbTimepickerModule,
-    SessionEditFormModule,
     LogsHistogramModule,
   ],
   declarations: [

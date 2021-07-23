@@ -1,17 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import moment from 'moment-timezone';
-import { EMPTY, forkJoin, Observable } from 'rxjs';
-import { concatMap, expand, finalize, map, reduce } from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { expand, finalize, reduce } from 'rxjs/operators';
 import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
+import { TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
 import { ActionClasses, GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
+import { DateFormat } from '../components/datepicker/datepicker.component';
 import { LogsHistogramDataModel } from '../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
-import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
 import { collapseAnim } from '../components/teammates-common/collapse-anim';
+import { TimeFormat } from '../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -116,25 +115,22 @@ export class LogsPageComponent implements OnInit {
     this.searchResults = [];
     this.nextPageToken = '';
     this.isFiltersExpanded = false;
-    const localDateTime: Observable<number>[] = [
-      this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
-      this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
-    ];
+    const timestampFrom: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+    const timestampUntil: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateTo, this.formModel.logsTimeTo);
 
     if (this.isTableView) {
-      this.searchForLogsTableView(localDateTime);
+      this.searchForLogsTableView(timestampFrom, timestampUntil);
     } else {
-      this.searchForLogsHistogramView(localDateTime);
+      this.searchForLogsHistogramView(timestampFrom, timestampUntil);
     }
   }
 
-  private searchForLogsTableView(localDateTime: Observable<number>[]): void {
-    forkJoin(localDateTime)
+  private searchForLogsTableView(timestampFrom: number, timestampUntil: number): void {
+    this.setQueryParams(timestampFrom, timestampUntil);
+    this.logService.searchLogs(this.queryParams)
       .pipe(
-        concatMap(([timestampFrom, timestampUntil]: number[]) => {
-          this.setQueryParams(timestampFrom, timestampUntil);
-          return this.logService.searchLogs(this.queryParams);
-        }),
         finalize(() => {
           this.isSearching = false;
           this.hasResult = true;
@@ -192,19 +188,15 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  private searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
+  private searchForLogsHistogramView(timestampFrom: number, timestampUntil: number): void {
     let numberOfPagesRetrieved: number = 0;
-    forkJoin(localDateTime)
-      .pipe(
-        concatMap(([timestampFrom, timestampUntil]: number[]) => {
-          this.queryParams = {
-            searchFrom: timestampFrom.toString(),
-            searchUntil: timestampUntil.toString(),
-            severity: 'ERROR',
-            advancedFilters: {},
-          };
-          return this.logService.searchLogs(this.queryParams);
-        }))
+    this.queryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+      severity: 'ERROR',
+      advancedFilters: {},
+    };
+    this.logService.searchLogs(this.queryParams)
       .pipe(
         expand((logs: GeneralLogs) => {
           if (logs.nextPageToken !== undefined && numberOfPagesRetrieved < this.MAXIMUM_PAGES_FOR_ERROR_LOGS) {
@@ -237,19 +229,6 @@ export class LogsPageComponent implements OnInit {
     sourceToFrequencyMap.forEach((value: number, key: string) => {
       this.histogramResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
     });
-  }
-
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
-    const inst: any = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1);
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-
-    return this.timezoneService.getResolvedTimestamp(localDateTime, this.timezoneService.guessTimezone(), fieldName)
-        .pipe(map((result: TimeResolvingResult) => result.timestamp));
   }
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
