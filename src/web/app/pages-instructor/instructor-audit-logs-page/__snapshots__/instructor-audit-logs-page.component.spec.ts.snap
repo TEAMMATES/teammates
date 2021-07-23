@@ -170,7 +170,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -297,7 +297,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -372,7 +372,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -499,7 +499,7 @@ exports[`InstructorAuditLogsPageComponent should snap when searching for details
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
             <div
               class="col-md-2"
@@ -703,7 +703,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -830,7 +830,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
           </div>
         </div>
@@ -900,7 +900,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
+              <tm-timepicker>
                 <select
                   class="form-control ng-untouched ng-pristine ng-valid"
                 >
@@ -1027,7 +1027,7 @@ exports[`InstructorAuditLogsPageComponent should snap with results of a search 1
                   </option>
                   
                 </select>
-              </tm-time-picker>
+              </tm-timepicker>
             </div>
             <div
               class="col-md-2"

@@ -138,7 +138,7 @@
                                      [date]="model.submissionStartDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
-                <tm-time-picker id="submission-start-time" [time]="model.submissionStartTime" (timeChange)="triggerModelChange('submissionStartTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
+                <tm-timepicker id="submission-start-time" [time]="model.submissionStartTime" (timeChange)="triggerModelChange('submissionStartTime', $event)" [isDisabled]="!model.isEditable"></tm-timepicker>
               </div>
             </div>
           </div>
@@ -156,7 +156,7 @@
                                      [minDate]="model.submissionStartDate" [date]="model.submissionEndDate"></tm-datepicker>
               </div>
               <div class="col-md-5">
-                <tm-time-picker id="submission-end-time" [time]="model.submissionEndTime" (timeChange)="triggerModelChange('submissionEndTime', $event)" [isDisabled]="!model.isEditable"></tm-time-picker>
+                <tm-timepicker id="submission-end-time" [time]="model.submissionEndTime" (timeChange)="triggerModelChange('submissionEndTime', $event)" [isDisabled]="!model.isEditable"></tm-timepicker>
               </div>
             </div>
           </div>
@@ -208,7 +208,7 @@
                                      [maxDate]="maxDateForSessionVisible" [date]="model.customSessionVisibleDate"></tm-datepicker>
               </div>
               <div class="col-md-4">
-                <tm-time-picker id="session-visibility-time" [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
+                <tm-timepicker id="session-visibility-time" [time]="model.customSessionVisibleTime" (timeChange)="triggerModelChange('customSessionVisibleTime', $event)" [isDisabled]="model.sessionVisibleSetting !== SessionVisibleSetting.CUSTOM || !model.isEditable"></tm-timepicker>
               </div>
             </div>
             <div class="row mt-md-1 ml-md-3">
@@ -241,7 +241,7 @@
                                        [minDate]="minDateForResponseVisible" [date]="model.customResponseVisibleDate"></tm-datepicker>
                 </div>
                 <div class="col-md-4">
-                  <tm-time-picker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-time-picker>
+                  <tm-timepicker id="response-visibility-time" [time]="model.customResponseVisibleTime" (timeChange)="triggerModelChange('customResponseVisibleTime', $event)" [isDisabled]="model.responseVisibleSetting !== ResponseVisibleSetting.CUSTOM || !model.isEditable"></tm-timepicker>
                 </div>
             </div>
             <div class="row mt-md-2 ml-md-1">
