@@ -383,14 +383,9 @@ exports[`LogsPageComponent should snap when searching for details in search form
                 >
                   
                   <option
-                    value="REQUEST_RECEIVED"
+                    value="REQUEST_LOG"
                   >
-                    REQUEST_RECEIVED
-                  </option>
-                  <option
-                    value="RESPONSE_DISPATCHED"
-                  >
-                    RESPONSE_DISPATCHED
+                    REQUEST_LOG
                   </option>
                   <option
                     value="EMAIL_SENT"

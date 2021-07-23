@@ -41,7 +41,7 @@ export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
-  readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly EVENTS: string[] = ['REQUEST_LOG', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
