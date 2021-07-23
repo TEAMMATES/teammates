@@ -233,6 +233,7 @@ export class LogsPageComponent implements OnInit {
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
+    let actionClass: string = '';
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
@@ -261,7 +262,7 @@ export class LogsPageComponent implements OnInit {
         responseTime = payload.responseTime;
       }
       if (payload.actionClass) {
-        summary += `${payload.actionClass}`;
+        actionClass = payload.actionClass;
       }
       if (payload.userInfo) {
         userInfo = payload.userInfo;
@@ -274,6 +275,7 @@ export class LogsPageComponent implements OnInit {
       httpStatus,
       responseTime,
       userInfo,
+      actionClass,
       traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
@@ -311,6 +313,12 @@ export class LogsPageComponent implements OnInit {
     this.isFiltersExpanded = true;
     this.formModel.advancedFilters.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
+  }
+
+  addActionClassToFilter(actionClass: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.actionClass = actionClass;
+    this.statusMessageService.showSuccessToast('Action class added to filters');
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {

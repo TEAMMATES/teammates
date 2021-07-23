@@ -17,6 +17,7 @@
               <span class="right-padding" *ngIf="log.httpStatus" [ngClass]="getClassForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
               <span class="right-padding blue-font" *ngIf="log.responseTime">{{ log.responseTime }}ms</span>
               <span class="clickable border" *ngIf="log.traceIdForSummary" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceIdForSummary }}</span>
+              <span class="clickable border" *ngIf="log.actionClass" ngbTooltip="Click to add to filter" (click)="addActionClassToFilter(log.actionClass)">{{ log.actionClass }}</span>
               {{ log.summary }}
             </td>
           </tr>

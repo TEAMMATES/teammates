@@ -14,6 +14,7 @@ export interface LogsTableRowModel {
   responseTime ?: number;
   summary: string;
   details: any;
+  actionClass: string;
   userInfo?: any;
   isDetailsExpanded: boolean;
 }
