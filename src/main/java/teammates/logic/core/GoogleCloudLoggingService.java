@@ -30,6 +30,7 @@ import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.QueryLogsParams;
+import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -122,7 +123,8 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
-        LogSearchParams logSearchParams = new LogSearchParams()
+
+        LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME);
 
@@ -239,12 +241,44 @@ public class GoogleCloudLoggingService implements LogService {
         if (s.endTime != null) {
             logFilters.add("timestamp<=\"" + s.endTime.toString() + "\"");
         }
-        if (s.severities != null) {
-            String severitiesFilter = s.severities.stream().collect(Collectors.joining(" OR "));
-            logFilters.add("severity=(" + severitiesFilter + ")");
+        if (s.severity != null) {
+            logFilters.add("severity=" + s.severity);
         }
-        if (s.minSeverity != null && s.severities == null) {
+        if (s.minSeverity != null && s.severity == null) {
             logFilters.add("severity>=" + s.minSeverity.toString());
+        }
+        if (s.traceId != null) {
+            logFilters.add("trace=\"" + s.traceId + "\"");
+        }
+        if (s.actionClass != null) {
+            logFilters.add("jsonPayload.actionClass=\"" + s.actionClass + "\"");
+        }
+        if (s.userInfoParams != null) {
+            if (s.userInfoParams.getGoogleId() != null) {
+                logFilters.add("jsonPayload.userInfo.googleId=\"" + s.userInfoParams.getGoogleId() + "\"");
+            }
+            if (s.userInfoParams.getRegkey() != null) {
+                logFilters.add("jsonPayload.userInfo.regkey=\"" + s.userInfoParams.getRegkey() + "\"");
+            }
+            if (s.userInfoParams.getEmail() != null) {
+                logFilters.add("jsonPayload.userInfo.email=\"" + s.userInfoParams.getEmail() + "\"");
+            }
+        }
+        if (s.logEvent != null) {
+            logFilters.add("jsonPayload.event=\"" + s.logEvent + "\"");
+        }
+        if (s.sourceLocation != null && s.sourceLocation.getFile() != null) {
+            if (s.sourceLocation.getFunction() == null) {
+                logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile() + "\"");
+            } else {
+                logFilters.add("sourceLocation.file=\"" + s.sourceLocation.getFile()
+                        + "\" AND sourceLocation.function=\"" + s.sourceLocation.getFunction() + "\"");
+            }
+        }
+        if (s.exceptionClass != null) {
+            // TODO: investigate whether an exception happening equals to the exception name
+            //  being passed to the textPayload.
+            logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -291,9 +325,35 @@ public class GoogleCloudLoggingService implements LogService {
         private Instant startTime;
         private Instant endTime;
         private LogSeverity minSeverity;
-        private List<String> severities;
+        private String severity;
         private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
+        private String traceId;
+        private String actionClass;
+        private UserInfoParams userInfoParams;
+        private String logEvent;
+        private GeneralLogEntry.SourceLocation sourceLocation;
+        private String exceptionClass;
+
+        public static LogSearchParams from(QueryLogsParams queryLogsParams) {
+            LogSearchParams logSearchParams = new LogSearchParams()
+                    .setStartTime(queryLogsParams.getStartTime())
+                    .setEndTime(queryLogsParams.getEndTime())
+                    .setTraceId(queryLogsParams.getTraceId())
+                    .setActionClass(queryLogsParams.getActionClass())
+                    .setUserInfoParams(queryLogsParams.getUserInfoParams())
+                    .setLogEvent(queryLogsParams.getLogEvent())
+                    .setSourceLocation(queryLogsParams.getSourceLocation())
+                    .setExceptionClass(queryLogsParams.getExceptionClass());
+            if (queryLogsParams.getSeverityLevel() != null) {
+                logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
+            } else if (queryLogsParams.getMinSeverity() != null) {
+                logSearchParams.setMinSeverity(LogSeverity.valueOf(queryLogsParams.getMinSeverity()));
+            } else {
+                logSearchParams.setMinSeverity(LogSeverity.INFO);
+            }
+            return logSearchParams;
+        }
 
         public LogSearchParams addLogName(String logName) {
             this.logName.add(logName);
@@ -320,8 +380,8 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setSeverities(List<String> severities) {
-            this.severities = severities;
+        public LogSearchParams setSeverity(String severity) {
+            this.severity = severity;
             return this;
         }
 
@@ -336,6 +396,36 @@ public class GoogleCloudLoggingService implements LogService {
             if (key != null && value != null) {
                 this.resourceLabels.put(key, value);
             }
+            return this;
+        }
+
+        public LogSearchParams setTraceId(String traceId) {
+            this.traceId = traceId;
+            return this;
+        }
+
+        public LogSearchParams setActionClass(String actionClass) {
+            this.actionClass = actionClass;
+            return this;
+        }
+
+        public LogSearchParams setUserInfoParams(UserInfoParams userInfoParams) {
+            this.userInfoParams = userInfoParams;
+            return this;
+        }
+
+        public LogSearchParams setLogEvent(String logEvent) {
+            this.logEvent = logEvent;
+            return this;
+        }
+
+        public LogSearchParams setSourceLocation(GeneralLogEntry.SourceLocation sourceLocation) {
+            this.sourceLocation = sourceLocation;
+            return this;
+        }
+
+        public LogSearchParams setExceptionClass(String exceptionClass) {
+            this.exceptionClass = exceptionClass;
             return this;
         }
     }

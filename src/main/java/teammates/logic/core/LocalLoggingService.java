@@ -79,7 +79,6 @@ public class LocalLoggingService implements LogService {
                     .sorted((x, y) -> Long.compare(x.getTimestamp(), y.getTimestamp()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            e.printStackTrace();
             return new ArrayList<>();
         }
     }
