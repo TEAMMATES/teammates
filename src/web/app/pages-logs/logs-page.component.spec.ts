@@ -1,10 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TimezoneService } from '../../services/timezone.service';
+import { GeneralLogEntry } from '../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 import Spy = jasmine.Spy;
@@ -18,7 +20,7 @@ describe('LogsPageComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [NgbModule, LogsPageModule, HttpClientTestingModule],
+      imports: [NgbModule, LogsPageModule, HttpClientTestingModule, RouterTestingModule],
     })
     .compileComponents();
   }));
@@ -258,5 +260,79 @@ describe('LogsPageComponent', () => {
     fixture.detectChanges();
     const button: any = fixture.debugElement.nativeElement.querySelector('#load-button');
     expect(button.disabled).toBeTruthy();
+  });
+
+  it('should search for all error logs when search button is clicked', () => {
+    const logSpy: Spy = spyOn(logService, 'searchLogs').and
+        .returnValues(of({ logEntries: [], nextPageToken: 'token' }), of({ logEntries: [] }));
+    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
+        .returnValue(of({ timestamp: 0, message: '' }));
+
+    component.isLoading = false;
+    component.isSearching = false;
+    component.isTableView = false;
+
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+
+    expect(timeSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy.calls.mostRecent().args).toEqual([{
+      searchFrom: '0',
+      searchUntil: '0',
+      severity: 'ERROR',
+      nextPageToken: 'token',
+      advancedFilters: {},
+    }]);
+  });
+
+  it('should sort logs based on source location', () => {
+    component.isTableView = false;
+    const testLog1: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace1',
+      sourceLocation: {
+        file: 'file1',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
+    const testLog2: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace2',
+      sourceLocation: {
+        file: 'file2',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
+    const testLog3: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace3',
+      sourceLocation: {
+        file: 'file2',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
+    spyOn(logService, 'searchLogs').and
+      .returnValue(of({ logEntries: [testLog1, testLog2, testLog3] }));
+    spyOn(timezoneService, 'getResolvedTimestamp').and.returnValue(of({ timestamp: 0, message: '' }));
+
+    component.isLoading = false;
+    component.isSearching = false;
+    component.isTableView = false;
+    component.searchForLogs();
+
+    expect(component.histogramResult.length).toEqual(2);
   });
 });
