@@ -22,11 +22,11 @@
           </tr>
           <tr *ngIf="log.isDetailsExpanded">
             <td colspan="3">
-              <details open>
+              <details>
                 <summary class="title">source location:</summary>
                 <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addSourceLocationToFilter(log.sourceLocation)" [innerHTML]="log.sourceLocation | json"></pre>
               </details>
-              <details open>
+              <details>
                 <summary class="title">resource:</summary>
                 <pre class="margin-left-3em wrap" [innerHTML]="log.resourceIdentifier | json"></pre>
               </details>
@@ -34,7 +34,7 @@
                 <summary class="title">details:</summary>
                 <pre class="margin-left-3em wrap" [innerHTML]="log.details | json"></pre>
               </details>
-              <details open *ngIf="log.userInfo">
+              <details *ngIf="log.userInfo">
                 <summary class="title">userInfo:</summary>
                 <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
               </details>
