@@ -288,6 +288,6 @@ h6,
 // This class can be replaced with text-break once bootstrap version is upgraded.
 // See https://github.com/twbs/bootstrap/issues/30803
 .text-break {
-  word-wrap: break-word !important;
   word-break: break-word !important;
+  word-wrap: break-word !important;
 }
