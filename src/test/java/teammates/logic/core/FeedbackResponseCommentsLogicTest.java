@@ -520,7 +520,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
                 student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToTeamMembersInstructor));
 
         response = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
-        response.recipient = "student1InCourse1@gmail.tmt";
+        response.setRecipient("student1InCourse1@gmail.tmt");
         FeedbackResponseCommentAttributes commentVisibleToResponseReceiver = FeedbackResponseCommentAttributes.builder()
                 .withCommentGiver("student4InCourse1@gmail.tmt")
                 .withCommentGiverType(FeedbackParticipantType.GIVER)
@@ -565,7 +565,7 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
 
         // test comment visibility to recipient's team
         response = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
-        response.recipient = "student1InCourse1@gmail.tmt";
+        response.setRecipient("student1InCourse1@gmail.tmt");
         FeedbackResponseCommentAttributes commentVisibleToResponseReceiverTeamMember =
                 FeedbackResponseCommentAttributes.builder()
                 .withCommentGiver("student5InCourse1@gmail.tmt")
