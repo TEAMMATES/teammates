@@ -74,7 +74,7 @@
   <div *tmIsLoading="isSearching">
     <div *ngFor="let results of searchResults">
       <div class="card mb-3 alert-success-border">
-        <div class="card-header alert-success cursor-pointer text-break-class" (click)="results.isTabExpanded = !results.isTabExpanded">
+        <div class="card-header alert-success cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
           {{results.feedbackSessionName}}
           <div class="card-header-btn-toolbar">
             <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>

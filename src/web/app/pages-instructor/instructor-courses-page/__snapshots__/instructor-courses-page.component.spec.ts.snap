@@ -168,13 +168,13 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               style=""
             >
               <td
-                class="text-break-class"
+                class="text-break"
                 id="archived-course-id-0"
               >
                 CS2104
               </td>
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 Can modify archived
               </td>
@@ -211,13 +211,13 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               style=""
             >
               <td
-                class="text-break-class"
+                class="text-break"
                 id="archived-course-id-1"
               >
                 CS2106
               </td>
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 Cannot modify archived
               </td>
@@ -452,13 +452,13 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               
               <tr>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                 >
                   Modifiable Students and Courses
                 </td>
@@ -572,13 +572,13 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </tr>
               <tr>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                 >
                   Nothing modifiable
                 </td>
@@ -1142,13 +1142,13 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <tr>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                 >
                   Modifiable Students and Courses
                 </td>
@@ -1262,13 +1262,13 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </tr>
               <tr>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                 >
                   Nothing modifiable
                 </td>
@@ -1689,13 +1689,13 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
               <tr>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                 >
                   Modifiable Students and Courses
                 </td>
@@ -1830,13 +1830,13 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               </tr>
               <tr>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
                 <td
-                  class="text-break-class"
+                  class="text-break"
                 >
                   Nothing modifiable
                 </td>

@@ -166,7 +166,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         class="card-header bg-primary text-white"
       >
         <strong
-          class="text-break-class"
+          class="text-break"
         >
           [CS1231]: Discrete Structures
         </strong>
@@ -214,7 +214,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <tr>
               
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 First Session
               </td>
@@ -258,7 +258,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <tr>
               
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 Second Session
               </td>
@@ -313,7 +313,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
         class="card-header bg-primary text-white"
       >
         <strong
-          class="text-break-class"
+          class="text-break"
         >
           [LSM1306]: Forensic Science
         </strong>
@@ -361,7 +361,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <tr>
               
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 Third Session
               </td>
@@ -405,7 +405,7 @@ exports[`StudentHomePageComponent should snap with all feedback sessions over 2 
             <tr>
               
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 Fourth Session
               </td>
@@ -579,7 +579,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
         class="card-header bg-primary text-white"
       >
         <strong
-          class="text-break-class"
+          class="text-break"
         >
           [CS2103]: Software Engineering
         </strong>
@@ -627,7 +627,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
             <tr>
               
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 First Session
               </td>
@@ -677,7 +677,7 @@ exports[`StudentHomePageComponent should snap with feedback sessions 1`] = `
             <tr>
               
               <td
-                class="text-break-class"
+                class="text-break"
               >
                 Second Session
               </td>
@@ -844,7 +844,7 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
         class="card-header bg-primary text-white"
       >
         <strong
-          class="text-break-class"
+          class="text-break"
         >
           [CS3281]: Thematic Systems I
         </strong>
@@ -890,7 +890,7 @@ exports[`StudentHomePageComponent should snap with no feedback session over 2 co
         class="card-header bg-primary text-white"
       >
         <strong
-          class="text-break-class"
+          class="text-break"
         >
           [CS3282]: Thematic Systems II
         </strong>
@@ -1005,7 +1005,7 @@ exports[`StudentHomePageComponent should snap with no feedback sessions 1`] = `
         class="card-header bg-primary text-white"
       >
         <strong
-          class="text-break-class"
+          class="text-break"
         >
           [CS3281]: Thematic Systems
         </strong>

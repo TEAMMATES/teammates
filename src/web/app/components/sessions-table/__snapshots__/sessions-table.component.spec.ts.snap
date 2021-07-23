@@ -118,7 +118,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           <tr>
             
             <td
-              class="text-break-class"
+              class="text-break"
             >
               Season 8 Review
             </td>
@@ -273,7 +273,7 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
           <tr>
             
             <td
-              class="text-break-class"
+              class="text-break"
             >
               Season 7 Review
             </td>
@@ -542,12 +542,12 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           <tr>
             
             <td
-              class="text-break-class"
+              class="text-break"
             >
               GOT
             </td>
             <td
-              class="text-break-class"
+              class="text-break"
             >
               Season 8 Review
             </td>
@@ -688,12 +688,12 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
           <tr>
             
             <td
-              class="text-break-class"
+              class="text-break"
             >
               GOT
             </td>
             <td
-              class="text-break-class"
+              class="text-break"
             >
               Season 7 Review
             </td>

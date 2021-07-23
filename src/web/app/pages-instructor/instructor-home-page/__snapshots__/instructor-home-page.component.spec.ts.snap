@@ -237,7 +237,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             id="course-tab-header"
           >
             <b
-              class="text-break-class"
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
@@ -394,7 +394,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             id="course-tab-header"
           >
             <b
-              class="text-break-class"
+              class="text-break"
               id="course-details"
             >
               [CS1231]: Discrete Structures
@@ -644,7 +644,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         <tr>
                           
                           <td
-                            class="text-break-class"
+                            class="text-break"
                           >
                             First Session
                           </td>
@@ -923,7 +923,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             id="course-tab-header"
           >
             <b
-              class="text-break-class"
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
@@ -1156,7 +1156,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <tr>
                           
                           <td
-                            class="text-break-class"
+                            class="text-break"
                           >
                             First Session
                           </td>
@@ -1311,7 +1311,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         <tr>
                           
                           <td
-                            class="text-break-class"
+                            class="text-break"
                           >
                             Second Session
                           </td>
@@ -1583,7 +1583,7 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
             id="course-tab-header"
           >
             <b
-              class="text-break-class"
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
@@ -1847,7 +1847,7 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             id="course-tab-header"
           >
             <b
-              class="text-break-class"
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
@@ -2139,7 +2139,7 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             id="course-tab-header"
           >
             <b
-              class="text-break-class"
+              class="text-break"
               id="course-details"
             >
               [CS1231]: Discrete Structures
