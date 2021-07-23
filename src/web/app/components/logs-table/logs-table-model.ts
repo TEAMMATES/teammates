@@ -8,6 +8,7 @@ export interface LogsTableRowModel {
   severity: string;
   traceId: string;
   traceIdForSummary?: string;
+  resourceIdentifier: Record<string, string>;
   sourceLocation: SourceLocation;
   httpStatus?: number;
   responseTime ?: number;

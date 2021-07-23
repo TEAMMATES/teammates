@@ -143,10 +143,11 @@ public class GoogleCloudLoggingService implements LogService {
                 trace = trace.replace(TRACE_PREFIX, "");
             }
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
+            Map<String, String> resourceIdentifier = entry.getResource().getLabels();
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace, resourceIdentifier,
                     new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {

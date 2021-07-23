@@ -277,6 +277,7 @@ export class LogsPageComponent implements OnInit {
       traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
+      resourceIdentifier: log.resourceIdentifier,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       details: payload,

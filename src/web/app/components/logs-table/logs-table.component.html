@@ -29,6 +29,10 @@
                 </details>
               </div>
               <details open>
+                <summary class="title">resource:</summary>
+                <pre class="margin-left-3em wrap" [innerHTML]="log.resourceIdentifier | json"></pre>
+              </details>
+              <details open>
                 <summary class="title">details:</summary>
                 <pre class="margin-left-3em wrap" [innerHTML]="log.details | json"></pre>
               </details>

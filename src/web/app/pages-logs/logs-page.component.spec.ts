@@ -292,6 +292,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace1',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file1',
         line: 10,
@@ -304,6 +305,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace2',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
@@ -316,6 +318,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace3',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
