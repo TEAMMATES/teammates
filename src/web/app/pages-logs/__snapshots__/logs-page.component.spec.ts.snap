@@ -7,6 +7,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MAXIMUM_PAGES_FOR_ERROR_LOGS={[Function Number]}
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
@@ -14,9 +15,11 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  histogramResult={[Function Array]}
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
+  isTableView={[Function Boolean]}
   logService={[Function LogService]}
   nextPageToken=""
   queryParams={[Function Object]}
@@ -28,7 +31,11 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
     Logs
   </h1><p>
     This page allows you to view the logs in the past 30 days.
-  </p><hr /><tm-loading-spinner>
+  </p><button
+    class="btn btn-info"
+  >
+    Switch to histogram view
+  </button><hr /><tm-loading-spinner>
     <div
       class="loading-container"
     >
@@ -61,6 +68,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MAXIMUM_PAGES_FOR_ERROR_LOGS={[Function Number]}
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
@@ -68,9 +76,11 @@ exports[`LogsPageComponent should snap when searching for details in search form
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  histogramResult={[Function Array]}
   isFiltersExpanded="false"
   isLoading="false"
   isSearching={[Function Boolean]}
+  isTableView={[Function Boolean]}
   logService={[Function LogService]}
   nextPageToken=""
   queryParams={[Function Object]}
@@ -82,7 +92,11 @@ exports[`LogsPageComponent should snap when searching for details in search form
     Logs
   </h1><p>
     This page allows you to view the logs in the past 30 days.
-  </p><hr /><div
+  </p><button
+    class="btn btn-info"
+  >
+    Switch to histogram view
+  </button><hr /><div
     class="card bg-form no-border"
   >
     <div
@@ -129,134 +143,53 @@ exports[`LogsPageComponent should snap when searching for details in search form
               class="col-md-3"
               id="logs-from-timepicker"
             >
-              <tm-time-picker>
-                <select
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                >
-                  
-                  <option
-                    value="1: Object"
+              <ngb-timepicker
+                class="ng-untouched ng-pristine ng-valid"
+              >
+                <fieldset>
+                  <div
+                    class="ngb-tp"
                   >
-                     01:00H 
-                  </option>
-                  <option
-                    value="2: Object"
-                  >
-                     02:00H 
-                  </option>
-                  <option
-                    value="3: Object"
-                  >
-                     03:00H 
-                  </option>
-                  <option
-                    value="4: Object"
-                  >
-                     04:00H 
-                  </option>
-                  <option
-                    value="5: Object"
-                  >
-                     05:00H 
-                  </option>
-                  <option
-                    value="6: Object"
-                  >
-                     06:00H 
-                  </option>
-                  <option
-                    value="7: Object"
-                  >
-                     07:00H 
-                  </option>
-                  <option
-                    value="8: Object"
-                  >
-                     08:00H 
-                  </option>
-                  <option
-                    value="9: Object"
-                  >
-                     09:00H 
-                  </option>
-                  <option
-                    value="10: Object"
-                  >
-                     10:00H 
-                  </option>
-                  <option
-                    value="11: Object"
-                  >
-                     11:00H 
-                  </option>
-                  <option
-                    value="12: Object"
-                  >
-                     12:00H 
-                  </option>
-                  <option
-                    value="13: Object"
-                  >
-                     13:00H 
-                  </option>
-                  <option
-                    value="14: Object"
-                  >
-                     14:00H 
-                  </option>
-                  <option
-                    value="15: Object"
-                  >
-                     15:00H 
-                  </option>
-                  <option
-                    value="16: Object"
-                  >
-                     16:00H 
-                  </option>
-                  <option
-                    value="17: Object"
-                  >
-                     17:00H 
-                  </option>
-                  <option
-                    value="18: Object"
-                  >
-                     18:00H 
-                  </option>
-                  <option
-                    value="19: Object"
-                  >
-                     19:00H 
-                  </option>
-                  <option
-                    value="20: Object"
-                  >
-                     20:00H 
-                  </option>
-                  <option
-                    value="21: Object"
-                  >
-                     21:00H 
-                  </option>
-                  <option
-                    value="22: Object"
-                  >
-                     22:00H 
-                  </option>
-                  <option
-                    value="23: Object"
-                  >
-                     23:00H 
-                  </option>
-                  <option
-                    value="0: Object"
-                  >
-                    23:59H
-                  </option>
-                  
-                </select>
-              </tm-time-picker>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-hour"
+                    >
+                      
+                      <input
+                        aria-label="Hours"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="HH"
+                        type="text"
+                      />
+                      
+                    </div>
+                    <div
+                      class="ngb-tp-spacer"
+                    >
+                      :
+                    </div>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-minute"
+                    >
+                      
+                      <input
+                        aria-label="Minutes"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="MM"
+                        type="text"
+                      />
+                      
+                    </div>
+                    
+                    
+                    
+                    
+                  </div>
+                </fieldset>
+              </ngb-timepicker>
             </div>
           </div>
           <div
@@ -294,137 +227,57 @@ exports[`LogsPageComponent should snap when searching for details in search form
               class="col-md-3"
               id="logs-to-timepicker"
             >
-              <tm-time-picker>
-                <select
-                  class="form-control ng-untouched ng-pristine ng-valid"
-                >
-                  
-                  <option
-                    value="1: Object"
+              <ngb-timepicker
+                class="ng-untouched ng-pristine ng-valid"
+              >
+                <fieldset>
+                  <div
+                    class="ngb-tp"
                   >
-                     01:00H 
-                  </option>
-                  <option
-                    value="2: Object"
-                  >
-                     02:00H 
-                  </option>
-                  <option
-                    value="3: Object"
-                  >
-                     03:00H 
-                  </option>
-                  <option
-                    value="4: Object"
-                  >
-                     04:00H 
-                  </option>
-                  <option
-                    value="5: Object"
-                  >
-                     05:00H 
-                  </option>
-                  <option
-                    value="6: Object"
-                  >
-                     06:00H 
-                  </option>
-                  <option
-                    value="7: Object"
-                  >
-                     07:00H 
-                  </option>
-                  <option
-                    value="8: Object"
-                  >
-                     08:00H 
-                  </option>
-                  <option
-                    value="9: Object"
-                  >
-                     09:00H 
-                  </option>
-                  <option
-                    value="10: Object"
-                  >
-                     10:00H 
-                  </option>
-                  <option
-                    value="11: Object"
-                  >
-                     11:00H 
-                  </option>
-                  <option
-                    value="12: Object"
-                  >
-                     12:00H 
-                  </option>
-                  <option
-                    value="13: Object"
-                  >
-                     13:00H 
-                  </option>
-                  <option
-                    value="14: Object"
-                  >
-                     14:00H 
-                  </option>
-                  <option
-                    value="15: Object"
-                  >
-                     15:00H 
-                  </option>
-                  <option
-                    value="16: Object"
-                  >
-                     16:00H 
-                  </option>
-                  <option
-                    value="17: Object"
-                  >
-                     17:00H 
-                  </option>
-                  <option
-                    value="18: Object"
-                  >
-                     18:00H 
-                  </option>
-                  <option
-                    value="19: Object"
-                  >
-                     19:00H 
-                  </option>
-                  <option
-                    value="20: Object"
-                  >
-                     20:00H 
-                  </option>
-                  <option
-                    value="21: Object"
-                  >
-                     21:00H 
-                  </option>
-                  <option
-                    value="22: Object"
-                  >
-                     22:00H 
-                  </option>
-                  <option
-                    value="23: Object"
-                  >
-                     23:00H 
-                  </option>
-                  <option
-                    value="0: Object"
-                  >
-                    23:59H
-                  </option>
-                  
-                </select>
-              </tm-time-picker>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-hour"
+                    >
+                      
+                      <input
+                        aria-label="Hours"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="HH"
+                        type="text"
+                      />
+                      
+                    </div>
+                    <div
+                      class="ngb-tp-spacer"
+                    >
+                      :
+                    </div>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-minute"
+                    >
+                      
+                      <input
+                        aria-label="Minutes"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="MM"
+                        type="text"
+                      />
+                      
+                    </div>
+                    
+                    
+                    
+                    
+                  </div>
+                </fieldset>
+              </ngb-timepicker>
             </div>
           </div>
         </div>
+        
         <div
           class="col-4"
         >
@@ -566,6 +419,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
           </button>
         </div>
       </div>
+      
       <div
         class="row form-group"
       >
@@ -617,6 +471,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  MAXIMUM_PAGES_FOR_ERROR_LOGS={[Function Number]}
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
@@ -624,9 +479,11 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
   hasResult="false"
+  histogramResult={[Function Array]}
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
+  isTableView={[Function Boolean]}
   logService={[Function LogService]}
   nextPageToken=""
   queryParams={[Function Object]}
@@ -638,7 +495,11 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
     Logs
   </h1><p>
     This page allows you to view the logs in the past 30 days.
-  </p><hr /><tm-loading-spinner>
+  </p><button
+    class="btn btn-info"
+  >
+    Switch to histogram view
+  </button><hr /><tm-loading-spinner>
     <div
       class="loading-container"
     >

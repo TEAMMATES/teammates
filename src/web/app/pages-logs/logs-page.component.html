@@ -1,5 +1,7 @@
 <h1>Logs</h1>
 <p>This page allows you to view the logs in the past {{ LOGS_RETENTION_PERIOD_IN_DAYS }} days.</p>
+<button (click)="switchView()" *ngIf="isTableView" class="btn btn-info">Switch to histogram view</button>
+<button (click)="switchView()" *ngIf="!isTableView" class="btn btn-info">Switch to table view</button>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -17,7 +19,7 @@
             </button>
           </div>
           <div id="logs-from-timepicker" class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
+            <ngb-timepicker [(ngModel)]="formModel.logsTimeFrom" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
         <div class="col-12 mb-1 mt-4">
@@ -31,11 +33,11 @@
             </button>
           </div>
           <div id="logs-to-timepicker" class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
+            <ngb-timepicker [(ngModel)]="formModel.logsTimeTo" [spinners]="false"></ngb-timepicker>
           </div>
         </div>
       </div>
-      <div class="col-4">
+      <div class="col-4" *ngIf="isTableView">
         <div class="col-12">
           <label for="log-severity-radio" class="font-weight-bold">Log severity level / event</label>
         </div>
@@ -72,7 +74,7 @@
         <button id="query-button" class="float-right btn btn-primary" (click)="searchForLogs()">Query</button>
       </div>
     </div>
-    <div class="row form-group">
+    <div class="row form-group" *ngIf="isTableView">
       <div class="col-12">
         <div class="col-12 mb-1 mt-2">
           <button class="btn btn-success" (click)="isFiltersExpanded = !isFiltersExpanded;">
@@ -81,7 +83,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="isFiltersExpanded" @collapseAnim>
+    <div *ngIf="isFiltersExpanded && isTableView" @collapseAnim>
       <div class="row form-group mt-4">
         <div class="col-5">
           <div class="col-12">
@@ -132,10 +134,21 @@
   </div>
 </div>
 
-<div>
+<div *ngIf="isTableView">
   <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
     (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
   </div>
+</div>
+
+<div *ngIf="!isTableView">
+  <div id="histogram" style="height: 400px; width: 100%;" *tmIsLoading="isSearching">
+    <tm-logs-histogram [data]="histogramResult" *ngIf="histogramResult.length>0; else noDataMessage"></tm-logs-histogram>
+  </div>
+  <ng-template #noDataMessage>
+    <div class="no-data-message">
+      There are no error logs in this time period.
+    </div>
+  </ng-template>
 </div>
