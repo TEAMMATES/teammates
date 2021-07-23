@@ -299,6 +299,7 @@ public final class Const {
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String LOGS = URI_PREFIX + "/logs/query";
+        public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";
