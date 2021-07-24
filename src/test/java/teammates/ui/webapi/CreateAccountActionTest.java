@@ -41,8 +41,6 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         ______TS("Not enough parameters");
 
         Exception exception;
-        String expectedError;
-        String actualError;
 
         exception = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(null, institute, email)).execute());
