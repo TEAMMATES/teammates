@@ -469,7 +469,7 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                 </li>
                 
                 <li
-                  class="list-group-item list-group-item-warning"
+                  class="list-group-item list-group-item-light"
                   style=""
                 >
                   <strong>
