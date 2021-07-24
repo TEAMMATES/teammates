@@ -46,27 +46,15 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         exception = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(null, institute, email)).execute());
-
-        expectedError = "name cannot be null";
-        actualError = exception.getMessage();
-
-        assertTrue(actualError.contains(expectedError));
+        assertEquals("name cannot be null", exception.getMessage());
 
         exception = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(name, null, email)).execute());
-
-        expectedError = "institute cannot be null";
-        actualError = exception.getMessage();
-
-        assertTrue(actualError.contains(expectedError));
+        assertEquals("institute cannot be null", exception.getMessage());
 
         exception = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(name, institute, null)).execute());
-
-        expectedError = "email cannot be null";
-        actualError = exception.getMessage();
-
-        assertTrue(actualError.contains(expectedError));
+        assertEquals("email cannot be null", exception.getMessage());
 
         ______TS("Normal case");
 
@@ -106,14 +94,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
         final CreateAccountAction finalA = getAction(req);
+
         exception = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
-
-        expectedError = "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
                 + "it contains invalid characters. A/An person name must start with an "
-                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
-        actualError = exception.getMessage();
-
-        assertTrue(actualError.contains(expectedError));
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
+                exception.getMessage());
 
         verifyNoEmailsSent();
     }
