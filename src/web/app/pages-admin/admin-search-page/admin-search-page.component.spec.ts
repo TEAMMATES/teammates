@@ -635,7 +635,7 @@ describe('AdminSearchPageComponent', () => {
 
     const sendAwaitingSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-awaiting-session-reminder-button');
     sendAwaitingSessionReminderButton.click();
-    
+
     expect(spyStatusMessageService).toBeCalled();
 
     const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');

@@ -177,25 +177,25 @@ export class FeedbackSessionsService {
     return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
-    /**
+  /**
    * Gets all sessions for the student by calling API.
    */
-     getFeedbackSessionsForStudentByAdmin(courseId?: string): Observable<FeedbackSessions> {
+  getFeedbackSessionsForStudentByAdmin(courseId?: string): Observable<FeedbackSessions> {
 
-      let paramMap: Record<string, string>;
-      if (courseId != null) {
-        paramMap = {
-          entitytype: 'admin',
-          courseid: courseId,
-        };
-      } else {
-        paramMap = {
-          entitytype: 'admin',
-        };
-      }
-  
-      return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
+    let paramMap: Record<string, string>;
+    if (courseId != null) {
+      paramMap = {
+        entitytype: 'admin',
+        courseid: courseId,
+      };
+    } else {
+      paramMap = {
+        entitytype: 'admin',
+      };
     }
+
+    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
+  }
 
   /**
    * Checks if there are responses for a specific question in a feedback session (request sent by instructor).

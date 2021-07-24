@@ -477,6 +477,26 @@ exports[`AdminSearchPageComponent should snap with an expanded student table 1`]
                   </strong>
                   <button
                     class="btn btn-primary margin-left-5px btn-sm"
+                    id="send-awaiting-session-reminder-button"
+                    type="button"
+                  >
+                    Send mail
+                  </button>
+                  <input
+                    class="form-control"
+                    readonly=""
+                  />
+                </li>
+                
+                <li
+                  class="list-group-item list-group-item-warning"
+                  style=""
+                >
+                  <strong>
+                    sessionName startTime - endTime
+                  </strong>
+                  <button
+                    class="btn btn-primary margin-left-5px btn-sm"
                     id="send-open-session-reminder-button"
                     type="button"
                   >

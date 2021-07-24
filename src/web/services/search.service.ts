@@ -231,11 +231,11 @@ export class SearchService {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
         };
-      } else if(this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
+      } else if (this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
         feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
-        }
+        };
       } else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
