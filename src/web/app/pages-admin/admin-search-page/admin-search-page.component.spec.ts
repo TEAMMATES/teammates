@@ -37,6 +37,7 @@ const DEFAULT_STUDENT_SEARCH_RESULT: StudentAccountSearchResult = {
   team: 'team',
   comments: 'comments',
   recordsPageLink: 'recordsPageLink',
+  awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
   openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
   notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
   publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -129,6 +130,7 @@ describe('AdminSearchPageComponent', () => {
         team: 'team',
         comments: 'comments',
         recordsPageLink: 'records-page-link',
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -233,6 +235,7 @@ describe('AdminSearchPageComponent', () => {
         team: 'team1',
         comments: 'comments1',
         recordsPageLink: 'recordsPageLink1',
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -251,6 +254,7 @@ describe('AdminSearchPageComponent', () => {
         team: 'team2',
         comments: 'comments2',
         recordsPageLink: 'recordsPageLink2',
+        awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
         publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -425,6 +429,7 @@ describe('AdminSearchPageComponent', () => {
       team: 'team',
       comments: 'comments',
       recordsPageLink: 'recordsPageLink',
+      awaitingSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       openSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       notOpenSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
       publishedSessions: DEFAULT_FEEDBACK_SESSION_GROUP,
@@ -461,6 +466,13 @@ describe('AdminSearchPageComponent', () => {
     const studentResult: StudentAccountSearchResult = {
       ...DEFAULT_STUDENT_SEARCH_RESULT,
       courseJoinLink: 'courseJoinLink?key=oldKey',
+      awaitingSessions: {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'awaitingSession?key=oldKey',
+        },
+      },
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
@@ -511,6 +523,7 @@ describe('AdminSearchPageComponent', () => {
     expect(spyStatusMessageService).toBeCalled();
 
     expect(studentResult.courseJoinLink).toEqual('courseJoinLink?key=newKey');
+    expect(studentResult.awaitingSessions.sessionName.feedbackSessionUrl).toEqual('awaitingSession?key=newKey');
     expect(studentResult.openSessions.sessionName.feedbackSessionUrl).toEqual('openSession?key=newKey');
     expect(studentResult.notOpenSessions.sessionName.feedbackSessionUrl).toEqual('notOpenSession?key=newKey');
     expect(studentResult.publishedSessions.sessionName.feedbackSessionUrl).toEqual('publishedSession?key=newKey');
@@ -520,6 +533,13 @@ describe('AdminSearchPageComponent', () => {
     const studentResult: StudentAccountSearchResult = {
       ...DEFAULT_STUDENT_SEARCH_RESULT,
       courseJoinLink: 'courseJoinLink?key=oldKey',
+      awaitingSessions: {
+        ...DEFAULT_FEEDBACK_SESSION_GROUP,
+        sessionName: {
+          ...DEFAULT_FEEDBACK_SESSION_GROUP.sessionName,
+          feedbackSessionUrl: 'awaitingSession?key=oldKey',
+        },
+      },
       openSessions: {
         ...DEFAULT_FEEDBACK_SESSION_GROUP,
         sessionName: {
@@ -612,6 +632,11 @@ describe('AdminSearchPageComponent', () => {
         .and.callFake((args: string) => {
           expect(args).toEqual('This is the error message.');
         });
+
+    const sendAwaitingSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-awaiting-session-reminder-button');
+    sendAwaitingSessionReminderButton.click();
+    
+    expect(spyStatusMessageService).toBeCalled();
 
     const sendOpenSessionReminderButton: any = fixture.debugElement.nativeElement.querySelector('#send-open-session-reminder-button');
     sendOpenSessionReminderButton.click();

@@ -126,6 +126,7 @@ export class SearchService {
       comments: '',
       team: '',
       section: '',
+      awaitingSessions: {},
       openSessions: {},
       notOpenSessions: {},
       publishedSessions: {},
@@ -165,9 +166,9 @@ export class SearchService {
     }
 
     // Generate feedback session urls
-    const { openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
+    const { awaitingSessions, openSessions, notOpenSessions, publishedSessions }: StudentFeedbackSessions =
       this.classifyFeedbackSessions(feedbackSessions, student);
-    studentResult = { ...studentResult, openSessions, notOpenSessions, publishedSessions };
+    studentResult = { ...studentResult, awaitingSessions, openSessions, notOpenSessions, publishedSessions };
 
     // Generate links for students
     studentResult.courseJoinLink = this.linkService.generateCourseJoinLinkStudent(student);
@@ -219,6 +220,7 @@ export class SearchService {
 
   classifyFeedbackSessions(feedbackSessions: FeedbackSessions, student: Student): StudentFeedbackSessions {
     const feedbackSessionLinks: StudentFeedbackSessions = {
+      awaitingSessions: {},
       openSessions: {},
       notOpenSessions: {},
       publishedSessions: {},
@@ -229,6 +231,11 @@ export class SearchService {
           ...this.formatProperties(feedbackSession),
           feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
         };
+      } else if(this.feedbackSessionService.isFeedbackSessionAwaiting(feedbackSession)) {
+        feedbackSessionLinks.awaitingSessions[feedbackSession.feedbackSessionName] = {
+          ...this.formatProperties(feedbackSession),
+          feedbackSessionUrl: this.linkService.generateSubmitUrl(student, feedbackSession.feedbackSessionName),
+        }
       } else {
         feedbackSessionLinks.notOpenSessions[feedbackSession.feedbackSessionName] = {
           ...this.formatProperties(feedbackSession),
@@ -338,7 +345,7 @@ export class SearchService {
   private getDistinctFeedbackSessions(distinctCourseIds: string[]): Observable<DistinctFeedbackSessionsMap> {
     return forkJoin(
       distinctCourseIds.map((id: string) =>
-        this.feedbackSessionService.getFeedbackSessionsForStudent(id)),
+        this.feedbackSessionService.getFeedbackSessionsForStudentByAdmin(id)),
     )
     .pipe(
       map((feedbackSessionsArray: FeedbackSessions[]) => {
@@ -402,13 +409,14 @@ export interface StudentAccountSearchResult extends InstructorAccountSearchResul
   team: string;
   comments: string;
   recordsPageLink: string;
+  awaitingSessions: FeedbackSessionsGroup;
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
 }
 
 /**
- * Feedback session inforamtion for search result.
+ * Feedback session information for search result.
  */
 export interface FeedbackSessionsGroup {
   [name: string]: {
@@ -419,6 +427,7 @@ export interface FeedbackSessionsGroup {
 }
 
 interface StudentFeedbackSessions {
+  awaitingSessions: FeedbackSessionsGroup;
   openSessions: FeedbackSessionsGroup;
   notOpenSessions: FeedbackSessionsGroup;
   publishedSessions: FeedbackSessionsGroup;
