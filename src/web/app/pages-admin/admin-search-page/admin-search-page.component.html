@@ -153,7 +153,7 @@
                   <input [value]="student.courseJoinLink" readonly class="form-control">
                 </li>
                 <li class="list-group-item list-group-item-warning" *ngFor="let awaitingFs of student.awaitingSessions | keyvalue">
-                  <strong>{{ awaitingFs.key + ' awwaiting!! ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
+                  <strong>{{ awaitingFs.key + ' ' + awaitingFs.value.startTime + ' - ' + awaitingFs.value.endTime }}</strong>
                   <button id="send-awaiting-session-reminder-button" type="button" class="btn btn-primary margin-left-5px btn-sm" (click)="openFeedbackSessionReminderEmail(student.courseId, student.email, awaitingFs.key)">Send mail</button>
                   <input [value]="awaitingFs.value.feedbackSessionUrl" readonly class="form-control">
                 </li>
