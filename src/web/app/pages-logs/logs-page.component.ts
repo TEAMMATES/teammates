@@ -255,6 +255,9 @@ export class LogsPageComponent implements OnInit {
       if (payload.requestUrl) {
         summary += `${payload.requestUrl} `;
       }
+      if (!summary && payload.message) {
+        summary = payload.message;
+      }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
       }
