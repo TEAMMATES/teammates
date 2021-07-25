@@ -67,7 +67,7 @@ class CreateFeedbackSessionAction extends Action {
                     + " exists already in the course " + course.getName()
                     + " (Course ID: " + courseId + ")."
                     + " Tip: If you can't find such a session in that course,"
-                    + " also check the 'Recycle bin' (shown at the bottom of the Sessions page).", e);
+                    + " also check the 'Recycle bin' (shown at the bottom of the 'Sessions' page).", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }

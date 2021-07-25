@@ -252,7 +252,7 @@ export abstract class InstructorSessionBasePageComponent {
     errorMsg += Object.values(this.failedToCopySessions)
         .map((value: string) => value.substring(courseInfoStartIndex, value.indexOf(')') + 1)).join(', ');
 
-    errorMsg += templateErrorString.substring(templateErrorString.indexOf(')') + 1);
+    errorMsg += templateErrorString.substring(templateErrorString.indexOf(')'));
     return errorMsg;
   }
 
