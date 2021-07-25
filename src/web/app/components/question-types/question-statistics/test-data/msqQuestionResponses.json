@@ -1,0 +1,102 @@
+{
+    "responsesNoOther": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "",
+      "recipientTeam": "",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answers": ["optionA", "optionB"],
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MSQ"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "",
+      "recipientTeam": "",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answers": ["optionA"],
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MSQ"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "",
+      "recipientTeam": "",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answers": [""],
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MSQ"
+      }
+    }
+  ],
+  "responsesWithOther": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "",
+      "recipientTeam": "",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answers": ["optionA", "optionB", "optionC"],
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MSQ"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "",
+      "recipientTeam": "",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answers": ["optionA", "etcetra"],
+        "isOther": true,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MSQ"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "",
+      "recipientTeam": "",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answers": [""],
+        "isOther": false,
+        "otherFieldContent": "nothing",
+        "questionType": "FeedbackQuestionType.MSQ"
+      }
+    }
+  ]
+}

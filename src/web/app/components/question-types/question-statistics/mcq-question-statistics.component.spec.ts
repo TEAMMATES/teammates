@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedbackMcqResponseDetails } from '../../../../types/api-output';
-import { FeedbackQuestionType } from '../../../../types/api-request';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
-import { Response } from './question-statistics';
+import { default as responses } from './test-data/mcqQuestionResponses.json';
 
 describe('McqQuestionStatisticsComponent', () => {
   let component: McqQuestionStatisticsComponent;
@@ -28,114 +26,12 @@ describe('McqQuestionStatisticsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const responsesNoOther: Response<FeedbackMcqResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 'optionA',
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MCQ,
-      } as FeedbackMcqResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 'optionA',
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MCQ,
-      } as FeedbackMcqResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 'optionB',
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MCQ,
-      } as FeedbackMcqResponseDetails,
-    },
-  ];
-
-  const responsesWithOther: Response<FeedbackMcqResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 'etcetra',
-        isOther: true,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MCQ,
-      } as FeedbackMcqResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 'optionA',
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MCQ,
-      } as FeedbackMcqResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 'optionB',
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MCQ,
-      } as FeedbackMcqResponseDetails,
-    },
-  ];
-
   it('should calculate statistics correctly', () => {
     component.question.mcqChoices = ['optionA', 'optionB', 'optionC'];
     component.question.otherEnabled = false;
     component.question.hasAssignedWeights = true;
     component.question.mcqWeights = [1, 2, 3];
-    component.responses = responsesNoOther;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesNoOther));
 
     const expectedAnswerFrequency: Record<string, number> = {
       optionA: 2, optionB: 1, optionC: 0,
@@ -164,7 +60,7 @@ describe('McqQuestionStatisticsComponent', () => {
     component.question.hasAssignedWeights = true;
     component.question.mcqWeights = [1, 2, 3];
     component.question.mcqOtherWeight = 4;
-    component.responses = responsesWithOther;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesWithOther));
 
     const expectedAnswerFrequency: Record<string, number> = {
       optionA: 1, optionB: 1, optionC: 0, Other: 1,

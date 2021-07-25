@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
-import { FeedbackQuestionType } from '../../../../types/api-request';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';
-import { Response } from './question-statistics';
+import { default as responses } from './test-data/numScaleQuestionResponses.json';
 
 describe('NumScaleQuestionStatisticsComponent', () => {
   let component: NumScaleQuestionStatisticsComponent;
@@ -28,157 +26,8 @@ describe('NumScaleQuestionStatisticsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const responses: Response<FeedbackNumericalScaleResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 5,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 2,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 1,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-  ];
-
-  const responsesAtZero: Response<FeedbackNumericalScaleResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 0,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 0,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 0,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-  ];
-
-  const responsesWithSelf: Response<FeedbackNumericalScaleResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 2,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 3,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 4,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-    {
-      giver: 'Instructor',
-      giverTeam: 'Instructors',
-      giverEmail: '',
-      giverSection: '',
-      recipient: 'Instructor',
-      recipientTeam: 'Instructors',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answer: 5,
-        questionType: FeedbackQuestionType.NUMSCALE,
-      } as FeedbackNumericalScaleResponseDetails,
-    },
-  ];
-
   it('should calculate statistics correctly', () => {
-    component.responses = responses;
+    component.responses = JSON.parse(JSON.stringify(responses.responses));
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
@@ -202,7 +51,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   });
 
   it('should calculate statistics correctly if responses are zero', () => {
-    component.responses = responsesAtZero;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesAtZero));
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
@@ -227,7 +76,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   });
 
   it('should calculate statistics correctly if self-response exists', () => {
-    component.responses = responsesWithSelf;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesWithSelf));
     component.question.maxScale = 5;
     component.question.minScale = 0;
 

@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedbackRankOptionsResponseDetails } from '../../../../types/api-output';
-import { FeedbackQuestionType } from '../../../../types/api-request';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
-import { Response } from './question-statistics';
 import { RankOptionsQuestionStatisticsComponent } from './rank-options-question-statistics.component';
+import { default as responses } from './test-data/rankOptionQuestionResponses.json';
 
 describe('RankOptionsQuestionStatisticsComponent', () => {
   let component: RankOptionsQuestionStatisticsComponent;
@@ -28,99 +26,9 @@ describe('RankOptionsQuestionStatisticsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const responses: Response<FeedbackRankOptionsResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: 'Alice',
-      recipientTeam: 'Team 1',
-      recipientEmail: 'alice@gmail.com',
-      recipientSection: '',
-      responseDetails: {
-        answers: [1, 2, 3, 4],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      } as FeedbackRankOptionsResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: 'Bob',
-      recipientTeam: 'Team 2',
-      recipientEmail: 'bob@gmail.com',
-      recipientSection: '',
-      responseDetails: {
-        answers: [4, 3, 2, 1],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      } as FeedbackRankOptionsResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: 'Charles',
-      recipientTeam: 'Team 1',
-      recipientEmail: 'charles@gmail.com',
-      recipientSection: '',
-      responseDetails: {
-        answers: [2, 3, 1, 4],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      } as FeedbackRankOptionsResponseDetails,
-    },
-  ];
-
-  const responsesSameRank: Response<FeedbackRankOptionsResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: 'Alice',
-      recipientTeam: 'Team 1',
-      recipientEmail: 'alice@gmail.com',
-      recipientSection: '',
-      responseDetails: {
-        answers: [1, 2, 3, 4],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      } as FeedbackRankOptionsResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: 'Bob',
-      recipientTeam: 'Team 2',
-      recipientEmail: 'bob@gmail.com',
-      recipientSection: '',
-      responseDetails: {
-        answers: [4, 1, 2, 3],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      } as FeedbackRankOptionsResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: 'Charles',
-      recipientTeam: 'Team 1',
-      recipientEmail: 'charles@gmail.com',
-      recipientSection: '',
-      responseDetails: {
-        answers: [2, 3, 1, 4],
-        questionType: FeedbackQuestionType.RANK_OPTIONS,
-      } as FeedbackRankOptionsResponseDetails,
-    },
-  ];
-
   it('should calculate statistics correctly', () => {
     component.question.options = ['optionA', 'optionB', 'optionC', 'optionD'];
-    component.responses = responses;
+    component.responses = JSON.parse(JSON.stringify(responses.responses));
 
     const expectedRankReceivedPerOption: Record<string, number[]> = {
       optionA: [1, 2, 4], optionB: [2, 3, 3],
@@ -139,7 +47,7 @@ describe('RankOptionsQuestionStatisticsComponent', () => {
 
   it('should calculate statistics correctly if there are equal ranks', () => {
     component.question.options = ['optionA', 'optionB', 'optionC', 'optionD'];
-    component.responses = responsesSameRank;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesSameRank));
 
     const expectedRankReceivedPerOption: Record<string, number[]> = {
       optionA: [1, 2, 4], optionB: [1, 2, 3],

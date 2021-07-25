@@ -1,10 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FeedbackMsqResponseDetails } from '../../../../types/api-output';
-import { FeedbackQuestionType } from '../../../../types/api-request';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
-import { Response } from './question-statistics';
+import { default as responses } from './test-data/msqQuestionResponses.json';
 
 describe('MsqQuestionStatisticsComponent', () => {
   let component: MsqQuestionStatisticsComponent;
@@ -28,114 +26,12 @@ describe('MsqQuestionStatisticsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  const responsesNoOther: Response<FeedbackMsqResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answers: ['optionA', 'optionB'],
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MSQ,
-      } as FeedbackMsqResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answers: ['optionA'],
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MSQ,
-      } as FeedbackMsqResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answers: [''],
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MSQ,
-      } as FeedbackMsqResponseDetails,
-    },
-  ];
-
-  const responsesWithOther: Response<FeedbackMsqResponseDetails>[] = [
-    {
-      giver: 'Alice',
-      giverTeam: 'Team 1',
-      giverEmail: 'alice@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answers: ['optionA', 'optionB', 'optionC'],
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MSQ,
-      } as FeedbackMsqResponseDetails,
-    },
-    {
-      giver: 'Bob',
-      giverTeam: 'Team 2',
-      giverEmail: 'bob@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answers: ['optionA', 'etcetra'],
-        isOther: true,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MSQ,
-      } as FeedbackMsqResponseDetails,
-    },
-    {
-      giver: 'Charles',
-      giverTeam: 'Team 1',
-      giverEmail: 'charles@gmail.com',
-      giverSection: '',
-      recipient: '',
-      recipientTeam: '',
-      recipientEmail: '',
-      recipientSection: '',
-      responseDetails: {
-        answers: [''],
-        isOther: false,
-        otherFieldContent: 'nothing',
-        questionType: FeedbackQuestionType.MSQ,
-      } as FeedbackMsqResponseDetails,
-    },
-  ];
-
   it('should calculate statistics correctly', () => {
     component.question.msqChoices = ['optionA', 'optionB', 'optionC'];
     component.question.otherEnabled = false;
     component.question.hasAssignedWeights = true;
     component.question.msqWeights = [1, 2, 3];
-    component.responses = responsesNoOther;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesNoOther));
 
     const expectedAnswerFrequency: Record<string, number> = {
       optionA: 2, optionB: 1, optionC: 0,
@@ -164,7 +60,7 @@ describe('MsqQuestionStatisticsComponent', () => {
     component.question.hasAssignedWeights = true;
     component.question.msqWeights = [1, 2, 3];
     component.question.msqOtherWeight = 4;
-    component.responses = responsesWithOther;
+    component.responses = JSON.parse(JSON.stringify(responses.responsesWithOther));
 
     component.calculateStatistics();
 
