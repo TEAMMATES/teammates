@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -21,10 +22,10 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
  */
 public class LocalLoggingService implements LogService {
 
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private static final List<FeedbackSessionLogEntry> LOCAL_LOG_ENTRIES = new ArrayList<>();
 
-    private static final List<FeedbackSessionLogEntry> feedbackSessionLogEntriesDb = new ArrayList<>();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
@@ -33,8 +34,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-                                      Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         // Not supported in dev server
         return new QueryLogsResults(Collections.emptyList(), null);
     }
@@ -46,13 +46,13 @@ public class LocalLoggingService implements LogService {
 
         FeedbackSessionLogEntry logEntry = new FeedbackSessionLogEntry(student, feedbackSession,
                 fslType, Instant.now().toEpochMilli());
-        feedbackSessionLogEntriesDb.add(logEntry);
+        LOCAL_LOG_ENTRIES.add(logEntry);
     }
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             Instant startTime, Instant endTime, String fsName) {
-        return feedbackSessionLogEntriesDb
+        return LOCAL_LOG_ENTRIES
                 .stream()
                 .filter(log -> log.getFeedbackSession().getCourseId().equals(courseId))
                 .filter(log -> email == null || log.getStudent().getEmail().equals(email))

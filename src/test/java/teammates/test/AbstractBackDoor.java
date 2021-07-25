@@ -426,7 +426,7 @@ public abstract class AbstractBackDoor {
         }
         InstructorAttributes instructorAttributes = instructor.build();
         if (instructorData.getKey() != null) {
-            instructorAttributes.key = instructorData.getKey();
+            instructorAttributes.setKey(instructorData.getKey());
         }
         return instructorAttributes;
     }
@@ -475,7 +475,7 @@ public abstract class AbstractBackDoor {
         }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {
-            student.key = studentData.getKey();
+            student.setKey(studentData.getKey());
         }
         return student;
     }

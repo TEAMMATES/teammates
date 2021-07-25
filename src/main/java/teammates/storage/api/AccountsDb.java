@@ -16,7 +16,17 @@ import teammates.storage.entity.Account;
  * @see Account
  * @see AccountAttributes
  */
-public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
+public final class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
+
+    private static final AccountsDb instance = new AccountsDb();
+
+    private AccountsDb() {
+        // prevent initialization
+    }
+
+    public static AccountsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets an account.
@@ -58,7 +68,7 @@ public class AccountsDb extends EntitiesDb<Account, AccountAttributes> {
             return newAttributes;
         }
 
-        account.setIsInstructor(newAttributes.isInstructor);
+        account.setIsInstructor(newAttributes.isInstructor());
 
         saveEntity(account);
 

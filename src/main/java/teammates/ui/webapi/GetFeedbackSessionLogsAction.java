@@ -50,7 +50,7 @@ public class GetFeedbackSessionLogsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (logic.getCourse(courseId) == null) {
             return new JsonResult("Course not found", HttpStatus.SC_NOT_FOUND);

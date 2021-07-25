@@ -32,19 +32,19 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
     public void testAll() {
         AppUrl editPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_STUDENT_DETAILS_EDIT_PAGE)
                 .withCourseId(course.getId())
-                .withStudentEmail(student.email);
+                .withStudentEmail(student.getEmail());
         InstructorCourseStudentDetailsEditPage editPage =
                 loginToPage(editPageUrl, InstructorCourseStudentDetailsEditPage.class,
-                        testData.instructors.get("ICSDetEdit.instr").googleId);
+                        testData.instructors.get("ICSDetEdit.instr").getGoogleId());
 
         ______TS("verify loaded data");
         editPage.verifyStudentDetails(student);
 
         ______TS("edit student details");
-        student.name = "edited name";
-        student.section = "edited section";
-        student.team = "edited team";
-        student.comments = "edited comment";
+        student.setName("edited name");
+        student.setSection("edited section");
+        student.setTeam("edited team");
+        student.setComments("edited comment");
         editPage.editStudentDetails(student);
 
         editPage.verifyStatusMessage("Student has been updated");
@@ -52,14 +52,14 @@ public class InstructorCourseStudentDetailsEditPageE2ETest extends BaseE2ETestCa
 
         ______TS("cannot edit to an existing email");
         editPage = getNewPageInstance(editPageUrl, InstructorCourseStudentDetailsEditPage.class);
-        editPage.editStudentEmailAndResendLinks(otherStudent.email);
+        editPage.editStudentEmailAndResendLinks(otherStudent.getEmail());
 
         editPage.verifyStatusMessage("Trying to update to an email that is already in use");
 
         ______TS("edit email and resend links");
         String newEmail = TestProperties.TEST_EMAIL;
-        student.email = newEmail;
-        student.googleId = null;
+        student.setEmail(newEmail);
+        student.setGoogleId(null);
         editPage.editStudentEmailAndResendLinks(newEmail);
 
         editPage.verifyStatusMessage("Student has been updated and email sent");

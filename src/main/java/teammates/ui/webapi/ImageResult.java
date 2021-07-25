@@ -30,7 +30,7 @@ class ImageResult extends ActionResult {
     }
 
     @Override
-    void send(HttpServletResponse resp) throws IOException {
+    public void send(HttpServletResponse resp) throws IOException {
         String contentType = URLConnection.guessContentTypeFromStream(new ByteArrayInputStream(bytes));
 
         // Replaces "application/xml" with "image/svg+xml" as guessContentTypeFromStream only guesses the former.

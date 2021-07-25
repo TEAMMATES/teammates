@@ -26,9 +26,20 @@ import teammates.storage.entity.FeedbackResponseComment;
  * @see FeedbackResponseComment
  * @see FeedbackResponseCommentAttributes
  */
-public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
+public final class FeedbackResponseCommentsDb
+        extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
     private static final Logger log = Logger.getLogger();
+
+    private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
+
+    private FeedbackResponseCommentsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackResponseCommentsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a feedback response comment.
@@ -182,14 +193,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             return newAttributes;
         }
 
-        frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
-        frc.setCommentText(newAttributes.commentText);
-        frc.setShowCommentTo(newAttributes.showCommentTo);
-        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setLastEditorEmail(newAttributes.lastEditorEmail);
-        frc.setLastEditedAt(newAttributes.lastEditedAt);
-        frc.setGiverSection(newAttributes.giverSection);
-        frc.setReceiverSection(newAttributes.receiverSection);
+        frc.setFeedbackResponseId(newAttributes.getFeedbackResponseId());
+        frc.setCommentText(newAttributes.getCommentText());
+        frc.setShowCommentTo(newAttributes.getShowCommentTo());
+        frc.setShowGiverNameTo(newAttributes.getShowGiverNameTo());
+        frc.setLastEditorEmail(newAttributes.getLastEditorEmail());
+        frc.setLastEditedAt(newAttributes.getLastEditedAt());
+        frc.setGiverSection(newAttributes.getGiverSection());
+        frc.setReceiverSection(newAttributes.getReceiverSection());
 
         saveEntity(frc);
 
