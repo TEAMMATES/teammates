@@ -247,12 +247,11 @@ export abstract class InstructorSessionBasePageComponent {
   getCopyErrorMessage(): string {
     const templateErrorString: string = Object.values(this.failedToCopySessions)[0];
     const courseInfoStartIndex: number = templateErrorString.indexOf('course ') + 7;
+    const courseInfoEndIndex: number = templateErrorString.lastIndexOf('. Tip');
     let errorMsg: string = templateErrorString.substring(0, courseInfoStartIndex);
-
     errorMsg += Object.values(this.failedToCopySessions)
-        .map((value: string) => value.substring(courseInfoStartIndex, value.indexOf(')') + 1)).join(', ');
-
-    errorMsg += templateErrorString.substring(templateErrorString.indexOf(')') + 1);
+        .map((value: string) => value.substring(courseInfoStartIndex, courseInfoEndIndex)).join(', ');
+    errorMsg += templateErrorString.substring(courseInfoEndIndex - 1);
     return errorMsg;
   }
 
