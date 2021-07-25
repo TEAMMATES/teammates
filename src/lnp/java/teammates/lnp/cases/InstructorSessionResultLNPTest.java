@@ -205,7 +205,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("fsname");
 
@@ -230,7 +229,6 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(instructor.getGoogleId()); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
                     csvRow.add(COURSE_ID);
                     csvRow.add(FEEDBACK_SESSION_NAME);
 
@@ -240,8 +238,10 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
                     }
 
                     // For loading feedback question IDs
-                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
-                        csvRow.add(feedbackQuestion.getId());
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, fq) -> {
+                        FeedbackQuestionAttributes fqa = backdoor.getFeedbackQuestion(
+                                fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
+                        csvRow.add(fqa.getId());
                     });
 
                     csvData.add(csvRow);

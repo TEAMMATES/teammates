@@ -12,6 +12,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.InstructorsDb;
 
@@ -25,13 +26,13 @@ public final class InstructorsLogic {
 
     private static final Logger log = Logger.getLogger();
 
-    private static InstructorsLogic instance = new InstructorsLogic();
+    private static final InstructorsLogic instance = new InstructorsLogic();
 
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private FeedbackQuestionsLogic fqLogic;
 
     private InstructorsLogic() {
         // prevent initialization
@@ -39,6 +40,12 @@ public final class InstructorsLogic {
 
     public static InstructorsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
     /* ====================================
@@ -306,4 +313,32 @@ public final class InstructorsLogic {
         }
     }
 
+    /**
+     * Checks if there are any other registered instructors that can modify instructors.
+     * If there are none, the instructor currently being edited will be granted the privilege
+     * of modifying instructors automatically.
+     *
+     * @param courseId         Id of the course.
+     * @param instructorToEdit Instructor that will be edited.
+     *                         This may be modified within the method.
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+        List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
+        int numOfInstrCanModifyInstructor = 0;
+        InstructorAttributes instrWithModifyInstructorPrivilege = null;
+        for (InstructorAttributes instructor : instructors) {
+            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
+                numOfInstrCanModifyInstructor++;
+                instrWithModifyInstructorPrivilege = instructor;
+            }
+        }
+        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
+                && instrWithModifyInstructorPrivilege != null
+                && (!instrWithModifyInstructorPrivilege.isRegistered()
+                || instrWithModifyInstructorPrivilege.getGoogleId()
+                .equals(instructorToEdit.getGoogleId()));
+        if (isLastRegInstructorWithPrivilege) {
+            instructorToEdit.getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+        }
+    }
 }

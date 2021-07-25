@@ -1,8 +1,35 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LogType, ResourceEndpoints } from '../types/api-const';
-import { FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
+import { ActionClasses, FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
+
+/**
+ * Advanced filters model for searching of logs.
+ */
+export interface AdvancedFilters {
+  actionClass?: string;
+  traceId?: string;
+  googleId?: string;
+  regkey?: string;
+  email?: string;
+  sourceLocationFile?: string;
+  sourceLocationFunction?: string;
+  exceptionClass?: string;
+}
+
+/**
+ * Query parameters for logs endpoint.
+ */
+export interface LogsEndpointQueryParams {
+  searchFrom: string;
+  searchUntil: string;
+  severity?: string;
+  minSeverity?: string;
+  logEvent?: string;
+  nextPageToken?: string;
+  advancedFilters: AdvancedFilters;
+}
 
 /**
  * Handles logging related logic provision.
@@ -59,22 +86,64 @@ export class LogService {
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
 
-  searchLogs(queryParams: {
-    searchFrom: string,
-    searchUntil: string,
-    severities: string,
-    nextPageToken?: string,
-  }): Observable<GeneralLogs> {
+  searchLogs(queryParams: LogsEndpointQueryParams): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
       starttime: queryParams.searchFrom,
       endtime: queryParams.searchUntil,
-      severities: queryParams.severities,
     };
+
+    if (queryParams.severity) {
+      paramMap.severity = queryParams.severity;
+    }
+
+    if (queryParams.minSeverity) {
+      paramMap.minseverity = queryParams.minSeverity;
+    }
+
+    if (queryParams.logEvent) {
+      paramMap.logevent = queryParams.logEvent;
+    }
 
     if (queryParams.nextPageToken) {
       paramMap.nextpagetoken = queryParams.nextPageToken;
     }
 
+    if (queryParams.advancedFilters.actionClass) {
+      paramMap.actionclass = queryParams.advancedFilters.actionClass;
+    }
+
+    if (queryParams.advancedFilters.traceId) {
+      paramMap.traceid = queryParams.advancedFilters.traceId;
+    }
+
+    if (queryParams.advancedFilters.googleId) {
+      paramMap.googleid = queryParams.advancedFilters.googleId;
+    }
+
+    if (queryParams.advancedFilters.regkey) {
+      paramMap.regkey = queryParams.advancedFilters.regkey;
+    }
+
+    if (queryParams.advancedFilters.email) {
+      paramMap.email = queryParams.advancedFilters.email;
+    }
+
+    if (queryParams.advancedFilters.sourceLocationFile) {
+      paramMap.sourcelocationfile = queryParams.advancedFilters.sourceLocationFile;
+    }
+
+    if (queryParams.advancedFilters.sourceLocationFunction) {
+      paramMap.sourcelocationfunction = queryParams.advancedFilters.sourceLocationFunction;
+    }
+
+    if (queryParams.advancedFilters.exceptionClass) {
+      paramMap.exceptionclass = queryParams.advancedFilters.exceptionClass;
+    }
+
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
+  }
+
+  getActionClassList(): Observable<ActionClasses> {
+    return this.httpRequestService.get(ResourceEndpoints.ACTION_CLASS);
   }
 }

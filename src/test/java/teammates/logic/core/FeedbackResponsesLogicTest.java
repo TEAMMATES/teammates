@@ -31,12 +31,12 @@ import teammates.test.AssertHelper;
  */
 public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
     private DataBundle questionTypeBundle;
 

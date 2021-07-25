@@ -54,10 +54,9 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     protected static final String DELETE = HttpDelete.METHOD_NAME;
     protected static final Logger log = Logger.getLogger();
 
-    private static final BackDoor BACKDOOR = BackDoor.getInstance();
-
     private static final int RESULT_COUNT = 3;
 
+    protected final BackDoor backdoor = BackDoor.getInstance();
     protected String timeStamp;
     protected LNPSpecification specification;
 
@@ -236,7 +235,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void persistTestData() throws IOException, HttpRequestFailedException {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        String responseBody = BACKDOOR.removeAndRestoreDataBundle(dataBundle);
+        String responseBody = backdoor.removeAndRestoreDataBundle(dataBundle);
 
         String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
         String jsonValue = JsonUtils.parse(responseBody).getAsJsonObject().get("message").getAsString();
@@ -301,7 +300,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void deleteTestData() {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        BACKDOOR.removeDataBundle(dataBundle);
+        backdoor.removeDataBundle(dataBundle);
     }
 
     /**

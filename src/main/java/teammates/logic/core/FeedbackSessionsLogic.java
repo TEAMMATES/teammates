@@ -54,16 +54,16 @@ public final class FeedbackSessionsLogic {
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
 
-    private static FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
+    private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
 
-    private static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private CoursesLogic coursesLogic;
+    private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponsesLogic frLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private InstructorsLogic instructorsLogic;
+    private StudentsLogic studentsLogic;
 
     private FeedbackSessionsLogic() {
         // prevent initialization
@@ -71,6 +71,15 @@ public final class FeedbackSessionsLogic {
 
     public static FeedbackSessionsLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        coursesLogic = CoursesLogic.inst();
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frLogic = FeedbackResponsesLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+        instructorsLogic = InstructorsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**

@@ -1,6 +1,7 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -18,6 +19,7 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
+import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
@@ -73,16 +75,22 @@ public class RequestTraceFilter implements Filter {
         // For user-invoked requests, we keep the time limit at 1 minute (as how it was
         // in the previous GAE runtime environment) in order to not let user wait for excessively long,
         // as well as a reminder for us to keep optimizing our API response time.
-        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 10;
+        int timeoutInSeconds = isRequestFromAppEngineQueue ? 10 * 60 - 5 : 60;
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);
 
         Map<String, Object> requestDetails = new HashMap<>();
+        Map<String, Serializable> requestParams = HttpRequestHelper.getRequestParameters(request);
         requestDetails.put("requestMethod", request.getMethod());
         requestDetails.put("requestUrl", request.getRequestURI());
         requestDetails.put("userAgent", request.getHeader("User-Agent"));
-        requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
+        requestDetails.put("requestParams", requestParams);
         requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
+        Map<String, Object> userInfo = new HashMap<>();
+        userInfo.put("regkey", requestParams.get(Const.ParamsNames.REGKEY));
+        if (!userInfo.isEmpty()) {
+            requestDetails.put("userInfo", userInfo);
+        }
 
         String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
         log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);

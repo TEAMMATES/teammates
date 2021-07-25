@@ -205,48 +205,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupLocalDatastoreHelper() {
-        // Should be prepared separately
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void resetLocalDatastoreHelper() {
-        // Local database state should persist across e2e test suites
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownLocalDatastoreHelper() {
-        // Should be prepared separately
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupSearch() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void resetSearchService() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupObjectify() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownObjectify() {
-        // Not necessary as BackDoor API is used instead
-    }
-
     protected AccountAttributes getAccount(String googleId) {
         return BACKDOOR.getAccount(googleId);
     }

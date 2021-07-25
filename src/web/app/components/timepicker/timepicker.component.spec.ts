@@ -2,11 +2,11 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TimePickerComponent } from './time-picker.component';
+import { TimepickerComponent } from './timepicker.component';
 
-describe('TimePickerComponent', () => {
-  let component: TimePickerComponent;
-  let fixture: ComponentFixture<TimePickerComponent>;
+describe('TimepickerComponent', () => {
+  let component: TimepickerComponent;
+  let fixture: ComponentFixture<TimepickerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -15,14 +15,14 @@ describe('TimePickerComponent', () => {
         FormsModule,
       ],
       declarations: [
-        TimePickerComponent,
+        TimepickerComponent,
       ],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TimePickerComponent);
+    fixture = TestBed.createComponent(TimepickerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

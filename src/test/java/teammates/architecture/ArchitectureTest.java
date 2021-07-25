@@ -297,7 +297,13 @@ public class ArchitectureTest {
                                 && !"SearchManagerFactory".equals(input.getSimpleName());
                     }
                 })
-                .orShould().accessClassesThat().resideInAPackage(includeSubpackages(LOGIC_CORE_PACKAGE))
+                .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
+                    @Override
+                    public boolean apply(JavaClass input) {
+                        return input.getPackageName().startsWith(LOGIC_CORE_PACKAGE)
+                                && !"LogicStarter".equals(input.getSimpleName());
+                    }
+                })
                 .orShould().accessClassesThat(new DescribedPredicate<JavaClass>("") {
                     @Override
                     public boolean apply(JavaClass input) {
@@ -497,7 +503,7 @@ public class ArchitectureTest {
                 .and().resideOutsideOfPackage(includeSubpackages(STORAGE_ENTITY_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_CONNECTOR_PACKAGE))
                 .and().resideOutsideOfPackage(includeSubpackages(CLIENT_SCRIPTS_PACKAGE))
-                .and().doNotHaveSimpleName("BaseTestCaseWithObjectifyAccess")
+                .and().doNotHaveSimpleName("BaseTestCaseWithLocalDatabaseAccess")
                 .should().accessClassesThat().resideInAPackage("com.googlecode.objectify..")
                 .check(ALL_CLASSES);
     }

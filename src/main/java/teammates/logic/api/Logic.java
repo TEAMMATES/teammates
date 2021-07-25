@@ -44,17 +44,17 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
+    protected final AccountsLogic accountsLogic = AccountsLogic.inst();
+    protected final StudentsLogic studentsLogic = StudentsLogic.inst();
+    protected final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    protected final CoursesLogic coursesLogic = CoursesLogic.inst();
+    protected final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    protected final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    protected final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    protected final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
             FeedbackResponseCommentsLogic.inst();
-    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    protected final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    protected final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
 
     /**
      * Preconditions: <br>
@@ -141,6 +141,19 @@ public class Logic {
      */
     public void putInstructorDocuments(List<InstructorAttributes> instructors) {
         instructorsLogic.putDocuments(instructors);
+    }
+
+    /**
+     * Update instructor being edited to ensure validity of instructors for the course.
+     *
+     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+
+        assert courseId != null;
+        assert instructorToEdit != null;
+
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }
 
     /**
@@ -1345,5 +1358,4 @@ public class Logic {
         assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
-
 }

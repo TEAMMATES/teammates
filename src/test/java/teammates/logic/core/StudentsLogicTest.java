@@ -26,11 +26,11 @@ import teammates.test.AssertHelper;
  */
 public class StudentsLogicTest extends BaseLogicTest {
 
-    private static AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static StudentsLogic studentsLogic = StudentsLogic.inst();
-    private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
 
     @Override
     protected void prepareTestData() {
