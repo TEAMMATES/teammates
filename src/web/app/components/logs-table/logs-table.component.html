@@ -1,0 +1,55 @@
+<div class="row" *ngIf="logs.length>0; else noLogMessage">
+  <div class="col-12">
+    <table id="logs-table" class="table table-bordered table-hover margin-bottom-20px logs-table">
+      <thead>
+        <tr>
+          <th id="timestamp" class="width-20">Timestamp</th>
+          <th id="severity" class="width-10">Severity</th>
+          <th id="summary" class="width-70">Summary</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let log of logs">
+          <tr (click)="expandDetails(log)" [ngClass]="getClassForSeverity(log.severity)">
+            <td style="font-family: monospace;">{{ log.timestamp }}</td>
+            <td>{{ log.severity }}</td>
+            <td class="ellipsis">
+              <span class="right-padding" *ngIf="log.httpStatus" [ngClass]="getClassForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
+              <span class="right-padding blue-font" *ngIf="log.responseTime">{{ log.responseTime }}ms</span>
+              <span class="clickable border" *ngIf="log.traceIdForSummary" title="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceIdForSummary }}</span>
+              {{ log.summary }}
+            </td>
+          </tr>
+          <tr *ngIf="log.isDetailsExpanded">
+            <td colspan="3">
+              <div>
+                <details open>
+                  <summary class="title">source location:</summary>
+                  <pre class="clickable margin-left-3em wrap" title="Click to add to filter" (click)="addSourceLocationToFilter(log.sourceLocation)" [innerHTML]="log.sourceLocation | json"></pre>
+                </details>
+              </div>
+              <details open>
+                <summary class="title">details:</summary>
+                <pre class="margin-left-3em wrap" [innerHTML]="log.details | json"></pre>
+              </details>
+              <details open *ngIf="log.userInfo">
+                <summary class="title">userInfo:</summary>
+                <pre class="clickable margin-left-3em wrap" title="Click to add to filter" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
+              </details>
+              <div *ngIf="log.traceId">
+                <span class="title">trace: </span>
+                <span class="clickable" title="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceId }}</span>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<ng-template #noLogMessage>
+  <div class="no-log-message">
+    There are no logs in this time period.
+  </div>
+</ng-template>

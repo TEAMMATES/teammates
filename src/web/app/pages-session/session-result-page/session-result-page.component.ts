@@ -197,6 +197,13 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
+  canStudentSeeResponses(question: QuestionOutput): boolean {
+    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
+
+    return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
+        visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
+  }
+
   /**
    * Redirects to join course link for unregistered student.
    */

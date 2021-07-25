@@ -38,10 +38,10 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
             return;
         }
 
-        String instructorId = testData.accounts.get("instructor1OfCourse1").googleId;
-        AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE).withUserId(instructorId);
+        String instructorId = testData.accounts.get("instructor1OfCourse1").getGoogleId();
+        AppUrl searchPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SEARCH_PAGE);
 
-        InstructorSearchPage searchPage = loginAdminToPage(searchPageUrl, InstructorSearchPage.class);
+        InstructorSearchPage searchPage = loginToPage(searchPageUrl, InstructorSearchPage.class, instructorId);
 
         ______TS("cannot click search button if no search term is entered");
 
@@ -113,7 +113,7 @@ public class InstructorSearchPageE2ETest extends BaseE2ETestCase {
         };
 
         searchPage.verifyStudentDetails(course2, studentsAfterDelete);
-        verifyAbsentInDatastore(studentToDelete);
+        verifyAbsentInDatabase(studentToDelete);
 
     }
 

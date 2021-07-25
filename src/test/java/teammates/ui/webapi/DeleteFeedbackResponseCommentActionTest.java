@@ -46,11 +46,11 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 typicalBundle.feedbackResponseComments.get("comment1FromInstructor1");
 
         feedbackResponseComment = logic.getFeedbackResponseComment(feedbackResponseComment.getFeedbackResponseId(),
-                feedbackResponseComment.commentGiver, feedbackResponseComment.createdAt);
+                feedbackResponseComment.getCommentGiver(), feedbackResponseComment.getCreatedAt());
         assertNotNull("response comment not found", feedbackResponseComment);
 
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
 
         ______TS("Unsuccessful case: not enough parameters");
 
@@ -101,9 +101,9 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(
                 fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
-        comment.feedbackResponseId = response.getId();
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
+        comment.setFeedbackResponseId(response.getId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, String.valueOf(comment.getId()),
@@ -121,10 +121,10 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
-        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor1.email)
+        logic.updateInstructor(InstructorAttributes.updateOptionsWithEmailBuilder(course.getId(), instructor1.getEmail())
                 .withPrivileges(instructorPrivileges).build());
 
-        loginAsInstructor(instructor1.googleId);
+        loginAsInstructor(instructor1.getGoogleId());
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor1, submissionParams);
 
@@ -136,7 +136,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor2.googleId);
+        loginAsInstructor(instructor2.getGoogleId());
         verifyCanAccess(submissionParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor2, submissionParams);
 
@@ -164,8 +164,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -196,8 +196,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -234,8 +234,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
 
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -255,7 +255,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
         verifyAccessibleForAdminToMasqueradeAsInstructor(instructor, instructorParams);
 
@@ -286,8 +286,8 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
         FeedbackQuestionAttributes question =
                 logic.getFeedbackQuestion(fs.getFeedbackSessionName(), fs.getCourseId(), questionNumber);
         assertEquals(FeedbackParticipantType.TEAMS, question.getGiverType());
-        response = logic.getFeedbackResponse(question.getId(), response.giver, response.recipient);
-        comment = logic.getFeedbackResponseComment(response.getId(), comment.commentGiver, comment.createdAt);
+        response = logic.getFeedbackResponse(question.getId(), response.getGiver(), response.getRecipient());
+        comment = logic.getFeedbackResponseComment(response.getId(), comment.getCommentGiver(), comment.getCreatedAt());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment.getId().toString(),
@@ -326,9 +326,9 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
-        verifyCanMasquerade(instructor.googleId, instructorParams);
+        verifyCanMasquerade(instructor.getGoogleId(), instructorParams);
 
         ______TS("Instructor with only section A privilege cannot delete comment");
 

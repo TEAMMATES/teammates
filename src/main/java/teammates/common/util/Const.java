@@ -20,6 +20,8 @@ public final class Const {
 
     public static final String USER_TEAM_FOR_INSTRUCTOR = "Instructors";
 
+    public static final String DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR = "Instructor";
+
     public static final String DISPLAYED_NAME_FOR_ANONYMOUS_PARTICIPANT = "Anonymous";
 
     public static final int SECTION_SIZE_LIMIT = 100;
@@ -106,9 +108,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
 
-        public static final String LOCAL_DATE_TIME = "localdatetime";
-        public static final String TIME_ZONE = "timezone";
-
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -149,6 +148,19 @@ public final class Const {
         public static final String ENTITY_TYPE = "entitytype";
 
         public static final String INTENT = "intent";
+
+        public static final String QUERY_LOGS_STARTTIME = "starttime";
+        public static final String QUERY_LOGS_ENDTIME = "endtime";
+        public static final String QUERY_LOGS_SEVERITY = "severity";
+        public static final String QUERY_LOGS_MIN_SEVERITY = "minseverity";
+        public static final String QUERY_LOGS_TRACE = "traceid";
+        public static final String QUERY_LOGS_ACTION_CLASS = "actionclass";
+        public static final String QUERY_LOGS_EMAIL = "email";
+        public static final String QUERY_LOGS_EVENT = "logevent";
+        public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
+        public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
+        public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
+        public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
     /**
@@ -214,6 +226,7 @@ public final class Const {
         public static final String ADMIN_SEARCH_PAGE = ADMIN_PAGE + "/search";
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
+        public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
 
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";
@@ -285,11 +298,12 @@ public final class Const {
         public static final String JOIN = URI_PREFIX + "/join";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
-        public static final String LOCAL_DATE_TIME = URI_PREFIX + "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
+        public static final String LOGS = URI_PREFIX + "/logs/query";
+        public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";

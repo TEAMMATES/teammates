@@ -33,7 +33,7 @@ public class FeedbackQuestion extends BaseEntity {
     /**
      * Serialized {@link teammates.common.datatransfer.questions.FeedbackQuestionDetails} stored as a string.
      *
-     * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetails()
+     * @see teammates.common.datatransfer.attributes.FeedbackQuestionAttributes#getQuestionDetailsCopy()
      */
     @Unindex
     private String questionText;
@@ -128,7 +128,9 @@ public class FeedbackQuestion extends BaseEntity {
         // and the produced legacy URL-safe key has additional space character at the end of the string,
         // resulting in incompatibility with old data.
         // Last four characters (ogEA) of the base64 encoded string are trimmed for backward compatibility.
-        return untrimmedId.substring(0, untrimmedId.length() - 4);
+        // Additional changes are needed for production system case, possibly due to very old Datastore instance used.
+        return untrimmedId.replaceFirst("KIBAA$", "AogEA")
+                .substring(0, untrimmedId.length() - 4);
     }
 
     public void setFeedbackQuestionId(Long feedbackQuestionId) {

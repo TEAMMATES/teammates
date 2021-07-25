@@ -34,10 +34,10 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         ______TS("verify loaded data");
 
         InstructorAttributes instructor = testData.instructors.get("instructorOfCourse1");
-        String instructorId = instructor.googleId;
+        String instructorId = instructor.getGoogleId();
 
-        AppUrl listPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE).withUserId(instructorId);
-        InstructorStudentListPage listPage = loginAdminToPage(listPageUrl, InstructorStudentListPage.class);
+        AppUrl listPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_LIST_PAGE);
+        InstructorStudentListPage listPage = loginToPage(listPageUrl, InstructorStudentListPage.class, instructorId);
 
         CourseAttributes course1 = testData.courses.get("course1");
         CourseAttributes course2 = testData.courses.get("course2");
@@ -83,7 +83,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         InstructorCourseEnrollPage enrollPage = listPage.clickEnrollStudents(course3);
         enrollPage.verifyIsCorrectPage(course3.getId());
 
-        listPage = loginAdminToPage(listPageUrl, InstructorStudentListPage.class);
+        listPage = getNewPageInstance(listPageUrl, InstructorStudentListPage.class);
         listPage.clickCourseTabHeader(course3);
 
         ______TS("link: view student details page");
@@ -123,7 +123,7 @@ public class InstructorStudentListPageE2ETest extends BaseE2ETestCase {
         };
 
         listPage.verifyStudentDetails(course3, studentsAfterDelete);
-        verifyAbsentInDatastore(studentToDelete);
+        verifyAbsentInDatabase(studentToDelete);
 
     }
 

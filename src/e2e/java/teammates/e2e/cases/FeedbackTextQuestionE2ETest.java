@@ -31,6 +31,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -40,7 +41,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession");
-        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) loadedQuestion.getQuestionDetails();
+        FeedbackTextQuestionDetails questionDetails = (FeedbackTextQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyTextQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -49,27 +50,27 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.addTextQuestion(loadedQuestion);
 
         feedbackEditPage.verifyTextQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackTextQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackTextQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyTextQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         questionDetails.setRecommendedLength(200);
-        copiedQuestion.questionDetails = questionDetails;
+        copiedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editTextQuestion(3, questionDetails);
 
         feedbackEditPage.verifyTextQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
     }
 
     @Override
@@ -80,14 +81,14 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         InstructorAttributes receiver = testData.instructors.get("instructor");
         question.setQuestionNumber(1);
-        feedbackSubmitPage.verifyTextQuestion(1, (FeedbackTextQuestionDetails) question.getQuestionDetails());
+        feedbackSubmitPage.verifyTextQuestion(1, (FeedbackTextQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, "<p>This is the response for qn 1</p>");
         feedbackSubmitPage.submitTextResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -101,7 +102,7 @@ public class FeedbackTextQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyTextResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, InstructorAttributes instructor, String answer) {

@@ -17,32 +17,23 @@ import teammates.storage.entity.Instructor;
  */
 public class InstructorAttributes extends EntityAttributes<Instructor> {
 
-    public static final String DEFAULT_DISPLAY_NAME = "Instructor";
-
-    /**
-     * Sorts the Instructors list alphabetically by name.
-     */
-    public static final Comparator<InstructorAttributes> COMPARE_BY_NAME =
-            Comparator.comparing(instructor -> instructor.name.toLowerCase());
-
-    public String courseId;
-    public String email;
-
-    public String name;
-    public String googleId;
-    public String key;
-    public String role;
-    public String displayedName;
-    public boolean isArchived;
-    public boolean isDisplayedToStudents;
-    public InstructorPrivileges privileges;
+    private String courseId;
+    private String email;
+    private String name;
+    private String googleId;
+    private String role;
+    private String displayedName;
+    private boolean isArchived;
+    private boolean isDisplayedToStudents;
+    private InstructorPrivileges privileges;
+    private transient String key;
 
     private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;
         this.email = email;
 
         this.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER;
-        this.displayedName = DEFAULT_DISPLAY_NAME;
+        this.displayedName = Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR;
         this.isArchived = false;
         this.isDisplayedToStudents = true;
         this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -104,28 +95,56 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public boolean isArchived() {
         return isArchived;
     }
 
+    public void setArchived(boolean archived) {
+        isArchived = archived;
+    }
+
     public InstructorPrivileges getPrivileges() {
         return privileges;
+    }
+
+    public void setPrivileges(InstructorPrivileges privileges) {
+        this.privileges = privileges;
     }
 
     public String getDisplayedName() {
         return displayedName;
     }
 
+    public void setDisplayedName(String displayedName) {
+        this.displayedName = displayedName;
+    }
+
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public boolean isDisplayedToStudents() {
         return isDisplayedToStudents;
+    }
+
+    public void setDisplayedToStudents(boolean displayedToStudents) {
+        isDisplayedToStudents = displayedToStudents;
     }
 
     public boolean isRegistered() {
@@ -157,6 +176,13 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         addNonEmptyError(FieldValidator.getInvalidityInfoForRole(role), errors);
 
         return errors;
+    }
+
+    /**
+     * Sorts the instructors list alphabetically by name.
+     */
+    public static void sortByName(List<InstructorAttributes> instructors) {
+        instructors.sort(Comparator.comparing(instructor -> instructor.name.toLowerCase()));
     }
 
     @Override
@@ -254,12 +280,24 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return courseId;
     }
 
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getGoogleId() {
         return googleId;
     }
 
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
     public String getRole() {
         return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     /**

@@ -5,6 +5,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.logic.core.GoogleCloudLoggingService;
@@ -37,8 +39,16 @@ public class LogsProcessor {
     }
 
     /**
+     * Queries and retrieves logs with given parameters.
+     */
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
+        return service.queryLogs(queryLogsParams);
+    }
+
+    /**
      * Creates a feedback session log.
      */
+    @Deprecated
     public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
             throws LogServiceException {
         service.createFeedbackSessionLog(courseId, email, fsName, fslType);

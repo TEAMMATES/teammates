@@ -29,11 +29,13 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.RecaptchaVerifier;
-import teammates.test.BaseComponentTestCase;
+import teammates.logic.api.LogicExtension;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.MockEmailSender;
 import teammates.test.MockFileStorage;
@@ -47,9 +49,11 @@ import teammates.ui.request.BasicRequest;
 /**
  * Base class for all action tests.
  *
+ * <p>On top of having a local database, these tests require proxy services to be running (to be more precise, mocked).
+ *
  * @param <T> The action class being tested.
  */
-public abstract class BaseActionTest<T extends Action> extends BaseComponentTestCase {
+public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithLocalDatabaseAccess {
 
     protected static final String GET = HttpGet.METHOD_NAME;
     protected static final String POST = HttpPost.METHOD_NAME;
@@ -57,6 +61,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     protected DataBundle typicalBundle = getTypicalDataBundle();
+    protected LogicExtension logic = new LogicExtension();
     protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     protected MockEmailSender mockEmailSender = new MockEmailSender();
     protected MockFileStorage mockFileStorage = new MockFileStorage();
@@ -172,7 +177,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
      * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
-        UserInfo user = mockUserProvision.loginAsAdmin("admin.user");
+        UserInfo user = mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
         assertTrue(user.isAdmin);
     }
 
@@ -237,7 +242,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         }
 
         logic.updateInstructor(InstructorAttributes
-                .updateOptionsWithEmailBuilder(instructor.getCourseId(), instructor.email)
+                .updateOptionsWithEmailBuilder(instructor.getCourseId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges)
                 .build());
     }
@@ -358,7 +363,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(params);
 
     }
@@ -369,7 +374,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCannotAccess(params);
 
     }
@@ -381,7 +386,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         loginAsAdmin();
         //not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.googleId, submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
     protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
@@ -392,7 +397,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         loginAsAdmin();
         //not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor1OfCourse1.googleId, submissionParams);
+        verifyCanMasquerade(instructor1OfCourse1.getGoogleId(), submissionParams);
     }
 
     protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
@@ -401,7 +406,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -411,7 +416,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -423,7 +428,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         ______TS("without correct course privilege cannot access");
 
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
@@ -431,7 +436,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         instructorPrivileges.updatePrivilege(privilege, true);
         logic.updateInstructor(InstructorAttributes
-                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.email)
+                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.getEmail())
                 .withPrivileges(instructorPrivileges)
                 .build());
 
@@ -439,7 +444,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, submissionParams);
 
         logic.updateInstructor(InstructorAttributes
-                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.email)
+                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.getEmail())
                 .withPrivileges(new InstructorPrivileges())
                 .build());
     }
@@ -452,11 +457,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
-        verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
+        verifyCannotMasquerade(student1InCourse1.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
 
     }
 
@@ -468,11 +473,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1OfCourse2.googleId);
+        loginAsInstructor(instructor1OfCourse2.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
-        verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
+        verifyCannotMasquerade(student1InCourse1.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
     }
 
     protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
@@ -480,7 +485,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         ______TS("course students can access");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 
@@ -490,7 +495,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         StudentAttributes otherStudent = typicalBundle.students.get("student1InCourse2");
 
-        loginAsStudent(otherStudent.googleId);
+        loginAsStudent(otherStudent.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
@@ -500,7 +505,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsInstructor(otherInstructor.googleId);
+        loginAsInstructor(otherInstructor.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 

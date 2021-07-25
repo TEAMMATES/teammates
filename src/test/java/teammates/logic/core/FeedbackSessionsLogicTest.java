@@ -38,12 +38,12 @@ import teammates.test.AssertHelper;
  * SUT: {@link FeedbackSessionsLogic}.
  */
 public class FeedbackSessionsLogicTest extends BaseLogicTest {
-    private static CoursesLogic coursesLogic = CoursesLogic.inst();
-    private static FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-    private static FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
-    private static FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
-    private static FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
+    private final CoursesLogic coursesLogic = CoursesLogic.inst();
+    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
+    private final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
+    private final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
 
     @Override
     protected void prepareTestData() {
@@ -192,7 +192,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     private void testIsFeedbackSessionHasQuestionForStudents() throws Exception {
-        // no need to removeAndRestoreTypicalDataInDatastore() as the previous test does not change the db
+        // no need to removeAndRestoreTypicalDataInDatabase() as the previous test does not change the db
 
         FeedbackSessionAttributes sessionWithStudents = dataBundle.feedbackSessions.get("gracePeriodSession");
         FeedbackSessionAttributes sessionWithoutStudents = dataBundle.feedbackSessions.get("closedSession");
@@ -250,7 +250,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         // restore the new course from Recycle Bin, and delete the newly added session as
-        // removeAndRestoreTypicalDataInDatastore() wont do it
+        // removeAndRestoreTypicalDataInDatabase() wont do it
         coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
@@ -282,7 +282,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         // restore the new course from Recycle Bin, and delete the newly added session as
-        // removeAndRestoreTypicalDataInDatastore() wont do it
+        // removeAndRestoreTypicalDataInDatabase() wont do it
         coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
@@ -369,7 +369,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
 
         // restore the new course from Recycle Bin, and delete the newly added session as
-        // removeAndRestoreTypicalDataInDatastore() wont do it
+        // removeAndRestoreTypicalDataInDatabase() wont do it
         coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
         fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
     }
@@ -444,7 +444,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         FeedbackSessionAttributes fs = getNewFeedbackSession();
         fsLogic.createFeedbackSession(fs);
-        verifyPresentInDatastore(fs);
+        verifyPresentInDatabase(fs);
 
         FeedbackSessionAttributes finalFs = fs;
         ______TS("test create with invalid session name");
@@ -484,8 +484,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fqLogic.createFeedbackQuestion(fq);
 
         fsLogic.deleteFeedbackSessionCascade(fs.getFeedbackSessionName(), fs.getCourseId());
-        verifyAbsentInDatastore(fs);
-        verifyAbsentInDatastore(fq);
+        verifyAbsentInDatabase(fs);
+        verifyAbsentInDatabase(fq);
     }
 
     private void testIsFeedbackSessionViewableToStudents() {
@@ -730,7 +730,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor2OfCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByInstructor(fs, instructor.getEmail()));
     }
 
     private void testIsFeedbackSessionCompletedByStudent() {
@@ -740,7 +740,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("empty.session");
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
 
-        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.email));
+        assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail()));
     }
 
     private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
@@ -759,11 +759,11 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         ______TS("success case: fully done by student 1");
         assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                                                                    student1OfCourse1.email));
+                student1OfCourse1.getEmail()));
 
         ______TS("success case: partially done by student 3");
         assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                                                                     student3OfCourse1.email));
+                student3OfCourse1.getEmail()));
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {
@@ -778,36 +778,36 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 .build();
     }
 
-    private FeedbackQuestionAttributes getQuestionFromDatastore(String jsonId) {
+    private FeedbackQuestionAttributes getQuestionFromDatabase(String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(
-                questionToGet.feedbackSessionName,
-                questionToGet.courseId,
-                questionToGet.questionNumber);
+                questionToGet.getFeedbackSessionName(),
+                questionToGet.getCourseId(),
+                questionToGet.getQuestionNumber());
 
         return questionToGet;
     }
 
-    // Extract response id from datastore based on json key.
+    // Extract response id from database based on json key.
     private String getResponseId(String jsonId, DataBundle bundle) {
-        return getResponseFromDatastore(jsonId, bundle).getId();
+        return getResponseFromDatabase(jsonId, bundle).getId();
     }
 
-    private FeedbackResponseAttributes getResponseFromDatastore(String jsonId, DataBundle bundle) {
+    private FeedbackResponseAttributes getResponseFromDatabase(String jsonId, DataBundle bundle) {
         FeedbackResponseAttributes response = bundle.feedbackResponses.get(jsonId);
 
         String questionId = null;
         try {
-            int qnNumber = Integer.parseInt(response.feedbackQuestionId);
+            int qnNumber = Integer.parseInt(response.getFeedbackQuestionId());
             questionId = fqLogic.getFeedbackQuestion(
-                        response.feedbackSessionName, response.courseId,
+                    response.getFeedbackSessionName(), response.getCourseId(),
                         qnNumber).getId();
         } catch (NumberFormatException e) {
-            questionId = response.feedbackQuestionId;
+            questionId = response.getFeedbackQuestionId();
         }
 
         return frLogic.getFeedbackResponse(questionId,
-                response.giver, response.recipient);
+                response.getGiver(), response.getRecipient());
     }
 
     private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
@@ -843,7 +843,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fsLogic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
         feedbackSession.setDeletedTime(null);
 
-        verifyPresentInDatastore(feedbackSession);
+        verifyPresentInDatabase(feedbackSession);
         assertFalse(feedbackSession.isSessionDeleted());
     }
 
@@ -921,7 +921,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         // no response visible
         StudentAttributes student = dataBundle.students.get("student1InCourse1");
-        FeedbackQuestionAttributes question = getQuestionFromDatastore("qn2InSession1InCourse1");
+        FeedbackQuestionAttributes question = getQuestionFromDatabase("qn2InSession1InCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
                 UserRole.STUDENT, question.getId(), null);
@@ -931,7 +931,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, bundle.getQuestionMissingResponseMap().size());
 
         // one response visible
-        question = getQuestionFromDatastore("qn3InSession1InCourse1");
+        question = getQuestionFromDatabase("qn3InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
                 UserRole.STUDENT, question.getId(), null);
@@ -1016,7 +1016,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
     @Test
     public void testGetSessionResultsForUser_instructorSpecificQuestion_shouldHaveCorrectResponsesFiltered() {
-        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn3InSession1InCourse1");
+        FeedbackQuestionAttributes fq = getQuestionFromDatabase("qn3InSession1InCourse1");
         InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
 
         // no section specified
@@ -1029,7 +1029,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(1, responseForQuestion.size());
 
         // section specified
-        fq = getQuestionFromDatastore("qn2InSession1InCourse1");
+        fq = getQuestionFromDatabase("qn2InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
                 UserRole.INSTRUCTOR, fq.getId(), "Section 1");
@@ -1163,8 +1163,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 
-        FeedbackQuestionAttributes fq = getQuestionFromDatastore("qn2InSession1InCourse1");
-        FeedbackResponseAttributes existingResponse = getResponseFromDatastore("response1ForQ2S1C1", dataBundle);
+        FeedbackQuestionAttributes fq = getQuestionFromDatabase("qn2InSession1InCourse1");
+        FeedbackResponseAttributes existingResponse = getResponseFromDatabase("response1ForQ2S1C1", dataBundle);
         // create a "null" response to simulate trying to get a null student's response
         FeedbackResponseAttributes newResponse =
                 FeedbackResponseAttributes.builder(
@@ -1173,7 +1173,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .withCourseId("nullCourse")
                         .withGiverSection("Section 1")
                         .withRecipientSection("Section 1")
-                        .withResponseDetails(existingResponse.getResponseDetails())
+                        .withResponseDetails(existingResponse.getResponseDetailsCopy())
                         .build();
         frLogic.createFeedbackResponse(newResponse);
         StudentAttributes student = dataBundle.students.get("student2InCourse1");

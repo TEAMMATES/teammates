@@ -5,6 +5,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
+import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.exception.LogServiceException;
 
 /**
@@ -13,6 +15,8 @@ import teammates.common.exception.LogServiceException;
 public interface LogService {
 
     List<ErrorLogEntry> getRecentErrorLogs();
+
+    QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException;
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 

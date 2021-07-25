@@ -57,6 +57,11 @@ In order for the back-end to properly work, you need to have a running database 
 
 The details on how to run them locally can be found [here (for local Datastore emulator)](#running-the-datastore-emulator) and [here (for full-text search service)](search.md).
 
+If you have access to Docker, we have a Docker compose definition to run those services:
+```sh
+docker-compose up -d
+```
+
 ### Starting the dev server
 
 To start the server in the background, run the following command
@@ -103,9 +108,8 @@ This instruction set applies for both dev server and production server, with sli
 
 ### As administrator
 
-1. Go to any administrator page, e.g `/web/admin/home`.
-1. On the dev server, log in using any username, but remember to check the `Log in as administrator` check box. You will have the required access.
-1. On the production server, you will be granted the access only if your account has admin permission as defined in `build.properties`.
+1. Go to any administrator page, e.g `/web/admin/home`. You may be prompted to log in.
+   You will be granted access only if your account has admin permission as defined in `build.properties`.
 1. When logged in as administrator, ***masquerade mode*** can also be used to impersonate instructors and students by adding `user=username` to the URL
  e.g `http://localhost:8080/web/student/home?user=johnKent`.
 
@@ -171,6 +175,13 @@ You can use the pre-provided quickstart script which will run a local Datastore 
 ```
 
 The Datastore emulator will be running in the port specified in the `build.properties` file.
+
+### Using Docker-based tooling
+
+We have a Docker compose definition to run dependent services, including local Datastore emulator. Run it under the `datastore` service name and bind to the container port `8484`:
+```sh
+docker-compose run -p 8484:8484 datastore
+```
 
 ### Using Cloud SDK
 
