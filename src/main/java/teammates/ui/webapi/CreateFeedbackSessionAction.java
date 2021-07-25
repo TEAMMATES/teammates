@@ -67,7 +67,7 @@ class CreateFeedbackSessionAction extends Action {
                     + courseId
                     + ". Please check existing sessions or sessions in the recycle bin.", e);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException("heyyy", e);
+            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }
 
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
