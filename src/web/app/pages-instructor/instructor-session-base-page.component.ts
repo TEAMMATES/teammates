@@ -245,9 +245,16 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   getCopyErrorMessage(): string {
-    return `A session with the same name already exists in the course(s):
-        ${Object.keys(this.failedToCopySessions).map((key: string) => key).join(', ')}.
-        Please check existing sessions or sessions in the recycle bin.`;
+    const templateErrorString = Object.values(this.failedToCopySessions)[0];
+    const courseInfoStartIndex = templateErrorString.indexOf("course ") + 7;
+    let errorMsg = templateErrorString.substring(0, courseInfoStartIndex);
+
+    errorMsg += Object.values(this.failedToCopySessions)
+        .map((value: string) => value.substring(courseInfoStartIndex, value.indexOf(")") + 1)).join(", ");
+
+    errorMsg += templateErrorString.substring(templateErrorString.indexOf(")") + 1);
+    console.log(errorMsg)
+    return errorMsg;
   }
 
   /**
