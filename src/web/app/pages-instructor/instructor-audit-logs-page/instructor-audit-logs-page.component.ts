@@ -136,6 +136,32 @@ export class InstructorAuditLogsPageComponent implements OnInit {
         }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 
+  isDateAfter(date1: DateFormat, date2: DateFormat): boolean {
+    return (date1.year > date2.year ||
+      (date1.year === date2.year && date1.month > date2.month) ||
+      (date1.year === date2.year && date1.month === date2.month && date1.day > date2.day));
+  }
+  
+  isDateSame(date1: DateFormat, date2: DateFormat): boolean {
+    return (date1.year === date2.year && date1.month === date2.month && date1.day === date2.day);
+  }
+
+  isTimeAfter(time1: TimeFormat, time2: TimeFormat): boolean {
+    return (time1.hour > time2.hour ||
+      (time1.hour === time2.hour && time1.minute > time2.minute));
+  }
+
+  isValidDateRange(): boolean {
+    if (this.isDateAfter(this.formModel.logsDateFrom, this.formModel.logsDateTo)) {
+      return false;
+    }
+    else if (this.isDateSame(this.formModel.logsDateFrom, this.formModel.logsDateTo)) {
+      return this.isTimeAfter(this.formModel.logsTimeTo, this.formModel.logsTimeFrom);
+    }
+    else {
+      return true;
+    }
+  }
   /**
    * Load all courses and students that the instructor have
    */

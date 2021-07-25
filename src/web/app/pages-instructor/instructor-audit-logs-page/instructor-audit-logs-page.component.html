@@ -63,7 +63,7 @@
             <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
           </div>
           <div class="col-md-2">
-            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
+            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching || !isValidDateRange()">Search</button>
           </div>
         </div>
       </div>
