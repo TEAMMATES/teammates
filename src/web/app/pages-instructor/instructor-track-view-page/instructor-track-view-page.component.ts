@@ -1,15 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateParserFormatter, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
-import { forkJoin, Observable } from 'rxjs';
-import { concatMap, finalize, map, mergeAll } from 'rxjs/operators';
+import { concatMap, finalize, mergeAll } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
 import { LogService } from '../../../services/log.service';
 import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
   Course,
@@ -26,11 +24,11 @@ import {
 } from '../../../types/api-output';
 import { Intent } from '../../../types/api-request';
 import { SortBy } from '../../../types/sort-properties';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
-import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { SimpleModalType } from '../../components/simple-modal/simple-modal-type';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -189,50 +187,46 @@ export class InstructorTrackViewPageComponent implements OnInit {
       day: today.getDate(),
     };
 
-    const localDateTime: Observable<number>[] = [
-      this.resolveLocalDateTime(this.logsDateFrom, this.logsTimeFrom, 'Search period from'),
-      this.resolveLocalDateTime(this.logsDateTo, this.logsTimeTo, 'Search period until'),
-    ];
+    const logsDateFrom: number = this.timezoneService.resolveLocalDateTime(this.logsDateFrom, this.logsTimeFrom);
+    const logsDateTo: number = this.timezoneService.resolveLocalDateTime(this.logsDateTo, this.logsTimeTo);
 
-    forkJoin(localDateTime)
-        .pipe(
-            concatMap(([timestampFrom, timestampUntil]: number[]) => {
-              return this.logsService.searchFeedbackSessionLog({
-                courseId: this.formModel.courseId,
-                searchFrom: timestampFrom.toString(),
-                searchUntil: timestampUntil.toString(),
-                sessionName: this.formModel.feedbackSessionName,
-              });
-            }),
-            finalize(() => {
-              this.isSearching = false;
-              this.hasResult = true;
-            }))
-        .subscribe((logs: FeedbackSessionLogs) => {
-          this.studentService
-              .getStudentsFromCourse({ courseId: this.formModel.courseId })
-              .subscribe((students: Students) => {
-                this.students.push(...students.students);
+    this.logsService.searchFeedbackSessionLog({
+      courseId: this.formModel.courseId,
+      searchFrom: logsDateFrom.toString(),
+      searchUntil: logsDateTo.toString(),
+      sessionName: this.formModel.feedbackSessionName,
+    }).pipe(
+        finalize(() => {
+          this.isSearching = false;
+          this.hasResult = true;
+        }),
+    ).subscribe((logs: FeedbackSessionLogs) => {
+      this.studentService
+          .getStudentsFromCourse({ courseId: this.formModel.courseId })
+          .subscribe((students: Students) => {
+            this.students.push(...students.students);
 
-                const targetFeedbackSessionLog: FeedbackSessionLog | undefined = logs.feedbackSessionLogs
-                  .find((fsLog: FeedbackSessionLog) =>
+            const targetFeedbackSessionLog: FeedbackSessionLog | undefined = logs.feedbackSessionLogs
+                .find((fsLog: FeedbackSessionLog) =>
                     fsLog.feedbackSessionData.feedbackSessionName === this.formModel.feedbackSessionName);
-                if (!targetFeedbackSessionLog) {
-                  return;
-                }
+            if (!targetFeedbackSessionLog) {
+              return;
+            }
 
-                targetFeedbackSessionLog.feedbackSessionLogEntries
-                  .filter((entry: FeedbackSessionLogEntry) =>
+            targetFeedbackSessionLog.feedbackSessionLogEntries
+                .filter((entry: FeedbackSessionLogEntry) =>
                     LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-                      === LogType.FEEDBACK_SESSION_VIEW_RESULT)
-                  .filter((entry: FeedbackSessionLogEntry) =>
+                    === LogType.FEEDBACK_SESSION_VIEW_RESULT)
+                .filter((entry: FeedbackSessionLogEntry) =>
                     !(entry.studentData.email in this.studentToLog)
-                      || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp)
-                  .forEach((entry: FeedbackSessionLogEntry) => this.studentToLog[entry.studentData.email] = entry);
+                    || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp)
+                .forEach((entry: FeedbackSessionLogEntry) => this.studentToLog[entry.studentData.email] = entry);
 
-                this.searchResult = this.toFeedbackSessionLogModel(targetFeedbackSessionLog);
-              });
-        }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+            this.searchResult = this.toFeedbackSessionLogModel(targetFeedbackSessionLog);
+          });
+    }, (e: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(e.error.message);
+    });
   }
 
   private openModal(): void {
@@ -259,19 +253,6 @@ export class InstructorTrackViewPageComponent implements OnInit {
       },
       () => { this.isSearching = false; },
     );
-  }
-
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
-    const inst: any = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-
-    return this.timezoneService.getResolvedTimestamp(localDateTime, this.timezoneService.guessTimezone(), fieldName)
-        .pipe(map((result: TimeResolvingResult) => result.timestamp));
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
