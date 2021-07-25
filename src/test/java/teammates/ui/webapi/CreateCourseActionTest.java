@@ -36,8 +36,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         ______TS("Typical case with new course id");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
         courseCreateRequest.setCourseName("New Course");

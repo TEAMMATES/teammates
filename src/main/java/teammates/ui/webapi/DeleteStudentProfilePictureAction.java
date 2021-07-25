@@ -27,14 +27,14 @@ class DeleteStudentProfilePictureAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileAttributes studentProfileAttributes = logic.getStudentProfile(googleId);
         if (studentProfileAttributes == null) {
             return new JsonResult("Invalid student profile", HttpStatus.SC_NOT_FOUND);
         }
-        if (fileStorage.doesFileExist(studentProfileAttributes.googleId)) {
-            fileStorage.delete(studentProfileAttributes.googleId);
+        if (fileStorage.doesFileExist(studentProfileAttributes.getGoogleId())) {
+            fileStorage.delete(studentProfileAttributes.getGoogleId());
         }
         return new JsonResult("Your profile picture has been deleted successfully", HttpStatus.SC_OK);
     }

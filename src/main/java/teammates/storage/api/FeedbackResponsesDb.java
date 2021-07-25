@@ -27,7 +27,17 @@ import teammates.storage.entity.FeedbackResponse;
  * @see FeedbackResponse
  * @see FeedbackResponseAttributes
  */
-public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
+public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackResponseAttributes> {
+
+    private static final FeedbackResponsesDb instance = new FeedbackResponsesDb();
+
+    private FeedbackResponsesDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackResponsesDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a set of giver identifiers that has at least one response under a feedback session.
@@ -229,8 +239,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        if (newAttributes.recipient.equals(oldResponse.getRecipientEmail())
-                && newAttributes.giver.equals(oldResponse.getGiverEmail())) {
+        if (newAttributes.getRecipient().equals(oldResponse.getRecipientEmail())
+                && newAttributes.getGiver().equals(oldResponse.getGiverEmail())) {
 
             // update only if change
             boolean hasSameAttributes =
@@ -244,8 +254,8 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                 return newAttributes;
             }
 
-            oldResponse.setGiverSection(newAttributes.giverSection);
-            oldResponse.setRecipientSection(newAttributes.recipientSection);
+            oldResponse.setGiverSection(newAttributes.getGiverSection());
+            oldResponse.setRecipientSection(newAttributes.getRecipientSection());
             oldResponse.setAnswer(newAttributes.getSerializedFeedbackResponseDetail());
 
             saveEntity(oldResponse);
@@ -258,7 +268,7 @@ public class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, FeedbackRe
                              newAttributes.getRecipient())
                     .withCourseId(newAttributes.getCourseId())
                     .withFeedbackSessionName(newAttributes.getFeedbackSessionName())
-                    .withResponseDetails(newAttributes.getResponseDetails())
+                    .withResponseDetails(newAttributes.getResponseDetailsCopy())
                     .withGiverSection(newAttributes.getGiverSection())
                     .withRecipientSection(newAttributes.getRecipientSection())
                     .build();

@@ -26,7 +26,7 @@ class DeleteCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String idOfCourseToDelete = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         logic.deleteCourseCascade(idOfCourseToDelete);
