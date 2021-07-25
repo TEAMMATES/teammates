@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,7 +18,6 @@ import teammates.common.util.HttpRequestHelper;
 /**
  * Servlet that handles dev server login.
  */
-@SuppressWarnings("serial")
 public class DevServerLoginServlet extends AuthServlet {
 
     @Override

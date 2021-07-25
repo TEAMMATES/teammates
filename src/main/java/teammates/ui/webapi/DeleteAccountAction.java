@@ -10,7 +10,7 @@ import teammates.common.util.Const;
 class DeleteAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String googleId = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         if (fileStorage.doesFileExist(googleId)) {
             fileStorage.delete(googleId);

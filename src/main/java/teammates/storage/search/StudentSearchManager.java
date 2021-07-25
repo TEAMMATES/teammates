@@ -21,8 +21,8 @@ import teammates.storage.api.StudentsDb;
  */
 public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
-    private final CoursesDb coursesDb = new CoursesDb();
-    private final StudentsDb studentsDb = new StudentsDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     public StudentSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);
@@ -35,7 +35,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     StudentSearchDocument createDocument(StudentAttributes student) {
-        CourseAttributes course = coursesDb.getCourse(student.course);
+        CourseAttributes course = coursesDb.getCourse(student.getCourse());
         return new StudentSearchDocument(student, course);
     }
 
@@ -48,11 +48,11 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     void sortResult(List<StudentAttributes> result) {
-        result.sort(Comparator.comparing((StudentAttributes student) -> student.course)
-                .thenComparing(student -> student.section)
-                .thenComparing(student -> student.team)
-                .thenComparing(student -> student.name)
-                .thenComparing(student -> student.email));
+        result.sort(Comparator.comparing((StudentAttributes student) -> student.getCourse())
+                .thenComparing(student -> student.getSection())
+                .thenComparing(student -> student.getTeam())
+                .thenComparing(student -> student.getName())
+                .thenComparing(student -> student.getEmail()));
     }
 
     /**
@@ -75,9 +75,9 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
         return instructors.stream()
-                .filter(i -> i.privileges.getCourseLevelPrivileges()
+                .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
                         .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.courseId).collect(Collectors.joining(" "));
+                .map(ins -> ins.getCourseId()).collect(Collectors.joining(" "));
     }
 
 }

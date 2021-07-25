@@ -21,7 +21,7 @@ import teammates.ui.output.MessageOutput;
  *
  * <p>This is the most common format for REST-ful back-end API response.
  */
-class JsonResult extends ActionResult {
+public class JsonResult extends ActionResult {
 
     private final ApiOutput output;
     private List<Cookie> cookies;
@@ -41,7 +41,7 @@ class JsonResult extends ActionResult {
         this(message, HttpStatus.SC_OK);
     }
 
-    JsonResult(String message, int statusCode) {
+    public JsonResult(String message, int statusCode) {
         super(statusCode);
         this.output = new MessageOutput(message);
         this.cookies = new ArrayList<>();
@@ -52,7 +52,7 @@ class JsonResult extends ActionResult {
     }
 
     @Override
-    void send(HttpServletResponse resp) throws IOException {
+    public void send(HttpServletResponse resp) throws IOException {
         output.setRequestId(RequestTracer.getTraceId());
         for (Cookie cookie : cookies) {
             cookie.setSecure(!Config.isDevServer());

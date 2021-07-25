@@ -11,7 +11,7 @@ import teammates.common.util.RequestTracer;
 class FeedbackSessionPublishedRemindersAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         List<FeedbackSessionAttributes> sessions =
                 logic.getFeedbackSessionsWhichNeedAutomatedPublishedEmailsToBeSent();
         for (FeedbackSessionAttributes session : sessions) {

@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 
@@ -15,7 +15,6 @@ import teammates.common.util.Logger;
 /**
  * Servlet that handles the single web page.
  */
-@SuppressWarnings("serial")
 public class WebPageServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
