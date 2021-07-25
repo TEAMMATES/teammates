@@ -45,7 +45,7 @@ class GetCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
         if (courseAttributes == null) {

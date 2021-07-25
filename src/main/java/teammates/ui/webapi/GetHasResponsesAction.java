@@ -90,7 +90,7 @@ class GetHasResponsesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
 
         if (entityType.equals(Const.EntityType.INSTRUCTOR)) {
@@ -111,7 +111,7 @@ class GetHasResponsesAction extends Action {
                     // Skip invisible sessions.
                     continue;
                 }
-                boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.email);
+                boolean hasResponses = logic.hasStudentSubmittedFeedback(feedbackSession, student.getEmail());
                 sessionsHasResponses.put(feedbackSession.getFeedbackSessionName(), hasResponses);
             }
             return new JsonResult(new HasResponsesData(sessionsHasResponses));
@@ -125,7 +125,7 @@ class GetHasResponsesAction extends Action {
 
         StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
-                logic.hasStudentSubmittedFeedback(feedbackSession, student.email)));
+                logic.hasStudentSubmittedFeedback(feedbackSession, student.getEmail())));
     }
 
     private JsonResult handleInstructorReq() {

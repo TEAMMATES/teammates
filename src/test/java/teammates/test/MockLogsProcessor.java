@@ -4,9 +4,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.logging.type.LogSeverity;
+
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -81,16 +84,33 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        generalLogs.forEach(entry -> {
-            if (severities.contains(entry.getSeverity())
-                    && entry.getTimestamp() >= startTime.toEpochMilli()
-                    && entry.getTimestamp() <= endTime.toEpochMilli()) {
-                queryResults.add(entry);
-            }
-        });
+        if (queryLogsParams.getSeverityLevel() != null) {
+            generalLogs.forEach(entry -> {
+                if (queryLogsParams.getSeverityLevel().equals(entry.getSeverity())
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else if (queryLogsParams.getMinSeverity() != null) {
+            generalLogs.forEach(entry -> {
+                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber()
+                        <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else {
+            generalLogs.forEach(entry -> {
+                if (entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        }
         return new QueryLogsResults(queryResults, null);
     }
 

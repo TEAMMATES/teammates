@@ -4,11 +4,11 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
  * Time picker with fixed time to pick.
  */
 @Component({
-  selector: 'tm-time-picker',
-  templateUrl: './time-picker.component.html',
-  styleUrls: ['./time-picker.component.scss'],
+  selector: 'tm-timepicker',
+  templateUrl: './timepicker.component.html',
+  styleUrls: ['./timepicker.component.scss'],
 })
-export class TimePickerComponent implements OnInit {
+export class TimepickerComponent implements OnInit {
 
   @Input()
   isDisabled: boolean = false;
