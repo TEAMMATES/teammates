@@ -57,6 +57,7 @@ import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -255,6 +256,18 @@ public abstract class AbstractBackDoor {
      */
     public void removeDataBundle(DataBundle dataBundle) {
         executePutRequest(Const.ResourceURIs.DATABUNDLE, null, JsonUtils.toJson(dataBundle));
+    }
+
+    /**
+     * Gets the cookie format for the given user ID.
+     */
+    public String getUserCookie(String userId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.USER_ID, userId);
+        ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
+
+        MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
+        return output.getMessage();
     }
 
     /**
