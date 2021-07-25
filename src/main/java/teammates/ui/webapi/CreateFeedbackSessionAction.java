@@ -62,8 +62,12 @@ class CreateFeedbackSessionAction extends Action {
 
         try {
             logic.createFeedbackSession(fs);
-        } catch (EntityAlreadyExistsException | InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+        } catch (EntityAlreadyExistsException e) {
+            throw new InvalidHttpRequestBodyException("A session with the same name exists in the course: "
+                    + courseId
+                    + ". Please check existing sessions or sessions in the recycle bin.", e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException("heyyy", e);
         }
 
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
