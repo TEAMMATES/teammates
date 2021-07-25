@@ -70,8 +70,8 @@ describe('LogsPageComponent', () => {
   it('should search for logs when search button is clicked', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -102,8 +102,8 @@ describe('LogsPageComponent', () => {
   it('should search for logs with minimum severity', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -134,8 +134,8 @@ describe('LogsPageComponent', () => {
   it('should search for logs with event type', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -265,8 +265,8 @@ describe('LogsPageComponent', () => {
   it('should search for all error logs when search button is clicked', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValues(of({ logEntries: [], nextPageToken: 'token' }), of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -326,7 +326,7 @@ describe('LogsPageComponent', () => {
     };
     spyOn(logService, 'searchLogs').and
       .returnValue(of({ logEntries: [testLog1, testLog2, testLog3] }));
-    spyOn(timezoneService, 'getResolvedTimestamp').and.returnValue(of({ timestamp: 0, message: '' }));
+    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
