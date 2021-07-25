@@ -224,14 +224,14 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
 
     abstract void sortResult(List<T> result);
 
-    List<T> convertDocumentToAttributes(QueryResponse response) {
-        if (response == null) {
+    List<T> convertDocumentToAttributes(List<SolrDocument> documents) {
+        if (documents == null) {
             return new ArrayList<>();
         }
 
         List<T> result = new ArrayList<>();
 
-        for (SolrDocument document : response.getResults()) {
+        for (SolrDocument document : documents) {
             T attribute = getAttributeFromDocument(document);
             if (attribute == null) {
                 // search engine out of sync as SearchManager may fail to delete documents

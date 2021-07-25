@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -65,8 +66,11 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
             throws SearchServiceException {
         SolrQuery query = getBasicQuery(queryString);
 
-        if (instructors != null) {
-            List<String> courseIdsWithViewStudentPrivilege = instructors.stream()
+        List<String> courseIdsWithViewStudentPrivilege;
+        if (instructors == null) {
+            courseIdsWithViewStudentPrivilege = new ArrayList<>();
+        } else {
+            courseIdsWithViewStudentPrivilege = instructors.stream()
                     .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
                             .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
                     .map(ins -> ins.getCourseId())
@@ -79,7 +83,24 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
         }
 
         QueryResponse response = performQuery(query);
-        return convertDocumentToAttributes(response);
+        SolrDocumentList documents = response.getResults();
+
+        // Even though FQ has been applied, it may still match some unwanted results,
+        // e.g. if a course ID specified in FQ is the substring of another valid course.
+        // An additional filtering is done here such that only exact match will be returned.
+        // TODO a better way is to modify the field type in Solr instead of doing this
+
+        List<SolrDocument> filteredDocuments = documents.stream()
+                .filter(document -> {
+                    if (instructors == null) {
+                        return true;
+                    }
+                    String courseId = (String) document.getFirstValue("courseId");
+                    return courseIdsWithViewStudentPrivilege.contains(courseId);
+                })
+                .collect(Collectors.toList());
+
+        return convertDocumentToAttributes(filteredDocuments);
     }
 
 }
