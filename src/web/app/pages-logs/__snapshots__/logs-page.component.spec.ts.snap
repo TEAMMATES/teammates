@@ -11,6 +11,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
+  TEN_MINUTES_IN_MILLISECONDS={[Function Number]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -23,6 +24,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   logService={[Function LogService]}
   nextPageToken=""
   queryParams={[Function Object]}
+  searchEndTime="0"
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -52,11 +54,13 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   </tm-loading-spinner><div>
     
     
+    
     <div
       class="center"
     >
       
     </div>
+    
   </div>
 </tm-logs-page>
 `;
@@ -72,6 +76,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
+  TEN_MINUTES_IN_MILLISECONDS={[Function Number]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -84,6 +89,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   logService={[Function LogService]}
   nextPageToken=""
   queryParams={[Function Object]}
+  searchEndTime="0"
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -445,6 +451,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   </div><div>
     
     
+    
     <tm-loading-spinner>
       <div
         class="loading-container"
@@ -460,6 +467,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </tm-loading-spinner>
+    
   </div>
 </tm-logs-page>
 `;
@@ -475,6 +483,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
+  TEN_MINUTES_IN_MILLISECONDS={[Function Number]}
   dateToday={[Function Object]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
@@ -487,6 +496,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   logService={[Function LogService]}
   nextPageToken=""
   queryParams={[Function Object]}
+  searchEndTime="0"
   searchResults={[Function Array]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -516,11 +526,13 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   </tm-loading-spinner><div>
     
     
+    
     <div
       class="center"
     >
       
     </div>
+    
   </div>
 </tm-logs-page>
 `;

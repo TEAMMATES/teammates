@@ -40,6 +40,7 @@ interface SearchLogsFormModel {
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
+  readonly TEN_MINUTES_IN_MILLISECONDS: number = 10 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
   readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
   readonly SEVERITY: string = 'severity';
@@ -70,6 +71,7 @@ export class LogsPageComponent implements OnInit {
   isTableView: boolean = true;
   nextPageToken: string = '';
   isFiltersExpanded: boolean = false;
+  searchEndTime: number = 0;
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -169,6 +171,7 @@ export class LogsPageComponent implements OnInit {
    * Sets the query parameters with the given timestamps and filters in form model.
    */
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
+    this.searchEndTime = timestampUntil;
     this.queryParams = {
       searchFrom: timestampFrom.toString(),
       searchUntil: timestampUntil.toString(),
@@ -345,7 +348,35 @@ export class LogsPageComponent implements OnInit {
 
   switchView(): void {
     this.isTableView = !this.isTableView;
+    this.hasResult = false;
     this.searchResults = [];
     this.histogramResult = [];
+  }
+
+  extendEndTime(): void {
+    this.isSearching = true;
+    this.hasResult = false;
+    this.searchResults = [];
+    this.searchEndTime = this.searchEndTime + this.TEN_MINUTES_IN_MILLISECONDS;
+    this.queryParams.searchUntil = this.searchEndTime.toString();
+    this.queryParams.nextPageToken = undefined;
+    this.logService.searchLogs(this.queryParams)
+      .pipe(finalize(() => {
+        this.isSearching = false;
+        this.hasResult = true;
+      }))
+      .subscribe((generalLogs: GeneralLogs) => this.processLogsForTableView(generalLogs),
+      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+  }
+
+  extendStartTime(): void {
+    this.isSearching = true;
+    const newStartTime: number = parseInt(this.queryParams.searchFrom, 10) - this.TEN_MINUTES_IN_MILLISECONDS;
+    this.queryParams.searchUntil = this.queryParams.searchFrom;
+    this.queryParams.searchFrom = newStartTime.toString();
+    this.logService.searchLogs(this.queryParams)
+      .pipe(finalize(() => this.isSearching = false))
+      .subscribe((generalLogs: GeneralLogs) => this.processLogsForTableView(generalLogs),
+      (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
 }

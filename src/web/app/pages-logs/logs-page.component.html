@@ -135,10 +135,16 @@
 </div>
 
 <div *ngIf="isTableView">
+  <div class="center mb-4" *ngIf="hasResult">
+    <button class="btn btn-light" (click)="extendEndTime()">Extend end time by 10 minutes</button>
+  </div>
   <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
     (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
+  </div>
+  <div class="center mt-4" *ngIf="hasResult && nextPageToken === ''">
+    <button class="btn btn-light" (click)="extendStartTime()">Extend start time by 10 minutes</button>
   </div>
 </div>
 

@@ -17,6 +17,8 @@ import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
+import com.google.cloud.logging.Logging.SortingField;
+import com.google.cloud.logging.Logging.SortingOrder;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Payload.StringPayload;
@@ -294,6 +296,7 @@ public class GoogleCloudLoggingService implements LogService {
             List<EntryListOption> entryListOptions = new ArrayList<>();
 
             entryListOptions.add(EntryListOption.filter(logFilter));
+            entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
 
             if (p != null) {
                 if (p.pageSize != null) {
