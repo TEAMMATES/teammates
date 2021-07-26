@@ -8,6 +8,9 @@ import { LogsPageModule } from '../pages-logs/logs-page.module';
 const routes: Routes = [
   {
     path: 'home',
+    data: {
+      isAdmin: false,
+    },
     loadChildren: () => import('../pages-logs/logs-page.module')
         .then((m: any) => m.LogsPageModule),
   },

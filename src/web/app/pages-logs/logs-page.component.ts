@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import moment from 'moment-timezone';
 import { EMPTY, forkJoin, Observable } from 'rxjs';
-import { concatMap, expand, finalize, map, reduce } from 'rxjs/operators';
+import {concatMap, expand, finalize, map, reduce, tap} from 'rxjs/operators';
 import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
@@ -48,6 +49,7 @@ export class LogsPageComponent implements OnInit {
   readonly EVENT: string = 'event';
   readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
   ACTION_CLASSES: string[] = [];
+  isAdmin: boolean | undefined;
 
   formModel: SearchLogsFormModel = {
     logsSeverity: '',
@@ -74,7 +76,8 @@ export class LogsPageComponent implements OnInit {
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -103,6 +106,14 @@ export class LogsPageComponent implements OnInit {
     this.logService.getActionClassList()
       .pipe(finalize(() => this.isLoading = false))
       .subscribe((actionClasses: ActionClasses) => this.ACTION_CLASSES = actionClasses.actionClasses.sort());
+
+    this.activatedRoute.data.pipe(
+        tap((data: any) => {
+          this.isAdmin = data.isAdmin;
+        })
+    ).subscribe(() => {});
+
+    console.log(this.isAdmin);
   }
 
   searchForLogs(): void {
