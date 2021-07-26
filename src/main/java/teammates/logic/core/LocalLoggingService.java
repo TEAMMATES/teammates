@@ -76,7 +76,7 @@ public class LocalLoggingService implements LogService {
                         logEntryWithUpdatedTimestamp.setMessage(log.getMessage());
                         return logEntryWithUpdatedTimestamp;
                     })
-                    .sorted((x, y) -> Long.compare(x.getTimestamp(), y.getTimestamp()))
+                    .sorted((x, y) -> Long.compare(y.getTimestamp(), x.getTimestamp()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             return new ArrayList<>();
