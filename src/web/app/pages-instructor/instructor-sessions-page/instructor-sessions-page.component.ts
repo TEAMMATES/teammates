@@ -190,7 +190,10 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
             this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/sessions/edit',
                 'The feedback session has been copied. Please modify settings/questions as necessary.',
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
-          }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
+          }, (resp: ErrorMessageOutput) => {
+            this.statusMessageService.showErrorToast(
+                this.errorMessageFormatting(result.newFeedbackSessionName, result.copyToCourseId, resp.error.message));
+          });
     }).catch(() => this.isCopyOtherSessionLoading = false);
   }
 
@@ -345,8 +348,19 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
       });
     }, (resp: ErrorMessageOutput) => {
       this.sessionEditFormModel.isSaving = false;
-      this.statusMessageService.showErrorToast(resp.error.message);
+      this.statusMessageService.showErrorToast(
+          this.errorMessageFormatting(this.sessionEditFormModel.feedbackSessionName,
+              this.courseId, resp.error.message));
     });
+  }
+
+  errorMessageFormatting(feedbackSessionName: string, courseId: string, errorMessage: string): string {
+    if (errorMessage.match('Trying to create an entity that exists')) {
+      return `A session named  ${feedbackSessionName} exists already in the course ${courseId}.
+          Tip: If you can't find such a session in that course, also check the 'Recycle bin'
+          (shown at the bottom of the 'Sessions' page).`;
+    }
+    return errorMessage;
   }
 
   /**
