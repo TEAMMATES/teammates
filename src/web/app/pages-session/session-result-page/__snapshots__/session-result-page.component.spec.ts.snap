@@ -679,7 +679,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
-            
             <div
               class="other-response"
             >
@@ -690,7 +689,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </div>
             
             <strong>
-              Your own responses:
+              Your own responses (to others):
             </strong>
             
             <div>
@@ -755,6 +754,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </tm-student-view-responses>
             </div>
           </div>
+          
+          
         </div>
       </div>
       <div
@@ -803,7 +804,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
-            
             <div
               class="other-response"
             >
@@ -814,7 +814,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </div>
             
             <strong>
-              Your own responses:
+              Your own responses (to others):
             </strong>
             
             <div>
@@ -940,6 +940,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </tm-student-view-responses>
             </div>
           </div>
+          
+          
         </div>
       </div>
       <div
@@ -988,7 +990,6 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             class="mt-4"
             id="given-responses"
           >
-            
             <div
               class="other-response"
             >
@@ -999,7 +1000,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </div>
             
             <strong>
-              Your own responses:
+              Your own responses (to others):
             </strong>
             
             <div>
@@ -1140,6 +1141,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
               </tm-student-view-responses>
             </div>
           </div>
+          
+          
         </div>
       </div>
     </div>
