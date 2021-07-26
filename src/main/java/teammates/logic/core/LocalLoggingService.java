@@ -71,7 +71,8 @@ public class LocalLoggingService implements LogService {
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestSearchableTimestamp, currentTimestamp);
                         GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(log.getLogName(),
-                                log.getSeverity(), log.getTrace(), log.getSourceLocation(), timestamp);
+                                log.getSeverity(), log.getTrace(), log.getResourceIdentifier(), log.getSourceLocation(),
+                                timestamp);
                         logEntryWithUpdatedTimestamp.setDetails(log.getDetails());
                         logEntryWithUpdatedTimestamp.setMessage(log.getMessage());
                         return logEntryWithUpdatedTimestamp;
@@ -156,6 +157,7 @@ public class LocalLoggingService implements LogService {
                         || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
                 .skip(startIndex)
                 .limit(pageSize)
+                .sorted((x, y) -> Long.compare(x.getTimestamp(), y.getTimestamp()))
                 .collect(Collectors.toList());
 
         startIndex += pageSize;
