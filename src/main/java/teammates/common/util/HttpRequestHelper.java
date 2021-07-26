@@ -25,7 +25,7 @@ public final class HttpRequestHelper {
     /**
      * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping.
      */
-    public static Map<String, Serializable> getRequestParameters(HttpServletRequest req) {
+    static Map<String, Serializable> getRequestParameters(HttpServletRequest req) {
         Map<String, Serializable> params = new HashMap<>();
         req.getParameterMap().forEach((key, values) -> {
             if (values.length == 1) {
@@ -40,7 +40,7 @@ public final class HttpRequestHelper {
     /**
      * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping.
      */
-    public static Map<String, Serializable> getRequestHeaders(HttpServletRequest req) {
+    static Map<String, Serializable> getRequestHeaders(HttpServletRequest req) {
         Map<String, Serializable> headers = new HashMap<>();
         Collections.list(req.getHeaderNames()).stream()
                 // Do not include cookie header in production for privacy reasons
