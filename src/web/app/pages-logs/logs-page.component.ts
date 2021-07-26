@@ -253,11 +253,18 @@ export class LogsPageComponent implements OnInit {
       traceIdForSummary = this.formatTraceForSummary(log.trace);
     }
 
-    if (log.message) {
+    if (log.message && this.isAdmin) {
       summary = log.message;
       payload = this.formatTextPayloadForDisplay(log.message);
     } else if (log.details) {
       payload = log.details;
+      if (!this.isAdmin) {
+        payload.delete('requestParams');
+        payload.delete('requestHeaders');
+      }
+      if (!this.isAdmin && !payload.event) {
+        payload.delete('message');
+      }
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }
