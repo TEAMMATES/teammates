@@ -106,7 +106,7 @@
           </div>
         </div>
       </div>
-      <div class="row form-group mt-4">
+      <div *ngIf="isAdmin" class="row form-group mt-4">
         <div class="col-5">
           <div class="col-12">
             <label for="action-class" class="font-weight-bold">Action class</label>
@@ -130,6 +130,19 @@
           <div class="col-12 mt-4">
             <label for="email" class="font-weight-bold">User Email</label>
             <input id="email" class="form-control" [(ngModel)]="formModel.advancedFilters.email">
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!isAdmin" class="row form-group mt-4">
+        <div class="col-5">
+          <div class="col-12">
+            <label for="action-class" class="font-weight-bold">Action class</label>
+            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
+              <option [value]=""></option>
+              <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
+                {{ actionClass }}
+              </option>
+            </select>
           </div>
         </div>
       </div>
