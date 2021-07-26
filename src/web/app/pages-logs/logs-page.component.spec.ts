@@ -70,8 +70,8 @@ describe('LogsPageComponent', () => {
   it('should search for logs when search button is clicked', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -102,8 +102,8 @@ describe('LogsPageComponent', () => {
   it('should search for logs with minimum severity', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -134,15 +134,15 @@ describe('LogsPageComponent', () => {
   it('should search for logs with event type', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValue(of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
     component.formModel = {
       logsSeverity: '',
       logsMinSeverity: '',
-      logsEvent: 'REQUEST_RECEIVED',
+      logsEvent: 'REQUEST_LOG',
       logsFilter: 'event',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
@@ -163,7 +163,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
-      logEvent: 'REQUEST_RECEIVED',
+      logEvent: 'REQUEST_LOG',
       advancedFilters: {
         traceId: 'testTrace',
         googleId: 'testGoogleId',
@@ -265,8 +265,8 @@ describe('LogsPageComponent', () => {
   it('should search for all error logs when search button is clicked', () => {
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
         .returnValues(of({ logEntries: [], nextPageToken: 'token' }), of({ logEntries: [] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -292,6 +292,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace1',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file1',
         line: 10,
@@ -304,6 +305,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace2',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
@@ -316,6 +318,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace3',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
@@ -326,7 +329,7 @@ describe('LogsPageComponent', () => {
     };
     spyOn(logService, 'searchLogs').and
       .returnValue(of({ logEntries: [testLog1, testLog2, testLog3] }));
-    spyOn(timezoneService, 'getResolvedTimestamp').and.returnValue(of({ timestamp: 0, message: '' }));
+    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
