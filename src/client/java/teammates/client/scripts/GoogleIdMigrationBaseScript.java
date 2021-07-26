@@ -38,7 +38,7 @@ import teammates.storage.entity.StudentProfile;
  */
 public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesBaseScript<Account> {
 
-    private static InstructorsDb instructorsDb = new InstructorsDb();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
 
     @Override
     protected Query<Account> getFilterQuery() {

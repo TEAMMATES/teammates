@@ -132,7 +132,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         verifyCourseNotArchivedInDatabase(instructorId, newCourse);
 
         ______TS("move active course to recycle bin");
-        newCourse.deletedAt = Instant.now();
+        newCourse.setDeletedAt(Instant.now());
         CourseAttributes[] deletedCoursesWithNewCourse = { newCourse, courses[2] };
         coursesPage.moveCourseToRecycleBin(newCourse.getId());
 
@@ -143,9 +143,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore active course");
-        newCourse.deletedAt = null;
-        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate =
-                { copyCourse, newCourse, courses[0], courses[3] };
+        newCourse.setDeletedAt(null);
+        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { copyCourse, newCourse, courses[0], courses[3] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
@@ -157,7 +156,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("move archived course to recycle bin");
         coursesPage.archiveCourse(newCourse.getId());
-        newCourse.deletedAt = Instant.now();
+        newCourse.setDeletedAt(Instant.now());
         coursesPage.moveArchivedCourseToRecycleBin(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been deleted. "
@@ -167,7 +166,7 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         assertTrue(BACKDOOR.isCourseInRecycleBin(newCourse.getId()));
 
         ______TS("restore archived course");
-        newCourse.deletedAt = null;
+        newCourse.setDeletedAt(null);
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");
@@ -222,18 +221,18 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         Set<String> teams = new HashSet<>();
 
         for (StudentAttributes student : testData.students.values()) {
-            if (!student.course.equals(course.getId())) {
+            if (!student.getCourse().equals(course.getId())) {
                 continue;
             }
-            if (!sections.contains(student.section)) {
-                sections.add(student.section);
+            if (!sections.contains(student.getSection())) {
+                sections.add(student.getSection());
                 numSections++;
             }
-            if (!teams.contains(student.team)) {
-                teams.add(student.team);
+            if (!teams.contains(student.getTeam())) {
+                teams.add(student.getTeam());
                 numTeams++;
             }
-            if (student.googleId.isEmpty()) {
+            if (student.getGoogleId().isEmpty()) {
                 numUnregistered++;
             }
             numStudents++;

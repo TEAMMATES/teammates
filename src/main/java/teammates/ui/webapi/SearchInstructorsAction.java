@@ -20,14 +20,14 @@ class SearchInstructorsAction extends AdminOnlyAction {
         if (googleId != null) {
             AccountAttributes account = logic.getAccount(googleId);
             if (account != null) {
-                return StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                return StringHelper.isEmpty(account.getInstitute()) ? "None" : account.getInstitute();
             }
         }
         return null;
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
         List<InstructorAttributes> instructors;
         try {

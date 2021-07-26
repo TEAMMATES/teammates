@@ -34,7 +34,7 @@ class AdminExceptionTestAction extends Action {
 
     @Override
     @SuppressWarnings("PMD.AvoidThrowingNullPointerException") // deliberately done for testing
-    JsonResult execute() {
+    public JsonResult execute() {
         String error = getNonNullRequestParamValue(Const.ParamsNames.ERROR);
         if (error.equals(AssertionError.class.getSimpleName())) {
             assert false : "AssertionError testing";
