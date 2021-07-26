@@ -108,9 +108,6 @@ public final class Const {
 
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
 
-        public static final String LOCAL_DATE_TIME = "localdatetime";
-        public static final String TIME_ZONE = "timezone";
-
         public static final String FEEDBACK_SESSION_NAME = "fsname";
         public static final String FEEDBACK_SESSION_STARTTIME = "starttime";
         public static final String FEEDBACK_SESSION_ENDTIME = "endtime";
@@ -301,13 +298,13 @@ public final class Const {
         public static final String JOIN = URI_PREFIX + "/join";
         public static final String JOIN_REMIND = URI_PREFIX + "/join/remind";
         public static final String TIMEZONE = URI_PREFIX + "/timezone";
-        public static final String LOCAL_DATE_TIME = URI_PREFIX + "/localdatetime";
         public static final String SESSION_LINKS_RECOVERY = URI_PREFIX + "/sessionlinksrecovery";
         public static final String NATIONALITIES = URI_PREFIX + "/nationalities";
         public static final String EMAIL = URI_PREFIX + "/email";
         public static final String SESSION_LOGS = URI_PREFIX + "/logs/session";
         public static final String LOGS = URI_PREFIX + "/logs/query";
         public static final String ACTION_CLASS = URI_PREFIX + "/actionclass";
+        public static final String USER_COOKIE = URI_PREFIX + "/cookie";
 
         public static final String STUDENT_PROFILE_PICTURE = URI_PREFIX + "/student/profilePic";
         public static final String STUDENT_PROFILE = URI_PREFIX + "/student/profile";

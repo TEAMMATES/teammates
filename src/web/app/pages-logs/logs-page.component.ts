@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import moment from 'moment-timezone';
-import { EMPTY, forkJoin, Observable } from 'rxjs';
-import {concatMap, expand, finalize, map, reduce, tap} from 'rxjs/operators';
+import { EMPTY } from 'rxjs';
+import { expand, finalize, reduce, tap } from 'rxjs/operators';
 import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../services/timezone.service';
+import { TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
 import { ActionClasses, GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
+import { DateFormat } from '../components/datepicker/datepicker.component';
 import { LogsHistogramDataModel } from '../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
-import { DateFormat } from '../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../components/session-edit-form/time-picker/time-picker.component';
 import { collapseAnim } from '../components/teammates-common/collapse-anim';
+import { TimeFormat } from '../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -43,7 +42,7 @@ export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
-  readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly EVENTS: string[] = ['REQUEST_LOG', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
@@ -52,10 +51,10 @@ export class LogsPageComponent implements OnInit {
   isAdmin: boolean | undefined;
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: '',
-    logsMinSeverity: '',
-    logsEvent: '',
-    logsFilter: '',
+    logsSeverity: 'INFO',
+    logsMinSeverity: 'INFO',
+    logsEvent: 'REQUEST_LOG',
+    logsFilter: this.EVENT,
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
@@ -81,18 +80,18 @@ export class LogsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    const today: Date = new Date();
-    this.dateToday.year = today.getFullYear();
-    this.dateToday.month = today.getMonth() + 1;
-    this.dateToday.day = today.getDate();
+    const now: Date = new Date();
+    this.dateToday.year = now.getFullYear();
+    this.dateToday.month = now.getMonth() + 1;
+    this.dateToday.day = now.getDate();
 
-    const earliestSearchDate: Date = new Date(Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
+    const earliestSearchDate: Date = new Date(now.getTime() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    const fromDate: Date = new Date();
-    fromDate.setDate(today.getDate() - 1);
+    // Start with logs from the past hour
+    const fromDate: Date = new Date(now.getTime() - 60 * 60 * 1000);
 
     this.formModel.logsDateFrom = {
       year: fromDate.getFullYear(),
@@ -100,8 +99,8 @@ export class LogsPageComponent implements OnInit {
       day: fromDate.getDate(),
     };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
-    this.formModel.logsTimeTo = { hour: 23, minute: 59 };
+    this.formModel.logsTimeFrom = { hour: fromDate.getHours(), minute: fromDate.getMinutes() };
+    this.formModel.logsTimeTo = { hour: now.getHours(), minute: now.getMinutes() };
 
     this.logService.getActionClassList()
       .pipe(finalize(() => this.isLoading = false))
@@ -127,25 +126,22 @@ export class LogsPageComponent implements OnInit {
     this.searchResults = [];
     this.nextPageToken = '';
     this.isFiltersExpanded = false;
-    const localDateTime: Observable<number>[] = [
-      this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
-      this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
-    ];
+    const timestampFrom: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+    const timestampUntil: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateTo, this.formModel.logsTimeTo);
 
     if (this.isTableView) {
-      this.searchForLogsTableView(localDateTime);
+      this.searchForLogsTableView(timestampFrom, timestampUntil);
     } else {
-      this.searchForLogsHistogramView(localDateTime);
+      this.searchForLogsHistogramView(timestampFrom, timestampUntil);
     }
   }
 
-  private searchForLogsTableView(localDateTime: Observable<number>[]): void {
-    forkJoin(localDateTime)
+  private searchForLogsTableView(timestampFrom: number, timestampUntil: number): void {
+    this.setQueryParams(timestampFrom, timestampUntil);
+    this.logService.searchLogs(this.queryParams)
       .pipe(
-        concatMap(([timestampFrom, timestampUntil]: number[]) => {
-          this.setQueryParams(timestampFrom, timestampUntil);
-          return this.logService.searchLogs(this.queryParams);
-        }),
         finalize(() => {
           this.isSearching = false;
           this.hasResult = true;
@@ -203,19 +199,15 @@ export class LogsPageComponent implements OnInit {
     }
   }
 
-  private searchForLogsHistogramView(localDateTime: Observable<number>[]): void {
+  private searchForLogsHistogramView(timestampFrom: number, timestampUntil: number): void {
     let numberOfPagesRetrieved: number = 0;
-    forkJoin(localDateTime)
-      .pipe(
-        concatMap(([timestampFrom, timestampUntil]: number[]) => {
-          this.queryParams = {
-            searchFrom: timestampFrom.toString(),
-            searchUntil: timestampUntil.toString(),
-            severity: 'ERROR',
-            advancedFilters: {},
-          };
-          return this.logService.searchLogs(this.queryParams);
-        }))
+    this.queryParams = {
+      searchFrom: timestampFrom.toString(),
+      searchUntil: timestampUntil.toString(),
+      severity: 'ERROR',
+      advancedFilters: {},
+    };
+    this.logService.searchLogs(this.queryParams)
       .pipe(
         expand((logs: GeneralLogs) => {
           if (logs.nextPageToken !== undefined && numberOfPagesRetrieved < this.MAXIMUM_PAGES_FOR_ERROR_LOGS) {
@@ -250,21 +242,9 @@ export class LogsPageComponent implements OnInit {
     });
   }
 
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
-    const inst: any = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1);
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-
-    return this.timezoneService.getResolvedTimestamp(localDateTime, this.timezoneService.guessTimezone(), fieldName)
-        .pipe(map((result: TimeResolvingResult) => result.timestamp));
-  }
-
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
+    let actionClass: string = '';
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
@@ -286,6 +266,9 @@ export class LogsPageComponent implements OnInit {
       if (payload.requestUrl) {
         summary += `${payload.requestUrl} `;
       }
+      if (!summary && payload.message) {
+        summary = payload.message;
+      }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
       }
@@ -293,7 +276,7 @@ export class LogsPageComponent implements OnInit {
         responseTime = payload.responseTime;
       }
       if (payload.actionClass) {
-        summary += `${payload.actionClass}`;
+        actionClass = payload.actionClass;
       }
       if (payload.userInfo) {
         userInfo = payload.userInfo;
@@ -306,9 +289,11 @@ export class LogsPageComponent implements OnInit {
       httpStatus,
       responseTime,
       userInfo,
+      actionClass,
       traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
+      resourceIdentifier: log.resourceIdentifier,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       details: payload,
@@ -326,7 +311,7 @@ export class LogsPageComponent implements OnInit {
    * Display the first 9 digits of the trace.
    */
   private formatTraceForSummary(trace: string): string | undefined {
-    return trace.split('/').pop()?.slice(0, 9);
+    return trace.slice(0, 9);
   }
 
   getNextPageLogs(): void {
@@ -342,6 +327,12 @@ export class LogsPageComponent implements OnInit {
     this.isFiltersExpanded = true;
     this.formModel.advancedFilters.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
+  }
+
+  addActionClassToFilter(actionClass: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.actionClass = actionClass;
+    this.statusMessageService.showSuccessToast('Action class added to filters');
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {

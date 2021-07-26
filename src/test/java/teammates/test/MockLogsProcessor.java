@@ -2,6 +2,7 @@ package teammates.test;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.logging.type.LogSeverity;
@@ -78,7 +79,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
             GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
-        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, timestamp);
+        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, new HashMap<>(), sourceLocation, timestamp);
         logEntry.setMessage(textPayloadMessage);
         generalLogs.add(logEntry);
     }

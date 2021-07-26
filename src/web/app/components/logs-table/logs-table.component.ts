@@ -18,6 +18,8 @@ export class LogsTableComponent implements OnInit {
   @Output()
   addTraceEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output()
+  addActionClassEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
   addSourceLocationEvent: EventEmitter<SourceLocation> = new EventEmitter<SourceLocation>();
   @Output()
   addUserInfoEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -60,6 +62,10 @@ export class LogsTableComponent implements OnInit {
 
   addTraceToFilter(trace: string): void {
     this.addTraceEvent.emit(trace);
+  }
+
+  addActionClassToFilter(actionClass: string): void {
+    this.addActionClassEvent.emit(actionClass);
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
