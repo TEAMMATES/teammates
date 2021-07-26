@@ -46,7 +46,7 @@
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
-    <div *ngIf="this.questions.length === 0" class="mt-4">
+    <div *ngIf="isFeedbackSessionResultsEmpty" class="mt-4">
       <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
         Nothing to show. The responses are either not configured to be visible or there are no responses.
       </div>
@@ -54,7 +54,7 @@
     <div class="card bg-light mt-4" *ngFor="let question of questions">
       <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
-        <div id="other-responses" *ngIf="canStudentSeeResponses(question)">
+        <div id="other-responses" *ngIf="canStudentSeeResponses(question), else nonViewableResult">
           <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                                 [responses]="question.allResponses"
                                 [statistics]="question.questionStatistics"
@@ -64,6 +64,9 @@
             <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
           </div>
         </div>
+        <ng-template #nonViewableResult>
+          
+        </ng-template>
         <div id="given-responses" class="mt-4" *ngIf="question.responsesFromSelf.length">
           <div class="other-response" *ngIf="!question.feedbackQuestion.showResponsesTo.includes(visibilityRecipient)">
             <strong>Other responses (to you): </strong>Responses are not visible to you.

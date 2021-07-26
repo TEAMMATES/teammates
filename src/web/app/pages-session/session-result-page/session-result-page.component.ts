@@ -63,6 +63,7 @@ export class SessionResultPageComponent implements OnInit {
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
+  isFeedbackSessionResultsEmpty: boolean = false;
   retryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
   private backendUrl: string = environment.backendUrl;
@@ -184,6 +185,9 @@ export class SessionResultPageComponent implements OnInit {
             this.questions = sessionResults.questions.sort(
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
+            if (this.questions.length === 0) {
+              this.isFeedbackSessionResultsEmpty = true;
+            }
           }, (resp: ErrorMessageOutput) => {
             this.handleError(resp);
           });
