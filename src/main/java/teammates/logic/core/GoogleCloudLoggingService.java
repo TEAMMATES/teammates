@@ -37,6 +37,7 @@ import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.LogServiceException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 
 /**
@@ -57,6 +58,8 @@ public class GoogleCloudLoggingService implements LogService {
 
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
+
+    private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
 
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -138,11 +141,15 @@ public class GoogleCloudLoggingService implements LogService {
             String logName = entry.getLogName();
             Severity severity = entry.getSeverity();
             String trace = entry.getTrace();
+            if (trace != null) {
+                trace = trace.replace(TRACE_PREFIX, "");
+            }
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
+            Map<String, String> resourceIdentifier = entry.getResource().getLabels();
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace,
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace, resourceIdentifier,
                     new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
@@ -342,7 +349,6 @@ public class GoogleCloudLoggingService implements LogService {
             LogSearchParams logSearchParams = new LogSearchParams()
                     .setStartTime(queryLogsParams.getStartTime())
                     .setEndTime(queryLogsParams.getEndTime())
-                    .setTraceId(queryLogsParams.getTraceId())
                     .setActionClass(queryLogsParams.getActionClass())
                     .setUserInfoParams(queryLogsParams.getUserInfoParams())
                     .setLogEvent(queryLogsParams.getLogEvent())
@@ -354,6 +360,9 @@ public class GoogleCloudLoggingService implements LogService {
                 logSearchParams.setMinSeverity(LogSeverity.valueOf(queryLogsParams.getMinSeverity()));
             } else {
                 logSearchParams.setMinSeverity(LogSeverity.INFO);
+            }
+            if (queryLogsParams.getTraceId() != null) {
+                logSearchParams.setTraceId(TRACE_PREFIX + queryLogsParams.getTraceId());
             }
             return logSearchParams;
         }

@@ -312,7 +312,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   type="radio"
                 />
                 <label
-                  for="equal"
+                  for="severity"
                 >
                   severity = 
                 </label>
@@ -341,12 +341,12 @@ exports[`LogsPageComponent should snap when searching for details in search form
               <div>
                 <input
                   class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
-                  id="minSeverity"
+                  id="min-severity"
                   name="severity"
                   type="radio"
                 />
                 <label
-                  for="above"
+                  for="min-severity"
                 >
                   severity &gt;= 
                 </label>
@@ -380,7 +380,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   type="radio"
                 />
                 <label
-                  for="all"
+                  for="event"
                 >
                   All event logs  
                 </label>
@@ -389,14 +389,9 @@ exports[`LogsPageComponent should snap when searching for details in search form
                 >
                   
                   <option
-                    value="REQUEST_RECEIVED"
+                    value="REQUEST_LOG"
                   >
-                    REQUEST_RECEIVED
-                  </option>
-                  <option
-                    value="RESPONSE_DISPATCHED"
-                  >
-                    RESPONSE_DISPATCHED
+                    REQUEST_LOG
                   </option>
                   <option
                     value="EMAIL_SENT"

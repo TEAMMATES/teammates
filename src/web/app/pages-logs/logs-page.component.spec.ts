@@ -142,7 +142,7 @@ describe('LogsPageComponent', () => {
     component.formModel = {
       logsSeverity: '',
       logsMinSeverity: '',
-      logsEvent: 'REQUEST_RECEIVED',
+      logsEvent: 'REQUEST_LOG',
       logsFilter: 'event',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
@@ -163,7 +163,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
-      logEvent: 'REQUEST_RECEIVED',
+      logEvent: 'REQUEST_LOG',
       advancedFilters: {
         traceId: 'testTrace',
         googleId: 'testGoogleId',
@@ -292,6 +292,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace1',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file1',
         line: 10,
@@ -304,6 +305,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace2',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
@@ -316,6 +318,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace3',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
