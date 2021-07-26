@@ -452,7 +452,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
    */
   copySessionEventHandler(result: CopySessionResult): void {
     this.isCopySessionLoading = true;
-    this.failedToCopySessions = {};
+    this.failedToCopySessions = [];
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.sessionsTableRowModels[result.sessionToCopyRowIndex], result);
     if (requestList.length === 1) {

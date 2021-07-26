@@ -33,7 +33,8 @@ export abstract class InstructorSessionBasePageComponent {
 
   isResultActionLoading: boolean = false;
 
-  protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
+  failedToCopySessions: string[] = []; // Map of failed session copy to error message
+  failedToCopySessionName: string = '';
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
@@ -185,7 +186,9 @@ export abstract class InstructorSessionBasePageComponent {
       copySessionRequests.push(
           this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
               .pipe(catchError((err: any) => {
-                this.failedToCopySessions[copyToCourseId] = err.error.message;
+                console.log(err);
+                this.failedToCopySessionName = result.newFeedbackSessionName;
+                this.failedToCopySessions.push(copyToCourseId);
                 return of(err);
               })),
       );
@@ -212,7 +215,9 @@ export abstract class InstructorSessionBasePageComponent {
           switchMap((feedbackSession: FeedbackSession) =>
               this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)),
           catchError((err: any) => {
-            this.failedToCopySessions[copyToCourseId] = err.error.message;
+            console.log(err);
+            this.failedToCopySessionName = result.newFeedbackSessionName;
+            this.failedToCopySessions.push(copyToCourseId);
             return of(err);
           }),
       ));
@@ -231,13 +236,14 @@ export abstract class InstructorSessionBasePageComponent {
             'The feedback session has been copied. Please modify settings/questions as necessary.',
             { courseid: createdSession.courseId, fsname: createdSession.feedbackSessionName });
       } else {
+        console.log(copySessionRequest);
         this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
       }
     }, (resp: ErrorMessageOutput) => { this.statusMessageService.showErrorToast(resp.error.message); });
   }
 
   showCopyStatusMessage(): void {
-    if (Object.keys(this.failedToCopySessions).length > 0) {
+    if (this.failedToCopySessions.length > 0) {
       this.statusMessageService.showErrorToast(this.getCopyErrorMessage());
     } else {
       this.statusMessageService.showSuccessToast('Feedback session copied successfully to all courses.');
@@ -245,14 +251,10 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   getCopyErrorMessage(): string {
-    const templateErrorString: string = Object.values(this.failedToCopySessions)[0];
-    const courseInfoStartIndex: number = templateErrorString.indexOf('course ') + 7;
-    const courseInfoEndIndex: number = templateErrorString.lastIndexOf('. Tip');
-    let errorMsg: string = templateErrorString.substring(0, courseInfoStartIndex);
-    errorMsg += Object.values(this.failedToCopySessions)
-        .map((value: string) => value.substring(courseInfoStartIndex, courseInfoEndIndex)).join(', ');
-    errorMsg += templateErrorString.substring(courseInfoEndIndex - 1);
-    return errorMsg;
+    return "A session named " + this.failedToCopySessionName
+      + " exists already in the course(s) " + this.failedToCopySessions.map((val: string) => "Course ID: " + val).join(", ") 
+      + " Tip: If you can't find such a session in that course, "
+      + " also check the 'Recycle bin' (shown at the bottom of the 'Sessions' page)."
   }
 
   /**
