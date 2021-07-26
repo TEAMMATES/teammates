@@ -46,7 +46,7 @@
 
 <tm-loading-retry [shouldShowRetry]="hasFeedbackSessionResultsLoadingFailed" [message]="'Failed to load results'" (retryEvent)="retryLoadingFeedbackSessionResults()">
   <div *tmIsLoading="isFeedbackSessionResultsLoading">
-    <div *ngIf="isFeedbackSessionResultsEmpty" class="mt-4">
+    <div *ngIf="this.questions.length === 0" class="mt-4">
       <div class="alert alert-primary d-flex align-items-center justify-content-center" style="background-color: #D1ECF1;" role="alert">
         Nothing to show. The responses are either not configured to be visible or there are no responses.
       </div>
