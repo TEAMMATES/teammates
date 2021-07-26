@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import { LogsTableComponent } from './logs-table.component';
 
 /**
@@ -7,7 +8,7 @@ import { LogsTableComponent } from './logs-table.component';
  */
 @NgModule({
   declarations: [LogsTableComponent],
-  imports: [CommonModule],
+  imports: [CommonModule, NgbTooltipModule],
   exports: [LogsTableComponent],
 })
 export class LogsTableModule { }

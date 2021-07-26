@@ -35,6 +35,9 @@ public class ActionFactory {
         map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         map(ResourceURIs.DATABUNDLE_DOCUMENTS, PUT, PutDataBundleDocumentsAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        // Even though this is a GET action, POST is used in order to get extra protection from CSRF
+        map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
+
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);
@@ -103,7 +106,6 @@ public class ActionFactory {
         map(ResourceURIs.RESPONSES, GET, GetFeedbackResponsesAction.class);
         map(ResourceURIs.RESPONSES, PUT, SubmitFeedbackResponsesAction.class);
         map(ResourceURIs.HAS_RESPONSES, GET, GetHasResponsesAction.class);
-        map(ResourceURIs.LOCAL_DATE_TIME, GET, GetLocalDateTimeInfoAction.class);
         map(ResourceURIs.SESSION_LINKS_RECOVERY, POST, SessionLinksRecoveryAction.class);
         map(ResourceURIs.JOIN, GET, GetCourseJoinStatusAction.class);
         map(ResourceURIs.JOIN, PUT, JoinCourseAction.class);
