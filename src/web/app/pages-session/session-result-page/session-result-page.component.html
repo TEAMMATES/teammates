@@ -54,7 +54,7 @@
     <div class="card bg-light mt-4" *ngFor="let question of questions">
       <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
-        <div id="other-responses" *ngIf="canStudentSeeResponses(question), else nonViewableResult">
+        <div id="other-responses" *ngIf="canStudentSeeResponses(question), else nonViewableResponse">
           <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                                 [responses]="question.allResponses"
                                 [statistics]="question.questionStatistics"
@@ -64,21 +64,21 @@
             <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
           </div>
         </div>
-        <ng-template #nonViewableResult>
-          
+        <ng-template #nonViewableResponse>
+          <div id="given-responses" class="mt-4" *ngIf="question.responsesFromSelf.length">
+            <div class="other-response">
+              <strong>Other responses (to you): </strong>Responses are not visible to you.
+            </div>
+            <div class="other-response" *ngIf="canStudentSeeResponses(question) && (!question.otherResponses.length && !question.responsesToSelf.length)">
+              <strong>Other responses (to you): </strong>No responses received yet.
+            </div>
+            <strong>Your own responses (to others):</strong>
+            <div *ngFor="let responseFromSelf of question.responsesFromSelf">
+              <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
+            </div>
+          </div>
         </ng-template>
-        <div id="given-responses" class="mt-4" *ngIf="question.responsesFromSelf.length">
-          <div class="other-response" *ngIf="!question.feedbackQuestion.showResponsesTo.includes(visibilityRecipient)">
-            <strong>Other responses (to you): </strong>Responses are not visible to you.
-          </div>
-          <div class="other-response" *ngIf="question.feedbackQuestion.showResponsesTo.includes(visibilityRecipient) && (!question.otherResponses.length && !question.responsesToSelf.length)">
-            <strong>Other responses (to you): </strong>No responses received yet.
-          </div>
-          <strong>Your own responses (to others):</strong>
-          <div *ngFor="let responseFromSelf of question.responsesFromSelf">
-            <tm-student-view-responses [responses]="[responseFromSelf]" [isSelfResponses]="true" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
-          </div>
-        </div>
+        
       </div>
     </div>
   </div>
