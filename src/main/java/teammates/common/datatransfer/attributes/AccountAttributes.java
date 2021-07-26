@@ -15,13 +15,12 @@ import teammates.storage.entity.Account;
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
-    public String googleId;
-
-    public String name;
-    public boolean isInstructor;
-    public String email;
-    public String institute;
-    public Instant createdAt;
+    private String googleId;
+    private String name;
+    private boolean isInstructor;
+    private String email;
+    private String institute;
+    private Instant createdAt;
 
     private AccountAttributes(String googleId) {
         this.googleId = googleId;
@@ -65,24 +64,48 @@ public class AccountAttributes extends EntityAttributes<Account> {
         return isInstructor;
     }
 
+    public void setInstructor(boolean instructor) {
+        isInstructor = instructor;
+    }
+
     public String getGoogleId() {
         return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getInstitute() {
         return institute;
     }
 
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override

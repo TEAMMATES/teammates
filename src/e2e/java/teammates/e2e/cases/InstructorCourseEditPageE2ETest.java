@@ -37,7 +37,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         // log in as instructor with no edit privilege
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[2].googleId);
+        InstructorCourseEditPage editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[2].getGoogleId());
 
         editPage.verifyCourseNotEditable();
         editPage.verifyInstructorsNotEditable();
@@ -48,7 +48,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
         logout();
         url = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_EDIT_PAGE)
                 .withCourseId(course.getId());
-        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].googleId);
+        editPage = loginToPage(url, InstructorCourseEditPage.class, instructors[3].getGoogleId());
 
         editPage.verifyCourseDetails(course);
         editPage.verifyInstructorDetails(instructors[0]);
@@ -67,24 +67,24 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 .build();
 
         editPage.addInstructor(newInstructor);
-        editPage.verifyStatusMessage("\"The instructor " + newInstructor.name + " has been added successfully. "
-                + "An email containing how to 'join' this course will be sent to " + newInstructor.email
+        editPage.verifyStatusMessage("\"The instructor " + newInstructor.getName() + " has been added successfully. "
+                + "An email containing how to 'join' this course will be sent to " + newInstructor.getEmail()
                 + " in a few minutes.\"");
         editPage.verifyInstructorDetails(newInstructor);
         verifyPresentInDatabase(newInstructor);
 
         ______TS("resend invite");
         editPage.resendInstructorInvite(newInstructor);
-        editPage.verifyStatusMessage("An email has been sent to " + newInstructor.email);
+        editPage.verifyStatusMessage("An email has been sent to " + newInstructor.getEmail());
 
         ______TS("edit instructor");
-        instructors[0].name = "Edited Name";
-        instructors[0].email = "ICEdit.edited@gmail.tmt";
-        instructors[0].privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
-        instructors[0].privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
-        instructors[0].privileges.updatePrivilege("Section 2",
+        instructors[0].setName("Edited Name");
+        instructors[0].setEmail("ICEdit.edited@gmail.tmt");
+        instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION, true);
+        instructors[0].getPrivileges().updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT, false);
+        instructors[0].getPrivileges().updatePrivilege("Section 2",
                 Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS, true);
-        instructors[0].privileges.updatePrivilege("Section 1", "First feedback session",
+        instructors[0].getPrivileges().updatePrivilege("Section 1", "First feedback session",
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS, true);
 
         editPage.editInstructor(1, instructors[0]);
@@ -94,7 +94,7 @@ public class InstructorCourseEditPageE2ETest extends BaseE2ETestCase {
                 Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
         editPage.toggleCustomSessionLevelPrivilege(1, 2, "Section 1", "First feedback session",
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS);
-        editPage.verifyStatusMessage("The instructor " + instructors[0].name + " has been updated.");
+        editPage.verifyStatusMessage("The instructor " + instructors[0].getName() + " has been updated.");
         editPage.verifyInstructorDetails(instructors[0]);
 
         // verify in database by reloading

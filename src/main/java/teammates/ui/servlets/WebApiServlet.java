@@ -1,4 +1,4 @@
-package teammates.ui.webapi;
+package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,15 +20,16 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
+import teammates.ui.webapi.Action;
+import teammates.ui.webapi.ActionFactory;
+import teammates.ui.webapi.ActionResult;
+import teammates.ui.webapi.JsonResult;
 
 /**
  * Servlet that handles all requests from the web application.
  */
-@SuppressWarnings("serial")
 @MultipartConfig
 public class WebApiServlet extends HttpServlet {
 
@@ -105,20 +106,16 @@ public class WebApiServlet extends HttpServlet {
             throwError(resp, statusCode,
                     "The server encountered an error when processing your request.");
         } finally {
-            long timeElapsed = RequestTracer.getTimeElapsedMillis();
-            Map<String, Object> responseDetails = new HashMap<>();
-            responseDetails.put("responseStatus", statusCode);
-            responseDetails.put("responseTime", timeElapsed);
-
-            String logMessage = "%s " + RequestTracer.getTraceId() + " %s with %s in " + timeElapsed + "ms";
-            if (action == null) {
-                logMessage = String.format(logMessage, "Response", "dispatched", statusCode);
-            } else {
-                responseDetails.put("actionClass", action.getClass().getSimpleName());
-                logMessage = String.format(logMessage, action.getClass().getSimpleName(), "finished", statusCode);
+            Map<String, Object> extraInfo = new HashMap<>();
+            Map<String, String> userInfo = new HashMap<>();
+            String actionClass = "Unknown Action";
+            if (action != null) {
+                actionClass = action.getClass().getSimpleName();
+                extraInfo.put("actionClass", actionClass);
+                userInfo = action.getUserInfoForLogging();
             }
 
-            log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, responseDetails);
+            log.request(req, statusCode, actionClass, userInfo, extraInfo);
         }
     }
 
