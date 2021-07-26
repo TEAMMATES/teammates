@@ -3,6 +3,8 @@ package teammates.common.util;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * Allows any component of the application to log messages at appropriate levels.
  */
@@ -38,6 +40,35 @@ public final class Logger {
      */
     public void info(String message) {
         standardLog.info(formatLogMessage(message, "INFO"));
+    }
+
+    /**
+     * Logs an HTTP request.
+     */
+    public void request(HttpServletRequest request, int statusCode, String message,
+                        Map<String, String> userInfo, Map<String, Object> extraInfo) {
+        long timeElapsed = RequestTracer.getTimeElapsedMillis();
+        String method = request.getMethod();
+        String requestUrl = request.getRequestURI();
+        Map<String, Object> requestDetails = new HashMap<>();
+        requestDetails.put("responseStatus", statusCode);
+        requestDetails.put("responseTime", timeElapsed);
+        requestDetails.put("requestMethod", method);
+        requestDetails.put("requestUrl", requestUrl);
+        requestDetails.put("userAgent", request.getHeader("User-Agent"));
+        requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
+        requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
+
+        if (request.getParameter(Const.ParamsNames.REGKEY) != null) {
+            userInfo.putIfAbsent("regkey", request.getParameter(Const.ParamsNames.REGKEY));
+        }
+        requestDetails.put("userInfo", userInfo);
+        requestDetails.putAll(extraInfo);
+
+        String logMessage = String.format("[%s] [%sms] [%s %s] %s",
+                statusCode, timeElapsed, method, requestUrl, message);
+
+        event(LogEvent.REQUEST_LOG, logMessage, requestDetails);
     }
 
     /**

@@ -17,7 +17,7 @@ import teammates.ui.output.GeneralLogsData;
  * Queries the logs.
  */
 public class QueryLogsAction extends AdminOnlyAction {
-    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 50;
 
     private static final long TWENTY_FOUR_HOURS_IN_MILLIS = 1000L * 60 * 60 * 24;
 
