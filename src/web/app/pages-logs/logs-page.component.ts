@@ -258,6 +258,7 @@ export class LogsPageComponent implements OnInit {
       payload = this.formatTextPayloadForDisplay(log.message);
     } else if (log.details) {
       payload = log.details;
+
       if (!this.isAdmin) {
         payload.delete('requestParams');
         payload.delete('requestHeaders');
@@ -265,6 +266,7 @@ export class LogsPageComponent implements OnInit {
       if (!this.isAdmin && !payload.event) {
         payload.delete('message');
       }
+
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }
