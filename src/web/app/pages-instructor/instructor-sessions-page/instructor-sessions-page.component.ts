@@ -192,7 +192,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
                 { courseid: createdFeedbackSession.courseId, fsname: createdFeedbackSession.feedbackSessionName });
           }, (resp: ErrorMessageOutput) => {
             this.statusMessageService.showErrorToast(
-                this.errorMessageFormatting(result.newFeedbackSessionName, result.copyToCourseId, resp.error.message));
+                this.formatErrorMessgae(resp.error.message));
           });
     }).catch(() => this.isCopyOtherSessionLoading = false);
   }
@@ -349,14 +349,13 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
     }, (resp: ErrorMessageOutput) => {
       this.sessionEditFormModel.isSaving = false;
       this.statusMessageService.showErrorToast(
-          this.errorMessageFormatting(this.sessionEditFormModel.feedbackSessionName,
-              this.courseId, resp.error.message));
+          this.formatErrorMessgae(resp.error.message));
     });
   }
 
-  errorMessageFormatting(feedbackSessionName: string, courseId: string, errorMessage: string): string {
-    if (errorMessage.match('Trying to create an entity that exists')) {
-      return `A session named  ${feedbackSessionName} exists already in the course ${courseId}.
+  formatErrorMessgae(errorMessage: string): string {
+    if (errorMessage.match('exists already in the course')) {
+      return `${errorMessage}.
           Tip: If you can't find such a session in that course, also check the 'Recycle bin'
           (shown at the bottom of the 'Sessions' page).`;
     }

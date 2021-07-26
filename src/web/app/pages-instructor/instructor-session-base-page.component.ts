@@ -34,7 +34,6 @@ export abstract class InstructorSessionBasePageComponent {
   isResultActionLoading: boolean = false;
 
   protected failedToCopySessions: Record<string, string> = {}; // Map of failed session copy to error message
-  protected failedToCopySessionName: string = '';
 
   private publishUnpublishRetryAttempts: number = DEFAULT_NUMBER_OF_RETRY_ATTEMPTS;
 
@@ -186,7 +185,6 @@ export abstract class InstructorSessionBasePageComponent {
       copySessionRequests.push(
           this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
               .pipe(catchError((err: any) => {
-                this.failedToCopySessionName = result.newFeedbackSessionName;
                 this.failedToCopySessions[copyToCourseId] = err.error.message;
                 return of(err);
               })),
@@ -214,7 +212,6 @@ export abstract class InstructorSessionBasePageComponent {
           switchMap((feedbackSession: FeedbackSession) =>
               this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)),
           catchError((err: any) => {
-            this.failedToCopySessionName = result.newFeedbackSessionName;
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return of(err);
           }),
@@ -249,14 +246,14 @@ export abstract class InstructorSessionBasePageComponent {
 
   getCopyErrorMessage(): string {
     const templateErrorString: string = Object.values(this.failedToCopySessions)[0];
-    if (templateErrorString.match('Trying to create an entity that exists')) {
-      return `A session named  ${this.failedToCopySessionName} exists already in the course(s)
-          ${Object.keys(this.failedToCopySessions).join(', ')}.
+    if (templateErrorString.match(' exists already in the course ')) {
+      const courseNameStartIndex: number = templateErrorString.indexOf(' exists already in the course ')
+          + ' exists already in the course '.length;
+      return `${templateErrorString.substring(0, courseNameStartIndex)}
+          ${Object.values(this.failedToCopySessions).map((value: string) =>
+              value.slice(courseNameStartIndex, -1)).join(', ')}.
           Tip: If you can't find such a session in that course, also check the 'Recycle bin'
           (shown at the bottom of the 'Sessions' page).`;
-    }
-    if (templateErrorString.match('is not acceptable to TEAMMATES as a/an feedback session name')) {
-      return `Error copying to ${Object.keys(this.failedToCopySessions).join(', ')}. ${templateErrorString}`;
     }
     return Object.keys(this.failedToCopySessions).map((key: string) =>
         `Error copying to ${key}: ${this.failedToCopySessions[key]}`).join(' ');
