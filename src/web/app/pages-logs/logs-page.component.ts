@@ -111,8 +111,6 @@ export class LogsPageComponent implements OnInit {
           this.isAdmin = data.isAdmin;
         })
     ).subscribe(() => {});
-
-    console.log(this.isAdmin);
   }
 
   searchForLogs(): void {
