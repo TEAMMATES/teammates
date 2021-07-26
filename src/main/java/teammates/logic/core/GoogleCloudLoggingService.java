@@ -125,7 +125,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams, boolean isUserAdmin) throws LogServiceException {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
@@ -152,6 +152,14 @@ public class GoogleCloudLoggingService implements LogService {
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
                 Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                if (!isUserAdmin) {
+                    jsonPayloadMap.remove("requestParams");
+                    jsonPayloadMap.remove("requestHeader");
+                    jsonPayloadMap.remove("userInfo");
+                    if (!jsonPayloadMap.containsKey("event")) {
+                        jsonPayloadMap.remove("message");
+                    }
+                }
                 logEntry.setDetails(jsonPayloadMap);
             } else {
                 String textPayloadMessage = ((Payload.StringPayload) payload).getData();

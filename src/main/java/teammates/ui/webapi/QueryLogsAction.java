@@ -65,13 +65,19 @@ public class QueryLogsAction extends AdminOnlyAction {
         String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String actionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ACTION_CLASS);
-        String googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
-        String regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
-        String email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
         String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);
         String sourceLocationFile = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FILE);
         String sourceLocationFunction = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FUNCTION);
         String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
+        String googleId = null;
+        String regkey = null;
+        String email = null;
+
+        if (userInfo.isAdmin && !userInfo.isMaintainer) {
+            googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
+            regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
+            email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
+        }
 
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
                 .withSeverityLevel(severity)
@@ -86,7 +92,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withPageToken(nextPageToken)
                 .build();
         try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
+            QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams, userInfo.isAdmin);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {

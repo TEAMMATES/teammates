@@ -285,7 +285,7 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         actionClass = payload.actionClass;
       }
-      if (payload.userInfo) {
+      if (payload.userInfo && this.isAdmin) {
         userInfo = payload.userInfo;
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
       }

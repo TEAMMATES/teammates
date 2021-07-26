@@ -16,7 +16,7 @@ public interface LogService {
 
     List<ErrorLogEntry> getRecentErrorLogs();
 
-    QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException;
+    QueryLogsResults queryLogs(QueryLogsParams queryLogsParams, boolean isUserAdmin) throws LogServiceException;
 
     void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) throws LogServiceException;
 
