@@ -41,7 +41,7 @@ export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
   readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
-  readonly EVENTS: string[] = ['REQUEST_RECEIVED', 'RESPONSE_DISPATCHED', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly EVENTS: string[] = ['REQUEST_LOG', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
@@ -49,10 +49,10 @@ export class LogsPageComponent implements OnInit {
   ACTION_CLASSES: string[] = [];
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: '',
-    logsMinSeverity: '',
-    logsEvent: '',
-    logsFilter: '',
+    logsSeverity: 'INFO',
+    logsMinSeverity: 'INFO',
+    logsEvent: 'REQUEST_LOG',
+    logsFilter: this.EVENT,
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
@@ -77,18 +77,18 @@ export class LogsPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    const today: Date = new Date();
-    this.dateToday.year = today.getFullYear();
-    this.dateToday.month = today.getMonth() + 1;
-    this.dateToday.day = today.getDate();
+    const now: Date = new Date();
+    this.dateToday.year = now.getFullYear();
+    this.dateToday.month = now.getMonth() + 1;
+    this.dateToday.day = now.getDate();
 
-    const earliestSearchDate: Date = new Date(Date.now() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
+    const earliestSearchDate: Date = new Date(now.getTime() - this.LOGS_RETENTION_PERIOD_IN_MILLISECONDS);
     this.earliestSearchDate.year = earliestSearchDate.getFullYear();
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    const fromDate: Date = new Date();
-    fromDate.setDate(today.getDate() - 1);
+    // Start with logs from the past hour
+    const fromDate: Date = new Date(now.getTime() - 60 * 60 * 1000);
 
     this.formModel.logsDateFrom = {
       year: fromDate.getFullYear(),
@@ -96,8 +96,8 @@ export class LogsPageComponent implements OnInit {
       day: fromDate.getDate(),
     };
     this.formModel.logsDateTo = { ...this.dateToday };
-    this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
-    this.formModel.logsTimeTo = { hour: 23, minute: 59 };
+    this.formModel.logsTimeFrom = { hour: fromDate.getHours(), minute: fromDate.getMinutes() };
+    this.formModel.logsTimeTo = { hour: now.getHours(), minute: now.getMinutes() };
 
     this.logService.getActionClassList()
       .pipe(finalize(() => this.isLoading = false))
@@ -233,6 +233,7 @@ export class LogsPageComponent implements OnInit {
 
   toLogModel(log: GeneralLogEntry): LogsTableRowModel {
     let summary: string = '';
+    let actionClass: string = '';
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
@@ -254,6 +255,9 @@ export class LogsPageComponent implements OnInit {
       if (payload.requestUrl) {
         summary += `${payload.requestUrl} `;
       }
+      if (!summary && payload.message) {
+        summary = payload.message;
+      }
       if (payload.responseStatus) {
         httpStatus = payload.responseStatus;
       }
@@ -261,7 +265,7 @@ export class LogsPageComponent implements OnInit {
         responseTime = payload.responseTime;
       }
       if (payload.actionClass) {
-        summary += `${payload.actionClass}`;
+        actionClass = payload.actionClass;
       }
       if (payload.userInfo) {
         userInfo = payload.userInfo;
@@ -274,9 +278,11 @@ export class LogsPageComponent implements OnInit {
       httpStatus,
       responseTime,
       userInfo,
+      actionClass,
       traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
+      resourceIdentifier: log.resourceIdentifier,
       timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       details: payload,
@@ -294,7 +300,7 @@ export class LogsPageComponent implements OnInit {
    * Display the first 9 digits of the trace.
    */
   private formatTraceForSummary(trace: string): string | undefined {
-    return trace.split('/').pop()?.slice(0, 9);
+    return trace.slice(0, 9);
   }
 
   getNextPageLogs(): void {
@@ -310,6 +316,12 @@ export class LogsPageComponent implements OnInit {
     this.isFiltersExpanded = true;
     this.formModel.advancedFilters.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
+  }
+
+  addActionClassToFilter(actionClass: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.actionClass = actionClass;
+    this.statusMessageService.showSuccessToast('Action class added to filters');
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
