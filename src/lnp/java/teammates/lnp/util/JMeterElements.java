@@ -185,14 +185,14 @@ public final class JMeterElements {
     /**
      * Returns a HTTP Request element that is configured to login to a TEAMMATES instance.
      *
-     * <p>This element uses data from the "loginId" and "isAdmin" fields of the CSV config file.</p>
+     * <p>This element uses data from the "loginId" field of the CSV config file.</p>
      */
     public static HTTPSamplerProxy loginSampler() {
         HTTPSamplerProxy loginSampler = new HTTPSamplerProxy();
 
         loginSampler.setName("Login");
         loginSampler.setPath(
-                "devServerLogin?email=${loginId}&isAdmin=${isAdmin}&nextUrl="
+                "devServerLogin?email=${loginId}&nextUrl="
                         + TestProperties.TEAMMATES_URL + "/webapi/auth");
         loginSampler.setMethod("POST");
         loginSampler.setFollowRedirects(true);

@@ -48,7 +48,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 
         InstructorAttributes instructorAttributes;
@@ -71,7 +71,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
         InstructorData instructorData = new InstructorData(instructorAttributes);
         if (intent == Intent.FULL_DETAIL) {
-            instructorData.setGoogleId(instructorAttributes.googleId);
+            instructorData.setGoogleId(instructorAttributes.getGoogleId());
         }
 
         return new JsonResult(instructorData);

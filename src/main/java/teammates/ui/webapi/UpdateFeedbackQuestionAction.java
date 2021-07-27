@@ -41,7 +41,7 @@ class UpdateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes oldQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 
@@ -63,12 +63,12 @@ class UpdateFeedbackQuestionAction extends Action {
         oldQuestion.setShowRecipientNameTo(updateRequest.getShowRecipientNameTo());
 
         // validate questions (giver & recipient)
-        String err = oldQuestion.getQuestionDetails().validateGiverRecipientVisibility(oldQuestion);
+        String err = oldQuestion.getQuestionDetailsCopy().validateGiverRecipientVisibility(oldQuestion);
         if (!err.isEmpty()) {
             throw new InvalidHttpRequestBodyException(err);
         }
         // validate questions (question details)
-        FeedbackQuestionDetails questionDetails = oldQuestion.getQuestionDetails();
+        FeedbackQuestionDetails questionDetails = oldQuestion.getQuestionDetailsCopy();
         if (questionDetails instanceof FeedbackMsqQuestionDetails) {
             FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
             int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
@@ -87,7 +87,7 @@ class UpdateFeedbackQuestionAction extends Action {
                     FeedbackQuestionAttributes.updateOptionsBuilder(oldQuestion.getId())
                             .withQuestionNumber(oldQuestion.getQuestionNumber())
                             .withQuestionDescription(oldQuestion.getQuestionDescription())
-                            .withQuestionDetails(oldQuestion.getQuestionDetails())
+                            .withQuestionDetails(oldQuestion.getQuestionDetailsCopy())
                             .withGiverType(oldQuestion.getGiverType())
                             .withRecipientType(oldQuestion.getRecipientType())
                             .withNumberOfEntitiesToGiveFeedbackTo(oldQuestion.getNumberOfEntitiesToGiveFeedbackTo())

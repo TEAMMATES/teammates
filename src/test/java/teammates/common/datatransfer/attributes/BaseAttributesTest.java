@@ -1,11 +1,11 @@
 package teammates.common.datatransfer.attributes;
 
-import teammates.test.BaseTestCaseWithObjectifyAccess;
+import teammates.test.BaseTestCase;
 
 /**
- * Base class for attributes tests. Requires Objectify access for entities, which are generated in {@code toEntity} tests.
+ * Base class for attributes tests.
  */
-public abstract class BaseAttributesTest extends BaseTestCaseWithObjectifyAccess {
+public abstract class BaseAttributesTest extends BaseTestCase {
 
     /**
      * Tests construction of entity object from attributes.

@@ -30,7 +30,7 @@ public class GetRegkeyValidityActionTest extends BaseActionTest<GetRegkeyValidit
         String[] params;
 
         String student1Key = StringHelper.encrypt(
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").key
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey()
         );
 
         ______TS("Failure Case: No intent parameter");

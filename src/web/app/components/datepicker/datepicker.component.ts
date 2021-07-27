@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { NgbCalendar, NgbInputDatepicker } from '@ng-bootstrap/ng-bootstrap';
-import { DateFormat } from '../session-edit-form/session-edit-form-model';
 
 /**
  * Datepicker with today button component
@@ -41,4 +40,13 @@ export class DatepickerComponent implements OnInit {
     dp.navigateTo(this.calendar.getToday());
   }
 
+}
+
+/**
+ * The date format.
+ */
+export interface DateFormat {
+  year: number;
+  month: number;
+  day: number;
 }

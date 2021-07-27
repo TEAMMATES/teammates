@@ -56,8 +56,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
 
     private static final String UPDATE_INSTRUCTOR_EMAIL = "update.test@gmail.tmt";
 
-    private static final String HAS_ADMIN_PRIVILEGE = "no";
-
     private static final String STUDENT_ID = "LnPStudent.tmms";
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "studentEmail@gmail.tmt";
@@ -245,7 +243,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("updateData");
 
@@ -261,7 +258,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(INSTRUCTOR_ID);
-                    csvRow.add(HAS_ADMIN_PRIVILEGE);
                     csvRow.add(COURSE_ID);
 
                     InstructorCreateRequest instructorCreateRequest =
