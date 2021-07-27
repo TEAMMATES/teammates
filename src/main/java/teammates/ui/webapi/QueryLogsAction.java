@@ -96,6 +96,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .build();
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
+            removeSensitiveFields(queryResults);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
