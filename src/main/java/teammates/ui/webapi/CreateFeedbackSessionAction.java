@@ -65,7 +65,7 @@ class CreateFeedbackSessionAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidHttpRequestBodyException("A session named " + feedbackSessionName
                     + " exists already in the course " + course.getName()
-                    + " (Course ID: " + courseId + ").");
+                    + " (Course ID: " + courseId + ").", e);
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         }

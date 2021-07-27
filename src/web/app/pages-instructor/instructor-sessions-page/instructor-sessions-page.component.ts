@@ -355,7 +355,7 @@ export class InstructorSessionsPageComponent extends InstructorSessionModalPageC
 
   formatErrorMessgae(errorMessage: string): string {
     if (errorMessage.match('exists already in the course')) {
-      return `${errorMessage}.
+      return `${errorMessage}
           Tip: If you can't find such a session in that course, also check the 'Recycle bin'
           (shown at the bottom of the 'Sessions' page).`;
     }
