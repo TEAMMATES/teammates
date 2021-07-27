@@ -1152,6 +1152,519 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 </tm-session-result-page>
 `;
 
+exports[`SessionResultPageComponent should snap with feedback session with questions of anonymous responses 1`] = `
+<tm-session-result-page
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  courseId={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionResultsLoadingFailed="false"
+  isFeedbackSessionResultsEmpty="false"
+  isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  personEmail=""
+  personName=""
+  questions={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  session={[Function Object]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  visibilityRecipient={[Function String]}
+>
+  <h1>
+     Feedback Session Results
+  
+  </h1><div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are viewing feedback results as . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (recommended). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="alert alert-primary"
+    role="alert"
+  >
+    <i
+      class="fas fa-exclamation-circle"
+    />
+     Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
+  
+  </div><div
+    class="card card-plain mt-3"
+  >
+    <div
+      class="card-body"
+    >
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="course-id"
+        >
+          CS1231
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="session-name"
+        >
+          First Session
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-5 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+      
+      <div
+        class="card bg-light mt-4"
+      >
+        <div
+          class="card-body"
+          id="question-1-responses"
+        >
+          <tm-question-text-with-info
+            class="question-text"
+          >
+            <span
+              class="d-inline-flex row align-items-center no-gutters"
+            >
+              
+              
+              <span
+                class="col-auto"
+              >
+                <b>
+                  Question 1: 
+                </b>
+              </span>
+              <span
+                class="col-auto"
+                id="question-text"
+              >
+                 What comments do you have regarding each of your team members? (response is confidential and will only be shown to the instructor).
+              </span>
+              
+            </span>
+            
+          </tm-question-text-with-info>
+          
+          
+          <div
+            class="mt-4"
+            id="given-responses"
+          >
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
+            
+            <strong>
+              Your own responses (to others):
+            </strong>
+            
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient1
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient2
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       recipient3
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+      <div
+        class="card bg-light mt-4"
+      >
+        <div
+          class="card-body"
+          id="question-2-responses"
+        >
+          <tm-question-text-with-info
+            class="question-text"
+          >
+            <span
+              class="d-inline-flex row align-items-center no-gutters"
+            >
+              
+              
+              <span
+                class="col-auto"
+              >
+                <b>
+                  Question 2: 
+                </b>
+              </span>
+              <span
+                class="col-auto"
+                id="question-text"
+              >
+                 How are the team dynamics thus far? (response is confidential and will only be shown to the instructor).
+              </span>
+              
+            </span>
+            
+          </tm-question-text-with-info>
+          
+          
+          <div
+            class="mt-4"
+            id="given-responses"
+          >
+            <div
+              class="other-response"
+            >
+              <strong>
+                Other responses (to you): 
+              </strong>
+              Responses are not visible to you. 
+            </div>
+            
+            <strong>
+              Your own responses (to others):
+            </strong>
+            
+            <div>
+              <tm-student-view-responses>
+                <div
+                  class="card border-info mt-4"
+                >
+                  <div
+                    class="card-header bg-info text-white"
+                  >
+                    <span
+                      id="response-recipient"
+                    >
+                      <b>
+                        To:
+                      </b>
+                       team1
+                    </span>
+                  </div>
+                  <div
+                    class="card-body"
+                    style="padding: 0;"
+                  >
+                    <table
+                      class="table"
+                    >
+                      <tbody>
+                        
+                        
+                        <tr>
+                          <td
+                            id="response-giver"
+                          >
+                            <strong>
+                              From:
+                            </strong>
+                             giver1 
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <tm-single-response>
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                              
+                            </tm-single-response>
+                          </td>
+                        </tr>
+                        
+                        
+                        
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </tm-student-view-responses>
+            </div>
+          </div>
+          
+          
+        </div>
+      </div>
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-result-page>
+`;
+
 exports[`SessionResultPageComponent should snap with session results are loading 1`] = `
 <tm-session-result-page
   authService={[Function AuthService]}
