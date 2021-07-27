@@ -73,7 +73,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         String regkey = null;
         String email = null;
 
-        if (userInfo.isAdmin && !userInfo.isMaintainer) {
+        if (userInfo.isAdmin) {
             googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
             regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
             email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
