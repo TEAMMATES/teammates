@@ -18,7 +18,7 @@ import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
 
 /**
- * Generates the matching {@link Action} for a given URI and request method. // ?
+ * Generates the matching {@link Action} for a given URI and request method.
  */
 public class ActionFactory {
 

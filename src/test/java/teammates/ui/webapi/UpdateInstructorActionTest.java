@@ -48,7 +48,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         String newInstructorRole = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR;
 
         InstructorCreateRequest reqBody = new InstructorCreateRequest(instructorId, newInstructorName,
-                newInstructorEmail, instructorToEdit.getRole(),
+                newInstructorEmail, newInstructorRole,
                 instructorDisplayName, instructorToEdit.isDisplayedToStudents());
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
