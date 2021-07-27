@@ -16,7 +16,10 @@ import {
   FeedbackQuestionType, FeedbackRubricQuestionDetails, FeedbackRubricResponseDetails,
   FeedbackSession,
   FeedbackSessionPublishStatus,
-  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, FeedbackTextResponseDetails, FeedbackVisibilityType, NumberOfEntitiesToGiveFeedbackToSetting, QuestionOutput,
+  FeedbackSessionSubmissionStatus, FeedbackTextQuestionDetails, FeedbackTextResponseDetails,
+  FeedbackVisibilityType,
+  NumberOfEntitiesToGiveFeedbackToSetting,
+  QuestionOutput,
   RegkeyValidity,
   ResponseVisibleSetting, SessionResults,
   SessionVisibleSetting,
@@ -173,7 +176,7 @@ describe('SessionResultPageComponent', () => {
     showGiverNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     showRecipientNameTo: [FeedbackVisibilityType.INSTRUCTORS],
     customNumberOfEntitiesToGiveFeedbackTo: 0,
-  }
+  };
 
   let component: SessionResultPageComponent;
   let fixture: ComponentFixture<SessionResultPageComponent>;
@@ -455,7 +458,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
-          }
+          },
         ],
         responsesToSelf: [],
         responsesFromSelf: [
@@ -500,9 +503,9 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
-          }
+          },
         ],
-        otherResponses: []
+        otherResponses: [],
       },
       {
         feedbackQuestion: testQuestionAnonymousResponse2,
@@ -521,7 +524,7 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
-          }
+          },
         ],
         responsesToSelf: [],
         responsesFromSelf: [
@@ -538,10 +541,10 @@ describe('SessionResultPageComponent', () => {
               answer: '<p>asdf</p>',
             } as FeedbackTextResponseDetails,
             instructorComments: [],
-          }
+          },
         ],
-        otherResponses: []
-      }
+        otherResponses: [],
+      },
     ];
 
     fixture.detectChanges();
