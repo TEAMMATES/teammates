@@ -9,7 +9,10 @@ import static teammates.common.datatransfer.FeedbackParticipantType.STUDENTS;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -18,9 +21,11 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 
@@ -476,6 +481,341 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
         response.setGiver("student2InCourse1@gmail.tmt");
         comment.setShowGiverNameTo(Arrays.asList(OWN_TEAM_MEMBERS));
         assertTrue(frcLogic.isNameVisibleToUser(comment, response, "student1InCourse1@gmail.tmt", roster));
+    }
+
+    @Test
+    public void testIsResponseCommentVisibleForUser() {
+        StudentAttributes student = dataBundle.students.get("student1InCourse1");
+        CourseRoster roster = new CourseRoster(new ArrayList<>(dataBundle.students.values()),
+                new ArrayList<>(dataBundle.instructors.values()));
+        List<StudentAttributes> studentsInTeam =
+                roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        Set<String> studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        FeedbackQuestionAttributes relatedQuestion = dataBundle.feedbackQuestions.get("qn1InSession1InCourse1");
+        FeedbackResponseCommentAttributes commentVisibleToStudent = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("instructor1@course1.tmt")
+                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withFeedbackResponseId("2%student2InCourse1@gmail.tmt%student5InCourse1@gmail.tmt")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.STUDENTS))
+                .build();
+
+        ______TS("failure: response is null");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, null, relatedQuestion, commentVisibleToStudent));
+
+        ______TS("failure: related question is null");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, null, commentVisibleToStudent));
+
+        ______TS("success: giver is instructor; show comment to student; comment is visible to response recipient");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        ______TS("success: giver is instructor; show comment to student; "
+                + "comment is visible to response recipient's teammates");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        ______TS("success: giver is instructor; comment is visible to giver by default");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        commentVisibleToStudent = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student4InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.STUDENTS)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.STUDENTS))
+                .build();
+
+        ______TS("failure: giver is student; show comment to student; comment is not visible to instructor");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        ______TS("success: giver is student; show comment to student; comment is visible to comment giver");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        ______TS("success: giver is student; show comment to student; comment is visible to response recipient");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        ______TS("success: giver is student; show comment to student; comment is visible to response recipient's teammates");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToStudent));
+
+        FeedbackResponseCommentAttributes commentVisibleToNoOneExceptSelf = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student4InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.STUDENTS)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Collections.emptyList())
+                .build();
+
+        ______TS("success: giver is student; do not show comment to anyone except self;"
+                + "comment is visible to response giver");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        ______TS("failure: giver is student; do not show comment to anyone except self;"
+                + "comment is not visible to response recipient");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        ______TS("failure: giver is student; do not show comment to anyone except self;"
+                + "comment is not visible to response recipient's teammates");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        ______TS("failure: giver is student; do not show comment to anyone except self;"
+                + "comment is not visible to instructor");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        commentVisibleToNoOneExceptSelf = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("instructor1@course1.tmt")
+                .withCommentGiverType(FeedbackParticipantType.INSTRUCTORS)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Collections.emptyList())
+                .build();
+
+        ______TS("success: giver is instructor; do not show comment to anyone except self;"
+                + "comment is visible to comment giver by default");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        ______TS("failure: giver is instructor; do not show comment to anyone except self;"
+                + "comment is not visible to other instructor");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor2@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        ______TS("failure: giver is instructor; do not show comment to anyone except self;"
+                + "comment is not visible to response recipient");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        ______TS("failure: giver is instructor; do not show comment to anyone except self;"
+                + "comment is not visible to other student");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToNoOneExceptSelf));
+
+        FeedbackResponseCommentAttributes commentVisibleToTeamMembersInstructor =
+                FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student4InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.OWN_TEAM_MEMBERS,
+                        FeedbackParticipantType.INSTRUCTORS))
+                .build();
+
+        ______TS("success: giver is student; show comment to own team members, instructors; comment is visible"
+                + "to student from same team");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToTeamMembersInstructor));
+
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToTeamMembersInstructor));
+
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToTeamMembersInstructor));
+
+        ______TS("failure: giver is student; show comment to own team members, instructors; "
+                + "comment is not visible to student not from same team");
+        student = dataBundle.students.get("student5InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student5InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToTeamMembersInstructor));
+
+        ______TS("success: giver is student; show comment to own team members, instructors; comment is visible"
+                + "to instructor");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToTeamMembersInstructor));
+
+        response = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
+        response.setRecipient("student1InCourse1@gmail.tmt");
+        FeedbackResponseCommentAttributes commentVisibleToResponseReceiver = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student4InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.GIVER)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.RECEIVER))
+                .build();
+
+        ______TS("success: giver is student; show comment to response receiver only; "
+                + "comment is visible to response recipient");
+        student = dataBundle.students.get("student1InCourse1");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToResponseReceiver));
+
+        ______TS("failure: giver is student; show comment to response receiver only; "
+                + "comment is not visible to response giver");
+        student = dataBundle.students.get("student5InCourse1");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student5InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToResponseReceiver));
+
+        FeedbackResponseCommentAttributes commentVisibleToResponseGiver = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student4InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.GIVER)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.GIVER))
+                .build();
+
+        ______TS("failure: giver is student; show comment to response receiver only; "
+                + "comment is not visible to response recipient");
+        student = dataBundle.students.get("student1InCourse1");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToResponseGiver));
+
+        ______TS("success: giver is student; show comment to response receiver only; "
+                + "comment is visible to response giver");
+        student = dataBundle.students.get("student5InCourse1");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student5InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibleToResponseGiver));
+
+        // test comment visibility to recipient's team
+        response = dataBundle.feedbackResponses.get("response2ForQ2S1C1");
+        response.setRecipient("student1InCourse1@gmail.tmt");
+        FeedbackResponseCommentAttributes commentVisibleToResponseReceiverTeamMember =
+                FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student5InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.GIVER)
+                .withVisibilityFollowingFeedbackQuestion(false)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .withShowCommentTo(Arrays.asList(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS))
+                .build();
+
+        ______TS("success: giver is student; show comment to comment recipient's team; comment is visible"
+                + "to response recipient");
+        student = dataBundle.students.get("student1InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion,
+                commentVisibleToResponseReceiverTeamMember));
+
+        ______TS("success: giver is student; show comment to comment recipient's team; comment is visible"
+                + "to response recipient's team members");
+        student = dataBundle.students.get("student3InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student3InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion,
+                commentVisibleToResponseReceiverTeamMember));
+
+        student = dataBundle.students.get("student4InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion,
+                commentVisibleToResponseReceiverTeamMember));
+
+        ______TS("failure: giver is student; show comment to comment recipient's team; comment is not visible"
+                + "to students not from response recipient's team");
+        student = dataBundle.students.get("student1InCourse2");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InCourse2@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion,
+                commentVisibleToResponseReceiverTeamMember));
+
+        student = dataBundle.students.get("student1InUnregisteredCourse");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student1InUnregisteredCourse@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion,
+                commentVisibleToResponseReceiverTeamMember));
+
+        // comment visibility follows feedback question's visibility
+        FeedbackResponseCommentAttributes commentVisibilityFollowsQuestion = FeedbackResponseCommentAttributes.builder()
+                .withCommentGiver("student4InCourse1@gmail.tmt")
+                .withCommentGiverType(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                .withVisibilityFollowingFeedbackQuestion(true)
+                .withCourseId("idOfTypicalCourse1")
+                .withFeedbackSessionName("First feedback session")
+                .build();
+        relatedQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.INSTRUCTORS));
+        response = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
+        student = dataBundle.students.get("student1InCourse1");
+        studentsInTeam = roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
+        studentsEmailInTeam = studentsInTeam.stream()
+                .map(StudentAttributes::getEmail)
+                .collect(Collectors.toSet());
+
+        ______TS("success: question is visible to instructor; visibility follows feedback question;"
+                + "comment is visible to receiver by default");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        ______TS("success: question is visible to instructor; visibility follows feedback question;"
+                + "comment is visible to giver by default");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student4InCourse1@gmail.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        ______TS("success: question is visible to instructor; visibility follows feedback question;"
+                + "comment is visible to instructor");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("instructor1@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        ______TS("failure: question is visible to instructor; visibility follows feedback question;"
+                + "comment is visible to teammate");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("student3@course1.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        relatedQuestion.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.STUDENTS));
+
+        ______TS("success: question is visible to student; visibility follows feedback question;"
+                + "comment is visible to recipient");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student1@course1.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        ______TS("success: question is visible to student; visibility follows feedback question;"
+                + "comment is visible to teammate");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student3@course1.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        ______TS("success: question is visible to student; visibility follows feedback question;"
+                + "comment is visible to student not from the same team");
+        assertTrue(frcLogic.isResponseCommentVisibleForUser("student2@course1.tmt", UserRole.STUDENT,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
+        ______TS("failure: question is visible to student; visibility follows feedback question;"
+                + "comment is not visible to instructor");
+        assertFalse(frcLogic.isResponseCommentVisibleForUser("instructor3@course1.tmt", UserRole.INSTRUCTOR,
+                student, studentsEmailInTeam, response, relatedQuestion, commentVisibilityFollowsQuestion));
+
     }
 
     private void verifyNullFromGetFrCommentForSession(FeedbackResponseCommentAttributes frComment) {
