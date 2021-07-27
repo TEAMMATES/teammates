@@ -1,9 +1,11 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
+import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
 import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
@@ -12,6 +14,7 @@ import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.LogEvent;
 import teammates.ui.output.GeneralLogsData;
 
 /**
@@ -92,7 +95,28 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withPageToken(nextPageToken)
                 .build();
         try {
-            QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams, userInfo.isAdmin);
+            QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
+            if (!userInfo.isAdmin) {
+                for (GeneralLogEntry logEntry : queryResults.getLogEntries()) {
+                    if (logEntry.getDetails() != null) {
+                        Map<String, Object> details = logEntry.getDetails();
+                        // Always remove requestParams, requestHeaders and userInfo for non-admin maintainers
+                        details.remove("requestParams");
+                        details.remove("requestHeaders");
+                        details.remove("userInfo");
+                        // Keep log message of event logs and remove log message for other logs for non-admin maintainers
+                        if (!details.containsKey("event")) {
+                            details.remove("message");
+                        }
+                        // Remove student email in feedback session audit event log for non-admin maintainers
+                        if (details.get("event").equals(LogEvent.FEEDBACK_SESSION_AUDIT.toString())) {
+                            details.remove("studentEmail");
+                        }
+                    }
+                    // Always remove text payload message for non-admin maintainers
+                    logEntry.setMessage(null);
+                }
+            }
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {

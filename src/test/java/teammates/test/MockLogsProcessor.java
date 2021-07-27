@@ -85,7 +85,7 @@ public class MockLogsProcessor extends LogsProcessor {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams, boolean isUserAdmin) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
         if (queryLogsParams.getSeverityLevel() != null) {
             generalLogs.forEach(entry -> {

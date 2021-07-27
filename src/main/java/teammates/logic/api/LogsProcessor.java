@@ -41,8 +41,8 @@ public class LogsProcessor {
     /**
      * Queries and retrieves logs with given parameters.
      */
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams, boolean isUserAdmin) throws LogServiceException {
-        return service.queryLogs(queryLogsParams, isUserAdmin);
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
+        return service.queryLogs(queryLogsParams);
     }
 
     /**

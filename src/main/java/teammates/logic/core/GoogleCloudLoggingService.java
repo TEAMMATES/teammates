@@ -126,7 +126,7 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams, boolean isUserAdmin) throws LogServiceException {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) throws LogServiceException {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
@@ -153,22 +153,6 @@ public class GoogleCloudLoggingService implements LogService {
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
                 Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
-                if (!isUserAdmin) {
-                    // Always remove requestParams, requestHeader and userInfo for non-admin maintainers
-                    jsonPayloadMap.remove("requestParams");
-                    jsonPayloadMap.remove("requestHeaders");
-                    jsonPayloadMap.remove("userInfo");
-
-                    // Keep log message of event logs and remove log message for other logs for non-admin maintainers
-                    if (!jsonPayloadMap.containsKey("event")) {
-                        jsonPayloadMap.remove("message");
-                    }
-
-                    // Remove student email in feedback session audit event log for non-admin maintainers
-                    if (jsonPayloadMap.get("event").equals(LogEvent.FEEDBACK_SESSION_AUDIT.toString())) {
-                        jsonPayloadMap.remove("studentEmail");
-                    }
-                }
                 logEntry.setDetails(jsonPayloadMap);
             } else {
                 String textPayloadMessage = ((Payload.StringPayload) payload).getData();
