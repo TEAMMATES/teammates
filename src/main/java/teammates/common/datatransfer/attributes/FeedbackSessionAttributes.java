@@ -181,13 +181,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
-    // todo ??? how to name this function? it's half similar to the isClosedAfter function
-
     /**
      * Returns true if session's start time is opening from now to anytime before
      * now() + the specific number of {@param hours} supplied in the argument.
      */
-    public boolean isOpeningBetweenNowAndBefore(long hours) {
+    public boolean isOpeningInHours(long hours) {
         return startTime.isAfter(Instant.now())
                 && Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
     }
@@ -214,7 +212,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.isBefore(startTime)
                 && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
                 && difference.compareTo(Duration.ofHours(hours)) < 0;
-
     }
 
     /**
@@ -310,6 +307,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return "FeedbackSessionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
                + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
+               + ", createdTime=" + createdTime + ", deletedTime=" + deletedTime
                + ", startTime=" + startTime
                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
@@ -317,12 +315,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                + ", gracePeriod=" + getGracePeriodMinutes() + "min"
                + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                + ", sentOpenEmail=" + sentOpenEmail
+               + ", sentClosingEmail=" + sentClosingEmail
+               + ", sentClosedEmail=" + sentClosedEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                + "]";
-        // todo should sentOpeningSoonEmail be added ? why are some attributes not present here (sentClosingEmail etc)
     }
 
     @Override

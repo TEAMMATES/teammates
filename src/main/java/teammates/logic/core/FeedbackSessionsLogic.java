@@ -308,7 +308,7 @@ public final class FeedbackSessionsLogic {
             // also reset sentOpeningSoonEmail
             newUpdateOptions.withSentOpeningSoonEmail(
                     newSession.isOpened()
-                            || newSession.isOpeningBetweenNowAndBefore(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT));
+                            || newSession.isOpeningInHours(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT));
         }
 
         // reset sentClosedEmail if the session has closed but is being un-closed
