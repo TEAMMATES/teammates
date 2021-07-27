@@ -47,9 +47,8 @@ export class LogsPageComponent implements OnInit {
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
   readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
-  readonly MESSAGE: string = 'message';
   ACTION_CLASSES: string[] = [];
-  isAdmin: boolean | undefined;
+  isAdmin: boolean = false;
 
   formModel: SearchLogsFormModel = {
     logsSeverity: 'INFO',
