@@ -37,6 +37,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
+import teammates.common.util.LogEvent;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
@@ -164,7 +165,7 @@ public class GoogleCloudLoggingService implements LogService {
                     }
 
                     // Remove student email in feedback session audit event log for non-admin maintainers
-                    if (jsonPayloadMap.get("event").equals("FEEDBACK_SESSION_AUDIT")) {
+                    if (jsonPayloadMap.get("event").equals(LogEvent.FEEDBACK_SESSION_AUDIT.toString())) {
                         jsonPayloadMap.remove("studentEmail");
                     }
                 }
