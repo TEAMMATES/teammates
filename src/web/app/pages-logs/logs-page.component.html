@@ -45,15 +45,15 @@
           <label class="form-check-label" id="log-severity-radio">
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="severity" [value]="SEVERITY" [(ngModel)]="formModel.logsFilter">
-              <label for="equal">severity =&nbsp;</label>
+              <label for="severity">severity =&nbsp;</label>
               <select class="form-control inline" [(ngModel)]="formModel.logsSeverity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
             </div>
             <br>
             <div>
-              <input type="radio" class="form-check-input mt-3" name="severity" id="minSeverity" [value]="MIN_SEVERITY" [(ngModel)]="formModel.logsFilter">
-              <label for="above">severity >=&nbsp;</label>
+              <input type="radio" class="form-check-input mt-3" name="severity" id="min-severity" [value]="MIN_SEVERITY" [(ngModel)]="formModel.logsFilter">
+              <label for="min-severity">severity >=&nbsp;</label>
               <select class="form-control inline" [(ngModel)]="formModel.logsMinSeverity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
@@ -61,7 +61,7 @@
             <br>
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="event" [value]="EVENT" [(ngModel)]="formModel.logsFilter">
-              <label for="all">All event logs &nbsp;</label>
+              <label for="event">All event logs &nbsp;</label>
               <select class="form-control inline" [(ngModel)]="formModel.logsEvent">
                 <option *ngFor="let event of EVENTS" [value]="event">{{ event }}</option>
               </select>
@@ -135,7 +135,7 @@
 </div>
 
 <div *ngIf="isTableView">
-  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)" (addActionClassEvent)="addActionClassToFilter($event)"
     (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
