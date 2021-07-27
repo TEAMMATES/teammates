@@ -17,7 +17,7 @@ import teammates.ui.output.GeneralLogsData;
  * Queries the logs.
  */
 public class QueryLogsAction extends AdminOnlyAction {
-    private static final int DEFAULT_PAGE_SIZE = 20;
+    private static final int DEFAULT_PAGE_SIZE = 50;
 
     private static final long TWENTY_FOUR_HOURS_IN_MILLIS = 1000L * 60 * 60 * 24;
 
@@ -59,6 +59,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         String sourceLocationFile = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FILE);
         String sourceLocationFunction = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FUNCTION);
         String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
+        String order = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ORDER);
 
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
                 .withSeverityLevel(severity)
@@ -69,6 +70,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withLogEvent(logEvent)
                 .withSourceLocation(new SourceLocation(sourceLocationFile, null, sourceLocationFunction))
                 .withExceptionClass(exceptionClass)
+                .withOrder(order)
                 .withPageSize(DEFAULT_PAGE_SIZE)
                 .withPageToken(nextPageToken)
                 .build();
