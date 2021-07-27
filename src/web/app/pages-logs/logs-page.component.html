@@ -109,8 +109,8 @@
       <div *ngIf="isAdmin" class="row form-group mt-4">
         <div class="col-5">
           <div class="col-12">
-            <label for="action-class" class="font-weight-bold">Action class</label>
-            <select id="action-class1" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
+            <label for="action-class-admin" class="font-weight-bold">Action class</label>
+            <select id="action-class-admin" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
               <option [value]=""></option>
               <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
                 {{ actionClass }}
@@ -136,8 +136,8 @@
       <div *ngIf="!isAdmin" class="row form-group mt-4">
         <div class="col-5">
           <div class="col-12">
-            <label for="action-class" class="font-weight-bold">Action class</label>
-            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
+            <label for="action-class-non-admin" class="font-weight-bold">Action class</label>
+            <select id="action-class-non-admin" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
               <option [value]=""></option>
               <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
                 {{ actionClass }}
