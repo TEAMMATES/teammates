@@ -3,13 +3,15 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from '../page-not-found/page-not-found.component';
 import { PageNotFoundModule } from '../page-not-found/page-not-found.module';
-import { LogsPageModule } from '../pages-logs/logs-page.module';
+import {LogsPageComponent} from "../pages-logs/logs-page.component";
 
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('../pages-logs/logs-page.module')
-        .then((m: any) => m.LogsPageModule),
+    data: {
+      isAdmin: false,
+    },
+    component: LogsPageComponent,
   },
   {
     path: '',
@@ -31,7 +33,6 @@ const routes: Routes = [
     CommonModule,
     PageNotFoundModule,
     RouterModule.forChild(routes),
-    LogsPageModule,
   ],
 })
 

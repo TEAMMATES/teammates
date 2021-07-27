@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
-import { expand, finalize, reduce } from 'rxjs/operators';
+import { expand, finalize, reduce, tap } from 'rxjs/operators';
 import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TimezoneService } from '../../services/timezone.service';
@@ -47,6 +48,7 @@ export class LogsPageComponent implements OnInit {
   readonly EVENT: string = 'event';
   readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
   ACTION_CLASSES: string[] = [];
+  isAdmin: boolean | undefined;
 
   formModel: SearchLogsFormModel = {
     logsSeverity: 'INFO',
@@ -73,7 +75,8 @@ export class LogsPageComponent implements OnInit {
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
-    private statusMessageService: StatusMessageService) { }
+    private statusMessageService: StatusMessageService,
+    private activatedRoute: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -102,6 +105,12 @@ export class LogsPageComponent implements OnInit {
     this.logService.getActionClassList()
       .pipe(finalize(() => this.isLoading = false))
       .subscribe((actionClasses: ActionClasses) => this.ACTION_CLASSES = actionClasses.actionClasses.sort());
+
+    this.activatedRoute.data.pipe(
+        tap((data: any) => {
+          this.isAdmin = data.isAdmin;
+        })
+    ).subscribe(() => {});
   }
 
   searchForLogs(): void {
@@ -244,11 +253,21 @@ export class LogsPageComponent implements OnInit {
       traceIdForSummary = this.formatTraceForSummary(log.trace);
     }
 
-    if (log.message) {
+    if (log.message && this.isAdmin) {
       summary = log.message;
       payload = this.formatTextPayloadForDisplay(log.message);
     } else if (log.details) {
       payload = log.details;
+
+      if (!this.isAdmin) {
+        payload['requestParams'] = undefined;
+        payload['requestHeaders'] = undefined;
+        payload['userInfo'] = undefined;
+      }
+      if (!this.isAdmin && !payload.event) {
+        payload['message'] = undefined;
+      }
+
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }
@@ -267,7 +286,7 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         actionClass = payload.actionClass;
       }
-      if (payload.userInfo) {
+      if (payload.userInfo && this.isAdmin) {
         userInfo = payload.userInfo;
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
       }

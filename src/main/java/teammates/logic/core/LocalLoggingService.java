@@ -34,7 +34,7 @@ public class LocalLoggingService implements LogService {
     }
 
     @Override
-    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams, boolean isUserAdmin) {
         // Not supported in dev server
         return new QueryLogsResults(Collections.emptyList(), null);
     }
