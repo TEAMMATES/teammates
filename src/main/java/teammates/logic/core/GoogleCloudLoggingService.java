@@ -59,6 +59,8 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
 
+    private static final String ASCENDING_ORDER = "asc";
+
     private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
 
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
@@ -303,7 +305,14 @@ public class GoogleCloudLoggingService implements LogService {
             List<EntryListOption> entryListOptions = new ArrayList<>();
 
             entryListOptions.add(EntryListOption.filter(logFilter));
-            entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
+
+            if (s.order != null) {
+                if (ASCENDING_ORDER.equals(s.order)) {
+                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
+                } else {
+                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
+                }
+            }
 
             if (p != null) {
                 if (p.pageSize != null) {
@@ -344,6 +353,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
         private String exceptionClass;
+        private String order;
 
         public static LogSearchParams from(QueryLogsParams queryLogsParams) {
             LogSearchParams logSearchParams = new LogSearchParams()
@@ -353,7 +363,8 @@ public class GoogleCloudLoggingService implements LogService {
                     .setUserInfoParams(queryLogsParams.getUserInfoParams())
                     .setLogEvent(queryLogsParams.getLogEvent())
                     .setSourceLocation(queryLogsParams.getSourceLocation())
-                    .setExceptionClass(queryLogsParams.getExceptionClass());
+                    .setExceptionClass(queryLogsParams.getExceptionClass())
+                    .setOrder(queryLogsParams.getOrder());
             if (queryLogsParams.getSeverityLevel() != null) {
                 logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
             } else if (queryLogsParams.getMinSeverity() != null) {
@@ -438,6 +449,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setExceptionClass(String exceptionClass) {
             this.exceptionClass = exceptionClass;
+            return this;
+        }
+
+        public LogSearchParams setOrder(String order) {
+            this.order = order;
             return this;
         }
     }

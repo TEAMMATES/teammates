@@ -18,6 +18,7 @@ public class QueryLogsParams {
     private String logEvent;
     private SourceLocation sourceLocation;
     private String exceptionClass;
+    private String order;
     private Integer pageSize;
     private String pageToken;
 
@@ -68,6 +69,10 @@ public class QueryLogsParams {
 
     public String getExceptionClass() {
         return exceptionClass;
+    }
+
+    public String getOrder() {
+        return order;
     }
 
     public Integer getPageSize() {
@@ -149,6 +154,11 @@ public class QueryLogsParams {
 
         public Builder withExceptionClass(String exceptionClass) {
             queryLogsParams.exceptionClass = exceptionClass;
+            return this;
+        }
+
+        public Builder withOrder(String order) {
+            queryLogsParams.order = order;
             return this;
         }
 
