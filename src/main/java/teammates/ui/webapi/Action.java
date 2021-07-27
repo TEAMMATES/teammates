@@ -1,6 +1,8 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -51,6 +53,7 @@ public abstract class Action {
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
+    private StudentAttributes unregisteredStudent;
 
     // buffer to store the request body
     private String requestBody;
@@ -109,6 +112,24 @@ public abstract class Action {
 
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();
+    }
+
+    /**
+     * Gets the user information of the current user.
+     */
+    public Map<String, String> getUserInfoForLogging() {
+        Map<String, String> info = new HashMap<>();
+
+        String googleId = userInfo == null ? null : userInfo.getId();
+
+        info.put("googleId", googleId);
+        if (unregisteredStudent == null) {
+            info.put("regkey", getRequestParamValue(Const.ParamsNames.REGKEY));
+        } else {
+            info.put("regkey", unregisteredStudent.getKey());
+            info.put("email", unregisteredStudent.getEmail());
+        }
+        return info;
     }
 
     private void initAuthInfo() {
@@ -227,6 +248,7 @@ public abstract class Action {
             if (studentAttributes == null) {
                 return Optional.empty();
             }
+            unregisteredStudent = studentAttributes;
             return Optional.of(studentAttributes);
         }
         return Optional.empty();
