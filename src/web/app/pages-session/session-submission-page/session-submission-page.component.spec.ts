@@ -853,6 +853,22 @@ describe('SessionSubmissionPageComponent', () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });
 
+  it('should redirect when loading non-viewable feedback session', () => {
+    spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(throwError({
+      error: { message: 'This is an error' },
+      status: 403,
+    }));
+    const navSpy: Spy = spyOn(navService, 'navigateWithErrorMessage');
+    const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
+
+    component.loadFeedbackSession();
+
+    expect(modalSpy.calls.count()).toEqual(1);
+    expect(modalSpy.calls.mostRecent().args[0]).toEqual('Feedback Session Is Not Yet Open!');
+    expect(navSpy.calls.count()).toEqual(1);
+    expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
+  })
+
   it('should load feedback questions and recipients and responses', () => {
     const testFeedbackQuestions: FeedbackQuestions = {
       questions: [
