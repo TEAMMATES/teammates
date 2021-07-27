@@ -75,7 +75,7 @@ export class LogsPageComponent implements OnInit {
   isFiltersExpanded: boolean = false;
   searchStartTime: number = 0;
   searchEndTime: number = 0;
-  earliestLogTimestampRetrieved: number = Number. MAX_SAFE_INTEGER;
+  earliestLogTimestampRetrieved: number = Number.MAX_SAFE_INTEGER;
   latestLogTimestampRetrieved: number = 0;
   hasPreviousPage: boolean = true;
   hasNextPage: boolean = false;
@@ -123,7 +123,7 @@ export class LogsPageComponent implements OnInit {
     this.histogramResult = [];
     this.searchResults = [];
     this.isFiltersExpanded = false;
-    this.earliestLogTimestampRetrieved = Number. MAX_SAFE_INTEGER;
+    this.earliestLogTimestampRetrieved = Number.MAX_SAFE_INTEGER;
     this.latestLogTimestampRetrieved = 0;
     this.hasPreviousPage = true;
     this.hasNextPage = false;

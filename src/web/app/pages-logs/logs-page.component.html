@@ -139,12 +139,12 @@
     <button class="btn btn-light" (click)="extendStartTime()">Extend start time by 10 minutes</button>
   </div>
   <div *tmIsLoading="isSearching" class="center mb-4">
-    <button *ngIf="hasResult" id="load-previous-button" class="btn btn-primary" (click)="loadPreviousLogs()" [disabled]="!hasPreviousPage">Load more</button>
+    <button *ngIf="hasResult && hasPreviousPage" id="load-previous-button" class="btn btn-primary" (click)="loadPreviousLogs()">Load more</button>
   </div>
   <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)" (addActionClassEvent)="addActionClassToFilter($event)"
     (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center mb-4">
-    <button *ngIf="hasResult" id="load-next-button" class="btn btn-primary" (click)="loadLaterLogs()" [disabled]="!hasNextPage">Load more</button>
+    <button *ngIf="hasResult && hasNextPage" id="load-next-button" class="btn btn-primary" (click)="loadLaterLogs()">Load more</button>
   </div>
   <div class="center mt-4" *ngIf="hasResult && !hasNextPage">
     <button class="btn btn-light" (click)="extendEndTime()">Extend end time by 10 minutes</button>

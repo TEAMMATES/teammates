@@ -276,7 +276,7 @@ describe('LogsPageComponent', () => {
     fixture.detectChanges();
 
     const button: any = fixture.debugElement.nativeElement.querySelector('#load-previous-button');
-    expect(button.disabled).toBeTruthy();
+    expect(button).toBeNull();
   });
 
   it('should search for all error logs when search button is clicked', () => {
