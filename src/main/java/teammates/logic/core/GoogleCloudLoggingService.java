@@ -151,13 +151,21 @@ public class GoogleCloudLoggingService implements LogService {
                     new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
-                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
                 if (!isUserAdmin) {
+                    // Always remove requestParams, requestHeader and userInfo for non-admin maintainers
                     jsonPayloadMap.remove("requestParams");
-                    jsonPayloadMap.remove("requestHeader");
+                    jsonPayloadMap.remove("requestHeaders");
                     jsonPayloadMap.remove("userInfo");
+
+                    // Keep log message of event logs and remove log message for other logs for non-admin maintainers
                     if (!jsonPayloadMap.containsKey("event")) {
                         jsonPayloadMap.remove("message");
+                    }
+
+                    // Remove student email in feedback session audit event log for non-admin maintainers
+                    if (jsonPayloadMap.get("event").equals("FEEDBACK_SESSION_AUDIT")) {
+                        jsonPayloadMap.remove("studentEmail");
                     }
                 }
                 logEntry.setDetails(jsonPayloadMap);

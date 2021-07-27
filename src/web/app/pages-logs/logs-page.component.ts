@@ -260,11 +260,12 @@ export class LogsPageComponent implements OnInit {
       payload = log.details;
 
       if (!this.isAdmin) {
-        payload.delete('requestParams');
-        payload.delete('requestHeaders');
+        payload['requestParams'] = undefined;
+        payload['requestHeaders'] = undefined;
+        payload['userInfo'] = undefined;
       }
       if (!this.isAdmin && !payload.event) {
-        payload.delete('message');
+        payload['message'] = undefined;
       }
 
       if (payload.requestMethod) {

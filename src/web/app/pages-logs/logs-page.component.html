@@ -110,7 +110,7 @@
         <div class="col-5">
           <div class="col-12">
             <label for="action-class" class="font-weight-bold">Action class</label>
-            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
+            <select id="action-class1" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
               <option [value]=""></option>
               <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
                 {{ actionClass }}
@@ -154,7 +154,7 @@
 </div>
 
 <div *ngIf="isTableView">
-  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" [isAdmin]="isAdmin" [ (addTraceEvent)="addTraceToFilter($event)" (addActionClassEvent)="addActionClassToFilter($event)"
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" [isAdmin]="isAdmin" (addTraceEvent)="addTraceToFilter($event)" (addActionClassEvent)="addActionClassToFilter($event)"
     (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center">
     <button *ngIf="hasResult" id="load-button" class="btn btn-primary" (click)="getNextPageLogs()" [disabled]="nextPageToken === ''">Load more</button>
