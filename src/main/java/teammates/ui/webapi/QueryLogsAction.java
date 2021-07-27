@@ -96,31 +96,36 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .build();
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
-            if (!userInfo.isAdmin) {
-                for (GeneralLogEntry logEntry : queryResults.getLogEntries()) {
-                    if (logEntry.getDetails() != null) {
-                        Map<String, Object> details = logEntry.getDetails();
-                        // Always remove requestParams, requestHeaders and userInfo for non-admin maintainers
-                        details.remove("requestParams");
-                        details.remove("requestHeaders");
-                        details.remove("userInfo");
-                        // Keep log message of event logs and remove log message for other logs for non-admin maintainers
-                        if (!details.containsKey("event")) {
-                            details.remove("message");
-                        }
-                        // Remove student email in feedback session audit event log for non-admin maintainers
-                        if (details.get("event").equals(LogEvent.FEEDBACK_SESSION_AUDIT.toString())) {
-                            details.remove("studentEmail");
-                        }
-                    }
-                    // Always remove text payload message for non-admin maintainers
-                    logEntry.setMessage(null);
-                }
-            }
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private void removeSensitiveFields(QueryLogsResults queryResults) {
+        if (userInfo.isAdmin) {
+            return;
+        }
+
+        for (GeneralLogEntry logEntry : queryResults.getLogEntries()) {
+            if (logEntry.getDetails() != null) {
+                Map<String, Object> details = logEntry.getDetails();
+                // Always remove requestParams, requestHeaders and userInfo for non-admin maintainers
+                details.remove("requestParams");
+                details.remove("requestHeaders");
+                details.remove("userInfo");
+                // Keep log message of event logs and remove log message for other logs for non-admin maintainers
+                if (!details.containsKey("event")) {
+                    details.remove("message");
+                }
+                // Remove student email in feedback session audit event log for non-admin maintainers
+                if (details.get("event").equals(LogEvent.FEEDBACK_SESSION_AUDIT.toString())) {
+                    details.remove("studentEmail");
+                }
+            }
+            // Always remove text payload message for non-admin maintainers
+            logEntry.setMessage(null);
         }
     }
 }

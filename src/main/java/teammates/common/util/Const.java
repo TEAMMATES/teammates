@@ -1,6 +1,5 @@
 package teammates.common.util;
 
-import java.net.URI;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
