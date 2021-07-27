@@ -47,6 +47,10 @@ export class LogsPageComponent implements OnInit {
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
   readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
+  readonly REQUEST_PARAMS: string = 'requestParams';
+  readonly REQUEST_HEADERS: string = 'requestHeaders';
+  readonly USER_INFO: string = 'userInfo';
+  readonly MESSAGE: string = 'message';
   ACTION_CLASSES: string[] = [];
   isAdmin: boolean | undefined;
 
@@ -109,7 +113,7 @@ export class LogsPageComponent implements OnInit {
     this.activatedRoute.data.pipe(
         tap((data: any) => {
           this.isAdmin = data.isAdmin;
-        })
+        }),
     ).subscribe(() => {});
   }
 
@@ -260,12 +264,12 @@ export class LogsPageComponent implements OnInit {
       payload = log.details;
 
       if (!this.isAdmin) {
-        payload['requestParams'] = undefined;
-        payload['requestHeaders'] = undefined;
-        payload['userInfo'] = undefined;
+        payload[this.REQUEST_PARAMS] = undefined;
+        payload[this.REQUEST_HEADERS] = undefined;
+        payload[this.USER_INFO] = undefined;
       }
       if (!this.isAdmin && !payload.event) {
-        payload['message'] = undefined;
+        payload[this.MESSAGE] = undefined;
       }
 
       if (payload.requestMethod) {
