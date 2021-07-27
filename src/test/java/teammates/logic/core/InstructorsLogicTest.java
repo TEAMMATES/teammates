@@ -662,13 +662,15 @@ public class InstructorsLogicTest extends BaseLogicTest {
                         ).build();
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
-        assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertFalse(instructorToUpdate.getPrivileges().isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("The course has 1 registered instructor with modifying instructor privilege");
         courseId = "idOfArchivedCourse";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
-        assertFalse(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertFalse(instructorToUpdate.getPrivileges().isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("Should grant the currently being edited instructor the privilege of modifying instructors");
 
@@ -676,15 +678,18 @@ public class InstructorsLogicTest extends BaseLogicTest {
         courseId = "idOfCourseNoEvals";
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
-        assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(instructorToUpdate.getPrivileges().isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
 
         ______TS("The course only has 1 instructor with modifying instructor privilege which is not registered");
-        instructorToUpdate.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
+        instructorToUpdate.getPrivileges().updatePrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, false);
         courseId = "idOfSampleCourse-demo";
         instructorsLogic.deleteInstructorCascade(courseId, "iwosc@yahoo.tmt");
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
-        assertTrue(instructorToUpdate.privileges.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
+        assertTrue(instructorToUpdate.getPrivileges().isAllowedForPrivilege(
+                Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR));
     }
 
 }

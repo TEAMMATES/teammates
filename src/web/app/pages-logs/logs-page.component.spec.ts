@@ -94,6 +94,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       severity: 'INFO',
       advancedFilters: {},
     });
@@ -126,6 +127,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       minSeverity: 'INFO',
       advancedFilters: {},
     });
@@ -163,6 +165,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       logEvent: 'REQUEST_LOG',
       advancedFilters: {
         traceId: 'testTrace',
@@ -254,12 +257,103 @@ describe('LogsPageComponent', () => {
   });
 
   it('should disable load button if there is no next page token', () => {
-    component.nextPageToken = '';
+    spyOn(logService, 'searchLogs').and.returnValue(of({ logEntries: [] }));
+    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
+    component.formModel = {
+      logsSeverity: 'INFO',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'severity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
     component.isSearching = false;
     component.hasResult = true;
+    component.searchForLogs();
     fixture.detectChanges();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#load-button');
-    expect(button.disabled).toBeTruthy();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#load-previous-button');
+    expect(button).toBeNull();
+  });
+
+  it('should search for all error logs when search button is clicked', () => {
+    const logSpy: Spy = spyOn(logService, 'searchLogs').and
+        .returnValues(of({ logEntries: [], nextPageToken: 'token' }), of({ logEntries: [] }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
+
+    component.isLoading = false;
+    component.isSearching = false;
+    component.isTableView = false;
+
+    fixture.detectChanges();
+    fixture.debugElement.nativeElement.querySelector('#query-button').click();
+
+    expect(timeSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy).toHaveBeenCalledTimes(2);
+    expect(logSpy.calls.mostRecent().args).toEqual([{
+      searchFrom: '0',
+      searchUntil: '0',
+      severity: 'ERROR',
+      nextPageToken: 'token',
+      advancedFilters: {},
+    }]);
+  });
+
+  it('should sort logs based on source location', () => {
+    component.isTableView = false;
+    const testLog1: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace1',
+      resourceIdentifier: {},
+      sourceLocation: {
+        file: 'file1',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
+    const testLog2: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace2',
+      resourceIdentifier: {},
+      sourceLocation: {
+        file: 'file2',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
+    const testLog3: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace3',
+      resourceIdentifier: {},
+      sourceLocation: {
+        file: 'file2',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
+    spyOn(logService, 'searchLogs').and
+      .returnValue(of({ logEntries: [testLog1, testLog2, testLog3] }));
+    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
+
+    component.isLoading = false;
+    component.isSearching = false;
+    component.isTableView = false;
+    component.searchForLogs();
+
+    expect(component.histogramResult.length).toEqual(2);
   });
 
   it('should search for all error logs when search button is clicked', () => {

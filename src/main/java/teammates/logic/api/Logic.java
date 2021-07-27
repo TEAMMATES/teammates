@@ -144,14 +144,14 @@ public class Logic {
     }
 
     /**
-     * Update instructor being edited to ensure validity of the course.
+     * Update instructor being edited to ensure validity of instructors for the course.
      *
      * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
      */
     public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
 
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(instructorToEdit);
+        assert courseId != null;
+        assert instructorToEdit != null;
 
         instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }

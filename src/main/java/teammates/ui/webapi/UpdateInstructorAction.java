@@ -114,6 +114,7 @@ class UpdateInstructorAction extends Action {
         instructorToEdit.setName(SanitizationHelper.sanitizeName(instructorName));
         instructorToEdit.setEmail(SanitizationHelper.sanitizeEmail(instructorEmail));
         instructorToEdit.setRole(SanitizationHelper.sanitizeName(instructorRole));
+        instructorToEdit.setPrivileges(new InstructorPrivileges(instructorToEdit.getRole()));
         instructorToEdit.setDisplayedName(SanitizationHelper.sanitizeName(newDisplayedName));
         instructorToEdit.setDisplayedToStudents(isDisplayedToStudents);
 
