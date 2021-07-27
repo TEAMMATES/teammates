@@ -47,9 +47,6 @@ export class LogsPageComponent implements OnInit {
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
   readonly MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
-  readonly REQUEST_PARAMS: string = 'requestParams';
-  readonly REQUEST_HEADERS: string = 'requestHeaders';
-  readonly USER_INFO: string = 'userInfo';
   readonly MESSAGE: string = 'message';
   ACTION_CLASSES: string[] = [];
   isAdmin: boolean | undefined;
@@ -257,21 +254,11 @@ export class LogsPageComponent implements OnInit {
       traceIdForSummary = this.formatTraceForSummary(log.trace);
     }
 
-    if (log.message && this.isAdmin) {
+    if (log.message) {
       summary = log.message;
       payload = this.formatTextPayloadForDisplay(log.message);
     } else if (log.details) {
       payload = log.details;
-
-      if (!this.isAdmin) {
-        payload[this.REQUEST_PARAMS] = undefined;
-        payload[this.REQUEST_HEADERS] = undefined;
-        payload[this.USER_INFO] = undefined;
-      }
-      if (!this.isAdmin && !payload.event) {
-        payload[this.MESSAGE] = undefined;
-      }
-
       if (payload.requestMethod) {
         summary += `${payload.requestMethod} `;
       }
@@ -290,7 +277,7 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         actionClass = payload.actionClass;
       }
-      if (payload.userInfo && this.isAdmin) {
+      if (payload.userInfo) {
         userInfo = payload.userInfo;
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
       }
