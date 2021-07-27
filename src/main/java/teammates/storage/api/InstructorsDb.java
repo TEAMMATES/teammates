@@ -102,7 +102,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
             throws InvalidParametersException, EntityAlreadyExistsException {
         InstructorAttributes createdInstructor = super.createEntity(instructorToAdd);
-        putDocument(createdInstructor);
 
         return createdInstructor;
     }
@@ -233,7 +232,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
-        putDocument(newAttributes);
 
         return newAttributes;
     }
@@ -288,7 +286,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
-        putDocument(newAttributes);
 
         return newAttributes;
     }

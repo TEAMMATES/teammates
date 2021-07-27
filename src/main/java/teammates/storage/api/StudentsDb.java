@@ -114,7 +114,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             throws InvalidParametersException, EntityAlreadyExistsException {
 
         StudentAttributes createdStudent = super.createEntity(student);
-        putDocument(createdStudent);
 
         return createdStudent;
     }
@@ -135,7 +134,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
                 saveEntity(updatedEntity);
 
                 StudentAttributes updatedStudent = makeAttributes(updatedEntity);
-                putDocument(updatedStudent);
 
                 return updatedStudent;
             }
@@ -275,7 +273,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             // delete the old student
             deleteStudent(student.getCourseId(), student.getEmail());
 
-            putDocument(newAttributes);
             return newAttributes;
         } else {
             // update only if change
@@ -298,12 +295,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             student.setTeamName(newAttributes.getTeam());
             student.setSectionName(newAttributes.getSection());
 
-            putDocument(newAttributes);
-
             saveEntity(student);
-
-            newAttributes = makeAttributes(student);
-            putDocument(newAttributes);
 
             return newAttributes;
         }
