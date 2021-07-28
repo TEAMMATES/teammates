@@ -37,5 +37,8 @@
 
     <p *ngIf="questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.DISTRIBUTE_SOME_UNEVENLY && isSomePointsUneven" class="text-success"><span class="fa fa-check"></span>
       At least one option has been allocated different number of points.</p>
+
+    <p *ngIf="isNegativePointsPresent" class="text-danger"><span class="fa fa-times"></span>
+      Points given must be 0 or more.</p>
   </div>
 </div>

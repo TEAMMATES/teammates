@@ -85,4 +85,12 @@ export class ConstsumOptionsQuestionEditAnswerFormComponent
     return set.size !== 1;
   }
 
+
+  /**
+   * Checks if any of the recepients have a negative number of points.
+   */
+  get isNegativePointsPresent(): boolean {
+    return this.responseDetails.answers.reduce((negativePresent: boolean, curr: number) => negativePresent || (curr < 0), false);
+  }
+
 }

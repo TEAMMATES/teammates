@@ -6,9 +6,6 @@
     <p *ngIf="isPointsOverAllocated" class="text-danger"><span class="fa fa-times"></span>
       Actual total is {{ totalAnsweredPoints }}! Remove the extra  {{ totalAnsweredPoints - totalRequiredPoints }} points allocated.</p>
 
-    <p *ngIf="isNegativePointsPresent" class="text-danger"><span class="fa fa-times"></span>
-      Points given must be 0 or more.</p>
-
     <p *ngIf="isAllPointsDistributed" class="text-success"><span class="fa fa-check"></span>
       All points distributed!</p>
 
@@ -23,5 +20,8 @@
 
     <p *ngIf="isCorrectlySomeUneven" class="text-success"><span class="fa fa-check"></span>
       At least one recipient has been allocated different number of points.</p>
+
+    <p *ngIf="isNegativePointsPresent" class="text-danger"><span class="fa fa-times"></span>
+      Points given must be 0 or more.</p>
   </div>
 </div>

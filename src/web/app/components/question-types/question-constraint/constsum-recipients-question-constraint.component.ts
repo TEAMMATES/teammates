@@ -117,13 +117,6 @@ export class ConstsumRecipientsQuestionConstraintComponent
   get isPointsOverAllocated(): boolean {
     return this.totalAnsweredPoints > this.totalRequiredPoints;
   }
-
-  /**
-   * Checks if any of the recepients have a negative number of points.
-   */
-  get isNegativePointsPresent(): boolean {
-    return this.allAnswers.reduce((negativePresent: boolean, curr: number) => negativePresent || (curr < 0), false);
-  }
   
   /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
@@ -161,4 +154,12 @@ export class ConstsumRecipientsQuestionConstraintComponent
     return this.isAllPointsDistributed && (this.isCorrectlyAllUneven || this.isCorrectlySomeUneven
         || this.questionDetails.distributePointsFor === FeedbackConstantSumDistributePointsType.NONE);
   }
+
+  /**
+   * Checks if any of the recepients have a negative number of points.
+   */
+  get isNegativePointsPresent(): boolean {
+    return this.allAnswers.reduce((negativePresent: boolean, curr: number) => negativePresent || (curr < 0), false);
+  }
+
 }
