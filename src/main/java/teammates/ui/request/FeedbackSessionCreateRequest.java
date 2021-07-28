@@ -10,7 +10,7 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
     @Nullable
     private String toCopyCourseId;
     @Nullable
-    private String oldSessionName;
+    private String toCopySessionName;
 
     public String getFeedbackSessionName() {
         return feedbackSessionName;
@@ -20,8 +20,8 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
         return toCopyCourseId;
     }
 
-    public String getOldSessionName() {
-        return oldSessionName;
+    public String getToCopySessionName() {
+        return toCopySessionName;
     }
 
     public void setFeedbackSessionName(String feedbackSessionName) {
@@ -32,8 +32,8 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
         this.toCopyCourseId = toCopyCourseId;
     }
 
-    public void setOldSessionName(String oldSessionName) {
-        this.oldSessionName = oldSessionName;
+    public void setToCopySessionName(String toCopySessionName) {
+        this.toCopySessionName = toCopySessionName;
     }
 
     @Override
@@ -42,5 +42,6 @@ public class FeedbackSessionCreateRequest extends FeedbackSessionBasicRequest {
 
         assertTrue(feedbackSessionName != null, "Session name cannot be null");
         assertTrue(!feedbackSessionName.isEmpty(), "Session name cannot be empty");
+        assertTrue(toCopyCourseId == null || toCopySessionName != null, "To copy session name cannot be null");
     }
 }

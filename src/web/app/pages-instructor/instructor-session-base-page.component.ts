@@ -56,7 +56,7 @@ export abstract class InstructorSessionBasePageComponent {
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
-      oldSessionName: fromFeedbackSession.feedbackSessionName,
+      toCopySessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
 
       submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,

@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.List;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -73,7 +71,7 @@ class CreateFeedbackSessionAction extends Action {
 
         if (createRequest.getToCopyCourseId() != null) {
             createFeedbackQuestions(createRequest.getToCopyCourseId(), courseId, createRequest.getFeedbackSessionName(),
-                    createRequest.getOldSessionName());
+                    createRequest.getToCopySessionName());
         }
 
         fs = getNonNullFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
@@ -101,12 +99,6 @@ class CreateFeedbackSessionAction extends Action {
                     .withQuestionDescription(question.getQuestionDescription())
                     .build();
 
-            // validate questions (giver & recipient)
-            String err = attributes.getQuestionDetails().validateGiverRecipientVisibility(attributes);
-            if (!err.isEmpty()) {
-                throw new InvalidHttpRequestBodyException(err);
-            }
-            // validate questions (question details)
             FeedbackQuestionDetails questionDetails = attributes.getQuestionDetails();
             if (questionDetails instanceof FeedbackMsqQuestionDetails) {
                 FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
@@ -114,10 +106,6 @@ class CreateFeedbackSessionAction extends Action {
                         attributes.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
                 msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
                 questionDetails = msqQuestionDetails;
-            }
-            List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
-            if (!questionDetailsErrors.isEmpty()) {
-                throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
             }
 
             try {

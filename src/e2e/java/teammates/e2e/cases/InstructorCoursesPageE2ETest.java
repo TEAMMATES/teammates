@@ -144,7 +144,8 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
 
         ______TS("restore active course");
         newCourse.setDeletedAt(null);
-        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate = { copyCourse, newCourse, courses[0], courses[3] };
+        CourseAttributes[] activeCoursesWithNewCourseSortedByCreationDate =
+                { copyCourse, newCourse, courses[0], courses[3] };
         coursesPage.restoreCourse(newCourse.getId());
 
         coursesPage.verifyStatusMessage("The course " + newCourse.getId() + " has been restored.");

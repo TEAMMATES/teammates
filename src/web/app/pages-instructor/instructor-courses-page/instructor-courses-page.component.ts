@@ -380,7 +380,7 @@ export class InstructorCoursesPageComponent implements OnInit {
     return {
       feedbackSessionName: fromFeedbackSession.feedbackSessionName,
       toCopyCourseId: oldCourseId,
-      oldSessionName: fromFeedbackSession.feedbackSessionName,
+      toCopySessionName: fromFeedbackSession.feedbackSessionName,
       instructions: fromFeedbackSession.instructions,
 
       submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
