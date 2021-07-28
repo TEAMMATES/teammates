@@ -119,6 +119,20 @@ export class ConstsumRecipientsQuestionConstraintComponent
   }
 
   /**
+   * Checks if any of the recepients have a negative number of points.
+   */
+  get isNegativePointsPresent(): boolean {
+    return this.allAnswers.reduce((negativePresent: boolean, curr: number) => negativePresent || (curr < 0), false);
+  }
+  
+  /**
+   * Checks if all points have been distributed, without any recepient recieving negative points.
+   */
+  get isAllPointsDistributedCorrectly(): boolean {
+    return this.isAllPointsDistributed && !this.isNegativePointsPresent;
+  }
+  
+  /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
    */
   get isWronglyAllUneven(): boolean {
