@@ -36,6 +36,7 @@ public class LocalLoggingService implements LogService {
 
     private static final List<FeedbackSessionLogEntry> FEEDBACK_SESSION_LOG_ENTRIES = new ArrayList<>();
     private static final List<GeneralLogEntry> LOCAL_LOG_ENTRIES = loadLocalLogEntries();
+    private static final String ASCENDING_ORDER = "asc";
 
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
@@ -60,16 +61,16 @@ public class LocalLoggingService implements LogService {
     }
 
     private static List<GeneralLogEntry> loadLocalLogEntries() {
-        long retentionPeriod = Long.valueOf(30) * 24 * 60 * 60 * 1000;
+        // Timestamp of logs are randomly created to be within the last one hour
         long currentTimestamp = Instant.now().toEpochMilli();
-        long earliestSearchableTimestamp = currentTimestamp - retentionPeriod;
+        long earliestTimestamp = currentTimestamp - 60 * 60 * 1000;
         try {
             String jsonString = FileHelper.readResourceFile("logsForLocalDev.json");
             Type type = new TypeToken<Collection<GeneralLogEntry>>(){}.getType();
             Collection<GeneralLogEntry> logEntriesCollection = JsonUtils.fromJson(jsonString, type);
             return logEntriesCollection.stream()
                     .map(log -> {
-                        long timestamp = new RandomDataGenerator().nextLong(earliestSearchableTimestamp, currentTimestamp);
+                        long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
                         GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(log.getLogName(),
                                 log.getSeverity(), log.getTrace(), log.getResourceIdentifier(), log.getSourceLocation(),
                                 timestamp);
@@ -77,7 +78,6 @@ public class LocalLoggingService implements LogService {
                         logEntryWithUpdatedTimestamp.setMessage(log.getMessage());
                         return logEntryWithUpdatedTimestamp;
                     })
-                    .sorted((x, y) -> Long.compare(y.getTimestamp(), x.getTimestamp()))
                     .collect(Collectors.toList());
         } catch (Exception e) {
             return new ArrayList<>();
@@ -93,7 +93,8 @@ public class LocalLoggingService implements LogService {
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         int startIndex;
-        int pageSize = queryLogsParams.getPageSize();
+        // Page size is set as a small value to test loading of more logs
+        int pageSize = 10;
         try {
             startIndex = Integer.parseInt(queryLogsParams.getPageToken());
         } catch (NumberFormatException e) {
@@ -101,15 +102,23 @@ public class LocalLoggingService implements LogService {
         }
 
         List<GeneralLogEntry> result = LOCAL_LOG_ENTRIES.stream()
+                .sorted((x, y) -> {
+                    String order = queryLogsParams.getOrder();
+                    if (ASCENDING_ORDER.equals(order)) {
+                        return Long.compare(x.getTimestamp(), y.getTimestamp());
+                    } else {
+                        return Long.compare(y.getTimestamp(), x.getTimestamp());
+                    }
+                })
                 .filter(logs -> queryLogsParams.getSeverityLevel() == null
                         || logs.getSeverity().equals(queryLogsParams.getSeverityLevel()))
                 .filter(logs -> queryLogsParams.getMinSeverity() == null
                         || LogSeverity.valueOf(logs.getSeverity()).getSeverityLevel()
                             >= LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getSeverityLevel())
                 .filter(logs -> queryLogsParams.getStartTime() == null
-                        || logs.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli())
+                        || logs.getTimestamp() > queryLogsParams.getStartTime().toEpochMilli())
                 .filter(logs -> queryLogsParams.getEndTime() == null
-                        || logs.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli())
+                        || logs.getTimestamp() < queryLogsParams.getEndTime().toEpochMilli())
                 .filter(logs -> queryLogsParams.getTraceId() == null
                         || (logs.getTrace() != null && logs.getTrace().equals(queryLogsParams.getTraceId())))
                 .filter(logs -> queryLogsParams.getActionClass() == null
@@ -157,7 +166,6 @@ public class LocalLoggingService implements LogService {
                         || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
                 .skip(startIndex)
                 .limit(pageSize)
-                .sorted((x, y) -> Long.compare(x.getTimestamp(), y.getTimestamp()))
                 .collect(Collectors.toList());
 
         startIndex += pageSize;
