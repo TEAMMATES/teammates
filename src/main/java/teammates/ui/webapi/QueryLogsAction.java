@@ -72,6 +72,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         String sourceLocationFile = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FILE);
         String sourceLocationFunction = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SOURCE_LOCATION_FUNCTION);
         String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
+        String order = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ORDER);
         String googleId = null;
         String regkey = null;
         String email = null;
@@ -91,6 +92,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withLogEvent(logEvent)
                 .withSourceLocation(new SourceLocation(sourceLocationFile, null, sourceLocationFunction))
                 .withExceptionClass(exceptionClass)
+                .withOrder(order)
                 .withPageSize(DEFAULT_PAGE_SIZE)
                 .withPageToken(nextPageToken)
                 .build();
