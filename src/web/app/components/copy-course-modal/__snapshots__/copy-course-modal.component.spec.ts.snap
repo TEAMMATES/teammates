@@ -3015,11 +3015,6 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
                 US/Pacific (UTC -07:00)
               </option>
               <option
-                value="US/Pacific-New"
-              >
-                US/Pacific-New (UTC -07:00)
-              </option>
-              <option
                 value="US/Samoa"
               >
                 US/Samoa (UTC -11:00)
@@ -6125,11 +6120,6 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
                 US/Pacific (UTC -07:00)
               </option>
               <option
-                value="US/Pacific-New"
-              >
-                US/Pacific-New (UTC -07:00)
-              </option>
-              <option
                 value="US/Samoa"
               >
                 US/Samoa (UTC -11:00)
@@ -9216,11 +9206,6 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
                 value="US/Pacific"
               >
                 US/Pacific (UTC -07:00)
-              </option>
-              <option
-                value="US/Pacific-New"
-              >
-                US/Pacific-New (UTC -07:00)
               </option>
               <option
                 value="US/Samoa"
