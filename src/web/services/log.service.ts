@@ -28,6 +28,7 @@ export interface LogsEndpointQueryParams {
   minSeverity?: string;
   logEvent?: string;
   nextPageToken?: string;
+  order?: string;
   advancedFilters: AdvancedFilters;
 }
 
@@ -91,6 +92,10 @@ export class LogService {
       starttime: queryParams.searchFrom,
       endtime: queryParams.searchUntil,
     };
+
+    if (queryParams.order) {
+      paramMap.order = queryParams.order;
+    }
 
     if (queryParams.severity) {
       paramMap.severity = queryParams.severity;

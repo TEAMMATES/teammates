@@ -11,6 +11,7 @@ import teammates.client.util.BackDoor;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.entity.Course;
 
@@ -35,12 +36,17 @@ public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScri
 
     @Override
     protected Query<Course> getFilterQuery() {
-        Instant createdAtBound = Instant.now();
+        Instant createdAtUpperBound = Instant.now();
+        Instant createdAtLowerBound = TimeHelper.parseInstant("2020-12-31T16:00:00.00Z");
         // To change the boundary of the createdAt timestamp, uncomment the next line and insert the appropriate timestamp.
-        // createdAtBound = Instant.ofEpochMilli(1618053102147L);
-        return ofy().load().type(Course.class)
-                .filter("createdAt <=", createdAtBound)
-                .order("-createdAt");
+        // createdAtUpperBound = TimeHelper.parseInstant("2021-06-30T16:00:00.00Z");
+        // createdAtLowerBound = TimeHelper.parseInstant("2020-12-31T16:00:00.00Z");
+        Query<Course> query = ofy().load().type(Course.class)
+                .filter("createdAt <=", createdAtUpperBound);
+        if (createdAtLowerBound != null) {
+            query = query.filter("createdAt >=", createdAtLowerBound);
+        }
+        return query.order("-createdAt");
     }
 
     @Override
