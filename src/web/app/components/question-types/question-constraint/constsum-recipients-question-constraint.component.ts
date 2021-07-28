@@ -126,13 +126,6 @@ export class ConstsumRecipientsQuestionConstraintComponent
   }
   
   /**
-   * Checks if all points have been distributed, without any recepient recieving negative points.
-   */
-  get isAllPointsDistributedCorrectly(): boolean {
-    return this.isAllPointsDistributed && !this.isNegativePointsPresent;
-  }
-  
-  /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
    */
   get isWronglyAllUneven(): boolean {
