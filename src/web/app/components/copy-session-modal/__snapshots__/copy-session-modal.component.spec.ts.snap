@@ -149,7 +149,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           class="form-check"
         >
           <label
-            class="form-check-label"
+            class="form-check-label text-break"
           >
             <input
               class="form-check-input"
@@ -175,7 +175,7 @@ exports[`CopySessionModalComponent should snap with some session and courses can
           class="form-check"
         >
           <label
-            class="form-check-label"
+            class="form-check-label text-break"
           >
             <input
               class="form-check-input"

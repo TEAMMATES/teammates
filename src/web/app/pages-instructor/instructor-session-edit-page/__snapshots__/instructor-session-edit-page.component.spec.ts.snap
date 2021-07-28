@@ -617,7 +617,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                    Time Zone 
                 </div>
                 <div
-                  class="col-md-2 text-md-left"
+                  class="col-md-3 text-md-left"
                   id="time-zone"
                 >
                   <span
@@ -3247,7 +3247,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                    Time Zone 
                 </div>
                 <div
-                  class="col-md-2 text-md-left"
+                  class="col-md-3 text-md-left"
                   id="time-zone"
                 >
                   <span

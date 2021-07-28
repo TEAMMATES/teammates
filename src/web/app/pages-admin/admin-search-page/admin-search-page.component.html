@@ -36,7 +36,7 @@
       <tbody>
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
-            <td>
+            <td class="text-break">
               <span [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
               <br>
               <div class="col-sm-1">
