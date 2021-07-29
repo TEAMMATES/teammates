@@ -241,7 +241,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         assertEquals(errorLogSourceLocation2, entry6.getSourceLocation());
         assertEquals(errorLogTimestamp2, entry6.getTimestamp());
 
-        // Test hiding of sensitive fields for non-admin maintainer
         ______TS("Success case: all fields are visible to admin");
         logoutUser();
         loginAsAdmin();

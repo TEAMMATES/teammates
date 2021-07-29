@@ -118,17 +118,16 @@ public class QueryLogsAction extends AdminOnlyAction {
                 details.remove("requestParams");
                 details.remove("requestHeaders");
                 details.remove("userInfo");
-                // Keep log message of event logs and remove log message for other logs for non-admin maintainers
+                // Keep log message of event logs and remove log message for other logs
                 if (!details.containsKey("event")) {
                     details.remove("message");
                 }
-                // Remove email details in email sent event log, and remove student email in feedback session audit
-                // event log for non-admin maintainers
-                if (details.containsKey("event") && details.get("event").equals(LogEvent.EMAIL_SENT.toString())) {
+                // Remove email details in email sent event log
+                if (LogEvent.EMAIL_SENT.toString().equals(details.get("event"))) {
                     details.remove("emailDetails");
                 }
-                if (details.containsKey("event")
-                        && details.get("event").equals(LogEvent.FEEDBACK_SESSION_AUDIT.toString())) {
+                // Remove student email in feedback session audit event log
+                if (LogEvent.FEEDBACK_SESSION_AUDIT.toString().equals(details.get("event"))) {
                     details.remove("studentEmail");
                 }
             }
