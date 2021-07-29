@@ -117,7 +117,7 @@ export class ConstsumRecipientsQuestionConstraintComponent
   get isPointsOverAllocated(): boolean {
     return this.totalAnsweredPoints > this.totalRequiredPoints;
   }
-  
+
   /**
    * Returns true if the question requires uneven distribution but the points are not unevenly distributed.
    */
