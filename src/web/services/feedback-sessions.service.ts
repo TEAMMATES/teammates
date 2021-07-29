@@ -141,6 +141,7 @@ export class FeedbackSessionsService {
         isinrecyclebin: 'false',
       };
     }
+
     return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
   }
 
