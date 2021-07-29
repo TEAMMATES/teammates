@@ -94,6 +94,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       severity: 'INFO',
       advancedFilters: {},
     });
@@ -126,6 +127,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       minSeverity: 'INFO',
       advancedFilters: {},
     });
@@ -142,7 +144,7 @@ describe('LogsPageComponent', () => {
     component.formModel = {
       logsSeverity: '',
       logsMinSeverity: '',
-      logsEvent: 'REQUEST_RECEIVED',
+      logsEvent: 'REQUEST_LOG',
       logsFilter: 'event',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
@@ -163,7 +165,8 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
-      logEvent: 'REQUEST_RECEIVED',
+      order: 'desc',
+      logEvent: 'REQUEST_LOG',
       advancedFilters: {
         traceId: 'testTrace',
         googleId: 'testGoogleId',
@@ -254,12 +257,26 @@ describe('LogsPageComponent', () => {
   });
 
   it('should disable load button if there is no next page token', () => {
-    component.nextPageToken = '';
+    spyOn(logService, 'searchLogs').and.returnValue(of({ logEntries: [] }));
+    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
+    component.formModel = {
+      logsSeverity: 'INFO',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'severity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
     component.isSearching = false;
     component.hasResult = true;
+    component.searchForLogs();
     fixture.detectChanges();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#load-button');
-    expect(button.disabled).toBeTruthy();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#load-previous-button');
+    expect(button).toBeNull();
   });
 
   it('should search for all error logs when search button is clicked', () => {
@@ -292,6 +309,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace1',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file1',
         line: 10,
@@ -304,6 +322,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace2',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,
@@ -316,6 +335,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace3',
+      resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
         line: 10,

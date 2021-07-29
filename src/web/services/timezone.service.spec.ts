@@ -93,8 +93,8 @@ describe('TimezoneService', () => {
         { hour: 2, minute: 0 }, 'US/Central');
 
     // Here, the clock has sprung forward and the time does not actually exist in the timezone.
-    // It is resolved to the next available hour.
-    expect(usTime).toEqual(baseEpochTime + oneHourInMs);
+    // It can be resolved to either the next or previous available hour.
+    expect(usTime === baseEpochTime + oneHourInMs || usTime === baseEpochTime).toBeTruthy();
 
     usTime = service.resolveLocalDateTime(
         { year: 2020, month: 3, day: 8 },
@@ -141,8 +141,9 @@ describe('TimezoneService', () => {
         { hour: 1, minute: 0 }, 'US/Central');
 
     // Here, the clock has sprung backward and the time exists in duplicate.
-    // It is resolved to the latter hour, thus making the effective time difference two hours.
-    expect(usTime).toEqual(baseEpochTime + 2 * oneHourInMs);
+    // It can be resolved to either the earlier or the latter hour.
+    expect(usTime === baseEpochTime + oneHourInMs || usTime === baseEpochTime + 2 * oneHourInMs)
+        .toBeTruthy();
 
     usTime = service.resolveLocalDateTime(
         { year: 2020, month: 11, day: 1 },
