@@ -143,7 +143,12 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        verifyAccessibleForAdmin();
+        verifyAccessibleForMaintainers();
+        verifyInaccessibleForStudents();
+        verifyInaccessibleForInstructors();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
 
 }

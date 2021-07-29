@@ -179,6 +179,7 @@ public final class Const {
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
         public static final String ADMIN = "admin";
+        public static final String MAINTAINER = "maintainer";
 
     }
 
@@ -219,6 +220,7 @@ public final class Const {
         private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
         private static final String INSTRUCTOR_PAGE = URI_PREFIX + "/" + EntityType.INSTRUCTOR;
         private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
+        private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
         private static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
@@ -228,6 +230,8 @@ public final class Const {
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
+
+        public static final String MAINTAINER_HOME_PAGE = MAINTAINER_PAGE + "/home";
 
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";

@@ -111,15 +111,15 @@
         <div class="col-5">
           <div class="col-12">
             <label for="google-id" class="font-weight-bold">User Google ID</label>
-            <input id="google-id" class="form-control" [(ngModel)]="formModel.advancedFilters.googleId">
+            <input id="google-id" class="form-control" [(ngModel)]="formModel.advancedFilters.googleId" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-4">
             <label for="regkey" class="font-weight-bold">User Registration Key</label>
-            <input id="regkey" class="form-control" [(ngModel)]="formModel.advancedFilters.regkey">
+            <input id="regkey" class="form-control" [(ngModel)]="formModel.advancedFilters.regkey" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-4">
             <label for="email" class="font-weight-bold">User Email</label>
-            <input id="email" class="form-control" [(ngModel)]="formModel.advancedFilters.email">
+            <input id="email" class="form-control" [(ngModel)]="formModel.advancedFilters.email" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-4">
             <label for="exception-class" class="font-weight-bold">Exception/Error class</label>
