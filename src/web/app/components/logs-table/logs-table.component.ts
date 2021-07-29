@@ -14,6 +14,8 @@ export class LogsTableComponent implements OnInit {
 
   @Input()
   logs: LogsTableRowModel[] = [];
+  @Input()
+  isAdmin: boolean = false;
 
   @Output()
   addTraceEvent: EventEmitter<string> = new EventEmitter<string>();
