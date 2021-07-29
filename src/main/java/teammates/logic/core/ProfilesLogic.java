@@ -9,9 +9,9 @@ import teammates.storage.api.ProfilesDb;
  */
 public final class ProfilesLogic {
 
-    private static ProfilesLogic instance = new ProfilesLogic();
+    private static final ProfilesLogic instance = new ProfilesLogic();
 
-    private static final ProfilesDb profilesDb = new ProfilesDb();
+    private final ProfilesDb profilesDb = ProfilesDb.inst();
 
     private ProfilesLogic() {
         // prevent initialization
@@ -19,6 +19,10 @@ public final class ProfilesLogic {
 
     public static ProfilesLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        // No dependency to other logic class
     }
 
     /**

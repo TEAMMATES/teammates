@@ -323,7 +323,7 @@ export enum SortBy {
     CONSTSUM_OPTIONS_POINTS,
 
     /**
-     * Recipient's received/total/average points
+     * Recipient's received/total/average/average excluding self points
      */
     CONSTSUM_RECIPIENTS_POINTS,
 

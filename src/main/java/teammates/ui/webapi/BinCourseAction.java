@@ -29,11 +29,11 @@ class BinCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String idOfCourseToBin = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             CourseAttributes courseAttributes = logic.getCourse(idOfCourseToBin);
-            courseAttributes.deletedAt = logic.moveCourseToRecycleBin(idOfCourseToBin);
+            courseAttributes.setDeletedAt(logic.moveCourseToRecycleBin(idOfCourseToBin));
 
             return new JsonResult(new CourseData(courseAttributes));
         } catch (EntityDoesNotExistException e) {

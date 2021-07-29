@@ -42,7 +42,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
         FeedbackNumericalScaleQuestionDetails questionDetails =
-                (FeedbackNumericalScaleQuestionDetails) loadedQuestion.getQuestionDetails();
+                (FeedbackNumericalScaleQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyNumScaleQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -56,22 +56,22 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackNumericalScaleQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackNumericalScaleQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyNumScaleQuestionDetails(3, questionDetails);
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackNumericalScaleQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackNumericalScaleQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setMinScale(0);
         questionDetails.setStep(1);
         questionDetails.setMaxScale(100);
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editNumScaleQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 
@@ -87,7 +87,7 @@ public class FeedbackNumScaleQuestionE2ETest extends BaseFeedbackQuestionE2ETest
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         StudentAttributes receiver = testData.students.get("benny.tmms@FNumScaleQn.CS2104");
         feedbackSubmitPage.verifyNumScaleQuestion(1, receiver.getTeam(),
-                (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetails());
+                (FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
