@@ -65,7 +65,7 @@
         </div>
       </div>
     </div>
-    <div *ngIf="isStudentListEmpty, else studentListTable" class="alert alert-warning">
+    <div *ngIf="students.length === 0, else studentListTable" class="alert alert-warning">
       <i class="fa fa-exclamation-circle text-muted"></i>
       There are no students in this course. Click
       <a tmRouterLink="/web/instructor/courses/enroll" [queryParams]="{courseid: courseDetails.course.courseId}">here</a> to enroll students.

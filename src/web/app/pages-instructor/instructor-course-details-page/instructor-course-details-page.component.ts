@@ -146,17 +146,13 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       });
 
       if (!Object.keys(sections).length) {
-        this.isStudentListEmpty = true;
-      } else {
-        this.isStudentListEmpty = false;
-      }
-
-      this.isStudentsLoading = false;
+        this.isStudentsLoading = false;
+      } 
+      
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
       this.isStudentsLoading = false;
       this.hasLoadingStudentsFailed = true;
-      this.isStudentListEmpty = true;
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
