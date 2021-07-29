@@ -155,7 +155,7 @@ public class GoogleCloudLoggingService implements LogService {
                     new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
-                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
                 logEntry.setDetails(jsonPayloadMap);
             } else {
                 String textPayloadMessage = ((Payload.StringPayload) payload).getData();
