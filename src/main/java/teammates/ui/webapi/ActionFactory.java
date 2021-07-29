@@ -35,6 +35,9 @@ public class ActionFactory {
         map(ResourceURIs.DATABUNDLE, PUT, DeleteDataBundleAction.class);
         map(ResourceURIs.DATABUNDLE_DOCUMENTS, PUT, PutDataBundleDocumentsAction.class);
         map(ResourceURIs.EXCEPTION, GET, AdminExceptionTestAction.class);
+        // Even though this is a GET action, POST is used in order to get extra protection from CSRF
+        map(ResourceURIs.USER_COOKIE, POST, GetUserCookieAction.class);
+
         map(ResourceURIs.ERROR_REPORT, POST, SendErrorReportAction.class);
         map(ResourceURIs.TIMEZONE, GET, GetTimeZonesAction.class);
         map(ResourceURIs.NATIONALITIES, GET, GetNationalitiesAction.class);

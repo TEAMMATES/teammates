@@ -51,6 +51,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 UpdateStudentProfileAction.class,
                 GetNationalitiesAction.class,
                 AdminExceptionTestAction.class,
+                GetUserCookieAction.class,
                 RemindFeedbackSessionResultAction.class,
                 DeleteInstructorAction.class,
                 CreateInstructorAction.class,
@@ -142,7 +143,12 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        verifyAccessibleForAdmin();
+        verifyAccessibleForMaintainers();
+        verifyInaccessibleForStudents();
+        verifyInaccessibleForInstructors();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
 
 }
