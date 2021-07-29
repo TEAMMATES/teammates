@@ -58,7 +58,7 @@ public class InstructorSearchManager extends SearchManager<InstructorAttributes>
         SolrQuery query = getBasicQuery(queryString);
 
         QueryResponse response = performQuery(query);
-        return convertDocumentToAttributes(response);
+        return convertDocumentToAttributes(response.getResults());
     }
 
 }

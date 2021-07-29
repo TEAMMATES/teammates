@@ -5,13 +5,14 @@ import { AuthService } from '../../services/auth.service';
 import { AuthInfo } from '../../types/api-output';
 
 /**
- * Base skeleton for student pages.
+ * Base skeleton for maintainer pages.
  */
 @Component({
-  selector: 'tm-student-page',
-  templateUrl: './student-page.component.html',
+  selector: 'tm-maintainer-page',
+  templateUrl: './maintainer-page.component.html',
+  styleUrls: ['./maintainer-page.component.scss'],
 })
-export class StudentPageComponent implements OnInit {
+export class MaintainerPageComponent implements OnInit {
 
   user: string = '';
   institute?: string = '';
@@ -21,16 +22,8 @@ export class StudentPageComponent implements OnInit {
   isMaintainer: boolean = false;
   navItems: any[] = [
     {
-      url: '/web/student',
+      url: '/web/maintainer',
       display: 'Home',
-    },
-    {
-      url: '/web/student/profile',
-      display: 'Profile',
-    },
-    {
-      url: '/web/student/help',
-      display: 'Help',
     },
   ];
   isFetchingAuthDetails: boolean = false;
@@ -54,7 +47,7 @@ export class StudentPageComponent implements OnInit {
           this.isAdmin = res.user.isAdmin;
           this.isMaintainer = res.user.isMaintainer;
         } else {
-          window.location.href = `${this.backendUrl}${res.studentLoginUrl}`;
+          window.location.href = `${this.backendUrl}${res.maintainerLoginUrl}`;
         }
         this.isFetchingAuthDetails = false;
       }, () => {
