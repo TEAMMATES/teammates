@@ -126,7 +126,7 @@ export class LogService {
     }
 
     if (queryParams.advancedFilters.regkey) {
-      paramMap.regkey = queryParams.advancedFilters.regkey;
+      paramMap.key = queryParams.advancedFilters.regkey;
     }
 
     if (queryParams.advancedFilters.email) {

@@ -10,9 +10,8 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.reflect.TypeToken;
+import com.google.gson.JsonParseException;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
@@ -79,7 +78,7 @@ public class LocalLoggingService implements LogService {
                         return logEntryWithUpdatedTimestamp;
                     })
                     .collect(Collectors.toList());
-        } catch (Exception e) {
+        } catch (JsonParseException e) {
             return new ArrayList<>();
         }
     }
@@ -136,28 +135,24 @@ public class LocalLoggingService implements LogService {
                     }
 
                     Object userInfo = logs.getDetails().get("userInfo");
-                    Map<String, String> userInfoMap =
-                            new ObjectMapper().convertValue(userInfo, new TypeReference<Map<String, String>>(){});
+                    Map<String, String> userInfoMap = JsonUtils.fromJson(JsonUtils.toJson(userInfo), Map.class);
                     if (queryUserInfo.getEmail() != null
-                            && (userInfoMap.get("email") == null
-                            || !userInfoMap.get("email").equals(queryUserInfo.getEmail()))) {
+                            && !queryUserInfo.getEmail().equals(userInfoMap.get("email"))) {
                         return false;
                     }
                     if (queryUserInfo.getGoogleId() != null
-                            && (userInfoMap.get("googleId") == null
-                            || !userInfoMap.get("googleId").equals(queryUserInfo.getGoogleId()))) {
+                            && !queryUserInfo.getGoogleId().equals(userInfoMap.get("googleId"))) {
                         return false;
                     }
                     if (queryUserInfo.getRegkey() != null
-                            && (userInfoMap.get("regkey") == null
-                            || !userInfoMap.get("regkey").equals(queryUserInfo.getRegkey()))) {
+                            && !queryUserInfo.getRegkey().equals(userInfoMap.get("regkey"))) {
                         return false;
                     }
                     return true;
                 })
                 .filter(logs -> queryLogsParams.getLogEvent() == null
-                        || (logs.getDetails() != null && logs.getDetails().get("event") != null
-                            && logs.getDetails().get("event").equals(queryLogsParams.getLogEvent())))
+                        || (logs.getDetails() != null
+                            && queryLogsParams.getLogEvent().equals(logs.getDetails().get("event"))))
                 .filter(logs -> queryLogsParams.getSourceLocation().getFile() == null
                         || logs.getSourceLocation().getFile().equals(queryLogsParams.getSourceLocation().getFile()))
                 .filter(logs -> queryLogsParams.getSourceLocation().getFunction() == null
