@@ -159,7 +159,8 @@ export class ConstsumRecipientsQuestionConstraintComponent
    * Checks if any of the recepients have a negative number of points.
    */
   get isNegativePointsPresent(): boolean {
-    return this.allAnswers.reduce((negativePresent: boolean, curr: number) => negativePresent || (curr < 0), false);
+    return this.allAnswers.reduce(
+        (negativePresent: boolean, curr: number) => negativePresent || (curr < 0), false);
   }
 
 }
