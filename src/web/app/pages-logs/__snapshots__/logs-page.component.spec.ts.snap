@@ -7,23 +7,29 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  MAXIMUM_PAGES_FOR_ERROR_LOGS={[Function Number]}
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
+  activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
+  earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
+  hasNextPage="false"
+  hasPreviousPage={[Function Boolean]}
   hasResult="false"
   histogramResult={[Function Array]}
+  isAdmin="undefined"
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
   isTableView={[Function Boolean]}
+  latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
-  nextPageToken=""
   queryParams={[Function Object]}
+  searchEndTime="0"
   searchResults={[Function Array]}
+  searchStartTime="0"
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -53,10 +59,18 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
     
     
     <div
-      class="center"
+      class="center mb-4"
     >
       
     </div>
+    
+    
+    <div
+      class="center mb-4"
+    >
+      
+    </div>
+    
   </div>
 </tm-logs-page>
 `;
@@ -68,23 +82,29 @@ exports[`LogsPageComponent should snap when searching for details in search form
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  MAXIMUM_PAGES_FOR_ERROR_LOGS={[Function Number]}
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
+  activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
+  earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
+  hasNextPage="false"
+  hasPreviousPage={[Function Boolean]}
   hasResult="false"
   histogramResult={[Function Array]}
+  isAdmin="undefined"
   isFiltersExpanded="false"
   isLoading="false"
   isSearching={[Function Boolean]}
   isTableView={[Function Boolean]}
+  latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
-  nextPageToken=""
   queryParams={[Function Object]}
+  searchEndTime="0"
   searchResults={[Function Array]}
+  searchStartTime="0"
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -455,6 +475,24 @@ exports[`LogsPageComponent should snap when searching for details in search form
         </div>
       </div>
     </tm-loading-spinner>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
   </div>
 </tm-logs-page>
 `;
@@ -466,23 +504,29 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  MAXIMUM_PAGES_FOR_ERROR_LOGS={[Function Number]}
   MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
   SEVERITY={[Function String]}
+  activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
+  earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
   formModel={[Function Object]}
+  hasNextPage="false"
+  hasPreviousPage={[Function Boolean]}
   hasResult="false"
   histogramResult={[Function Array]}
+  isAdmin="undefined"
   isFiltersExpanded="false"
   isLoading={[Function Boolean]}
   isSearching="false"
   isTableView={[Function Boolean]}
+  latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
-  nextPageToken=""
   queryParams={[Function Object]}
+  searchEndTime="0"
   searchResults={[Function Array]}
+  searchStartTime="0"
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
 >
@@ -512,10 +556,18 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
     
     
     <div
-      class="center"
+      class="center mb-4"
     >
       
     </div>
+    
+    
+    <div
+      class="center mb-4"
+    >
+      
+    </div>
+    
   </div>
 </tm-logs-page>
 `;

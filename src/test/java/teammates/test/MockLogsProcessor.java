@@ -4,6 +4,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.logging.type.LogSeverity;
 
@@ -54,33 +55,35 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general INFO logs.
      */
     public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
     public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
     public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
-    private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
-            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
+    private void insertGeneralLog(String logName, String severity, String trace,
+            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
+            Map<String, Object> jsonPayloadDetails) {
         GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, new HashMap<>(), sourceLocation, timestamp);
         logEntry.setMessage(textPayloadMessage);
+        logEntry.setDetails(jsonPayloadDetails);
         generalLogs.add(logEntry);
     }
 

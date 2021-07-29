@@ -42,10 +42,12 @@ class GetAuthInfoAction extends Action {
                 output = new AuthInfo(
                         createLoginUrl(frontendUrl, Const.WebPageURIs.STUDENT_HOME_PAGE),
                         createLoginUrl(frontendUrl, Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
-                        createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE)
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE),
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE)
                 );
             } else {
                 output = new AuthInfo(
+                        createLoginUrl(frontendUrl, nextUrl),
                         createLoginUrl(frontendUrl, nextUrl),
                         createLoginUrl(frontendUrl, nextUrl),
                         createLoginUrl(frontendUrl, nextUrl)

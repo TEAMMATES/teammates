@@ -17,6 +17,8 @@ import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
+import com.google.cloud.logging.Logging.SortingField;
+import com.google.cloud.logging.Logging.SortingOrder;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Payload.StringPayload;
@@ -56,6 +58,8 @@ public class GoogleCloudLoggingService implements LogService {
 
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
+
+    private static final String ASCENDING_ORDER = "asc";
 
     private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
 
@@ -151,7 +155,7 @@ public class GoogleCloudLoggingService implements LogService {
                     new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
                             sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
-                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
                 logEntry.setDetails(jsonPayloadMap);
             } else {
                 String textPayloadMessage = ((Payload.StringPayload) payload).getData();
@@ -302,6 +306,14 @@ public class GoogleCloudLoggingService implements LogService {
 
             entryListOptions.add(EntryListOption.filter(logFilter));
 
+            if (s.order != null) {
+                if (ASCENDING_ORDER.equals(s.order)) {
+                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
+                } else {
+                    entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
+                }
+            }
+
             if (p != null) {
                 if (p.pageSize != null) {
                     entryListOptions.add(EntryListOption.pageSize(p.pageSize));
@@ -341,6 +353,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
         private String exceptionClass;
+        private String order;
 
         public static LogSearchParams from(QueryLogsParams queryLogsParams) {
             LogSearchParams logSearchParams = new LogSearchParams()
@@ -350,7 +363,8 @@ public class GoogleCloudLoggingService implements LogService {
                     .setUserInfoParams(queryLogsParams.getUserInfoParams())
                     .setLogEvent(queryLogsParams.getLogEvent())
                     .setSourceLocation(queryLogsParams.getSourceLocation())
-                    .setExceptionClass(queryLogsParams.getExceptionClass());
+                    .setExceptionClass(queryLogsParams.getExceptionClass())
+                    .setOrder(queryLogsParams.getOrder());
             if (queryLogsParams.getSeverityLevel() != null) {
                 logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
             } else if (queryLogsParams.getMinSeverity() != null) {
@@ -435,6 +449,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setExceptionClass(String exceptionClass) {
             this.exceptionClass = exceptionClass;
+            return this;
+        }
+
+        public LogSearchParams setOrder(String order) {
+            this.order = order;
             return this;
         }
     }
