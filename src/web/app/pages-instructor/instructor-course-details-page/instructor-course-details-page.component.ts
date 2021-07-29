@@ -147,8 +147,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
       if (!Object.keys(sections).length) {
         this.isStudentsLoading = false;
-      } 
-      
+      }
+
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
       this.isStudentsLoading = false;
