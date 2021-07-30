@@ -1,6 +1,7 @@
 [
   {
     "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course2, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%course2, courseId=CS2222, email=john@gmail.com])] into Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)\n\tat teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)\n\tat teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)\n\tat teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)\n\tat teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)\n\tat teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)\n\tat teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)\n\tat teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:707)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:109)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 32 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 42 more\n",
+    "insertId": "60d295c40000209229cb51e8",
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -18,6 +19,7 @@
   },
   {
     "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course1, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%CS1111, courseId=CS1111, email=john@gmail.com])] into Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)\n\tat teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)\n\tat teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)\n\tat teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)\n\tat teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)\n\tat teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)\n\tat teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)\n\tat teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:707)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:109)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 32 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 42 more\n",
+    "insertId": "60d2f041000c0a0af5595190",
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -35,6 +37,7 @@
   },
   {
     "message": "Failed to search for document(s) course from Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003)\n\tat teammates.storage.search.SearchManager.performQuery(SearchManager.java:80)\n\tat teammates.storage.search.InstructorSearchManager.searchInstructors(InstructorSearchManager.java:60)\n\tat teammates.storage.api.InstructorsDb.searchInstructorsInWholeSystem(InstructorsDb.java:81)\n\tat teammates.logic.core.InstructorsLogic.searchInstructorsInWholeSystem(InstructorsLogic.java:65)\n\tat teammates.logic.api.Logic.searchInstructorsInWholeSystem(Logic.java:134)\n\tat teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:36)\n\tat teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 29 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 39 more\n",
+    "insertId": "60dace46000b929ccc84c427",
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -52,13 +55,14 @@
   },
   {
     "message": "UnsupportedOperationException caught by WebApiServlet: \njava.lang.UnsupportedOperationException: remove\n\tat java.base/java.util.Iterator.remove(Iterator.java:102)\n\tat java.base/java.util.Collection.removeIf(Collection.java:545)\n\tat teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)\n\tat teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
-    "severity": "ERROR",
+    "insertId": "60dc12a80000eafd09219e25",
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
+    "severity": "ERROR",
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "00a2977fe8042522ad5a7623426838d5",
     "sourceLocation": {
@@ -69,6 +73,7 @@
   },
   {
     "message": "UnsupportedOperationException caught by WebApiServlet: \njava.lang.UnsupportedOperationException: remove\n\tat java.base/java.util.Iterator.remove(Iterator.java:102)\n\tat java.base/java.util.Collection.removeIf(Collection.java:545)\n\tat teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)\n\tat teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60dc2766000d4c6853e01f7d",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -86,6 +91,7 @@
   },
   {
     "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60dc2f83000d25b1f4c9812a",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -102,6 +108,7 @@
   },
   {
     "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60dc2fd60009fdda66ab70d2",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -118,6 +125,7 @@
   },
   {
     "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60dc31d30005ae02355df920",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -134,6 +142,7 @@
   },
   {
     "message": "TimeoutException caught by WebApiServlet: \njava.util.concurrent.TimeoutException\n\tat java.base/java.util.concurrent.FutureTask.get(FutureTask.java:204)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:118)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60dc367c00079db2fb27fa7f",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -150,6 +159,7 @@
   },
   {
     "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60e80b670005d3219004a3dc",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -167,6 +177,7 @@
   },
   {
     "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60e80c8c0006c129c19f422f",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -184,6 +195,7 @@
   },
   {
     "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60e80db8000729fa21eca28d",
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -201,6 +213,7 @@
   },
   {
     "message": "ActionMappingException caught by WebApiServlet: \nteammates.common.exception.ActionMappingException: Resource with URI /webapi/actionclass is not found.\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:106)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60f52e6b00025db1f7397061",
     "severity": "WARNING",
     "resourceIdentifier": {
       "module_id": "default",
@@ -218,6 +231,7 @@
   },
   {
     "message": "ActionMappingException caught by WebApiServlet: \nteammates.common.exception.ActionMappingException: Resource with URI /webapi/actionclass is not found.\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:106)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
+    "insertId": "60f52e7d000d0e48c0254a5b",
     "severity": "WARNING",
     "resourceIdentifier": {
       "module_id": "default",
@@ -234,6 +248,7 @@
     }
   },
   {
+    "insertId": "12345479000406a02fdc8b15",
     "details": {
       "event": "REQUEST_LOG",
       "requestUrl": "/webapi/logs/query",
@@ -298,6 +313,7 @@
     }
   },
   {
+    "insertId": "1234547c0009f767db5f55be",
     "details": {
       "responseTime": 144,
       "responseStatus": 200,
@@ -358,6 +374,7 @@
     }
   },
   {
+    "insertId": "1234547c000dfcc8afbb2ea4",
     "details": {
       "requestMethod": "GET",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
@@ -418,6 +435,7 @@
     }
   },
   {
+    "insertId": "123454840002d64b962e3c43",
     "details": {
       "message": "[200] [2111ms] [GET /webapi/logs/query] QueryLogsAction",
       "requestHeaders": {
@@ -482,6 +500,7 @@
     }
   },
   {
+    "insertId": "1234549100025ad320b623cc",
     "details": {
       "event": "REQUEST_LOG",
       "requestUrl": "/webapi/logs/query",
@@ -546,6 +565,7 @@
     }
   },
   {
+    "insertId": "123454b00007bf14712b4db4",
     "details": {
       "requestParams": {},
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
@@ -606,6 +626,7 @@
     }
   },
   {
+    "insertId": "123454b1000584a1efd02b5a",
     "details": {
       "requestHeaders": {
         "X-AppEngine-Api-Ticket": "ChBiNDM5NTVkYzcyNmEzZjJiGhMIpsuOvoyA8gIV8ktcCh3iXg4H",
@@ -669,6 +690,7 @@
     }
   },
   {
+    "insertId": "123454b2000111cf31a70655",
     "details": {
       "requestParams": {
         "courseid": "qq",
@@ -732,6 +754,7 @@
     }
   },
   {
+    "insertId": "123454b2000115050e3ce761",
     "details": {
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "userInfo": {
@@ -795,6 +818,7 @@
     }
   },
   {
+    "insertId": "123454b70002867f17c2c976",
     "details": {
       "requestMethod": "GET",
       "requestParams": {
@@ -858,6 +882,7 @@
     }
   },
   {
+    "insertId": "123454bb0007143a298e825f",
     "details": {
       "requestUrl": "/webapi/auth",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
@@ -918,6 +943,7 @@
     }
   },
   {
+    "insertId": "123454bb00087c48305371f8",
     "details": {
       "event": "REQUEST_LOG",
       "requestMethod": "GET",
@@ -981,6 +1007,7 @@
     }
   },
   {
+    "insertId": "123454bb000ecabe2e557b7b",
     "details": {
       "accessType": "access",
       "courseId": "john.gma-demo",
@@ -1005,6 +1032,7 @@
     }
   },
   {
+    "insertId": "123454bc00071309557eafaf",
     "details": {
       "requestParams": {
         "courseid": "john.gma-demo",
@@ -1072,6 +1100,7 @@
     }
   },
   {
+    "insertId": "123454ce0008949a06231c24",
     "details": {
       "responseTime": 139,
       "requestUrl": "/webapi/responses",
@@ -1135,6 +1164,7 @@
     }
   },
   {
+    "insertId": "123454cf00043bb2b07d3ae9",
     "details": {
       "requestHeaders": {
         "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
@@ -1198,6 +1228,7 @@
     }
   },
   {
+    "insertId": "123454cf00057d918f7eb435",
     "details": {
       "requestMethod": "GET",
       "message": "[200] [143ms] [GET /webapi/auth] GetAuthInfoAction",
@@ -1258,6 +1289,7 @@
     }
   },
   {
+    "insertId": "123454cf000700586bdbab8a",
     "details": {
       "event": "REQUEST_LOG",
       "actionClass": "GetAuthInfoAction",
@@ -1320,6 +1352,7 @@
     }
   },
   {
+    "insertId": "123454d1000d4e520e871023",
     "details": {
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "requestParams": {
@@ -1384,6 +1417,7 @@
     }
   },
   {
+    "insertId": "123454d200028b5407c7fb0d",
     "details": {
       "responseTime": 408,
       "userInfo": {
@@ -1446,6 +1480,7 @@
     }
   },
   {
+    "insertId": "123454d20006fcaeae7dcc52",
     "details": {
       "event": "FEEDBACK_SESSION_AUDIT",
       "accessType": "view result",

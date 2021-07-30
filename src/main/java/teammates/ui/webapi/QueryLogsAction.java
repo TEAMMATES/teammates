@@ -65,7 +65,6 @@ public class QueryLogsAction extends AdminOnlyAction {
 
         String severity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
         String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
-        String nextPageToken = getRequestParamValue(Const.ParamsNames.NEXT_PAGE_TOKEN);
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String actionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ACTION_CLASS);
         String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);
@@ -94,7 +93,6 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withExceptionClass(exceptionClass)
                 .withOrder(order)
                 .withPageSize(DEFAULT_PAGE_SIZE)
-                .withPageToken(nextPageToken)
                 .build();
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);

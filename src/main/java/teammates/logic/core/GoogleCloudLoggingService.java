@@ -135,7 +135,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME);
 
-        PageParams pageParams = new PageParams(queryLogsParams.getPageSize(), queryLogsParams.getPageToken());
+        PageParams pageParams = new PageParams(queryLogsParams.getPageSize());
 
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, pageParams);
         List<GeneralLogEntry> logEntries = new ArrayList<>();
@@ -146,14 +146,15 @@ public class GoogleCloudLoggingService implements LogService {
             if (trace != null) {
                 trace = trace.replace(TRACE_PREFIX, "");
             }
+            String insertId = entry.getInsertId();
             com.google.cloud.logging.SourceLocation sourceLocation = entry.getSourceLocation();
             Map<String, String> resourceIdentifier = entry.getResource().getLabels();
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace, resourceIdentifier,
-                    new GeneralLogEntry.SourceLocation(sourceLocation.getFile(), sourceLocation.getLine(),
-                            sourceLocation.getFunction()), timestamp);
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace, insertId,
+                    resourceIdentifier, new GeneralLogEntry.SourceLocation(sourceLocation.getFile(),
+                            sourceLocation.getLine(), sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
                 Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
                 logEntry.setDetails(jsonPayloadMap);
@@ -163,8 +164,8 @@ public class GoogleCloudLoggingService implements LogService {
             }
             logEntries.add(logEntry);
         }
-        String nextPageToken = logEntriesInPage.getNextPageToken();
-        return new QueryLogsResults(logEntries, nextPageToken);
+        boolean hasNextPage = logEntriesInPage.getNextPageToken() != null;
+        return new QueryLogsResults(logEntries, hasNextPage);
     }
 
     @Override
@@ -314,13 +315,8 @@ public class GoogleCloudLoggingService implements LogService {
                 }
             }
 
-            if (p != null) {
-                if (p.pageSize != null) {
-                    entryListOptions.add(EntryListOption.pageSize(p.pageSize));
-                }
-                if (p.nextPageToken != null) {
-                    entryListOptions.add(EntryListOption.pageToken(p.nextPageToken));
-                }
+            if (p != null && p.pageSize != null) {
+                entryListOptions.add(EntryListOption.pageSize(p.pageSize));
             }
 
             EntryListOption[] entryListOptionsArray = new EntryListOption[entryListOptions.size()];
@@ -463,27 +459,13 @@ public class GoogleCloudLoggingService implements LogService {
      */
     private static class PageParams {
         private Integer pageSize;
-        private String nextPageToken;
 
         PageParams(int pageSize) {
             this.pageSize = pageSize;
         }
 
-        PageParams(String nextPageToken) {
-            this.nextPageToken = nextPageToken;
-        }
-
-        PageParams(int pageSize, String nextPageToken) {
-            this.pageSize = pageSize;
-            this.nextPageToken = nextPageToken;
-        }
-
         public Integer getPageSize() {
             return pageSize;
-        }
-
-        public String getNextPageToken() {
-            return nextPageToken;
         }
     }
 

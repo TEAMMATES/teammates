@@ -71,8 +71,8 @@ public class LocalLoggingService implements LogService {
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
                         GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(log.getLogName(),
-                                log.getSeverity(), log.getTrace(), log.getResourceIdentifier(), log.getSourceLocation(),
-                                timestamp);
+                                log.getSeverity(), log.getTrace(), log.getInsertId(), log.getResourceIdentifier(),
+                                log.getSourceLocation(), timestamp);
                         logEntryWithUpdatedTimestamp.setDetails(log.getDetails());
                         logEntryWithUpdatedTimestamp.setMessage(log.getMessage());
                         return logEntryWithUpdatedTimestamp;
@@ -91,14 +91,8 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
-        int startIndex;
         // Page size is set as a small value to test loading of more logs
         int pageSize = 10;
-        try {
-            startIndex = Integer.parseInt(queryLogsParams.getPageToken());
-        } catch (NumberFormatException e) {
-            startIndex = 0;
-        }
 
         List<GeneralLogEntry> result = LOCAL_LOG_ENTRIES.stream()
                 .sorted((x, y) -> {
@@ -117,7 +111,7 @@ public class LocalLoggingService implements LogService {
                 .filter(logs -> queryLogsParams.getStartTime() == null
                         || logs.getTimestamp() > queryLogsParams.getStartTime().toEpochMilli())
                 .filter(logs -> queryLogsParams.getEndTime() == null
-                        || logs.getTimestamp() < queryLogsParams.getEndTime().toEpochMilli())
+                        || logs.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli())
                 .filter(logs -> queryLogsParams.getTraceId() == null
                         || (logs.getTrace() != null && logs.getTrace().equals(queryLogsParams.getTraceId())))
                 .filter(logs -> queryLogsParams.getActionClass() == null
@@ -159,17 +153,12 @@ public class LocalLoggingService implements LogService {
                         || logs.getSourceLocation().getFunction().equals(queryLogsParams.getSourceLocation().getFunction()))
                 .filter(logs -> queryLogsParams.getExceptionClass() == null
                         || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
-                .skip(startIndex)
                 .limit(pageSize)
                 .collect(Collectors.toList());
 
-        startIndex += pageSize;
-        String nextPageToken = Integer.toString(startIndex);
-        if (result.size() < pageSize) {
-            nextPageToken = null;
-        }
+        boolean hasNextPage = result.size() == pageSize;
 
-        return new QueryLogsResults(result, nextPageToken);
+        return new QueryLogsResults(result, hasNextPage);
     }
 
     @Override

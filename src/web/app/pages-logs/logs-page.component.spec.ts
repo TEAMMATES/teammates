@@ -256,7 +256,7 @@ describe('LogsPageComponent', () => {
     expect(spy).lastCalledWith('Please fill in Source location file or clear Source location function');
   });
 
-  it('should disable load button if there is no next page token', () => {
+  it('should disable load button if there is no next page', () => {
     spyOn(logService, 'searchLogs').and.returnValue(of({ logEntries: [] }));
     spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
     component.formModel = {
@@ -280,10 +280,24 @@ describe('LogsPageComponent', () => {
   });
 
   it('should search for all error logs when search button is clicked', () => {
+    const testLog1: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace1',
+      insertId: 'testInsertId1',
+      resourceIdentifier: {},
+      sourceLocation: {
+        file: 'file1',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
-        .returnValues(of({ logEntries: [], nextPageToken: 'token' }), of({ logEntries: [] }));
+      .returnValues(of({ logEntries: [testLog1], hasNextPage: true }), of({ logEntries: [], hasNextPage: false }));
     const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-        .returnValue(0);
+      .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -296,9 +310,9 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledTimes(2);
     expect(logSpy.calls.mostRecent().args).toEqual([{
       searchFrom: '0',
-      searchUntil: '0',
+      searchUntil: '1549095330000',
+      order: 'desc',
       severity: 'ERROR',
-      nextPageToken: 'token',
       advancedFilters: {},
     }]);
   });
@@ -309,6 +323,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace1',
+      insertId: 'testInsertId1',
       resourceIdentifier: {},
       sourceLocation: {
         file: 'file1',
@@ -322,6 +337,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace2',
+      insertId: 'testInsertId2',
       resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
@@ -335,6 +351,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace3',
+      insertId: 'testInsertId3',
       resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
