@@ -21,13 +21,13 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
+import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -47,7 +47,7 @@ public abstract class Action {
     TaskQueuer taskQueuer = TaskQueuer.inst();
     EmailSender emailSender = EmailSender.inst();
     FileStorage fileStorage = FileStorage.inst();
-    RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
+    RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
     LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;

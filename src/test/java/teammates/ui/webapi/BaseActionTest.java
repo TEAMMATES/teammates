@@ -33,11 +33,11 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.RecaptchaVerifier;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.api.MockEmailSender;
 import teammates.logic.api.MockFileStorage;
 import teammates.logic.api.MockLogsProcessor;
+import teammates.logic.api.MockRecaptchaVerifier;
 import teammates.logic.api.MockTaskQueuer;
 import teammates.logic.api.MockUserProvision;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
@@ -67,6 +67,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     protected MockFileStorage mockFileStorage = new MockFileStorage();
     protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
     protected MockUserProvision mockUserProvision = new MockUserProvision();
+    protected MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
     protected abstract String getActionUri();
 
@@ -121,7 +122,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             action.setFileStorage(mockFileStorage);
             action.setLogsProcessor(mockLogsProcessor);
             action.setUserProvision(mockUserProvision);
-            action.setRecaptchaVerifier(new RecaptchaVerifier(null));
+            action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.init(req);
             return (T) action;
         } catch (ActionMappingException e) {
