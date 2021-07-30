@@ -20,7 +20,7 @@ import teammates.common.util.Const.TaskQueue;
 /**
  * Generates the matching {@link Action} for a given URI and request method.
  */
-public class ActionFactory {
+public final class ActionFactory {
 
     protected static final Map<String, Map<String, Class<? extends Action>>> ACTION_MAPPINGS = new HashMap<>();
 
@@ -151,6 +151,10 @@ public class ActionFactory {
 
     }
 
+    private ActionFactory() {
+        // prevent initialization
+    }
+
     private static void map(String uri, String method, Class<? extends Action> actionClass) {
         ACTION_MAPPINGS.computeIfAbsent(uri, k -> new HashMap<>()).put(method, actionClass);
     }
@@ -158,7 +162,7 @@ public class ActionFactory {
     /**
      * Returns the matching {@link Action} object for the URI and method in {@code req}.
      */
-    public Action getAction(HttpServletRequest req, String method) throws ActionMappingException {
+    public static Action getAction(HttpServletRequest req, String method) throws ActionMappingException {
         String uri = req.getRequestURI();
         if (uri.contains(";")) {
             uri = uri.split(";")[0];
@@ -166,7 +170,7 @@ public class ActionFactory {
         return getAction(uri, method);
     }
 
-    private Action getAction(String uri, String method) throws ActionMappingException {
+    private static Action getAction(String uri, String method) throws ActionMappingException {
         if (!ACTION_MAPPINGS.containsKey(uri)) {
             throw new ActionMappingException("Resource with URI " + uri + " is not found.", HttpStatus.SC_NOT_FOUND);
         }

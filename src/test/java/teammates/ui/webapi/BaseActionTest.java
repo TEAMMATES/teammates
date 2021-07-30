@@ -115,7 +115,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             }
         }
         try {
-            Action action = new ActionFactory().getAction(req, getRequestMethod());
+            Action action = ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setFileStorage(mockFileStorage);
