@@ -11,8 +11,18 @@ import teammates.logic.core.StudentsLogic;
  */
 public class UserProvision {
 
+    private static final UserProvision instance = new UserProvision();
+
     private final AccountsLogic accountsLogic = AccountsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
+
+    UserProvision() {
+        // prevent initialization
+    }
+
+    public static UserProvision inst() {
+        return instance;
+    }
 
     /**
      * Gets the information of the current logged in user.

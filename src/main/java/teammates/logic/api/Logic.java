@@ -44,6 +44,8 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
+    private static final Logic instance = new Logic();
+
     final AccountsLogic accountsLogic = AccountsLogic.inst();
     final StudentsLogic studentsLogic = StudentsLogic.inst();
     final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
@@ -54,6 +56,14 @@ public class Logic {
     final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
     final ProfilesLogic profilesLogic = ProfilesLogic.inst();
     final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+
+    Logic() {
+        // prevent initialization
+    }
+
+    public static Logic inst() {
+        return instance;
+    }
 
     /**
      * Preconditions: <br>

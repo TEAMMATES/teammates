@@ -23,14 +23,19 @@ public class TaskQueuer {
 
     private static final Logger log = Logger.getLogger();
 
+    private static final TaskQueuer instance = new TaskQueuer();
     private final TaskQueueService service;
 
-    public TaskQueuer() {
+    TaskQueuer() {
         if (Config.isDevServer()) {
             service = new LocalTaskQueueService();
         } else {
             service = new GoogleCloudTasksService();
         }
+    }
+
+    public static TaskQueuer inst() {
+        return instance;
     }
 
     // The following methods are facades to the actual logic for adding tasks to the queue.

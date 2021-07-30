@@ -40,15 +40,15 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class Action {
 
-    Logic logic = new Logic();
-    UserProvision userProvision = new UserProvision();
-    GateKeeper gateKeeper = new GateKeeper();
-    EmailGenerator emailGenerator = new EmailGenerator();
-    TaskQueuer taskQueuer = new TaskQueuer();
-    EmailSender emailSender = new EmailSender();
-    FileStorage fileStorage = new FileStorage();
+    Logic logic = Logic.inst();
+    UserProvision userProvision = UserProvision.inst();
+    GateKeeper gateKeeper = GateKeeper.inst();
+    EmailGenerator emailGenerator = EmailGenerator.inst();
+    TaskQueuer taskQueuer = TaskQueuer.inst();
+    EmailSender emailSender = EmailSender.inst();
+    FileStorage fileStorage = FileStorage.inst();
     RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
-    LogsProcessor logsProcessor = new LogsProcessor();
+    LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
