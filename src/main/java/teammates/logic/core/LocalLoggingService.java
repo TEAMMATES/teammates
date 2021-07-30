@@ -94,7 +94,17 @@ public class LocalLoggingService implements LogService {
         // Page size is set as a small value to test loading of more logs
         int pageSize = 10;
 
-        List<GeneralLogEntry> result = LOCAL_LOG_ENTRIES.stream()
+        List<GeneralLogEntry> logEntries = new ArrayList<>();
+        for (GeneralLogEntry logEntry : LOCAL_LOG_ENTRIES) {
+            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getLogName(), logEntry.getSeverity(),
+                    logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
+                    logEntry.getSourceLocation(), logEntry.getTimestamp());
+            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toJson(logEntry.getDetails()), Map.class));
+            copiedEntry.setMessage(logEntry.getMessage());
+            logEntries.add(copiedEntry);
+        }
+
+        List<GeneralLogEntry> result = logEntries.stream()
                 .sorted((x, y) -> {
                     String order = queryLogsParams.getOrder();
                     if (ASCENDING_ORDER.equals(order)) {

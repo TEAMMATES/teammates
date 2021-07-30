@@ -85,7 +85,7 @@ public class GoogleCloudLoggingService implements LogService {
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
 
         try {
-            Page<LogEntry> entries = getLogEntries(logSearchParams, null);
+            Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
             for (LogEntry entry : entries.iterateAll()) {
                 logEntries.add(entry);
             }
@@ -135,9 +135,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLogName(STDOUT_LOG_NAME)
                 .addLogName(STDERR_LOG_NAME);
 
-        PageParams pageParams = new PageParams(queryLogsParams.getPageSize());
-
-        Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, pageParams);
+        Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : logEntriesInPage.getValues()) {
             String logName = entry.getLogName();
@@ -202,7 +200,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName)
                 .setStartTime(startTime)
                 .setEndTime(endTime);
-        Page<LogEntry> entries = getLogEntries(logSearchParams, null);
+        Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
         List<LogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : entries.iterateAll()) {
             logEntries.add(entry);
@@ -234,7 +232,7 @@ public class GoogleCloudLoggingService implements LogService {
         return fsLogEntries;
     }
 
-    private Page<LogEntry> getLogEntries(LogSearchParams s, PageParams p) throws LogServiceException {
+    private Page<LogEntry> getLogEntries(LogSearchParams s, int pageSize) throws LogServiceException {
         LoggingOptions options = LoggingOptions.getDefaultInstance();
 
         List<String> logFilters = new ArrayList<>();
@@ -307,16 +305,16 @@ public class GoogleCloudLoggingService implements LogService {
 
             entryListOptions.add(EntryListOption.filter(logFilter));
 
+            if (pageSize > 0) {
+                entryListOptions.add(EntryListOption.pageSize(pageSize));
+            }
+
             if (s.order != null) {
                 if (ASCENDING_ORDER.equals(s.order)) {
                     entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.ASCENDING));
                 } else {
                     entryListOptions.add(EntryListOption.sortOrder(SortingField.TIMESTAMP, SortingOrder.DESCENDING));
                 }
-            }
-
-            if (p != null && p.pageSize != null) {
-                entryListOptions.add(EntryListOption.pageSize(p.pageSize));
             }
 
             EntryListOption[] entryListOptionsArray = new EntryListOption[entryListOptions.size()];
@@ -451,21 +449,6 @@ public class GoogleCloudLoggingService implements LogService {
         public LogSearchParams setOrder(String order) {
             this.order = order;
             return this;
-        }
-    }
-
-    /**
-     * Contains params for pagination.
-     */
-    private static class PageParams {
-        private Integer pageSize;
-
-        PageParams(int pageSize) {
-            this.pageSize = pageSize;
-        }
-
-        public Integer getPageSize() {
-            return pageSize;
         }
     }
 
