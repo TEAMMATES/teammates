@@ -81,6 +81,7 @@ export class LogsPageComponent implements OnInit {
   latestLogTimestampRetrieved: number = 0;
   hasPreviousPage: boolean = true;
   hasNextPage: boolean = false;
+  logsMap: Map<string, number> = new Map<string, number>();
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -131,6 +132,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.histogramResult = [];
     this.searchResults = [];
+    this.logsMap = new Map<string, number>();
     this.isFiltersExpanded = false;
     this.earliestLogTimestampRetrieved = Number.MAX_SAFE_INTEGER;
     this.latestLogTimestampRetrieved = 0;
@@ -159,7 +161,7 @@ export class LogsPageComponent implements OnInit {
           this.hasResult = true;
         }))
       .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.nextPageToken !== undefined;
+        this.hasPreviousPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, true);
       }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
@@ -219,15 +221,16 @@ export class LogsPageComponent implements OnInit {
     this.queryParams = {
       searchFrom: timestampFrom.toString(),
       searchUntil: timestampUntil.toString(),
+      order: DESCENDING_ORDER,
       severity: 'ERROR',
       advancedFilters: {},
     };
     this.logService.searchLogs(this.queryParams)
       .pipe(
         expand((logs: GeneralLogs) => {
-          if (logs.nextPageToken !== undefined && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS) {
+          if (logs.hasNextPage && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS) {
             numberOfPagesRetrieved += 1;
-            this.queryParams.nextPageToken = logs.nextPageToken;
+            this.queryParams.searchUntil = logs.logEntries[logs.logEntries.length - 1].timestamp.toString();
             return this.logService.searchLogs(this.queryParams);
           }
 
@@ -245,18 +248,38 @@ export class LogsPageComponent implements OnInit {
 
   private processLogsForTableView(generalLogs: GeneralLogs, isDescendingOrder: boolean): void {
     if (isDescendingOrder) {
-      generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.unshift(this.toLogModel(log)));
+      generalLogs.logEntries.forEach((log: GeneralLogEntry) => {
+        if (this.logsMap.get(log.insertId) === log.timestamp) {
+          return;
+        }
+        this.logsMap.set(log.insertId, log.timestamp);
+        this.searchResults.unshift(this.toLogModel(log));
+      });
     } else {
       generalLogs.logEntries
         .sort((a: GeneralLogEntry, b: GeneralLogEntry) => a.timestamp - b.timestamp)
-        .forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+        .forEach((log: GeneralLogEntry) => {
+          if (this.logsMap.get(log.insertId) === log.timestamp) {
+            return;
+          }
+          this.logsMap.set(log.insertId, log.timestamp);
+          this.searchResults.push(this.toLogModel(log));
+        });
     }
   }
 
   private processLogsForHistogram(logs: GeneralLogEntry[]): void {
-    const sourceToFrequencyMap: Map<string, number> = logs.reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
-      acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
-      new Map<string, number>());
+    const sourceToFrequencyMap: Map<string, number> = logs
+      .filter((log: GeneralLogEntry) => {
+        if (this.logsMap.get(log.insertId) === log.timestamp) {
+          return false;
+        }
+        this.logsMap.set(log.insertId, log.timestamp);
+        return true;
+      })
+      .reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
+        acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
+        new Map<string, number>());
     sourceToFrequencyMap.forEach((value: number, key: string) => {
       this.histogramResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
     });
@@ -429,7 +452,7 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.nextPageToken !== undefined;
+        this.hasPreviousPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, true);
       }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
@@ -438,7 +461,7 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => {
-        this.hasNextPage = generalLogs.nextPageToken !== undefined;
+        this.hasNextPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, false);
       }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }

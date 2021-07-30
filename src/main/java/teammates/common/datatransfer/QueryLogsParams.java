@@ -20,7 +20,6 @@ public class QueryLogsParams {
     private String exceptionClass;
     private String order;
     private Integer pageSize;
-    private String pageToken;
 
     private QueryLogsParams(Instant startTime, Instant endTime) {
         this.startTime = startTime;
@@ -77,10 +76,6 @@ public class QueryLogsParams {
 
     public Integer getPageSize() {
         return pageSize;
-    }
-
-    public String getPageToken() {
-        return pageToken;
     }
 
     /**
@@ -164,11 +159,6 @@ public class QueryLogsParams {
 
         public Builder withPageSize(Integer pageSize) {
             queryLogsParams.pageSize = pageSize;
-            return this;
-        }
-
-        public Builder withPageToken(String pageToken) {
-            queryLogsParams.pageToken = pageToken;
             return this;
         }
 
