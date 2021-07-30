@@ -3,6 +3,7 @@
 exports[`CopyCourseModalComponent should snap when copying from other sessions 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -94,11 +95,10 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
         >
           <label>
             <span
-              ngbtooltip="You should not
-                          need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
-                          to match the current time offset in your area, including clock changes due to daylight saving time."
+              ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+            to match the current time offset in your area, including clock changes due to daylight saving time."
             >
-               Time Zone:
+              Time Zone:
             </span>
           </label>
           <div
@@ -3102,6 +3102,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
 exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -3199,11 +3200,10 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
         >
           <label>
             <span
-              ngbtooltip="You should not
-                          need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
-                          to match the current time offset in your area, including clock changes due to daylight saving time."
+              ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+            to match the current time offset in your area, including clock changes due to daylight saving time."
             >
-               Time Zone:
+              Time Zone:
             </span>
           </label>
           <div
@@ -6190,6 +6190,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
 exports[`CopyCourseModalComponent should snap with some course id 1`] = `
 <tm-copy-course-modal
   COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
   activeCourses={[Function Array]}
   activeModal={[Function NgbActiveModal]}
   allCourses={[Function Array]}
@@ -6287,11 +6288,10 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
         >
           <label>
             <span
-              ngbtooltip="You should not
-                          need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
-                          to match the current time offset in your area, including clock changes due to daylight saving time."
+              ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+            to match the current time offset in your area, including clock changes due to daylight saving time."
             >
-               Time Zone:
+              Time Zone:
             </span>
           </label>
           <div

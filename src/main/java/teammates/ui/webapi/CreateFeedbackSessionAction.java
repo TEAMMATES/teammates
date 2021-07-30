@@ -4,13 +4,12 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -20,6 +19,8 @@ import teammates.ui.request.FeedbackSessionCreateRequest;
  * Create a feedback session.
  */
 class CreateFeedbackSessionAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -99,19 +100,10 @@ class CreateFeedbackSessionAction extends Action {
                     .withQuestionDescription(question.getQuestionDescription())
                     .build();
 
-            FeedbackQuestionDetails questionDetails = attributes.getQuestionDetails();
-            if (questionDetails instanceof FeedbackMsqQuestionDetails) {
-                FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
-                int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
-                        attributes.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
-                msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
-                questionDetails = msqQuestionDetails;
-            }
-
             try {
                 attributes = logic.createFeedbackQuestion(attributes);
             } catch (InvalidParametersException e) {
-                throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+                log.severe("Error when copying feedback question: " + e.getMessage());
             }
         });
     }

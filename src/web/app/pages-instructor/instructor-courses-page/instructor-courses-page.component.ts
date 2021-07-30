@@ -359,8 +359,7 @@ export class InstructorCoursesPageComponent implements OnInit {
       canModifyStudent = course.privileges.canModifyStudent;
     }
     const isLoadingCourseStats: boolean = false;
-    const courseModel: CourseModel = { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
-    return courseModel;
+    return { course, canModifyCourse, canModifyStudent, isLoadingCourseStats };
   }
 
   /**

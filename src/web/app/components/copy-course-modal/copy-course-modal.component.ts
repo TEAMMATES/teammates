@@ -3,7 +3,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import { Course, FeedbackSession } from '../../../types/api-output';
-import { COURSE_ID_MAX_LENGTH } from '../../../types/field-validator';
+import { COURSE_ID_MAX_LENGTH, COURSE_NAME_MAX_LENGTH } from '../../../types/field-validator';
 
 interface Timezone {
   id: string;
@@ -21,7 +21,8 @@ interface Timezone {
 export class CopyCourseModalComponent implements OnInit {
 
   // const
-  COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
+  readonly COURSE_ID_MAX_LENGTH: number = COURSE_ID_MAX_LENGTH;
+  readonly COURSE_NAME_MAX_LENGTH: number = COURSE_NAME_MAX_LENGTH;
 
   @Input()
   courseToFeedbackSession: Record<string, FeedbackSession[]> = {};
@@ -72,7 +73,7 @@ export class CopyCourseModalComponent implements OnInit {
       .filter((course: Course) => course.courseId === this.newCourseId).length > 0;
     if (this.newCourseIdIsConflicting) {
       this.statusMessageService.showErrorToast(
-        `The course ID ${this.newCourseId} has been used by another course, possibly by some other user.`);
+        `The course ID ${this.newCourseId} already exists.`);
       return;
     }
 
