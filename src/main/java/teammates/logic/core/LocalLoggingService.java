@@ -94,17 +94,7 @@ public class LocalLoggingService implements LogService {
         // Page size is set as a small value to test loading of more logs
         int pageSize = 10;
 
-        List<GeneralLogEntry> logEntries = new ArrayList<>();
-        for (GeneralLogEntry logEntry : LOCAL_LOG_ENTRIES) {
-            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getLogName(), logEntry.getSeverity(),
-                    logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
-                    logEntry.getSourceLocation(), logEntry.getTimestamp());
-            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toJson(logEntry.getDetails()), Map.class));
-            copiedEntry.setMessage(logEntry.getMessage());
-            logEntries.add(copiedEntry);
-        }
-
-        List<GeneralLogEntry> result = logEntries.stream()
+        List<GeneralLogEntry> result = LOCAL_LOG_ENTRIES.stream()
                 .sorted((x, y) -> {
                     String order = queryLogsParams.getOrder();
                     if (ASCENDING_ORDER.equals(order)) {
@@ -166,9 +156,10 @@ public class LocalLoggingService implements LogService {
                 .limit(pageSize)
                 .collect(Collectors.toList());
 
-        boolean hasNextPage = result.size() == pageSize;
+        List<GeneralLogEntry> copiedResults = deepCopyLogEntries(result);
+        boolean hasNextPage = copiedResults.size() == pageSize;
 
-        return new QueryLogsResults(result, hasNextPage);
+        return new QueryLogsResults(copiedResults, hasNextPage);
     }
 
     @Override
@@ -192,5 +183,19 @@ public class LocalLoggingService implements LogService {
                 .filter(log -> startTime == null || log.getTimestamp() >= startTime.toEpochMilli())
                 .filter(log -> endTime == null || log.getTimestamp() <= endTime.toEpochMilli())
                 .collect(Collectors.toList());
+    }
+
+    private List<GeneralLogEntry> deepCopyLogEntries(List<GeneralLogEntry> logEntries) {
+        List<GeneralLogEntry> result = new ArrayList<>();
+        for (GeneralLogEntry logEntry : logEntries) {
+            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getLogName(), logEntry.getSeverity(),
+                    logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
+                    logEntry.getSourceLocation(), logEntry.getTimestamp());
+            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toJson(logEntry.getDetails()), Map.class));
+            copiedEntry.setMessage(logEntry.getMessage());
+            result.add(copiedEntry);
+        }
+
+        return result;
     }
 }
