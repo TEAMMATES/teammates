@@ -174,8 +174,6 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           .formatToString(this.session.submissionStartTimestamp, this.session.timeZone, TIME_FORMAT);
       this.formattedSessionClosingTime = this.timezoneService
           .formatToString(this.session.submissionEndTimestamp, this.session.timeZone, TIME_FORMAT);
-      this.formattedSessionOpeningTime = this.formattedSessionOpeningTime.replace(/ /g, '\u00a0');
-      this.formattedSessionClosingTime = this.formattedSessionClosingTime.replace(/ /g, '\u00a0');
       if (this.session.resultVisibleFromTimestamp) {
         this.formattedResultVisibleFromTime = this.timezoneService
             .formatToString(this.session.resultVisibleFromTimestamp, this.session.timeZone, TIME_FORMAT);
