@@ -18,7 +18,6 @@ import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -82,8 +81,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             response = client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
             Throwable rootCause = e.getRootCause();
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), rootCause)
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), rootCause), e);
             if (rootCause instanceof SocketTimeoutException) {
                 throw new SearchServiceException("A timeout was reached while processing your request. "
                         + "Please try again later.", e, HttpStatus.SC_GATEWAY_TIMEOUT);
@@ -92,8 +90,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
                         + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
             }
         } catch (IOException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause()), e);
             throw new SearchServiceException("An error has occurred while performing search. "
                     + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
         }
@@ -130,11 +127,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             client.add(getCollectionName(), documents);
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause()), e);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause()), e);
         }
     }
 
@@ -155,11 +150,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             client.deleteById(getCollectionName(), keys);
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getRootCause()), e);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getCause()), e);
         }
     }
 
@@ -175,11 +168,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             client.deleteByQuery(getCollectionName(), "*:*");
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause()), e);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause()), e);
         }
     }
 

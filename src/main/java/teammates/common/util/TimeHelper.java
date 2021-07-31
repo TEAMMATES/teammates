@@ -10,8 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.time.zone.ZoneRulesProvider;
 
-import teammates.common.exception.TeammatesException;
-
 /**
  * A helper class to hold time-related functions (e.g., converting dates to strings etc.).
  *
@@ -55,7 +53,7 @@ public final class TimeHelper {
             scl.set(null, originalScl);
 
         } catch (ReflectiveOperationException | Error e) {
-            log.severe("Failed to register zone rules: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Failed to register zone rules", e);
         }
     }
 

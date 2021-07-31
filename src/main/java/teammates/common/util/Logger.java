@@ -1,13 +1,13 @@
 package teammates.common.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-
-import teammates.common.exception.TeammatesException;
 
 /**
  * Allows any component of the application to log messages at appropriate levels.
@@ -124,22 +124,22 @@ public final class Logger {
     }
 
     private String getLogMessageWithStackTrace(String message, Throwable t, String severity) {
-        StackTraceElement tSource = t.getStackTrace()[0];
-        Map<String, Object> tSourceLocation = new HashMap<>();
-        tSourceLocation.put("file", tSource.getClassName());
-        tSourceLocation.put("line", tSource.getLineNumber());
-        tSourceLocation.put("function", tSource.getMethodName());
-
         String logMessage;
         if (Config.isDevServer()) {
-            Map<String, Object> details = new HashMap<>();
-            details.put("sourceLocation", tSourceLocation);
-            details.put("exceptionClass", t.getClass().getSimpleName());
+            StringWriter sw = new StringWriter();
+            try (PrintWriter pw = new PrintWriter(sw)) {
+                t.printStackTrace(pw);
+            }
 
-            logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
-                    + JsonUtils.toCompactJson(details)
-                    + " stack_trace: " + TeammatesException.toStringWithStackTrace(t);
+            logMessage = formatLogMessageForHumanDisplay(message) + " stack_trace: "
+                    + System.lineSeparator() + sw.toString();
         } else {
+            StackTraceElement tSource = t.getStackTrace()[0];
+            Map<String, Object> tSourceLocation = new HashMap<>();
+            tSourceLocation.put("file", tSource.getClassName());
+            tSourceLocation.put("line", tSource.getLineNumber());
+            tSourceLocation.put("function", tSource.getMethodName());
+
             List<String> exceptionClasses = new ArrayList<>();
             List<List<String>> exceptionStackTraces = new ArrayList<>();
             List<String> exceptionMessages = new ArrayList<>();
