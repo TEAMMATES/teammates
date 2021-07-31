@@ -46,7 +46,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     /**
      * Creates or updates search document for the given instructor.
      */
-    public void putDocument(InstructorAttributes instructorParam) {
+    public void putDocument(InstructorAttributes instructorParam) throws SearchServiceException {
         InstructorAttributes instructor = instructorParam;
         if (instructor.getKey() == null) {
             instructor = this.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
@@ -57,7 +57,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     /**
      * Batch creates or updates search documents for the given instructors.
      */
-    public void putDocuments(List<InstructorAttributes> instructorParams) {
+    public void putDocuments(List<InstructorAttributes> instructorParams) throws SearchServiceException {
         List<InstructorAttributes> instructors = instructorParams.stream()
                 .map(instructor -> instructor.getKey() == null
                         ? getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())

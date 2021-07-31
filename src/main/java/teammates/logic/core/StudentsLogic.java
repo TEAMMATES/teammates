@@ -384,7 +384,7 @@ public final class StudentsLogic {
     /**
      * Batch creates or updates documents for the given students.
      */
-    public void putDocuments(List<StudentAttributes> students) {
+    public void putDocuments(List<StudentAttributes> students) throws SearchServiceException {
         studentsDb.putDocuments(students);
     }
 

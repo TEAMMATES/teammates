@@ -108,7 +108,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     /**
      * Batch creates or updates search documents for the given entities.
      */
-    public void putDocuments(List<T> attributes) {
+    public void putDocuments(List<T> attributes) throws SearchServiceException {
         if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
@@ -132,9 +132,11 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         } catch (SolrServerException e) {
             log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause())
                     + TeammatesException.toStringWithStackTrace(e));
+            throw new SearchServiceException(e, HttpStatus.SC_BAD_GATEWAY);
         } catch (IOException e) {
             log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause())
                     + TeammatesException.toStringWithStackTrace(e));
+            throw new SearchServiceException(e, HttpStatus.SC_BAD_GATEWAY);
         }
     }
 
