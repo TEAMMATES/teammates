@@ -143,6 +143,12 @@ describe('SessionResultPageComponent', () => {
   let feedbackSessionService: FeedbackSessionsService;
   let logService: LogService;
 
+  const testQueryParams: Record<string, string> = {
+    courseid: 'CS3281',
+    fsname: 'Peer Feedback',
+    key: 'reg-key',
+  };
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -164,11 +170,15 @@ describe('SessionResultPageComponent', () => {
         {
           provide: ActivatedRoute,
           useValue: {
-            queryParams: of({
-              courseid: 'CS3281',
-              fsname: 'Peer Feedback',
-              key: 'reg-key',
-            }),
+            queryParams: of(testQueryParams),
+            data: {
+              intent: Intent.STUDENT_RESULT,
+              pipe: () => {
+                return {
+                  subscribe: (fn: (value: any) => void) => fn(testQueryParams),
+                };
+              },
+            },
           },
         },
       ],

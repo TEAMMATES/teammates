@@ -520,66 +520,24 @@ public final class FeedbackSessionsLogic {
         return frLogic.getGiverSetThatAnswerFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).size();
     }
 
-    /**
-     * Gets the session result for a feedback session.
-     *
-     * @param feedbackSessionName the feedback session name
-     * @param courseId the ID of the course
-     * @param userEmail the user viewing the feedback session
-     * @param isInstructor true if the user is an instructor
-     * @param questionId if not null, will only return partial bundle for the question
-     * @param section if not null, will only return partial bundle for the section
-     * @return the session result bundle
-     */
-    public SessionResultsBundle getSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId, @Nullable String section) {
-        CourseRoster roster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
-
-        // load question(s)
-        List<FeedbackQuestionAttributes> allQuestions;
-        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
+    private List<FeedbackQuestionAttributes> getQuestionsForSession(
+            String feedbackSessionName, String courseId, @Nullable String questionId) {
         if (questionId == null) {
-            allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } else {
-            FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
-            if (fqa == null) {
-                allQuestions = Collections.emptyList();
-            } else {
-                allQuestions = Collections.singletonList(fqa);
-            }
+            return fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
         }
+        FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
+        return fqa == null ? Collections.emptyList() : Collections.singletonList(fqa);
+    }
+
+    private SessionResultsBundle buildResultsBundle(
+            boolean isCourseWide, String feedbackSessionName, String courseId, String section, String questionId,
+            boolean isInstructor, String userEmail, InstructorAttributes instructor, StudentAttributes student,
+            CourseRoster roster, List<FeedbackQuestionAttributes> allQuestions,
+            List<FeedbackResponseAttributes> allResponses) {
+        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
         for (FeedbackQuestionAttributes qn : allQuestions) {
             allQuestionsMap.put(qn.getId(), qn);
         }
-        RequestTracer.checkRemainingTime();
-
-        // load response(s)
-        StudentAttributes student = getStudent(courseId, userEmail, isInstructor);
-        List<FeedbackResponseAttributes> allResponses;
-        if (isInstructor) {
-            // load all response for instructors and passively filter them later
-            if (questionId == null) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
-            } else {
-                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
-            }
-        } else {
-            if (section != null) {
-                throw new UnsupportedOperationException("Specify section filtering is not supported for student result");
-            }
-            allResponses = new ArrayList<>();
-            // load viewable responses for students proactively
-            // this is cost-effective as in most of time responses for the whole session will not be viewable to students
-            for (FeedbackQuestionAttributes question : allQuestions) {
-                List<FeedbackResponseAttributes> viewableResponses =
-                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
-                allResponses.addAll(viewableResponses);
-            }
-        }
-        RequestTracer.checkRemainingTime();
 
         // load comment(s)
         List<FeedbackResponseCommentAttributes> allComments;
@@ -594,17 +552,14 @@ public final class FeedbackSessionsLogic {
         Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
         Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
-        // student will have no related question at the beginning
-        if (isInstructor) {
-            // all questions are related questions for instructor
+        if (isCourseWide) {
+            // all questions are related questions when viewing course-wide result
             for (FeedbackQuestionAttributes qn : allQuestions) {
                 relatedQuestionsMap.put(qn.getId(), qn);
             }
         }
 
-        // consider the current viewing user
         Set<String> studentsEmailInTeam = getTeammateEmails(student, roster);
-        InstructorAttributes instructor = getInstructor(courseId, userEmail, isInstructor);
 
         // visibility table for each response and comment
         Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
@@ -625,8 +580,7 @@ public final class FeedbackSessionsLogic {
                 continue;
             }
 
-            // only if there are viewable responses, the corresponding question becomes related.
-            // this operation is redundant for instructor but necessary for student
+            // if there are viewable responses, the corresponding question becomes related
             relatedQuestionsMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
             relatedResponsesMap.put(response.getId(), response);
             // generate giver/recipient name visibility table
@@ -661,7 +615,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-        if (isInstructor) {
+        if (isCourseWide) {
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
                     relatedQuestionsMap, existingResponses, roster, section);
@@ -671,6 +625,83 @@ public final class FeedbackSessionsLogic {
         return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
                 commentVisibilityTable, roster);
+    }
+
+    /**
+     * Gets the session result for a feedback session.
+     *
+     * @param feedbackSessionName the feedback session name
+     * @param courseId the ID of the course
+     * @param instructorEmail the instructor viewing the feedback session
+     * @param questionId if not null, will only return partial bundle for the question
+     * @param section if not null, will only return partial bundle for the section
+     * @return the session result bundle
+     */
+    public SessionResultsBundle getSessionResultsForCourse(
+            String feedbackSessionName, String courseId, String instructorEmail,
+            @Nullable String questionId, @Nullable String section) {
+        CourseRoster roster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
+
+        // load question(s)
+        List<FeedbackQuestionAttributes> allQuestions = getQuestionsForSession(feedbackSessionName, courseId, questionId);
+        RequestTracer.checkRemainingTime();
+
+        // load response(s)
+        List<FeedbackResponseAttributes> allResponses;
+        // load all response for instructors and passively filter them later
+        if (questionId == null) {
+            allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
+        } else {
+            allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
+        }
+        RequestTracer.checkRemainingTime();
+
+        // consider the current viewing user
+        InstructorAttributes instructor = getInstructor(courseId, instructorEmail, true);
+
+        return buildResultsBundle(true, feedbackSessionName, courseId, section, questionId, true, instructorEmail,
+                instructor, null, roster, allQuestions, allResponses);
+    }
+
+    /**
+     * Gets the session result for a feedback session for the given user.
+     *
+     * @param feedbackSessionName the feedback session name
+     * @param courseId the ID of the course
+     * @param userEmail the user viewing the feedback session
+     * @param isInstructor true if the user is an instructor
+     * @param questionId if not null, will only return partial bundle for the question
+     * @return the session result bundle
+     */
+    public SessionResultsBundle getSessionResultsForUser(
+            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
+            @Nullable String questionId) {
+        CourseRoster roster = new CourseRoster(
+                studentsLogic.getStudentsForCourse(courseId),
+                instructorsLogic.getInstructorsForCourse(courseId));
+
+        // load question(s)
+        List<FeedbackQuestionAttributes> allQuestions = getQuestionsForSession(feedbackSessionName, courseId, questionId);
+        RequestTracer.checkRemainingTime();
+
+        // load response(s)
+        StudentAttributes student = getStudent(courseId, userEmail, isInstructor);
+        InstructorAttributes instructor = getInstructor(courseId, userEmail, isInstructor);
+        List<FeedbackResponseAttributes> allResponses = new ArrayList<>();
+        for (FeedbackQuestionAttributes question : allQuestions) {
+            // load viewable responses for students/instructors proactively
+            // this is cost-effective as in most of time responses for the whole session will not be viewable to individuals
+            List<FeedbackResponseAttributes> viewableResponses = isInstructor
+                    ? frLogic.getFeedbackResponsesToOrFromInstructorForQuestion(question, instructor)
+                    : frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
+            allResponses.addAll(viewableResponses);
+        }
+        RequestTracer.checkRemainingTime();
+
+        return buildResultsBundle(false, feedbackSessionName, courseId, null, questionId, isInstructor, userEmail,
+                instructor, student, roster, allQuestions, allResponses);
     }
 
     /**

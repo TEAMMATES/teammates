@@ -14,6 +14,7 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
+import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -558,20 +559,47 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Returns feedback responses given/received by an instructor.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesToOrFromInstructorForQuestion(
+            FeedbackQuestionAttributes question, InstructorAttributes instructor) {
+        UniqueResponsesSet viewableResponses = new UniqueResponsesSet();
+
+        // Add responses that the instructor submitted him/herself
+        if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS) {
+            viewableResponses.addNewResponses(
+                    getFeedbackResponsesFromGiverForQuestion(question.getFeedbackQuestionId(), instructor.getEmail())
+            );
+        }
+
+        // Add responses that user is a receiver of when response is visible to receiver
+        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+            viewableResponses.addNewResponses(
+                    getFeedbackResponsesForReceiverForQuestion(question.getFeedbackQuestionId(), instructor.getEmail())
+            );
+        }
+
+        return viewableResponses.getResponses();
+    }
+
+    /**
      * Returns viewable feedback responses for a student.
      */
     public List<FeedbackResponseAttributes> getViewableFeedbackResponsesForStudentForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student, CourseRoster courseRoster) {
         UniqueResponsesSet viewableResponses = new UniqueResponsesSet();
 
-        // Add responses that the student submitted himself
-        viewableResponses.addNewResponses(
-                getFeedbackResponsesFromGiverForQuestion(question.getFeedbackQuestionId(), student.getEmail())
-        );
+        // Add responses that the student submitted him/herself
+        if (question.getGiverType() != FeedbackParticipantType.INSTRUCTORS) {
+            viewableResponses.addNewResponses(
+                    getFeedbackResponsesFromGiverForQuestion(question.getFeedbackQuestionId(), student.getEmail())
+            );
+        }
 
-        // Add responses that user is a receiver of when question is visible to
-        // receiver.
-        if (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+        // Add responses that user is a receiver of when response is visible to receiver
+        if (question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS
+                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             viewableResponses.addNewResponses(
                     getFeedbackResponsesForReceiverForQuestion(question.getFeedbackQuestionId(), student.getEmail())
             );
