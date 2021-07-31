@@ -133,7 +133,6 @@ export class LogsPageComponent implements OnInit {
     this.histogramResult = [];
     this.searchResults = [];
     this.logsMap = new Map<string, number>();
-    this.isFiltersExpanded = false;
     this.earliestLogTimestampRetrieved = Number.MAX_SAFE_INTEGER;
     this.latestLogTimestampRetrieved = 0;
     this.hasPreviousPage = true;
