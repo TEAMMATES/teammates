@@ -286,9 +286,7 @@ public class GoogleCloudLoggingService implements LogService {
             }
         }
         if (s.exceptionClass != null) {
-            // TODO: investigate whether an exception happening equals to the exception name
-            //  being passed to the textPayload.
-            logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
+            logFilters.add("jsonPayload.exceptionClass=\"" + s.exceptionClass + "\"");
         }
         if (s.latency != null) {
             logFilters.add("jsonPayload.responseTime" + s.latency);

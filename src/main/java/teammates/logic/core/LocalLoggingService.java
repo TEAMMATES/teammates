@@ -205,7 +205,8 @@ public class LocalLoggingService implements LogService {
                     }
                 })
                 .filter(logs -> queryLogsParams.getExceptionClass() == null
-                        || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
+                        || (logs.getDetails() != null
+                        && queryLogsParams.getExceptionClass().equals(logs.getDetails().get("exceptionClass"))))
                 .limit(pageSize)
                 .collect(Collectors.toList());
 
