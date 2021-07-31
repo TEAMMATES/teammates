@@ -416,6 +416,7 @@ export class LogsPageComponent implements OnInit {
     this.formModel.advancedFilters.sourceLocationFile = '';
     this.formModel.advancedFilters.sourceLocationFunction = '';
     this.formModel.advancedFilters.latency = '';
+    this.formModel.advancedFilters.status = '';
     this.formModel.advancedFilters.exceptionClass = '';
   }
 

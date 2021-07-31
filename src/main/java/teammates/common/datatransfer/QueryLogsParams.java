@@ -19,6 +19,7 @@ public class QueryLogsParams {
     private SourceLocation sourceLocation;
     private String exceptionClass;
     private String latency;
+    private String status;
     private String order;
     private Integer pageSize;
 
@@ -76,6 +77,10 @@ public class QueryLogsParams {
 
     public String getLatency() {
         return latency;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getOrder() {
@@ -170,6 +175,11 @@ public class QueryLogsParams {
 
         public Builder withLatency(String latency) {
             queryLogsParams.latency = latency;
+            return this;
+        }
+
+        public Builder withStatus(String status) {
+            queryLogsParams.status = status;
             return this;
         }
 

@@ -188,6 +188,22 @@ public class LocalLoggingService implements LogService {
                     }
                     return false;
                 })
+                .filter(logs -> {
+                    String statusFilter = queryLogsParams.getStatus();
+                    if (statusFilter == null) {
+                        return true;
+                    }
+                    if (logs.getDetails() == null) {
+                        return false;
+                    }
+                    Object logStatusObj = logs.getDetails().getOrDefault("responseStatus", "NaN");
+                    try {
+                        int logStatus = (int) Double.parseDouble(String.valueOf(logStatusObj));
+                        return statusFilter.equals(String.valueOf(logStatus));
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                })
                 .filter(logs -> queryLogsParams.getExceptionClass() == null
                         || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
                 .limit(pageSize)
