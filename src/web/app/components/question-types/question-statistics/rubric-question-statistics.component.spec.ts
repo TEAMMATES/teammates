@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { RubricQuestionStatisticsComponent } from './rubric-question-statistics.component';
-import { default as responses } from './test-data/rubricQuestionResponses.json';
+import ResponseTestData from './test-data/rubricQuestionResponses.json';
 
 describe('RubricQuestionStatisticsComponent', () => {
   let component: RubricQuestionStatisticsComponent;
@@ -33,7 +33,7 @@ describe('RubricQuestionStatisticsComponent', () => {
   });
 
   it('should calculate responses correctly', () => {
-    component.responses = JSON.parse(JSON.stringify(responses.responses));
+    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responses));
     component.question.rubricSubQuestions = ['Question1', 'Question2', 'Question3'];
     component.question.rubricChoices = ['Yes', 'No'];
     component.question.hasAssignedWeights = true;

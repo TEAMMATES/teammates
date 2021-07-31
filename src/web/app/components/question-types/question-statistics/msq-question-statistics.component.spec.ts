@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { MsqQuestionStatisticsComponent } from './msq-question-statistics.component';
-import { default as responses } from './test-data/msqQuestionResponses.json';
+import ResponseTestData from './test-data/msqQuestionResponses.json';
 
 describe('MsqQuestionStatisticsComponent', () => {
   let component: MsqQuestionStatisticsComponent;
@@ -31,7 +31,7 @@ describe('MsqQuestionStatisticsComponent', () => {
     component.question.otherEnabled = false;
     component.question.hasAssignedWeights = true;
     component.question.msqWeights = [1, 2, 3];
-    component.responses = JSON.parse(JSON.stringify(responses.responsesNoOther));
+    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responsesNoOther));
 
     const expectedAnswerFrequency: Record<string, number> = {
       optionA: 2, optionB: 1, optionC: 0,
@@ -60,7 +60,7 @@ describe('MsqQuestionStatisticsComponent', () => {
     component.question.hasAssignedWeights = true;
     component.question.msqWeights = [1, 2, 3];
     component.question.msqOtherWeight = 4;
-    component.responses = JSON.parse(JSON.stringify(responses.responsesWithOther));
+    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responsesWithOther));
 
     component.calculateStatistics();
 

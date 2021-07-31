@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { McqQuestionStatisticsComponent } from './mcq-question-statistics.component';
-import { default as responses } from './test-data/mcqQuestionResponses.json';
+import ResponseTestData from './test-data/mcqQuestionResponses.json';
 
 describe('McqQuestionStatisticsComponent', () => {
   let component: McqQuestionStatisticsComponent;
@@ -31,7 +31,7 @@ describe('McqQuestionStatisticsComponent', () => {
     component.question.otherEnabled = false;
     component.question.hasAssignedWeights = true;
     component.question.mcqWeights = [1, 2, 3];
-    component.responses = JSON.parse(JSON.stringify(responses.responsesNoOther));
+    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responsesNoOther));
 
     const expectedAnswerFrequency: Record<string, number> = {
       optionA: 2, optionB: 1, optionC: 0,
@@ -60,7 +60,7 @@ describe('McqQuestionStatisticsComponent', () => {
     component.question.hasAssignedWeights = true;
     component.question.mcqWeights = [1, 2, 3];
     component.question.mcqOtherWeight = 4;
-    component.responses = JSON.parse(JSON.stringify(responses.responsesWithOther));
+    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responsesWithOther));
 
     const expectedAnswerFrequency: Record<string, number> = {
       optionA: 1, optionB: 1, optionC: 0, Other: 1,
