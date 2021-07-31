@@ -290,6 +290,9 @@ public class GoogleCloudLoggingService implements LogService {
             //  being passed to the textPayload.
             logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
         }
+        if (s.latency != null) {
+            logFilters.add("jsonPayload.responseTime" + s.latency);
+        }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
@@ -347,6 +350,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
         private String exceptionClass;
+        private String latency;
         private String order;
 
         public static LogSearchParams from(QueryLogsParams queryLogsParams) {
@@ -358,6 +362,7 @@ public class GoogleCloudLoggingService implements LogService {
                     .setLogEvent(queryLogsParams.getLogEvent())
                     .setSourceLocation(queryLogsParams.getSourceLocation())
                     .setExceptionClass(queryLogsParams.getExceptionClass())
+                    .setLatency(queryLogsParams.getLatency())
                     .setOrder(queryLogsParams.getOrder());
             if (queryLogsParams.getSeverityLevel() != null) {
                 logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
@@ -443,6 +448,11 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setExceptionClass(String exceptionClass) {
             this.exceptionClass = exceptionClass;
+            return this;
+        }
+
+        public LogSearchParams setLatency(String latency) {
+            this.latency = latency;
             return this;
         }
 

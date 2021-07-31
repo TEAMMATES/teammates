@@ -295,6 +295,7 @@ export class LogsPageComponent implements OnInit {
 
     let summary: string = '';
     let actionClass: string = '';
+    let exceptionClass: string = '';
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
@@ -328,6 +329,9 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         actionClass = payload.actionClass;
       }
+      if (payload.exceptionClass) {
+        exceptionClass = payload.exceptionClass;
+      }
       if (payload.userInfo) {
         userInfo = payload.userInfo;
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
@@ -340,6 +344,7 @@ export class LogsPageComponent implements OnInit {
       responseTime,
       userInfo,
       actionClass,
+      exceptionClass,
       traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
@@ -376,6 +381,12 @@ export class LogsPageComponent implements OnInit {
     this.statusMessageService.showSuccessToast('Action class added to filters');
   }
 
+  addExceptionClassToFilter(exceptionClass: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.exceptionClass = exceptionClass;
+    this.statusMessageService.showSuccessToast('Exception class added to filters');
+  }
+
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
     this.isFiltersExpanded = true;
     this.formModel.advancedFilters.sourceLocationFile = sourceLocation.file;
@@ -404,6 +415,7 @@ export class LogsPageComponent implements OnInit {
     this.formModel.advancedFilters.actionClass = '';
     this.formModel.advancedFilters.sourceLocationFile = '';
     this.formModel.advancedFilters.sourceLocationFunction = '';
+    this.formModel.advancedFilters.latency = '';
     this.formModel.advancedFilters.exceptionClass = '';
   }
 

@@ -162,6 +162,7 @@ public final class Const {
         public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
         public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
         public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
+        public static final String QUERY_LOGS_LATENCY = "latency";
         public static final String QUERY_LOGS_ORDER = "order";
     }
 

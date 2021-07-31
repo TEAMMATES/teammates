@@ -15,6 +15,7 @@ export interface AdvancedFilters {
   email?: string;
   sourceLocationFile?: string;
   sourceLocationFunction?: string;
+  latency?: string;
   exceptionClass?: string;
 }
 
@@ -138,6 +139,10 @@ export class LogService {
 
     if (queryParams.advancedFilters.exceptionClass) {
       paramMap.exceptionclass = queryParams.advancedFilters.exceptionClass;
+    }
+
+    if (queryParams.advancedFilters.latency) {
+      paramMap.latency = queryParams.advancedFilters.latency;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
