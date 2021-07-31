@@ -77,11 +77,13 @@ public class QueryLogsAction extends AdminOnlyAction {
         String googleId = null;
         String regkey = null;
         String email = null;
+        String extraFilters = null;
 
         if (userInfo.isAdmin) {
             googleId = getRequestParamValue(Const.ParamsNames.STUDENT_ID);
             regkey = getRequestParamValue(Const.ParamsNames.REGKEY);
             email = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EMAIL);
+            extraFilters = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXTRA_FILTERS);
         }
 
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
@@ -95,6 +97,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withExceptionClass(exceptionClass)
                 .withLatency(latency)
                 .withStatus(status)
+                .withExtraFilters(extraFilters)
                 .withOrder(order)
                 .withPageSize(DEFAULT_PAGE_SIZE)
                 .build();

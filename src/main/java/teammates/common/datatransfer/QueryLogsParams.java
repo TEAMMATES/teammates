@@ -20,6 +20,7 @@ public class QueryLogsParams {
     private String exceptionClass;
     private String latency;
     private String status;
+    private String extraFilters;
     private String order;
     private Integer pageSize;
 
@@ -81,6 +82,10 @@ public class QueryLogsParams {
 
     public String getStatus() {
         return status;
+    }
+
+    public String getExtraFilters() {
+        return extraFilters;
     }
 
     public String getOrder() {
@@ -180,6 +185,11 @@ public class QueryLogsParams {
 
         public Builder withStatus(String status) {
             queryLogsParams.status = status;
+            return this;
+        }
+
+        public Builder withExtraFilters(String extraFilters) {
+            queryLogsParams.extraFilters = extraFilters;
             return this;
         }
 

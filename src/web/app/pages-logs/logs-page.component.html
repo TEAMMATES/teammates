@@ -138,6 +138,14 @@
           <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
         </div>
       </div>
+      <div class="row form-group mt-2">
+        <div class="col-10">
+          <div class="col-12">
+            <label for="extra-filters" class="font-weight-bold">Extra filters</label>
+            <textarea id="extra-filters" class="form-control" [(ngModel)]="formModel.advancedFilters.extraFilters" [disabled]="!isAdmin"></textarea>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
