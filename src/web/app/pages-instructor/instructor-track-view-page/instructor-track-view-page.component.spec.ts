@@ -216,8 +216,8 @@ describe('InstructorTrackViewPageComponent', () => {
     spyOn(studentService, 'getStudentsFromCourse').and.returnValue(of({ students: [testStudent] }));
     const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
         .returnValue(of({ feedbackSessionLogs: [testLogs] }));
-    const timezoneSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timezoneSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

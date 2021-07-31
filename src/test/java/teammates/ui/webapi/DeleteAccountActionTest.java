@@ -34,7 +34,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         ______TS("Typical case, delete an existing account");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, acc.googleId,
+                Const.ParamsNames.INSTRUCTOR_ID, acc.getGoogleId(),
         };
 
         DeleteAccountAction action = getAction(submissionParams);
@@ -45,7 +45,7 @@ public class DeleteAccountActionTest extends BaseActionTest<DeleteAccountAction>
         assertEquals(msg.getMessage(), "Account is successfully deleted.");
         assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
-        assertNull(logic.getAccount(acc.googleId));
+        assertNull(logic.getAccount(acc.getGoogleId()));
 
         ______TS("Typical case, delete non-existing account");
 

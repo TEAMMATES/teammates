@@ -13,6 +13,8 @@ public class GeneralLogEntry {
     private final String logName;
     private final String severity;
     private final String trace;
+    private final String insertId;
+    private final Map<String, String> resourceIdentifier;
     private final SourceLocation sourceLocation;
     private final long timestamp;
     @Nullable
@@ -20,11 +22,13 @@ public class GeneralLogEntry {
     @Nullable
     private Map<String, Object> details;
 
-    public GeneralLogEntry(String logName, String severity, String trace, SourceLocation sourceLocation,
-                           long timestamp) {
+    public GeneralLogEntry(String logName, String severity, String trace, String insertId,
+                           Map<String, String> resourceIdentifier, SourceLocation sourceLocation, long timestamp) {
         this.logName = logName;
         this.severity = severity;
         this.trace = trace;
+        this.insertId = insertId;
+        this.resourceIdentifier = resourceIdentifier;
         this.sourceLocation = sourceLocation;
         this.timestamp = timestamp;
     }
@@ -47,6 +51,14 @@ public class GeneralLogEntry {
 
     public String getTrace() {
         return trace;
+    }
+
+    public String getInsertId() {
+        return insertId;
+    }
+
+    public Map<String, String> getResourceIdentifier() {
+        return resourceIdentifier;
     }
 
     public SourceLocation getSourceLocation() {

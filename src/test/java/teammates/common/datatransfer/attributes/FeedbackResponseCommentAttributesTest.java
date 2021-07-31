@@ -290,30 +290,30 @@ public class FeedbackResponseCommentAttributesTest extends BaseTestCase {
                         .withShowGiverNameTo(new ArrayList<>())
                         .withCommentFromFeedbackParticipant(true)
                         .build();
-        feedbackResponseCommentAttributes.lastEditedAt = lastEditorAt.minusSeconds(60);
-        feedbackResponseCommentAttributes.lastEditorEmail = "editor2@email.com";
+        feedbackResponseCommentAttributes.setLastEditedAt(lastEditorAt.minusSeconds(60));
+        feedbackResponseCommentAttributes.setLastEditorEmail("editor2@email.com");
 
         Instant expectedCreatedAt = feedbackResponseCommentAttributes.getCreatedAt();
         feedbackResponseCommentAttributes.update(updateOptions);
 
-        assertEquals("courseId", feedbackResponseCommentAttributes.courseId);
-        assertEquals("sessionName", feedbackResponseCommentAttributes.feedbackSessionName);
-        assertEquals("giver@email.com", feedbackResponseCommentAttributes.commentGiver);
-        assertEquals("commentText1", feedbackResponseCommentAttributes.commentText);
-        assertEquals("responseId1", feedbackResponseCommentAttributes.feedbackResponseId);
-        assertEquals("questionId", feedbackResponseCommentAttributes.feedbackQuestionId);
-        assertEquals(expectedCreatedAt, feedbackResponseCommentAttributes.createdAt);
-        assertEquals("section1", feedbackResponseCommentAttributes.giverSection);
-        assertEquals("section1", feedbackResponseCommentAttributes.receiverSection);
-        assertEquals(FeedbackParticipantType.STUDENTS, feedbackResponseCommentAttributes.commentGiverType);
-        assertEquals("editor1@email.com", feedbackResponseCommentAttributes.lastEditorEmail);
-        assertEquals(lastEditorAt, feedbackResponseCommentAttributes.lastEditedAt);
-        assertTrue(feedbackResponseCommentAttributes.isVisibilityFollowingFeedbackQuestion);
+        assertEquals("courseId", feedbackResponseCommentAttributes.getCourseId());
+        assertEquals("sessionName", feedbackResponseCommentAttributes.getFeedbackSessionName());
+        assertEquals("giver@email.com", feedbackResponseCommentAttributes.getCommentGiver());
+        assertEquals("commentText1", feedbackResponseCommentAttributes.getCommentText());
+        assertEquals("responseId1", feedbackResponseCommentAttributes.getFeedbackResponseId());
+        assertEquals("questionId", feedbackResponseCommentAttributes.getFeedbackQuestionId());
+        assertEquals(expectedCreatedAt, feedbackResponseCommentAttributes.getCreatedAt());
+        assertEquals("section1", feedbackResponseCommentAttributes.getGiverSection());
+        assertEquals("section1", feedbackResponseCommentAttributes.getReceiverSection());
+        assertEquals(FeedbackParticipantType.STUDENTS, feedbackResponseCommentAttributes.getCommentGiverType());
+        assertEquals("editor1@email.com", feedbackResponseCommentAttributes.getLastEditorEmail());
+        assertEquals(lastEditorAt, feedbackResponseCommentAttributes.getLastEditedAt());
+        assertTrue(feedbackResponseCommentAttributes.isVisibilityFollowingFeedbackQuestion());
         assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS),
-                feedbackResponseCommentAttributes.showCommentTo);
+                feedbackResponseCommentAttributes.getShowCommentTo());
         assertEquals(Lists.newArrayList(FeedbackParticipantType.INSTRUCTORS),
-                feedbackResponseCommentAttributes.showGiverNameTo);
-        assertTrue(feedbackResponseCommentAttributes.isCommentFromFeedbackParticipant);
+                feedbackResponseCommentAttributes.getShowGiverNameTo());
+        assertTrue(feedbackResponseCommentAttributes.isCommentFromFeedbackParticipant());
     }
 
     @Test

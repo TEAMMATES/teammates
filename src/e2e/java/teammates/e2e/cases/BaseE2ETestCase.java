@@ -10,7 +10,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -24,8 +23,6 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -110,9 +107,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             // Use the home page to minimize the page load time.
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
-            UserInfoCookie uic = new UserInfoCookie(userId);
-            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
-                    true, true);
+            String cookieValue = BACKDOOR.getUserCookie(userId);
+            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
             return getNewPageInstance(url, typeOfPage);
         }
@@ -205,55 +201,13 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupLocalDatastoreHelper() {
-        // Should be prepared separately
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void resetLocalDatastoreHelper() {
-        // Local database state should persist across e2e test suites
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownLocalDatastoreHelper() {
-        // Should be prepared separately
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupSearch() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void resetSearchService() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupObjectify() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownObjectify() {
-        // Not necessary as BackDoor API is used instead
-    }
-
     protected AccountAttributes getAccount(String googleId) {
         return BACKDOOR.getAccount(googleId);
     }
 
     @Override
     protected AccountAttributes getAccount(AccountAttributes account) {
-        return getAccount(account.googleId);
+        return getAccount(account.getGoogleId());
     }
 
     @Override
@@ -281,7 +235,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackQuestionAttributes getFeedbackQuestion(FeedbackQuestionAttributes fq) {
-        return getFeedbackQuestion(fq.courseId, fq.feedbackSessionName, fq.questionNumber);
+        return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
     }
 
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
@@ -290,7 +244,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackResponseCommentAttributes getFeedbackResponseComment(FeedbackResponseCommentAttributes frc) {
-        return getFeedbackResponseComment(frc.feedbackResponseId);
+        return getFeedbackResponseComment(frc.getFeedbackResponseId());
     }
 
     protected FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
@@ -299,7 +253,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected FeedbackResponseAttributes getFeedbackResponse(FeedbackResponseAttributes fr) {
-        return getFeedbackResponse(fr.feedbackQuestionId, fr.giver, fr.recipient);
+        return getFeedbackResponse(fr.getFeedbackQuestionId(), fr.getGiver(), fr.getRecipient());
     }
 
     protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
@@ -321,7 +275,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected InstructorAttributes getInstructor(InstructorAttributes instructor) {
-        return getInstructor(instructor.courseId, instructor.email);
+        return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
     protected String getKeyForInstructor(String courseId, String instructorEmail) {
@@ -330,7 +284,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected StudentAttributes getStudent(StudentAttributes student) {
-        return BACKDOOR.getStudent(student.course, student.email);
+        return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
     }
 
     protected String getKeyForStudent(StudentAttributes student) {

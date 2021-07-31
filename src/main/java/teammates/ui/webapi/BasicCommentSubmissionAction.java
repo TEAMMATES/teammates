@@ -20,7 +20,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Validates the questionType of the corresponding question.
      */
     void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
-        if (!feedbackQuestion.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+        if (!feedbackQuestion.getQuestionDetailsCopy().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for comment in submission");
         }
     }

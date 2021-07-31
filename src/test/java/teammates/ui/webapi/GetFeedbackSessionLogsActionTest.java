@@ -187,10 +187,10 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
         verifyCannotAccess(submissionParams);
 
-        loginAsInstructor(helper.googleId);
+        loginAsInstructor(helper.getGoogleId());
         verifyCannotAccess(submissionParams);
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 

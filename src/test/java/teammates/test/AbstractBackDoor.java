@@ -57,6 +57,7 @@ import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -258,6 +259,18 @@ public abstract class AbstractBackDoor {
     }
 
     /**
+     * Gets the cookie format for the given user ID.
+     */
+    public String getUserCookie(String userId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.USER_ID, userId);
+        ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
+
+        MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
+        return output.getMessage();
+    }
+
+    /**
      * Puts searchable documents in data bundle into the database.
      */
     public String putDocuments(DataBundle dataBundle) throws HttpRequestFailedException {
@@ -426,7 +439,7 @@ public abstract class AbstractBackDoor {
         }
         InstructorAttributes instructorAttributes = instructor.build();
         if (instructorData.getKey() != null) {
-            instructorAttributes.key = instructorData.getKey();
+            instructorAttributes.setKey(instructorData.getKey());
         }
         return instructorAttributes;
     }
@@ -475,7 +488,7 @@ public abstract class AbstractBackDoor {
         }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {
-            student.key = studentData.getKey();
+            student.setKey(studentData.getKey());
         }
         return student;
     }
