@@ -12,7 +12,6 @@ import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -89,21 +88,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         }
 
         return getSearchManager().searchInstructors(queryString);
-    }
-
-    /**
-     * Creates an instructor.
-     *
-     * @return the created instructor
-     * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database
-     */
-    @Override
-    public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        InstructorAttributes createdInstructor = super.createEntity(instructorToAdd);
-
-        return createdInstructor;
     }
 
     /**

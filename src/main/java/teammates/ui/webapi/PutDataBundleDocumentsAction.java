@@ -31,7 +31,7 @@ class PutDataBundleDocumentsAction extends Action {
         try {
             logic.putDocuments(dataBundle);
         } catch (SearchServiceException e) {
-            // TODO
+            return new JsonResult("Failed to add data bundle documents.", HttpStatus.SC_BAD_GATEWAY);
         }
         return new JsonResult("Data bundle documents successfully added.", HttpStatus.SC_OK);
     }

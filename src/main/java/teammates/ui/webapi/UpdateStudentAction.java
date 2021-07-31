@@ -92,6 +92,7 @@ class UpdateStudentAction extends Action {
                     return new JsonResult(statusMessage);
                 }
             }
+            taskQueuer.scheduleStudentForSearchIndexing(courseId, studentEmail);
         } catch (EnrollException | InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException ednee) {

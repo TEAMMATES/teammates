@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -79,11 +78,12 @@ class CreateAccountAction extends AdminOnlyAction {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        try {
-            logic.putStudentDocuments(students);
-            logic.putInstructorDocuments(instructors);
-        } catch (SearchServiceException e) {
-            // TODO
+        for (StudentAttributes student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        }
+
+        for (InstructorAttributes instructor : instructors) {
+            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
         }
 
         return courseId;

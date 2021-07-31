@@ -103,22 +103,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
-     * Creates a student.
-     *
-     * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database
-     */
-    @Override
-    public StudentAttributes createEntity(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        StudentAttributes createdStudent = super.createEntity(student);
-
-        return createdStudent;
-    }
-
-    /**
      * Regenerates the registration key of a student in a course.
      *
      * @return the updated student
@@ -133,9 +117,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             if (!updatedEntity.getRegistrationKey().equals(originalStudent.getKey())) {
                 saveEntity(updatedEntity);
 
-                StudentAttributes updatedStudent = makeAttributes(updatedEntity);
-
-                return updatedStudent;
+                return makeAttributes(updatedEntity);
             }
 
             numTries++;
@@ -297,7 +279,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
 
             saveEntity(student);
 
-            return newAttributes;
+            return makeAttributes(student);
         }
     }
 
