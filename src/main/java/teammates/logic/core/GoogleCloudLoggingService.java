@@ -116,11 +116,16 @@ public class GoogleCloudLoggingService implements LogService {
                 // TODO
             }
 
+            String trace = logEntry.getTrace();
+            if (trace != null) {
+                trace = trace.replace(TRACE_PREFIX, "");
+            }
+
             for (LogLine line : logLines) {
                 if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
                     errorLogs.add(new ErrorLogEntry(
                             line.getLogMessage().replaceAll("\n", "\n<br>"),
-                            line.getSeverity().toString())
+                            line.getSeverity().toString(), trace)
                     );
                 }
             }
