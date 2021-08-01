@@ -1,11 +1,8 @@
 package teammates.logic.api;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 
-import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.EmailSentLogDetails;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
@@ -67,19 +64,17 @@ public class EmailSender {
             log.severe("Email failed to send: " + status.getMessage());
         }
 
-        Map<String, Object> emailDetailsPrivate = new HashMap<>();
-        emailDetailsPrivate.put("emailRecipient", message.getRecipient());
-        emailDetailsPrivate.put("emailSubject", message.getSubject());
-        emailDetailsPrivate.put("emailContent", message.getContent());
+        EmailSentLogDetails details = new EmailSentLogDetails();
+        details.setEmailRecipient(message.getRecipient());
+        details.setEmailSubject(message.getSubject());
+        details.setEmailContent(message.getContent());
+        details.setEmailType(message.getType());
+        details.setEmailStatus(status.getStatusCode());
 
-        Map<String, Object> emailDetails = new HashMap<>();
-        emailDetails.put("emailType", message.getType());
-        emailDetails.put("emailDetails", emailDetailsPrivate);
-        emailDetails.put("emailStatus", status.getStatusCode());
         if (status.getMessage() != null) {
-            emailDetails.put("emailStatusMessage", status.getMessage());
+            details.setEmailStatusMessage(status.getMessage());
         }
-        log.event(LogEvent.EMAIL_SENT, "Email sent: " + message.getType(), emailDetails);
+        log.event("Email sent: " + message.getType(), details);
 
         return status;
     }
