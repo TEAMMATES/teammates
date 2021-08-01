@@ -72,7 +72,7 @@ public class GoogleCloudLoggingService implements LogService {
         long queryRange = 1000 * 60 * 6;
         Instant startTime = endTime.minusMillis(queryRange);
 
-        QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
+        QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime.toEpochMilli(), endTime.toEpochMilli())
                 .withMinSeverity("ERROR")
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
@@ -196,7 +196,7 @@ public class GoogleCloudLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName) throws LogServiceException {
+            long startTime, long endTime, String fsName) throws LogServiceException {
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
@@ -241,6 +241,9 @@ public class GoogleCloudLoggingService implements LogService {
         QueryLogsParams q = s.queryLogsParams;
 
         List<String> logFilters = new ArrayList<>();
+        logFilters.add("timestamp>\"" + Instant.ofEpochMilli(q.getStartTime()).toString() + "\"");
+        logFilters.add("timestamp<=\"" + Instant.ofEpochMilli(q.getEndTime()).toString() + "\"");
+
         if (!s.logName.isEmpty()) {
             String logNameFilter = s.logName.stream()
                     .map(str -> "\"projects/" + options.getProjectId() + "/logs/" + str + "\"")
@@ -249,12 +252,6 @@ public class GoogleCloudLoggingService implements LogService {
         }
         if (s.resourceType != null) {
             logFilters.add("resource.type=\"" + s.resourceType + "\"");
-        }
-        if (q.getStartTime() != null) {
-            logFilters.add("timestamp>\"" + q.getStartTime().toString() + "\"");
-        }
-        if (q.getEndTime() != null) {
-            logFilters.add("timestamp<=\"" + q.getEndTime().toString() + "\"");
         }
         if (q.getSeverity() != null) {
             logFilters.add("severity=" + q.getSeverity());

@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.time.Instant;
 import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
@@ -64,7 +63,7 @@ public class LogsProcessor {
      * @param email Can be null
      */
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName) throws LogServiceException {
+            long startTime, long endTime, String fsName) throws LogServiceException {
         return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 

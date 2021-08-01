@@ -1,6 +1,5 @@
 package teammates.logic.core;
 
-import java.time.Instant;
 import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
@@ -34,6 +33,6 @@ public interface LogService {
      * Gets the feedback session logs as filtered by the given parameters.
      */
     List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName)
+            long startTime, long endTime, String fsName)
             throws LogServiceException;
 }

@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,8 +93,8 @@ public class MockLogsProcessor extends LogsProcessor {
         if (queryLogsParams.getSeverity() != null) {
             generalLogs.forEach(entry -> {
                 if (queryLogsParams.getSeverity().equals(entry.getSeverity())
-                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
-                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
                 }
             });
@@ -103,15 +102,15 @@ public class MockLogsProcessor extends LogsProcessor {
             generalLogs.forEach(entry -> {
                 if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber()
                         <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
-                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
-                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
                 }
             });
         } else {
             generalLogs.forEach(entry -> {
-                if (entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
-                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                if (entry.getTimestamp() >= queryLogsParams.getStartTime()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
                 }
             });
@@ -126,7 +125,7 @@ public class MockLogsProcessor extends LogsProcessor {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName) {
+            long startTime, long endTime, String fsName) {
         return feedbackSessionLogs;
     }
 

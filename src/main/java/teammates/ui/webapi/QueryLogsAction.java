@@ -42,27 +42,27 @@ public class QueryLogsAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        Instant endTime = Instant.now();
+        long endTime = Instant.now().toEpochMilli();
         try {
             String endTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ENDTIME);
             if (endTimeStr != null) {
-                endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+                endTime = Long.parseLong(endTimeStr);
             }
         } catch (NumberFormatException e) {
             throw new InvalidHttpParameterException("Invalid end time.", e);
         }
 
-        Instant startTime = endTime.minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS);
+        long startTime = Instant.ofEpochMilli(endTime).minusMillis(TWENTY_FOUR_HOURS_IN_MILLIS).toEpochMilli();
         try {
             String startTimeStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_STARTTIME);
             if (startTimeStr != null) {
-                startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
+                startTime = Long.parseLong(startTimeStr);
             }
         } catch (NumberFormatException e) {
             throw new InvalidHttpParameterException("Invalid start time.", e);
         }
 
-        if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
+        if (endTime < startTime) {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 

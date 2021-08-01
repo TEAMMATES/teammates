@@ -92,10 +92,8 @@ public class LocalLoggingService implements LogService {
                 .filter(logs -> queryLogsParams.getMinSeverity() == null
                         || LogSeverity.valueOf(logs.getSeverity()).getSeverityLevel()
                             >= LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getSeverityLevel())
-                .filter(logs -> queryLogsParams.getStartTime() == null
-                        || logs.getTimestamp() > queryLogsParams.getStartTime().toEpochMilli())
-                .filter(logs -> queryLogsParams.getEndTime() == null
-                        || logs.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli())
+                .filter(logs -> logs.getTimestamp() > queryLogsParams.getStartTime())
+                .filter(logs -> logs.getTimestamp() <= queryLogsParams.getEndTime())
                 .filter(logs -> queryLogsParams.getTraceId() == null
                         || (logs.getTrace() != null && logs.getTrace().equals(queryLogsParams.getTraceId())))
                 .filter(logs -> queryLogsParams.getActionClass() == null
@@ -210,14 +208,14 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName) {
+            long startTime, long endTime, String fsName) {
         return FEEDBACK_SESSION_LOG_ENTRIES
                 .stream()
                 .filter(log -> log.getFeedbackSession().getCourseId().equals(courseId))
                 .filter(log -> email == null || log.getStudent().getEmail().equals(email))
                 .filter(log -> fsName == null || log.getFeedbackSession().getFeedbackSessionName().equals(fsName))
-                .filter(log -> startTime == null || log.getTimestamp() >= startTime.toEpochMilli())
-                .filter(log -> endTime == null || log.getTimestamp() <= endTime.toEpochMilli())
+                .filter(log -> log.getTimestamp() >= startTime)
+                .filter(log -> log.getTimestamp() <= endTime)
                 .collect(Collectors.toList());
     }
 

@@ -1,15 +1,13 @@
 package teammates.common.datatransfer.logs;
 
-import java.time.Instant;
-
 /**
  * Represents the parameters used for querying logs.
  */
 public class QueryLogsParams {
     private String severity;
     private String minSeverity;
-    private Instant startTime;
-    private Instant endTime;
+    private long startTime;
+    private long endTime;
     private String traceId;
     private String actionClass;
     private RequestLogUser userInfoParams;
@@ -22,7 +20,7 @@ public class QueryLogsParams {
     private String order;
     private Integer pageSize;
 
-    private QueryLogsParams(Instant startTime, Instant endTime) {
+    private QueryLogsParams(long startTime, long endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -30,7 +28,7 @@ public class QueryLogsParams {
     /**
      * Returns a builder for {@link QueryLogsParams}.
      */
-    public static Builder builder(Instant startTime, Instant endTime) {
+    public static Builder builder(long startTime, long endTime) {
         return new Builder(startTime, endTime);
     }
 
@@ -42,11 +40,11 @@ public class QueryLogsParams {
         return minSeverity;
     }
 
-    public Instant getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public Instant getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
@@ -100,7 +98,7 @@ public class QueryLogsParams {
     public static class Builder {
         private QueryLogsParams queryLogsParams;
 
-        private Builder(Instant startTime, Instant endTime) {
+        private Builder(long startTime, long endTime) {
             this.queryLogsParams = new QueryLogsParams(startTime, endTime);
         }
 
