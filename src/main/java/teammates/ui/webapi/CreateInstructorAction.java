@@ -47,7 +47,7 @@ class CreateInstructorAction extends Action {
                 instructorRequest.getName(), instructorRequest.getEmail(), instructorRequest.getRoleName(),
                 instructorRequest.getIsDisplayedToStudent(), instructorRequest.getDisplayName());
 
-        /* Process adding the instructor and setup status to be shown to user and admin */
+        // Process adding the instructor and setup status to be shown to user and admin
         try {
             InstructorAttributes createdInstructor = logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
