@@ -5,6 +5,9 @@ import java.util.List;
 
 import teammates.common.util.Const;
 
+/**
+ * Contains specific structure and processing logic for rank options feedback responses.
+ */
 public class FeedbackRankOptionsResponseDetails extends FeedbackResponseDetails {
     private List<Integer> answers;
 

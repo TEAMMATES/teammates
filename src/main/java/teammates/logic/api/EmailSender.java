@@ -25,9 +25,10 @@ public class EmailSender {
 
     private static final Logger log = Logger.getLogger();
 
+    private static final EmailSender instance = new EmailSender();
     private final EmailSenderService service;
 
-    public EmailSender() {
+    EmailSender() {
         if (Config.isDevServer()) {
             service = new EmptyEmailService();
         } else {
@@ -41,6 +42,10 @@ public class EmailSender {
                 service = new EmptyEmailService();
             }
         }
+    }
+
+    public static EmailSender inst() {
+        return instance;
     }
 
     /**

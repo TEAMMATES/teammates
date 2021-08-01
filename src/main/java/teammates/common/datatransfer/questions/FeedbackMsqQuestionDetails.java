@@ -7,6 +7,9 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.util.Const;
 
+/**
+ * Contains specific structure and processing logic for MSQ feedback questions.
+ */
 public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME = "Multiple-choice (multiple answers) question";
@@ -292,7 +295,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.otherEnabled = otherEnabled;
     }
 
-    public boolean hasAssignedWeights() {
+    public boolean isHasAssignedWeights() {
         return hasAssignedWeights;
     }
 

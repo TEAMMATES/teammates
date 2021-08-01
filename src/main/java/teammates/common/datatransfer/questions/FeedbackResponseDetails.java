@@ -17,8 +17,14 @@ public abstract class FeedbackResponseDetails {
         this.questionType = questionType;
     }
 
+    /**
+     * Returns a string representation of the response.
+     */
     public abstract String getAnswerString();
 
+    /**
+     * Returns a JSON string representation of the response details.
+     */
     public String getJsonString() {
         assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
@@ -29,6 +35,9 @@ public abstract class FeedbackResponseDetails {
         return JsonUtils.toJson(this, questionType.getResponseDetailsClass());
     }
 
+    /**
+     * Returns a deep copy of the response details.
+     */
     public FeedbackResponseDetails getDeepCopy() {
         assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
