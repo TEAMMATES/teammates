@@ -9,6 +9,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.common.reflect.TypeToken;
+
+import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogUser;
@@ -99,6 +102,25 @@ public final class Logger {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
             payload.putAll(details);
             payload.put("event", event);
+
+            logMessage = JsonUtils.toCompactJson(payload);
+        }
+        standardLog.info(logMessage);
+    }
+
+    /**
+     * Logs a particular event at INFO level.
+     */
+    public void event(String message, LogDetails details) {
+        String logMessage;
+        if (Config.isDevServer()) {
+            logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
+                    + JsonUtils.toCompactJson(details);
+        } else {
+            Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
+            Map<String, Object> detailsSpecificPayload =
+                    JsonUtils.fromJson(JsonUtils.toJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+            payload.putAll(detailsSpecificPayload);
 
             logMessage = JsonUtils.toCompactJson(payload);
         }
