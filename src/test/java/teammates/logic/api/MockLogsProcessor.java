@@ -3,7 +3,6 @@ package teammates.logic.api;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
@@ -11,6 +10,7 @@ import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
@@ -50,36 +50,36 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general INFO logs.
      */
     public void insertInfoLog(String trace, String insertId, SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+            long timestamp, String textPayloadMessage, LogDetails logDetails) {
         insertGeneralLog(STDOUT_LOG_NAME, LogSeverity.INFO, trace, insertId,
-                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
+                sourceLocation, timestamp, textPayloadMessage, logDetails);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
     public void insertWarningLog(String trace, String insertId, SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+            long timestamp, String textPayloadMessage, LogDetails logDetails) {
         insertGeneralLog(STDERR_LOG_NAME, LogSeverity.WARNING, trace, insertId,
-                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
+                sourceLocation, timestamp, textPayloadMessage, logDetails);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
     public void insertGeneralErrorLog(String trace, String insertId, SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+            long timestamp, String textPayloadMessage, LogDetails logDetails) {
         insertGeneralLog(STDERR_LOG_NAME, LogSeverity.ERROR, trace, insertId,
-                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
+                sourceLocation, timestamp, textPayloadMessage, logDetails);
     }
 
     private void insertGeneralLog(String logName, LogSeverity severity, String trace, String insertId,
             SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
-            Map<String, Object> jsonPayloadDetails) {
+            LogDetails logDetails) {
         GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, insertId, new HashMap<>(), sourceLocation,
                 timestamp);
         logEntry.setMessage(textPayloadMessage);
-        logEntry.setDetails(jsonPayloadDetails);
+        logEntry.setDetails(logDetails);
         generalLogs.add(logEntry);
     }
 
