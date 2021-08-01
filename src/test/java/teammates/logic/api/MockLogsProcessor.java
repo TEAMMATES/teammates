@@ -10,11 +10,11 @@ import com.google.logging.type.LogSeverity;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
@@ -91,9 +91,9 @@ public class MockLogsProcessor extends LogsProcessor {
     @Override
     public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        if (queryLogsParams.getSeverityLevel() != null) {
+        if (queryLogsParams.getSeverity() != null) {
             generalLogs.forEach(entry -> {
-                if (queryLogsParams.getSeverityLevel().equals(entry.getSeverity())
+                if (queryLogsParams.getSeverity().equals(entry.getSeverity())
                         && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
                         && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
                     queryResults.add(entry);

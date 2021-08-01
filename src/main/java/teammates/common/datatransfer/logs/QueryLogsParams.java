@@ -1,15 +1,12 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.logs;
 
 import java.time.Instant;
-
-import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
  * Represents the parameters used for querying logs.
  */
 public class QueryLogsParams {
-    private String severityLevel;
+    private String severity;
     private String minSeverity;
     private Instant startTime;
     private Instant endTime;
@@ -37,8 +34,8 @@ public class QueryLogsParams {
         return new Builder(startTime, endTime);
     }
 
-    public String getSeverityLevel() {
-        return severityLevel;
+    public String getSeverity() {
+        return severity;
     }
 
     public String getMinSeverity() {
@@ -108,7 +105,7 @@ public class QueryLogsParams {
         }
 
         public Builder withSeverityLevel(String severityLevel) {
-            queryLogsParams.severityLevel = severityLevel;
+            queryLogsParams.severity = severityLevel;
             return this;
         }
 

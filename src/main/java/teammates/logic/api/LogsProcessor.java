@@ -5,8 +5,8 @@ import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.logic.core.GoogleCloudLoggingService;

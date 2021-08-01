@@ -17,12 +17,12 @@ import com.google.gson.JsonParseException;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogSeverity;
+import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
@@ -87,8 +87,8 @@ public class LocalLoggingService implements LogService {
                         return Long.compare(y.getTimestamp(), x.getTimestamp());
                     }
                 })
-                .filter(logs -> queryLogsParams.getSeverityLevel() == null
-                        || logs.getSeverity().equals(queryLogsParams.getSeverityLevel()))
+                .filter(logs -> queryLogsParams.getSeverity() == null
+                        || logs.getSeverity().equals(queryLogsParams.getSeverity()))
                 .filter(logs -> queryLogsParams.getMinSeverity() == null
                         || LogSeverity.valueOf(logs.getSeverity()).getSeverityLevel()
                             >= LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getSeverityLevel())
