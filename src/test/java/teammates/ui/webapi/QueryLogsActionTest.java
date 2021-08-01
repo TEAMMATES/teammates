@@ -8,7 +8,7 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.InvalidHttpParameterException;

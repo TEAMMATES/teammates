@@ -1,10 +1,8 @@
-package teammates.common.datatransfer;
+package teammates.common.datatransfer.logs;
 
 import java.util.Map;
 
 import javax.annotation.Nullable;
-
-import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
  * Represents a log entry and contains the fields that are more important
