@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
@@ -52,8 +53,8 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         String infoLogInsertId2 = "info log insert id 2";
         String infoLogTextPayload1 = "info log text palyload 1";
         String infoLogTextPayload2 = "info log text palyload 2";
-        GeneralLogEntry.SourceLocation infoLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file1", 1L, "func1");
-        GeneralLogEntry.SourceLocation infoLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file2", 2L, "func2");
+        SourceLocation infoLogSourceLocation1 = new SourceLocation("file1", 1L, "func1");
+        SourceLocation infoLogSourceLocation2 = new SourceLocation("file2", 2L, "func2");
         long infoLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 1;
         long infoLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 2;
         Map<String, String> infoLogUserInfo1 = new HashMap<>();
@@ -89,8 +90,8 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         String warningLogInsertId2 = "warning log insert id 2";
         String warningLogTextPayload1 = "warning log text palyload 1";
         String warningLogTextPayload2 = "warning log text palyload 2";
-        GeneralLogEntry.SourceLocation warningLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file3", 3L, "func3");
-        GeneralLogEntry.SourceLocation warningLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file4", 4L, "func4");
+        SourceLocation warningLogSourceLocation1 = new SourceLocation("file3", 3L, "func3");
+        SourceLocation warningLogSourceLocation2 = new SourceLocation("file4", 4L, "func4");
         long warningLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 3;
         long warningLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 4;
         Map<String, String> warningLogUserInfo1 = new HashMap<>();
@@ -121,8 +122,8 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         String errorLogInsertId2 = "error log insertId 2";
         String errorLogTextPayload1 = "error log text palyload 1";
         String errorLogTextPayload2 = "error log text palyload 2";
-        GeneralLogEntry.SourceLocation errorLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file5", 5L, "func5");
-        GeneralLogEntry.SourceLocation errorLogSourceLocation2 = new GeneralLogEntry.SourceLocation("file6", 6L, "func6");
+        SourceLocation errorLogSourceLocation1 = new SourceLocation("file5", 5L, "func5");
+        SourceLocation errorLogSourceLocation2 = new SourceLocation("file6", 6L, "func6");
         long errorLogTimestamp1 = endTimeForSuccessCases - 1000 * 60 - 5;
         long errorLogTimestamp2 = endTimeForSuccessCases - 1000 * 60 - 6;
         Map<String, String> errorLogUserInfo1 = new HashMap<>();

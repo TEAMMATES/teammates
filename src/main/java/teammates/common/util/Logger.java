@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
  * Allows any component of the application to log messages at appropriate levels.
@@ -137,10 +138,8 @@ public final class Logger {
                     + System.lineSeparator() + sw.toString();
         } else {
             StackTraceElement tSource = t.getStackTrace()[0];
-            Map<String, Object> tSourceLocation = new HashMap<>();
-            tSourceLocation.put("file", tSource.getClassName());
-            tSourceLocation.put("line", tSource.getLineNumber());
-            tSourceLocation.put("function", tSource.getMethodName());
+            SourceLocation tSourceLocation = new SourceLocation(
+                    tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
 
             List<String> exceptionClasses = new ArrayList<>();
             List<List<String>> exceptionStackTraces = new ArrayList<>();
@@ -225,11 +224,8 @@ public final class Logger {
 
         StackTraceElement source = getLoggerSource();
         if (source != null) {
-            Map<String, Object> sourceLocation = new HashMap<>();
-            sourceLocation.put("file", source.getClassName());
-            sourceLocation.put("line", source.getLineNumber());
-            sourceLocation.put("function", source.getMethodName());
-
+            SourceLocation sourceLocation = new SourceLocation(
+                    source.getClassName(), (long) source.getLineNumber(), source.getMethodName());
             payload.put("logging.googleapis.com/sourceLocation", sourceLocation);
         }
 

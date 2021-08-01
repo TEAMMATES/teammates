@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 import com.google.api.gax.paging.Page;
 import com.google.appengine.logging.v1.LogLine;
 import com.google.appengine.logging.v1.RequestLog;
-import com.google.appengine.logging.v1.SourceLocation;
 import com.google.appengine.logging.v1.SourceReference;
 import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogEntry;
@@ -36,6 +35,7 @@ import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -99,7 +99,7 @@ public class GoogleCloudLoggingService implements LogService {
             JsonFormat.TypeRegistry tr = JsonFormat.TypeRegistry.newBuilder()
                     .add(RequestLog.getDescriptor())
                     .add(LogLine.getDescriptor())
-                    .add(SourceLocation.getDescriptor())
+                    .add(com.google.appengine.logging.v1.SourceLocation.getDescriptor())
                     .add(SourceReference.getDescriptor())
                     .build();
 
@@ -156,7 +156,7 @@ public class GoogleCloudLoggingService implements LogService {
             long timestamp = entry.getTimestamp();
 
             GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace, insertId,
-                    resourceIdentifier, new GeneralLogEntry.SourceLocation(sourceLocation.getFile(),
+                    resourceIdentifier, new SourceLocation(sourceLocation.getFile(),
                             sourceLocation.getLine(), sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
                 Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
@@ -357,7 +357,7 @@ public class GoogleCloudLoggingService implements LogService {
         private String actionClass;
         private UserInfoParams userInfoParams;
         private String logEvent;
-        private GeneralLogEntry.SourceLocation sourceLocation;
+        private SourceLocation sourceLocation;
         private String exceptionClass;
         private String latency;
         private String status;
@@ -454,7 +454,7 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setSourceLocation(GeneralLogEntry.SourceLocation sourceLocation) {
+        public LogSearchParams setSourceLocation(SourceLocation sourceLocation) {
             this.sourceLocation = sourceLocation;
             return this;
         }

@@ -2,7 +2,7 @@ package teammates.common.datatransfer;
 
 import java.time.Instant;
 
-import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
+import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
  * Represents the parameters used for querying logs.
@@ -68,7 +68,7 @@ public class QueryLogsParams {
         return logEvent;
     }
 
-    public GeneralLogEntry.SourceLocation getSourceLocation() {
+    public SourceLocation getSourceLocation() {
         return sourceLocation;
     }
 
