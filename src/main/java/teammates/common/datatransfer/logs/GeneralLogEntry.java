@@ -19,7 +19,7 @@ public class GeneralLogEntry {
     @Nullable
     private String message;
     @Nullable
-    private Map<String, Object> details;
+    private LogDetails details;
 
     public GeneralLogEntry(String logName, LogSeverity severity, String trace, String insertId,
                            Map<String, String> resourceIdentifier, SourceLocation sourceLocation, long timestamp) {
@@ -36,7 +36,7 @@ public class GeneralLogEntry {
         this.message = message;
     }
 
-    public void setDetails(Map<String, Object> details) {
+    public void setDetails(LogDetails details) {
         this.details = details;
     }
 
@@ -72,7 +72,7 @@ public class GeneralLogEntry {
         return message;
     }
 
-    public Map<String, Object> getDetails() {
+    public LogDetails getDetails() {
         return details;
     }
 

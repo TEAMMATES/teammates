@@ -8,7 +8,6 @@ import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
-import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
@@ -157,24 +156,7 @@ public class QueryLogsAction extends AdminOnlyAction {
 
         for (GeneralLogEntry logEntry : queryResults.getLogEntries()) {
             if (logEntry.getDetails() != null) {
-                Map<String, Object> details = logEntry.getDetails();
-                // Always remove requestParams, requestHeaders and userInfo for non-admin maintainers
-                details.remove("requestParams");
-                details.remove("requestHeaders");
-                details.remove("userInfo");
-                // Keep log message of event logs and remove log message for other logs
-                if (!details.containsKey("event")
-                        || LogEvent.EXCEPTION_LOG.toString().equals(details.get("event"))) {
-                    details.remove("message");
-                }
-                // Remove email details in email sent event log
-                if (LogEvent.EMAIL_SENT.toString().equals(details.get("event"))) {
-                    details.remove("emailDetails");
-                }
-                // Remove student email in feedback session audit event log
-                if (LogEvent.FEEDBACK_SESSION_AUDIT.toString().equals(details.get("event"))) {
-                    details.remove("studentEmail");
-                }
+                logEntry.getDetails().hideSensitiveInformation();
             }
             // Always remove text payload message for non-admin maintainers
             logEntry.setMessage(null);

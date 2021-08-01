@@ -33,11 +33,13 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
+import teammates.common.util.JsonUtils;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
@@ -158,8 +160,8 @@ public class GoogleCloudLoggingService implements LogService {
                     resourceIdentifier, new SourceLocation(sourceLocation.getFile(),
                             sourceLocation.getLine(), sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
-                Map<String, Object> jsonPayloadMap = new HashMap<>(((Payload.JsonPayload) payload).getDataAsMap());
-                logEntry.setDetails(jsonPayloadMap);
+                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                logEntry.setDetails(JsonUtils.fromJson(JsonUtils.toCompactJson(jsonPayloadMap), LogDetails.class));
             } else {
                 String textPayloadMessage = ((Payload.StringPayload) payload).getData();
                 logEntry.setMessage(textPayloadMessage);
