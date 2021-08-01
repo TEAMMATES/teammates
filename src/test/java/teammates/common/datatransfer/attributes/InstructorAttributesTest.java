@@ -134,6 +134,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(instructor.getDisplayedName(), instructorAttributes.getDisplayedName());
         assertEquals(instructor.getInstructorPrivilegesAsText(),
                 JsonUtils.toJson(instructorAttributes.getPrivileges(), InstructorPrivileges.class));
+        assertEquals(instructor.getCreatedAt(), instructorAttributes.getCreatedAt());
+        assertEquals(instructor.getUpdatedAt(), instructorAttributes.getUpdatedAt());
     }
 
     @Test
