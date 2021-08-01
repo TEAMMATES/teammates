@@ -18,14 +18,14 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link FeedbackResponseCommentsDb}.
  */
-public class FeedbackResponseCommentsDbTest extends BaseComponentTestCase {
+public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    private static final FeedbackResponseCommentsDb frcDb = new FeedbackResponseCommentsDb();
+    private final FeedbackResponseCommentsDb frcDb = FeedbackResponseCommentsDb.inst();
 
     private DataBundle dataBundle;
     private FeedbackResponseCommentAttributes frcaData;

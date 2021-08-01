@@ -34,7 +34,8 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.RecaptchaVerifier;
-import teammates.test.BaseComponentTestCase;
+import teammates.logic.api.LogicExtension;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.FileHelper;
 import teammates.test.MockEmailSender;
 import teammates.test.MockFileStorage;
@@ -48,9 +49,11 @@ import teammates.ui.request.BasicRequest;
 /**
  * Base class for all action tests.
  *
+ * <p>On top of having a local database, these tests require proxy services to be running (to be more precise, mocked).
+ *
  * @param <T> The action class being tested.
  */
-public abstract class BaseActionTest<T extends Action> extends BaseComponentTestCase {
+public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithLocalDatabaseAccess {
 
     protected static final String GET = HttpGet.METHOD_NAME;
     protected static final String POST = HttpPost.METHOD_NAME;
@@ -58,6 +61,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     protected static final String DELETE = HttpDelete.METHOD_NAME;
 
     protected DataBundle typicalBundle = getTypicalDataBundle();
+    protected LogicExtension logic = new LogicExtension();
     protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
     protected MockEmailSender mockEmailSender = new MockEmailSender();
     protected MockFileStorage mockFileStorage = new MockFileStorage();
@@ -219,6 +223,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertTrue(user.isStudent);
         assertTrue(user.isInstructor);
         assertFalse(user.isAdmin);
+    }
+
+    protected void loginAsMaintainer() {
+        UserInfo user = mockUserProvision.loginUser(Config.APP_MAINTAINERS.get(0));
+        assertTrue(user.isMaintainer);
     }
 
     /**
@@ -503,6 +512,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         loginAsInstructor(otherInstructor.getGoogleId());
         verifyCannotAccess(submissionParams);
+    }
+
+    protected void verifyAccessibleForMaintainers(String... params) {
+
+        ______TS("Maintainer can access");
+
+        loginAsMaintainer();
+        verifyCanAccess(params);
     }
 
     // 'Low-level' access control tests: here it tests an action once with the given parameters.

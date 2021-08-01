@@ -29,13 +29,13 @@ import teammates.storage.api.FeedbackResponsesDb;
  */
 public final class FeedbackResponsesLogic {
 
-    private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
+    private static final FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
 
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
 
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private StudentsLogic studentsLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -43,6 +43,12 @@ public final class FeedbackResponsesLogic {
 
     public static FeedbackResponsesLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**

@@ -10,7 +10,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -24,8 +23,6 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -110,9 +107,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             // Use the home page to minimize the page load time.
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
-            UserInfoCookie uic = new UserInfoCookie(userId);
-            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
-                    true, true);
+            String cookieValue = BACKDOOR.getUserCookie(userId);
+            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
             return getNewPageInstance(url, typeOfPage);
         }
@@ -203,48 +199,6 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         } catch (Exception e) {
             fail("Failed to verify email sent:" + e);
         }
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupLocalDatastoreHelper() {
-        // Should be prepared separately
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void resetLocalDatastoreHelper() {
-        // Local database state should persist across e2e test suites
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownLocalDatastoreHelper() {
-        // Should be prepared separately
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupSearch() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void resetSearchService() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void setupObjectify() {
-        // Not necessary as BackDoor API is used instead
-    }
-
-    @Override
-    @SuppressWarnings("PMD.EmptyMethodInAbstractClassShouldBeAbstract")
-    public void tearDownObjectify() {
-        // Not necessary as BackDoor API is used instead
     }
 
     protected AccountAttributes getAccount(String googleId) {

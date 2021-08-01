@@ -2,11 +2,16 @@ package teammates.test;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import com.google.logging.type.LogSeverity;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
+import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -50,47 +55,66 @@ public class MockLogsProcessor extends LogsProcessor {
      * Simulates insertion of general INFO logs.
      */
     public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
     public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
     public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
-    private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
-            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
-        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, timestamp);
+    private void insertGeneralLog(String logName, String severity, String trace,
+            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
+            Map<String, Object> jsonPayloadDetails) {
+        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, new HashMap<>(), sourceLocation, timestamp);
         logEntry.setMessage(textPayloadMessage);
+        logEntry.setDetails(jsonPayloadDetails);
         generalLogs.add(logEntry);
     }
 
     @Override
-    public QueryLogsResults queryLogs(List<String> severities, Instant startTime, Instant endTime,
-            Integer pageSize, String pageToken) {
+    public QueryLogsResults queryLogs(QueryLogsParams queryLogsParams) {
         List<GeneralLogEntry> queryResults = new ArrayList<>();
-        generalLogs.forEach(entry -> {
-            if (severities.contains(entry.getSeverity())
-                    && entry.getTimestamp() >= startTime.toEpochMilli()
-                    && entry.getTimestamp() <= endTime.toEpochMilli()) {
-                queryResults.add(entry);
-            }
-        });
+        if (queryLogsParams.getSeverityLevel() != null) {
+            generalLogs.forEach(entry -> {
+                if (queryLogsParams.getSeverityLevel().equals(entry.getSeverity())
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else if (queryLogsParams.getMinSeverity() != null) {
+            generalLogs.forEach(entry -> {
+                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber()
+                        <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                        && entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        } else {
+            generalLogs.forEach(entry -> {
+                if (entry.getTimestamp() >= queryLogsParams.getStartTime().toEpochMilli()
+                        && entry.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli()) {
+                    queryResults.add(entry);
+                }
+            });
+        }
         return new QueryLogsResults(queryResults, null);
     }
 

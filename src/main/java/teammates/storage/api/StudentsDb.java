@@ -31,11 +31,21 @@ import teammates.storage.search.StudentSearchManager;
  * @see CourseStudent
  * @see StudentAttributes
  */
-public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
+public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
+
+    private static final StudentsDb instance = new StudentsDb();
+
+    private StudentsDb() {
+        // prevent initialization
+    }
+
+    public static StudentsDb inst() {
+        return instance;
+    }
 
     private StudentSearchManager getSearchManager() {
         return SearchManagerFactory.getStudentSearchManager();

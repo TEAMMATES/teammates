@@ -27,7 +27,17 @@ import teammates.storage.search.SearchManagerFactory;
  * @see Instructor
  * @see InstructorAttributes
  */
-public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
+public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
+
+    private static final InstructorsDb instance = new InstructorsDb();
+
+    private InstructorsDb() {
+        // prevent initialization
+    }
+
+    public static InstructorsDb inst() {
+        return instance;
+    }
 
     private InstructorSearchManager getSearchManager() {
         return SearchManagerFactory.getInstructorSearchManager();

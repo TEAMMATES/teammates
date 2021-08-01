@@ -20,13 +20,13 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 
 /**
  * SUT: {@link FeedbackQuestionsDb}.
  */
-public class FeedbackQuestionsDbTest extends BaseComponentTestCase {
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
+public class FeedbackQuestionsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
 
     @Test
     public void testTimestamp() throws Exception {
