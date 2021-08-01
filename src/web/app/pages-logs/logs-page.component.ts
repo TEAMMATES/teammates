@@ -2,11 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY } from 'rxjs';
 import { expand, finalize, reduce, tap } from 'rxjs/operators';
-import { AdvancedFilters, LogsEndpointQueryParams, LogService } from '../../services/log.service';
+import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TimezoneService } from '../../services/timezone.service';
 import { ApiConst } from '../../types/api-const';
-import { ActionClasses, GeneralLogEntry, GeneralLogs, SourceLocation } from '../../types/api-output';
+import {
+  ActionClasses,
+  GeneralLogEntry,
+  GeneralLogs,
+  LogEvent,
+  LogSeverity,
+  QueryLogsParams,
+  RequestLogUser,
+  SourceLocation,
+} from '../../types/api-output';
 import { DateFormat } from '../components/datepicker/datepicker.component';
 import { LogsHistogramDataModel } from '../components/logs-histogram/logs-histogram-model';
 import { LogsTableRowModel } from '../components/logs-table/logs-table-model';
@@ -18,15 +27,12 @@ import { ErrorMessageOutput } from '../error-message-output';
  * Model for searching of logs.
  */
 interface SearchLogsFormModel {
-  logsSeverity: string;
-  logsMinSeverity: string;
-  logsEvent: string;
   logsFilter: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
-  advancedFilters: AdvancedFilters;
+  filters: Partial<QueryLogsParams>;
 }
 
 const MAXIMUM_PAGES_FOR_ERROR_LOGS: number = 20;
@@ -46,8 +52,12 @@ const DESCENDING_ORDER: string = 'desc';
 export class LogsPageComponent implements OnInit {
   readonly LOGS_RETENTION_PERIOD_IN_DAYS: number = ApiConst.LOGS_RETENTION_PERIOD;
   readonly LOGS_RETENTION_PERIOD_IN_MILLISECONDS: number = this.LOGS_RETENTION_PERIOD_IN_DAYS * 24 * 60 * 60 * 1000;
-  readonly SEVERITIES: string[] = ['INFO', 'WARNING', 'ERROR'];
-  readonly EVENTS: string[] = ['REQUEST_LOG', 'EMAIL_SENT', 'FEEDBACK_SESSION_AUDIT'];
+  readonly SEVERITIES: LogSeverity[] = [
+    LogSeverity.INFO, LogSeverity.WARNING, LogSeverity.ERROR,
+  ];
+  readonly EVENTS: LogEvent[] = [
+    LogEvent.REQUEST_LOG, LogEvent.EXCEPTION_LOG, LogEvent.EMAIL_SENT, LogEvent.FEEDBACK_SESSION_AUDIT,
+  ];
   readonly SEVERITY: string = 'severity';
   readonly MIN_SEVERITY: string = 'minSeverity';
   readonly EVENT: string = 'event';
@@ -55,17 +65,38 @@ export class LogsPageComponent implements OnInit {
   isAdmin: boolean = false;
 
   formModel: SearchLogsFormModel = {
-    logsSeverity: 'INFO',
-    logsMinSeverity: 'INFO',
-    logsEvent: 'REQUEST_LOG',
     logsFilter: this.EVENT,
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
-    advancedFilters: {},
+    filters: {
+      startTime: 0,
+      endTime: 0,
+      severity: 'INFO',
+      minSeverity: 'INFO',
+      logEvent: LogEvent.REQUEST_LOG,
+      actionClass: '',
+      exceptionClass: '',
+      extraFilters: '',
+      latency: '',
+      order: '',
+      pageSize: 50,
+      sourceLocation: {
+        file: '',
+        line: 0,
+        function: '',
+      },
+      status: '',
+      traceId: '',
+      userInfoParams: {
+        googleId: '',
+        email: '',
+        regkey: '',
+      },
+    },
   };
-  queryParams: LogsEndpointQueryParams = { searchFrom: '', searchUntil: '', advancedFilters: {} };
+  queryParams: Partial<QueryLogsParams> = { startTime: 0, endTime: 0 };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
   searchResults: LogsTableRowModel[] = [];
@@ -170,19 +201,16 @@ export class LogsPageComponent implements OnInit {
       this.statusMessageService.showErrorToast('Please choose to filter by severity / minimum severity / event');
       return false;
     }
-    if (this.formModel.logsFilter === this.SEVERITY && this.formModel.logsSeverity === '') {
+    if (this.formModel.logsFilter === this.SEVERITY && this.formModel.filters.severity === '') {
       this.statusMessageService.showErrorToast('Please choose a severity level');
       return false;
     }
-    if (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.logsMinSeverity === '') {
+    if (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.filters.minSeverity === '') {
       this.statusMessageService.showErrorToast('Please choose a minimum severity level');
       return false;
     }
-    if (this.formModel.logsFilter === this.EVENT && this.formModel.logsEvent === '') {
-      this.statusMessageService.showErrorToast('Please choose an event type');
-      return false;
-    }
-    if (!this.formModel.advancedFilters.sourceLocationFile && this.formModel.advancedFilters.sourceLocationFunction) {
+    if (this.formModel.filters.sourceLocation && !this.formModel.filters.sourceLocation.file
+        && this.formModel.filters.sourceLocation.function) {
       this.isFiltersExpanded = true;
       this.statusMessageService.showErrorToast('Please fill in Source location file or clear Source location function');
       return false;
@@ -195,41 +223,38 @@ export class LogsPageComponent implements OnInit {
    * Sets the query parameters with the given timestamps and filters in form model.
    */
   private setQueryParams(timestampFrom: number, timestampUntil: number): void {
-    this.queryParams = {
-      searchFrom: timestampFrom.toString(),
-      searchUntil: timestampUntil.toString(),
-      order: DESCENDING_ORDER,
-      advancedFilters: JSON.parse(JSON.stringify(this.formModel.advancedFilters)),
-    };
+    this.queryParams = JSON.parse(JSON.stringify(this.formModel.filters));
+    this.queryParams.startTime = timestampFrom;
+    this.queryParams.endTime = timestampUntil;
+    this.queryParams.order = DESCENDING_ORDER;
 
     if (this.formModel.logsFilter === this.SEVERITY) {
-      this.queryParams.severity = this.formModel.logsSeverity;
+      this.queryParams.severity = this.formModel.filters.severity;
     }
 
     if (this.formModel.logsFilter === this.MIN_SEVERITY) {
-      this.queryParams.minSeverity = this.formModel.logsMinSeverity;
+      this.queryParams.minSeverity = this.formModel.filters.minSeverity;
     }
 
     if (this.formModel.logsFilter === this.EVENT) {
-      this.queryParams.logEvent = this.formModel.logsEvent;
+      this.queryParams.logEvent = this.formModel.filters.logEvent;
     }
   }
 
   private searchForLogsHistogramView(timestampFrom: number, timestampUntil: number): void {
     let numberOfPagesRetrieved: number = 0;
     this.queryParams = {
-      searchFrom: timestampFrom.toString(),
-      searchUntil: timestampUntil.toString(),
+      startTime: timestampFrom,
+      endTime: timestampUntil,
       order: DESCENDING_ORDER,
       severity: 'ERROR',
-      advancedFilters: {},
     };
     this.logService.searchLogs(this.queryParams)
       .pipe(
         expand((logs: GeneralLogs) => {
           if (logs.hasNextPage && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS) {
             numberOfPagesRetrieved += 1;
-            this.queryParams.searchUntil = logs.logEntries[logs.logEntries.length - 1].timestamp.toString();
+            this.queryParams.endTime = logs.logEntries[logs.logEntries.length - 1].timestamp;
             return this.logService.searchLogs(this.queryParams);
           }
 
@@ -299,7 +324,7 @@ export class LogsPageComponent implements OnInit {
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
     let traceIdForSummary: string | undefined;
-    let userInfo: any;
+    let userInfo: RequestLogUser | undefined;
 
     if (log.trace) {
       traceIdForSummary = this.formatTraceForSummary(log.trace);
@@ -345,10 +370,14 @@ export class LogsPageComponent implements OnInit {
       actionClass,
       exceptionClass,
       traceIdForSummary,
-      traceId: log.trace,
+      timestamp: log.timestamp,
+      logName: log.logName,
+      insertId: log.insertId,
+      trace: log.trace,
       sourceLocation: log.sourceLocation,
       resourceIdentifier: log.resourceIdentifier,
-      timestamp: this.timezoneService.formatToString(log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
+      timestampForDisplay: this.timezoneService.formatToString(
+          log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
       severity: log.severity,
       details: payload,
       isDetailsExpanded: false,
@@ -370,54 +399,60 @@ export class LogsPageComponent implements OnInit {
 
   addTraceToFilter(trace: string): void {
     this.isFiltersExpanded = true;
-    this.formModel.advancedFilters.traceId = trace;
+    this.formModel.filters.traceId = trace;
     this.statusMessageService.showSuccessToast('Trace ID added to filters');
   }
 
   addActionClassToFilter(actionClass: string): void {
     this.isFiltersExpanded = true;
-    this.formModel.advancedFilters.actionClass = actionClass;
+    this.formModel.filters.actionClass = actionClass;
     this.statusMessageService.showSuccessToast('Action class added to filters');
   }
 
   addExceptionClassToFilter(exceptionClass: string): void {
     this.isFiltersExpanded = true;
-    this.formModel.advancedFilters.exceptionClass = exceptionClass;
+    this.formModel.filters.exceptionClass = exceptionClass;
     this.statusMessageService.showSuccessToast('Exception class added to filters');
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
     this.isFiltersExpanded = true;
-    this.formModel.advancedFilters.sourceLocationFile = sourceLocation.file;
-    this.formModel.advancedFilters.sourceLocationFunction = sourceLocation.function;
+    this.formModel.filters.sourceLocation = {
+      file: sourceLocation.file,
+      line: 0,
+      function: sourceLocation.function,
+    };
     this.statusMessageService.showSuccessToast('Source location added to filters');
   }
 
-  addUserInfoToFilter(userInfo: any): void {
+  addUserInfoToFilter(userInfo: RequestLogUser): void {
     this.isFiltersExpanded = true;
-    if (userInfo.googleId) {
-      this.formModel.advancedFilters.googleId = userInfo.googleId;
-    } else if (userInfo.regkey) {
-      this.formModel.advancedFilters.regkey = userInfo.regkey;
-    } else if (userInfo.email) {
-      this.formModel.advancedFilters.email = userInfo.email;
-    }
+    this.formModel.filters.userInfoParams = {
+      googleId: userInfo.googleId,
+      regkey: userInfo.regkey,
+      email: userInfo.email,
+    };
 
     this.statusMessageService.showSuccessToast('User info added to filters');
   }
 
   clearFilters(): void {
-    this.formModel.advancedFilters.traceId = '';
-    this.formModel.advancedFilters.googleId = '';
-    this.formModel.advancedFilters.regkey = '';
-    this.formModel.advancedFilters.email = '';
-    this.formModel.advancedFilters.actionClass = '';
-    this.formModel.advancedFilters.sourceLocationFile = '';
-    this.formModel.advancedFilters.sourceLocationFunction = '';
-    this.formModel.advancedFilters.latency = '';
-    this.formModel.advancedFilters.status = '';
-    this.formModel.advancedFilters.extraFilters = '';
-    this.formModel.advancedFilters.exceptionClass = '';
+    this.formModel.filters.traceId = '';
+    this.formModel.filters.userInfoParams = {
+      googleId: '',
+      regkey: '',
+      email: '',
+    };
+    this.formModel.filters.actionClass = '';
+    this.formModel.filters.sourceLocation = {
+      file: '',
+      line: 0,
+      function: '',
+    };
+    this.formModel.filters.latency = '';
+    this.formModel.filters.status = '';
+    this.formModel.filters.extraFilters = '';
+    this.formModel.filters.exceptionClass = '';
   }
 
   switchView(): void {
@@ -430,34 +465,34 @@ export class LogsPageComponent implements OnInit {
   loadPreviousLogs(): void {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
-    this.queryParams.searchFrom = this.searchStartTime.toString();
-    this.queryParams.searchUntil = this.earliestLogTimestampRetrieved.toString();
+    this.queryParams.startTime = this.searchStartTime;
+    this.queryParams.endTime = this.earliestLogTimestampRetrieved;
     this.searchPreviousLogs();
   }
 
   loadLaterLogs(): void {
     this.isSearching = true;
     this.queryParams.order = ASCENDING_ORDER;
-    this.queryParams.searchFrom = this.latestLogTimestampRetrieved.toString();
-    this.queryParams.searchUntil = this.searchEndTime.toString();
+    this.queryParams.startTime = this.latestLogTimestampRetrieved;
+    this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }
 
   extendStartTime(): void {
     this.isSearching = true;
     this.queryParams.order = DESCENDING_ORDER;
-    this.queryParams.searchUntil = this.searchStartTime.toString();
+    this.queryParams.startTime = this.searchStartTime;
     this.searchStartTime = this.searchStartTime - TEN_MINUTES_IN_MILLISECONDS;
-    this.queryParams.searchFrom = this.searchStartTime.toString();
+    this.queryParams.endTime = this.searchStartTime;
     this.searchPreviousLogs();
   }
 
   extendEndTime(): void {
     this.isSearching = true;
     this.queryParams.order = ASCENDING_ORDER;
-    this.queryParams.searchFrom = this.searchEndTime.toString();
+    this.queryParams.startTime = this.searchEndTime;
     this.searchEndTime = this.searchEndTime + TEN_MINUTES_IN_MILLISECONDS;
-    this.queryParams.searchUntil = this.searchEndTime.toString();
+    this.queryParams.endTime = this.searchEndTime;
     this.searchLaterLogs();
   }
 

@@ -11,12 +11,12 @@
       <tbody>
         <ng-container *ngFor="let log of logs">
           <tr (click)="expandDetails(log)" [ngClass]="getClassForSeverity(log.severity)">
-            <td style="font-family: monospace;">{{ log.timestamp }}</td>
+            <td style="font-family: monospace;">{{ log.timestampForDisplay }}</td>
             <td>{{ log.severity }}</td>
             <td class="ellipsis">
               <span class="right-padding" *ngIf="log.httpStatus" [ngClass]="getClassForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
               <span class="right-padding blue-font" *ngIf="log.responseTime">{{ log.responseTime }}ms</span>
-              <span class="clickable border" *ngIf="log.traceIdForSummary" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceIdForSummary }}</span>
+              <span class="clickable border" *ngIf="log.traceIdForSummary" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.trace)">{{ log.traceIdForSummary }}</span>
               <span class="clickable border" *ngIf="log.actionClass" ngbTooltip="Click to add to filter" (click)="addActionClassToFilter(log.actionClass)">{{ log.actionClass }}</span>
               <span class="clickable border red-font" *ngIf="log.exceptionClass" ngbTooltip="Click to add to filter" (click)="addExceptionClassToFilter(log.exceptionClass)">{{ log.exceptionClass }}</span>
               {{ log.summary }}
@@ -40,9 +40,9 @@
                 <summary class="title">userInfo:</summary>
                 <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
               </details>
-              <div *ngIf="log.traceId">
+              <div *ngIf="log.trace">
                 <span class="title">trace: </span>
-                <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceId }}</span>
+                <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.trace)">{{ log.trace }}</span>
               </div>
             </td>
           </tr>

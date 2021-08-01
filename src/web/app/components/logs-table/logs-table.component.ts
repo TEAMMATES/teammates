@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { SourceLocation } from '../../../types/api-output';
+import { RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
 
 /**
@@ -26,7 +26,7 @@ export class LogsTableComponent implements OnInit {
   @Output()
   addSourceLocationEvent: EventEmitter<SourceLocation> = new EventEmitter<SourceLocation>();
   @Output()
-  addUserInfoEvent: EventEmitter<any> = new EventEmitter<any>();
+  addUserInfoEvent: EventEmitter<RequestLogUser> = new EventEmitter<RequestLogUser>();
 
   constructor() { }
 
@@ -80,7 +80,7 @@ export class LogsTableComponent implements OnInit {
     this.addSourceLocationEvent.emit(sourceLocation);
   }
 
-  addUserInfoToFilter(userInfo: any): void {
+  addUserInfoToFilter(userInfo: RequestLogUser): void {
     this.addUserInfoEvent.emit(userInfo);
   }
 }

@@ -410,6 +410,11 @@ exports[`LogsPageComponent should snap when searching for details in search form
                     REQUEST_LOG
                   </option>
                   <option
+                    value="EXCEPTION_LOG"
+                  >
+                    EXCEPTION_LOG
+                  </option>
+                  <option
                     value="EMAIL_SENT"
                   >
                     EMAIL_SENT

@@ -46,7 +46,7 @@
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="severity" [value]="SEVERITY" [(ngModel)]="formModel.logsFilter">
               <label for="severity">severity =&nbsp;</label>
-              <select class="form-control inline" [(ngModel)]="formModel.logsSeverity">
+              <select class="form-control inline" [(ngModel)]="formModel.filters.severity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
             </div>
@@ -54,7 +54,7 @@
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="min-severity" [value]="MIN_SEVERITY" [(ngModel)]="formModel.logsFilter">
               <label for="min-severity">severity >=&nbsp;</label>
-              <select class="form-control inline" [(ngModel)]="formModel.logsMinSeverity">
+              <select class="form-control inline" [(ngModel)]="formModel.filters.minSeverity">
                 <option *ngFor="let severity of SEVERITIES" [value]="severity">{{ severity }}</option>
               </select>
             </div>
@@ -62,7 +62,7 @@
             <div>
               <input type="radio" class="form-check-input mt-3" name="severity" id="event" [value]="EVENT" [(ngModel)]="formModel.logsFilter">
               <label for="event">All event logs &nbsp;</label>
-              <select class="form-control inline" [(ngModel)]="formModel.logsEvent">
+              <select class="form-control inline" [(ngModel)]="formModel.filters.logEvent">
                 <option *ngFor="let event of EVENTS" [value]="event">{{ event }}</option>
               </select>
             </div>
@@ -88,19 +88,19 @@
         <div class="col-5">
           <div class="col-12">
             <label for="trace-id" class="font-weight-bold">Trace ID</label>
-            <input id="trace-id" class="form-control" [(ngModel)]="formModel.advancedFilters.traceId">
+            <input id="trace-id" class="form-control" [(ngModel)]="formModel.filters.traceId">
           </div>
           <div class="col-12 mt-2">
             <label for="source-file" class="font-weight-bold">Source location file</label>
-            <input id="source-file" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.sourceLocationFile">
+            <input id="source-file" class="form-control col-12" [(ngModel)]="formModel.filters.sourceLocation!.file">
           </div>
           <div class="col-12 mt-2">
             <label for="source-function" class="font-weight-bold">Source location function</label>
-            <input id="source-function" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.sourceLocationFunction">
+            <input id="source-function" class="form-control col-12" [(ngModel)]="formModel.filters.sourceLocation!.function">
           </div>
           <div class="col-12 mt-2">
             <label for="action-class" class="font-weight-bold">Action class</label>
-            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
+            <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.filters.actionClass">
               <option [value]=""></option>
               <option *ngFor="let actionClass of ACTION_CLASSES" [value]="actionClass">
                 {{ actionClass }}
@@ -109,29 +109,29 @@
           </div>
           <div class="col-12 mt-2">
             <label for="latency" class="font-weight-bold">Latency (e.g. >=60000; unit is in ms)</label>
-            <input id="latency" class="form-control" [(ngModel)]="formModel.advancedFilters.latency">
+            <input id="latency" class="form-control" [(ngModel)]="formModel.filters.latency">
           </div>
         </div>
         <div class="col-5">
           <div class="col-12">
             <label for="google-id" class="font-weight-bold">User Google ID</label>
-            <input id="google-id" class="form-control" [(ngModel)]="formModel.advancedFilters.googleId" [disabled]="!isAdmin">
+            <input id="google-id" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.googleId" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-2">
             <label for="regkey" class="font-weight-bold">User Registration Key</label>
-            <input id="regkey" class="form-control" [(ngModel)]="formModel.advancedFilters.regkey" [disabled]="!isAdmin">
+            <input id="regkey" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.regkey" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-2">
             <label for="email" class="font-weight-bold">User Email</label>
-            <input id="email" class="form-control" [(ngModel)]="formModel.advancedFilters.email" [disabled]="!isAdmin">
+            <input id="email" class="form-control" [(ngModel)]="formModel.filters.userInfoParams!.email" [disabled]="!isAdmin">
           </div>
           <div class="col-12 mt-2">
             <label for="exception-class" class="font-weight-bold">Exception/Error class</label>
-            <input id="exception-class" class="form-control" [(ngModel)]="formModel.advancedFilters.exceptionClass">
+            <input id="exception-class" class="form-control" [(ngModel)]="formModel.filters.exceptionClass">
           </div>
           <div class="col-12 mt-2">
             <label for="status" class="font-weight-bold">HTTP status (200, 400, 404, 500, etc.)</label>
-            <input id="status" class="form-control" [(ngModel)]="formModel.advancedFilters.status">
+            <input id="status" class="form-control" [(ngModel)]="formModel.filters.status">
           </div>
         </div>
         <div class="col-2 mt-4">
@@ -142,7 +142,7 @@
         <div class="col-10">
           <div class="col-12">
             <label for="extra-filters" class="font-weight-bold">Extra filters</label>
-            <textarea id="extra-filters" class="form-control" [(ngModel)]="formModel.advancedFilters.extraFilters" [disabled]="!isAdmin"></textarea>
+            <textarea id="extra-filters" class="form-control" [(ngModel)]="formModel.filters.extraFilters" [disabled]="!isAdmin"></textarea>
           </div>
         </div>
       </div>
