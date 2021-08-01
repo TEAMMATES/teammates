@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
-import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 
 /**

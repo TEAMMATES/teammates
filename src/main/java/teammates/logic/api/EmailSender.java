@@ -5,11 +5,11 @@ import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.logic.core.EmailSenderService;
 import teammates.logic.core.EmptyEmailService;

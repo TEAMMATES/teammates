@@ -9,6 +9,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import teammates.common.datatransfer.logs.LogEvent;
+
 /**
  * Allows any component of the application to log messages at appropriate levels.
  */
