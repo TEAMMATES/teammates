@@ -40,19 +40,17 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Not enough parameters");
 
-        Exception exception;
-
-        exception = assertThrows(InvalidHttpRequestBodyException.class,
+        Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(null, institute, email)).execute());
-        assertEquals("name cannot be null", exception.getMessage());
+        assertEquals("name cannot be null", ex.getMessage());
 
-        exception = assertThrows(InvalidHttpRequestBodyException.class,
+        ex = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(name, null, email)).execute());
-        assertEquals("institute cannot be null", exception.getMessage());
+        assertEquals("institute cannot be null", ex.getMessage());
 
-        exception = assertThrows(InvalidHttpRequestBodyException.class,
+        ex = assertThrows(InvalidHttpRequestBodyException.class,
                 () -> getAction(buildCreateRequest(name, institute, null)).execute());
-        assertEquals("email cannot be null", exception.getMessage());
+        assertEquals("email cannot be null", ex.getMessage());
 
         ______TS("Normal case");
 
@@ -93,11 +91,11 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         final CreateAccountAction finalA = getAction(req);
 
-        exception = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
+        ex = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
         assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
                 + "it contains invalid characters. A/An person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
-                exception.getMessage());
+                ex.getMessage());
 
         verifyNoEmailsSent();
     }
