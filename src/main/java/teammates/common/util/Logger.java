@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.logs.LogDetails;
-import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
+import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 
@@ -69,43 +69,25 @@ public final class Logger {
         long timeElapsed = RequestTracer.getTimeElapsedMillis();
         String method = request.getMethod();
         String requestUrl = request.getRequestURI();
-        Map<String, Object> requestDetails = new HashMap<>();
-        requestDetails.put("responseStatus", statusCode);
-        requestDetails.put("responseTime", timeElapsed);
-        requestDetails.put("requestMethod", method);
-        requestDetails.put("requestUrl", requestUrl);
-        requestDetails.put("userAgent", request.getHeader("User-Agent"));
-        requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
-        requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
+        RequestLogDetails details = new RequestLogDetails();
+        details.setResponseStatus(statusCode);
+        details.setResponseTime(timeElapsed);
+        details.setRequestMethod(method);
+        details.setRequestUrl(requestUrl);
+        details.setUserAgent(request.getHeader("User-Agent"));
+        details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
+        details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
 
         if (request.getParameter(Const.ParamsNames.REGKEY) != null && userInfo.getRegkey() == null) {
             userInfo.setRegkey(request.getParameter(Const.ParamsNames.REGKEY));
         }
-        requestDetails.put("userInfo", userInfo);
-        requestDetails.put("actionClass", actionClass);
+        details.setUserInfo(userInfo);
+        details.setActionClass(actionClass);
 
         String logMessage = String.format("[%s] [%sms] [%s %s] %s",
                 statusCode, timeElapsed, method, requestUrl, message);
 
-        event(LogEvent.REQUEST_LOG, logMessage, requestDetails);
-    }
-
-    /**
-     * Logs a particular event at INFO level.
-     */
-    public void event(LogEvent event, String message, Map<String, Object> details) {
-        String logMessage;
-        if (Config.isDevServer()) {
-            logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
-                    + JsonUtils.toCompactJson(details);
-        } else {
-            Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
-            payload.putAll(details);
-            payload.put("event", event);
-
-            logMessage = JsonUtils.toCompactJson(payload);
-        }
-        standardLog.info(logMessage);
+        event(logMessage, details);
     }
 
     /**
@@ -119,7 +101,7 @@ public final class Logger {
         } else {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
             Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJson(JsonUtils.toJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
             payload.putAll(detailsSpecificPayload);
 
             logMessage = JsonUtils.toCompactJson(payload);
