@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.common.reflect.TypeToken;
 
+import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
@@ -170,15 +171,19 @@ public final class Logger {
             Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
 
             // Replace the source location with the Throwable's source location instead
-            Object loggerSourceLocation = payload.get("logging.googleapis.com/sourceLocation");
+            SourceLocation loggerSourceLocation = (SourceLocation) payload.get("logging.googleapis.com/sourceLocation");
             payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
-            payload.put("loggerSourceLocation", loggerSourceLocation);
 
-            payload.put("exceptionClass", t.getClass().getSimpleName());
-            payload.put("exceptionClasses", exceptionClasses);
-            payload.put("exceptionStackTraces", exceptionStackTraces);
-            payload.put("exceptionMessages", exceptionMessages);
-            payload.put("event", LogEvent.EXCEPTION_LOG);
+            ExceptionLogDetails details = new ExceptionLogDetails();
+            details.setLoggerSourceLocation(loggerSourceLocation);
+            details.setExceptionClass(t.getClass().getSimpleName());
+            details.setExceptionClasses(exceptionClasses);
+            details.setExceptionStackTraces(exceptionStackTraces);
+            details.setExceptionMessages(exceptionMessages);
+
+            Map<String, Object> detailsSpecificPayload =
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+            payload.putAll(detailsSpecificPayload);
 
             logMessage = JsonUtils.toCompactJson(payload);
         }

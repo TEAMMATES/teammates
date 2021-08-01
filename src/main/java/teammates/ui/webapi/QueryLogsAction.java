@@ -1,15 +1,13 @@
 package teammates.ui.webapi;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
@@ -137,48 +135,18 @@ public class QueryLogsAction extends AdminOnlyAction {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void reorganizeExceptionMessages(QueryLogsResults queryResults) {
         for (GeneralLogEntry logEntry : queryResults.getLogEntries()) {
             if (logEntry.getDetails() == null) {
                 continue;
             }
-            Map<String, Object> details = logEntry.getDetails();
-            List<String> exceptionClasses;
-            List<List<String>> exceptionStackTraces;
-            List<String> exceptionMessages;
-            try {
-                exceptionClasses = (List<String>) details.get("exceptionClasses");
-                exceptionStackTraces = (List<List<String>>) details.get("exceptionStackTraces");
-                exceptionMessages = (List<String>) details.get("exceptionMessages");
-            } catch (ClassCastException e) {
+            LogDetails details = logEntry.getDetails();
+            if (!(details instanceof ExceptionLogDetails)) {
                 continue;
             }
-
-            if (exceptionClasses == null || exceptionMessages == null || exceptionStackTraces == null
-                    || exceptionClasses.size() != exceptionStackTraces.size()
-                    || exceptionClasses.size() != exceptionMessages.size()) {
-                continue;
-            }
-
-            List<String> exceptionStackTrace = new ArrayList<>();
-            for (int i = 0; i < exceptionClasses.size(); i++) {
-                StringBuilder firstLine = new StringBuilder(exceptionClasses.get(i));
-                if (userInfo.isAdmin) {
-                    // Exception message can only be shown to admin maintainers
-                    firstLine.append(": ").append(exceptionMessages.get(i));
-                }
-                exceptionStackTrace.add(firstLine.toString());
-                exceptionStackTrace.addAll(exceptionStackTraces.get(i).stream()
-                        .map(line -> "    at " + line)
-                        .collect(Collectors.toList()));
-            }
-
-            details.put("exceptionStackTrace", exceptionStackTrace);
-
-            details.remove("exceptionClasses");
-            details.remove("exceptionStackTraces");
-            details.remove("exceptionMessages");
+            ExceptionLogDetails exceptionDetails = (ExceptionLogDetails) details;
+            exceptionDetails.convertStackTrace(userInfo.isAdmin);
+            logEntry.setDetails(exceptionDetails);
         }
     }
 
