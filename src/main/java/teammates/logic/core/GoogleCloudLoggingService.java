@@ -31,10 +31,10 @@ import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.QueryLogsParams;
-import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
@@ -355,7 +355,7 @@ public class GoogleCloudLoggingService implements LogService {
         private Map<String, String> resourceLabels = new HashMap<>();
         private String traceId;
         private String actionClass;
-        private UserInfoParams userInfoParams;
+        private RequestLogUser userInfoParams;
         private String logEvent;
         private SourceLocation sourceLocation;
         private String exceptionClass;
@@ -444,7 +444,7 @@ public class GoogleCloudLoggingService implements LogService {
             return this;
         }
 
-        public LogSearchParams setUserInfoParams(UserInfoParams userInfoParams) {
+        public LogSearchParams setUserInfoParams(RequestLogUser userInfoParams) {
             this.userInfoParams = userInfoParams;
             return this;
         }

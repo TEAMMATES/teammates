@@ -19,10 +19,10 @@ import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.QueryLogsParams;
-import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 
@@ -120,7 +120,7 @@ public class LocalLoggingService implements LogService {
                         || (logs.getDetails() != null && logs.getDetails().get("actionClass") != null
                             && logs.getDetails().get("actionClass").equals(queryLogsParams.getActionClass())))
                 .filter(logs -> {
-                    UserInfoParams queryUserInfo = queryLogsParams.getUserInfoParams();
+                    RequestLogUser queryUserInfo = queryLogsParams.getUserInfoParams();
                     if (queryUserInfo.getGoogleId() == null
                             && queryUserInfo.getEmail() == null
                             && queryUserInfo.getRegkey() == null) {

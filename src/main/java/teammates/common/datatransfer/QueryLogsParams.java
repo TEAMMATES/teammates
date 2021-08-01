@@ -2,6 +2,7 @@ package teammates.common.datatransfer;
 
 import java.time.Instant;
 
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
@@ -14,7 +15,7 @@ public class QueryLogsParams {
     private Instant endTime;
     private String traceId;
     private String actionClass;
-    private UserInfoParams userInfoParams;
+    private RequestLogUser userInfoParams;
     private String logEvent;
     private SourceLocation sourceLocation;
     private String exceptionClass;
@@ -60,7 +61,7 @@ public class QueryLogsParams {
         return actionClass;
     }
 
-    public UserInfoParams getUserInfoParams() {
+    public RequestLogUser getUserInfoParams() {
         return userInfoParams;
     }
 
@@ -97,33 +98,6 @@ public class QueryLogsParams {
     }
 
     /**
-     * Represents parameter of user information used for querying logs.
-     */
-    public static class UserInfoParams {
-        private final String googleId;
-        private final String regkey;
-        private final String email;
-
-        public UserInfoParams(String google, String regkey, String email) {
-            this.googleId = google;
-            this.regkey = regkey;
-            this.email = email;
-        }
-
-        public String getGoogleId() {
-            return googleId;
-        }
-
-        public String getRegkey() {
-            return regkey;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-    }
-
-    /**
      * Builder for {@link QueryLogsParams}.
      */
     public static class Builder {
@@ -153,7 +127,7 @@ public class QueryLogsParams {
             return this;
         }
 
-        public Builder withUserInfo(UserInfoParams userInfoParams) {
+        public Builder withUserInfo(RequestLogUser userInfoParams) {
             queryLogsParams.userInfoParams = userInfoParams;
             return this;
         }

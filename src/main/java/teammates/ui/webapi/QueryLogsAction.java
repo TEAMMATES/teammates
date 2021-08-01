@@ -10,9 +10,9 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.QueryLogsParams;
-import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
@@ -89,12 +89,17 @@ public class QueryLogsAction extends AdminOnlyAction {
             extraFilters = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXTRA_FILTERS);
         }
 
+        RequestLogUser userInfoParams = new RequestLogUser();
+        userInfoParams.setGoogleId(googleId);
+        userInfoParams.setRegkey(regkey);
+        userInfoParams.setEmail(email);
+
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
                 .withSeverityLevel(severity)
                 .withMinSeverity(minSeverity)
                 .withTraceId(traceId)
                 .withActionClass(actionClass)
-                .withUserInfo(new UserInfoParams(googleId, regkey, email))
+                .withUserInfo(userInfoParams)
                 .withLogEvent(logEvent)
                 .withSourceLocation(new SourceLocation(sourceLocationFile, null, sourceLocationFunction))
                 .withExceptionClass(exceptionClass)

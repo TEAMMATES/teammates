@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
@@ -52,8 +53,15 @@ public final class Logger {
     /**
      * Logs an HTTP request.
      */
+    public void request(HttpServletRequest request, int statusCode, String message) {
+        request(request, statusCode, message, new RequestLogUser(), null);
+    }
+
+    /**
+     * Logs an HTTP request.
+     */
     public void request(HttpServletRequest request, int statusCode, String message,
-                        Map<String, String> userInfo, Map<String, Object> extraInfo) {
+                        RequestLogUser userInfo, String actionClass) {
         long timeElapsed = RequestTracer.getTimeElapsedMillis();
         String method = request.getMethod();
         String requestUrl = request.getRequestURI();
@@ -66,11 +74,11 @@ public final class Logger {
         requestDetails.put("requestParams", HttpRequestHelper.getRequestParameters(request));
         requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
 
-        if (request.getParameter(Const.ParamsNames.REGKEY) != null) {
-            userInfo.putIfAbsent("regkey", request.getParameter(Const.ParamsNames.REGKEY));
+        if (request.getParameter(Const.ParamsNames.REGKEY) != null && userInfo.getRegkey() == null) {
+            userInfo.setRegkey(request.getParameter(Const.ParamsNames.REGKEY));
         }
         requestDetails.put("userInfo", userInfo);
-        requestDetails.putAll(extraInfo);
+        requestDetails.put("actionClass", actionClass);
 
         String logMessage = String.format("[%s] [%sms] [%s %s] %s",
                 statusCode, timeElapsed, method, requestUrl, message);
