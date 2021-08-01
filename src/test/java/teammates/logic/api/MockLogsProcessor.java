@@ -1,4 +1,4 @@
-package teammates.test;
+package teammates.logic.api;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.logic.api.LogsProcessor;
 
 /**
  * Allows mocking of {@link LogsProcessor}.

@@ -107,7 +107,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         logic.createStudent(unregisteredStudent1);
         logic.createStudent(unregisteredStudent2);
 
-        /* Reassign the attributes to retrieve their keys */
+        // Reassign the attributes to retrieve their keys
         unregisteredStudent1 = logic.getStudentForEmail(courseId, unregisteredStudent1.getEmail());
         unregisteredStudent2 = logic.getStudentForEmail(courseId, unregisteredStudent2.getEmail());
 

@@ -21,14 +21,19 @@ import teammates.logic.core.LogService;
  */
 public class LogsProcessor {
 
+    private static final LogsProcessor instance = new LogsProcessor();
     private final LogService service;
 
-    public LogsProcessor() {
+    LogsProcessor() {
         if (Config.isDevServer()) {
             service = new LocalLoggingService();
         } else {
             service = new GoogleCloudLoggingService();
         }
+    }
+
+    public static LogsProcessor inst() {
+        return instance;
     }
 
     /**

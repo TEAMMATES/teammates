@@ -51,6 +51,11 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
     }
 
+    @Override
+    protected void prepareBrowser() {
+        // this test does not require any browser
+    }
+
     @Test
     @Override
     public void testAll() {

@@ -11,10 +11,7 @@ import java.time.ZoneId;
  */
 public final class Const {
 
-    /*
-     * This section holds constants that are defined as constants primarily
-     * because they are repeated in many places.
-     */
+    // This section holds constants that are defined as constants primarily because they are repeated in many places.
 
     public static final String USER_NOBODY_TEXT = "-";
 
@@ -34,10 +31,8 @@ public final class Const {
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
-    /*
-     * These constants are used as variable values to mean that the variable
-     * is in a 'special' state.
-     */
+    // These constants are used as variable values to mean that the variable is in a 'special' state.
+
     public static final int INT_UNINITIALIZED = -9999;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
@@ -65,14 +60,15 @@ public final class Const {
 
     public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
 
-    /*
-     * Other Constants
-     */
+    // Other Constants
 
     private Const() {
         // Utility class containing constants
     }
 
+    /**
+     * Represents role names for instructors based on their permission settings.
+     */
     public static class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -81,6 +77,9 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
 
+    /**
+     * Represents atomic permission for instructors.
+     */
     public static class InstructorPermissions {
         public static final String CAN_MODIFY_COURSE = "canmodifycourse";
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
@@ -92,6 +91,9 @@ public final class Const {
         public static final String CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
     }
 
+    /**
+     * Represents keys for HTTP requests to the API layer.
+     */
     public static class ParamsNames {
 
         public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
@@ -173,6 +175,9 @@ public final class Const {
         public static final String SOFT_DELETED = "softDeleted";
     }
 
+    /**
+     * Represents user types.
+     */
     public static class EntityType {
 
         public static final String STUDENT = "student";
@@ -182,6 +187,9 @@ public final class Const {
 
     }
 
+    /**
+     * Represents security-related configuration.
+     */
     public static class SecurityConfig {
 
         public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
@@ -190,12 +198,18 @@ public final class Const {
 
     }
 
+    /**
+     * Represents types of feedback session-related events to be audited.
+     */
     public static class FeedbackSessionLogTypes {
         public static final String ACCESS = "access";
         public static final String SUBMISSION = "submission";
         public static final String VIEW_RESULT = "view result";
     }
 
+    /**
+     * Represents URIs of accessible pages in the front-end in past versions (V6 and before).
+     */
     @Deprecated
     public static class LegacyURIs {
 
@@ -211,6 +225,9 @@ public final class Const {
 
     }
 
+    /**
+     * Represents URIs of accessible pages in the front-end.
+     */
     public static class WebPageURIs {
         public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
@@ -259,6 +276,9 @@ public final class Const {
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
     }
 
+    /**
+     * Represents URIs of resource endpoints.
+     */
     public static class ResourceURIs {
         private static final String URI_PREFIX = "/webapi";
 
@@ -315,6 +335,9 @@ public final class Const {
         public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
     }
 
+    /**
+     * Represents URIs of endpoints used by cron jobs.
+     */
     public static class CronJobURIs {
         private static final String URI_PREFIX = "/auto";
 
