@@ -11,7 +11,7 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
 
 /**
- * A data transfer object for Account entities.
+ * The data transfer object for {@link Account} entities.
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
@@ -26,6 +26,9 @@ public class AccountAttributes extends EntityAttributes<Account> {
         this.googleId = googleId;
     }
 
+    /**
+     * Gets the {@link AccountAttributes} instance of the given {@link Account}.
+     */
     public static AccountAttributes valueOf(Account a) {
         AccountAttributes accountAttributes = new AccountAttributes(a.getGoogleId());
 

@@ -57,15 +57,26 @@ public final class AccountsLogic {
         return accountsDb.createEntity(accountData);
     }
 
+    /**
+     * Gets an account.
+     */
     public AccountAttributes getAccount(String googleId) {
         return accountsDb.getAccount(googleId);
     }
 
+    /**
+     * Returns true if the given account exists and is an instructor.
+     */
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor();
     }
 
+    /**
+     * Gets the institute associated with the course.
+     *
+     * <p>The institute of a course is determined by the account of an instructor associated to it.
+     */
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
         assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;

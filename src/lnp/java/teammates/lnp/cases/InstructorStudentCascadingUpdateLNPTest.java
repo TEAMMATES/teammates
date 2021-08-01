@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -27,7 +26,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
@@ -73,11 +71,6 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
             return testData;
         }
         testData = new LNPTestData() {
-            @Override
-            protected Map<String, AccountAttributes> generateAccounts() {
-                return new HashMap<>();
-            }
-
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
@@ -242,14 +235,10 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected void createTestData() {
+    protected void createTestData() throws IOException, HttpRequestFailedException {
         LNPTestData testData = getTestData();
-        try {
-            createJsonDataFile(testData);
-            persistTestData();
-        } catch (IOException | HttpRequestFailedException ex) {
-            log.severe(TeammatesException.toStringWithStackTrace(ex));
-        }
+        createJsonDataFile(testData);
+        persistTestData();
     }
 
     @Override
@@ -318,7 +307,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

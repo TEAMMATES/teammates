@@ -20,13 +20,15 @@ public class QueryLogsParams {
     private String exceptionClass;
     private String order;
     private Integer pageSize;
-    private String pageToken;
 
     private QueryLogsParams(Instant startTime, Instant endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }
 
+    /**
+     * Returns a builder for {@link QueryLogsParams}.
+     */
     public static Builder builder(Instant startTime, Instant endTime) {
         return new Builder(startTime, endTime);
     }
@@ -79,10 +81,6 @@ public class QueryLogsParams {
         return pageSize;
     }
 
-    public String getPageToken() {
-        return pageToken;
-    }
-
     /**
      * Represents parameter of user information used for querying logs.
      */
@@ -110,6 +108,9 @@ public class QueryLogsParams {
         }
     }
 
+    /**
+     * Builder for {@link QueryLogsParams}.
+     */
     public static class Builder {
         private QueryLogsParams queryLogsParams;
 
@@ -164,11 +165,6 @@ public class QueryLogsParams {
 
         public Builder withPageSize(Integer pageSize) {
             queryLogsParams.pageSize = pageSize;
-            return this;
-        }
-
-        public Builder withPageToken(String pageToken) {
-            queryLogsParams.pageToken = pageToken;
             return this;
         }
 
