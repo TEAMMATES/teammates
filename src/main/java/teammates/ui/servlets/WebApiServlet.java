@@ -65,7 +65,7 @@ public class WebApiServlet extends HttpServlet {
         int statusCode = 0;
         Action action = null;
         try {
-            action = new ActionFactory().getAction(req, req.getMethod());
+            action = ActionFactory.getAction(req, req.getMethod());
             action.init(req);
             action.checkAccessControl();
 

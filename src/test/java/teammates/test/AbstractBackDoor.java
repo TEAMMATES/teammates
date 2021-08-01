@@ -69,10 +69,19 @@ import teammates.ui.request.Intent;
  */
 public abstract class AbstractBackDoor {
 
+    /**
+     * Gets the URL of the back-end.
+     */
     protected abstract String getAppUrl();
 
+    /**
+     * Gets the backdoor key used to authenticate with the back-end.
+     */
     protected abstract String getBackdoorKey();
 
+    /**
+     * Gets the CSRF key used to authenticate with the back-end.
+     */
     protected abstract String getCsrfKey();
 
     /**

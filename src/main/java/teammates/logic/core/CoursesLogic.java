@@ -97,7 +97,7 @@ public final class CoursesLogic {
 
         CourseAttributes createdCourse = createCourse(courseToCreate);
 
-        /* Create the initial instructor for the course */
+        // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instructor = InstructorAttributes

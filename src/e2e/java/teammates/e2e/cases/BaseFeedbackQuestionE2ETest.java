@@ -23,16 +23,16 @@ import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
  * will save some testing time.
  */
 public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
-    protected InstructorAttributes instructor;
-    protected CourseAttributes course;
-    protected FeedbackSessionAttributes feedbackSession;
-    protected StudentAttributes student;
+    InstructorAttributes instructor;
+    CourseAttributes course;
+    FeedbackSessionAttributes feedbackSession;
+    StudentAttributes student;
 
-    protected abstract void testEditPage();
+    abstract void testEditPage();
 
-    protected abstract void testSubmitPage();
+    abstract void testSubmitPage();
 
-    protected InstructorFeedbackEditPage loginToFeedbackEditPage() {
+    InstructorFeedbackEditPage loginToFeedbackEditPage() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
@@ -40,7 +40,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
         return loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
     }
 
-    protected FeedbackSubmitPage loginToFeedbackSubmitPage() {
+    FeedbackSubmitPage loginToFeedbackSubmitPage() {
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.getCourse())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
@@ -48,7 +48,7 @@ public abstract class BaseFeedbackQuestionE2ETest extends BaseE2ETestCase {
         return loginToPage(url, FeedbackSubmitPage.class, student.getGoogleId());
     }
 
-    protected FeedbackSubmitPage getFeedbackSubmitPage() {
+    FeedbackSubmitPage getFeedbackSubmitPage() {
         AppUrl url = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(student.getCourse())
                 .withSessionName(feedbackSession.getFeedbackSessionName());

@@ -27,7 +27,6 @@ export interface LogsEndpointQueryParams {
   severity?: string;
   minSeverity?: string;
   logEvent?: string;
-  nextPageToken?: string;
   order?: string;
   advancedFilters: AdvancedFilters;
 }
@@ -109,10 +108,6 @@ export class LogService {
       paramMap.logevent = queryParams.logEvent;
     }
 
-    if (queryParams.nextPageToken) {
-      paramMap.nextpagetoken = queryParams.nextPageToken;
-    }
-
     if (queryParams.advancedFilters.actionClass) {
       paramMap.actionclass = queryParams.advancedFilters.actionClass;
     }
@@ -126,7 +121,7 @@ export class LogService {
     }
 
     if (queryParams.advancedFilters.regkey) {
-      paramMap.regkey = queryParams.advancedFilters.regkey;
+      paramMap.key = queryParams.advancedFilters.regkey;
     }
 
     if (queryParams.advancedFilters.email) {
