@@ -1,7 +1,75 @@
 [
   {
-    "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course2, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%course2, courseId=CS2222, email=john@gmail.com])] into Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)\n\tat teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)\n\tat teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)\n\tat teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)\n\tat teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)\n\tat teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)\n\tat teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)\n\tat teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:707)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:109)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 32 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 42 more\n",
     "insertId": "60d295c40000209229cb51e8",
+    "details": {
+      "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course2, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%course2, courseId=CS2222, email=john@gmail.com])] into Solr.",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Server refused connection at: http://localhost:8983/solr",
+        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
+        "Connection refused (Connection refused)"
+      ],
+      "exceptionStackTraces": [
+        [
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
+          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)",
+          "teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)",
+          "teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)",
+          "teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)",
+          "teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)",
+          "teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)",
+          "teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)",
+          "teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:707)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790)",
+          "..."
+        ],
+        [
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
+          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
+          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
+          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
+          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
+          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
+          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
+          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
+          "... 32 more"
+        ],
+        [
+          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
+          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
+          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
+          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
+          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
+          "java.base/java.net.Socket.connect(Socket.java:609)",
+          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
+          "... 42 more"
+        ]
+      ],
+      "exceptionClass": "SolrServerException",
+      "exceptionClasses": [
+        "org.apache.solr.client.solrj.SolrServerException",
+        "org.apache.http.conn.HttpHostConnectException",
+        "java.net.ConnectException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.storage.search.SearchManager",
+        "line": "121",
+        "function": "putDocuments"
+      }
+    },
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -12,14 +80,82 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "2c9634f520c5c5555d145dc8ca2fd530",
     "sourceLocation": {
-      "file": "teammates.storage.search.SearchManager",
-      "line": "121",
-      "function": "putDocuments"
+      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
+      "line": "688",
+      "function": "executeMethod"
     }
   },
   {
-    "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course1, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%CS1111, courseId=CS1111, email=john@gmail.com])] into Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)\n\tat org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)\n\tat teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)\n\tat teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)\n\tat teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)\n\tat teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)\n\tat teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)\n\tat teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)\n\tat teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)\n\tat teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:707)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:109)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 32 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 42 more\n",
     "insertId": "60d2f041000c0a0af5595190",
+    "details": {
+      "message": "Failed to put document(s) [SolrInputDocument(fields: [googleId=john, courseName=course1, role=Co-owner, displayedName=Instructor, name=John, id=john@gmail.com%CS1111, courseId=CS1111, email=john@gmail.com])] into Solr.",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Server refused connection at: http://localhost:8983/solr",
+        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
+        "Connection refused (Connection refused)"
+      ],
+      "exceptionStackTraces": [
+        [
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
+          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:106)",
+          "org.apache.solr.client.solrj.SolrClient.add(SolrClient.java:71)",
+          "teammates.storage.search.SearchManager.putDocuments(SearchManager.java:118)",
+          "teammates.storage.search.InstructorSearchManager.putDocuments(InstructorSearchManager.java:19)",
+          "teammates.storage.api.InstructorsDb.putDocument(InstructorsDb.java:44)",
+          "teammates.storage.api.InstructorsDb.createEntity(InstructorsDb.java:95)",
+          "teammates.logic.core.InstructorsLogic.createInstructor(InstructorsLogic.java:81)",
+          "teammates.logic.core.CoursesLogic.createCourseAndInstructor(CoursesLogic.java:101)",
+          "teammates.logic.api.Logic.createCourseAndInstructor(Logic.java:326)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:53)",
+          "teammates.ui.webapi.CreateCourseAction.execute(CreateCourseAction.java:18)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doPost(WebApiServlet.java:48)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:707)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790)",
+          "..."
+        ],
+        [
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
+          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
+          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
+          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
+          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
+          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
+          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
+          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
+          "... 32 more"
+        ],
+        [
+          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
+          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
+          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
+          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
+          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
+          "java.base/java.net.Socket.connect(Socket.java:609)",
+          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
+          "... 42 more"
+        ]
+      ],
+      "exceptionClass": "SolrServerException",
+      "exceptionClasses": [
+        "org.apache.solr.client.solrj.SolrServerException",
+        "org.apache.http.conn.HttpHostConnectException",
+        "java.net.ConnectException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.storage.search.SearchManager",
+        "line": "121",
+        "function": "putDocuments"
+      }
+    },
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -30,14 +166,79 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "7646fa1144abdc2c0e49ed44473db83d",
     "sourceLocation": {
-      "file": "teammates.storage.search.SearchManager",
-      "line": "121",
-      "function": "putDocuments"
+      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
+      "line": "688",
+      "function": "executeMethod"
     }
   },
   {
-    "message": "Failed to search for document(s) course from Solr. Root cause: java.net.ConnectException: Connection refused (Connection refused) \norg.apache.solr.client.solrj.SolrServerException: Server refused connection at: http://localhost:8983/solr\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)\n\tat org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)\n\tat org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003)\n\tat teammates.storage.search.SearchManager.performQuery(SearchManager.java:80)\n\tat teammates.storage.search.InstructorSearchManager.searchInstructors(InstructorSearchManager.java:60)\n\tat teammates.storage.api.InstructorsDb.searchInstructorsInWholeSystem(InstructorsDb.java:81)\n\tat teammates.logic.core.InstructorsLogic.searchInstructorsInWholeSystem(InstructorsLogic.java:65)\n\tat teammates.logic.api.Logic.searchInstructorsInWholeSystem(Logic.java:134)\n\tat teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:36)\n\tat teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\nCaused by: org.apache.http.conn.HttpHostConnectException: Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)\n\tat org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)\n\tat org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)\n\tat org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)\n\tat org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)\n\tat org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)\n\tat org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)\n\tat org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)\n\tat org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)\n\tat org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)\n\t... 29 more\nCaused by: java.net.ConnectException: Connection refused (Connection refused)\n\tat java.base/java.net.PlainSocketImpl.socketConnect(Native Method)\n\tat java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)\n\tat java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)\n\tat java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)\n\tat java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)\n\tat java.base/java.net.Socket.connect(Socket.java:609)\n\tat org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)\n\tat org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)\n\t... 39 more\n",
     "insertId": "60dace46000b929ccc84c427",
+    "details": {
+      "message": "Failed to search for document(s) course from Solr.",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Server refused connection at: http://localhost:8983/solr",
+        "Connect to localhost:8983 [localhost/127.0.0.1] failed: Connection refused (Connection refused)",
+        "Connection refused (Connection refused)"
+      ],
+      "exceptionStackTraces": [
+        [
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:688)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:266)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.request(HttpSolrClient.java:248)",
+          "org.apache.solr.client.solrj.SolrRequest.process(SolrRequest.java:214)",
+          "org.apache.solr.client.solrj.SolrClient.query(SolrClient.java:1003)",
+          "teammates.storage.search.SearchManager.performQuery(SearchManager.java:80)",
+          "teammates.storage.search.InstructorSearchManager.searchInstructors(InstructorSearchManager.java:60)",
+          "teammates.storage.api.InstructorsDb.searchInstructorsInWholeSystem(InstructorsDb.java:81)",
+          "teammates.logic.core.InstructorsLogic.searchInstructorsInWholeSystem(InstructorsLogic.java:65)",
+          "teammates.logic.api.Logic.searchInstructorsInWholeSystem(Logic.java:134)",
+          "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:36)",
+          "teammates.ui.webapi.SearchInstructorsAction.execute(SearchInstructorsAction.java:19)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ],
+        [
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:156)",
+          "org.apache.http.impl.conn.PoolingHttpClientConnectionManager.connect(PoolingHttpClientConnectionManager.java:376)",
+          "org.apache.http.impl.execchain.MainClientExec.establishRoute(MainClientExec.java:393)",
+          "org.apache.http.impl.execchain.MainClientExec.execute(MainClientExec.java:236)",
+          "org.apache.http.impl.execchain.ProtocolExec.execute(ProtocolExec.java:186)",
+          "org.apache.http.impl.execchain.RetryExec.execute(RetryExec.java:89)",
+          "org.apache.http.impl.execchain.RedirectExec.execute(RedirectExec.java:110)",
+          "org.apache.http.impl.client.InternalHttpClient.doExecute(InternalHttpClient.java:185)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:83)",
+          "org.apache.http.impl.client.CloseableHttpClient.execute(CloseableHttpClient.java:56)",
+          "org.apache.solr.client.solrj.impl.HttpSolrClient.executeMethod(HttpSolrClient.java:571)",
+          "... 29 more"
+        ],
+        [
+          "java.base/java.net.PlainSocketImpl.socketConnect(Native Method)",
+          "java.base/java.net.AbstractPlainSocketImpl.doConnect(AbstractPlainSocketImpl.java:399)",
+          "java.base/java.net.AbstractPlainSocketImpl.connectToAddress(AbstractPlainSocketImpl.java:242)",
+          "java.base/java.net.AbstractPlainSocketImpl.connect(AbstractPlainSocketImpl.java:224)",
+          "java.base/java.net.SocksSocketImpl.connect(SocksSocketImpl.java:392)",
+          "java.base/java.net.Socket.connect(Socket.java:609)",
+          "org.apache.http.conn.socket.PlainConnectionSocketFactory.connectSocket(PlainConnectionSocketFactory.java:75)",
+          "org.apache.http.impl.conn.DefaultHttpClientConnectionOperator.connect(DefaultHttpClientConnectionOperator.java:142)",
+          "... 39 more"
+        ]
+      ],
+      "exceptionClass": "SolrServerException",
+      "exceptionClasses": [
+        "org.apache.solr.client.solrj.SolrServerException",
+        "org.apache.http.conn.HttpHostConnectException",
+        "java.net.ConnectException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.storage.search.SearchManager",
+        "line": "82",
+        "function": "performQuery"
+      }
+    },
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -48,14 +249,42 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "28b2e71f6637a81ca80b4ff6e298b76f",
     "sourceLocation": {
-      "file": "teammates.storage.search.SearchManager",
-      "line": "82",
-      "function": "performQuery"
+      "file": "org.apache.solr.client.solrj.impl.HttpSolrClient",
+      "line": "688",
+      "function": "executeMethod"
     }
   },
   {
-    "message": "UnsupportedOperationException caught by WebApiServlet: \njava.lang.UnsupportedOperationException: remove\n\tat java.base/java.util.Iterator.remove(Iterator.java:102)\n\tat java.base/java.util.Collection.removeIf(Collection.java:545)\n\tat teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)\n\tat teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60dc12a80000eafd09219e25",
+    "details": {
+      "message": "UnsupportedOperationException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "remove"
+      ],
+      "exceptionStackTraces": [
+        [
+          "java.base/java.util.Iterator.remove(Iterator.java:102)",
+          "java.base/java.util.Collection.removeIf(Collection.java:545)",
+          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
+          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "UnsupportedOperationException",
+      "exceptionClasses": [
+        "java.lang.UnsupportedOperationException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
     "resourceIdentifier": {
       "module_id": "default",
       "version_id": "7-0-0",
@@ -66,14 +295,42 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "00a2977fe8042522ad5a7623426838d5",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "97",
-      "function": "invokeServlet"
+      "file": "java.base/java.util.Iterator",
+      "line": "102",
+      "function": "remove"
     }
   },
   {
-    "message": "UnsupportedOperationException caught by WebApiServlet: \njava.lang.UnsupportedOperationException: remove\n\tat java.base/java.util.Iterator.remove(Iterator.java:102)\n\tat java.base/java.util.Collection.removeIf(Collection.java:545)\n\tat teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)\n\tat teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60dc2766000d4c6853e01f7d",
+    "details": {
+      "message": "UnsupportedOperationException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "remove"
+      ],
+      "exceptionStackTraces": [
+        [
+          "java.base/java.util.Iterator.remove(Iterator.java:102)",
+          "java.base/java.util.Collection.removeIf(Collection.java:545)",
+          "teammates.ui.webapi.QueryLogsAction.parseSeverities(QueryLogsAction.java:83)",
+          "teammates.ui.webapi.QueryLogsAction.execute(QueryLogsAction.java:42)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "UnsupportedOperationException",
+      "exceptionClasses": [
+        "java.lang.UnsupportedOperationException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -84,14 +341,43 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "13e37c50d69eb5fcf9b0894a972615de",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "97",
-      "function": "invokeServlet"
+      "file": "java.base/java.util.Iterator",
+      "line": "102",
+      "function": "remove"
     }
   },
   {
-    "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60e80b670005d3219004a3dc",
+    "details": {
+      "message": "NullPointerException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        ""
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
+          "teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)",
+          "teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "NullPointerException",
+      "exceptionClasses": [
+        "java.lang.NullPointerException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -102,14 +388,43 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "427800dc172e7dd1273058587f623d44",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "97",
-      "function": "invokeServlet"
+      "file": "teammates.logic.core.GoogleCloudLoggingService",
+      "line": "304",
+      "function": "getLogEntries"
     }
   },
   {
-    "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60e80c8c0006c129c19f422f",
+    "details": {
+      "message": "NullPointerException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        ""
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
+          "teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)",
+          "teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "NullPointerException",
+      "exceptionClasses": [
+        "java.lang.NullPointerException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -120,14 +435,43 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "38ba471e420a8ab6824dd27587606455",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "97",
-      "function": "invokeServlet"
+      "file": "teammates.logic.core.GoogleCloudLoggingService",
+      "line": "304",
+      "function": "getLogEntries"
     }
   },
   {
-    "message": "NullPointerException caught by WebApiServlet: \njava.lang.NullPointerException\n\tat teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)\n\tat teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)\n\tat teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)\n\tat teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:83)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.lambda$doFilter$0(RequestTraceFilter.java:113)\n\tat java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n\tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60e80db8000729fa21eca28d",
+    "details": {
+      "message": "NullPointerException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        ""
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.logic.core.GoogleCloudLoggingService.getLogEntries(GoogleCloudLoggingService.java:304)",
+          "teammates.logic.core.GoogleCloudLoggingService.getRecentErrorLogs(GoogleCloudLoggingService.java:80)",
+          "teammates.logic.api.LogsProcessor.getRecentErrorLogs(LogsProcessor.java:38)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:15)",
+          "teammates.ui.webapi.CompileLogsAction.execute(CompileLogsAction.java:11)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:70)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:43)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "NullPointerException",
+      "exceptionClasses": [
+        "java.lang.NullPointerException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "97",
+        "function": "invokeServlet"
+      }
+    },
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
@@ -138,14 +482,41 @@
     "logName": "projects/teammates-john/logs/stderr",
     "trace": "390cccd2e016a2453fda9334a16380f3",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "97",
-      "function": "invokeServlet"
+      "file": "teammates.logic.core.GoogleCloudLoggingService",
+      "line": "304",
+      "function": "getLogEntries"
     }
   },
   {
-    "message": "ActionMappingException caught by WebApiServlet: \nteammates.common.exception.ActionMappingException: Resource with URI /webapi/actionclass is not found.\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:106)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60f52e6b00025db1f7397061",
+    "details": {
+      "message": "ActionMappingException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Resource with URI /webapi/actionclass is not found."
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)",
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "ActionMappingException",
+      "exceptionClasses": [
+        "teammates.common.exception.ActionMappingException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "141",
+        "function": "throwErrorBasedOnRequester"
+      }
+    },
     "severity": "WARNING",
     "resourceIdentifier": {
       "module_id": "default",
@@ -156,14 +527,41 @@
     "logName": "projects/teammates-john/logs/stdout",
     "trace": "c259ca3dcee1b766a04c0cd11788df72",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "141",
-      "function": "throwErrorBasedOnRequester"
+      "file": "teammates.ui.webapi.ActionFactory",
+      "line": "168",
+      "function": "getAction"
     }
   },
   {
-    "message": "ActionMappingException caught by WebApiServlet: \nteammates.common.exception.ActionMappingException: Resource with URI /webapi/actionclass is not found.\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)\n\tat teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)\n\tat teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)\n\tat teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:687)\n\tat javax.servlet.http.HttpServlet.service(HttpServlet.java:790)\n\tat org.eclipse.jetty.servlet.ServletHolder$NotAsync.service(ServletHolder.java:1452)\n\tat org.eclipse.jetty.servlet.ServletHolder.handle(ServletHolder.java:791)\n\tat org.eclipse.jetty.servlet.ServletHandler$ChainEnd.doFilter(ServletHandler.java:1626)\n\tat com.googlecode.objectify.ObjectifyFilter.doFilter(ObjectifyFilter.java:48)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.OriginCheckFilter.doFilter(OriginCheckFilter.java:111)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:193)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat teammates.ui.webapi.RequestTraceFilter.doFilter(RequestTraceFilter.java:106)\n\tat org.eclipse.jetty.servlet.FilterHolder.doFilter(FilterHolder.java:201)\n\tat org.eclipse.jetty.servlet.ServletHandler$Chain.doFilter(ServletHandler.java:1601)\n\tat org.eclipse.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:548)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:143)\n\tat org.eclipse.jetty.security.SecurityHandler.handle(SecurityHandler.java:602)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:235)\n\tat org.eclipse.jetty.server.session.SessionHandler.doHandle(SessionHandler.java:1624)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextHandle(ScopedHandler.java:233)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1435)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:188)\n\tat org.eclipse.jetty.servlet.ServletHandler.doScope(ServletHandler.java:501)\n\tat org.eclipse.jetty.server.session.SessionHandler.doScope(SessionHandler.java:1594)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.nextScope(ScopedHandler.java:186)\n\tat org.eclipse.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1350)\n\tat org.eclipse.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)\n\tat org.eclipse.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:127)\n\tat org.eclipse.jetty.server.Server.handle(Server.java:516)\n\tat org.eclipse.jetty.server.HttpChannel.lambda$handle$1(HttpChannel.java:388)\n\tat org.eclipse.jetty.server.HttpChannel.dispatch(HttpChannel.java:633)\n\tat org.eclipse.jetty.server.HttpChannel.handle(HttpChannel.java:380)\n\tat org.eclipse.jetty.server.HttpConnection.onFillable(HttpConnection.java:279)\n\tat org.eclipse.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:311)\n\tat org.eclipse.jetty.io.FillInterest.fillable(FillInterest.java:105)\n\tat org.eclipse.jetty.io.ChannelEndPoint$1.run(ChannelEndPoint.java:104)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.runTask(EatWhatYouKill.java:336)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.doProduce(EatWhatYouKill.java:313)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.tryProduce(EatWhatYouKill.java:171)\n\tat org.eclipse.jetty.util.thread.strategy.EatWhatYouKill.run(EatWhatYouKill.java:129)\n\tat org.eclipse.jetty.util.thread.ReservedThreadExecutor$ReservedThread.run(ReservedThreadExecutor.java:383)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:882)\n\tat org.eclipse.jetty.util.thread.QueuedThreadPool$Runner.run(QueuedThreadPool.java:1036)\n\tat java.base/java.lang.Thread.run(Thread.java:829)\n",
     "insertId": "60f52e7d000d0e48c0254a5b",
+    "details": {
+      "message": "ActionMappingException caught by WebApiServlet",
+      "event": "EXCEPTION_LOG",
+      "exceptionMessages": [
+        "Resource with URI /webapi/actionclass is not found."
+      ],
+      "exceptionStackTraces": [
+        [
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:168)",
+          "teammates.ui.webapi.ActionFactory.getAction(ActionFactory.java:163)",
+          "teammates.ui.webapi.WebApiServlet.invokeServlet(WebApiServlet.java:67)",
+          "teammates.ui.webapi.WebApiServlet.doGet(WebApiServlet.java:44)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:687)",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "javax.servlet.http.HttpServlet.service(HttpServlet.java:790),",
+          "..."
+        ]
+      ],
+      "exceptionClass": "ActionMappingException",
+      "exceptionClasses": [
+        "teammates.common.exception.ActionMappingException"
+      ],
+      "loggerSourceLocation": {
+        "file": "teammates.ui.webapi.WebApiServlet",
+        "line": "141",
+        "function": "throwErrorBasedOnRequester"
+      }
+    },
     "severity": "WARNING",
     "resourceIdentifier": {
       "module_id": "default",
@@ -174,9 +572,9 @@
     "logName": "projects/teammates-john/logs/stdout",
     "trace": "347963879f8558f877a1b3c5138481e6",
     "sourceLocation": {
-      "file": "teammates.ui.webapi.WebApiServlet",
-      "line": "141",
-      "function": "throwErrorBasedOnRequester"
+      "file": "teammates.ui.webapi.ActionFactory",
+      "line": "168",
+      "function": "getAction"
     }
   },
   {
