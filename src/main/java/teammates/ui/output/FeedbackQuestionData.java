@@ -81,9 +81,6 @@ public class FeedbackQuestionData extends ApiOutput {
         }
 
         if (this.questionType == FeedbackQuestionType.CONSTSUM) {
-            // TODO: remove the abstraction after migration
-            // need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
-            // correct to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
             FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                     (FeedbackConstantSumQuestionDetails) this.questionDetails;
             this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
