@@ -77,6 +77,9 @@ public class GeneralLogEntry {
         return details;
     }
 
+    /**
+     * Represents a location of source code that produces a log line.
+     */
     public static class SourceLocation {
         private final String file;
         private final Long line;
