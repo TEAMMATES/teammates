@@ -22,6 +22,7 @@ import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
@@ -41,25 +42,6 @@ public class LocalLoggingService implements LogService {
 
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
-
-    /**
-     * Severity level for logs.
-     */
-    enum LogSeverity {
-        INFO(1),
-        WARNING(2),
-        ERROR(3);
-
-        private final int severityLevel;
-
-        LogSeverity(int severityLevel) {
-            this.severityLevel = severityLevel;
-        }
-
-        public int getSeverityLevel() {
-            return severityLevel;
-        }
-    }
 
     private static List<GeneralLogEntry> loadLocalLogEntries() {
         // Timestamp of logs are randomly created to be within the last one hour
