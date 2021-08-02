@@ -1,22 +1,82 @@
 package teammates.common.datatransfer;
 
+/**
+ * Represents the type of an entity that is involved in a feedback question or response.
+ */
 public enum FeedbackParticipantType {
-    // booleans represent: isValidGiver?, isValidRecipient? isValidViewer?
+    // booleans represent: isValidGiver?, isValidRecipient?, isValidViewer?
+
+    /**
+     * Represents "own self".
+     *
+     * <p>As a recipient, it represents the same person as the response giver.
+     *
+     * <p>As a giver, it represents the feedback session creator.
+     */
     SELF(true, true, false),
+
+    /**
+     * Students of the course.
+     */
     STUDENTS(true, true, true),
-    //used to generate options for MCQ & MSQ:
+
+    /**
+     * Students of the course, excluding the response giver.
+     *
+     * <p>Used to generate options for MCQ & MSQ.
+     */
     STUDENTS_EXCLUDING_SELF(false, false, false),
 
+    /**
+     * Instructors of the course.
+     */
     INSTRUCTORS(true, true, true),
+
+    /**
+     * Teams of the course.
+     */
     TEAMS(true, true, false),
+
+    /**
+     * Teams of the course, excluding the response giver.
+     */
     TEAMS_EXCLUDING_SELF(false, false, false),
+
+    /**
+     * Team of the response giver.
+     */
     OWN_TEAM(false, true, false),
+
+    /**
+     * Team members of the response giver, excluding the response giver.
+     */
     OWN_TEAM_MEMBERS(false, true, true),
+
+    /**
+     * Team members of the response giver, including the response giver.
+     */
     OWN_TEAM_MEMBERS_INCLUDING_SELF(false, true, true),
+
+    /**
+     * Receiver of the response.
+     */
     RECEIVER(false, false, true),
+
+    /**
+     * Team members of the receiver of the response.
+     */
     RECEIVER_TEAM_MEMBERS(false, false, true),
+
+    /**
+     * Represents "no specific recipient".
+     */
     NONE(false, true, false),
-    // Used by feedbackResponseComment:
+
+    /**
+     * Giver of the response.
+     *
+     * <p>Used by feedbackResponseComment.
+     */
     GIVER(false, false, true);
 
     private final boolean validGiver;

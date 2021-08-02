@@ -1,7 +1,5 @@
 package teammates.common.util;
 
-import teammates.common.exception.TeammatesException;
-
 /**
  * Holds thread-related helper functions.
  */
@@ -20,7 +18,7 @@ public final class ThreadHelper {
         try {
             Thread.sleep(timeInMilliSeconds);
         } catch (InterruptedException e) {
-            log.severe(TeammatesException.toStringWithStackTrace(e));
+            log.severe("", e);
         }
     }
 

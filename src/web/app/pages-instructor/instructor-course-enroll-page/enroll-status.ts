@@ -4,24 +4,24 @@
 export enum EnrollStatus {
 
   /**
+   * There are some exceptions thrown when enrolling the student.
+   */
+  ERROR = 0,
+
+  /**
    * The student is newly added to the course.
    */
-  NEW = 0,
+  NEW = 1,
 
   /**
    * The student exists in the course, and some fields are modified.
    */
-  MODIFIED = 1,
+  MODIFIED = 2,
 
   /**
    * The student exists in the course, and nothing is changed during the enrollment.
    */
-  MODIFIED_UNCHANGED = 2,
-
-  /**
-   * There are some exceptions thrown when enrolling the student.
-   */
-  ERROR = 3,
+  MODIFIED_UNCHANGED = 3,
 
   /**
    * The student is not in the enroll list.

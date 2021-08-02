@@ -1,4 +1,4 @@
-package teammates.test;
+package teammates.logic.api;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,7 +7,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.logic.api.EmailSender;
 
 /**
  * Allows mocking of the {@link EmailSender} API used in production.

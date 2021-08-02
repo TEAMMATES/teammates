@@ -94,6 +94,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       severity: 'INFO',
       advancedFilters: {},
     });
@@ -126,6 +127,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       minSeverity: 'INFO',
       advancedFilters: {},
     });
@@ -163,6 +165,7 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledWith({
       searchFrom: '0',
       searchUntil: '0',
+      order: 'desc',
       logEvent: 'REQUEST_LOG',
       advancedFilters: {
         traceId: 'testTrace',
@@ -253,20 +256,48 @@ describe('LogsPageComponent', () => {
     expect(spy).lastCalledWith('Please fill in Source location file or clear Source location function');
   });
 
-  it('should disable load button if there is no next page token', () => {
-    component.nextPageToken = '';
+  it('should disable load button if there is no next page', () => {
+    spyOn(logService, 'searchLogs').and.returnValue(of({ logEntries: [] }));
+    spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
+    component.formModel = {
+      logsSeverity: 'INFO',
+      logsMinSeverity: '',
+      logsEvent: '',
+      logsFilter: 'severity',
+      logsDateFrom: { year: 2021, month: 6, day: 1 },
+      logsTimeFrom: { hour: 23, minute: 59 },
+      logsDateTo: { year: 2021, month: 6, day: 2 },
+      logsTimeTo: { hour: 23, minute: 59 },
+      advancedFilters: {},
+    };
     component.isSearching = false;
     component.hasResult = true;
+    component.searchForLogs();
     fixture.detectChanges();
-    const button: any = fixture.debugElement.nativeElement.querySelector('#load-button');
-    expect(button.disabled).toBeTruthy();
+
+    const button: any = fixture.debugElement.nativeElement.querySelector('#load-previous-button');
+    expect(button).toBeNull();
   });
 
   it('should search for all error logs when search button is clicked', () => {
+    const testLog1: GeneralLogEntry = {
+      logName: 'stderr',
+      severity: 'ERROR',
+      trace: 'testTrace1',
+      insertId: 'testInsertId1',
+      resourceIdentifier: {},
+      sourceLocation: {
+        file: 'file1',
+        line: 10,
+        function: 'function1',
+      },
+      timestamp: 1549095330000,
+      message: 'message',
+    };
     const logSpy: Spy = spyOn(logService, 'searchLogs').and
-        .returnValues(of({ logEntries: [], nextPageToken: 'token' }), of({ logEntries: [] }));
+      .returnValues(of({ logEntries: [testLog1], hasNextPage: true }), of({ logEntries: [], hasNextPage: false }));
     const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
-        .returnValue(0);
+      .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;
@@ -279,9 +310,9 @@ describe('LogsPageComponent', () => {
     expect(logSpy).toHaveBeenCalledTimes(2);
     expect(logSpy.calls.mostRecent().args).toEqual([{
       searchFrom: '0',
-      searchUntil: '0',
+      searchUntil: '1549095330000',
+      order: 'desc',
       severity: 'ERROR',
-      nextPageToken: 'token',
       advancedFilters: {},
     }]);
   });
@@ -292,6 +323,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace1',
+      insertId: 'testInsertId1',
       resourceIdentifier: {},
       sourceLocation: {
         file: 'file1',
@@ -305,6 +337,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace2',
+      insertId: 'testInsertId2',
       resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',
@@ -318,6 +351,7 @@ describe('LogsPageComponent', () => {
       logName: 'stderr',
       severity: 'ERROR',
       trace: 'testTrace3',
+      insertId: 'testInsertId3',
       resourceIdentifier: {},
       sourceLocation: {
         file: 'file2',

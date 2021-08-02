@@ -15,6 +15,12 @@
       "name": "Programming Methodology",
       "timeZone": "UTC"
     },
+    "CS1231": {
+      "createdAt": "2012-04-02T12:00:00Z",
+      "id": "tm.e2e.ICs.CS1231",
+      "name": "Discrete Structures",
+      "timeZone": "UTC"
+    },
     "CS2104": {
       "createdAt": "2013-04-02T12:00:00Z",
       "id": "tm.e2e.ICs.CS2104",
@@ -47,6 +53,29 @@
           "canviewsessioninsection": true,
           "canmodifysession": true,
           "canmodifystudent": false,
+          "canmodifyinstructor": true
+        },
+        "sectionLevel": {},
+        "sessionLevel": {}
+      }
+    },
+    "instructorCS1231": {
+      "googleId": "tm.e2e.ICs.instructor",
+      "courseId": "tm.e2e.ICs.CS1231",
+      "name": "Teammates Demo Instr",
+      "email": "ICs.instructor@gmail.tmt",
+      "role": "Custom",
+      "isDisplayedToStudents": true,
+      "displayedName": "Instructor",
+      "privileges": {
+        "courseLevel": {
+          "canviewstudentinsection": true,
+          "cansubmitsessioninsection": true,
+          "canmodifysessioncommentinsection": true,
+          "canmodifycourse": true,
+          "canviewsessioninsection": true,
+          "canmodifysession": true,
+          "canmodifystudent": true,
           "canmodifyinstructor": true
         },
         "sectionLevel": {},
@@ -130,8 +159,61 @@
       "section": "Section 1"
     }
   },
-  "feedbackSessions": {},
-  "feedbackQuestions": {},
+  "feedbackSessions": {
+    "session": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "tm.e2e.ICs.CS1231",
+      "creatorEmail": "backdoor@gmail.tmt",
+      "instructions": "<p>Instructions for Second session</p>",
+      "createdTime": "2012-04-01T23:59:00Z",
+      "startTime": "2012-04-01T21:59:00Z",
+      "endTime": "2026-04-30T21:59:00Z",
+      "sessionVisibleFromTime": "2012-04-01T21:59:00Z",
+      "resultsVisibleFromTime": "2026-05-01T21:59:00Z",
+      "timeZone": "Africa/Johannesburg",
+      "gracePeriod": 10,
+      "sentOpenEmail": false,
+      "sentClosingEmail": false,
+      "sentClosedEmail": false,
+      "sentPublishedEmail": false,
+      "isOpeningEmailEnabled": true,
+      "isClosingEmailEnabled": true,
+      "isPublishedEmailEnabled": true
+    }
+  },
+  "feedbackQuestions": {
+    "qn1": {
+      "feedbackSessionName": "Second Session",
+      "courseId": "tm.e2e.ICs.CS1231",
+      "questionDetails": {
+        "questionType": "TEXT",
+        "questionText": "Testing question text"
+      },
+      "questionDescription": "Testing description",
+      "questionNumber": 1,
+      "giverType": "STUDENTS",
+      "recipientType": "TEAMS",
+      "numberOfEntitiesToGiveFeedbackTo": 2,
+      "showResponsesTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showGiverNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ],
+      "showRecipientNameTo": [
+        "STUDENTS",
+        "INSTRUCTORS",
+        "OWN_TEAM_MEMBERS",
+        "RECEIVER"
+      ]
+    }
+  },
   "feedbackResponses": {},
   "feedbackResponseComments": {},
   "profiles": {}
