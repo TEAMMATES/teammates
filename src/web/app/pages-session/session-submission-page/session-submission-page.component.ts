@@ -348,7 +348,7 @@ this session.`;
             'The session is not yet open (the submission opening time is most likely updated by the instructor after the submission link was sent). <br/>You can access the session again once the session opens.');
         }
 
-        this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
+        this.navigationService.navigateByURL(this.router, '/web/student/home');
       });
   }
 
