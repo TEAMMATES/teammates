@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LogType, ResourceEndpoints } from '../types/api-const';
-import { ActionClasses, FeedbackSessionLogs, GeneralLogs, QueryLogsParams } from '../types/api-output';
+import { ResourceEndpoints } from '../types/api-const';
+import {
+  ActionClasses,
+  FeedbackSessionLogs,
+  FeedbackSessionLogType,
+  GeneralLogs,
+  QueryLogsParams,
+} from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
 
 /**
@@ -21,7 +27,7 @@ export class LogService {
     courseId: string,
     feedbackSessionName: string,
     studentEmail: string,
-    logType: LogType }): Observable<string> {
+    logType: FeedbackSessionLogType }): Observable<string> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,

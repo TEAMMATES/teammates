@@ -202,15 +202,6 @@ public final class Const {
     }
 
     /**
-     * Represents types of feedback session-related events to be audited.
-     */
-    public static class FeedbackSessionLogTypes {
-        public static final String ACCESS = "access";
-        public static final String SUBMISSION = "submission";
-        public static final String VIEW_RESULT = "view result";
-    }
-
-    /**
      * Represents URIs of accessible pages in the front-end in past versions (V6 and before).
      */
     @Deprecated

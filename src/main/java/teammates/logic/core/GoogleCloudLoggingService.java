@@ -32,12 +32,12 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
-import teammates.common.util.Const;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
@@ -222,9 +222,8 @@ public class GoogleCloudLoggingService implements LogService {
                 // If the student email or feedback session retrieved from the logs are invalid, discard it
                 continue;
             }
-            if (!fslType.equals(Const.FeedbackSessionLogTypes.ACCESS)
-                    && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)
-                    && !fslType.equals(Const.FeedbackSessionLogTypes.VIEW_RESULT)) {
+            FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
+            if (convertedFslType == null) {
                 // If the feedback session log type retrieved from the logs is invalid, discard it
                 continue;
             }
