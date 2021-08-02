@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
@@ -151,8 +153,60 @@ public class LocalLoggingService implements LogService {
                         || logs.getSourceLocation().getFile().equals(queryLogsParams.getSourceLocation().getFile()))
                 .filter(logs -> queryLogsParams.getSourceLocation().getFunction() == null
                         || logs.getSourceLocation().getFunction().equals(queryLogsParams.getSourceLocation().getFunction()))
+                .filter(logs -> {
+                    String latencyFilter = queryLogsParams.getLatency();
+                    if (latencyFilter == null) {
+                        return true;
+                    }
+                    if (logs.getDetails() == null) {
+                        return false;
+                    }
+                    Object latencyObj = logs.getDetails().getOrDefault("responseTime", "NaN");
+                    int logLatency;
+                    try {
+                        logLatency = (int) Double.parseDouble(String.valueOf(latencyObj));
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                    Pattern p = Pattern.compile("^(>|>=|<|<=) *(\\d+)$");
+                    Matcher m = p.matcher(latencyFilter);
+                    if (m.matches()) {
+                        int time = Integer.parseInt(m.group(2));
+                        switch (m.group(1)) {
+                        case ">":
+                            return logLatency > time;
+                        case ">=":
+                            return logLatency >= time;
+                        case "<":
+                            return logLatency < time;
+                        case "<=":
+                            return logLatency <= time;
+                        default:
+                            assert false : "Unreachable case";
+                            break;
+                        }
+                    }
+                    return false;
+                })
+                .filter(logs -> {
+                    String statusFilter = queryLogsParams.getStatus();
+                    if (statusFilter == null) {
+                        return true;
+                    }
+                    if (logs.getDetails() == null) {
+                        return false;
+                    }
+                    Object logStatusObj = logs.getDetails().getOrDefault("responseStatus", "NaN");
+                    try {
+                        int logStatus = (int) Double.parseDouble(String.valueOf(logStatusObj));
+                        return statusFilter.equals(String.valueOf(logStatus));
+                    } catch (NumberFormatException e) {
+                        return false;
+                    }
+                })
                 .filter(logs -> queryLogsParams.getExceptionClass() == null
-                        || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
+                        || (logs.getDetails() != null
+                        && queryLogsParams.getExceptionClass().equals(logs.getDetails().get("exceptionClass"))))
                 .limit(pageSize)
                 .collect(Collectors.toList());
 

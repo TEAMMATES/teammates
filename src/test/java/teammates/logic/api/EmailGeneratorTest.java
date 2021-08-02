@@ -569,8 +569,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
     @Test
     public void testGenerateCompiledLogsEmail() throws IOException {
         List<ErrorLogEntry> errorLogs = Arrays.asList(
-                new ErrorLogEntry("Typical log message", "ERROR"),
-                new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR")
+                new ErrorLogEntry("Typical log message", "ERROR", "123456"),
+                new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR", "abcdef")
         );
 
         EmailWrapper email = emailGenerator.generateCompiledLogsEmail(errorLogs);

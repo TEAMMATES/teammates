@@ -12,7 +12,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 
 import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const.CronJobURIs;
 import teammates.common.util.Const.ResourceURIs;
 import teammates.common.util.Const.TaskQueue;
@@ -186,8 +185,7 @@ public final class ActionFactory {
         try {
             return controllerClass.newInstance();
         } catch (Exception e) {
-            assert false : "Could not create the action for " + uri + ": "
-                    + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Could not create the action for " + uri;
             return null;
         }
     }

@@ -6,10 +6,12 @@ package teammates.common.datatransfer;
 public class ErrorLogEntry {
     private final String message;
     private final String severity;
+    private final String traceId;
 
-    public ErrorLogEntry(String message, String severity) {
+    public ErrorLogEntry(String message, String severity, String traceId) {
         this.message = message;
         this.severity = severity;
+        this.traceId = traceId;
     }
 
     public String getMessage() {
@@ -18,5 +20,9 @@ public class ErrorLogEntry {
 
     public String getSeverity() {
         return severity;
+    }
+
+    public String getTraceId() {
+        return traceId;
     }
 }
