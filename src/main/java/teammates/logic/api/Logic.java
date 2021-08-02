@@ -144,12 +144,12 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates documents for the given Instructors.
+     * Creates or updates search document for the given instructor.
      *
-     * @see InstructorsLogic#putDocuments(List)
+     * @see InstructorsLogic#putDocument(InstructorAttributes)
      */
-    public void putInstructorDocuments(List<InstructorAttributes> instructors) {
-        instructorsLogic.putDocuments(instructors);
+    public void putInstructorDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsLogic.putDocument(instructor);
     }
 
     /**
@@ -783,10 +783,12 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates search documents for the given students.
+     * Creates or updates search document for the given student.
+     *
+     * @see StudentsLogic#putDocument(StudentAttributes)
      */
-    public void putStudentDocuments(List<StudentAttributes> students) {
-        studentsLogic.putDocuments(students);
+    public void putStudentDocument(StudentAttributes student) throws SearchServiceException {
+        studentsLogic.putDocument(student);
     }
 
     /**
@@ -1351,7 +1353,7 @@ public class Logic {
      *
      * @see DataBundleLogic#putDocuments(DataBundle)
      */
-    public void putDocuments(DataBundle dataBundle) {
+    public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
     }
 

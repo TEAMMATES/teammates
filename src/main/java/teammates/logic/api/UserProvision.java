@@ -58,6 +58,7 @@ public class UserProvision {
         userInfo.isAdmin = false;
         userInfo.isInstructor = accountsLogic.isAccountAnInstructor(googleId);
         userInfo.isStudent = studentsLogic.isStudentInAnyCourse(googleId);
+        userInfo.isMaintainer = Config.APP_MAINTAINERS.contains(googleId);
         return userInfo;
     }
 

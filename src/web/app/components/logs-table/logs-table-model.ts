@@ -15,6 +15,7 @@ export interface LogsTableRowModel {
   summary: string;
   details: any;
   actionClass: string;
+  exceptionClass: string;
   userInfo?: any;
   isDetailsExpanded: boolean;
 }

@@ -116,11 +116,16 @@ public class GoogleCloudLoggingService implements LogService {
                 // TODO
             }
 
+            String trace = logEntry.getTrace();
+            if (trace != null) {
+                trace = trace.replace(TRACE_PREFIX, "");
+            }
+
             for (LogLine line : logLines) {
                 if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
                     errorLogs.add(new ErrorLogEntry(
                             line.getLogMessage().replaceAll("\n", "\n<br>"),
-                            line.getSeverity().toString())
+                            line.getSeverity().toString(), trace)
                     );
                 }
             }
@@ -286,9 +291,16 @@ public class GoogleCloudLoggingService implements LogService {
             }
         }
         if (s.exceptionClass != null) {
-            // TODO: investigate whether an exception happening equals to the exception name
-            //  being passed to the textPayload.
-            logFilters.add("textPayload:\"" + s.exceptionClass + "\"");
+            logFilters.add("jsonPayload.exceptionClass=\"" + s.exceptionClass + "\"");
+        }
+        if (s.latency != null) {
+            logFilters.add("jsonPayload.responseTime" + s.latency);
+        }
+        if (s.status != null) {
+            logFilters.add("jsonPayload.responseStatus=" + s.status);
+        }
+        if (s.extraFilters != null) {
+            logFilters.add(s.extraFilters);
         }
         for (Map.Entry<String, String> entry : s.labels.entrySet()) {
             logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
@@ -347,6 +359,9 @@ public class GoogleCloudLoggingService implements LogService {
         private String logEvent;
         private GeneralLogEntry.SourceLocation sourceLocation;
         private String exceptionClass;
+        private String latency;
+        private String status;
+        private String extraFilters;
         private String order;
 
         public static LogSearchParams from(QueryLogsParams queryLogsParams) {
@@ -358,6 +373,9 @@ public class GoogleCloudLoggingService implements LogService {
                     .setLogEvent(queryLogsParams.getLogEvent())
                     .setSourceLocation(queryLogsParams.getSourceLocation())
                     .setExceptionClass(queryLogsParams.getExceptionClass())
+                    .setLatency(queryLogsParams.getLatency())
+                    .setStatus(queryLogsParams.getStatus())
+                    .setExtraFilters(queryLogsParams.getExtraFilters())
                     .setOrder(queryLogsParams.getOrder());
             if (queryLogsParams.getSeverityLevel() != null) {
                 logSearchParams.setSeverity(queryLogsParams.getSeverityLevel());
@@ -443,6 +461,21 @@ public class GoogleCloudLoggingService implements LogService {
 
         public LogSearchParams setExceptionClass(String exceptionClass) {
             this.exceptionClass = exceptionClass;
+            return this;
+        }
+
+        public LogSearchParams setLatency(String latency) {
+            this.latency = latency;
+            return this;
+        }
+
+        public LogSearchParams setStatus(String status) {
+            this.status = status;
+            return this;
+        }
+
+        public LogSearchParams setExtraFilters(String extraFilters) {
+            this.extraFilters = extraFilters;
             return this;
         }
 

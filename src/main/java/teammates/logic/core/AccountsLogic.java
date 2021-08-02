@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -115,7 +114,7 @@ public final class AccountsLogic {
                             .withGoogleId(student.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
-            assert false : "Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Student disappeared while trying to register";
         }
 
         if (accountsDb.getAccount(googleId) == null) {
@@ -141,8 +140,7 @@ public final class AccountsLogic {
                             .withGoogleId(instructor.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
-            assert false : "Instructor disappeared while trying to register "
-                    + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Instructor disappeared while trying to register";
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);

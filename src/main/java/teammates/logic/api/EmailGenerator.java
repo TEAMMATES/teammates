@@ -817,7 +817,8 @@ public final class EmailGenerator {
     public EmailWrapper generateCompiledLogsEmail(List<ErrorLogEntry> logs) {
         StringBuilder emailBody = new StringBuilder();
         for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).getMessage(), logs.get(i).getSeverity()));
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).getMessage(),
+                    logs.get(i).getSeverity(), logs.get(i).getTraceId()));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
@@ -827,12 +828,13 @@ public final class EmailGenerator {
         return email;
     }
 
-    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel) {
+    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel, String traceId) {
         return Templates.populateTemplate(
                 EmailTemplates.SEVERE_ERROR_LOG_LINE,
                 "${index}", String.valueOf(index),
                 "${errorType}", logLevel,
-                "${errorMessage}", logMessage);
+                "${errorMessage}", logMessage,
+                "${traceId}", traceId);
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {
