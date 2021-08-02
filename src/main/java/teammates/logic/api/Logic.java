@@ -135,12 +135,12 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates documents for the given Instructors.
+     * Creates or updates search document for the given instructor.
      *
-     * @see InstructorsLogic#putDocuments(List)
+     * @see InstructorsLogic#putDocument(InstructorAttributes)
      */
-    public void putInstructorDocuments(List<InstructorAttributes> instructors) throws SearchServiceException {
-        instructorsLogic.putDocuments(instructors);
+    public void putInstructorDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsLogic.putDocument(instructor);
     }
 
     /**
@@ -774,10 +774,12 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates search documents for the given students.
+     * Creates or updates search document for the given student.
+     *
+     * @see StudentsLogic#putDocument(StudentAttributes)
      */
-    public void putStudentDocuments(List<StudentAttributes> students) throws SearchServiceException {
-        studentsLogic.putDocuments(students);
+    public void putStudentDocument(StudentAttributes student) throws SearchServiceException {
+        studentsLogic.putDocument(student);
     }
 
     /**

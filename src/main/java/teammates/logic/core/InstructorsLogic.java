@@ -54,11 +54,12 @@ public final class InstructorsLogic {
      */
 
     /**
-     * Batch creates or updates documents for the given Instructors.
-     * @param instructors a list of instructors to be put into documents
+     * Creates or updates search document for the given instructor.
+     *
+     * @param instructor the instructor to be put into documents
      */
-    public void putDocuments(List<InstructorAttributes> instructors) throws SearchServiceException {
-        instructorsDb.putDocuments(instructors);
+    public void putDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsDb.putDocument(instructor);
     }
 
     /**

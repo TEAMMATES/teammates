@@ -50,20 +50,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         if (instructor.getKey() == null) {
             instructor = this.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
         }
-        getSearchManager().putDocuments(Collections.singletonList(instructor));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given instructors.
-     */
-    public void putDocuments(List<InstructorAttributes> instructorParams) throws SearchServiceException {
-        List<InstructorAttributes> instructors = instructorParams.stream()
-                .map(instructor -> instructor.getKey() == null
-                        ? getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())
-                        : instructor)
-                .collect(Collectors.toList());
-
-        getSearchManager().putDocuments(instructors);
+        getSearchManager().putDocument(instructor);
     }
 
     /**

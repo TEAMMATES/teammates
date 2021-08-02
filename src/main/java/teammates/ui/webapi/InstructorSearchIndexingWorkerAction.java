@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import java.util.Collections;
-
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -20,7 +18,7 @@ public class InstructorSearchIndexingWorkerAction extends AdminOnlyAction {
 
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
         try {
-            logic.putInstructorDocuments(Collections.singletonList(instructor));
+            logic.putInstructorDocument(instructor);
         } catch (SearchServiceException e) {
             // Set an arbitrary retry code outside of the range 200-299 to trigger automatic retry
             return new JsonResult("Failure", HttpStatus.SC_BAD_GATEWAY);

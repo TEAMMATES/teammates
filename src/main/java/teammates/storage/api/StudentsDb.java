@@ -55,14 +55,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
      * Creates or updates search document for the given student.
      */
     public void putDocument(StudentAttributes student) throws SearchServiceException {
-        getSearchManager().putDocuments(Collections.singletonList(student));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given students.
-     */
-    public void putDocuments(List<StudentAttributes> students) throws SearchServiceException {
-        getSearchManager().putDocuments(students);
+        getSearchManager().putDocument(student);
     }
 
     /**
