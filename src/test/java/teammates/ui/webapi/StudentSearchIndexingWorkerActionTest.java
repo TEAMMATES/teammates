@@ -34,6 +34,13 @@ public class StudentSearchIndexingWorkerActionTest extends BaseActionTest<Studen
 
         StudentAttributes student1 = typicalBundle.students.get("student1InCourse1");
 
+        ______TS("student not yet indexed should not be searchable");
+
+        List<StudentAttributes> studentList = logic.searchStudentsInWholeSystem(student1.getEmail());
+        assertEquals(0, studentList.size());
+
+        ______TS("student indexed should be searchable");
+
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, student1.getCourse(),
                 ParamsNames.STUDENT_EMAIL, student1.getEmail(),
@@ -42,8 +49,9 @@ public class StudentSearchIndexingWorkerActionTest extends BaseActionTest<Studen
         StudentSearchIndexingWorkerAction action = getAction(submissionParams);
         JsonResult actionOutput = getJsonResult(action);
 
-        List<StudentAttributes> studentList = logic.searchStudentsInWholeSystem(student1.getEmail());
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+
+        studentList = logic.searchStudentsInWholeSystem(student1.getEmail());
         assertEquals(1, studentList.size());
         assertEquals(student1.getName(), studentList.get(0).getName());
     }

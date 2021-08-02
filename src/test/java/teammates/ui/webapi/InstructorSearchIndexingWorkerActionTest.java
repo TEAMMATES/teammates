@@ -34,6 +34,13 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
 
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
+        ______TS("instructor not yet indexed should not be searchable");
+
+        List<InstructorAttributes> instructorList = logic.searchInstructorsInWholeSystem(instructor1.getEmail());
+        assertEquals(0, instructorList.size());
+
+        ______TS("instructor indexed should be searchable");
+
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, instructor1.getCourseId(),
                 ParamsNames.INSTRUCTOR_EMAIL, instructor1.getEmail(),
@@ -42,8 +49,9 @@ public class InstructorSearchIndexingWorkerActionTest extends BaseActionTest<Ins
         InstructorSearchIndexingWorkerAction action = getAction(submissionParams);
         JsonResult actionOutput = getJsonResult(action);
 
-        List<InstructorAttributes> instructorList = logic.searchInstructorsInWholeSystem(instructor1.getEmail());
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+
+        instructorList = logic.searchInstructorsInWholeSystem(instructor1.getEmail());
         assertEquals(1, instructorList.size());
         assertEquals(instructor1.getName(), instructorList.get(0).getName());
     }

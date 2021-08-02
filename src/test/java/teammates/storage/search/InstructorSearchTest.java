@@ -103,6 +103,20 @@ public class InstructorSearchTest extends BaseSearchTest {
         results = instructorsDb.searchInstructorsInWholeSystem("Custom");
         verifySearchResults(results, helperInCourse1, ins2InCourse3, ins1InCourse4);
 
+        ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
+        // create a new instructor with unique displayed name to test that field
+        // current displayed names in data bundle are either helper or instructor, which matches on many other fields
+        InstructorAttributes assistantProf = helperInCourse1.getCopy();
+        String displayedName = "Assistant Prof Smith";
+        assistantProf.setDisplayedName(displayedName);
+        InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByEmail(
+                InstructorAttributes.updateOptionsWithEmailBuilder(assistantProf.getCourseId(), assistantProf.getEmail())
+                        .withDisplayedName(assistantProf.getDisplayedName())
+                        .build());
+        instructorsDb.putDocument(updatedInstructor);
+        results = instructorsDb.searchInstructorsInWholeSystem(displayedName);
+        verifySearchResults(results, assistantProf);
+
         ______TS("success: search for instructors in whole system; deleted instructors no longer searchable");
 
         instructorsDb.deleteInstructor(ins1InCourse1.getCourseId(), ins1InCourse1.getEmail());
