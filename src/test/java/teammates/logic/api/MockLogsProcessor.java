@@ -33,8 +33,8 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of error logs.
      */
-    public void insertErrorLog(String message, String severity) {
-        errorLogs.add(new ErrorLogEntry(message, severity));
+    public void insertErrorLog(String message, String severity, String traceId) {
+        errorLogs.add(new ErrorLogEntry(message, severity, traceId));
     }
 
     /**
