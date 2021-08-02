@@ -842,7 +842,7 @@ describe('SessionSubmissionPageComponent', () => {
       error: { message: 'This is an error' },
       status: 404,
     }));
-    const navSpy: Spy = spyOn(navService, 'navigateWithErrorMessage');
+    const navSpy: Spy = spyOn(navService, 'navigateByURL');
     const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
 
     component.loadFeedbackSession();
@@ -858,7 +858,7 @@ describe('SessionSubmissionPageComponent', () => {
       error: { message: 'This is an error' },
       status: 403,
     }));
-    const navSpy: Spy = spyOn(navService, 'navigateWithErrorMessage');
+    const navSpy: Spy = spyOn(navService, 'navigateByURL');
     const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
 
     component.loadFeedbackSession();
