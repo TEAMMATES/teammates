@@ -43,7 +43,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             "Failed to reset collections. Root cause: %s ";
 
     private static final int START_INDEX = 0;
-    private static final int NUM_OF_RESULTS = 20;
+    private static final int NUM_OF_RESULTS = 50;
 
     private final HttpSolrClient client;
     private final boolean isResetAllowed;

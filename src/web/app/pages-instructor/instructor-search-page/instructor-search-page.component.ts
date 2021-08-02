@@ -28,6 +28,7 @@ export class InstructorSearchPageComponent implements OnInit {
   };
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
+  maxResultsToShow: number = 50;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -64,6 +65,10 @@ export class InstructorSearchPageComponent implements OnInit {
 
       if (hasStudents) {
         this.studentsListRowTables = searchStudentsTable;
+        if (searchStudentsTable.length >= this.maxResultsToShow) {
+            this.statusMessageService.showWarningToast(`${this.maxResultsToShow} results have been shown on this page
+                    but there may be more results not shown. Consider searching with more specific terms.`)
+        }
       } else {
         this.studentsListRowTables = [];
       }
