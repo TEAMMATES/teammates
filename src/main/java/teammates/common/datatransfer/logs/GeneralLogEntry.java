@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
  */
 public class GeneralLogEntry {
     private final String logName;
-    private final String severity;
+    private final LogSeverity severity;
     private final String trace;
     private final String insertId;
     private final Map<String, String> resourceIdentifier;
@@ -21,7 +21,7 @@ public class GeneralLogEntry {
     @Nullable
     private Map<String, Object> details;
 
-    public GeneralLogEntry(String logName, String severity, String trace, String insertId,
+    public GeneralLogEntry(String logName, LogSeverity severity, String trace, String insertId,
                            Map<String, String> resourceIdentifier, SourceLocation sourceLocation, long timestamp) {
         this.logName = logName;
         this.severity = severity;
@@ -44,7 +44,7 @@ public class GeneralLogEntry {
         return logName;
     }
 
-    public String getSeverity() {
+    public LogSeverity getSeverity() {
         return severity;
     }
 

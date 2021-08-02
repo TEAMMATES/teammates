@@ -4,8 +4,8 @@ package teammates.common.datatransfer.logs;
  * Represents the parameters used for querying logs.
  */
 public class QueryLogsParams {
-    private String severity;
-    private String minSeverity;
+    private LogSeverity severity;
+    private LogSeverity minSeverity;
     private long startTime;
     private long endTime;
     private String traceId;
@@ -32,11 +32,11 @@ public class QueryLogsParams {
         return new Builder(startTime, endTime);
     }
 
-    public String getSeverity() {
+    public LogSeverity getSeverity() {
         return severity;
     }
 
-    public String getMinSeverity() {
+    public LogSeverity getMinSeverity() {
         return minSeverity;
     }
 
@@ -102,12 +102,12 @@ public class QueryLogsParams {
             this.queryLogsParams = new QueryLogsParams(startTime, endTime);
         }
 
-        public Builder withSeverityLevel(String severityLevel) {
+        public Builder withSeverityLevel(LogSeverity severityLevel) {
             queryLogsParams.severity = severityLevel;
             return this;
         }
 
-        public Builder withMinSeverity(String minSeverity) {
+        public Builder withMinSeverity(LogSeverity minSeverity) {
             queryLogsParams.minSeverity = minSeverity;
             return this;
         }

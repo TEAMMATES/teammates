@@ -21,7 +21,6 @@ import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
-import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
@@ -90,8 +89,8 @@ public class LocalLoggingService implements LogService {
                 .filter(logs -> queryLogsParams.getSeverity() == null
                         || logs.getSeverity().equals(queryLogsParams.getSeverity()))
                 .filter(logs -> queryLogsParams.getMinSeverity() == null
-                        || LogSeverity.valueOf(logs.getSeverity()).getSeverityLevel()
-                            >= LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getSeverityLevel())
+                        || logs.getSeverity().getSeverityLevel()
+                            >= queryLogsParams.getMinSeverity().getSeverityLevel())
                 .filter(logs -> logs.getTimestamp() > queryLogsParams.getStartTime())
                 .filter(logs -> logs.getTimestamp() <= queryLogsParams.getEndTime())
                 .filter(logs -> queryLogsParams.getTraceId() == null

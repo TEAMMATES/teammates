@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { LogService } from '../../services/log.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TimezoneService } from '../../services/timezone.service';
-import { GeneralLogEntry, LogEvent } from '../../types/api-output';
+import { GeneralLogEntry, LogEvent, LogSeverity } from '../../types/api-output';
 import { LogsPageComponent } from './logs-page.component';
 import { LogsPageModule } from './logs-page.module';
 import Spy = jasmine.Spy;
@@ -50,17 +50,17 @@ describe('LogsPageComponent', () => {
 
   it('should snap when searching for details in search form', () => {
     component.formModel = {
-      logsFilter: '',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
       filters: {
-        severity: 'ERROR',
-        minSeverity: '',
+        severity: LogSeverity.ERROR,
+        minSeverity: LogSeverity.INFO,
         logEvent: LogEvent.REQUEST_LOG,
       },
     };
+    component.filterType = 'EVENT';
     component.isLoading = false;
     component.isSearching = true;
     fixture.detectChanges();
@@ -76,15 +76,15 @@ describe('LogsPageComponent', () => {
 
     component.isLoading = false;
     component.isSearching = false;
+    component.filterType = 'SEVERITY';
     component.formModel = {
-      logsFilter: 'severity',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
       filters: {
-        severity: 'INFO',
-        minSeverity: '',
+        severity: LogSeverity.INFO,
+        minSeverity: LogSeverity.INFO,
         logEvent: LogEvent.REQUEST_LOG,
       },
     };
@@ -97,9 +97,9 @@ describe('LogsPageComponent', () => {
       startTime: 0,
       endTime: 0,
       order: 'desc',
-      severity: 'INFO',
-      minSeverity: '',
-      logEvent: LogEvent.REQUEST_LOG,
+      severity: LogSeverity.INFO,
+      minSeverity: undefined,
+      logEvent: undefined,
     });
   });
 
@@ -111,15 +111,15 @@ describe('LogsPageComponent', () => {
 
     component.isLoading = false;
     component.isSearching = false;
+    component.filterType = 'MIN_SEVERITY';
     component.formModel = {
-      logsFilter: 'minSeverity',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
       filters: {
-        severity: '',
-        minSeverity: 'INFO',
+        severity: LogSeverity.INFO,
+        minSeverity: LogSeverity.INFO,
         logEvent: LogEvent.REQUEST_LOG,
       },
     };
@@ -132,9 +132,9 @@ describe('LogsPageComponent', () => {
       startTime: 0,
       endTime: 0,
       order: 'desc',
-      severity: '',
-      minSeverity: 'INFO',
-      logEvent: LogEvent.REQUEST_LOG,
+      severity: undefined,
+      minSeverity: LogSeverity.INFO,
+      logEvent: undefined,
     });
   });
 
@@ -146,15 +146,15 @@ describe('LogsPageComponent', () => {
 
     component.isLoading = false;
     component.isSearching = false;
+    component.filterType = 'EVENT';
     component.formModel = {
-      logsFilter: 'event',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
       filters: {
-        severity: '',
-        minSeverity: '',
+        severity: LogSeverity.INFO,
+        minSeverity: LogSeverity.INFO,
         logEvent: LogEvent.REQUEST_LOG,
         traceId: 'testTrace',
         sourceLocation: {
@@ -178,8 +178,8 @@ describe('LogsPageComponent', () => {
       startTime: 0,
       endTime: 0,
       order: 'desc',
-      severity: '',
-      minSeverity: '',
+      severity: undefined,
+      minSeverity: undefined,
       logEvent: LogEvent.REQUEST_LOG,
       traceId: 'testTrace',
       sourceLocation: {
@@ -195,60 +195,18 @@ describe('LogsPageComponent', () => {
     });
   });
 
-  it('should display error message if severity level is not selected', () => {
-    component.isLoading = false;
-    component.isSearching = false;
-    component.formModel = {
-      logsFilter: 'severity',
-      logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
-      logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
-      filters: {
-        severity: '',
-        minSeverity: '',
-        logEvent: LogEvent.REQUEST_LOG,
-      },
-    };
-    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
-    fixture.detectChanges();
-    fixture.debugElement.nativeElement.querySelector('#query-button').click();
-    expect(spy).lastCalledWith('Please choose a severity level');
-  });
-
-  it('should display error message if minimum severity level is not selected', () => {
-    component.isLoading = false;
-    component.isSearching = false;
-    component.formModel = {
-      logsFilter: 'minSeverity',
-      logsDateFrom: { year: 2021, month: 6, day: 1 },
-      logsTimeFrom: { hour: 23, minute: 59 },
-      logsDateTo: { year: 2021, month: 6, day: 2 },
-      logsTimeTo: { hour: 23, minute: 59 },
-      filters: {
-        severity: '',
-        minSeverity: '',
-        logEvent: LogEvent.REQUEST_LOG,
-      },
-    };
-    const spy: Spy = spyOn(statusMessageService, 'showErrorToast');
-    fixture.detectChanges();
-    fixture.debugElement.nativeElement.querySelector('#query-button').click();
-    expect(spy).lastCalledWith('Please choose a minimum severity level');
-  });
-
   it('should display error message if source function is filled and source file is empty', () => {
     component.isLoading = false;
     component.isSearching = false;
+    component.filterType = 'SEVERITY';
     component.formModel = {
-      logsFilter: 'severity',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
       filters: {
-        severity: 'INFO',
-        minSeverity: '',
+        severity: LogSeverity.INFO,
+        minSeverity: LogSeverity.INFO,
         logEvent: LogEvent.REQUEST_LOG,
         sourceLocation: {
           file: '',
@@ -267,17 +225,17 @@ describe('LogsPageComponent', () => {
     spyOn(logService, 'searchLogs').and.returnValue(of({ logEntries: [] }));
     spyOn(timezoneService, 'resolveLocalDateTime').and.returnValue(0);
     component.formModel = {
-      logsFilter: 'severity',
       logsDateFrom: { year: 2021, month: 6, day: 1 },
       logsTimeFrom: { hour: 23, minute: 59 },
       logsDateTo: { year: 2021, month: 6, day: 2 },
       logsTimeTo: { hour: 23, minute: 59 },
       filters: {
-        severity: 'INFO',
-        minSeverity: '',
+        severity: LogSeverity.INFO,
+        minSeverity: LogSeverity.INFO,
         logEvent: LogEvent.REQUEST_LOG,
       },
     };
+    component.filterType = 'SEVERITY';
     component.isSearching = false;
     component.hasResult = true;
     component.searchForLogs();
@@ -290,7 +248,7 @@ describe('LogsPageComponent', () => {
   it('should search for all error logs when search button is clicked', () => {
     const testLog1: GeneralLogEntry = {
       logName: 'stderr',
-      severity: 'ERROR',
+      severity: LogSeverity.ERROR,
       trace: 'testTrace1',
       insertId: 'testInsertId1',
       resourceIdentifier: {},
@@ -328,7 +286,7 @@ describe('LogsPageComponent', () => {
     component.isTableView = false;
     const testLog1: GeneralLogEntry = {
       logName: 'stderr',
-      severity: 'ERROR',
+      severity: LogSeverity.ERROR,
       trace: 'testTrace1',
       insertId: 'testInsertId1',
       resourceIdentifier: {},
@@ -342,7 +300,7 @@ describe('LogsPageComponent', () => {
     };
     const testLog2: GeneralLogEntry = {
       logName: 'stderr',
-      severity: 'ERROR',
+      severity: LogSeverity.ERROR,
       trace: 'testTrace2',
       insertId: 'testInsertId2',
       resourceIdentifier: {},
@@ -356,7 +314,7 @@ describe('LogsPageComponent', () => {
     };
     const testLog3: GeneralLogEntry = {
       logName: 'stderr',
-      severity: 'ERROR',
+      severity: LogSeverity.ERROR,
       trace: 'testTrace3',
       insertId: 'testInsertId3',
       resourceIdentifier: {},

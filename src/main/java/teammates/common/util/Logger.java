@@ -10,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
 
@@ -40,14 +41,14 @@ public final class Logger {
      * Logs a message at FINE level.
      */
     public void fine(String message) {
-        standardLog.fine(formatLogMessage(message, "DEBUG"));
+        standardLog.fine(formatLogMessage(message, LogSeverity.DEBUG));
     }
 
     /**
      * Logs a message at INFO level.
      */
     public void info(String message) {
-        standardLog.info(formatLogMessage(message, "INFO"));
+        standardLog.info(formatLogMessage(message, LogSeverity.INFO));
     }
 
     /**
@@ -95,7 +96,7 @@ public final class Logger {
             logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
                     + JsonUtils.toCompactJson(details);
         } else {
-            Map<String, Object> payload = getBaseCloudLoggingPayload(message, "INFO");
+            Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
             payload.putAll(details);
             payload.put("event", event);
 
@@ -108,14 +109,14 @@ public final class Logger {
      * Logs a message at WARNING level.
      */
     public void warning(String message) {
-        standardLog.warning(formatLogMessage(message, "WARNING"));
+        standardLog.warning(formatLogMessage(message, LogSeverity.WARNING));
     }
 
     /**
      * Logs a message at WARNING level.
      */
     public void warning(String message, Throwable t) {
-        String logMessage = getLogMessageWithStackTrace(message, t, "WARNING");
+        String logMessage = getLogMessageWithStackTrace(message, t, LogSeverity.WARNING);
         standardLog.warning(logMessage);
     }
 
@@ -123,18 +124,18 @@ public final class Logger {
      * Logs a message at SEVERE level.
      */
     public void severe(String message) {
-        errorLog.severe(formatLogMessage(message, "ERROR"));
+        errorLog.severe(formatLogMessage(message, LogSeverity.ERROR));
     }
 
     /**
      * Logs a message at SEVERE level.
      */
     public void severe(String message, Throwable t) {
-        String logMessage = getLogMessageWithStackTrace(message, t, "ERROR");
+        String logMessage = getLogMessageWithStackTrace(message, t, LogSeverity.ERROR);
         errorLog.severe(logMessage);
     }
 
-    private String getLogMessageWithStackTrace(String message, Throwable t, String severity) {
+    private String getLogMessageWithStackTrace(String message, Throwable t, LogSeverity severity) {
         String logMessage;
         if (Config.isDevServer()) {
             StringWriter sw = new StringWriter();
@@ -197,7 +198,7 @@ public final class Logger {
         return stackTraceToDisplay;
     }
 
-    private String formatLogMessage(String message, String severity) {
+    private String formatLogMessage(String message, LogSeverity severity) {
         if (Config.isDevServer()) {
             return formatLogMessageForHumanDisplay(message);
         }
@@ -221,11 +222,11 @@ public final class Logger {
         return prefix.toString() + "[" + RequestTracer.getTraceId() + "] " + message;
     }
 
-    private String formatLogMessageForCloudLogging(String message, String severity) {
+    private String formatLogMessageForCloudLogging(String message, LogSeverity severity) {
         return JsonUtils.toCompactJson(getBaseCloudLoggingPayload(message, severity));
     }
 
-    private Map<String, Object> getBaseCloudLoggingPayload(String message, String severity) {
+    private Map<String, Object> getBaseCloudLoggingPayload(String message, LogSeverity severity) {
         Map<String, Object> payload = new HashMap<>();
         payload.put("message", message);
         payload.put("severity", severity);

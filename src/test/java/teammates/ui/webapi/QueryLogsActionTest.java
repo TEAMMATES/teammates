@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
@@ -213,37 +214,37 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry entry6 = logEntries.get(5);
 
         assertEquals("stdout", entry1.getLogName());
-        assertEquals("INFO", entry1.getSeverity());
+        assertEquals(LogSeverity.INFO, entry1.getSeverity());
         assertEquals(infoLogTrace1, entry1.getTrace());
         assertEquals(infoLogSourceLocation1, entry1.getSourceLocation());
         assertEquals(infoLogTimestamp1, entry1.getTimestamp());
 
         assertEquals("stdout", entry2.getLogName());
-        assertEquals("INFO", entry2.getSeverity());
+        assertEquals(LogSeverity.INFO, entry2.getSeverity());
         assertEquals(infoLogTrace2, entry2.getTrace());
         assertEquals(infoLogSourceLocation2, entry2.getSourceLocation());
         assertEquals(infoLogTimestamp2, entry2.getTimestamp());
 
         assertEquals("stderr", entry3.getLogName());
-        assertEquals("WARNING", entry3.getSeverity());
+        assertEquals(LogSeverity.WARNING, entry3.getSeverity());
         assertEquals(warningLogTrace1, entry3.getTrace());
         assertEquals(warningLogSourceLocation1, entry3.getSourceLocation());
         assertEquals(warningLogTimestamp1, entry3.getTimestamp());
 
         assertEquals("stderr", entry4.getLogName());
-        assertEquals("WARNING", entry4.getSeverity());
+        assertEquals(LogSeverity.WARNING, entry4.getSeverity());
         assertEquals(warningLogTrace2, entry4.getTrace());
         assertEquals(warningLogSourceLocation2, entry4.getSourceLocation());
         assertEquals(warningLogTimestamp2, entry4.getTimestamp());
 
         assertEquals("stderr", entry5.getLogName());
-        assertEquals("ERROR", entry5.getSeverity());
+        assertEquals(LogSeverity.ERROR, entry5.getSeverity());
         assertEquals(errorLogTrace, entry5.getTrace());
         assertEquals(errorLogSourceLocation1, entry5.getSourceLocation());
         assertEquals(errorLogTimestamp1, entry5.getTimestamp());
 
         assertEquals("stderr", entry6.getLogName());
-        assertEquals("ERROR", entry6.getSeverity());
+        assertEquals(LogSeverity.ERROR, entry6.getSeverity());
         assertEquals(errorLogTrace, entry6.getTrace());
         assertEquals(errorLogSourceLocation2, entry6.getSourceLocation());
         assertEquals(errorLogTimestamp2, entry6.getTimestamp());

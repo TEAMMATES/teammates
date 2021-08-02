@@ -11,6 +11,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
@@ -66,8 +67,24 @@ public class QueryLogsAction extends AdminOnlyAction {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
-        String severity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
-        String minSeverity = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
+        String severityStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_SEVERITY);
+        LogSeverity severity = null;
+        if (severityStr != null) {
+            try {
+                severity = LogSeverity.valueOf(severityStr);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidHttpParameterException("Invalid log severity.", e);
+            }
+        }
+        String minSeverityStr = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_MIN_SEVERITY);
+        LogSeverity minSeverity = null;
+        if (minSeverityStr != null) {
+            try {
+                minSeverity = LogSeverity.valueOf(minSeverityStr);
+            } catch (IllegalArgumentException e) {
+                throw new InvalidHttpParameterException("Invalid log minimum severity.", e);
+            }
+        }
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String actionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ACTION_CLASS);
         String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);

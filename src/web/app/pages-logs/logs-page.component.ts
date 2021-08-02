@@ -27,7 +27,6 @@ import { ErrorMessageOutput } from '../error-message-output';
  * Model for searching of logs.
  */
 interface SearchLogsFormModel {
-  logsFilter: string;
   logsDateFrom: DateFormat;
   logsDateTo: DateFormat;
   logsTimeFrom: TimeFormat;
@@ -58,14 +57,11 @@ export class LogsPageComponent implements OnInit {
   readonly EVENTS: LogEvent[] = [
     LogEvent.REQUEST_LOG, LogEvent.EXCEPTION_LOG, LogEvent.EMAIL_SENT, LogEvent.FEEDBACK_SESSION_AUDIT,
   ];
-  readonly SEVERITY: string = 'severity';
-  readonly MIN_SEVERITY: string = 'minSeverity';
-  readonly EVENT: string = 'event';
+  filterType: 'SEVERITY' | 'MIN_SEVERITY' | 'EVENT' = 'EVENT';
   ACTION_CLASSES: string[] = [];
   isAdmin: boolean = false;
 
   formModel: SearchLogsFormModel = {
-    logsFilter: this.EVENT,
     logsDateFrom: { year: 0, month: 0, day: 0 },
     logsTimeFrom: { hour: 0, minute: 0 },
     logsDateTo: { year: 0, month: 0, day: 0 },
@@ -73,8 +69,8 @@ export class LogsPageComponent implements OnInit {
     filters: {
       startTime: 0,
       endTime: 0,
-      severity: 'INFO',
-      minSeverity: 'INFO',
+      severity: LogSeverity.INFO,
+      minSeverity: LogSeverity.INFO,
       logEvent: LogEvent.REQUEST_LOG,
       actionClass: '',
       exceptionClass: '',
@@ -197,18 +193,6 @@ export class LogsPageComponent implements OnInit {
   }
 
   private isFormValid(): boolean {
-    if (this.formModel.logsFilter === '') {
-      this.statusMessageService.showErrorToast('Please choose to filter by severity / minimum severity / event');
-      return false;
-    }
-    if (this.formModel.logsFilter === this.SEVERITY && this.formModel.filters.severity === '') {
-      this.statusMessageService.showErrorToast('Please choose a severity level');
-      return false;
-    }
-    if (this.formModel.logsFilter === this.MIN_SEVERITY && this.formModel.filters.minSeverity === '') {
-      this.statusMessageService.showErrorToast('Please choose a minimum severity level');
-      return false;
-    }
     if (this.formModel.filters.sourceLocation && !this.formModel.filters.sourceLocation.file
         && this.formModel.filters.sourceLocation.function) {
       this.isFiltersExpanded = true;
@@ -228,15 +212,19 @@ export class LogsPageComponent implements OnInit {
     this.queryParams.endTime = timestampUntil;
     this.queryParams.order = DESCENDING_ORDER;
 
-    if (this.formModel.logsFilter === this.SEVERITY) {
+    this.queryParams.severity = undefined;
+    this.queryParams.minSeverity = undefined;
+    this.queryParams.logEvent = undefined;
+
+    if (this.filterType === 'SEVERITY') {
       this.queryParams.severity = this.formModel.filters.severity;
     }
 
-    if (this.formModel.logsFilter === this.MIN_SEVERITY) {
+    if (this.filterType === 'MIN_SEVERITY') {
       this.queryParams.minSeverity = this.formModel.filters.minSeverity;
     }
 
-    if (this.formModel.logsFilter === this.EVENT) {
+    if (this.filterType === 'EVENT') {
       this.queryParams.logEvent = this.formModel.filters.logEvent;
     }
   }
@@ -247,7 +235,7 @@ export class LogsPageComponent implements OnInit {
       startTime: timestampFrom,
       endTime: timestampUntil,
       order: DESCENDING_ORDER,
-      severity: 'ERROR',
+      severity: LogSeverity.ERROR,
     };
     this.logService.searchLogs(this.queryParams)
       .pipe(

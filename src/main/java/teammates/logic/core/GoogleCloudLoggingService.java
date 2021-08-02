@@ -22,7 +22,6 @@ import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
 import com.google.cloud.logging.Payload.StringPayload;
 import com.google.cloud.logging.Severity;
-import com.google.logging.type.LogSeverity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.util.JsonFormat;
@@ -34,6 +33,7 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.LogServiceException;
@@ -73,7 +73,7 @@ public class GoogleCloudLoggingService implements LogService {
         Instant startTime = endTime.minusMillis(queryRange);
 
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime.toEpochMilli(), endTime.toEpochMilli())
-                .withMinSeverity("ERROR")
+                .withMinSeverity(LogSeverity.ERROR)
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(REQUEST_LOG_NAME)
@@ -121,7 +121,7 @@ public class GoogleCloudLoggingService implements LogService {
             }
 
             for (LogLine line : logLines) {
-                if (line.getSeverity() == LogSeverity.ERROR || line.getSeverity() == LogSeverity.CRITICAL) {
+                if (line.getSeverity().getNumber() >= com.google.logging.type.LogSeverity.ERROR.getNumber()) {
                     errorLogs.add(new ErrorLogEntry(
                             line.getLogMessage().replaceAll("\n", "\n<br>"),
                             line.getSeverity().toString(), trace)
@@ -154,7 +154,7 @@ public class GoogleCloudLoggingService implements LogService {
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity.toString(), trace, insertId,
+            GeneralLogEntry logEntry = new GeneralLogEntry(logName, convertSeverity(severity), trace, insertId,
                     resourceIdentifier, new SourceLocation(sourceLocation.getFile(),
                             sourceLocation.getLine(), sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
@@ -168,6 +168,25 @@ public class GoogleCloudLoggingService implements LogService {
         }
         boolean hasNextPage = logEntriesInPage.getNextPageToken() != null;
         return new QueryLogsResults(logEntries, hasNextPage);
+    }
+
+    private LogSeverity convertSeverity(Severity severity) {
+        if (severity == Severity.ERROR) {
+            return LogSeverity.ERROR;
+        }
+        if (severity == Severity.WARNING) {
+            return LogSeverity.WARNING;
+        }
+        if (severity == Severity.INFO || severity == Severity.NOTICE) {
+            return LogSeverity.INFO;
+        }
+        if (severity == Severity.CRITICAL || severity == Severity.ALERT || severity == Severity.EMERGENCY) {
+            return LogSeverity.CRITICAL;
+        }
+        if (severity == Severity.DEBUG) {
+            return LogSeverity.DEBUG;
+        }
+        return LogSeverity.DEFAULT;
     }
 
     @Override

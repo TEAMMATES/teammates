@@ -5,14 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.logging.type.LogSeverity;
-
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
 
@@ -22,9 +21,6 @@ import teammates.common.datatransfer.logs.SourceLocation;
 public class MockLogsProcessor extends LogsProcessor {
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
-    private static final String SEVERITY_INFO = "INFO";
-    private static final String SEVERITY_WARNING = "WARNING";
-    private static final String SEVERITY_ERROR = "ERROR";
 
     private List<ErrorLogEntry> errorLogs = new ArrayList<>();
     private List<FeedbackSessionLogEntry> feedbackSessionLogs = new ArrayList<>();
@@ -55,7 +51,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertInfoLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
-        insertGeneralLog(STDOUT_LOG_NAME, SEVERITY_INFO, trace, insertId,
+        insertGeneralLog(STDOUT_LOG_NAME, LogSeverity.INFO, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
@@ -64,7 +60,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertWarningLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
-        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_WARNING, trace, insertId,
+        insertGeneralLog(STDERR_LOG_NAME, LogSeverity.WARNING, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
@@ -73,11 +69,11 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertGeneralErrorLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
-        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_ERROR, trace, insertId,
+        insertGeneralLog(STDERR_LOG_NAME, LogSeverity.ERROR, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
-    private void insertGeneralLog(String logName, String severity, String trace, String insertId,
+    private void insertGeneralLog(String logName, LogSeverity severity, String trace, String insertId,
             SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
             Map<String, Object> jsonPayloadDetails) {
         GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, insertId, new HashMap<>(), sourceLocation,
@@ -100,8 +96,8 @@ public class MockLogsProcessor extends LogsProcessor {
             });
         } else if (queryLogsParams.getMinSeverity() != null) {
             generalLogs.forEach(entry -> {
-                if (LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getNumber()
-                        <= LogSeverity.valueOf(entry.getSeverity()).getNumber()
+                if (queryLogsParams.getMinSeverity().getSeverityLevel()
+                        <= entry.getSeverity().getSeverityLevel()
                         && entry.getTimestamp() >= queryLogsParams.getStartTime()
                         && entry.getTimestamp() <= queryLogsParams.getEndTime()) {
                     queryResults.add(entry);
