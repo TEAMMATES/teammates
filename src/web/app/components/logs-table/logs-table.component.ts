@@ -22,6 +22,8 @@ export class LogsTableComponent implements OnInit {
   @Output()
   addActionClassEvent: EventEmitter<string> = new EventEmitter<string>();
   @Output()
+  addExceptionClassEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output()
   addSourceLocationEvent: EventEmitter<SourceLocation> = new EventEmitter<SourceLocation>();
   @Output()
   addUserInfoEvent: EventEmitter<any> = new EventEmitter<any>();
@@ -68,6 +70,10 @@ export class LogsTableComponent implements OnInit {
 
   addActionClassToFilter(actionClass: string): void {
     this.addActionClassEvent.emit(actionClass);
+  }
+
+  addExceptionClassToFilter(exceptionClass: string): void {
+    this.addExceptionClassEvent.emit(exceptionClass);
   }
 
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {

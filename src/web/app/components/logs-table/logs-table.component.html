@@ -18,6 +18,7 @@
               <span class="right-padding blue-font" *ngIf="log.responseTime">{{ log.responseTime }}ms</span>
               <span class="clickable border" *ngIf="log.traceIdForSummary" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.traceId)">{{ log.traceIdForSummary }}</span>
               <span class="clickable border" *ngIf="log.actionClass" ngbTooltip="Click to add to filter" (click)="addActionClassToFilter(log.actionClass)">{{ log.actionClass }}</span>
+              <span class="clickable border red-font" *ngIf="log.exceptionClass" ngbTooltip="Click to add to filter" (click)="addExceptionClassToFilter(log.exceptionClass)">{{ log.exceptionClass }}</span>
               {{ log.summary }}
             </td>
           </tr>

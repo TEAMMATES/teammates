@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.ui.request.FeedbackSessionRemindRequest;
@@ -53,7 +52,7 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
                     session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
-            log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Unexpected error while sending emails", e);
         }
         return new JsonResult("Successful");
     }
