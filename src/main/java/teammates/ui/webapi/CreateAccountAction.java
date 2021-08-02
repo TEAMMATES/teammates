@@ -78,8 +78,13 @@ class CreateAccountAction extends AdminOnlyAction {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putStudentDocuments(students);
-        logic.putInstructorDocuments(instructors);
+        for (StudentAttributes student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        }
+
+        for (InstructorAttributes instructor : instructors) {
+            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
+        }
 
         return courseId;
     }

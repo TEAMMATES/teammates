@@ -12,7 +12,6 @@ import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -46,25 +45,12 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     /**
      * Creates or updates search document for the given instructor.
      */
-    public void putDocument(InstructorAttributes instructorParam) {
+    public void putDocument(InstructorAttributes instructorParam) throws SearchServiceException {
         InstructorAttributes instructor = instructorParam;
         if (instructor.getKey() == null) {
             instructor = this.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
         }
-        getSearchManager().putDocuments(Collections.singletonList(instructor));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given instructors.
-     */
-    public void putDocuments(List<InstructorAttributes> instructorParams) {
-        List<InstructorAttributes> instructors = instructorParams.stream()
-                .map(instructor -> instructor.getKey() == null
-                        ? getInstructorForEmail(instructor.getCourseId(), instructor.getEmail())
-                        : instructor)
-                .collect(Collectors.toList());
-
-        getSearchManager().putDocuments(instructors);
+        getSearchManager().putDocument(instructor);
     }
 
     /**
@@ -89,22 +75,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         }
 
         return getSearchManager().searchInstructors(queryString);
-    }
-
-    /**
-     * Creates an instructor.
-     *
-     * @return the created instructor
-     * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database
-     */
-    @Override
-    public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        InstructorAttributes createdInstructor = super.createEntity(instructorToAdd);
-        putDocument(createdInstructor);
-
-        return createdInstructor;
     }
 
     /**
@@ -233,7 +203,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
-        putDocument(newAttributes);
 
         return newAttributes;
     }
@@ -288,7 +257,6 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
-        putDocument(newAttributes);
 
         return newAttributes;
     }

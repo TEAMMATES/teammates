@@ -54,15 +54,8 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     /**
      * Creates or updates search document for the given student.
      */
-    public void putDocument(StudentAttributes student) {
-        getSearchManager().putDocuments(Collections.singletonList(student));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given students.
-     */
-    public void putDocuments(List<StudentAttributes> students) {
-        getSearchManager().putDocuments(students);
+    public void putDocument(StudentAttributes student) throws SearchServiceException {
+        getSearchManager().putDocument(student);
     }
 
     /**
@@ -103,23 +96,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
-     * Creates a student.
-     *
-     * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database
-     */
-    @Override
-    public StudentAttributes createEntity(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        StudentAttributes createdStudent = super.createEntity(student);
-        putDocument(createdStudent);
-
-        return createdStudent;
-    }
-
-    /**
      * Regenerates the registration key of a student in a course.
      *
      * @return the updated student
@@ -134,10 +110,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             if (!updatedEntity.getRegistrationKey().equals(originalStudent.getKey())) {
                 saveEntity(updatedEntity);
 
-                StudentAttributes updatedStudent = makeAttributes(updatedEntity);
-                putDocument(updatedStudent);
-
-                return updatedStudent;
+                return makeAttributes(updatedEntity);
             }
 
             numTries++;
@@ -275,7 +248,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             // delete the old student
             deleteStudent(student.getCourseId(), student.getEmail());
 
-            putDocument(newAttributes);
             return newAttributes;
         } else {
             // update only if change
@@ -298,14 +270,9 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
             student.setTeamName(newAttributes.getTeam());
             student.setSectionName(newAttributes.getSection());
 
-            putDocument(newAttributes);
-
             saveEntity(student);
 
-            newAttributes = makeAttributes(student);
-            putDocument(newAttributes);
-
-            return newAttributes;
+            return makeAttributes(student);
         }
     }
 
