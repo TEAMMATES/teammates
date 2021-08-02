@@ -39,6 +39,9 @@ public class CourseRoster {
         return teamToMembersTable;
     }
 
+    /**
+     * Checks whether a student is in course.
+     */
     public boolean isStudentInCourse(String studentEmail) {
         return studentListByEmail.containsKey(studentEmail);
     }
@@ -50,11 +53,17 @@ public class CourseRoster {
         return teamToMembersTable.containsKey(teamName);
     }
 
+    /**
+     * Checks whether a student is in team.
+     */
     public boolean isStudentInTeam(String studentEmail, String targetTeamName) {
         StudentAttributes student = studentListByEmail.get(studentEmail);
         return student != null && student.getTeam().equals(targetTeamName);
     }
 
+    /**
+     * Checks whether two students are in the same team.
+     */
     public boolean isStudentsInSameTeam(String studentEmail1, String studentEmail2) {
         StudentAttributes student1 = studentListByEmail.get(studentEmail1);
         StudentAttributes student2 = studentListByEmail.get(studentEmail2);
@@ -62,10 +71,16 @@ public class CourseRoster {
                 && student1.getTeam() != null && student1.getTeam().equals(student2.getTeam());
     }
 
+    /**
+     * Returns the student object for the given email.
+     */
     public StudentAttributes getStudentForEmail(String email) {
         return studentListByEmail.get(email);
     }
 
+    /**
+     * Returns the instructor object for the given email.
+     */
     public InstructorAttributes getInstructorForEmail(String email) {
         return instructorListByEmail.get(email);
     }

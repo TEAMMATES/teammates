@@ -1,9 +1,7 @@
-package teammates.test;
+package teammates.logic.api;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import teammates.logic.api.FileStorage;
 
 /**
  * Allows mocking of {@link FileStorage}.

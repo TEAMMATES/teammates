@@ -21,13 +21,13 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
+import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -40,15 +40,15 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class Action {
 
-    Logic logic = new Logic();
-    UserProvision userProvision = new UserProvision();
-    GateKeeper gateKeeper = new GateKeeper();
-    EmailGenerator emailGenerator = new EmailGenerator();
-    TaskQueuer taskQueuer = new TaskQueuer();
-    EmailSender emailSender = new EmailSender();
-    FileStorage fileStorage = new FileStorage();
-    RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
-    LogsProcessor logsProcessor = new LogsProcessor();
+    Logic logic = Logic.inst();
+    UserProvision userProvision = UserProvision.inst();
+    GateKeeper gateKeeper = GateKeeper.inst();
+    EmailGenerator emailGenerator = EmailGenerator.inst();
+    TaskQueuer taskQueuer = TaskQueuer.inst();
+    EmailSender emailSender = EmailSender.inst();
+    FileStorage fileStorage = FileStorage.inst();
+    RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
+    LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;

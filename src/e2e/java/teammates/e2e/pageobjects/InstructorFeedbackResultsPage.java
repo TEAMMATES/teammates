@@ -667,7 +667,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
         List<Double> weights = questionDetails.getMcqWeights();
         Double otherWeight = questionDetails.getMcqOtherWeight();
         boolean isOtherEnabled = questionDetails.isOtherEnabled();
-        boolean hasAssignedWeights = questionDetails.hasAssignedWeights();
+        boolean hasAssignedWeights = questionDetails.isHasAssignedWeights();
 
         int numRows = isOtherEnabled ? choices.size() + 1 : choices.size();
         String[][] expectedStatistics = new String[numRows][2];
