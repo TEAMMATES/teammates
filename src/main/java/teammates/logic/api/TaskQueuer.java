@@ -23,9 +23,10 @@ public class TaskQueuer {
 
     private static final Logger log = Logger.getLogger();
 
+    private static final TaskQueuer instance = new TaskQueuer();
     private final TaskQueueService service;
 
-    public TaskQueuer() {
+    TaskQueuer() {
         if (Config.isDevServer()) {
             service = new LocalTaskQueueService();
         } else {
@@ -33,16 +34,20 @@ public class TaskQueuer {
         }
     }
 
+    public static TaskQueuer inst() {
+        return instance;
+    }
+
     // The following methods are facades to the actual logic for adding tasks to the queue.
     // Using this method, the actual logic can still be black-boxed
     // while at the same time allowing this API to be mocked during test.
 
-    protected void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
+    private void addTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody) {
         addDeferredTask(queueName, workerUrl, paramMap, requestBody, 0);
     }
 
-    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
-                                   long countdownTime) {
+    void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
+                         long countdownTime) {
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         service.addDeferredTask(task, countdownTime);
     }

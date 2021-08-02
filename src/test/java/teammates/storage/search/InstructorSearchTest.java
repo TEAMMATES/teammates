@@ -179,7 +179,7 @@ public class InstructorSearchTest extends BaseSearchTest {
                 () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
     }
 
-    /*
+    /**
      * Verifies that search results match with expected output.
      * Parameters are modified to standardize {@link InstructorAttributes} for comparison.
      *
@@ -195,8 +195,8 @@ public class InstructorSearchTest extends BaseSearchTest {
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
 
-    /*
-     * Standardizes instructors for comparison by setting key fields to null
+    /**
+     * Standardizes instructors for comparison by setting key fields to null.
      *
      * @param instructors the instructors to standardize.
      */

@@ -46,6 +46,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return new Builder(courseId, email);
     }
 
+    /**
+     * Gets the {@link InstructorAttributes} instance of the given {@link Instructor}.
+     */
     public static InstructorAttributes valueOf(Instructor instructor) {
         InstructorAttributes instructorAttributes =
                 new InstructorAttributes(instructor.getCourseId(), instructor.getEmail());
@@ -73,6 +76,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return instructorAttributes;
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public InstructorAttributes getCopy() {
         InstructorAttributes instructorAttributes = new InstructorAttributes(courseId, email);
         instructorAttributes.name = name;
@@ -241,6 +247,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         }
     }
 
+    /**
+     * Returns true if the instructor has the given privilege in the course.
+     */
     public boolean isAllowedForPrivilege(String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -248,6 +257,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.isAllowedForPrivilege(privilegeName);
     }
 
+    /**
+     * Returns true if the instructor has the given privilege in the given section.
+     */
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -255,6 +267,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.isAllowedForPrivilege(sectionName, privilegeName);
     }
 
+    /**
+     * Returns true if the instructor has the given privilege in the given section for the given feedback session.
+     */
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -272,6 +287,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
     }
 
+    /**
+     * Returns true if the instructor has co-owner privilege.
+     */
     public boolean hasCoownerPrivileges() {
         return privileges.hasCoownerPrivileges();
     }

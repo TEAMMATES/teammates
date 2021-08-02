@@ -48,11 +48,6 @@ public final class InstructorsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
-    /* ====================================
-     * methods related to google search API
-     * ====================================
-     */
-
     /**
      * Creates or updates search document for the given instructor.
      *
@@ -72,10 +67,6 @@ public final class InstructorsLogic {
             throws SearchServiceException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
-
-    /* ====================================
-     * ====================================
-     */
 
     /**
      * Creates an instructor.
@@ -102,26 +93,37 @@ public final class InstructorsLogic {
         );
     }
 
+    /**
+     * Gets an instructor by unique constraint courseId-email.
+     */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
+    /**
+     * Gets an instructor by unique ID.
+     */
     public InstructorAttributes getInstructorById(String courseId, String email) {
-
         return instructorsDb.getInstructorById(courseId, email);
     }
 
+    /**
+     * Gets an instructor by unique constraint courseId-googleId.
+     */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);
     }
 
+    /**
+     * Gets an instructor by unique constraint encryptedKey.
+     */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-
         return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
     }
 
+    /**
+     * Gets all instructors of a course.
+     */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
         InstructorAttributes.sortByName(instructorReturnList);
@@ -129,16 +131,27 @@ public final class InstructorsLogic {
         return instructorReturnList;
     }
 
+    /**
+     * Gets all non-archived instructors associated with a googleId.
+     */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-
         return getInstructorsForGoogleId(googleId, false);
     }
 
+    /**
+     * Gets all instructors associated with a googleId.
+     *
+     * @param omitArchived whether archived instructors should be omitted or not
+     */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
+    /**
+     * Verifies that at least one instructor is displayed to student.
+     *
+     * @throws InvalidParametersException if there is no instructor displayed to student.
+     */
     void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
                                                boolean isEditedInstructorDisplayed)
             throws InvalidParametersException {
@@ -288,6 +301,9 @@ public final class InstructorsLogic {
         }
     }
 
+    /**
+     * Gets the list of instructors with co-owner privileges in a course.
+     */
     public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
         List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();

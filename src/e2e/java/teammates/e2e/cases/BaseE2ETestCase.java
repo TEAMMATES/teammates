@@ -10,7 +10,6 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -21,11 +20,8 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
@@ -47,7 +43,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     static final BackDoor BACKDOOR = BackDoor.getInstance();
 
-    protected DataBundle testData;
+    DataBundle testData;
     private Browser browser;
 
     @BeforeClass
@@ -56,12 +52,25 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         prepareBrowser();
     }
 
+    /**
+     * Prepares the browser used for the current test.
+     */
     protected void prepareBrowser() {
         browser = new Browser();
     }
 
-    protected abstract void prepareTestData() throws Exception;
+    /**
+     * Prepares the test data used for the current test.
+     */
+    protected abstract void prepareTestData();
 
+    /**
+     * Contains all the tests for the page.
+     *
+     * <p>This approach is chosen so that setup and teardown are only needed once per test page,
+     * thereby saving time. While it necessitates failed tests to be restarted from the beginning,
+     * test failures are rare and thus not causing significant overhead.
+     */
     protected abstract void testAll();
 
     @Override
@@ -69,22 +78,14 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return TestProperties.TEST_DATA_FOLDER;
     }
 
-    protected String getTestDownloadsFolder() {
-        return TestProperties.TEST_DOWNLOADS_FOLDER;
-    }
-
     @AfterClass
     public void baseClassTearDown(ITestContext context) {
-        boolean isSuccess = context.getFailedTests().getAllMethods()
-                .stream()
-                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
-        releaseBrowser(isSuccess);
-    }
-
-    protected void releaseBrowser(boolean isSuccess) {
         if (browser == null) {
             return;
         }
+        boolean isSuccess = context.getFailedTests().getAllMethods()
+                .stream()
+                .noneMatch(method -> method.getConstructorOrMethod().getMethod().getDeclaringClass() == this.getClass());
         if (isSuccess || TestProperties.CLOSE_BROWSER_ON_FAILURE) {
             browser.close();
         }
@@ -110,9 +111,8 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             // Use the home page to minimize the page load time.
             browser.goToUrl(TestProperties.TEAMMATES_URL);
 
-            UserInfoCookie uic = new UserInfoCookie(userId);
-            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, StringHelper.encrypt(JsonUtils.toCompactJson(uic)),
-                    true, true);
+            String cookieValue = BACKDOOR.getUserCookie(userId);
+            browser.addCookie(Const.SecurityConfig.AUTH_COOKIE_NAME, cookieValue, true, true);
 
             return getNewPageInstance(url, typeOfPage);
         }
@@ -145,7 +145,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Deletes file with fileName from the downloads folder.
      */
     protected void deleteDownloadsFile(String fileName) {
-        String filePath = getTestDownloadsFolder() + fileName;
+        String filePath = TestProperties.TEST_DOWNLOADS_FOLDER + fileName;
         FileHelper.deleteFile(filePath);
     }
 
@@ -153,7 +153,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
      * Verifies downloaded file has correct fileName and contains expected content.
      */
     protected void verifyDownloadedFile(String expectedFileName, List<String> expectedContent) {
-        String filePath = getTestDownloadsFolder() + expectedFileName;
+        String filePath = TestProperties.TEST_DOWNLOADS_FOLDER + expectedFileName;
         int retryLimit = TestProperties.TEST_TIMEOUT;
         boolean actual = Files.exists(Paths.get(filePath));
         while (!actual && retryLimit > 0) {
@@ -173,6 +173,9 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
+    /**
+     * Visits the URL and gets the page object representation of the visited web page in the browser.
+     */
     protected <T extends AppPage> T getNewPageInstance(AppUrl url, Class<T> typeOfPage) {
         browser.goToUrl(url.toAbsoluteString());
         return AppPage.getNewPageInstance(browser, typeOfPage);
@@ -205,7 +208,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         }
     }
 
-    protected AccountAttributes getAccount(String googleId) {
+    AccountAttributes getAccount(String googleId) {
         return BACKDOOR.getAccount(googleId);
     }
 
@@ -220,7 +223,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return null; // BACKDOOR.getStudentProfile(studentProfileAttributes.googleId);
     }
 
-    protected CourseAttributes getCourse(String courseId) {
+    CourseAttributes getCourse(String courseId) {
         return BACKDOOR.getCourse(courseId);
     }
 
@@ -229,11 +232,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getCourse(course.getId());
     }
 
-    protected CourseAttributes getArchivedCourse(String instructorId, String courseId) {
+    CourseAttributes getArchivedCourse(String instructorId, String courseId) {
         return BACKDOOR.getArchivedCourse(instructorId, courseId);
     }
 
-    protected FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
+    FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName, int qnNumber) {
         return BACKDOOR.getFeedbackQuestion(courseId, feedbackSessionName, qnNumber);
     }
 
@@ -242,7 +245,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getFeedbackQuestion(fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
     }
 
-    protected FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
+    FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
         return BACKDOOR.getFeedbackResponseComment(feedbackResponseId);
     }
 
@@ -251,7 +254,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getFeedbackResponseComment(frc.getFeedbackResponseId());
     }
 
-    protected FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
+    FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver, String recipient) {
         return BACKDOOR.getFeedbackResponse(feedbackQuestionId, giver, recipient);
     }
 
@@ -260,7 +263,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getFeedbackResponse(fr.getFeedbackQuestionId(), fr.getGiver(), fr.getRecipient());
     }
 
-    protected FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
+    FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         return BACKDOOR.getFeedbackSession(courseId, feedbackSessionName);
     }
 
@@ -269,11 +272,11 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getFeedbackSession(fs.getCourseId(), fs.getFeedbackSessionName());
     }
 
-    protected FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
+    FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
         return BACKDOOR.getSoftDeletedSession(feedbackSessionName, instructorId);
     }
 
-    protected InstructorAttributes getInstructor(String courseId, String instructorEmail) {
+    InstructorAttributes getInstructor(String courseId, String instructorEmail) {
         return BACKDOOR.getInstructor(courseId, instructorEmail);
     }
 
@@ -282,7 +285,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return getInstructor(instructor.getCourseId(), instructor.getEmail());
     }
 
-    protected String getKeyForInstructor(String courseId, String instructorEmail) {
+    String getKeyForInstructor(String courseId, String instructorEmail) {
         return getInstructor(courseId, instructorEmail).getKey();
     }
 
@@ -291,7 +294,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
         return BACKDOOR.getStudent(student.getCourse(), student.getEmail());
     }
 
-    protected String getKeyForStudent(StudentAttributes student) {
+    String getKeyForStudent(StudentAttributes student) {
         return getStudent(student).getKey();
     }
 
@@ -301,7 +304,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             BACKDOOR.removeAndRestoreDataBundle(testData);
             return true;
         } catch (HttpRequestFailedException e) {
-            print(TeammatesException.toStringWithStackTrace(e));
+            e.printStackTrace();
             return false;
         }
     }
@@ -312,7 +315,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
             BACKDOOR.putDocuments(testData);
             return true;
         } catch (HttpRequestFailedException e) {
-            print(TeammatesException.toStringWithStackTrace(e));
+            e.printStackTrace();
             return false;
         }
     }

@@ -348,6 +348,9 @@ public final class DataBundleLogic {
         return sessionKey + "%" + questionNumber;
     }
 
+    /**
+     * Removes the items in the data bundle from the database.
+     */
     public void removeDataBundle(DataBundle dataBundle) {
 
         // Questions and responses will be deleted automatically.

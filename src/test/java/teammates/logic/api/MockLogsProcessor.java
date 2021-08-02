@@ -1,8 +1,10 @@
-package teammates.test;
+package teammates.logic.api;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.logging.type.LogSeverity;
 
@@ -13,7 +15,6 @@ import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.logic.api.LogsProcessor;
 
 /**
  * Allows mocking of {@link LogsProcessor}.
@@ -32,8 +33,8 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of error logs.
      */
-    public void insertErrorLog(String message, String severity) {
-        errorLogs.add(new ErrorLogEntry(message, severity));
+    public void insertErrorLog(String message, String severity, String traceId) {
+        errorLogs.add(new ErrorLogEntry(message, severity, traceId));
     }
 
     /**
@@ -52,34 +53,37 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of general INFO logs.
      */
-    public void insertInfoLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDOUT_LOG_NAME, SEVERITY_INFO, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+    public void insertInfoLog(String trace, String insertId, GeneralLogEntry.SourceLocation sourceLocation,
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDOUT_LOG_NAME, SEVERITY_INFO, trace, insertId,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
     /**
      * Simulates insertion of general WARNING logs.
      */
-    public void insertWarningLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_WARNING, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+    public void insertWarningLog(String trace, String insertId, GeneralLogEntry.SourceLocation sourceLocation,
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_WARNING, trace, insertId,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
     /**
      * Simulates insertion of general ERROR logs.
      */
-    public void insertGeneralErrorLog(String trace, GeneralLogEntry.SourceLocation sourceLocation,
-            long timestamp, String textPayloadMessage) {
-        insertGeneralLogWithTextPayload(STDERR_LOG_NAME, SEVERITY_ERROR, trace,
-                sourceLocation, timestamp, textPayloadMessage);
+    public void insertGeneralErrorLog(String trace, String insertId, GeneralLogEntry.SourceLocation sourceLocation,
+            long timestamp, String textPayloadMessage, Map<String, Object> jsonPayloadDetails) {
+        insertGeneralLog(STDERR_LOG_NAME, SEVERITY_ERROR, trace, insertId,
+                sourceLocation, timestamp, textPayloadMessage, jsonPayloadDetails);
     }
 
-    private void insertGeneralLogWithTextPayload(String logName, String severity, String trace,
-            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage) {
-        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, sourceLocation, timestamp);
+    private void insertGeneralLog(String logName, String severity, String trace, String insertId,
+            GeneralLogEntry.SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
+            Map<String, Object> jsonPayloadDetails) {
+        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, insertId, new HashMap<>(), sourceLocation,
+                timestamp);
         logEntry.setMessage(textPayloadMessage);
+        logEntry.setDetails(jsonPayloadDetails);
         generalLogs.add(logEntry);
     }
 
@@ -111,7 +115,7 @@ public class MockLogsProcessor extends LogsProcessor {
                 }
             });
         }
-        return new QueryLogsResults(queryResults, null);
+        return new QueryLogsResults(queryResults, false);
     }
 
     @Override

@@ -13,7 +13,7 @@ import teammates.common.util.Config;
  */
 public class UserProvisionTest extends BaseLogicTest {
 
-    private static UserProvision userProvision = new UserProvision();
+    private static UserProvision userProvision = UserProvision.inst();
 
     @Test
     public void testGetCurrentUser() {

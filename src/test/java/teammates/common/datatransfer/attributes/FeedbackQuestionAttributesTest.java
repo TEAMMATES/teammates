@@ -359,7 +359,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testValidate() {
+    public void testValidate() throws Exception {
 
         List<FeedbackParticipantType> showGiverNameToList = new ArrayList<>();
         showGiverNameToList.add(FeedbackParticipantType.SELF);

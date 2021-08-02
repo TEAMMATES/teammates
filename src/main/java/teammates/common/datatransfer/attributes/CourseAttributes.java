@@ -14,7 +14,7 @@ import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 
 /**
- * The data transfer object for Course entities.
+ * The data transfer object for {@link Course} entities.
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
@@ -33,6 +33,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.deletedAt = null;
     }
 
+    /**
+     * Gets the {@link CourseAttributes} instance of the given {@link Course}.
+     */
     public static CourseAttributes valueOf(Course course) {
         CourseAttributes courseAttributes = new CourseAttributes(course.getUniqueId());
 
@@ -161,6 +164,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return o.createdAt.compareTo(createdAt);
     }
 
+    /**
+     * Sorts the list of courses by the course ID.
+     */
     public static void sortById(List<CourseAttributes> courses) {
         courses.sort(Comparator.comparing(CourseAttributes::getId));
     }

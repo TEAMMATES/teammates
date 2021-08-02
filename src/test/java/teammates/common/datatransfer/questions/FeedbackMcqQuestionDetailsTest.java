@@ -18,7 +18,7 @@ public class FeedbackMcqQuestionDetailsTest extends BaseTestCase {
         FeedbackMcqQuestionDetails mcqDetails = new FeedbackMcqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MCQ, mcqDetails.getQuestionType());
-        assertFalse(mcqDetails.hasAssignedWeights());
+        assertFalse(mcqDetails.isHasAssignedWeights());
         assertTrue(mcqDetails.getMcqWeights().isEmpty());
         assertEquals(0.0, mcqDetails.getMcqOtherWeight());
     }
