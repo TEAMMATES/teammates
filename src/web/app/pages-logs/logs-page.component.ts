@@ -81,6 +81,7 @@ export class LogsPageComponent implements OnInit {
   latestLogTimestampRetrieved: number = 0;
   hasPreviousPage: boolean = true;
   hasNextPage: boolean = false;
+  logsMap: Map<string, number> = new Map<string, number>();
 
   constructor(private logService: LogService,
     private timezoneService: TimezoneService,
@@ -131,7 +132,7 @@ export class LogsPageComponent implements OnInit {
     this.isSearching = true;
     this.histogramResult = [];
     this.searchResults = [];
-    this.isFiltersExpanded = false;
+    this.logsMap = new Map<string, number>();
     this.earliestLogTimestampRetrieved = Number.MAX_SAFE_INTEGER;
     this.latestLogTimestampRetrieved = 0;
     this.hasPreviousPage = true;
@@ -159,7 +160,7 @@ export class LogsPageComponent implements OnInit {
           this.hasResult = true;
         }))
       .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.nextPageToken !== undefined;
+        this.hasPreviousPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, true);
       }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
@@ -219,15 +220,16 @@ export class LogsPageComponent implements OnInit {
     this.queryParams = {
       searchFrom: timestampFrom.toString(),
       searchUntil: timestampUntil.toString(),
+      order: DESCENDING_ORDER,
       severity: 'ERROR',
       advancedFilters: {},
     };
     this.logService.searchLogs(this.queryParams)
       .pipe(
         expand((logs: GeneralLogs) => {
-          if (logs.nextPageToken !== undefined && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS) {
+          if (logs.hasNextPage && numberOfPagesRetrieved < MAXIMUM_PAGES_FOR_ERROR_LOGS) {
             numberOfPagesRetrieved += 1;
-            this.queryParams.nextPageToken = logs.nextPageToken;
+            this.queryParams.searchUntil = logs.logEntries[logs.logEntries.length - 1].timestamp.toString();
             return this.logService.searchLogs(this.queryParams);
           }
 
@@ -245,18 +247,38 @@ export class LogsPageComponent implements OnInit {
 
   private processLogsForTableView(generalLogs: GeneralLogs, isDescendingOrder: boolean): void {
     if (isDescendingOrder) {
-      generalLogs.logEntries.forEach((log: GeneralLogEntry) => this.searchResults.unshift(this.toLogModel(log)));
+      generalLogs.logEntries.forEach((log: GeneralLogEntry) => {
+        if (this.logsMap.get(log.insertId) === log.timestamp) {
+          return;
+        }
+        this.logsMap.set(log.insertId, log.timestamp);
+        this.searchResults.unshift(this.toLogModel(log));
+      });
     } else {
       generalLogs.logEntries
         .sort((a: GeneralLogEntry, b: GeneralLogEntry) => a.timestamp - b.timestamp)
-        .forEach((log: GeneralLogEntry) => this.searchResults.push(this.toLogModel(log)));
+        .forEach((log: GeneralLogEntry) => {
+          if (this.logsMap.get(log.insertId) === log.timestamp) {
+            return;
+          }
+          this.logsMap.set(log.insertId, log.timestamp);
+          this.searchResults.push(this.toLogModel(log));
+        });
     }
   }
 
   private processLogsForHistogram(logs: GeneralLogEntry[]): void {
-    const sourceToFrequencyMap: Map<string, number> = logs.reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
-      acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
-      new Map<string, number>());
+    const sourceToFrequencyMap: Map<string, number> = logs
+      .filter((log: GeneralLogEntry) => {
+        if (this.logsMap.get(log.insertId) === log.timestamp) {
+          return false;
+        }
+        this.logsMap.set(log.insertId, log.timestamp);
+        return true;
+      })
+      .reduce((acc: Map<string, number>, log: GeneralLogEntry) =>
+        acc.set(JSON.stringify(log.sourceLocation), (acc.get(JSON.stringify(log.sourceLocation)) || 0) + 1),
+        new Map<string, number>());
     sourceToFrequencyMap.forEach((value: number, key: string) => {
       this.histogramResult.push({ sourceLocation: JSON.parse(key), numberOfTimes: value });
     });
@@ -272,6 +294,7 @@ export class LogsPageComponent implements OnInit {
 
     let summary: string = '';
     let actionClass: string = '';
+    let exceptionClass: string = '';
     let payload: any = '';
     let httpStatus: number | undefined;
     let responseTime: number | undefined;
@@ -305,6 +328,9 @@ export class LogsPageComponent implements OnInit {
       if (payload.actionClass) {
         actionClass = payload.actionClass;
       }
+      if (payload.exceptionClass) {
+        exceptionClass = payload.exceptionClass;
+      }
       if (payload.userInfo) {
         userInfo = payload.userInfo;
         payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
@@ -317,6 +343,7 @@ export class LogsPageComponent implements OnInit {
       responseTime,
       userInfo,
       actionClass,
+      exceptionClass,
       traceIdForSummary,
       traceId: log.trace,
       sourceLocation: log.sourceLocation,
@@ -353,6 +380,12 @@ export class LogsPageComponent implements OnInit {
     this.statusMessageService.showSuccessToast('Action class added to filters');
   }
 
+  addExceptionClassToFilter(exceptionClass: string): void {
+    this.isFiltersExpanded = true;
+    this.formModel.advancedFilters.exceptionClass = exceptionClass;
+    this.statusMessageService.showSuccessToast('Exception class added to filters');
+  }
+
   addSourceLocationToFilter(sourceLocation: SourceLocation): void {
     this.isFiltersExpanded = true;
     this.formModel.advancedFilters.sourceLocationFile = sourceLocation.file;
@@ -381,6 +414,9 @@ export class LogsPageComponent implements OnInit {
     this.formModel.advancedFilters.actionClass = '';
     this.formModel.advancedFilters.sourceLocationFile = '';
     this.formModel.advancedFilters.sourceLocationFunction = '';
+    this.formModel.advancedFilters.latency = '';
+    this.formModel.advancedFilters.status = '';
+    this.formModel.advancedFilters.extraFilters = '';
     this.formModel.advancedFilters.exceptionClass = '';
   }
 
@@ -429,7 +465,7 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => {
-        this.hasPreviousPage = generalLogs.nextPageToken !== undefined;
+        this.hasPreviousPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, true);
       }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }
@@ -438,7 +474,7 @@ export class LogsPageComponent implements OnInit {
     this.logService.searchLogs(this.queryParams)
       .pipe(finalize(() => this.isSearching = false))
       .subscribe((generalLogs: GeneralLogs) => {
-        this.hasNextPage = generalLogs.nextPageToken !== undefined;
+        this.hasNextPage = generalLogs.hasNextPage;
         this.processLogsForTableView(generalLogs, false);
       }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
   }

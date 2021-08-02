@@ -3,8 +3,10 @@ package teammates.common.datatransfer.questions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FeedbackConstantSumResponseDetails extends
-        FeedbackResponseDetails {
+/**
+ * Contains specific structure and processing logic for constant sum feedback responses.
+ */
+public class FeedbackConstantSumResponseDetails extends FeedbackResponseDetails {
     private List<Integer> answers;
 
     public FeedbackConstantSumResponseDetails() {

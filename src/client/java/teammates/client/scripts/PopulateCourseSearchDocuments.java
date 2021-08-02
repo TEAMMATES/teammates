@@ -21,7 +21,7 @@ import teammates.storage.entity.Course;
 public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScript<Course> {
 
     private static final int STUDENT_SIZE_LIMIT = 300;
-    private final Logic logic = new Logic();
+    private final Logic logic = Logic.inst();
 
     public PopulateCourseSearchDocuments() {
         numberOfScannedKey.set(0L);

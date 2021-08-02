@@ -7,11 +7,29 @@ package teammates.common.datatransfer;
  */
 public class UserInfo {
 
+    /**
+     * The user's Google ID.
+     */
     public String id;
 
+    /**
+     * Indicates whether the user has admin privilege.
+     */
     public boolean isAdmin;
+
+    /**
+     * Indicates whether the user has instructor privilege.
+     */
     public boolean isInstructor;
+
+    /**
+     * Indicates whether the user has student privilege.
+     */
     public boolean isStudent;
+
+    /**
+     * Indicates whether the user has maintainer privilege.
+     */
     public boolean isMaintainer;
 
     public UserInfo(String googleId) {

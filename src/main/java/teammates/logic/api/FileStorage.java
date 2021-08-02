@@ -10,14 +10,19 @@ import teammates.logic.core.LocalFileStorageService;
  */
 public class FileStorage {
 
+    private static final FileStorage instance = new FileStorage();
     private final FileStorageService service;
 
-    public FileStorage() {
+    FileStorage() {
         if (Config.isDevServer()) {
             service = new LocalFileStorageService();
         } else {
             service = new GoogleCloudStorageService();
         }
+    }
+
+    public static FileStorage inst() {
+        return instance;
     }
 
     /**
