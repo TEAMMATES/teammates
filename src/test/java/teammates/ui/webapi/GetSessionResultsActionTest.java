@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -57,7 +56,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         instructorAttributes.getEmail(),
-                        UserRole.INSTRUCTOR, null, null));
+                        true, null, null));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
@@ -82,7 +81,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         studentAttributes.getEmail(),
-                        UserRole.STUDENT, null, null),
+                        false, null, null),
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));

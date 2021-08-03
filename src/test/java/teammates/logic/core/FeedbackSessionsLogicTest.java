@@ -15,7 +15,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -858,7 +857,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertThrows(UnsupportedOperationException.class, () -> {
             fsLogic.getSessionResultsForUser(
                     "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
-                    UserRole.STUDENT, question.getId(), Const.DEFAULT_SECTION);
+                    false, question.getId(), Const.DEFAULT_SECTION);
         });
     }
 
@@ -873,7 +872,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Alice will see 4 responses
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -882,7 +881,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Benny will see 4 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.benny.c@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(4, responseForQuestion.size());
@@ -890,7 +889,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Charlie will see 3 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.charlie.d@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(3, responseForQuestion.size());
@@ -898,7 +897,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Danny will see 3 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.danny.e@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(3, responseForQuestion.size());
@@ -906,7 +905,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // Emily will see 1 response
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.emily.f@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(1, responseForQuestion.size());
@@ -924,7 +923,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes question = getQuestionFromDatabase("qn2InSession1InCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         // there won't be question generated for student
         assertEquals(0, bundle.getQuestionsMap().size());
         assertEquals(0, bundle.getQuestionResponseMap().size());
@@ -934,7 +933,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         question = getQuestionFromDatabase("qn3InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -954,7 +953,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         StudentAttributes student = responseBundle.students.get("student1InCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, null, null);
+                false, null, null);
 
         // We just check for correct session once
         assertEquals(session.toString(), bundle.getFeedbackSession().toString());
@@ -1022,7 +1021,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // no section specified
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, fq.getId(), null);
+                true, fq.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -1032,7 +1031,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fq = getQuestionFromDatabase("qn2InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, fq.getId(), "Section 1");
+                true, fq.getId(), "Section 1");
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(3, responseForQuestion.size());
@@ -1048,7 +1047,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, null, null);
+                true, null, null);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         int totalResponse = 0;
@@ -1110,7 +1109,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, null, "Section A");
+                true, null, "Section A");
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         // after filtering by section, the number of responses seen by instructor will differ.
@@ -1180,7 +1179,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, fq.getId(), null);
+                false, fq.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
