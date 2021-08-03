@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -37,17 +36,17 @@ public class DataMigrationForSanitizedDataInInstructorAttributes
 
     @Override
     protected boolean isMigrationNeeded(Instructor instructor) throws Exception {
-        if (SanitizationHelper.isSanitizedHtml(instructor.getRole())) {
+        if (isSanitizedHtml(instructor.getRole())) {
             logError(String.format("Instructor %s has unsanitized role %s, this should not happen",
                     instructor.getUniqueId(), instructor.getRole()));
         }
 
-        return SanitizationHelper.isSanitizedHtml(instructor.getDisplayedName());
+        return isSanitizedHtml(instructor.getDisplayedName());
     }
 
     @Override
     protected void migrateEntity(Instructor instructor) throws Exception {
-        instructor.setDisplayedName(SanitizationHelper.desanitizeIfHtmlSanitized(instructor.getDisplayedName()));
+        instructor.setDisplayedName(desanitizeIfHtmlSanitized(instructor.getDisplayedName()));
 
         saveEntityDeferred(instructor);
     }

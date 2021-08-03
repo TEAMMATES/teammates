@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.CourseStudent;
 
 /**
@@ -37,37 +36,37 @@ public class DataMigrationForSanitizedDataInStudentAttributes
 
     @Override
     protected boolean isMigrationNeeded(CourseStudent student) throws Exception {
-        if (SanitizationHelper.isSanitizedHtml(student.getCourseId())) {
+        if (isSanitizedHtml(student.getCourseId())) {
             logError(String.format("Student %s has unsanitized courseId %s, this should not happen",
                     student.getUniqueId(), student.getCourseId()));
         }
-        if (SanitizationHelper.isSanitizedHtml(student.getEmail())) {
+        if (isSanitizedHtml(student.getEmail())) {
             logError(String.format("Student %s has unsanitized email %s, this should not happen",
                     student.getUniqueId(), student.getEmail()));
         }
-        if (SanitizationHelper.isSanitizedHtml(student.getGoogleId())) {
+        if (isSanitizedHtml(student.getGoogleId())) {
             logError(String.format("Student %s has unsanitized googleId %s, this should not happen",
                     student.getUniqueId(), student.getGoogleId()));
         }
-        if (SanitizationHelper.isSanitizedHtml(student.getSectionName())) {
+        if (isSanitizedHtml(student.getSectionName())) {
             logError(String.format("Student %s has unsanitized sectionName %s, this should not happen",
                     student.getUniqueId(), student.getSectionName()));
         }
-        if (SanitizationHelper.isSanitizedHtml(student.getTeamName())) {
+        if (isSanitizedHtml(student.getTeamName())) {
             logError(String.format("Student %s has unsanitized teamName %s, this should not happen",
                     student.getUniqueId(), student.getTeamName()));
         }
 
-        return SanitizationHelper.isSanitizedHtml(student.getComments())
-                || SanitizationHelper.isSanitizedHtml(student.getLastName())
-                || SanitizationHelper.isSanitizedHtml(student.getName());
+        return isSanitizedHtml(student.getComments())
+                || isSanitizedHtml(student.getLastName())
+                || isSanitizedHtml(student.getName());
     }
 
     @Override
     protected void migrateEntity(CourseStudent student) throws Exception {
-        student.setComments(SanitizationHelper.desanitizeIfHtmlSanitized(student.getComments()));
-        student.setName(SanitizationHelper.desanitizeIfHtmlSanitized(student.getName()));
-        student.setLastName(SanitizationHelper.desanitizeIfHtmlSanitized(student.getLastName()));
+        student.setComments(desanitizeIfHtmlSanitized(student.getComments()));
+        student.setName(desanitizeIfHtmlSanitized(student.getName()));
+        student.setLastName(desanitizeIfHtmlSanitized(student.getLastName()));
 
         saveEntityDeferred(student);
     }

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Course;
 
 /**
@@ -37,12 +36,12 @@ public class DataMigrationForSanitizedDataInCourseAttributes
 
     @Override
     protected boolean isMigrationNeeded(Course course) throws Exception {
-        return SanitizationHelper.isSanitizedHtml(course.getName());
+        return isSanitizedHtml(course.getName());
     }
 
     @Override
     protected void migrateEntity(Course course) throws Exception {
-        course.setName(SanitizationHelper.desanitizeIfHtmlSanitized(course.getName()));
+        course.setName(desanitizeIfHtmlSanitized(course.getName()));
 
         saveEntityDeferred(course);
     }
