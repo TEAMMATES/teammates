@@ -1,16 +1,11 @@
-import { GeneralLogEntry, RequestLogUser } from '../../../types/api-output';
+import { GeneralLogEntry } from '../../../types/api-output';
 
 /**
  * The model for a row of the logs table.
  */
-export interface LogsTableRowModel extends GeneralLogEntry {
+export interface LogsTableRowModel {
+  logEntry: GeneralLogEntry;
   timestampForDisplay: string;
-  traceIdForSummary?: string;
-  httpStatus?: number;
-  responseTime ?: number;
-  summary: string;
-  actionClass: string;
-  exceptionClass: string;
-  userInfo?: RequestLogUser;
+  traceIdForDisplay: string;
   isDetailsExpanded: boolean;
 }

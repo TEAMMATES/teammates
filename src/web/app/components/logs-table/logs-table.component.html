@@ -5,44 +5,46 @@
         <tr>
           <th id="timestamp" class="width-20">Timestamp</th>
           <th id="severity" class="width-10">Severity</th>
-          <th id="summary" class="width-70">Summary</th>
+          <th id="trace-id" class="width-10">Trace ID</th>
+          <th id="summary" class="width-60">Summary</th>
         </tr>
       </thead>
       <tbody>
         <ng-container *ngFor="let log of logs">
-          <tr (click)="expandDetails(log)" [ngClass]="getClassForSeverity(log.severity)">
+          <tr (click)="expandDetails(log)" [ngClass]="getClassForSeverity(log.logEntry.severity)">
             <td style="font-family: monospace;">{{ log.timestampForDisplay }}</td>
-            <td>{{ log.severity }}</td>
+            <td>{{ log.logEntry.severity }}</td>
+            <td>
+              <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.logEntry.trace)">{{ log.traceIdForDisplay }}</span>
+            </td>
             <td class="ellipsis">
-              <span class="right-padding" *ngIf="log.httpStatus" [ngClass]="getClassForStatus(log.httpStatus)">{{ log.httpStatus }}</span>
-              <span class="right-padding blue-font" *ngIf="log.responseTime">{{ log.responseTime }}ms</span>
-              <span class="clickable border" *ngIf="log.traceIdForSummary" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.trace)">{{ log.traceIdForSummary }}</span>
-              <span class="clickable border" *ngIf="log.actionClass" ngbTooltip="Click to add to filter" (click)="addActionClassToFilter(log.actionClass)">{{ log.actionClass }}</span>
-              <span class="clickable border red-font" *ngIf="log.exceptionClass" ngbTooltip="Click to add to filter" (click)="addExceptionClassToFilter(log.exceptionClass)">{{ log.exceptionClass }}</span>
-              {{ log.summary }}
+              <tm-request-log-line *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.REQUEST_LOG" [log]="log.logEntry"
+                  (addActionClassEvent)="addActionClassToFilter($event)"></tm-request-log-line>
+              <tm-exception-log-line *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.EXCEPTION_LOG" [log]="log.logEntry"
+                  (addExceptionClassEvent)="addExceptionClassToFilter($event)"></tm-exception-log-line>
+              <tm-generic-log-line *ngIf="!log.logEntry.details || log.logEntry.details.event !== LogEvent.REQUEST_LOG && log.logEntry.details.event !== LogEvent.EXCEPTION_LOG" [log]="log.logEntry"></tm-generic-log-line>
             </td>
           </tr>
           <tr *ngIf="log.isDetailsExpanded">
-            <td colspan="3">
+            <td colspan="4">
               <details>
                 <summary class="title">source location:</summary>
-                <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addSourceLocationToFilter(log.sourceLocation)" [innerHTML]="log.sourceLocation | json"></pre>
+                <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addSourceLocationToFilter(log.logEntry.sourceLocation)">{{ log.logEntry.sourceLocation | json }}</pre>
               </details>
               <details>
                 <summary class="title">resource:</summary>
-                <pre class="margin-left-3em wrap" [innerHTML]="log.resourceIdentifier | json"></pre>
+                <pre class="margin-left-3em wrap">{{ log.logEntry.resourceIdentifier | json }}</pre>
               </details>
-              <details open>
-                <summary class="title">details:</summary>
-                <pre class="margin-left-3em wrap" [innerHTML]="log.details | json"></pre>
+              <details *ngIf="log.logEntry.message" open>
+                <summary class="title">message:</summary>
+                <pre class="margin-left-3em wrap">{{ log.logEntry.message }}</pre>
               </details>
-              <details *ngIf="log.userInfo">
-                <summary class="title">userInfo:</summary>
-                <pre class="clickable margin-left-3em wrap" ngbTooltip="Click to add to filter" (click)="addUserInfoToFilter(log.userInfo)" [innerHTML]="log.userInfo | json"></pre>
-              </details>
-              <div *ngIf="log.trace">
+              <tm-request-log-details *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.REQUEST_LOG" [log]="log.logEntry" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-request-log-details>
+              <tm-email-log-details *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.EMAIL_SENT" [log]="log.logEntry"></tm-email-log-details>
+              <tm-generic-log-details *ngIf="!log.logEntry.details || log.logEntry.details.event !== LogEvent.REQUEST_LOG && log.logEntry.details.event !== LogEvent.EMAIL_SENT" [log]="log.logEntry"></tm-generic-log-details>
+              <div *ngIf="log.logEntry.trace">
                 <span class="title">trace: </span>
-                <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.trace)">{{ log.trace }}</span>
+                <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.logEntry.trace)">{{ log.logEntry.trace }}</span>
               </div>
             </td>
           </tr>

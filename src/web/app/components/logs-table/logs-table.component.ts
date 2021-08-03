@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { RequestLogUser, SourceLocation } from '../../../types/api-output';
+import { LogEvent, RequestLogUser, SourceLocation } from '../../../types/api-output';
 import { LogsTableRowModel } from './logs-table-model';
 
 /**
@@ -11,6 +11,8 @@ import { LogsTableRowModel } from './logs-table-model';
   styleUrls: ['./logs-table.component.scss'],
 })
 export class LogsTableComponent implements OnInit {
+
+  LogEvent: typeof LogEvent = LogEvent;
 
   @Input()
   logs: LogsTableRowModel[] = [];
@@ -35,20 +37,6 @@ export class LogsTableComponent implements OnInit {
 
   expandDetails(logsTableRowModel: LogsTableRowModel): void {
     logsTableRowModel.isDetailsExpanded = !logsTableRowModel.isDetailsExpanded;
-  }
-
-  getClassForStatus(httpStatus: number): string {
-    const num: number = Math.floor(httpStatus / 100);
-    switch (num) {
-      case 2:
-        return 'green-font';
-      case 4:
-        return 'orange-font';
-      case 5:
-        return 'red-font';
-      default:
-        return '';
-    }
   }
 
   getClassForSeverity(severity: string): string {

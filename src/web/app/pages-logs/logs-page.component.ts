@@ -305,83 +305,26 @@ export class LogsPageComponent implements OnInit {
       this.latestLogTimestampRetrieved = log.timestamp;
     }
 
-    let summary: string = '';
-    let actionClass: string = '';
-    let exceptionClass: string = '';
-    let payload: any = '';
-    let httpStatus: number | undefined;
-    let responseTime: number | undefined;
-    let traceIdForSummary: string | undefined;
-    let userInfo: RequestLogUser | undefined;
-
+    let traceIdForDisplay: string = '';
     if (log.trace) {
-      traceIdForSummary = this.formatTraceForSummary(log.trace);
+      traceIdForDisplay = this.formatTraceForSummary(log.trace);
     }
 
-    if (log.message) {
-      summary = log.message;
-      payload = this.formatTextPayloadForDisplay(log.message);
-    } else if (log.details) {
-      payload = log.details;
-      if (payload.requestMethod) {
-        summary += `${payload.requestMethod} `;
-      }
-      if (payload.requestUrl) {
-        summary += `${payload.requestUrl} `;
-      }
-      if (!summary && payload.message) {
-        summary = payload.message;
-      }
-      if (payload.responseStatus) {
-        httpStatus = payload.responseStatus;
-      }
-      if (payload.responseTime) {
-        responseTime = payload.responseTime;
-      }
-      if (payload.actionClass) {
-        actionClass = payload.actionClass;
-      }
-      if (payload.exceptionClass) {
-        exceptionClass = payload.exceptionClass;
-      }
-      if (payload.userInfo) {
-        userInfo = payload.userInfo;
-        payload.userInfo = undefined; // Removed so that userInfo is not displayed twice
-      }
-    }
+    const timestampForDisplay: string = this.timezoneService.formatToString(
+        log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A');
 
     return {
-      summary,
-      httpStatus,
-      responseTime,
-      userInfo,
-      actionClass,
-      exceptionClass,
-      traceIdForSummary,
-      timestamp: log.timestamp,
-      logName: log.logName,
-      insertId: log.insertId,
-      trace: log.trace,
-      sourceLocation: log.sourceLocation,
-      resourceIdentifier: log.resourceIdentifier,
-      timestampForDisplay: this.timezoneService.formatToString(
-          log.timestamp, this.timezoneService.guessTimezone(), 'DD MMM, YYYY hh:mm:ss A'),
-      severity: log.severity,
-      details: payload,
+      traceIdForDisplay,
+      timestampForDisplay,
+      logEntry: log,
       isDetailsExpanded: false,
     };
-  }
-
-  private formatTextPayloadForDisplay(textPayload: String): String {
-    return textPayload
-      .replace(/\n/g, '<br/>')
-      .replace(/\t/g, '&#9;');
   }
 
   /**
    * Display the first 9 digits of the trace.
    */
-  private formatTraceForSummary(trace: string): string | undefined {
+  private formatTraceForSummary(trace: string): string {
     return trace.slice(0, 9);
   }
 
