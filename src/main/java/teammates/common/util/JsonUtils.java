@@ -198,7 +198,16 @@ public final class JsonUtils {
 
         @Override
         public LogDetails deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) {
-            LogEvent event = LogEvent.valueOf(json.getAsJsonObject().get("event").getAsString());
+            LogEvent event;
+            if (json.getAsJsonObject().has("event")) {
+                try {
+                    event = LogEvent.valueOf(json.getAsJsonObject().get("event").getAsString());
+                } catch (IllegalArgumentException e) {
+                    event = LogEvent.DEFAULT_LOG;
+                }
+            } else {
+                event = LogEvent.DEFAULT_LOG;
+            }
             return context.deserialize(json, event.getDetailsClass());
         }
     }
