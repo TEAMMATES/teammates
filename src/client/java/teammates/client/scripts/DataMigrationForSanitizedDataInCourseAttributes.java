@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.entity.Course;
@@ -18,7 +16,7 @@ public class DataMigrationForSanitizedDataInCourseAttributes
         numberOfUpdatedEntities.set(0L);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         DataMigrationForSanitizedDataInCourseAttributes migrator =
                 new DataMigrationForSanitizedDataInCourseAttributes();
         migrator.doOperationRemotely();
@@ -35,12 +33,12 @@ public class DataMigrationForSanitizedDataInCourseAttributes
     }
 
     @Override
-    protected boolean isMigrationNeeded(Course course) throws Exception {
+    protected boolean isMigrationNeeded(Course course) {
         return isSanitizedHtml(course.getName());
     }
 
     @Override
-    protected void migrateEntity(Course course) throws Exception {
+    protected void migrateEntity(Course course) {
         course.setName(desanitizeIfHtmlSanitized(course.getName()));
 
         saveEntityDeferred(course);

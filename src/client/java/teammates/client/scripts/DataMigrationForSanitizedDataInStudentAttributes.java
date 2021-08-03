@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.entity.CourseStudent;
@@ -18,7 +16,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes
         numberOfUpdatedEntities.set(0L);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         DataMigrationForSanitizedDataInStudentAttributes migrator =
                 new DataMigrationForSanitizedDataInStudentAttributes();
         migrator.doOperationRemotely();
@@ -35,7 +33,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes
     }
 
     @Override
-    protected boolean isMigrationNeeded(CourseStudent student) throws Exception {
+    protected boolean isMigrationNeeded(CourseStudent student) {
         if (isSanitizedHtml(student.getCourseId())) {
             logError(String.format("Student %s has unsanitized courseId %s, this should not happen",
                     student.getUniqueId(), student.getCourseId()));
@@ -63,7 +61,7 @@ public class DataMigrationForSanitizedDataInStudentAttributes
     }
 
     @Override
-    protected void migrateEntity(CourseStudent student) throws Exception {
+    protected void migrateEntity(CourseStudent student) {
         student.setComments(desanitizeIfHtmlSanitized(student.getComments()));
         student.setName(desanitizeIfHtmlSanitized(student.getName()));
         student.setLastName(desanitizeIfHtmlSanitized(student.getLastName()));

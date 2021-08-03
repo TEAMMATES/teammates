@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -15,7 +13,7 @@ import teammates.storage.entity.FeedbackResponseComment;
 public class DataMigrationForNullCommentGiverType extends
         DataMigrationEntitiesBaseScript<FeedbackResponseComment> {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new DataMigrationForNullCommentGiverType().doOperationRemotely();
     }
 

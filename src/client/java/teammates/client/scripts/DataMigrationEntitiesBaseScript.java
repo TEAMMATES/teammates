@@ -80,7 +80,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
      *
      * <p>Causation: this method might be called in multiple threads if using transaction.</p>
      */
-    protected abstract boolean isMigrationNeeded(T entity) throws Exception;
+    protected abstract boolean isMigrationNeeded(T entity);
 
     /**
      * Migrates the entity.

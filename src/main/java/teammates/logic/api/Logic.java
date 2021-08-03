@@ -1024,7 +1024,7 @@ public class Logic {
      * Soft-deletes a specific session to Recycle Bin.
      */
     public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
@@ -1036,7 +1036,7 @@ public class Logic {
      * Restores a specific session from Recycle Bin to feedback sessions table.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;

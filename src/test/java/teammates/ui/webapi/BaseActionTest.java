@@ -102,11 +102,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         }
         if (parts != null) {
             parts.forEach((key, part) -> {
-                try {
-                    req.addPart(key, part);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                req.addPart(key, part);
             });
         }
         if (cookies != null) {

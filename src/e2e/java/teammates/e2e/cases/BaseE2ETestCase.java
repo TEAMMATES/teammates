@@ -47,7 +47,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     private Browser browser;
 
     @BeforeClass
-    public void baseClassSetup() throws Exception {
+    public void baseClassSetup() {
         prepareTestData();
         prepareBrowser();
     }
