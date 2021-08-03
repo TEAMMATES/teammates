@@ -4,6 +4,7 @@ exports[`InstructorSearchPageComponent should snap with a search key 1`] = `
 <tm-instructor-search-page
   courseService={[Function CourseService]}
   isSearching="false"
+  maxResultsToShow={[Function Number]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
@@ -75,6 +76,7 @@ exports[`InstructorSearchPageComponent should snap with a student table 1`] = `
 <tm-instructor-search-page
   courseService={[Function CourseService]}
   isSearching="false"
+  maxResultsToShow={[Function Number]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
@@ -604,6 +606,7 @@ exports[`InstructorSearchPageComponent should snap with default fields 1`] = `
 <tm-instructor-search-page
   courseService={[Function CourseService]}
   isSearching="false"
+  maxResultsToShow={[Function Number]}
   searchParams={[Function Object]}
   searchService={[Function SearchService]}
   statusMessageService={[Function StatusMessageService]}
