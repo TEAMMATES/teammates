@@ -161,7 +161,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testIsFeedbackSessionHasQuestionForStudents();
         testIsFeedbackSessionCompletedByStudent();
         testIsFeedbackSessionCompletedByInstructor();
-        testIsFeedbackSessionFullyCompletedByStudent();
 
         testMoveFeedbackSessionToRecycleBin();
         testRestoreFeedbackSessionFromRecycleBin();
@@ -737,29 +736,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         StudentAttributes student = dataBundle.students.get("student2InCourse1");
 
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail()));
-    }
-
-    private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
-
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student1OfCourse1 = dataBundle.students.get("student1InCourse1");
-        StudentAttributes student3OfCourse1 = dataBundle.students.get("student3InCourse1");
-
-        ______TS("failure: non-existent feedback session for student");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> fsLogic.isFeedbackSessionFullyCompletedByStudent(
-                        "nonExistentFSName", fs.getCourseId(), "random.student@email"));
-        assertEquals("Trying to check a non-existent feedback session: " + fs.getCourseId() + "/nonExistentFSName",
-                ednee.getMessage());
-
-        ______TS("success case: fully done by student 1");
-        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                student1OfCourse1.getEmail()));
-
-        ______TS("success case: partially done by student 3");
-        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                student3OfCourse1.getEmail()));
     }
 
     private FeedbackSessionAttributes getNewFeedbackSession() {

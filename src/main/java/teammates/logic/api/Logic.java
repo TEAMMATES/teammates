@@ -1248,14 +1248,6 @@ public class Logic {
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,
-                                                                                      String giverEmail) {
-        assert courseId != null;
-        assert giverEmail != null;
-
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
-    }
-
     /**
      * Gets comment associated with the response.
      *

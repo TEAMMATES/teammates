@@ -13,15 +13,6 @@ public class GeneralLogsData extends ApiOutput {
     private List<GeneralLogEntry> logEntries = new ArrayList<>();
     private boolean hasNextPage;
 
-    public GeneralLogsData(List<GeneralLogEntry> logEntries) {
-        this.logEntries = logEntries;
-    }
-
-    public GeneralLogsData(List<GeneralLogEntry> logEntries, boolean hasNextPage) {
-        this.logEntries = logEntries;
-        this.hasNextPage = hasNextPage;
-    }
-
     public GeneralLogsData(QueryLogsResults queryResults) {
         this.logEntries = queryResults.getLogEntries();
         this.hasNextPage = queryResults.getHasNextPage();

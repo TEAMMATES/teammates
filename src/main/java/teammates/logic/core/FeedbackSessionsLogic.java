@@ -873,32 +873,6 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Returns true if the feedback session has been fully answered by the given student.
-     */
-    public boolean isFeedbackSessionFullyCompletedByStudent(
-            String feedbackSessionName,
-            String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
-                        courseId);
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
-                // If any question is not completely answered, session is not
-                // completed
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * Returns true if the feedback session has been attempted (i.e. any question is answered) by the given student.
      */
     public boolean isFeedbackSessionAttemptedByStudent(

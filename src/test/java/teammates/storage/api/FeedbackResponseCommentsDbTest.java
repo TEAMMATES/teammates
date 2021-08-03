@@ -97,7 +97,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
 
         ______TS("typical success case");
 
-        FeedbackResponseCommentAttributes frcaExpected = frcDb.getFeedbackResponseComment(
+        FeedbackResponseCommentAttributes frcaExpected = getFeedbackResponseComment(
                 frcaData.getCourseId(), frcaData.getCreatedAt(), frcaData.getCommentGiver());
 
         FeedbackResponseCommentAttributes frcaActual =
@@ -144,8 +144,6 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
 
         assertNull(frcDb.getFeedbackResponseComment(
                 frca.getId().toString(), "nonExistentGiverEmail", frca.getCreatedAt()));
-        assertNull(frcDb.getFeedbackResponseComment(
-                frcaData.getCourseId(), frcaData.getCreatedAt(), "nonExistentGiverEmail"));
     }
 
     private void testGetFeedbackResponseCommentForGiver() {
@@ -228,7 +226,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
         frcaTemp = frcDb.getFeedbackResponseComment(frcaTemp.getFeedbackResponseId(),
                 frcaTemp.getCommentGiver(), frcaTemp.getCreatedAt());
 
-        FeedbackResponseCommentAttributes frcaExpected = frcDb.getFeedbackResponseComment(
+        FeedbackResponseCommentAttributes frcaExpected = getFeedbackResponseComment(
                 frcaTemp.getCourseId(), frcaTemp.getCreatedAt(), frcaTemp.getCommentGiver());
         frcaExpected.setCommentText("This is new Text");
         FeedbackResponseCommentAttributes updatedComment = frcDb.updateFeedbackResponseComment(
@@ -239,7 +237,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
         assertEquals(frcaExpected.getCommentText(), updatedComment.getCommentText());
 
         FeedbackResponseCommentAttributes frcaActual =
-                frcDb.getFeedbackResponseComment(
+                getFeedbackResponseComment(
                         frcaExpected.getCourseId(), frcaExpected.getCreatedAt(), frcaExpected.getCommentGiver());
 
         frcaExpected.setId(frcaActual.getId());
@@ -376,22 +374,22 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
         frcaDataOfNewGiver.setCommentGiver(giverEmail);
         frcaDataOfNewGiver.setCourseId(courseId);
         frcDb.createEntity(frcaDataOfNewGiver);
-        assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
+        assertNotNull(getFeedbackResponseComment(courseId, createdAt, giverEmail));
 
         ______TS("typical success case");
 
         String updatedEmail = "frcdb.updatedGiver@email.com";
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, giverEmail, updatedEmail);
-        assertNull(frcDb.getFeedbackResponseComment(courseId, createdAt, giverEmail));
-        assertNotNull(frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail));
+        assertNull(getFeedbackResponseComment(courseId, createdAt, giverEmail));
+        assertNotNull(getFeedbackResponseComment(courseId, createdAt, updatedEmail));
 
         ______TS("Same email");
 
         FeedbackResponseCommentAttributes expectedFrca =
-                frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail);
+                getFeedbackResponseComment(courseId, createdAt, updatedEmail);
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, updatedEmail, updatedEmail);
         FeedbackResponseCommentAttributes actualFrca =
-                frcDb.getFeedbackResponseComment(courseId, createdAt, updatedEmail);
+                getFeedbackResponseComment(courseId, createdAt, updatedEmail);
         assertEquals(actualFrca.getCourseId(), expectedFrca.getCourseId());
         assertEquals(actualFrca.getCreatedAt(), expectedFrca.getCreatedAt());
         assertEquals(actualFrca.getCommentGiver(), expectedFrca.getCommentGiver());
@@ -597,7 +595,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
     @Test
     public void testGetFeedbackResponseCommentsForQuestion_typicalCase_shouldQueryCorrectly() {
         FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
-        frc = frcDb.getFeedbackResponseComment(frc.getCourseId(), frc.getCreatedAt(), frc.getCommentGiver());
+        frc = getFeedbackResponseComment(frc.getCourseId(), frc.getCreatedAt(), frc.getCommentGiver());
         List<FeedbackResponseCommentAttributes> comments =
                 frcDb.getFeedbackResponseCommentsForQuestion(frc.getFeedbackQuestionId());
         assertEquals(1, comments.size());
@@ -609,7 +607,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
     @Test
     public void testGetFeedbackResponseCommentsForQuestionInSection_typicalCase_shouldQueryCorrectly() {
         FeedbackResponseCommentAttributes frc = dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q1S1C1");
-        frc = frcDb.getFeedbackResponseComment(frc.getCourseId(), frc.getCreatedAt(), frc.getCommentGiver());
+        frc = getFeedbackResponseComment(frc.getCourseId(), frc.getCreatedAt(), frc.getCommentGiver());
         List<FeedbackResponseCommentAttributes> comments =
                 frcDb.getFeedbackResponseCommentsForQuestionInSection(frc.getFeedbackQuestionId(), "Section 1");
         assertEquals(1, comments.size());
@@ -622,6 +620,14 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
 
         comments = frcDb.getFeedbackResponseCommentsForQuestionInSection("not_exist", "not_exist");
         assertEquals(0, comments.size());
+    }
+
+    private FeedbackResponseCommentAttributes getFeedbackResponseComment(String courseId, Instant createdAt, String giver) {
+        return frcDb.getFeedbackResponseCommentForGiver(courseId, giver)
+                .stream()
+                .filter(frc -> frc.getCreatedAt().equals(createdAt))
+                .findFirst()
+                .orElse(null);
     }
 
 }
