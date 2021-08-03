@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
@@ -212,102 +211,76 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
     /**
      * Update a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
      *
-     * <p>The update will be done in a transaction.
-     *
      * @return updated feedback session
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    // The objectify library does not support throwing checked exceptions inside transactions
     public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
-        FeedbackSessionAttributes[] newAttributesFinal = new FeedbackSessionAttributes[] { null };
-        try {
-            FeedbackSessionsDb thisDb = this;
-            ofy().transact(new VoidWork() {
-                @Override
-                public void vrun() {
-                    FeedbackSession feedbackSession =
-                            getFeedbackSessionEntity(updateOptions.getFeedbackSessionName(), updateOptions.getCourseId());
-                    if (feedbackSession == null) {
-                        throw new RuntimeException(
-                                new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions));
-                    }
-
-                    newAttributesFinal[0] = makeAttributes(feedbackSession);
-                    FeedbackSessionAttributes newAttributes = newAttributesFinal[0];
-                    newAttributes.update(updateOptions);
-
-                    newAttributes.sanitizeForSaving();
-                    if (!newAttributes.isValid()) {
-                        throw new RuntimeException(
-                                new InvalidParametersException(newAttributes.getInvalidityInfo()));
-                    }
-
-                    // update only if change
-                    boolean hasSameAttributes =
-                            thisDb.<String>hasSameValue(feedbackSession.getInstructions(), newAttributes.getInstructions())
-                            && thisDb.<Instant>hasSameValue(feedbackSession.getStartTime(), newAttributes.getStartTime())
-                            && thisDb.<Instant>hasSameValue(feedbackSession.getEndTime(), newAttributes.getEndTime())
-                            && thisDb.<Instant>hasSameValue(
-                                    feedbackSession.getSessionVisibleFromTime(), newAttributes.getSessionVisibleFromTime())
-                            && thisDb.<Instant>hasSameValue(
-                                    feedbackSession.getResultsVisibleFromTime(), newAttributes.getResultsVisibleFromTime())
-                            && thisDb.<String>hasSameValue(
-                                    feedbackSession.getTimeZone(), newAttributes.getTimeZone().getId())
-                            && thisDb.<Long>hasSameValue(
-                                    feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentClosedEmail(), newAttributes.isSentClosedEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
-                    if (hasSameAttributes) {
-                        log.info(String.format(
-                                OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
-                        newAttributesFinal[0] = makeAttributes(feedbackSession);
-                        return;
-                    }
-
-                    feedbackSession.setInstructions(newAttributes.getInstructions());
-                    feedbackSession.setStartTime(newAttributes.getStartTime());
-                    feedbackSession.setEndTime(newAttributes.getEndTime());
-                    feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
-                    feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
-                    feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
-                    feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
-                    feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
-                    feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
-                    feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
-                    feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
-                    feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
-                    feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
-
-                    saveEntity(feedbackSession);
-
-                    newAttributesFinal[0] = makeAttributes(feedbackSession);
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof EntityDoesNotExistException) {
-                throw (EntityDoesNotExistException) e.getCause();
-            } else if (e.getCause() instanceof InvalidParametersException) {
-                throw (InvalidParametersException) e.getCause();
-            } else {
-                throw e;
-            }
+        FeedbackSession feedbackSession =
+                getFeedbackSessionEntity(updateOptions.getFeedbackSessionName(), updateOptions.getCourseId());
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
-        return newAttributesFinal[0];
+
+        FeedbackSessionAttributes newAttributes = makeAttributes(feedbackSession);
+        newAttributes.update(updateOptions);
+
+        newAttributes.sanitizeForSaving();
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
+
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(feedbackSession.getInstructions(), newAttributes.getInstructions())
+                && this.<Instant>hasSameValue(feedbackSession.getStartTime(), newAttributes.getStartTime())
+                && this.<Instant>hasSameValue(feedbackSession.getEndTime(), newAttributes.getEndTime())
+                && this.<Instant>hasSameValue(
+                        feedbackSession.getSessionVisibleFromTime(), newAttributes.getSessionVisibleFromTime())
+                && this.<Instant>hasSameValue(
+                        feedbackSession.getResultsVisibleFromTime(), newAttributes.getResultsVisibleFromTime())
+                && this.<String>hasSameValue(
+                        feedbackSession.getTimeZone(), newAttributes.getTimeZone().getId())
+                && this.<Long>hasSameValue(
+                        feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentClosedEmail(), newAttributes.isSentClosedEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
+        if (hasSameAttributes) {
+            log.info(String.format(
+                    OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
+            return makeAttributes(feedbackSession);
+        }
+
+        feedbackSession.setInstructions(newAttributes.getInstructions());
+        feedbackSession.setStartTime(newAttributes.getStartTime());
+        feedbackSession.setEndTime(newAttributes.getEndTime());
+        feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
+        feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
+        feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
+        feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
+        feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
+        feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
+        feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
+        feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
+        feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
+        feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
+
+        saveEntity(feedbackSession);
+
+        return makeAttributes(feedbackSession);
     }
 
     /**
