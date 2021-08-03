@@ -178,14 +178,3 @@
     </div>
   </ng-template>
 </div>
-
-<div *ngIf="!isTableView">
-  <div id="histogram" style="height: 400px; width: 100%;" *tmIsLoading="isSearching">
-    <tm-logs-histogram [data]="histogramResult" *ngIf="histogramResult.length>0; else noDataMessage"></tm-logs-histogram>
-  </div>
-  <ng-template #noDataMessage>
-    <div class="no-data-message">
-      There are no error logs in this time period.
-    </div>
-  </ng-template>
-</div>
