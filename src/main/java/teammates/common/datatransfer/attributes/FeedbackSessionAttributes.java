@@ -12,6 +12,9 @@ import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackSession;
 
+/**
+ * The data transfer object for {@link FeedbackSession} entities.
+ */
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
 
     private String feedbackSessionName;
@@ -51,6 +54,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     }
 
+    /**
+     * Gets the {@link FeedbackSessionAttributes} instance of the given {@link FeedbackSession}.
+     */
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
         FeedbackSessionAttributes feedbackSessionAttributes =
                 new FeedbackSessionAttributes(fs.getFeedbackSessionName(), fs.getCourseId());
@@ -85,6 +91,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return new Builder(feedbackSessionName, courseId);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public FeedbackSessionAttributes getCopy() {
         return valueOf(toEntity());
     }
@@ -97,6 +106,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return feedbackSessionName;
     }
 
+    /**
+     * Gets the instructions of the feedback session.
+     */
     public String getInstructionsString() {
         if (instructions == null) {
             return null;
@@ -179,10 +191,16 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
+    /**
+     * Returns true if the feedback session is closed after the number of specified hours.
+     */
     public boolean isClosedAfter(long hours) {
         return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
     }
 
+    /**
+     * Returns true if the feedback session is closing (almost closed) after the number of specified hours.
+     */
     public boolean isClosingWithinTimeLimit(long hours) {
         Instant now = Instant.now();
         Duration difference = Duration.between(now, endTime);
@@ -273,6 +291,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.isAfter(publishTime) || now.equals(publishTime);
     }
 
+    /**
+     * Returns true if the given email is the same as the creator email of the feedback session.
+     */
     public boolean isCreator(String instructorEmail) {
         return creatorEmail.equals(instructorEmail);
     }

@@ -39,7 +39,7 @@ import teammates.logic.core.StudentsLogic;
  * @see EmailType
  * @see EmailWrapper
  */
-public class EmailGenerator {
+public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions";
     private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
@@ -60,10 +60,20 @@ public class EmailGenerator {
 
     private static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(90);
 
+    private static final EmailGenerator instance = new EmailGenerator();
+
     private final CoursesLogic coursesLogic = CoursesLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
+
+    private EmailGenerator() {
+        // prevent initialization
+    }
+
+    public static EmailGenerator inst() {
+        return instance;
+    }
 
     /**
      * Generates the feedback session opening emails for the given {@code session}.
@@ -807,7 +817,8 @@ public class EmailGenerator {
     public EmailWrapper generateCompiledLogsEmail(List<ErrorLogEntry> logs) {
         StringBuilder emailBody = new StringBuilder();
         for (int i = 0; i < logs.size(); i++) {
-            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).message, logs.get(i).severity));
+            emailBody.append(generateSevereErrorLogLine(i, logs.get(i).getMessage(),
+                    logs.get(i).getSeverity(), logs.get(i).getTraceId()));
         }
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(Config.SUPPORT_EMAIL);
@@ -817,12 +828,13 @@ public class EmailGenerator {
         return email;
     }
 
-    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel) {
+    private String generateSevereErrorLogLine(int index, String logMessage, String logLevel, String traceId) {
         return Templates.populateTemplate(
                 EmailTemplates.SEVERE_ERROR_LOG_LINE,
                 "${index}", String.valueOf(index),
                 "${errorType}", logLevel,
-                "${errorMessage}", logMessage);
+                "${errorMessage}", logMessage,
+                "${traceId}", traceId);
     }
 
     private EmailWrapper getEmptyEmailAddressedToEmail(String recipient) {

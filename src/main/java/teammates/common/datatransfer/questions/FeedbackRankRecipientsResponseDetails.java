@@ -2,6 +2,9 @@ package teammates.common.datatransfer.questions;
 
 import teammates.common.util.Const;
 
+/**
+ * Contains specific structure and processing logic for rank recipients feedback responses.
+ */
 public class FeedbackRankRecipientsResponseDetails extends FeedbackResponseDetails {
     private int answer;
 
