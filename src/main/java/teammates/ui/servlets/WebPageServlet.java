@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
 
 /**
@@ -25,7 +24,7 @@ public class WebPageServlet extends HttpServlet {
             req.getRequestDispatcher("/index.html").forward(req, resp);
         } catch (RuntimeException e) {
             if (e.getClass().getSimpleName().equals("BadMessageException")) {
-                log.warning(TeammatesException.toStringWithStackTrace(e));
+                log.warning("", e);
                 resp.setStatus(HttpStatus.SC_BAD_REQUEST);
                 resp.getWriter().write(e.getMessage());
             } else {

@@ -71,7 +71,7 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
     @Override
     protected void doOperation() {
         try {
-            Logic logic = new Logic();
+            Logic logic = Logic.inst();
             DataBundle data = generateDataBundle();
             logic.removeDataBundle(data);
             logic.persistDataBundle(data);

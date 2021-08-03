@@ -1,4 +1,4 @@
-package teammates.test;
+package teammates.logic.api;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import teammates.common.util.TaskWrapper;
-import teammates.logic.api.TaskQueuer;
 
 /**
  * Allows mocking of the {@link TaskQueuer} API used in production.
@@ -19,8 +18,8 @@ public class MockTaskQueuer extends TaskQueuer {
     private List<TaskWrapper> tasksAdded = new ArrayList<>();
 
     @Override
-    protected void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
-                                   long countdownTime) {
+    void addDeferredTask(String queueName, String workerUrl, Map<String, String> paramMap, Object requestBody,
+                         long countdownTime) {
         // countdown time not tested
         TaskWrapper task = new TaskWrapper(queueName, workerUrl, paramMap, requestBody);
         tasksAdded.add(task);

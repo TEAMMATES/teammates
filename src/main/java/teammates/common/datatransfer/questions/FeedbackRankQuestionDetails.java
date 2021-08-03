@@ -2,11 +2,14 @@ package teammates.common.datatransfer.questions;
 
 import teammates.common.util.Const;
 
+/**
+ * Contains common abstractions between rank options and rank recipients questions.
+ */
 public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetails {
 
-    protected int minOptionsToBeRanked;
-    protected int maxOptionsToBeRanked;
-    protected boolean areDuplicatesAllowed;
+    int minOptionsToBeRanked;
+    int maxOptionsToBeRanked;
+    boolean areDuplicatesAllowed;
 
     FeedbackRankQuestionDetails(FeedbackQuestionType questionType, String questionText) {
         super(questionType, questionText);
@@ -30,7 +33,7 @@ public abstract class FeedbackRankQuestionDetails extends FeedbackQuestionDetail
         this.maxOptionsToBeRanked = maxOptionsToBeRanked;
     }
 
-    public boolean areDuplicatesAllowed() {
+    public boolean isAreDuplicatesAllowed() {
         return areDuplicatesAllowed;
     }
 

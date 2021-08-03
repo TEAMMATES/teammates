@@ -15,6 +15,9 @@ export interface AdvancedFilters {
   email?: string;
   sourceLocationFile?: string;
   sourceLocationFunction?: string;
+  latency?: string;
+  status?: string;
+  extraFilters?: string;
   exceptionClass?: string;
 }
 
@@ -27,7 +30,6 @@ export interface LogsEndpointQueryParams {
   severity?: string;
   minSeverity?: string;
   logEvent?: string;
-  nextPageToken?: string;
   order?: string;
   advancedFilters: AdvancedFilters;
 }
@@ -109,10 +111,6 @@ export class LogService {
       paramMap.logevent = queryParams.logEvent;
     }
 
-    if (queryParams.nextPageToken) {
-      paramMap.nextpagetoken = queryParams.nextPageToken;
-    }
-
     if (queryParams.advancedFilters.actionClass) {
       paramMap.actionclass = queryParams.advancedFilters.actionClass;
     }
@@ -126,7 +124,7 @@ export class LogService {
     }
 
     if (queryParams.advancedFilters.regkey) {
-      paramMap.regkey = queryParams.advancedFilters.regkey;
+      paramMap.key = queryParams.advancedFilters.regkey;
     }
 
     if (queryParams.advancedFilters.email) {
@@ -143,6 +141,18 @@ export class LogService {
 
     if (queryParams.advancedFilters.exceptionClass) {
       paramMap.exceptionclass = queryParams.advancedFilters.exceptionClass;
+    }
+
+    if (queryParams.advancedFilters.latency) {
+      paramMap.latency = queryParams.advancedFilters.latency;
+    }
+
+    if (queryParams.advancedFilters.status) {
+      paramMap.status = queryParams.advancedFilters.status;
+    }
+
+    if (queryParams.advancedFilters.extraFilters) {
+      paramMap.extrafilters = queryParams.advancedFilters.extraFilters;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);

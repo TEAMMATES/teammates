@@ -199,6 +199,10 @@ public final class FeedbackSessionsLogic {
         return sessionsToSendEmailsFor;
     }
 
+    /**
+     * Gets a list of undeleted feedback sessions which start within the last 2 hours
+     * and need an open email to be sent.
+     */
     public List<FeedbackSessionAttributes> getFeedbackSessionsWhichNeedOpenEmailsToBeSent() {
         List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpenEmail();
         List<FeedbackSessionAttributes> sessionsToSendEmailsFor = new ArrayList<>();
@@ -215,6 +219,9 @@ public final class FeedbackSessionsLogic {
         return sessionsToSendEmailsFor;
     }
 
+    /**
+     * Returns true if the given email is the creator of the given session.
+     */
     public boolean isCreatorOfSession(String feedbackSessionName, String courseId, String userEmail) {
         FeedbackSessionAttributes fs = getFeedbackSession(feedbackSessionName, courseId);
         return fs.getCreatorEmail().equals(userEmail);
@@ -224,6 +231,9 @@ public final class FeedbackSessionsLogic {
         return fsDb.getFeedbackSession(courseId, feedbackSessionName) != null;
     }
 
+    /**
+     * Returns true if the feedback session has question for students.
+     */
     public boolean isFeedbackSessionHasQuestionForStudents(
             String feedbackSessionName,
             String courseId) throws EntityDoesNotExistException {
@@ -403,6 +413,9 @@ public final class FeedbackSessionsLogic {
                         .build());
     }
 
+    /**
+     * Returns returns a list of sessions that are going to open in 24 hours.
+     */
     public List<FeedbackSessionAttributes> getFeedbackSessionsOpeningWithinTimeLimit() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
@@ -421,6 +434,9 @@ public final class FeedbackSessionsLogic {
         return requiredSessions;
     }
 
+    /**
+     * Returns returns a list of sessions that are going to close within the next 24 hours.
+     */
     public List<FeedbackSessionAttributes> getFeedbackSessionsClosingWithinTimeLimit() {
         List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
 
@@ -797,7 +813,7 @@ public final class FeedbackSessionsLogic {
         return null;
     }
 
-    /*
+    /**
      * Gets emails of student's teammates if student is not null, else returns an empty set.
      */
     private Set<String> getTeammateEmails(StudentAttributes student, CourseRoster roster) {
@@ -893,6 +909,9 @@ public final class FeedbackSessionsLogic {
         return fsDb.getSoftDeletedFeedbackSessionsForCourse(courseId);
     }
 
+    /**
+     * Returns true if the feedback session has been fully answered by the given student.
+     */
     public boolean isFeedbackSessionFullyCompletedByStudent(
             String feedbackSessionName,
             String courseId, String userEmail)
@@ -916,6 +935,9 @@ public final class FeedbackSessionsLogic {
         return true;
     }
 
+    /**
+     * Returns true if the feedback session has been attempted (i.e. any question is answered) by the given student.
+     */
     public boolean isFeedbackSessionAttemptedByStudent(
             String feedbackSessionName,
             String courseId, String userEmail)
@@ -938,6 +960,9 @@ public final class FeedbackSessionsLogic {
         return false;
     }
 
+    /**
+     * Returns true if the feedback session is viewable by the given student.
+     */
     public boolean isFeedbackSessionViewableToStudents(
             FeedbackSessionAttributes session) {
         // Allow students to view the feedback session if there are questions for them
