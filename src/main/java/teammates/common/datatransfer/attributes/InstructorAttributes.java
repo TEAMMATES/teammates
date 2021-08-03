@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -27,6 +28,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     private boolean isDisplayedToStudents;
     private InstructorPrivileges privileges;
     private transient String key;
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
 
     private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;
@@ -37,6 +40,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         this.isArchived = false;
         this.isDisplayedToStudents = true;
         this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
     /**
@@ -46,6 +52,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return new Builder(courseId, email);
     }
 
+    /**
+     * Gets the {@link InstructorAttributes} instance of the given {@link Instructor}.
+     */
     public static InstructorAttributes valueOf(Instructor instructor) {
         InstructorAttributes instructorAttributes =
                 new InstructorAttributes(instructor.getCourseId(), instructor.getEmail());
@@ -69,10 +78,19 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             instructorAttributes.privileges =
                     JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivileges.class);
         }
+        if (instructor.getCreatedAt() != null) {
+            instructorAttributes.createdAt = instructor.getCreatedAt();
+        }
+        if (instructor.getUpdatedAt() != null) {
+            instructorAttributes.updatedAt = instructor.getUpdatedAt();
+        }
 
         return instructorAttributes;
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public InstructorAttributes getCopy() {
         InstructorAttributes instructorAttributes = new InstructorAttributes(courseId, email);
         instructorAttributes.name = name;
@@ -83,6 +101,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         instructorAttributes.isArchived = isArchived;
         instructorAttributes.isDisplayedToStudents = isDisplayedToStudents;
         instructorAttributes.privileges = privileges;
+        instructorAttributes.createdAt = createdAt;
+        instructorAttributes.updatedAt = updatedAt;
 
         return instructorAttributes;
     }
@@ -241,6 +261,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         }
     }
 
+    /**
+     * Returns true if the instructor has the given privilege in the course.
+     */
     public boolean isAllowedForPrivilege(String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -248,6 +271,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.isAllowedForPrivilege(privilegeName);
     }
 
+    /**
+     * Returns true if the instructor has the given privilege in the given section.
+     */
     public boolean isAllowedForPrivilege(String sectionName, String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -255,6 +281,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.isAllowedForPrivilege(sectionName, privilegeName);
     }
 
+    /**
+     * Returns true if the instructor has the given privilege in the given section for the given feedback session.
+     */
     public boolean isAllowedForPrivilege(String sectionName, String sessionName, String privilegeName) {
         if (privileges == null) {
             privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
@@ -272,6 +301,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         return privileges.isAllowedForPrivilegeAnySection(sessionName, privilegeName);
     }
 
+    /**
+     * Returns true if the instructor has co-owner privilege.
+     */
     public boolean hasCoownerPrivileges() {
         return privileges.hasCoownerPrivileges();
     }
@@ -298,6 +330,22 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     /**

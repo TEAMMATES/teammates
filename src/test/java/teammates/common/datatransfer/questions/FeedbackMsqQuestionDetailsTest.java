@@ -22,7 +22,7 @@ public class FeedbackMsqQuestionDetailsTest extends BaseTestCase {
         FeedbackMsqQuestionDetails msqDetails = new FeedbackMsqQuestionDetails();
 
         assertEquals(FeedbackQuestionType.MSQ, msqDetails.getQuestionType());
-        assertFalse(msqDetails.hasAssignedWeights());
+        assertFalse(msqDetails.isHasAssignedWeights());
         assertTrue(msqDetails.getMsqWeights().isEmpty());
         assertEquals(0.0, msqDetails.getMsqOtherWeight());
     }
