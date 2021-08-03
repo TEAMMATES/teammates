@@ -1,5 +1,6 @@
 package teammates.common.datatransfer.attributes;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -38,6 +39,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
     public boolean isDisplayedToStudents;
     public InstructorPrivileges privileges;
 
+    private transient Instant createdAt;
+    private transient Instant updatedAt;
+
     private InstructorAttributes(String courseId, String email) {
         this.courseId = courseId;
         this.email = email;
@@ -47,6 +51,9 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         this.isArchived = false;
         this.isDisplayedToStudents = true;
         this.privileges = new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
+
+        this.createdAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
+        this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
     /**
@@ -79,6 +86,12 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
             instructorAttributes.privileges =
                     JsonUtils.fromJson(instructor.getInstructorPrivilegesAsText(), InstructorPrivileges.class);
         }
+        if (instructor.getCreatedAt() != null) {
+            instructorAttributes.createdAt = instructor.getCreatedAt();
+        }
+        if (instructor.getUpdatedAt() != null) {
+            instructorAttributes.updatedAt = instructor.getUpdatedAt();
+        }
 
         return instructorAttributes;
     }
@@ -93,6 +106,8 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
         instructorAttributes.isArchived = isArchived;
         instructorAttributes.isDisplayedToStudents = isDisplayedToStudents;
         instructorAttributes.privileges = privileges;
+        instructorAttributes.createdAt = createdAt;
+        instructorAttributes.updatedAt = updatedAt;
 
         return instructorAttributes;
     }
@@ -261,6 +276,22 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public String getRole() {
         return role;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public Instant getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public void setUpdatedAt(Instant updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     /**
