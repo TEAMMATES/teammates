@@ -29,12 +29,12 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.util.MaximumRetriesExceededException;
 import teammates.e2e.util.RetryManager;
 import teammates.e2e.util.Retryable;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and

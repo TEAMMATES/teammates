@@ -28,11 +28,11 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.AssertHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.

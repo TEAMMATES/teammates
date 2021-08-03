@@ -1,6 +1,6 @@
 package teammates.e2e.util;
 
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Handles running and retrying of {@link Retryable} tasks.
