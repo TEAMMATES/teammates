@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -1353,12 +1352,6 @@ public class Logic {
      */
     public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
-    }
-
-    public int getNumOfGeneratedChoicesForParticipantType(String courseId, FeedbackParticipantType generateOptionsFor) {
-        assert courseId != null;
-        assert generateOptionsFor != null;
-        return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
