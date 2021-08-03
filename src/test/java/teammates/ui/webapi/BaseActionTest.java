@@ -90,7 +90,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     /**
      * Gets an action with request body and multipart config.
      */
-    @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
@@ -116,7 +115,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             }
         }
         try {
-            Action action = ActionFactory.getAction(req, getRequestMethod());
+            @SuppressWarnings("unchecked")
+            T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setFileStorage(mockFileStorage);
@@ -124,7 +124,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.init(req);
-            return (T) action;
+            return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
         }
