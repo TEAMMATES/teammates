@@ -85,10 +85,9 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
         QueryResponse response = performQuery(query);
         SolrDocumentList documents = response.getResults();
 
-        // Even though FQ has been applied, it may still match some unwanted results,
-        // e.g. if a course ID specified in FQ is the substring of another valid course.
-        // An additional filtering is done here such that only exact match will be returned.
-        // TODO a better way is to modify the field type in Solr instead of doing this
+        // Sanity check such that the course ID of the students match exactly.
+        // In ideal case, this check is not expected to do anything,
+        // i.e. the resulting list should be the same as the incoming list.
 
         List<SolrDocument> filteredDocuments = documents.stream()
                 .filter(document -> {

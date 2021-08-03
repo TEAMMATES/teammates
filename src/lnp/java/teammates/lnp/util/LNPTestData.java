@@ -21,6 +21,8 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
  */
 public abstract class LNPTestData {
 
+    // CHECKSTYLE.OFF:MissingJavadocMethod generator for different entities are self-explained by the method name
+
     protected Map<String, AccountAttributes> generateAccounts() {
         return new HashMap<>();
     }
@@ -56,6 +58,8 @@ public abstract class LNPTestData {
     protected Map<String, StudentProfileAttributes> generateProfiles() {
         return new HashMap<>();
     }
+
+    // CHECKSTYLE.ON:MissingJavadocMethod
 
     /**
      * Returns a JSON data bundle containing the data relevant for the performance test.

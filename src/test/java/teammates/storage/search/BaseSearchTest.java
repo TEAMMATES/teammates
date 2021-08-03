@@ -10,14 +10,14 @@ import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
  */
 public abstract class BaseSearchTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    protected DataBundle dataBundle;
+    DataBundle dataBundle;
 
     @BeforeMethod
     public void baseClassSetup() {
         prepareTestData();
     }
 
-    protected void prepareTestData() {
+    void prepareTestData() {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreTypicalDataBundle();
         putDocuments(dataBundle);

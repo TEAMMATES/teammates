@@ -1,6 +1,10 @@
 package teammates.common.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -97,10 +101,91 @@ public final class Logger {
     }
 
     /**
+     * Logs a message at WARNING level.
+     */
+    public void warning(String message, Throwable t) {
+        String logMessage = getLogMessageWithStackTrace(message, t, "WARNING");
+        standardLog.warning(logMessage);
+    }
+
+    /**
      * Logs a message at SEVERE level.
      */
     public void severe(String message) {
         errorLog.severe(formatLogMessage(message, "ERROR"));
+    }
+
+    /**
+     * Logs a message at SEVERE level.
+     */
+    public void severe(String message, Throwable t) {
+        String logMessage = getLogMessageWithStackTrace(message, t, "ERROR");
+        errorLog.severe(logMessage);
+    }
+
+    private String getLogMessageWithStackTrace(String message, Throwable t, String severity) {
+        String logMessage;
+        if (Config.isDevServer()) {
+            StringWriter sw = new StringWriter();
+            try (PrintWriter pw = new PrintWriter(sw)) {
+                t.printStackTrace(pw);
+            }
+
+            logMessage = formatLogMessageForHumanDisplay(message) + " stack_trace: "
+                    + System.lineSeparator() + sw.toString();
+        } else {
+            StackTraceElement tSource = t.getStackTrace()[0];
+            Map<String, Object> tSourceLocation = new HashMap<>();
+            tSourceLocation.put("file", tSource.getClassName());
+            tSourceLocation.put("line", tSource.getLineNumber());
+            tSourceLocation.put("function", tSource.getMethodName());
+
+            List<String> exceptionClasses = new ArrayList<>();
+            List<List<String>> exceptionStackTraces = new ArrayList<>();
+            List<String> exceptionMessages = new ArrayList<>();
+
+            Throwable currentT = t;
+            while (currentT != null) {
+                exceptionClasses.add(currentT.getClass().getName());
+                exceptionStackTraces.add(getStackTraceToDisplay(currentT));
+                exceptionMessages.add(currentT.getMessage());
+
+                currentT = currentT.getCause();
+            }
+
+            Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
+
+            // Replace the source location with the Throwable's source location instead
+            Object loggerSourceLocation = payload.get("logging.googleapis.com/sourceLocation");
+            payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
+            payload.put("loggerSourceLocation", loggerSourceLocation);
+
+            payload.put("exceptionClass", t.getClass().getSimpleName());
+            payload.put("exceptionClasses", exceptionClasses);
+            payload.put("exceptionStackTraces", exceptionStackTraces);
+            payload.put("exceptionMessages", exceptionMessages);
+            payload.put("event", LogEvent.EXCEPTION_LOG);
+
+            logMessage = JsonUtils.toCompactJson(payload);
+        }
+
+        return logMessage;
+    }
+
+    private List<String> getStackTraceToDisplay(Throwable t) {
+        List<String> stackTraceToDisplay = new ArrayList<>();
+        for (StackTraceElement ste : t.getStackTrace()) {
+            String stClass = ste.getClassName();
+            if (stClass.startsWith("org.eclipse.jetty.servlet")) {
+                // Everything past this line is the internal workings of Jetty
+                // and does not provide anything useful for debugging
+                stackTraceToDisplay.add("...");
+                break;
+            }
+            stackTraceToDisplay.add(String.format("%s.%s(%s:%s)",
+                    ste.getClassName(), ste.getMethodName(), ste.getFileName(), ste.getLineNumber()));
+        }
+        return stackTraceToDisplay;
     }
 
     private String formatLogMessage(String message, String severity) {
