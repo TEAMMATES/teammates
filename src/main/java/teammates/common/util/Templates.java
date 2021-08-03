@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+/**
+ * Contains utility methods for creating strings from given templates.
+ */
 public final class Templates {
 
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");

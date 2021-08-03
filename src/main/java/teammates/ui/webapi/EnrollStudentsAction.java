@@ -87,6 +87,7 @@ class EnrollStudentsAction extends Action {
                                 .build();
                 try {
                     StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
+                    taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse(), updatedStudent.getEmail());
                     enrolledStudents.add(updatedStudent);
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
@@ -98,6 +99,7 @@ class EnrollStudentsAction extends Action {
                 // The student is new.
                 try {
                     StudentAttributes newStudent = logic.createStudent(student);
+                    taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse(), newStudent.getEmail());
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.

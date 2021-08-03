@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
@@ -25,9 +24,10 @@ public class EmailSender {
 
     private static final Logger log = Logger.getLogger();
 
+    private static final EmailSender instance = new EmailSender();
     private final EmailSenderService service;
 
-    public EmailSender() {
+    EmailSender() {
         if (Config.isDevServer()) {
             service = new EmptyEmailService();
         } else {
@@ -41,6 +41,10 @@ public class EmailSender {
                 service = new EmptyEmailService();
             }
         }
+    }
+
+    public static EmailSender inst() {
+        return instance;
     }
 
     /**
@@ -92,8 +96,7 @@ public class EmailSender {
             sendEmail(report);
         } catch (Exception e) {
             log.severe("Error in sending report: " + (report == null ? "" : report.getInfoForLogging())
-                       + "\nReport content: " + (report == null ? "" : report.getContent())
-                       + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
+                       + "\nReport content: " + (report == null ? "" : report.getContent()), e);
         }
     }
 

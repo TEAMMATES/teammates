@@ -20,6 +20,7 @@ import teammates.e2e.pageobjects.IanaTimezonePage;
  */
 public class TimezoneSyncerTest extends BaseE2ETestCase {
 
+    private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
     private static final int DAYS_TO_UPDATE_TZ = 120;
 
     @Override
@@ -51,7 +52,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         ______TS("ensure the timezone databases are up-to-date");
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
         IanaTimezonePage ianaPage = getNewPageInstance(
-                new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
+                new AppUrl(IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
         String latestTzVersion = ianaPage.getVersion();
 
         if (!currentTzVersion.equals(latestTzVersion)) {

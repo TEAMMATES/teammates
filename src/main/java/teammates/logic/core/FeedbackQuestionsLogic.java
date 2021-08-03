@@ -206,6 +206,9 @@ public final class FeedbackQuestionsLogic {
         return getFeedbackQuestionsForCreatorInstructor(fsa);
     }
 
+    /**
+     * Gets the list of feedback questions whose giver is the creator of the feedback session.
+     */
     public List<FeedbackQuestionAttributes> getFeedbackQuestionsForCreatorInstructor(
                                     FeedbackSessionAttributes fsa) {
 
@@ -272,6 +275,9 @@ public final class FeedbackQuestionsLogic {
                 || fqDb.hasFeedbackQuestionsForGiverType(feedbackSessionName, courseId, FeedbackParticipantType.TEAMS);
     }
 
+    /**
+     * Gets the email-name mapping of recipients for the given question for the given giver.
+     */
     Map<String, String> getRecipientsForQuestion(FeedbackQuestionAttributes question, String giver)
             throws EntityDoesNotExistException {
 
@@ -697,6 +703,9 @@ public final class FeedbackQuestionsLogic {
         return giverTeam;
     }
 
+    /**
+     * Returns true if the feedback question has been fully answered by the given user.
+     */
     public boolean isQuestionFullyAnsweredByUser(FeedbackQuestionAttributes question, String email)
             throws EntityDoesNotExistException {
 

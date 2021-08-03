@@ -1,4 +1,4 @@
-package teammates.test;
+package teammates.logic.api;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -15,7 +15,6 @@ import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.logic.api.LogsProcessor;
 
 /**
  * Allows mocking of {@link LogsProcessor}.
@@ -34,8 +33,8 @@ public class MockLogsProcessor extends LogsProcessor {
     /**
      * Simulates insertion of error logs.
      */
-    public void insertErrorLog(String message, String severity) {
-        errorLogs.add(new ErrorLogEntry(message, severity));
+    public void insertErrorLog(String message, String severity, String traceId) {
+        errorLogs.add(new ErrorLogEntry(message, severity, traceId));
     }
 
     /**

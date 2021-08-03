@@ -18,6 +18,9 @@ public class QueryLogsParams {
     private String logEvent;
     private SourceLocation sourceLocation;
     private String exceptionClass;
+    private String latency;
+    private String status;
+    private String extraFilters;
     private String order;
     private Integer pageSize;
 
@@ -26,6 +29,9 @@ public class QueryLogsParams {
         this.endTime = endTime;
     }
 
+    /**
+     * Returns a builder for {@link QueryLogsParams}.
+     */
     public static Builder builder(Instant startTime, Instant endTime) {
         return new Builder(startTime, endTime);
     }
@@ -70,6 +76,18 @@ public class QueryLogsParams {
         return exceptionClass;
     }
 
+    public String getLatency() {
+        return latency;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getExtraFilters() {
+        return extraFilters;
+    }
+
     public String getOrder() {
         return order;
     }
@@ -105,6 +123,9 @@ public class QueryLogsParams {
         }
     }
 
+    /**
+     * Builder for {@link QueryLogsParams}.
+     */
     public static class Builder {
         private QueryLogsParams queryLogsParams;
 
@@ -154,6 +175,21 @@ public class QueryLogsParams {
 
         public Builder withOrder(String order) {
             queryLogsParams.order = order;
+            return this;
+        }
+
+        public Builder withLatency(String latency) {
+            queryLogsParams.latency = latency;
+            return this;
+        }
+
+        public Builder withStatus(String status) {
+            queryLogsParams.status = status;
+            return this;
+        }
+
+        public Builder withExtraFilters(String extraFilters) {
+            queryLogsParams.extraFilters = extraFilters;
             return this;
         }
 
