@@ -202,7 +202,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session opening soon alerts for co-owners");
 
-        emails = new EmailGenerator().generateFeedbackSessionOpeningSoonEmails(session);
+        emails = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
         List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
         assertNotEquals(coOwners.size(), 0);
         assertEquals(coOwners.size(), emails.size());

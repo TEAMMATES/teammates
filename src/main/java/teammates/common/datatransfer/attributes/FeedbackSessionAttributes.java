@@ -223,6 +223,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                && difference.compareTo(Duration.ofHours(hours)) < 0;
     }
 
+    /**
+     * Returns true if the feedback session opens after the number of specified hours.
+     */
     public boolean isOpeningWithinTimeLimit(long hours) {
         Instant now = Instant.now();
         Duration difference = Duration.between(now, startTime);

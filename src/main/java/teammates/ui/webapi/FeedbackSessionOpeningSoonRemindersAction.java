@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
@@ -29,7 +28,7 @@ class FeedbackSessionOpeningSoonRemindersAction extends AdminOnlyAction {
                                 .withSentOpeningSoonEmail(true)
                                 .build());
             } catch (Exception e) {
-                log.severe("Unexpected error: " + TeammatesException.toStringWithStackTrace(e));
+                log.severe("Unexpected error", e);
             }
         }
         return new JsonResult("Successful");
