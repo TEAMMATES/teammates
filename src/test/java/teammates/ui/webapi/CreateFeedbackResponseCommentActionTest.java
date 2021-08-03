@@ -99,7 +99,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         //see individual test cases.
     }
 
@@ -352,7 +352,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 

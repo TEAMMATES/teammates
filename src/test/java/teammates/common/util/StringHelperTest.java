@@ -62,7 +62,7 @@ public class StringHelperTest extends BaseTestCase {
     }
 
     @Test
-    public void testKeyEncryption() throws InvalidParametersException {
+    public void testKeyEncryption() throws Exception {
         String msg = "Test decryption";
         String decrptedMsg;
 

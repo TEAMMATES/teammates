@@ -24,10 +24,8 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -254,7 +252,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     void grantInstructorWithSectionPrivilege(
             InstructorAttributes instructor, String privilege, String[] sections)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws Exception {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
         for (String section : sections) {
@@ -311,7 +309,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
             String privilege, String[] submissionParams)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws Exception {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
@@ -440,9 +438,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotAccess(submissionParams);
     }
 
-    void verifyInaccessibleWithoutCorrectCoursePrivilege(
-            String privilege, String[] submissionParams)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    void verifyInaccessibleWithoutCorrectCoursePrivilege(String privilege, String[] submissionParams) throws Exception {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 

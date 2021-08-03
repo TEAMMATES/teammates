@@ -166,7 +166,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 

@@ -27,7 +27,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
 
         ______TS("Not enough parameters");
 
@@ -87,7 +87,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         String[] submissionParams = new String[] {};
 
         verifyOnlyInstructorsCanAccess(submissionParams);

@@ -53,7 +53,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         fras = dataBundle.feedbackResponses;
     }
 
-    private void addQuestionsAndResponsesToDb() throws InvalidParametersException, EntityAlreadyExistsException {
+    private void addQuestionsAndResponsesToDb() throws Exception {
         // Add responses for corresponding question to DB
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
@@ -84,8 +84,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
     }
 
     @Test
-    public void testTimestamp()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testTimestamp() throws Exception {
 
         ______TS("success : created");
 

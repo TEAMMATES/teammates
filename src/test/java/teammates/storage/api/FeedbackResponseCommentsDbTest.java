@@ -13,9 +13,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
@@ -50,7 +48,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
     }
 
     @AfterMethod
-    public void afterMethod() throws Exception {
+    public void afterMethod() {
         frcDb.deleteFeedbackResponseComment(frcaData.getId());
         frcDb.deleteFeedbackResponseComment(anotherFrcaData.getId());
     }
@@ -366,8 +364,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
         verifyListsContainSameResponseCommentAttributes(expectedFrcas, actualFrcas);
     }
 
-    private void testUpdateFeedbackResponseCommentsGiverEmail()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    private void testUpdateFeedbackResponseCommentsGiverEmail() throws Exception {
         FeedbackResponseCommentAttributes frcaDataOfNewGiver =
                 dataBundle.feedbackResponseComments.get("comment1FromT1C1ToR1Q3S1C1");
         String giverEmail = "frcdb.newGiver@email.com";
@@ -434,8 +431,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
     }
 
     @Test
-    public void testDeleteFeedbackResponseComments_byResponseId()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testDeleteFeedbackResponseComments_byResponseId() throws Exception {
 
         ______TS("non-existent response id");
 

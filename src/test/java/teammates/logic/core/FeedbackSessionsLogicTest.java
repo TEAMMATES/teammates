@@ -22,7 +22,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -56,8 +55,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion()
-            throws EntityDoesNotExistException {
+    public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
@@ -84,8 +82,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion() throws Exception {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertFalse(
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
@@ -438,7 +435,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
     }
 
-    private void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
+    private void testCreateAndDeleteFeedbackSession() throws Exception {
         ______TS("test create");
 
         FeedbackSessionAttributes fs = getNewFeedbackSession();
@@ -809,7 +806,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 response.getGiver(), response.getRecipient());
     }
 
-    private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
+    private void unpublishAllSessions() throws Exception {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
                 fsLogic.unpublishFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
@@ -817,7 +814,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
     }
 
-    private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testMoveFeedbackSessionToRecycleBin() throws Exception {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
@@ -832,7 +829,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(feedbackSession.isSessionDeleted());
     }
 
-    private void testRestoreFeedbackSessionFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testRestoreFeedbackSessionFromRecycleBin() throws Exception {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
@@ -1157,8 +1154,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     // TODO: check for cases where a person is both a student and an instructor
 
     @Test
-    public void testGetSessionResultsForUser_orphanResponseInDB_shouldStillHandleCorrectly()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetSessionResultsForUser_orphanResponseInDB_shouldStillHandleCorrectly() throws Exception {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 

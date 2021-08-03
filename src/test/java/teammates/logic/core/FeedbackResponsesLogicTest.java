@@ -259,8 +259,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate()
-            throws Exception {
+    public void testUpdateFeedbackResponsesForChangingTeam_deleteLastResponse_decreaseResponseRate() {
         FeedbackResponseAttributes responseShouldBeDeleted =
                 getResponseFromDatabase(questionTypeBundle, "response1ForQ1ContribSession2Course2");
         // make sure it's the last response by the student
@@ -283,8 +282,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testUpdateFeedbackResponsesForChangingTeam_noResponseShouldBeDeleted_shouldReaminSameResponseRate()
-            throws Exception {
+    public void testUpdateFeedbackResponsesForChangingTeam_noResponseShouldBeDeleted_shouldReaminSameResponseRate() {
         FeedbackResponseAttributes responseShouldBeDeleted =
                 getResponseFromDatabase(questionTypeBundle, "response1ForQ1RankSession");
         // make sure it's not the last response by the student
@@ -478,7 +476,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesInvolvedEntityOfCourseCascade_shouldDeleteRelatedResponses() throws Exception {
+    public void testDeleteFeedbackResponsesInvolvedEntityOfCourseCascade_shouldDeleteRelatedResponses() {
         StudentAttributes studentToDelete = dataBundle.students.get("student1InCourse1");
         FeedbackSessionAttributes session1InCourse1 = dataBundle.feedbackSessions.get("session1InCourse1");
 
@@ -570,7 +568,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesForQuestionCascade_studentsQuestion_shouldUpdateRespondents() throws Exception {
+    public void testDeleteFeedbackResponsesForQuestionCascade_studentsQuestion_shouldUpdateRespondents() {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response1ForQ1S1C1");
 
         // this is the only response the student has given for the session
@@ -591,8 +589,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesForQuestionCascade_instructorsQuestion_shouldUpdateRespondents()
-            throws Exception {
+    public void testDeleteFeedbackResponsesForQuestionCascade_instructorsQuestion_shouldUpdateRespondents() {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response1ForQ3S1C1");
 
         // this is the only response the instructor has given for the session
@@ -613,8 +610,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesInvolvedEntityOfCourseCascade_giverIsStudent_shouldUpdateRespondents()
-            throws Exception {
+    public void testDeleteFeedbackResponsesInvolvedEntityOfCourseCascade_giverIsStudent_shouldUpdateRespondents() {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response3ForQ2S1C1");
         StudentAttributes student2InCourse1 = dataBundle.students.get("student2InCourse1");
         // giver is student
@@ -643,8 +639,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackResponsesInvolvedEntityOfCourseCascade_giverIsInstructor_shouldUpdateRespondents()
-            throws Exception {
+    public void testDeleteFeedbackResponsesInvolvedEntityOfCourseCascade_giverIsInstructor_shouldUpdateRespondents() {
         FeedbackResponseAttributes fra = getResponseFromDatabase("response1ForQ1S2C2");
         StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
         // giver is instructor
