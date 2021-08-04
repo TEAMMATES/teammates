@@ -201,37 +201,31 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         GeneralLogEntry entry5 = logEntries.get(4);
         GeneralLogEntry entry6 = logEntries.get(5);
 
-        assertEquals("stdout", entry1.getLogName());
         assertEquals(LogSeverity.INFO, entry1.getSeverity());
         assertEquals(infoLogTrace1, entry1.getTrace());
         assertEquals(infoLogSourceLocation1, entry1.getSourceLocation());
         assertEquals(infoLogTimestamp1, entry1.getTimestamp());
 
-        assertEquals("stdout", entry2.getLogName());
         assertEquals(LogSeverity.INFO, entry2.getSeverity());
         assertEquals(infoLogTrace2, entry2.getTrace());
         assertEquals(infoLogSourceLocation2, entry2.getSourceLocation());
         assertEquals(infoLogTimestamp2, entry2.getTimestamp());
 
-        assertEquals("stderr", entry3.getLogName());
         assertEquals(LogSeverity.WARNING, entry3.getSeverity());
         assertEquals(warningLogTrace1, entry3.getTrace());
         assertEquals(warningLogSourceLocation1, entry3.getSourceLocation());
         assertEquals(warningLogTimestamp1, entry3.getTimestamp());
 
-        assertEquals("stderr", entry4.getLogName());
         assertEquals(LogSeverity.WARNING, entry4.getSeverity());
         assertEquals(warningLogTrace2, entry4.getTrace());
         assertEquals(warningLogSourceLocation2, entry4.getSourceLocation());
         assertEquals(warningLogTimestamp2, entry4.getTimestamp());
 
-        assertEquals("stderr", entry5.getLogName());
         assertEquals(LogSeverity.ERROR, entry5.getSeverity());
         assertEquals(errorLogTrace, entry5.getTrace());
         assertEquals(errorLogSourceLocation1, entry5.getSourceLocation());
         assertEquals(errorLogTimestamp1, entry5.getTimestamp());
 
-        assertEquals("stderr", entry6.getLogName());
         assertEquals(LogSeverity.ERROR, entry6.getSeverity());
         assertEquals(errorLogTrace, entry6.getTrace());
         assertEquals(errorLogSourceLocation2, entry6.getSourceLocation());

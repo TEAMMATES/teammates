@@ -56,7 +56,7 @@ public class LocalLoggingService implements LogService {
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
-                        GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(log.getLogName(),
+                        GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(
                                 log.getSeverity(), log.getTrace(), log.getInsertId(), log.getResourceIdentifier(),
                                 log.getSourceLocation(), timestamp);
                         logEntryWithUpdatedTimestamp.setDetails(log.getDetails());
@@ -235,7 +235,7 @@ public class LocalLoggingService implements LogService {
     private List<GeneralLogEntry> deepCopyLogEntries(List<GeneralLogEntry> logEntries) {
         List<GeneralLogEntry> result = new ArrayList<>();
         for (GeneralLogEntry logEntry : logEntries) {
-            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getLogName(), logEntry.getSeverity(),
+            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getSeverity(),
                     logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
                     logEntry.getSourceLocation(), logEntry.getTimestamp());
             copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toCompactJson(logEntry.getDetails()), LogDetails.class));

@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
  * for tracing and debugging purposes.
  */
 public class GeneralLogEntry {
-    private final String logName;
     private final LogSeverity severity;
     private final String trace;
     private final String insertId;
@@ -21,9 +20,8 @@ public class GeneralLogEntry {
     @Nullable
     private LogDetails details;
 
-    public GeneralLogEntry(String logName, LogSeverity severity, String trace, String insertId,
+    public GeneralLogEntry(LogSeverity severity, String trace, String insertId,
                            Map<String, String> resourceIdentifier, SourceLocation sourceLocation, long timestamp) {
-        this.logName = logName;
         this.severity = severity;
         this.trace = trace;
         this.insertId = insertId;
@@ -38,10 +36,6 @@ public class GeneralLogEntry {
 
     public void setDetails(LogDetails details) {
         this.details = details;
-    }
-
-    public String getLogName() {
-        return logName;
     }
 
     public LogSeverity getSeverity() {

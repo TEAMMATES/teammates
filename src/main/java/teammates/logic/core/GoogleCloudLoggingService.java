@@ -144,7 +144,6 @@ public class GoogleCloudLoggingService implements LogService {
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : logEntriesInPage.getValues()) {
-            String logName = entry.getLogName();
             Severity severity = entry.getSeverity();
             String trace = entry.getTrace();
             if (trace != null) {
@@ -156,7 +155,7 @@ public class GoogleCloudLoggingService implements LogService {
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
-            GeneralLogEntry logEntry = new GeneralLogEntry(logName, convertSeverity(severity), trace, insertId,
+            GeneralLogEntry logEntry = new GeneralLogEntry(convertSeverity(severity), trace, insertId,
                     resourceIdentifier, new SourceLocation(sourceLocation.getFile(),
                             sourceLocation.getLine(), sourceLocation.getFunction()), timestamp);
             if (payload.getType() == Payload.Type.JSON) {

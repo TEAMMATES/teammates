@@ -247,7 +247,6 @@ describe('LogsPageComponent', () => {
 
   it('should search for all error logs when search button is clicked', () => {
     const testLog1: GeneralLogEntry = {
-      logName: 'stderr',
       severity: LogSeverity.ERROR,
       trace: 'testTrace1',
       insertId: 'testInsertId1',
@@ -285,7 +284,6 @@ describe('LogsPageComponent', () => {
   it('should sort logs based on source location', () => {
     component.isTableView = false;
     const testLog1: GeneralLogEntry = {
-      logName: 'stderr',
       severity: LogSeverity.ERROR,
       trace: 'testTrace1',
       insertId: 'testInsertId1',
@@ -299,7 +297,6 @@ describe('LogsPageComponent', () => {
       message: 'message',
     };
     const testLog2: GeneralLogEntry = {
-      logName: 'stderr',
       severity: LogSeverity.ERROR,
       trace: 'testTrace2',
       insertId: 'testInsertId2',
@@ -313,7 +310,6 @@ describe('LogsPageComponent', () => {
       message: 'message',
     };
     const testLog3: GeneralLogEntry = {
-      logName: 'stderr',
       severity: LogSeverity.ERROR,
       trace: 'testTrace3',
       insertId: 'testInsertId3',

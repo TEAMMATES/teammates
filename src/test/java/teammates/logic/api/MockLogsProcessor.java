@@ -19,8 +19,6 @@ import teammates.common.datatransfer.logs.SourceLocation;
  * Allows mocking of {@link LogsProcessor}.
  */
 public class MockLogsProcessor extends LogsProcessor {
-    private static final String STDOUT_LOG_NAME = "stdout";
-    private static final String STDERR_LOG_NAME = "stderr";
 
     private List<ErrorLogEntry> errorLogs = new ArrayList<>();
     private List<FeedbackSessionLogEntry> feedbackSessionLogs = new ArrayList<>();
@@ -51,7 +49,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertInfoLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, LogDetails logDetails) {
-        insertGeneralLog(STDOUT_LOG_NAME, LogSeverity.INFO, trace, insertId,
+        insertGeneralLog(LogSeverity.INFO, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, logDetails);
     }
 
@@ -60,7 +58,7 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertWarningLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, LogDetails logDetails) {
-        insertGeneralLog(STDERR_LOG_NAME, LogSeverity.WARNING, trace, insertId,
+        insertGeneralLog(LogSeverity.WARNING, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, logDetails);
     }
 
@@ -69,14 +67,14 @@ public class MockLogsProcessor extends LogsProcessor {
      */
     public void insertGeneralErrorLog(String trace, String insertId, SourceLocation sourceLocation,
             long timestamp, String textPayloadMessage, LogDetails logDetails) {
-        insertGeneralLog(STDERR_LOG_NAME, LogSeverity.ERROR, trace, insertId,
+        insertGeneralLog(LogSeverity.ERROR, trace, insertId,
                 sourceLocation, timestamp, textPayloadMessage, logDetails);
     }
 
-    private void insertGeneralLog(String logName, LogSeverity severity, String trace, String insertId,
+    private void insertGeneralLog(LogSeverity severity, String trace, String insertId,
             SourceLocation sourceLocation, long timestamp, String textPayloadMessage,
             LogDetails logDetails) {
-        GeneralLogEntry logEntry = new GeneralLogEntry(logName, severity, trace, insertId, new HashMap<>(), sourceLocation,
+        GeneralLogEntry logEntry = new GeneralLogEntry(severity, trace, insertId, new HashMap<>(), sourceLocation,
                 timestamp);
         logEntry.setMessage(textPayloadMessage);
         logEntry.setDetails(logDetails);
