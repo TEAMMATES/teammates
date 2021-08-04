@@ -578,7 +578,9 @@ public final class FeedbackSessionsLogic {
 
             // check if there exists both visible and anonymous responses
             for (FeedbackQuestionAttributes question : allQuestions) {
-                if (question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER)) {
+                if (question.getShowGiverNameTo().stream()
+                        .filter(feedbackParticipantType -> feedbackParticipantType != FeedbackParticipantType.INSTRUCTORS)
+                        .count() > 0) {
                     hasVisibleResponse = true;
                 } else {
                     hasAnonymousResponse = true;

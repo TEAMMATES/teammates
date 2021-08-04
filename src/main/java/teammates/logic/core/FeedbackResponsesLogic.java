@@ -615,7 +615,9 @@ public final class FeedbackResponsesLogic {
 
         // Remove responses if there is only 1 respond and the giver name of that question is not to be shown
         if (needToCheckForSingleAnonymousResponse
-                && !question.getShowGiverNameTo().contains(FeedbackParticipantType.RECEIVER)
+                && question.getShowGiverNameTo().stream()
+                        .filter(feedbackParticipantType -> feedbackParticipantType != FeedbackParticipantType.INSTRUCTORS)
+                        .count() == 0
                 && viewableResponses.getResponses().size() <= 1) {
             viewableResponses.removeAll();
         }
