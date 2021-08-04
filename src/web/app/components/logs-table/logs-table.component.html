@@ -41,7 +41,8 @@
               </details>
               <tm-request-log-details *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.REQUEST_LOG" [log]="log.logEntry" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-request-log-details>
               <tm-email-log-details *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.EMAIL_SENT" [log]="log.logEntry"></tm-email-log-details>
-              <tm-generic-log-details *ngIf="!log.logEntry.details || log.logEntry.details.event !== LogEvent.REQUEST_LOG && log.logEntry.details.event !== LogEvent.EMAIL_SENT" [log]="log.logEntry"></tm-generic-log-details>
+              <tm-exception-log-details *ngIf="log.logEntry.details && log.logEntry.details.event === LogEvent.EXCEPTION_LOG" [log]="log.logEntry"></tm-exception-log-details>
+              <tm-generic-log-details *ngIf="!log.logEntry.details || log.logEntry.details.event === LogEvent.FEEDBACK_SESSION_AUDIT" [log]="log.logEntry"></tm-generic-log-details>
               <div *ngIf="log.logEntry.trace">
                 <span class="title">trace: </span>
                 <span class="clickable" ngbTooltip="Click to add to filter" (click)="addTraceToFilter(log.logEntry.trace)">{{ log.logEntry.trace }}</span>

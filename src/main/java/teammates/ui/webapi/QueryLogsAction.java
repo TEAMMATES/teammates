@@ -5,9 +5,7 @@ import java.time.Instant;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.logs.ExceptionLogDetails;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
-import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
@@ -125,27 +123,11 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .build();
         try {
             QueryLogsResults queryResults = logsProcessor.queryLogs(queryLogsParams);
-            reorganizeExceptionMessages(queryResults);
             removeSensitiveFields(queryResults);
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    private void reorganizeExceptionMessages(QueryLogsResults queryResults) {
-        for (GeneralLogEntry logEntry : queryResults.getLogEntries()) {
-            if (logEntry.getDetails() == null) {
-                continue;
-            }
-            LogDetails details = logEntry.getDetails();
-            if (!(details instanceof ExceptionLogDetails)) {
-                continue;
-            }
-            ExceptionLogDetails exceptionDetails = (ExceptionLogDetails) details;
-            exceptionDetails.convertStackTrace(userInfo.isAdmin);
-            logEntry.setDetails(exceptionDetails);
         }
     }
 

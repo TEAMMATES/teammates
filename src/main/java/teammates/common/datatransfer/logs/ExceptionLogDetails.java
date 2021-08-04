@@ -1,8 +1,8 @@
 package teammates.common.datatransfer.logs;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import javax.annotation.Nullable;
 
 /**
  * Contains specific structure and processing logic for exception log.
@@ -12,8 +12,8 @@ public class ExceptionLogDetails extends LogDetails {
     private String exceptionClass;
     private List<String> exceptionClasses;
     private List<List<String>> exceptionStackTraces;
+    @Nullable
     private List<String> exceptionMessages;
-    private List<String> exceptionStackTrace;
     private SourceLocation loggerSourceLocation;
 
     public ExceptionLogDetails() {
@@ -52,14 +52,6 @@ public class ExceptionLogDetails extends LogDetails {
         this.exceptionMessages = exceptionMessages;
     }
 
-    public List<String> getExceptionStackTrace() {
-        return exceptionStackTrace;
-    }
-
-    public void setExceptionStackTrace(List<String> exceptionStackTrace) {
-        this.exceptionStackTrace = exceptionStackTrace;
-    }
-
     public SourceLocation getLoggerSourceLocation() {
         return loggerSourceLocation;
     }
@@ -68,39 +60,9 @@ public class ExceptionLogDetails extends LogDetails {
         this.loggerSourceLocation = loggerSourceLocation;
     }
 
-    /**
-     * Converts the internally-stored stack traces into readable format.
-     *
-     * @param showMessages decides whether exception messages are shown
-     */
-    public void convertStackTrace(boolean showMessages) {
-        if (exceptionClasses == null || exceptionMessages == null || exceptionStackTraces == null
-                || exceptionClasses.size() != exceptionStackTraces.size()
-                || exceptionClasses.size() != exceptionMessages.size()) {
-            return;
-        }
-
-        List<String> exceptionStackTrace = new ArrayList<>();
-        for (int i = 0; i < exceptionClasses.size(); i++) {
-            StringBuilder firstLine = new StringBuilder(exceptionClasses.get(i));
-            if (showMessages) {
-                firstLine.append(": ").append(exceptionMessages.get(i));
-            }
-            exceptionStackTrace.add(firstLine.toString());
-            exceptionStackTrace.addAll(exceptionStackTraces.get(i).stream()
-                    .map(line -> "    at " + line)
-                    .collect(Collectors.toList()));
-        }
-
-        this.exceptionStackTrace = exceptionStackTrace;
-
-        exceptionClasses = null;
-        exceptionStackTraces = null;
-        exceptionMessages = null;
-    }
-
     @Override
     public void hideSensitiveInformation() {
+        exceptionMessages = null;
         setMessage(null);
     }
 

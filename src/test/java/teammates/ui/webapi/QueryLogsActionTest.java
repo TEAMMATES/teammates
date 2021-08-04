@@ -260,34 +260,12 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         entry5 = logEntries.get(4);
         entry6 = logEntries.get(5);
 
-        ExceptionLogDetails details6 = (ExceptionLogDetails) entry6.getDetails();
-
         assertEquals(infoLogJsonPayLoad1, entry1.getDetails());
         assertEquals(infoLogJsonPayLoad2, entry2.getDetails());
         assertEquals(warningLogJsonPayLoad1, entry3.getDetails());
         assertEquals(warningLogJsonPayLoad2, entry4.getDetails());
         assertEquals(errorLogJsonPayLoad1, entry5.getDetails());
-        assertEquals(errorLogJsonPayLoad2, details6);
-
-        ______TS("Success case: exception log is post-processed for readability");
-
-        assertNull(details6.getExceptionClasses());
-        assertNull(details6.getExceptionMessages());
-        assertNull(details6.getExceptionStackTraces());
-
-        List<String> expectedStackTrace = Arrays.asList(
-                "exceptionClass: message",
-                "    at stack trace 1",
-                "    at stack trace 2",
-                "    at stack trace 3"
-        );
-        assertEquals(expectedStackTrace, details6.getExceptionStackTrace());
-
-        errorLogJsonPayLoad2.setExceptionMessages(Collections.singletonList("message"));
-        errorLogJsonPayLoad2.setExceptionStackTraces(Collections.singletonList(
-                Arrays.asList("stack trace 1", "stack trace 2", "stack trace 3")));
-        errorLogJsonPayLoad2.setExceptionClasses(Collections.singletonList("exceptionClass"));
-        errorLogJsonPayLoad2.setExceptionStackTrace(null);
+        assertEquals(errorLogJsonPayLoad2, entry6.getDetails());
 
         ______TS("Success case: sensitive fields are hidden from non-admin maintainer");
         logoutUser();
@@ -315,7 +293,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         RequestLogDetails details3 = (RequestLogDetails) entry3.getDetails();
         EmailSentLogDetails details4 = (EmailSentLogDetails) entry4.getDetails();
         RequestLogDetails details5 = (RequestLogDetails) entry5.getDetails();
-        details6 = (ExceptionLogDetails) entry6.getDetails();
+        ExceptionLogDetails details6 = (ExceptionLogDetails) entry6.getDetails();
 
         assertEquals(6, logEntries.size());
 
@@ -367,19 +345,10 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         assertEquals(errorLogJsonPayLoad2.getExceptionClass(), details6.getExceptionClass());
         assertEquals(errorLogJsonPayLoad2.getLoggerSourceLocation(), details6.getLoggerSourceLocation());
-        assertNull(details6.getMessage());
-        assertNull(details6.getExceptionStackTraces());
+        assertEquals(errorLogJsonPayLoad2.getExceptionClasses(), details6.getExceptionClasses());
+        assertEquals(errorLogJsonPayLoad2.getExceptionStackTraces(), details6.getExceptionStackTraces());
         assertNull(details6.getExceptionMessages());
-        assertNull(details6.getExceptionClasses());
         assertNull(entry6.getMessage());
-
-        expectedStackTrace = Arrays.asList(
-                "exceptionClass",
-                "    at stack trace 1",
-                "    at stack trace 2",
-                "    at stack trace 3"
-        );
-        assertEquals(expectedStackTrace, details6.getExceptionStackTrace());
     }
 
     @Test
