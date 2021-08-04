@@ -107,10 +107,6 @@
               </option>
             </select>
           </div>
-          <div class="col-12 mt-2">
-            <label for="latency" class="font-weight-bold">Latency (e.g. >=60000; unit is in ms)</label>
-            <input id="latency" class="form-control" [(ngModel)]="formModel.filters.latency">
-          </div>
         </div>
         <div class="col-5">
           <div class="col-12">
@@ -129,13 +125,29 @@
             <label for="exception-class" class="font-weight-bold">Exception/Error class</label>
             <input id="exception-class" class="form-control" [(ngModel)]="formModel.filters.exceptionClass">
           </div>
-          <div class="col-12 mt-2">
+        </div>
+        <div class="col-2 mt-4">
+          <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
+        </div>
+      </div>
+      <div class="row form-group mt-2">
+        <div class="col-4">
+          <div class="col-12">
+            <label for="latency" class="font-weight-bold">Latency (e.g. >=60000; unit is in ms)</label>
+            <input id="latency" class="form-control" [(ngModel)]="formModel.filters.latency">
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="col-12">
             <label for="status" class="font-weight-bold">HTTP status (200, 400, 404, 500, etc.)</label>
             <input id="status" class="form-control" [(ngModel)]="formModel.filters.status">
           </div>
         </div>
-        <div class="col-2 mt-4">
-          <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
+        <div class="col-2">
+          <div class="col-12">
+            <label for="version" class="font-weight-bold">Version</label>
+            <input id="version" class="form-control" [(ngModel)]="formModel.filters.version">
+          </div>
         </div>
       </div>
       <div class="row form-group mt-2">

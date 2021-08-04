@@ -98,6 +98,8 @@ public class LocalLoggingService implements LogService {
                 .filter(log -> log.getTimestamp() <= queryLogsParams.getEndTime())
                 .filter(log -> queryLogsParams.getTraceId() == null
                         || queryLogsParams.getTraceId().equals(log.getTrace()))
+                .filter(log -> queryLogsParams.getVersion() == null
+                        || queryLogsParams.getVersion().equals(log.getResourceIdentifier().get("version_id")))
                 .filter(log -> queryLogsParams.getSourceLocation().getFile() == null
                         || log.getSourceLocation().getFile().equals(queryLogsParams.getSourceLocation().getFile()))
                 .filter(log -> queryLogsParams.getSourceLocation().getFunction() == null

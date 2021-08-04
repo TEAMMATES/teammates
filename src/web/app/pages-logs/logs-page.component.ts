@@ -84,6 +84,7 @@ export class LogsPageComponent implements OnInit {
         function: '',
       },
       status: '',
+      version: '',
       traceId: '',
       userInfoParams: {
         googleId: '',
@@ -382,6 +383,7 @@ export class LogsPageComponent implements OnInit {
     };
     this.formModel.filters.latency = '';
     this.formModel.filters.status = '';
+    this.formModel.filters.version = '';
     this.formModel.filters.extraFilters = '';
     this.formModel.filters.exceptionClass = '';
   }

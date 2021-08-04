@@ -88,6 +88,7 @@ public class QueryLogsAction extends AdminOnlyAction {
         String exceptionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EXCEPTION_CLASS);
         String latency = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_LATENCY);
         String status = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_STATUS);
+        String version = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_VERSION);
         String order = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ORDER);
         String googleId = null;
         String regkey = null;
@@ -117,6 +118,7 @@ public class QueryLogsAction extends AdminOnlyAction {
                 .withExceptionClass(exceptionClass)
                 .withLatency(latency)
                 .withStatus(status)
+                .withVersion(version)
                 .withExtraFilters(extraFilters)
                 .withOrder(order)
                 .withPageSize(DEFAULT_PAGE_SIZE)

@@ -316,6 +316,9 @@ public class GoogleCloudLoggingService implements LogService {
         if (q.getStatus() != null) {
             logFilters.add("jsonPayload.responseStatus=" + q.getStatus());
         }
+        if (q.getVersion() != null) {
+            logFilters.add("resource.labels.version_id=\"" + q.getVersion() + "\"");
+        }
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
         }

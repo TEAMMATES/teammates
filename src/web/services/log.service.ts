@@ -131,6 +131,10 @@ export class LogService {
       paramMap.status = queryParams.status;
     }
 
+    if (queryParams.version) {
+      paramMap.version = queryParams.version;
+    }
+
     if (queryParams.extraFilters) {
       paramMap.extrafilters = queryParams.extraFilters;
     }
