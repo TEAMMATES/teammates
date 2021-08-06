@@ -18,7 +18,6 @@ import { SimpleModalService } from '../../../services/simple-modal.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
   FeedbackParticipantType,
@@ -29,6 +28,7 @@ import {
   FeedbackResponseComment,
   FeedbackResponses,
   FeedbackSession,
+  FeedbackSessionLogType,
   FeedbackSessionSubmissionStatus,
   Instructor,
   NumberOfEntitiesToGiveFeedbackToSetting,
@@ -234,7 +234,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
             courseId: this.courseId,
             feedbackSessionName: this.feedbackSessionName,
             studentEmail: this.personEmail,
-            logType: LogType.FEEDBACK_SESSION_ACCESS,
+            logType: FeedbackSessionLogType.ACCESS,
           }).subscribe(() => {
 
           }, () => {
@@ -569,7 +569,7 @@ this session.`;
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
       studentEmail: this.personEmail,
-      logType: LogType.FEEDBACK_SESSION_SUBMISSION,
+      logType: FeedbackSessionLogType.SUBMISSION,
     }).subscribe(() => {
 
     }, () => {

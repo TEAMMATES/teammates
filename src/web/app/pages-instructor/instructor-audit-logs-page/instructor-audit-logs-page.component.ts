@@ -11,7 +11,7 @@ import {
   Course,
   Courses,
   FeedbackSessionLog, FeedbackSessionLogEntry,
-  FeedbackSessionLogs, LogType,
+  FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -175,15 +175,15 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       ],
       logRowsData: log.feedbackSessionLogEntries
         .filter((entry: FeedbackSessionLogEntry) =>
-          LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-            !== LogType.FEEDBACK_SESSION_VIEW_RESULT)
+            entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+            !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
             { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
               style: 'font-family:monospace;'},
             { value: entry.studentData.name },
-            { value: LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-              === LogType.FEEDBACK_SESSION_ACCESS ? 'Viewed the submission page' : 'Submitted responses' },
+            { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+              === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses' },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
             { value: entry.studentData.teamName },
