@@ -1,4 +1,4 @@
-package teammates.common.util;
+package teammates.logic.core;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -11,55 +11,55 @@ import org.testng.annotations.Test;
 import teammates.test.BaseTestCase;
 
 /**
- * SUT: {@link RecaptchaVerifier}.
+ * SUT: {@link GoogleRecaptchaService}.
  */
-public class RecaptchaVerifierTest extends BaseTestCase {
+public class GoogleRecaptchaServiceTest extends BaseTestCase {
 
     /**
-     * Tests the overloaded {@link RecaptchaVerifier#isVerificationSuccessful(String)} method.
+     * Tests the overloaded {@link GoogleRecaptchaService#isVerificationSuccessful(String)} method.
      */
     @Test
     public void testIsVerificationSuccessful() {
         ______TS("null or empty CAPTCHA response");
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful(null));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful(""));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful(null));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful(""));
 
         ______TS("empty CAPTCHA secret key");
-        assertTrue(new RecaptchaVerifierStub(null).isVerificationSuccessful("empty secret key"));
-        assertTrue(new RecaptchaVerifierStub("").isVerificationSuccessful("empty secret key"));
+        assertFalse(new GoogleRecaptchaServiceStub(null).isVerificationSuccessful("empty secret key"));
+        assertFalse(new GoogleRecaptchaServiceStub("").isVerificationSuccessful("empty secret key"));
 
         ______TS("Successful verification");
         // Use RecaptchaVerifierStub to mimic success response
-        assertTrue(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("success"));
+        assertTrue(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("success"));
 
         ______TS("reCAPTCHA error codes that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic error codes
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("missing recaptcha params"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid recaptcha secret key"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid recaptcha response"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid recaptcha request"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("missing recaptcha params"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha secret key"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha response"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid recaptcha request"));
 
         ______TS("Exceptions that can occur during the API request execution");
         // Use RecaptchaVerifierStub to mimic runtime exceptions
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("null response"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("invalid uri"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("http protocol error"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("i/o exception"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("timeout exception"));
-        assertFalse(new RecaptchaVerifierStub("testKey").isVerificationSuccessful("non 2xx http response"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("null response"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("invalid uri"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("http protocol error"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("i/o exception"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("timeout exception"));
+        assertFalse(new GoogleRecaptchaServiceStub("testKey").isVerificationSuccessful("non 2xx http response"));
     }
 
     /**
      * A subclass to mock responses and exceptions that could result in
-     * {@link RecaptchaVerifier#getApiResponse(String, String)}.
+     * {@link GoogleRecaptchaService#getApiResponse(String, String)}.
      * Success response is also mocked to decouple from the Google server for testing purposes. This way, tests are not
      * affected by potential issues in the Google server (e.g. server down).
      *
      * @see <a href="https://developers.google.com/recaptcha/docs/verify#error-code-reference">reCAPTCHA API error codes</a>
      */
-    private static class RecaptchaVerifierStub extends RecaptchaVerifier {
+    private static class GoogleRecaptchaServiceStub extends GoogleRecaptchaService {
 
-        private RecaptchaVerifierStub(String secretKey) {
+        private GoogleRecaptchaServiceStub(String secretKey) {
             super(secretKey);
         }
 

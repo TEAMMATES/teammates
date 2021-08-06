@@ -84,21 +84,21 @@
       </div>
     </div>
     <div *ngIf="isFiltersExpanded && isTableView" @collapseAnim>
-      <div class="row form-group mt-4">
+      <div class="row form-group mt-2">
         <div class="col-5">
           <div class="col-12">
             <label for="trace-id" class="font-weight-bold">Trace ID</label>
             <input id="trace-id" class="form-control" [(ngModel)]="formModel.advancedFilters.traceId">
           </div>
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-2">
             <label for="source-file" class="font-weight-bold">Source location file</label>
             <input id="source-file" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.sourceLocationFile">
           </div>
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-2">
             <label for="source-function" class="font-weight-bold">Source location function</label>
             <input id="source-function" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.sourceLocationFunction">
           </div>
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-2">
             <label for="action-class" class="font-weight-bold">Action class</label>
             <select id="action-class" class="form-control col-12" [(ngModel)]="formModel.advancedFilters.actionClass">
               <option [value]=""></option>
@@ -107,27 +107,43 @@
               </option>
             </select>
           </div>
+          <div class="col-12 mt-2">
+            <label for="latency" class="font-weight-bold">Latency (e.g. >=60000; unit is in ms)</label>
+            <input id="latency" class="form-control" [(ngModel)]="formModel.advancedFilters.latency">
+          </div>
         </div>
         <div class="col-5">
           <div class="col-12">
             <label for="google-id" class="font-weight-bold">User Google ID</label>
             <input id="google-id" class="form-control" [(ngModel)]="formModel.advancedFilters.googleId" [disabled]="!isAdmin">
           </div>
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-2">
             <label for="regkey" class="font-weight-bold">User Registration Key</label>
             <input id="regkey" class="form-control" [(ngModel)]="formModel.advancedFilters.regkey" [disabled]="!isAdmin">
           </div>
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-2">
             <label for="email" class="font-weight-bold">User Email</label>
             <input id="email" class="form-control" [(ngModel)]="formModel.advancedFilters.email" [disabled]="!isAdmin">
           </div>
-          <div class="col-12 mt-4">
+          <div class="col-12 mt-2">
             <label for="exception-class" class="font-weight-bold">Exception/Error class</label>
             <input id="exception-class" class="form-control" [(ngModel)]="formModel.advancedFilters.exceptionClass">
+          </div>
+          <div class="col-12 mt-2">
+            <label for="status" class="font-weight-bold">HTTP status (200, 400, 404, 500, etc.)</label>
+            <input id="status" class="form-control" [(ngModel)]="formModel.advancedFilters.status">
           </div>
         </div>
         <div class="col-2 mt-4">
           <button class="btn btn-danger" (click)="clearFilters()">Clear all</button>
+        </div>
+      </div>
+      <div class="row form-group mt-2">
+        <div class="col-10">
+          <div class="col-12">
+            <label for="extra-filters" class="font-weight-bold">Extra filters</label>
+            <textarea id="extra-filters" class="form-control" [(ngModel)]="formModel.advancedFilters.extraFilters" [disabled]="!isAdmin"></textarea>
+          </div>
         </div>
       </div>
     </div>
@@ -141,7 +157,8 @@
   <div *tmIsLoading="isSearching" class="center mb-4">
     <button *ngIf="hasResult && hasPreviousPage" id="load-previous-button" class="btn btn-primary" (click)="loadPreviousLogs()">Load more</button>
   </div>
-  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)" (addActionClassEvent)="addActionClassToFilter($event)"
+  <tm-logs-table *ngIf="hasResult" [logs]="searchResults" (addTraceEvent)="addTraceToFilter($event)"
+    (addActionClassEvent)="addActionClassToFilter($event)" (addExceptionClassEvent)="addExceptionClassToFilter($event)"
     (addSourceLocationEvent)="addSourceLocationToFilter($event)" (addUserInfoEvent)="addUserInfoToFilter($event)"></tm-logs-table>
   <div *tmIsLoading="isSearching" class="center mb-4">
     <button *ngIf="hasResult && hasNextPage" id="load-next-button" class="btn btn-primary" (click)="loadLaterLogs()">Load more</button>

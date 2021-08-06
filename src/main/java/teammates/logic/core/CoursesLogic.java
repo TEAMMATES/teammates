@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.storage.api.CoursesDb;
@@ -97,7 +96,7 @@ public final class CoursesLogic {
 
         CourseAttributes createdCourse = createCourse(courseToCreate);
 
-        /* Create the initial instructor for the course */
+        // Create the initial instructor for the course
         InstructorPrivileges privileges = new InstructorPrivileges(
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER);
         InstructorAttributes instructor = InstructorAttributes
@@ -113,8 +112,7 @@ public final class CoursesLogic {
             // roll back the transaction
             coursesDb.deleteCourse(createdCourse.getId());
             String errorMessage = "Unexpected exception while trying to create instructor for a new course "
-                                  + System.lineSeparator() + instructor.toString() + System.lineSeparator()
-                                  + TeammatesException.toStringWithStackTrace(e);
+                                  + System.lineSeparator() + instructor.toString();
             assert false : errorMessage;
         }
     }

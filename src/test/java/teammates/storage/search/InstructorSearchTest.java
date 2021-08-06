@@ -6,10 +6,8 @@ import java.util.List;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.util.Const;
 import teammates.storage.api.InstructorsDb;
 import teammates.test.AssertHelper;
 import teammates.test.TestProperties;
@@ -106,16 +104,16 @@ public class InstructorSearchTest extends BaseSearchTest {
         verifySearchResults(results, helperInCourse1, ins2InCourse3, ins1InCourse4);
 
         ______TS("success: search for instructors in whole system; instructors should be searchable by displayed name");
-
         // create a new instructor with unique displayed name to test that field
         // current displayed names in data bundle are either helper or instructor, which matches on many other fields
         InstructorAttributes assistantProf = helperInCourse1.getCopy();
         String displayedName = "Assistant Prof Smith";
         assistantProf.setDisplayedName(displayedName);
-        instructorsDb.updateInstructorByEmail(
+        InstructorAttributes updatedInstructor = instructorsDb.updateInstructorByEmail(
                 InstructorAttributes.updateOptionsWithEmailBuilder(assistantProf.getCourseId(), assistantProf.getEmail())
                         .withDisplayedName(assistantProf.getDisplayedName())
                         .build());
+        instructorsDb.putDocument(updatedInstructor);
         results = instructorsDb.searchInstructorsInWholeSystem(displayedName);
         verifySearchResults(results, assistantProf);
 
@@ -137,33 +135,6 @@ public class InstructorSearchTest extends BaseSearchTest {
         instructorsDb.deleteInstructor(ins2InCourse1.getCourseId(), ins2InCourse1.getEmail());
         results = instructorsDb.searchInstructorsInWholeSystem("instructor2");
         verifySearchResults(results, ins2InCourse2, ins2InCourse3);
-    }
-
-    @Test
-    public void testSearchInstructor_createNewInstructor_instructorShouldBeSearchable() throws Exception {
-        if (!TestProperties.isSearchServiceActive()) {
-            return;
-        }
-
-        CourseAttributes courseAttributes = dataBundle.courses.get("typicalCourse1");
-
-        List<InstructorAttributes> instructorList =
-                instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
-
-        assertEquals(0, instructorList.size());
-
-        // create a new instructor
-        instructorsDb.createEntity(
-                InstructorAttributes.builder(courseAttributes.getId(), "instructorABCDE@email.com")
-                        .withName("instructorABCDE")
-                        .withDisplayedName("Instructor")
-                        .withRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER)
-                        .build());
-
-        // the newly created instructor is searchable
-        instructorList = instructorsDb.searchInstructorsInWholeSystem("instructorABCDE");
-        assertEquals(1, instructorList.size());
-        assertEquals("instructorABCDE", instructorList.get(0).getName());
     }
 
     @Test
@@ -208,7 +179,7 @@ public class InstructorSearchTest extends BaseSearchTest {
                 () -> instructorsDb.searchInstructorsInWholeSystem("anything"));
     }
 
-    /*
+    /**
      * Verifies that search results match with expected output.
      * Parameters are modified to standardize {@link InstructorAttributes} for comparison.
      *
@@ -224,8 +195,8 @@ public class InstructorSearchTest extends BaseSearchTest {
         AssertHelper.assertSameContentIgnoreOrder(Arrays.asList(expected), actual);
     }
 
-    /*
-     * Standardizes instructors for comparison by setting key fields to null
+    /**
+     * Standardizes instructors for comparison by setting key fields to null.
      *
      * @param instructors the instructors to standardize.
      */

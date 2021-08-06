@@ -18,7 +18,6 @@ import org.apache.solr.common.SolrInputDocument;
 
 import teammates.common.datatransfer.attributes.EntityAttributes;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
@@ -39,7 +38,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
             "Search service is not implemented";
     private static final String ERROR_PUT_DOCUMENT =
-            "Failed to put document(s) %s into Solr. Root cause: %s ";
+            "Failed to put document %s into Solr. Root cause: %s ";
     private static final String ERROR_RESET_COLLECTION =
             "Failed to reset collections. Root cause: %s ";
 
@@ -82,8 +81,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             response = client.query(getCollectionName(), query);
         } catch (SolrServerException e) {
             Throwable rootCause = e.getRootCause();
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), rootCause)
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), rootCause), e);
             if (rootCause instanceof SocketTimeoutException) {
                 throw new SearchServiceException("A timeout was reached while processing your request. "
                         + "Please try again later.", e, HttpStatus.SC_GATEWAY_TIMEOUT);
@@ -92,8 +90,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
                         + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
             }
         } catch (IOException e) {
-            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_SEARCH_DOCUMENT, query.getQuery(), e.getCause()), e);
             throw new SearchServiceException("An error has occurred while performing search. "
                     + "Please try again later.", e, HttpStatus.SC_BAD_GATEWAY);
         }
@@ -106,35 +103,31 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     abstract SearchDocument<T> createDocument(T attribute);
 
     /**
-     * Batch creates or updates search documents for the given entities.
+     * Creates or updates search document for the given entity.
      */
-    public void putDocuments(List<T> attributes) {
+    public void putDocument(T attributes) throws SearchServiceException {
         if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
-        List<SolrInputDocument> documents = new ArrayList<>();
-
-        for (T attribute : attributes) {
-            if (attribute == null) {
-                continue;
-            }
-            Map<String, Object> searchableFields = createDocument(attribute).getSearchableFields();
-            SolrInputDocument document = new SolrInputDocument();
-            searchableFields.forEach((key, value) -> document.addField(key, value));
-            documents.add(document);
+        if (attributes == null) {
+            return;
         }
 
+        Map<String, Object> searchableFields = createDocument(attributes).getSearchableFields();
+        SolrInputDocument document = new SolrInputDocument();
+        searchableFields.forEach((key, value) -> document.addField(key, value));
+
         try {
-            client.add(getCollectionName(), documents);
+            client.add(getCollectionName(), Collections.singleton(document));
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_PUT_DOCUMENT, document, e.getRootCause()), e);
+            throw new SearchServiceException(e, HttpStatus.SC_BAD_GATEWAY);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_PUT_DOCUMENT, document, e.getCause()), e);
+            throw new SearchServiceException(e, HttpStatus.SC_BAD_GATEWAY);
         }
     }
 
@@ -155,11 +148,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             client.deleteById(getCollectionName(), keys);
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getRootCause()), e);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_DELETE_DOCUMENT, keys, e.getCause()), e);
         }
     }
 
@@ -175,11 +166,9 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
             client.deleteByQuery(getCollectionName(), "*:*");
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getRootCause()), e);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause())
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(String.format(ERROR_RESET_COLLECTION, e.getCause()), e);
         }
     }
 
