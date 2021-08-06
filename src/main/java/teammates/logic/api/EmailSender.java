@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
@@ -97,8 +96,7 @@ public class EmailSender {
             sendEmail(report);
         } catch (Exception e) {
             log.severe("Error in sending report: " + (report == null ? "" : report.getInfoForLogging())
-                       + "\nReport content: " + (report == null ? "" : report.getContent())
-                       + "\nCause: " + TeammatesException.toStringWithStackTrace(e));
+                       + "\nReport content: " + (report == null ? "" : report.getContent()), e);
         }
     }
 

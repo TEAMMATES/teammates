@@ -6,8 +6,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-import teammates.common.exception.TeammatesException;
-
 /**
  * Represents the deployment-specific configuration values of the system.
  * This can be used to access values in the build.properties file too.
@@ -106,7 +104,7 @@ public final class Config {
         try (InputStream buildPropStream = FileHelper.getResourceAsStream("build.properties")) {
             properties.load(buildPropStream);
         } catch (IOException e) {
-            assert false : TeammatesException.toStringWithStackTrace(e);
+            assert false;
         }
         APP_ID = properties.getProperty("app.id");
         APP_REGION = properties.getProperty("app.region");
