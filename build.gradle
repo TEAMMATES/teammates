@@ -141,7 +141,8 @@ tasks.withType(cz.habarta.typescript.generator.gradle.GenerateTask) {
 task generateApiOutputFormat(type: cz.habarta.typescript.generator.gradle.GenerateTask) {
     classPatterns = [
         "teammates.ui.output.**",
-        "teammates.common.datatransfer.questions.**"
+        "teammates.common.datatransfer.questions.**",
+        "teammates.common.datatransfer.logs.**",
     ]
     removeTypeNameSuffix = "Data"
     outputFile = "src/web/types/api-output.ts"

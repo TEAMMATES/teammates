@@ -1,0 +1,4 @@
+<span class="right-padding" [ngClass]="getClassForStatus(httpStatus)">{{ httpStatus }}</span>
+<span class="right-padding blue-font">{{ responseTime }}ms</span>
+<span class="clickable border" *ngIf="actionClass" ngbTooltip="Click to add to filter" (click)="addActionClassToFilter(actionClass)">{{ actionClass }}</span>
+{{ summary }}
