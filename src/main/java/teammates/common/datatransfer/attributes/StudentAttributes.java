@@ -13,6 +13,9 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
+/**
+ * The data transfer object for {@link CourseStudent} entities.
+ */
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     private String email;
@@ -37,6 +40,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
+    /**
+     * Gets the {@link StudentAttributes} instance of the given {@link CourseStudent}.
+     */
     public static StudentAttributes valueOf(CourseStudent student) {
         StudentAttributes studentAttributes = new StudentAttributes(student.getCourseId(), student.getEmail());
         studentAttributes.name = student.getName();
@@ -67,6 +73,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return new Builder(courseId, email);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public StudentAttributes getCopy() {
         StudentAttributes studentAttributes = new StudentAttributes(course, email);
 
@@ -222,12 +231,18 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return errors;
     }
 
+    /**
+     * Sorts the list of students by the section name, then team name, then name.
+     */
     public static void sortBySectionName(List<StudentAttributes> students) {
         students.sort(Comparator.comparing((StudentAttributes student) -> student.section)
                 .thenComparing(student -> student.team)
                 .thenComparing(student -> student.name));
     }
 
+    /**
+     * Sorts the list of students by the team name, then name.
+     */
     public static void sortByTeamName(List<StudentAttributes> students) {
         students.sort(Comparator.comparing((StudentAttributes student) -> student.team)
                 .thenComparing(student -> student.name));

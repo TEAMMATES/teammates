@@ -1,4 +1,4 @@
-package teammates.common.util;
+package teammates.logic.core;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -8,14 +8,16 @@ import org.apache.http.client.utils.URIBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import teammates.common.exception.TeammatesException;
+import teammates.common.util.HttpRequest;
+import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 
 /**
- * Used to handle the verification of the user's reCAPTCHA response.
+ * Google-based reCAPTCHA verifier service.
  *
  * @see <a href="https://developers.google.com/recaptcha/docs/verify">reCAPTCHA user response verification API</a>
  */
-public class RecaptchaVerifier {
+public class GoogleRecaptchaService implements RecaptchaService {
 
     /** The Google reCAPTCHA API URL to verify the response token. */
     private static final String VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
@@ -24,19 +26,14 @@ public class RecaptchaVerifier {
 
     private final String secretKey;
 
-    public RecaptchaVerifier(String secretKey) {
+    public GoogleRecaptchaService(String secretKey) {
         this.secretKey = secretKey;
     }
 
-    /**
-     * Returns true if the {@code captchaResponse} token is verified successfully or {@code secretKey} is null.
-     * @param captchaResponse The user's captcha response from the client side
-     * @return true if the {@code captchaResponse} is verified successfully or {@code secretKey} is null, and false if a
-     *         exception occurs or if the API request fails
-     */
+    @Override
     public boolean isVerificationSuccessful(String captchaResponse) {
         if (secretKey == null || secretKey.isEmpty()) {
-            return true;
+            return false;
         }
 
         if (captchaResponse == null || captchaResponse.isEmpty()) {
@@ -54,7 +51,7 @@ public class RecaptchaVerifier {
 
             return Boolean.parseBoolean(responseInJson.get("success").toString());
         } catch (Exception e) {
-            log.severe(TeammatesException.toStringWithStackTrace(e));
+            log.severe("", e);
             return false;
         }
     }

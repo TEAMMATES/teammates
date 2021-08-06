@@ -48,6 +48,8 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         String severity = "INFO";
         String infoLogTrace1 = "info log trace 1";
         String infoLogTrace2 = "info log trace 2";
+        String infoLogInsertId1 = "info log insert id 1";
+        String infoLogInsertId2 = "info log insert id 2";
         String infoLogTextPayload1 = "info log text palyload 1";
         String infoLogTextPayload2 = "info log text palyload 2";
         GeneralLogEntry.SourceLocation infoLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file1", 1L, "func1");
@@ -83,6 +85,8 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
         String warningLogTrace1 = "warning log trace 1";
         String warningLogTrace2 = "warning log trace 2";
+        String warningLogInsertId1 = "warning log insert id 1";
+        String warningLogInsertId2 = "warning log insert id 2";
         String warningLogTextPayload1 = "warning log text palyload 1";
         String warningLogTextPayload2 = "warning log text palyload 2";
         GeneralLogEntry.SourceLocation warningLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file3", 3L, "func3");
@@ -113,6 +117,8 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         warningLogJsonPayLoad2.put("emailStatus", 200);
 
         String errorLogTrace = "error log trace";
+        String errorLogInsertId1 = "error log insertId 1";
+        String errorLogInsertId2 = "error log insertId 2";
         String errorLogTextPayload1 = "error log text palyload 1";
         String errorLogTextPayload2 = "error log text palyload 2";
         GeneralLogEntry.SourceLocation errorLogSourceLocation1 = new GeneralLogEntry.SourceLocation("file5", 5L, "func5");
@@ -145,18 +151,18 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         errorLogJsonPayLoad2.put("actionClass", "errorLogActionClass2");
         errorLogJsonPayLoad2.put("event", LogEvent.REQUEST_LOG.toString());
 
-        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogSourceLocation1, infoLogTimestamp1, infoLogTextPayload1,
-                infoLogJsonPayLoad1);
-        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogSourceLocation2, infoLogTimestamp2, infoLogTextPayload2,
-                infoLogJsonPayLoad2);
-        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogSourceLocation1, warningLogTimestamp1,
-                warningLogTextPayload1, warningLogJsonPayLoad1);
-        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogSourceLocation2, warningLogTimestamp2,
-                warningLogTextPayload2, warningLogJsonPayLoad2);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogSourceLocation1, errorLogTimestamp1,
-                errorLogTextPayload1, errorLogJsonPayLoad1);
-        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogSourceLocation2, errorLogTimestamp2,
-                errorLogTextPayload2, errorLogJsonPayLoad2);
+        mockLogsProcessor.insertInfoLog(infoLogTrace1, infoLogInsertId1, infoLogSourceLocation1, infoLogTimestamp1,
+                infoLogTextPayload1, infoLogJsonPayLoad1);
+        mockLogsProcessor.insertInfoLog(infoLogTrace2, infoLogInsertId2, infoLogSourceLocation2, infoLogTimestamp2,
+                infoLogTextPayload2, infoLogJsonPayLoad2);
+        mockLogsProcessor.insertWarningLog(warningLogTrace1, warningLogInsertId1, warningLogSourceLocation1,
+                warningLogTimestamp1, warningLogTextPayload1, warningLogJsonPayLoad1);
+        mockLogsProcessor.insertWarningLog(warningLogTrace2, warningLogInsertId2, warningLogSourceLocation2,
+                warningLogTimestamp2, warningLogTextPayload2, warningLogJsonPayLoad2);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogInsertId1, errorLogSourceLocation1,
+                errorLogTimestamp1, errorLogTextPayload1, errorLogJsonPayLoad1);
+        mockLogsProcessor.insertGeneralErrorLog(errorLogTrace, errorLogInsertId2, errorLogSourceLocation2,
+                errorLogTimestamp2, errorLogTextPayload2, errorLogJsonPayLoad2);
 
         loginAsAdmin();
 
