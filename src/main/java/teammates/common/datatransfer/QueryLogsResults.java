@@ -2,6 +2,8 @@ package teammates.common.datatransfer;
 
 import java.util.List;
 
+import teammates.common.datatransfer.logs.GeneralLogEntry;
+
 /**
  * Represents the results of querying logs.
  */

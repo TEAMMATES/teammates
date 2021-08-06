@@ -1,23 +1,21 @@
-package teammates.ui.constants;
+package teammates.common.datatransfer.logs;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-import teammates.common.util.Const;
-
 /**
- * Constant values for all the different log types.
+ * Constant values for the different feedback session-related log types.
  */
-public enum LogType {
+public enum FeedbackSessionLogType {
     // CHECKSTYLE.OFF:JavadocVariable
-    FEEDBACK_SESSION_ACCESS(Const.FeedbackSessionLogTypes.ACCESS),
-    FEEDBACK_SESSION_SUBMISSION(Const.FeedbackSessionLogTypes.SUBMISSION),
-    FEEDBACK_SESSION_VIEW_RESULT(Const.FeedbackSessionLogTypes.VIEW_RESULT);
+    ACCESS("access"),
+    SUBMISSION("submission"),
+    VIEW_RESULT("view result");
     // CHECKSTYLE.ON:JavadocVariable
 
     @JsonValue
     private final String label;
 
-    LogType(String label) {
+    FeedbackSessionLogType(String label) {
         this.label = label;
     }
 
@@ -28,8 +26,8 @@ public enum LogType {
     /**
      * Returns the enum value of a log type given its label.
      */
-    public static LogType valueOfLabel(String label) {
-        for (LogType logType : values()) {
+    public static FeedbackSessionLogType valueOfLabel(String label) {
+        for (FeedbackSessionLogType logType : values()) {
             if (logType.label.equals(label)) {
                 return logType;
             }
