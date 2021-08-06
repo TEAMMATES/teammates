@@ -1,38 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LogType, ResourceEndpoints } from '../types/api-const';
-import { ActionClasses, FeedbackSessionLogs, GeneralLogs } from '../types/api-output';
+import { ResourceEndpoints } from '../types/api-const';
+import {
+  ActionClasses,
+  FeedbackSessionLogs,
+  FeedbackSessionLogType,
+  GeneralLogs,
+  QueryLogsParams,
+} from '../types/api-output';
 import { HttpRequestService } from './http-request.service';
-
-/**
- * Advanced filters model for searching of logs.
- */
-export interface AdvancedFilters {
-  actionClass?: string;
-  traceId?: string;
-  googleId?: string;
-  regkey?: string;
-  email?: string;
-  sourceLocationFile?: string;
-  sourceLocationFunction?: string;
-  latency?: string;
-  status?: string;
-  extraFilters?: string;
-  exceptionClass?: string;
-}
-
-/**
- * Query parameters for logs endpoint.
- */
-export interface LogsEndpointQueryParams {
-  searchFrom: string;
-  searchUntil: string;
-  severity?: string;
-  minSeverity?: string;
-  logEvent?: string;
-  order?: string;
-  advancedFilters: AdvancedFilters;
-}
 
 /**
  * Handles logging related logic provision.
@@ -51,7 +27,7 @@ export class LogService {
     courseId: string,
     feedbackSessionName: string,
     studentEmail: string,
-    logType: LogType }): Observable<string> {
+    logType: FeedbackSessionLogType }): Observable<string> {
     const paramMap: Record<string, string> = {
       courseid: queryParams.courseId,
       fsname: queryParams.feedbackSessionName,
@@ -89,10 +65,10 @@ export class LogService {
     return this.httpRequestService.get(ResourceEndpoints.SESSION_LOGS, paramMap);
   }
 
-  searchLogs(queryParams: LogsEndpointQueryParams): Observable<GeneralLogs> {
+  searchLogs(queryParams: Partial<QueryLogsParams>): Observable<GeneralLogs> {
     const paramMap: Record<string, string> = {
-      starttime: queryParams.searchFrom,
-      endtime: queryParams.searchUntil,
+      starttime: `${queryParams.startTime || -1}`,
+      endtime: `${queryParams.endTime || -1}`,
     };
 
     if (queryParams.order) {
@@ -111,48 +87,56 @@ export class LogService {
       paramMap.logevent = queryParams.logEvent;
     }
 
-    if (queryParams.advancedFilters.actionClass) {
-      paramMap.actionclass = queryParams.advancedFilters.actionClass;
+    if (queryParams.actionClass) {
+      paramMap.actionclass = queryParams.actionClass;
     }
 
-    if (queryParams.advancedFilters.traceId) {
-      paramMap.traceid = queryParams.advancedFilters.traceId;
+    if (queryParams.traceId) {
+      paramMap.traceid = queryParams.traceId;
     }
 
-    if (queryParams.advancedFilters.googleId) {
-      paramMap.googleid = queryParams.advancedFilters.googleId;
+    if (queryParams.userInfoParams) {
+      if (queryParams.userInfoParams.googleId) {
+        paramMap.googleid = queryParams.userInfoParams.googleId;
+      }
+
+      if (queryParams.userInfoParams.regkey) {
+        paramMap.key = queryParams.userInfoParams.regkey;
+      }
+
+      if (queryParams.userInfoParams.email) {
+        paramMap.email = queryParams.userInfoParams.email;
+      }
     }
 
-    if (queryParams.advancedFilters.regkey) {
-      paramMap.key = queryParams.advancedFilters.regkey;
+    if (queryParams.sourceLocation) {
+      if (queryParams.sourceLocation.file) {
+        paramMap.sourcelocationfile = queryParams.sourceLocation.file;
+      }
+
+      if (queryParams.sourceLocation.function) {
+        paramMap.sourcelocationfunction = queryParams.sourceLocation.function;
+      }
     }
 
-    if (queryParams.advancedFilters.email) {
-      paramMap.email = queryParams.advancedFilters.email;
+    if (queryParams.exceptionClass) {
+      paramMap.exceptionclass = queryParams.exceptionClass;
     }
 
-    if (queryParams.advancedFilters.sourceLocationFile) {
-      paramMap.sourcelocationfile = queryParams.advancedFilters.sourceLocationFile;
+    if (queryParams.latency) {
+      paramMap.latency = queryParams.latency;
     }
 
-    if (queryParams.advancedFilters.sourceLocationFunction) {
-      paramMap.sourcelocationfunction = queryParams.advancedFilters.sourceLocationFunction;
+    if (queryParams.status) {
+      paramMap.status = queryParams.status;
     }
 
-    if (queryParams.advancedFilters.exceptionClass) {
-      paramMap.exceptionclass = queryParams.advancedFilters.exceptionClass;
+    if (queryParams.version) {
+      paramMap.version = queryParams.version;
     }
 
-    if (queryParams.advancedFilters.latency) {
-      paramMap.latency = queryParams.advancedFilters.latency;
-    }
-
-    if (queryParams.advancedFilters.status) {
-      paramMap.status = queryParams.advancedFilters.status;
-    }
-
-    if (queryParams.advancedFilters.extraFilters) {
-      paramMap.extrafilters = queryParams.advancedFilters.extraFilters;
+    if (queryParams.extraFilters) {
+      paramMap.extrafilters = queryParams.extraFilters;
     }
 
     return this.httpRequestService.get(ResourceEndpoints.LOGS, paramMap);
