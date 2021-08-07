@@ -65,12 +65,12 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
-            maxlength="40"
+            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            40 characters left
+            64 characters left
           </span>
         </div>
         <div
@@ -82,12 +82,12 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
-            maxlength="64"
+            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            64 characters left
+            80 characters left
           </span>
         </div>
         <div
@@ -3170,12 +3170,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
-            maxlength="40"
+            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            40 characters left
+            64 characters left
           </span>
         </div>
         <div
@@ -3187,12 +3187,12 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
-            maxlength="64"
+            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            64 characters left
+            80 characters left
           </span>
         </div>
         <div
@@ -6258,12 +6258,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-id"
-            maxlength="40"
+            maxlength="64"
             placeholder="e.g. CS3215-2013Semester1"
             type="text"
           />
           <span>
-            34 characters left
+            58 characters left
           </span>
         </div>
         <div
@@ -6275,12 +6275,12 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
           <input
             class="form-control ng-untouched ng-pristine ng-valid"
             id="copy-course-name"
-            maxlength="64"
+            maxlength="80"
             placeholder="e.g. Software Engineering"
             type="text"
           />
           <span>
-            64 characters left
+            80 characters left
           </span>
         </div>
         <div
