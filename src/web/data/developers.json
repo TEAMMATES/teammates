@@ -439,11 +439,6 @@
     },
     {
       "multiple": true,
-      "name": "Dao Ngoc Hieu",
-      "username": "daongochieu2810"
-    },
-    {
-      "multiple": true,
       "name": "Daryl Lim"
     },
     {
@@ -937,11 +932,6 @@
     },
     {
       "multiple": true,
-      "name": "Li Jianhan",
-      "username": "jianhandev"
-    },
-    {
-      "multiple": true,
       "name": "Lian Wenhui Florine"
     },
     {
@@ -951,11 +941,6 @@
     {
       "name": "Lim Jia Yee",
       "username": "jia1"
-    },
-    {
-      "multiple": true,
-      "name": "Lim Zi Wei",
-      "username": "halfwhole"
     },
     {
       "name": "Liu Jia Hao",
@@ -1080,11 +1065,6 @@
     },
     {
       "username": "misaunde"
-    },
-    {
-      "multiple": true,
-      "name": "Mo Zongran",
-      "username": "moziliar"
     },
     {
       "name": "Moaz Baghdadi",
@@ -1805,11 +1785,6 @@
       "name": "Wu Lifu"
     },
     {
-      "multiple": true,
-      "name": "Wu Qirui",
-      "username": "hhdqirui"
-    },
-    {
       "name": "Wu Xiao Xiao",
       "username": "a0129998"
     },
@@ -1851,11 +1826,6 @@
     {
       "name": "Yatri Patel",
       "username": "yatri1609"
-    },
-    {
-      "multiple": true,
-      "name": "Yen Pinhsuan",
-      "username": "ypinhsuan"
     },
     {
       "multiple": true,
@@ -1928,10 +1898,40 @@
   ],
   "committers": [
     {
+      "name": "Yen Pinhsuan",
+      "username": "ypinhsuan",
+      "startPeriod": "May 2021"
+    },
+    {
+      "name": "Wu Qirui",
+      "username": "hhdqirui",
+      "startPeriod": "May 2021"
+    },
+    {
+      "name": "Li Jianhan",
+      "username": "jianhandev",
+      "startPeriod": "Feb 2021"
+    },
+    {
+      "name": "Lim Zi Wei",
+      "username": "halfwhole",
+      "startPeriod": "Feb 2021"
+    },
+    {
+      "name": "Dao Ngoc Hieu",
+      "username": "daongochieu2810",
+      "startPeriod": "Feb 2021"
+    },
+    {
+      "name": "Mo Zongran",
+      "username": "moziliar",
+      "startPeriod": "Aug 2020"
+    },
+    {
       "name": "Derek Zhuang",
       "username": "Derek-Hardy",
       "startPeriod": "May 2020",
-      "endPeriod": "Jul 2020"
+      "endPeriod": "May 2021"
     },
     {
       "name": "Daryl Chan",
@@ -2127,16 +2127,6 @@
       ]
     },
     {
-      "name": "Xiao Pu",
-      "username": "xpdavid",
-      "currentPosition": "Project Mentor (Aug 2020 - )",
-      "pastPositions": [
-        "Project Lead (Jun 2018 - Aug 2020)",
-        "Area Lead (Jan 2018 - May 2018)",
-        "Committer (Jan 2017 - Apr 2017)"
-      ]
-    },
-    {
       "name": "Rahul Rajesh",
       "username": "rrtheonlyone",
       "currentPosition": "Project Lead (Aug 2020 - )",
@@ -2155,17 +2145,9 @@
       ]
     },
     {
-      "name": "Ni Tianzhen",
-      "username": "niqiukun",
-      "currentPosition": "Area Lead (Aug 2020 - )",
-      "pastPositions": [
-        "Committer (Jan 2020 - May 2020)"
-      ]
-    },
-    {
       "name": "Tiu Wee Han",
       "username": "tiuweehan",
-      "currentPosition": "Area Lead (Aug 2020 - )",
+      "currentPosition": "Snr Developer (Aug 2020 - )",
       "pastPositions": [
         "Committer (Jan 2020 - May 2020)"
       ]
@@ -2187,14 +2169,6 @@
       ]
     },
     {
-      "name": "Jason Tan",
-      "username": "jtankw3",
-      "currentPosition": "Snr Developer (Aug 2020 - )",
-      "pastPositions": [
-        "Committer (Jan 2020 - Jul 2020)"
-      ]
-    },
-    {
       "name": "Chong Chee Yuan",
       "username": "ccyccyccy",
       "currentPosition": "Snr Developer (Aug 2020 - )",
@@ -2208,6 +2182,32 @@
       "currentPosition": "Snr Developer (Aug 2020 - )",
       "pastPositions": [
         "Committer (May 2020 - Jul 2020)"
+      ]
+    },
+    {
+      "name": "Xiao Pu",
+      "username": "xpdavid",
+      "pastPositions": [
+        "Project Mentor (Aug 2020 - Dec 2020)",
+        "Project Lead (Jun 2018 - Aug 2020)",
+        "Area Lead (Jan 2018 - May 2018)",
+        "Committer (Jan 2017 - Apr 2017)"
+      ]
+    },
+    {
+      "name": "Ni Tianzhen",
+      "username": "niqiukun",
+      "pastPositions": [
+        "Snr Developer (Aug 2020 - Dec 2020)",
+        "Committer (Jan 2020 - May 2020)"
+      ]
+    },
+    {
+      "name": "Jason Tan",
+      "username": "jtankw3",
+      "pastPositions": [
+        "Snr Developer (Aug 2020 - Dec 2020)",
+        "Committer (Jan 2020 - Jul 2020)"
       ]
     },
     {
