@@ -1,8 +1,6 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +11,7 @@ import org.apache.http.HttpStatus;
 
 import com.google.cloud.datastore.DatastoreException;
 
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
@@ -100,16 +99,14 @@ public class WebApiServlet extends HttpServlet {
             throwError(resp, statusCode,
                     "The server encountered an error when processing your request.");
         } finally {
-            Map<String, Object> extraInfo = new HashMap<>();
-            Map<String, String> userInfo = new HashMap<>();
-            String actionClass = "Unknown Action";
+            RequestLogUser userInfo = new RequestLogUser();
+            String actionClass = null;
             if (action != null) {
                 actionClass = action.getClass().getSimpleName();
-                extraInfo.put("actionClass", actionClass);
                 userInfo = action.getUserInfoForLogging();
             }
 
-            log.request(req, statusCode, actionClass, userInfo, extraInfo);
+            log.request(req, statusCode, actionClass, userInfo, actionClass);
         }
     }
 
