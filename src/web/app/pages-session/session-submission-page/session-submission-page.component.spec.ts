@@ -864,7 +864,7 @@ describe('SessionSubmissionPageComponent', () => {
     component.loadFeedbackSession();
 
     expect(modalSpy.calls.count()).toEqual(1);
-    expect(modalSpy.calls.mostRecent().args[0]).toEqual('Feedback Session Is Not Yet Open!');
+    expect(modalSpy.calls.mostRecent().args[0]).toEqual('Not Authorised To Access!');
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });
