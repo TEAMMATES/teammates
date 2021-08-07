@@ -170,6 +170,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
+        InstructorAttributes instructorNotJoinedYet = instructorsLogic.getInstructorForEmail(
+                "idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt");
+        String instructorReminderToJoinLine = "Note that you will need to join the course as an instructor";
+
+        // Verify that unregistered instructor gets reminder to join course
+        verifyEmailReceivedCorrectly(emails, instructorNotJoinedYet.getEmail(), subject,
+                "/sessionReminderEmailForInstructorNotJoinedYet.html", instructorReminderToJoinLine);
+
         ______TS("feedback session closing alerts");
 
         emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
@@ -569,8 +577,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
     @Test
     public void testGenerateCompiledLogsEmail() throws IOException {
         List<ErrorLogEntry> errorLogs = Arrays.asList(
-                new ErrorLogEntry("Typical log message", "ERROR"),
-                new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR")
+                new ErrorLogEntry("Typical log message", "ERROR", "123456"),
+                new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR", "abcdef")
         );
 
         EmailWrapper email = emailGenerator.generateCompiledLogsEmail(errorLogs);

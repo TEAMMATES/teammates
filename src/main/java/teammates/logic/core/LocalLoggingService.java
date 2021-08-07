@@ -5,7 +5,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.apache.commons.math3.random.RandomDataGenerator;
@@ -15,12 +16,16 @@ import com.google.gson.JsonParseException;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.GeneralLogEntry;
-import teammates.common.datatransfer.QueryLogsParams;
-import teammates.common.datatransfer.QueryLogsParams.UserInfoParams;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.ExceptionLogDetails;
+import teammates.common.datatransfer.logs.GeneralLogEntry;
+import teammates.common.datatransfer.logs.LogDetails;
+import teammates.common.datatransfer.logs.LogEvent;
+import teammates.common.datatransfer.logs.QueryLogsParams;
+import teammates.common.datatransfer.logs.RequestLogDetails;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.util.FileHelper;
 import teammates.common.util.JsonUtils;
 
@@ -40,25 +45,6 @@ public class LocalLoggingService implements LogService {
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
     private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
-    /**
-     * Severity level for logs.
-     */
-    enum LogSeverity {
-        INFO(1),
-        WARNING(2),
-        ERROR(3);
-
-        private final int severityLevel;
-
-        LogSeverity(int severityLevel) {
-            this.severityLevel = severityLevel;
-        }
-
-        public int getSeverityLevel() {
-            return severityLevel;
-        }
-    }
-
     private static List<GeneralLogEntry> loadLocalLogEntries() {
         // Timestamp of logs are randomly created to be within the last one hour
         long currentTimestamp = Instant.now().toEpochMilli();
@@ -70,7 +56,7 @@ public class LocalLoggingService implements LogService {
             return logEntriesCollection.stream()
                     .map(log -> {
                         long timestamp = new RandomDataGenerator().nextLong(earliestTimestamp, currentTimestamp);
-                        GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(log.getLogName(),
+                        GeneralLogEntry logEntryWithUpdatedTimestamp = new GeneralLogEntry(
                                 log.getSeverity(), log.getTrace(), log.getInsertId(), log.getResourceIdentifier(),
                                 log.getSourceLocation(), timestamp);
                         logEntryWithUpdatedTimestamp.setDetails(log.getDetails());
@@ -103,56 +89,22 @@ public class LocalLoggingService implements LogService {
                         return Long.compare(y.getTimestamp(), x.getTimestamp());
                     }
                 })
-                .filter(logs -> queryLogsParams.getSeverityLevel() == null
-                        || logs.getSeverity().equals(queryLogsParams.getSeverityLevel()))
-                .filter(logs -> queryLogsParams.getMinSeverity() == null
-                        || LogSeverity.valueOf(logs.getSeverity()).getSeverityLevel()
-                            >= LogSeverity.valueOf(queryLogsParams.getMinSeverity()).getSeverityLevel())
-                .filter(logs -> queryLogsParams.getStartTime() == null
-                        || logs.getTimestamp() > queryLogsParams.getStartTime().toEpochMilli())
-                .filter(logs -> queryLogsParams.getEndTime() == null
-                        || logs.getTimestamp() <= queryLogsParams.getEndTime().toEpochMilli())
-                .filter(logs -> queryLogsParams.getTraceId() == null
-                        || (logs.getTrace() != null && logs.getTrace().equals(queryLogsParams.getTraceId())))
-                .filter(logs -> queryLogsParams.getActionClass() == null
-                        || (logs.getDetails() != null && logs.getDetails().get("actionClass") != null
-                            && logs.getDetails().get("actionClass").equals(queryLogsParams.getActionClass())))
-                .filter(logs -> {
-                    UserInfoParams queryUserInfo = queryLogsParams.getUserInfoParams();
-                    if (queryUserInfo.getGoogleId() == null
-                            && queryUserInfo.getEmail() == null
-                            && queryUserInfo.getRegkey() == null) {
-                        return true;
-                    }
-                    if (logs.getDetails() == null || logs.getDetails().get("userInfo") == null) {
-                        return false;
-                    }
-
-                    Object userInfo = logs.getDetails().get("userInfo");
-                    Map<String, String> userInfoMap = JsonUtils.fromJson(JsonUtils.toJson(userInfo), Map.class);
-                    if (queryUserInfo.getEmail() != null
-                            && !queryUserInfo.getEmail().equals(userInfoMap.get("email"))) {
-                        return false;
-                    }
-                    if (queryUserInfo.getGoogleId() != null
-                            && !queryUserInfo.getGoogleId().equals(userInfoMap.get("googleId"))) {
-                        return false;
-                    }
-                    if (queryUserInfo.getRegkey() != null
-                            && !queryUserInfo.getRegkey().equals(userInfoMap.get("regkey"))) {
-                        return false;
-                    }
-                    return true;
-                })
-                .filter(logs -> queryLogsParams.getLogEvent() == null
-                        || (logs.getDetails() != null
-                            && queryLogsParams.getLogEvent().equals(logs.getDetails().get("event"))))
-                .filter(logs -> queryLogsParams.getSourceLocation().getFile() == null
-                        || logs.getSourceLocation().getFile().equals(queryLogsParams.getSourceLocation().getFile()))
-                .filter(logs -> queryLogsParams.getSourceLocation().getFunction() == null
-                        || logs.getSourceLocation().getFunction().equals(queryLogsParams.getSourceLocation().getFunction()))
-                .filter(logs -> queryLogsParams.getExceptionClass() == null
-                        || (logs.getMessage() != null && logs.getMessage().contains(queryLogsParams.getExceptionClass())))
+                .filter(log -> queryLogsParams.getSeverity() == null
+                        || log.getSeverity().equals(queryLogsParams.getSeverity()))
+                .filter(log -> queryLogsParams.getMinSeverity() == null
+                        || log.getSeverity().getSeverityLevel()
+                            >= queryLogsParams.getMinSeverity().getSeverityLevel())
+                .filter(log -> log.getTimestamp() > queryLogsParams.getStartTime())
+                .filter(log -> log.getTimestamp() <= queryLogsParams.getEndTime())
+                .filter(log -> queryLogsParams.getTraceId() == null
+                        || queryLogsParams.getTraceId().equals(log.getTrace()))
+                .filter(log -> queryLogsParams.getVersion() == null
+                        || queryLogsParams.getVersion().equals(log.getResourceIdentifier().get("version_id")))
+                .filter(log -> queryLogsParams.getSourceLocation().getFile() == null
+                        || log.getSourceLocation().getFile().equals(queryLogsParams.getSourceLocation().getFile()))
+                .filter(log -> queryLogsParams.getSourceLocation().getFunction() == null
+                        || log.getSourceLocation().getFunction().equals(queryLogsParams.getSourceLocation().getFunction()))
+                .filter(log -> isEventBasedFilterSatisfied(log, queryLogsParams))
                 .limit(pageSize)
                 .collect(Collectors.toList());
 
@@ -160,6 +112,103 @@ public class LocalLoggingService implements LogService {
         boolean hasNextPage = copiedResults.size() == pageSize;
 
         return new QueryLogsResults(copiedResults, hasNextPage);
+    }
+
+    private boolean isEventBasedFilterSatisfied(GeneralLogEntry log, QueryLogsParams queryLogsParams) {
+        String actionClassFilter = queryLogsParams.getActionClass();
+        String exceptionClassFilter = queryLogsParams.getExceptionClass();
+        String logEventFilter = queryLogsParams.getLogEvent();
+        String latencyFilter = queryLogsParams.getLatency();
+        String statusFilter = queryLogsParams.getStatus();
+
+        RequestLogUser userInfoFilter = queryLogsParams.getUserInfoParams();
+        String regkeyFilter = userInfoFilter.getRegkey();
+        String emailFilter = userInfoFilter.getEmail();
+        String googleIdFilter = userInfoFilter.getGoogleId();
+
+        if (actionClassFilter == null && exceptionClassFilter == null && logEventFilter == null
+                && latencyFilter == null && statusFilter == null && regkeyFilter == null
+                && emailFilter == null && googleIdFilter == null) {
+            return true;
+        }
+        LogDetails details = log.getDetails();
+        if (details == null) {
+            return false;
+        }
+        if (logEventFilter != null && !details.getEvent().name().equals(logEventFilter)) {
+            return false;
+        }
+        if (!isExceptionFilterSatisfied(details, exceptionClassFilter)) {
+            return false;
+        }
+        return isRequestFilterSatisfied(details, actionClassFilter, latencyFilter, statusFilter,
+                regkeyFilter, emailFilter, googleIdFilter);
+    }
+
+    private boolean isExceptionFilterSatisfied(LogDetails details, String exceptionClassFilter) {
+        if (exceptionClassFilter == null) {
+            return true;
+        }
+        if (details.getEvent() != LogEvent.EXCEPTION_LOG) {
+            return false;
+        }
+        ExceptionLogDetails exceptionDetails = (ExceptionLogDetails) details;
+        return exceptionDetails.getExceptionClass().equals(exceptionClassFilter);
+    }
+
+    private boolean isRequestFilterSatisfied(LogDetails details, String actionClassFilter,
+            String latencyFilter, String statusFilter, String regkeyFilter, String emailFilter, String googleIdFilter) {
+        if (actionClassFilter == null && latencyFilter == null && statusFilter == null
+                && regkeyFilter == null && emailFilter == null && googleIdFilter == null) {
+            return true;
+        }
+        if (details.getEvent() != LogEvent.REQUEST_LOG) {
+            return false;
+        }
+        RequestLogDetails requestDetails = (RequestLogDetails) details;
+        if (actionClassFilter != null && !actionClassFilter.equals(requestDetails.getActionClass())) {
+            return false;
+        }
+        if (statusFilter != null && !statusFilter.equals(String.valueOf(requestDetails.getResponseStatus()))) {
+            return false;
+        }
+        if (latencyFilter != null) {
+            Pattern p = Pattern.compile("^(>|>=|<|<=) *(\\d+)$");
+            Matcher m = p.matcher(latencyFilter);
+            long logLatency = ((RequestLogDetails) details).getResponseTime();
+            boolean isFilterSatisfied = false;
+            if (m.matches()) {
+                int time = Integer.parseInt(m.group(2));
+                switch (m.group(1)) {
+                case ">":
+                    isFilterSatisfied = logLatency > time;
+                    break;
+                case ">=":
+                    isFilterSatisfied = logLatency >= time;
+                    break;
+                case "<":
+                    isFilterSatisfied = logLatency < time;
+                    break;
+                case "<=":
+                    isFilterSatisfied = logLatency <= time;
+                    break;
+                default:
+                    assert false : "Unreachable case";
+                    break;
+                }
+            }
+            if (!isFilterSatisfied) {
+                return false;
+            }
+        }
+        RequestLogUser userInfo = requestDetails.getUserInfo();
+        if (regkeyFilter != null && (userInfo == null || !regkeyFilter.equals(userInfo.getRegkey()))) {
+            return false;
+        }
+        if (emailFilter != null && (userInfo == null || !emailFilter.equals(userInfo.getEmail()))) {
+            return false;
+        }
+        return googleIdFilter == null || (userInfo != null && googleIdFilter.equals(userInfo.getGoogleId()));
     }
 
     @Override
@@ -174,24 +223,24 @@ public class LocalLoggingService implements LogService {
 
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName) {
+            long startTime, long endTime, String fsName) {
         return FEEDBACK_SESSION_LOG_ENTRIES
                 .stream()
                 .filter(log -> log.getFeedbackSession().getCourseId().equals(courseId))
                 .filter(log -> email == null || log.getStudent().getEmail().equals(email))
                 .filter(log -> fsName == null || log.getFeedbackSession().getFeedbackSessionName().equals(fsName))
-                .filter(log -> startTime == null || log.getTimestamp() >= startTime.toEpochMilli())
-                .filter(log -> endTime == null || log.getTimestamp() <= endTime.toEpochMilli())
+                .filter(log -> log.getTimestamp() >= startTime)
+                .filter(log -> log.getTimestamp() <= endTime)
                 .collect(Collectors.toList());
     }
 
     private List<GeneralLogEntry> deepCopyLogEntries(List<GeneralLogEntry> logEntries) {
         List<GeneralLogEntry> result = new ArrayList<>();
         for (GeneralLogEntry logEntry : logEntries) {
-            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getLogName(), logEntry.getSeverity(),
+            GeneralLogEntry copiedEntry = new GeneralLogEntry(logEntry.getSeverity(),
                     logEntry.getTrace(), logEntry.getInsertId(), logEntry.getResourceIdentifier(),
                     logEntry.getSourceLocation(), logEntry.getTimestamp());
-            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toJson(logEntry.getDetails()), Map.class));
+            copiedEntry.setDetails(JsonUtils.fromJson(JsonUtils.toCompactJson(logEntry.getDetails()), LogDetails.class));
             copiedEntry.setMessage(logEntry.getMessage());
             result.add(copiedEntry);
         }

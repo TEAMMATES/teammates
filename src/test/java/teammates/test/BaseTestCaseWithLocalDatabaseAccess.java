@@ -25,7 +25,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
@@ -148,7 +147,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             logic.persistDataBundle(dataBundle);
             return true;
         } catch (Exception e) {
-            print(TeammatesException.toStringWithStackTrace(e));
+            e.printStackTrace();
             return false;
         }
     }
@@ -159,7 +158,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             logic.putDocuments(dataBundle);
             return true;
         } catch (Exception e) {
-            print(TeammatesException.toStringWithStackTrace(e));
+            e.printStackTrace();
             return false;
         }
     }

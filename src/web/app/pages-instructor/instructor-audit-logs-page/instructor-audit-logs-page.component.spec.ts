@@ -10,9 +10,9 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionLog,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  LogType,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -121,7 +121,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_SUBMISSION,
+        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
     ],
@@ -131,7 +131,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_SUBMISSION,
+        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
     ],

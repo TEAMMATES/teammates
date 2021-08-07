@@ -8,7 +8,6 @@ import org.apache.http.client.utils.URIBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
@@ -52,7 +51,7 @@ public class GoogleRecaptchaService implements RecaptchaService {
 
             return Boolean.parseBoolean(responseInJson.get("success").toString());
         } catch (Exception e) {
-            log.severe(TeammatesException.toStringWithStackTrace(e));
+            log.severe("", e);
             return false;
         }
     }
