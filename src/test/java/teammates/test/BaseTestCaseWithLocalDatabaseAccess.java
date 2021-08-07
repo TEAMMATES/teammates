@@ -1,8 +1,5 @@
 package teammates.test;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
@@ -49,7 +46,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     private Closeable closeable;
 
     @BeforeSuite
-    public void setupDbLayer() throws IOException, InterruptedException {
+    public void setupDbLayer() throws Exception {
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
         ObjectifyService.init(new ObjectifyFactory(
@@ -76,7 +73,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @AfterClass
-    public void resetDbLayer() throws IOException {
+    public void resetDbLayer() throws Exception {
         SearchManagerFactory.getInstructorSearchManager().resetCollections();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
 
@@ -84,7 +81,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @AfterSuite
-    public void tearDownLocalDatastoreHelper() throws InterruptedException, TimeoutException, IOException {
+    public void tearDownLocalDatastoreHelper() throws Exception {
         LOCAL_DATASTORE_HELPER.stop();
     }
 

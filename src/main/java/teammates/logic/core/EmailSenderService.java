@@ -12,9 +12,7 @@ public interface EmailSenderService {
      * Parses the {@code wrapper} email object to specific implementations of email object
      * used by the service.
      */
-    @SuppressWarnings("PMD.SignatureDeclareThrowsException")
-    // accounts for the many different Exceptions from different email services
-    Object parseToEmail(EmailWrapper wrapper) throws Exception;
+    Object parseToEmail(EmailWrapper wrapper);
 
     /**
      * Sends the email packaged as a {@code wrapper}.

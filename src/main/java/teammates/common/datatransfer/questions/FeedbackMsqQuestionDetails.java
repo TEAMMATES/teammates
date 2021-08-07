@@ -50,7 +50,6 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
     private FeedbackParticipantType generateOptionsFor;
     private int maxSelectableChoices;
     private int minSelectableChoices;
-    private transient int numOfGeneratedMsqChoices;
 
     public FeedbackMsqQuestionDetails() {
         this(null);
@@ -170,12 +169,10 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
 
         boolean isMaxSelectableChoicesEnabled = maxSelectableChoices != Const.POINTS_NO_VALUE;
         boolean isMinSelectableChoicesEnabled = minSelectableChoices != Const.POINTS_NO_VALUE;
+        boolean isMsqChoiceValidatable = generateOptionsFor == FeedbackParticipantType.NONE;
 
-        int numOfMsqChoices = numOfGeneratedMsqChoices;
-        if (generateOptionsFor == FeedbackParticipantType.NONE) {
-            numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
-        }
-        if (isMaxSelectableChoicesEnabled) {
+        int numOfMsqChoices = msqChoices.size() + (otherEnabled ? 1 : 0);
+        if (isMsqChoiceValidatable && isMaxSelectableChoicesEnabled) {
             if (numOfMsqChoices < maxSelectableChoices) {
                 errors.add(MSQ_ERROR_MAX_SELECTABLE_EXCEEDED_TOTAL);
             } else if (maxSelectableChoices < 2) {
@@ -183,7 +180,7 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
             }
         }
 
-        if (isMinSelectableChoicesEnabled) {
+        if (isMsqChoiceValidatable && isMinSelectableChoicesEnabled) {
             if (minSelectableChoices < 1) {
                 errors.add(MSQ_ERROR_MIN_FOR_MIN_SELECTABLE_CHOICES);
             }
@@ -343,11 +340,4 @@ public class FeedbackMsqQuestionDetails extends FeedbackQuestionDetails {
         this.minSelectableChoices = minSelectableChoices;
     }
 
-    public int getNumOfGeneratedMsqChoices() {
-        return numOfGeneratedMsqChoices;
-    }
-
-    public void setNumOfGeneratedMsqChoices(int numOfGeneratedMsqChoices) {
-        this.numOfGeneratedMsqChoices = numOfGeneratedMsqChoices;
-    }
 }

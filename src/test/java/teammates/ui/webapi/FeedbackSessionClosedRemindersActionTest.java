@@ -33,7 +33,7 @@ public class FeedbackSessionClosedRemindersActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 

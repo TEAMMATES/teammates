@@ -221,7 +221,7 @@ public class InstructorSessionResultLNPTest extends BaseLNPTestCase {
             }
 
             @Override
-            public List<List<String>> generateCsvData() throws IOException {
+            public List<List<String>> generateCsvData() {
                 DataBundle dataBundle = loadDataBundle(getJsonDataPath());
                 List<List<String>> csvData = new ArrayList<>();
 
