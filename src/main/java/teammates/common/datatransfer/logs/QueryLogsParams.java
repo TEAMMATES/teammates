@@ -1,30 +1,27 @@
-package teammates.common.datatransfer;
-
-import java.time.Instant;
-
-import teammates.common.datatransfer.GeneralLogEntry.SourceLocation;
+package teammates.common.datatransfer.logs;
 
 /**
  * Represents the parameters used for querying logs.
  */
 public class QueryLogsParams {
-    private String severityLevel;
-    private String minSeverity;
-    private Instant startTime;
-    private Instant endTime;
+    private LogSeverity severity;
+    private LogSeverity minSeverity;
+    private long startTime;
+    private long endTime;
     private String traceId;
     private String actionClass;
-    private UserInfoParams userInfoParams;
+    private RequestLogUser userInfoParams;
     private String logEvent;
     private SourceLocation sourceLocation;
     private String exceptionClass;
     private String latency;
     private String status;
+    private String version;
     private String extraFilters;
     private String order;
     private Integer pageSize;
 
-    private QueryLogsParams(Instant startTime, Instant endTime) {
+    private QueryLogsParams(long startTime, long endTime) {
         this.startTime = startTime;
         this.endTime = endTime;
     }
@@ -32,23 +29,23 @@ public class QueryLogsParams {
     /**
      * Returns a builder for {@link QueryLogsParams}.
      */
-    public static Builder builder(Instant startTime, Instant endTime) {
+    public static Builder builder(long startTime, long endTime) {
         return new Builder(startTime, endTime);
     }
 
-    public String getSeverityLevel() {
-        return severityLevel;
+    public LogSeverity getSeverity() {
+        return severity;
     }
 
-    public String getMinSeverity() {
+    public LogSeverity getMinSeverity() {
         return minSeverity;
     }
 
-    public Instant getStartTime() {
+    public long getStartTime() {
         return startTime;
     }
 
-    public Instant getEndTime() {
+    public long getEndTime() {
         return endTime;
     }
 
@@ -60,7 +57,7 @@ public class QueryLogsParams {
         return actionClass;
     }
 
-    public UserInfoParams getUserInfoParams() {
+    public RequestLogUser getUserInfoParams() {
         return userInfoParams;
     }
 
@@ -68,7 +65,7 @@ public class QueryLogsParams {
         return logEvent;
     }
 
-    public GeneralLogEntry.SourceLocation getSourceLocation() {
+    public SourceLocation getSourceLocation() {
         return sourceLocation;
     }
 
@@ -84,6 +81,10 @@ public class QueryLogsParams {
         return status;
     }
 
+    public String getVersion() {
+        return version;
+    }
+
     public String getExtraFilters() {
         return extraFilters;
     }
@@ -97,48 +98,21 @@ public class QueryLogsParams {
     }
 
     /**
-     * Represents parameter of user information used for querying logs.
-     */
-    public static class UserInfoParams {
-        private final String googleId;
-        private final String regkey;
-        private final String email;
-
-        public UserInfoParams(String google, String regkey, String email) {
-            this.googleId = google;
-            this.regkey = regkey;
-            this.email = email;
-        }
-
-        public String getGoogleId() {
-            return googleId;
-        }
-
-        public String getRegkey() {
-            return regkey;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-    }
-
-    /**
      * Builder for {@link QueryLogsParams}.
      */
     public static class Builder {
         private QueryLogsParams queryLogsParams;
 
-        private Builder(Instant startTime, Instant endTime) {
+        private Builder(long startTime, long endTime) {
             this.queryLogsParams = new QueryLogsParams(startTime, endTime);
         }
 
-        public Builder withSeverityLevel(String severityLevel) {
-            queryLogsParams.severityLevel = severityLevel;
+        public Builder withSeverityLevel(LogSeverity severityLevel) {
+            queryLogsParams.severity = severityLevel;
             return this;
         }
 
-        public Builder withMinSeverity(String minSeverity) {
+        public Builder withMinSeverity(LogSeverity minSeverity) {
             queryLogsParams.minSeverity = minSeverity;
             return this;
         }
@@ -153,7 +127,7 @@ public class QueryLogsParams {
             return this;
         }
 
-        public Builder withUserInfo(UserInfoParams userInfoParams) {
+        public Builder withUserInfo(RequestLogUser userInfoParams) {
             queryLogsParams.userInfoParams = userInfoParams;
             return this;
         }
@@ -185,6 +159,11 @@ public class QueryLogsParams {
 
         public Builder withStatus(String status) {
             queryLogsParams.status = status;
+            return this;
+        }
+
+        public Builder withVersion(String version) {
+            queryLogsParams.version = version;
             return this;
         }
 

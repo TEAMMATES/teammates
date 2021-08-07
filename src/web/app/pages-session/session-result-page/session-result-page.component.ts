@@ -10,10 +10,10 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  FeedbackSession, FeedbackSessionLogType,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, RegkeyValidity,
   ResponseVisibleSetting,
   SessionResults,
@@ -149,7 +149,7 @@ export class SessionResultPageComponent implements OnInit {
           courseId: this.courseId,
           feedbackSessionName: this.feedbackSessionName,
           studentEmail: this.personEmail,
-          logType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+          logType: FeedbackSessionLogType.VIEW_RESULT,
         }).subscribe(
           () => {
             // No action needed if log is successfully created.
