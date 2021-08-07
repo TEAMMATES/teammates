@@ -738,6 +738,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             
                             <div
                               class="d-inline-block dropdown"
+                              container="body"
                               ngbdropdown=""
                             >
                               <button
@@ -1241,6 +1242,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             
                             <div
                               class="d-inline-block dropdown"
+                              container="body"
                               ngbdropdown=""
                             >
                               <button
@@ -1396,6 +1398,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             
                             <div
                               class="d-inline-block dropdown"
+                              container="body"
                               ngbdropdown=""
                             >
                               <button

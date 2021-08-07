@@ -83,7 +83,7 @@
                     [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
                       || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)">Submit</button>
           </ng-template>
-          <div ngbDropdown class="d-inline-block">
+          <div ngbDropdown class="d-inline-block" container="body">
             <button id="btn-results-{{ idx }}" class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
               <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
