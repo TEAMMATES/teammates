@@ -81,10 +81,10 @@ dependencies {
     // For using Gmail API
     testImplementation("com.google.apis:google-api-services-gmail:v1-rev20200601-1.30.9")
     // For using JMeter APIs
-    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_core:5.4.1") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
-    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.3") {
+    testImplementation("org.apache.jmeter:ApacheJMeter_http:5.4.1") {
         exclude group: "org.apache.jmeter", module: "bom"
     }
 
