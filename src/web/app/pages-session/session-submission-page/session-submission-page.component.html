@@ -53,28 +53,28 @@
   <div class="card-body">
     <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-3"><b>Course ID:</b></div>
-      <div id="course-id" class="col-md-6">{{ courseId }}</div>
+      <div class="col-md-2 text-md-right"><b>Course ID:</b></div>
+      <div id="course-id" class="col-md-10 text-md-left">{{ courseId }}</div>
     </div>
     <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-3"><b>Session:</b></div>
-      <div id="fs-name" class="col-md-6">{{ feedbackSessionName }}</div>
+      <div class="col-md-2 text-md-right"><b>Session:</b></div>
+      <div id="fs-name" class="col-md-10 text-md-left">{{ feedbackSessionName }}</div>
     </div>
     <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-3"><b>Opening time:</b></div>
-      <div id="opening-time" class="col-md-6">{{ formattedSessionOpeningTime }}</div>
+      <div class="col-md-2 text-md-right"><b>Opening time:</b></div>
+      <div id="opening-time" class="col-md-10 text-md-left">{{ formattedSessionOpeningTime }}</div>
     </div>
     <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-3"><b>Closing time:</b></div>
-      <div id="closing-time" class="col-md-6">{{ formattedSessionClosingTime }}</div>
+      <div class="col-md-2 text-md-right"><b>Closing time:</b></div>
+      <div id="closing-time" class="col-md-10 text-md-left">{{ formattedSessionClosingTime }}</div>
     </div>
     <br class="mobile-invisible"/>
     <div class="row text-center">
-      <div class="col-md-3"><b>Instructions:</b></div>
-      <div id="instructions" class="col-md-6" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
+      <div class="col-md-2 text-md-right"><b>Instructions:</b></div>
+      <div id="instructions" class="col-md-10 text-md-left" [innerHTML]="feedbackSessionInstructions | safeHtml"></div>
     </div>
     <br class="mobile-invisible"/>
   </div>

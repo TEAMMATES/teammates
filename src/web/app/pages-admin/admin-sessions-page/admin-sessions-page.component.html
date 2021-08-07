@@ -141,7 +141,10 @@
             <tbody>
             <tr *ngFor="let session of mapping.value">
               <td>{{ session.ongoingSession.sessionStatus }}</td>
-              <td><strong>[{{ session.ongoingSession.courseId }}]</strong> {{ session.ongoingSession.feedbackSessionName }}</td>
+              <td class="text-break">
+                <strong>[{{ session.ongoingSession.courseId }}]</strong>
+                {{ session.ongoingSession.feedbackSessionName }}
+              </td>
               <td>
                 <span *ngIf="session.responseRate">{{ session.responseRate }}</span>
                 <span *ngIf="!session.responseRate"><a href="javascript:;" (click)="getResponseRate(mapping.key, session.ongoingSession.courseId, session.ongoingSession.feedbackSessionName, $event)">Show</a></span>

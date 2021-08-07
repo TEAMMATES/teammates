@@ -496,14 +496,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Course ID:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="course-id"
         >
           test.exa-demo
@@ -516,14 +516,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Session:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="fs-name"
         >
           First team feedback session
@@ -536,14 +536,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Opening time:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="opening-time"
         >
           Sun, 01 Apr, 2012, 11:59 PM +08
@@ -556,14 +556,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Closing time:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="closing-time"
         >
           Mon, 02 Apr, 2012, 11:59 PM +08
@@ -576,14 +576,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session and us
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Instructions:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="instructions"
         >
           Please give your feedback based on the following questions.
@@ -722,14 +722,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Course ID:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="course-id"
         >
           CS3281
@@ -742,14 +742,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Session:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="fs-name"
         >
           Feedback Session Name
@@ -762,14 +762,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Opening time:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="opening-time"
         >
           
@@ -782,14 +782,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Closing time:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="closing-time"
         >
           
@@ -802,14 +802,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Instructions:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="instructions"
         />
       </div>
@@ -3597,14 +3597,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Course ID:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="course-id"
         >
           CS3281
@@ -3617,14 +3617,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Session:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="fs-name"
         >
           Feedback Session Name
@@ -3637,14 +3637,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Opening time:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="opening-time"
         >
           
@@ -3657,14 +3657,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Closing time:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="closing-time"
         >
           
@@ -3677,14 +3677,14 @@ exports[`SessionSubmissionPageComponent should snap with feedback session questi
         class="row text-center"
       >
         <div
-          class="col-md-3"
+          class="col-md-2 text-md-right"
         >
           <b>
             Instructions:
           </b>
         </div>
         <div
-          class="col-md-6"
+          class="col-md-10 text-md-left"
           id="instructions"
         />
       </div>

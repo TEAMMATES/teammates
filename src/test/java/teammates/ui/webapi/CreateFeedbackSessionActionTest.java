@@ -106,11 +106,11 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
             getJsonResult(getAction(getTypicalCreateRequest(), params));
         });
 
-        ______TS("Error: Invalid parameters (invalid session name > 38 characters)");
+        ______TS("Error: Invalid parameters (invalid session name > 64 characters)");
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> {
             FeedbackSessionCreateRequest request = getTypicalCreateRequest();
-            request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(39));
+            request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
             getJsonResult(getAction(request, params));
         });
 
