@@ -3,8 +3,8 @@ package teammates.ui.output;
 import java.util.ArrayList;
 import java.util.List;
 
-import teammates.common.datatransfer.GeneralLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.logs.GeneralLogEntry;
 
 /**
  * The API output format for general logs for query action.
