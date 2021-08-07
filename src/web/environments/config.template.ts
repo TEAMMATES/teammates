@@ -29,4 +29,10 @@ export const config: any = {
    * Under maintenance mode, all requests to the front-end will be routed to the "under maintenance" page.
    */
   maintenance: false,
+
+  /**
+   * Indicates whether search feature warning should be displayed.
+   */
+  searchWarningDisplayed: false,
+
 };
