@@ -71,6 +71,7 @@ export class InstructorSearchPageComponent implements OnInit {
         this.statusMessageService.showWarningToast('No results found.');
       }
     }, (resp: ErrorMessageOutput) => {
+      this.studentsListRowTables = [];
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }
