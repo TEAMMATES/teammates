@@ -9,7 +9,6 @@ import java.nio.file.Paths;
 
 import com.google.common.io.ByteStreams;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Logger;
 
 /**
@@ -35,7 +34,7 @@ public final class LocalFileStorageService implements FileStorageService {
         try (OutputStream os = Files.newOutputStream(Paths.get(constructFilePath(fileKey)))) {
             os.write(contentBytes);
         } catch (IOException e) {
-            log.warning(TeammatesException.toStringWithStackTrace(e));
+            log.warning("", e);
         }
     }
 
@@ -50,7 +49,7 @@ public final class LocalFileStorageService implements FileStorageService {
         try (InputStream fis = Files.newInputStream(Paths.get(constructFilePath(fileKey)))) {
             buffer = ByteStreams.toByteArray(fis);
         } catch (IOException e) {
-            log.warning(TeammatesException.toStringWithStackTrace(e));
+            log.warning("", e);
             return new byte[0];
         }
         return buffer;

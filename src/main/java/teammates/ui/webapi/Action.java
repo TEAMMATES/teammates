@@ -10,6 +10,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -19,13 +20,13 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.RecaptchaVerifier;
 import teammates.common.util.StringHelper;
 import teammates.logic.api.EmailGenerator;
 import teammates.logic.api.EmailSender;
 import teammates.logic.api.FileStorage;
 import teammates.logic.api.Logic;
 import teammates.logic.api.LogsProcessor;
+import teammates.logic.api.RecaptchaVerifier;
 import teammates.logic.api.TaskQueuer;
 import teammates.logic.api.UserProvision;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -38,19 +39,20 @@ import teammates.ui.request.BasicRequest;
  */
 public abstract class Action {
 
-    Logic logic = new Logic();
-    UserProvision userProvision = new UserProvision();
-    GateKeeper gateKeeper = new GateKeeper();
-    EmailGenerator emailGenerator = new EmailGenerator();
-    TaskQueuer taskQueuer = new TaskQueuer();
-    EmailSender emailSender = new EmailSender();
-    FileStorage fileStorage = new FileStorage();
-    RecaptchaVerifier recaptchaVerifier = new RecaptchaVerifier(Config.CAPTCHA_SECRET_KEY);
-    LogsProcessor logsProcessor = new LogsProcessor();
+    Logic logic = Logic.inst();
+    UserProvision userProvision = UserProvision.inst();
+    GateKeeper gateKeeper = GateKeeper.inst();
+    EmailGenerator emailGenerator = EmailGenerator.inst();
+    TaskQueuer taskQueuer = TaskQueuer.inst();
+    EmailSender emailSender = EmailSender.inst();
+    FileStorage fileStorage = FileStorage.inst();
+    RecaptchaVerifier recaptchaVerifier = RecaptchaVerifier.inst();
+    LogsProcessor logsProcessor = LogsProcessor.inst();
 
     HttpServletRequest req;
     UserInfo userInfo;
     AuthType authType;
+    private StudentAttributes unregisteredStudent;
 
     // buffer to store the request body
     private String requestBody;
@@ -109,6 +111,24 @@ public abstract class Action {
 
         // All other cases: to be dealt in case-by-case basis
         checkSpecificAccessControl();
+    }
+
+    /**
+     * Gets the user information of the current user.
+     */
+    public RequestLogUser getUserInfoForLogging() {
+        RequestLogUser user = new RequestLogUser();
+
+        String googleId = userInfo == null ? null : userInfo.getId();
+
+        user.setGoogleId(googleId);
+        if (unregisteredStudent == null) {
+            user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
+        } else {
+            user.setRegkey(unregisteredStudent.getKey());
+            user.setEmail(unregisteredStudent.getEmail());
+        }
+        return user;
     }
 
     private void initAuthInfo() {
@@ -227,6 +247,7 @@ public abstract class Action {
             if (studentAttributes == null) {
                 return Optional.empty();
             }
+            unregisteredStudent = studentAttributes;
             return Optional.of(studentAttributes);
         }
         return Optional.empty();

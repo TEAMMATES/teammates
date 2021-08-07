@@ -36,6 +36,7 @@ export class CopySessionModalComponent implements OnInit {
   copy(): void {
     this.activeModal.close({
       newFeedbackSessionName: this.newFeedbackSessionName,
+      sessionToCopyCourseId: this.sessionToCopyCourseId,
       copyToCourseList: Array.from(this.copyToCourseSet),
     });
   }

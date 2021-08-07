@@ -12,7 +12,7 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 
 /**
- * The data transfer object for StudentProfile entities.
+ * The data transfer object for {@link StudentProfile} entities.
  */
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
@@ -36,6 +36,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.modifiedDate = Instant.now();
     }
 
+    /**
+     * Gets the {@link StudentProfileAttributes} instance of the given {@link StudentProfile}.
+     */
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(sp.getGoogleId());
 
@@ -69,6 +72,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         return new Builder(googleId);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public StudentProfileAttributes getCopy() {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(googleId);
 
@@ -261,9 +267,11 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      * Represents the gender of a student.
      */
     public enum Gender {
+        // CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
         MALE,
         FEMALE,
         OTHER;
+        // CHECKSTYLE.ON:JavadocVariable
 
         /**
          * Returns the Gender enum value corresponding to {@code gender}, or OTHER by default.

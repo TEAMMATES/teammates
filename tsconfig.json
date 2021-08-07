@@ -13,13 +13,9 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "importHelpers": true,
+    "allowSyntheticDefaultImports": true,
     "strict": true,
     "target": "es2015",
-    "paths": {
-      "moment-timezone": [
-        "./node_modules/moment-timezone/builds/moment-timezone.min.js"
-      ]
-    },
     "lib": [
       "es2018",
       "dom"

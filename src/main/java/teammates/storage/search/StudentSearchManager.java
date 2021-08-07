@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -64,20 +66,40 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
             throws SearchServiceException {
         SolrQuery query = getBasicQuery(queryString);
 
-        if (instructors != null) {
-            String filterQueryString = prepareFilterQueryString(instructors);
-            query.addFilterQuery(filterQueryString);
+        List<String> courseIdsWithViewStudentPrivilege;
+        if (instructors == null) {
+            courseIdsWithViewStudentPrivilege = new ArrayList<>();
+        } else {
+            courseIdsWithViewStudentPrivilege = instructors.stream()
+                    .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
+                            .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                    .map(ins -> ins.getCourseId())
+                    .collect(Collectors.toList());
+            if (courseIdsWithViewStudentPrivilege.isEmpty()) {
+                return new ArrayList<>();
+            }
+            String courseIdFq = String.join("\" OR \"", courseIdsWithViewStudentPrivilege);
+            query.addFilterQuery("courseId:(\"" + courseIdFq + "\")");
         }
 
         QueryResponse response = performQuery(query);
-        return convertDocumentToAttributes(response);
-    }
+        SolrDocumentList documents = response.getResults();
 
-    private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
-        return instructors.stream()
-                .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
-                        .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.getCourseId()).collect(Collectors.joining(" "));
+        // Sanity check such that the course ID of the students match exactly.
+        // In ideal case, this check is not expected to do anything,
+        // i.e. the resulting list should be the same as the incoming list.
+
+        List<SolrDocument> filteredDocuments = documents.stream()
+                .filter(document -> {
+                    if (instructors == null) {
+                        return true;
+                    }
+                    String courseId = (String) document.getFirstValue("courseId");
+                    return courseIdsWithViewStudentPrivilege.contains(courseId);
+                })
+                .collect(Collectors.toList());
+
+        return convertDocumentToAttributes(filteredDocuments);
     }
 
 }

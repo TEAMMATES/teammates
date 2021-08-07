@@ -663,6 +663,7 @@ describe('InstructorSessionEditPageComponent', () => {
 
   it('should open modal and copy current session', async () => {
     const promise: Promise<CopySessionModalResult> = Promise.resolve({
+      sessionToCopyCourseId: 'testId1',
       newFeedbackSessionName: 'new feedback session',
       copyToCourseList: ['testId2'],
     });
@@ -684,9 +685,6 @@ describe('InstructorSessionEditPageComponent', () => {
     spyOn(courseService, 'getInstructorCoursesThatAreActive').and.returnValue(of({ courses: [testCourse2] }));
     spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(testFeedbackSession);
     spyOn(feedbackSessionsService, 'createFeedbackSession').and.returnValue(of(copiedFeedbackSession));
-    spyOn(feedbackQuestionsService, 'getFeedbackQuestions')
-      .and.returnValue(of({ questions: [testFeedbackQuestion1] }));
-    spyOn(feedbackQuestionsService, 'createFeedbackQuestion').and.returnValue(of(testFeedbackQuestion1));
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
     spyOn(InstructorSessionEditPageComponent.prototype, 'createSessionCopyRequestsFromModal')
       .and.returnValue([of(copiedFeedbackSession)]);

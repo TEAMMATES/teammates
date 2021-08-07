@@ -18,6 +18,7 @@ export interface CopySessionResult {
   sessionToCopyRowIndex: number;
   newFeedbackSessionName: string;
   copyToCourseList: string[];
+  sessionToCopyCourseId: string;
 }
 
 /**

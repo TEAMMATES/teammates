@@ -1,7 +1,22 @@
 package teammates.common.util;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import com.google.common.reflect.TypeToken;
+
+import teammates.common.datatransfer.logs.ExceptionLogDetails;
+import teammates.common.datatransfer.logs.LogDetails;
+import teammates.common.datatransfer.logs.LogSeverity;
+import teammates.common.datatransfer.logs.RequestLogDetails;
+import teammates.common.datatransfer.logs.RequestLogUser;
+import teammates.common.datatransfer.logs.SourceLocation;
 
 /**
  * Allows any component of the application to log messages at appropriate levels.
@@ -30,28 +45,65 @@ public final class Logger {
      * Logs a message at FINE level.
      */
     public void fine(String message) {
-        standardLog.fine(formatLogMessage(message, "DEBUG"));
+        standardLog.fine(formatLogMessage(message, LogSeverity.DEBUG));
     }
 
     /**
      * Logs a message at INFO level.
      */
     public void info(String message) {
-        standardLog.info(formatLogMessage(message, "INFO"));
+        standardLog.info(formatLogMessage(message, LogSeverity.INFO));
+    }
+
+    /**
+     * Logs an HTTP request.
+     */
+    public void request(HttpServletRequest request, int statusCode, String message) {
+        request(request, statusCode, message, new RequestLogUser(), null);
+    }
+
+    /**
+     * Logs an HTTP request.
+     */
+    public void request(HttpServletRequest request, int statusCode, String message,
+                        RequestLogUser userInfo, String actionClass) {
+        long timeElapsed = RequestTracer.getTimeElapsedMillis();
+        String method = request.getMethod();
+        String requestUrl = request.getRequestURI();
+        RequestLogDetails details = new RequestLogDetails();
+        details.setResponseStatus(statusCode);
+        details.setResponseTime(timeElapsed);
+        details.setRequestMethod(method);
+        details.setRequestUrl(requestUrl);
+        details.setUserAgent(request.getHeader("User-Agent"));
+        details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
+        details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
+
+        if (request.getParameter(Const.ParamsNames.REGKEY) != null && userInfo.getRegkey() == null) {
+            userInfo.setRegkey(request.getParameter(Const.ParamsNames.REGKEY));
+        }
+        details.setUserInfo(userInfo);
+        details.setActionClass(actionClass);
+
+        String logMessage = String.format("[%s] [%sms] [%s %s] %s",
+                statusCode, timeElapsed, method, requestUrl, message);
+
+        event(logMessage, details);
     }
 
     /**
      * Logs a particular event at INFO level.
      */
-    public void event(LogEvent event, String message, Map<String, Object> details) {
+    public void event(String message, LogDetails details) {
         String logMessage;
         if (Config.isDevServer()) {
             logMessage = formatLogMessageForHumanDisplay(message) + " extra_info: "
                     + JsonUtils.toCompactJson(details);
         } else {
-            Map<String, Object> payload = getBaseCloudLoggingPayload(message, "INFO");
-            payload.putAll(details);
-            payload.put("event", event);
+            Map<String, Object> payload = getBaseCloudLoggingPayload(message, LogSeverity.INFO);
+            Map<String, Object> detailsSpecificPayload =
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+            payload.putAll(detailsSpecificPayload);
 
             logMessage = JsonUtils.toCompactJson(payload);
         }
@@ -62,17 +114,100 @@ public final class Logger {
      * Logs a message at WARNING level.
      */
     public void warning(String message) {
-        standardLog.warning(formatLogMessage(message, "WARNING"));
+        standardLog.warning(formatLogMessage(message, LogSeverity.WARNING));
+    }
+
+    /**
+     * Logs a message at WARNING level.
+     */
+    public void warning(String message, Throwable t) {
+        String logMessage = getLogMessageWithStackTrace(message, t, LogSeverity.WARNING);
+        standardLog.warning(logMessage);
     }
 
     /**
      * Logs a message at SEVERE level.
      */
     public void severe(String message) {
-        errorLog.severe(formatLogMessage(message, "ERROR"));
+        errorLog.severe(formatLogMessage(message, LogSeverity.ERROR));
     }
 
-    private String formatLogMessage(String message, String severity) {
+    /**
+     * Logs a message at SEVERE level.
+     */
+    public void severe(String message, Throwable t) {
+        String logMessage = getLogMessageWithStackTrace(message, t, LogSeverity.ERROR);
+        errorLog.severe(logMessage);
+    }
+
+    private String getLogMessageWithStackTrace(String message, Throwable t, LogSeverity severity) {
+        String logMessage;
+        if (Config.isDevServer()) {
+            StringWriter sw = new StringWriter();
+            try (PrintWriter pw = new PrintWriter(sw)) {
+                t.printStackTrace(pw);
+            }
+
+            logMessage = formatLogMessageForHumanDisplay(message) + " stack_trace: "
+                    + System.lineSeparator() + sw.toString();
+        } else {
+            StackTraceElement tSource = t.getStackTrace()[0];
+            SourceLocation tSourceLocation = new SourceLocation(
+                    tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
+
+            List<String> exceptionClasses = new ArrayList<>();
+            List<List<String>> exceptionStackTraces = new ArrayList<>();
+            List<String> exceptionMessages = new ArrayList<>();
+
+            Throwable currentT = t;
+            while (currentT != null) {
+                exceptionClasses.add(currentT.getClass().getName());
+                exceptionStackTraces.add(getStackTraceToDisplay(currentT));
+                exceptionMessages.add(currentT.getMessage());
+
+                currentT = currentT.getCause();
+            }
+
+            Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
+
+            // Replace the source location with the Throwable's source location instead
+            SourceLocation loggerSourceLocation = (SourceLocation) payload.get("logging.googleapis.com/sourceLocation");
+            payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
+
+            ExceptionLogDetails details = new ExceptionLogDetails();
+            details.setLoggerSourceLocation(loggerSourceLocation);
+            details.setExceptionClass(t.getClass().getSimpleName());
+            details.setExceptionClasses(exceptionClasses);
+            details.setExceptionStackTraces(exceptionStackTraces);
+            details.setExceptionMessages(exceptionMessages);
+
+            Map<String, Object> detailsSpecificPayload =
+                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+            payload.putAll(detailsSpecificPayload);
+
+            logMessage = JsonUtils.toCompactJson(payload);
+        }
+
+        return logMessage;
+    }
+
+    private List<String> getStackTraceToDisplay(Throwable t) {
+        List<String> stackTraceToDisplay = new ArrayList<>();
+        for (StackTraceElement ste : t.getStackTrace()) {
+            String stClass = ste.getClassName();
+            if (stClass.startsWith("org.eclipse.jetty.servlet")) {
+                // Everything past this line is the internal workings of Jetty
+                // and does not provide anything useful for debugging
+                stackTraceToDisplay.add("...");
+                break;
+            }
+            stackTraceToDisplay.add(String.format("%s.%s(%s:%s)",
+                    ste.getClassName(), ste.getMethodName(), ste.getFileName(), ste.getLineNumber()));
+        }
+        return stackTraceToDisplay;
+    }
+
+    private String formatLogMessage(String message, LogSeverity severity) {
         if (Config.isDevServer()) {
             return formatLogMessageForHumanDisplay(message);
         }
@@ -96,22 +231,19 @@ public final class Logger {
         return prefix.toString() + "[" + RequestTracer.getTraceId() + "] " + message;
     }
 
-    private String formatLogMessageForCloudLogging(String message, String severity) {
+    private String formatLogMessageForCloudLogging(String message, LogSeverity severity) {
         return JsonUtils.toCompactJson(getBaseCloudLoggingPayload(message, severity));
     }
 
-    private Map<String, Object> getBaseCloudLoggingPayload(String message, String severity) {
+    private Map<String, Object> getBaseCloudLoggingPayload(String message, LogSeverity severity) {
         Map<String, Object> payload = new HashMap<>();
         payload.put("message", message);
         payload.put("severity", severity);
 
         StackTraceElement source = getLoggerSource();
         if (source != null) {
-            Map<String, Object> sourceLocation = new HashMap<>();
-            sourceLocation.put("file", source.getClassName());
-            sourceLocation.put("line", source.getLineNumber());
-            sourceLocation.put("function", source.getMethodName());
-
+            SourceLocation sourceLocation = new SourceLocation(
+                    source.getClassName(), (long) source.getLineNumber(), source.getMethodName());
             payload.put("logging.googleapis.com/sourceLocation", sourceLocation);
         }
 

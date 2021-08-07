@@ -10,9 +10,9 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionLog,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  LogType,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -121,7 +121,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_SUBMISSION,
+        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
     ],
@@ -131,7 +131,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_SUBMISSION,
+        feedbackSessionLogType: FeedbackSessionLogType.SUBMISSION,
         timestamp: 0,
       },
     ],
@@ -246,8 +246,8 @@ describe('InstructorAuditLogsPageComponent', () => {
   it('should search for logs when search button is clicked', () => {
     const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
         .returnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
-    const timeSpy: Spy = spyOn(timezoneService, 'getResolvedTimestamp').and
-        .returnValue(of({ timestamp: 0, message: '' }));
+    const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and
+        .returnValue(0);
 
     component.isLoading = false;
     component.isSearching = false;

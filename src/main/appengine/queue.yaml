@@ -58,3 +58,9 @@ queue:
     min_backoff_seconds: 5
     max_backoff_seconds: 40
     max_doublings: 2
+- name: search-indexing-queue
+  mode: push
+  rate: 50/s
+  bucket_size: 10
+  retry_parameters:
+    min_backoff_seconds: 1

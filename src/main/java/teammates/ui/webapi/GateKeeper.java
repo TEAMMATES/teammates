@@ -15,9 +15,18 @@ import teammates.logic.api.Logic;
 /**
  * Provides access control mechanisms.
  */
-class GateKeeper {
+final class GateKeeper {
 
-    private Logic logic = new Logic();
+    private static final GateKeeper instance = new GateKeeper();
+    private final Logic logic = Logic.inst();
+
+    private GateKeeper() {
+        // prevent initialization
+    }
+
+    public static GateKeeper inst() {
+        return instance;
+    }
 
     /**
      * Verifies the user is logged in.

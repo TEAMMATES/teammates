@@ -1,9 +1,12 @@
 package teammates.ui.webapi;
 
+import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -52,6 +55,8 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 () -> getAction(buildCreateRequest(name, institute, null)).execute());
         assertEquals("email cannot be null", ex.getMessage());
 
+        verifyNoTasksAdded();
+
         ______TS("Normal case");
 
         String nameWithSpaces = "   " + name + "   ";
@@ -83,6 +88,11 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
+        List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
+                studentList.size() + instructorList.size());
+
         ______TS("Error: invalid parameter");
 
         String invalidName = "James%20Bond99";
@@ -98,6 +108,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 ex.getMessage());
 
         verifyNoEmailsSent();
+        verifyNoTasksAdded();
     }
 
     @Override

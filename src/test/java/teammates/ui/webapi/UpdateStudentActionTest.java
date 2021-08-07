@@ -55,6 +55,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
         verifyHttpParameterFailure(invalidParams);
+        verifyNoTasksAdded();
 
         ______TS("Typical case, successful edit and save student detail");
         String newStudentEmail = "newemail@gmail.tmt";
@@ -81,6 +82,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 instructor1OfCourse1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   "; // after trim, this is equal to newStudentEmail
@@ -127,6 +130,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 FieldValidator.EMAIL_MAX_LENGTH),
                 invalidParamsOutput.getMessage());
 
+        verifyNoTasksAdded();
+
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
@@ -147,6 +152,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         invalidParamsOutput = (MessageOutput) takenEmailOutput.getOutput();
 
         assertEquals("Trying to update to an email that is already in use", invalidParamsOutput.getMessage());
+
+        verifyNoTasksAdded();
 
         // deleting edited student
         logic.deleteAccountCascade(student2InCourse1.getGoogleId());
@@ -170,6 +177,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
 
         assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, invalidParamsOutput.getMessage());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -194,6 +203,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals("Team \"Team 1.2\" is detected in both Section \"Section 1\" "
                         + "and Section \"Section 2\". Please use different team names in different sections.",
                 ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -245,6 +256,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals("You are trying enroll more than 100 students in section \"sectionInMaxCapacity\". "
                         + "To avoid performance problems, please do not enroll more than 100 students in a single section.",
                 ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
+
+        verifyNoTasksAdded();
     }
 
     @Test
