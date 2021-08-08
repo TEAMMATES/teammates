@@ -54,7 +54,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
 
         faq.feedbackSessionName = fq.getFeedbackSessionName();
         faq.courseId = fq.getCourseId();
-        faq.questionDetails = deserializeFeedbackQuestionDetails(fq.getQuestionMetaData(), fq.getQuestionType());
+        faq.questionDetails = deserializeFeedbackQuestionDetails(fq.getQuestionText(), fq.getQuestionType());
         faq.questionDescription = fq.getQuestionDescription();
         faq.questionNumber = fq.getQuestionNumber();
         faq.giverType = fq.getGiverType();

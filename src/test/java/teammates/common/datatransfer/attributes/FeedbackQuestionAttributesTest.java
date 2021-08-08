@@ -42,7 +42,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(expectedQuestion.getQuestionType(), actualQuestion.getQuestionType());
         assertEquals(expectedQuestion.getNumberOfEntitiesToGiveFeedbackTo(),
                 actualQuestion.getNumberOfEntitiesToGiveFeedbackTo());
-        assertEquals(expectedQuestion.getQuestionMetaData(), actualQuestion.getQuestionMetaData());
+        assertEquals(expectedQuestion.getQuestionText(), actualQuestion.getQuestionText());
         assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
         assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
         assertEquals(expectedQuestion.getShowGiverNameTo(), actualQuestion.getShowGiverNameTo());
@@ -66,7 +66,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getId(), feedbackQuestionAttributes.getId());
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getQuestionMetaData(), JsonUtils.toCompactJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
+        assertEquals(qn.getQuestionText(), JsonUtils.toCompactJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
@@ -105,7 +105,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getId(), feedbackQuestionAttributes.getId());
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getQuestionMetaData(), JsonUtils.toCompactJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
+        assertEquals(qn.getQuestionText(), JsonUtils.toCompactJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());

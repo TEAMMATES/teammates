@@ -79,8 +79,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         if (fr.getRecipientSection() != null) {
             fra.recipientSection = fr.getRecipientSection();
         }
-        fra.responseDetails =
-                deserializeResponseFromSerializedString(fr.getResponseMetaData(), fr.getFeedbackQuestionType());
+        fra.responseDetails = deserializeResponseFromSerializedString(fr.getAnswer(), fr.getFeedbackQuestionType());
         fra.createdAt = fr.getCreatedAt();
         fra.updatedAt = fr.getUpdatedAt();
 
