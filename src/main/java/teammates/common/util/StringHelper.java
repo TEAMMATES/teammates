@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -318,23 +317,6 @@ public final class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return str == null ? "" : str;
-    }
-
-    /**
-     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
-     * If {@code text} is null, false is returned.
-     */
-    public static boolean isTextContainingAny(String text, String... strings) {
-        if (text == null) {
-            return false;
-        }
-
-        if (strings.length == 0) {
-            return true;
-        }
-
-        return Arrays.stream(strings)
-                .anyMatch(s -> text.contains(s));
     }
 
 }

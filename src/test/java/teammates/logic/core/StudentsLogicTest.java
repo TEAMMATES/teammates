@@ -493,7 +493,7 @@ public class StudentsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteStudentCascade_lastPersonInTeam_shouldDeleteTeamResponses() throws Exception {
+    public void testDeleteStudentCascade_lastPersonInTeam_shouldDeleteTeamResponses() {
         StudentAttributes student1InCourse2 = dataBundle.students.get("student1InCourse2");
         StudentAttributes student2InCourse2 = dataBundle.students.get("student2InCourse2");
         // they are in the same team

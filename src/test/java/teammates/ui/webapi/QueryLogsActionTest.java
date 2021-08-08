@@ -39,7 +39,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         JsonResult actionOutput;
 
         long startTimeForFailCases = Instant.now().toEpochMilli();
@@ -347,7 +347,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyAccessibleForAdmin();
         verifyAccessibleForMaintainers();
         verifyInaccessibleForStudents();

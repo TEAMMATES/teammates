@@ -45,7 +45,7 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
     }
 
     @Override
-    protected boolean isMigrationNeeded(Account account) throws Exception {
+    protected boolean isMigrationNeeded(Account account) {
         if (!isMigrationOfGoogleIdNeeded(account)) {
             return false;
         }

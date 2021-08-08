@@ -94,7 +94,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual test cases.
     }
 
@@ -388,7 +388,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 

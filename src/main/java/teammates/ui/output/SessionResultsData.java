@@ -419,13 +419,6 @@ public class SessionResultsData extends ApiOutput {
             this.questionStatistics = questionStatistics;
         }
 
-        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
-                       List<ResponseOutput> allResponses) {
-            this.questionStatistics = null;
-            this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
-            this.allResponses.addAll(allResponses);
-        }
-
         public FeedbackQuestionData getFeedbackQuestion() {
             return feedbackQuestion;
         }
