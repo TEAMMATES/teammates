@@ -4,12 +4,9 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonParseException;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
@@ -482,22 +479,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
-    private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,
-                                                                              FeedbackQuestionType questionType) {
-        if (questionType == FeedbackQuestionType.TEXT) {
-            return deserializeFeedbackTextQuestionDetails(questionDetailsInJson);
-        }
+    private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(
+            String questionDetailsInJson, FeedbackQuestionType questionType) {
         return JsonUtils.fromJson(questionDetailsInJson, questionType.getQuestionDetailsClass());
-    }
-
-    private static FeedbackQuestionDetails deserializeFeedbackTextQuestionDetails(String questionDetailsInJson) {
-        try {
-            // There are `FeedbackTextQuestion` with plain text, Json without `recommendedLength`, and complete Json
-            // in data store. Gson cannot parse the plain text case, so we need to handle it separately.
-            return JsonUtils.fromJson(questionDetailsInJson, FeedbackQuestionType.TEXT.getQuestionDetailsClass());
-        } catch (JsonParseException e) {
-            return new FeedbackTextQuestionDetails(questionDetailsInJson);
-        }
     }
 
     /**
