@@ -842,38 +842,38 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
                 "First Session", "FQLogicPCT.CS2104", 1);
 
-        // Alice will see 4 responses
+        // Alice will see 3 responses
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
                 false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(4, responseForQuestion.size());
+        assertEquals(3, responseForQuestion.size());
 
-        // Benny will see 4 responses
+        // Benny will see 3 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.benny.c@gmail.tmt",
                 false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(4, responseForQuestion.size());
+        assertEquals(3, responseForQuestion.size());
 
-        // Charlie will see 3 responses
+        // Charlie will see 2 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.charlie.d@gmail.tmt",
                 false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(3, responseForQuestion.size());
+        assertEquals(2, responseForQuestion.size());
 
-        // Danny will see 3 responses
+        // Danny will see 2 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.danny.e@gmail.tmt",
                 false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(3, responseForQuestion.size());
+        assertEquals(2, responseForQuestion.size());
 
         // Emily will see 1 response
         bundle = fsLogic.getSessionResultsForUser(
