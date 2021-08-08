@@ -32,7 +32,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         // See test cases below.
     }
 
@@ -48,13 +48,16 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         assertEquals(1, enrolledStudents.size());
         verifyStudentInDatabase(newStudent, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
+
+        // verify search indexing task is added to task queue when new student is enrolled
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
     public void testExecute_withNewStudentWithEmptySectionName_shouldBeAddedToDatabaseWithDefaultSectionName() {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes newStudent = getTypicalNewStudent(courseId);
-        newStudent.section = "";
+        newStudent.setSection("");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -86,7 +89,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     public void testExecute_withExistingStudent_shouldBeUpdatedToDatabase() {
         StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
         String courseId = studentToUpdate.getCourse();
-        studentToUpdate.name = "new name";
+        studentToUpdate.setName("new name");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -95,6 +98,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         assertEquals(1, enrolledStudents.size());
         verifyStudentInDatabase(studentToUpdate, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
+
+        // verify search indexing task is added to task queue when existing student is updated
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -107,9 +113,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         // Ensure that student5InCourse1 has a unique team name in the course.
         // Otherwise, it will give a duplicate team name error when changing section name.
         assertEquals(1, students.stream().filter(student ->
-                student.section.equals(studentToUpdate.section)).count());
+                student.getSection().equals(studentToUpdate.getSection())).count());
 
-        studentToUpdate.section = "New Section";
+        studentToUpdate.setSection("New Section");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(studentToUpdate));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -125,7 +131,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes originalStudent = typicalBundle.students.get("student1InCourse1");
         StudentAttributes newStudent = originalStudent.getCopy();
-        newStudent.email = "newEmail@example.com";
+        newStudent.setEmail("newEmail@example.com");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
 
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
@@ -142,11 +148,11 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes validNewStudent = getTypicalNewStudent(courseId);
         StudentAttributes invalidNewStudent = getTypicalNewStudent(courseId);
-        invalidNewStudent.email = "invalidEmail";
+        invalidNewStudent.setEmail("invalidEmail");
         StudentAttributes validExistingStudent = typicalBundle.students.get("student1InCourse1");
-        validExistingStudent.name = "new name";
+        validExistingStudent.setName("new name");
         StudentAttributes invalidExistingStudent = typicalBundle.students.get("student2InCourse1");
-        invalidExistingStudent.team = "invalid | team % name";
+        invalidExistingStudent.setTeam("invalid | team % name");
         StudentsEnrollRequest req = prepareRequest(
                 Arrays.asList(validNewStudent, invalidNewStudent, validExistingStudent, invalidExistingStudent));
 
@@ -160,6 +166,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 enrolledStudents.get(1).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(2), enrolledStudents.get(1));
+
+        // verify tasks only added for students successfully enrolled
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 2);
     }
 
     @Test
@@ -167,26 +176,31 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String courseId = typicalBundle.courses.get("typicalCourse1").getId();
         StudentAttributes studentInCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student1 = getTypicalNewStudent(courseId);
-        student1.team = studentInCourse1.getTeam();
-        student1.section = "random section 1";
+        student1.setTeam(studentInCourse1.getTeam());
+        student1.setSection("random section 1");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, studentInCourse1.section);
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(),
+                student1.getSection(), studentInCourse1.getSection());
+
+        verifyNoTasksAdded();
     }
 
     @Test
     public void testExecute_withDuplicatedTeamNameAmongSectionsInInput_shouldThrowInvalidBodyException() {
         String courseId = typicalBundle.courses.get("typicalCourse1").getId();
         StudentAttributes student1 = getTypicalNewStudent(courseId);
-        student1.team = "typical random team";
-        student1.section = "random section 1";
+        student1.setTeam("typical random team");
+        student1.setSection("random section 1");
         StudentAttributes student2 = getTypicalNewStudent(courseId);
-        student2.team = student1.team;
-        student2.section = "random section 2";
-        student2.email = "differentemail@test.com";
+        student2.setTeam(student1.getTeam());
+        student2.setSection("random section 2");
+        student2.setEmail("differentemail@test.com");
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1, student2));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
-        verifyDuplicatedTeamNameDetected(courseId, req, student1.team, student1.section, student2.section);
+        verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(), student1.getSection(), student2.getSection());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -237,6 +251,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                         + "please do not enroll more than %d students in a single section.", Const.SECTION_SIZE_LIMIT);
 
         assertEquals(expectedErrorMessage, ee.getMessage());
+
+        verifyNoTasksAdded();
     }
 
     private void verifyCorrectResponseData(StudentsEnrollRequest.StudentEnrollRequest request, StudentData response) {
@@ -311,7 +327,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

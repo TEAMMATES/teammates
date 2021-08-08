@@ -26,7 +26,7 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseActionTest<Stude
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
@@ -41,7 +41,7 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseActionTest<Stude
 
         String[] submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
-                ParamsNames.STUDENT_EMAIL, stu1InCourse1.email,
+                ParamsNames.STUDENT_EMAIL, stu1InCourse1.getEmail(),
                 ParamsNames.IS_STUDENT_REJOINING, "false",
         };
 
@@ -54,13 +54,13 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseActionTest<Stude
         assertEquals(String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course1.getName(),
                                    course1.getId()),
                      email.getSubject());
-        assertEquals(stu1InCourse1.email, email.getRecipient());
+        assertEquals(stu1InCourse1.getEmail(), email.getRecipient());
 
         ______TS("typical case: old student rejoining (after google id reset)");
 
         submissionParams = new String[] {
                 ParamsNames.COURSE_ID, course1.getId(),
-                ParamsNames.STUDENT_EMAIL, stu1InCourse1.email,
+                ParamsNames.STUDENT_EMAIL, stu1InCourse1.getEmail(),
                 ParamsNames.IS_STUDENT_REJOINING, "true",
         };
 
@@ -73,7 +73,7 @@ public class StudentCourseJoinEmailWorkerActionTest extends BaseActionTest<Stude
         assertEquals(String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                                    course1.getName(), course1.getId()),
                      email.getSubject());
-        assertEquals(stu1InCourse1.email, email.getRecipient());
+        assertEquals(stu1InCourse1.getEmail(), email.getRecipient());
     }
 
 }

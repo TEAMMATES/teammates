@@ -61,6 +61,7 @@ export class TableComparatorService {
    */
   compare(sortBy: SortBy, order: SortOrder, strA: string, strB: string): number {
     switch (sortBy) {
+      case SortBy.CONTRIBUTION_TEAM:
       case SortBy.CONTRIBUTION_VALUE:
       case SortBy.RUBRIC_SUBQUESTION:
       case SortBy.RUBRIC_CHOICE:
@@ -69,16 +70,19 @@ export class TableComparatorService {
       case SortBy.RANK_OPTIONS_OVERALL_RANK:
       case SortBy.NUMERICAL_SCALE_MAX:
       case SortBy.NUMERICAL_SCALE_MIN:
+      case SortBy.MCQ_TEAM:
       case SortBy.MCQ_RESPONSE_COUNT:
       case SortBy.MCQ_OPTION_SELECTED_TIMES:
+      case SortBy.MSQ_TEAM:
       case SortBy.MSQ_RESPONSE_COUNT:
       case SortBy.MSQ_OPTION_SELECTED_TIMES:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
       case SortBy.SESSION_NAME:
+      case SortBy.GIVER_TEAM:
+      case SortBy.RECIPIENT_TEAM:
         return this.compareNaturally(strA, strB, order);
       case SortBy.CONSTSUM_OPTIONS_OPTION:
-      case SortBy.CONTRIBUTION_TEAM:
       case SortBy.CONTRIBUTION_RECIPIENT:
       case SortBy.COMMENTS_CREATION_DATE:
       case SortBy.RANK_RECIPIENTS_SELF_RANK:
@@ -88,10 +92,8 @@ export class TableComparatorService {
       case SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF:
       case SortBy.RANK_OPTIONS_OPTION:
       case SortBy.MCQ_CHOICE:
-      case SortBy.MCQ_TEAM:
       case SortBy.MCQ_RECIPIENT_NAME:
       case SortBy.MSQ_CHOICE:
-      case SortBy.MSQ_TEAM:
       case SortBy.MSQ_RECIPIENT_NAME:
       case SortBy.RESPONDENT_NAME:
       case SortBy.RESPONDENT_EMAIL:
@@ -109,12 +111,11 @@ export class TableComparatorService {
       case SortBy.SESSION_DELETION_DATE:
       case SortBy.QUESTION_TYPE:
       case SortBy.QUESTION_TEXT:
-      case SortBy.GIVER_TEAM:
       case SortBy.GIVER_NAME:
-      case SortBy.RECIPIENT_TEAM:
       case SortBy.RECIPIENT_NAME:
       case SortBy.LOG_TYPE:
       case SortBy.LOG_DATE:
+      case SortBy.RESULT_VIEW_STATUS:
         return this.compareLexicographically(strA, strB, order);
       case SortBy.CONSTSUM_OPTIONS_POINTS:
       case SortBy.CONSTSUM_RECIPIENTS_POINTS:

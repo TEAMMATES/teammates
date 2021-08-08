@@ -194,7 +194,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor Not Yet Joined Course 1",
       "email": "instructorNotYetJoinedCourse1@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse1",
       "isArchived": false,
       "role": "Co-owner",
       "isDisplayedToStudents": true,
@@ -382,8 +381,7 @@
       "name": "unregistered student",
       "comments": "",
       "team": "Team 1.2",
-      "section": "Section 2",
-      "key": "regKeyForStuNotYetJoinCourse"
+      "section": "Section 2"
     },
     "student1InTestingNoEmailsSentCourse": {
       "googleId": "student1InTestingNoEmailsSentCourse",

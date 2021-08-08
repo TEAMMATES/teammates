@@ -21,7 +21,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
@@ -41,17 +41,17 @@ import teammates.storage.api.StudentsDb;
  */
 public final class DataBundleLogic {
 
-    private static final AccountsDb accountsDb = new AccountsDb();
-    private static final ProfilesDb profilesDb = new ProfilesDb();
-    private static final CoursesDb coursesDb = new CoursesDb();
-    private static final StudentsDb studentsDb = new StudentsDb();
-    private static final InstructorsDb instructorsDb = new InstructorsDb();
-    private static final FeedbackSessionsDb fbDb = new FeedbackSessionsDb();
-    private static final FeedbackQuestionsDb fqDb = new FeedbackQuestionsDb();
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
-    private static final FeedbackResponseCommentsDb fcDb = new FeedbackResponseCommentsDb();
+    private static final DataBundleLogic instance = new DataBundleLogic();
 
-    private static DataBundleLogic instance = new DataBundleLogic();
+    private final AccountsDb accountsDb = AccountsDb.inst();
+    private final ProfilesDb profilesDb = ProfilesDb.inst();
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final StudentsDb studentsDb = StudentsDb.inst();
+    private final InstructorsDb instructorsDb = InstructorsDb.inst();
+    private final FeedbackSessionsDb fbDb = FeedbackSessionsDb.inst();
+    private final FeedbackQuestionsDb fqDb = FeedbackQuestionsDb.inst();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
+    private final FeedbackResponseCommentsDb fcDb = FeedbackResponseCommentsDb.inst();
 
     private DataBundleLogic() {
         // prevent initialization
@@ -62,7 +62,7 @@ public final class DataBundleLogic {
     }
 
     /**
-     * Persists data in the given {@link DataBundle} to the Datastore, including
+     * Persists data in the given {@link DataBundle} to the database, including
      * accounts, courses, instructors, students, sessions, questions, responses, and comments.
      *
      * <p>Accounts are generated for students and instructors with Google IDs
@@ -150,19 +150,19 @@ public final class DataBundleLogic {
     /**
      * Creates document for entities that have document, i.e. searchable.
      */
-    public void putDocuments(DataBundle dataBundle) {
+    public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         // query the entity in db first to get the actual data and create document for actual entity
 
         Map<String, StudentAttributes> students = dataBundle.students;
         for (StudentAttributes student : students.values()) {
-            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.course, student.email);
+            StudentAttributes studentInDb = studentsDb.getStudentForEmail(student.getCourse(), student.getEmail());
             studentsDb.putDocument(studentInDb);
         }
 
         Map<String, InstructorAttributes> instructors = dataBundle.instructors;
         for (InstructorAttributes instructor : instructors.values()) {
             InstructorAttributes instructorInDb =
-                    instructorsDb.getInstructorForEmail(instructor.courseId, instructor.email);
+                    instructorsDb.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
             instructorsDb.putDocument(instructorInDb);
         }
     }
@@ -173,8 +173,8 @@ public final class DataBundleLogic {
             validateInstructorPrivileges(instructor);
 
             // create adhoc account to maintain data integrity
-            if (!StringHelper.isEmpty(instructor.googleId)) {
-                googleIdAccountMap.putIfAbsent(instructor.googleId, makeAccount(instructor));
+            if (!StringHelper.isEmpty(instructor.getGoogleId())) {
+                googleIdAccountMap.putIfAbsent(instructor.getGoogleId(), makeAccount(instructor));
             }
         }
     }
@@ -185,8 +185,8 @@ public final class DataBundleLogic {
             populateNullSection(student);
 
             // create adhoc account to maintain data integrity
-            if (!StringHelper.isEmpty(student.googleId)) {
-                googleIdAccountMap.putIfAbsent(student.googleId, makeAccount(student));
+            if (!StringHelper.isEmpty(student.getGoogleId())) {
+                googleIdAccountMap.putIfAbsent(student.getGoogleId(), makeAccount(student));
             }
         }
     }
@@ -209,8 +209,8 @@ public final class DataBundleLogic {
     private Map<String, String> makeQuestionIdMap(List<FeedbackQuestionAttributes> createdQuestions) {
         Map<String, String> questionIdMap = new HashMap<>();
         for (FeedbackQuestionAttributes createdQuestion : createdQuestions) {
-            String sessionKey = makeSessionKey(createdQuestion.feedbackSessionName, createdQuestion.courseId);
-            String questionKey = makeQuestionKey(sessionKey, createdQuestion.questionNumber);
+            String sessionKey = makeSessionKey(createdQuestion.getFeedbackSessionName(), createdQuestion.getCourseId());
+            String questionKey = makeQuestionKey(sessionKey, createdQuestion.getQuestionNumber());
             questionIdMap.put(questionKey, createdQuestion.getId());
         }
         return questionIdMap;
@@ -230,14 +230,14 @@ public final class DataBundleLogic {
         for (FeedbackResponseAttributes response : responses) {
             int questionNumber;
             try {
-                questionNumber = Integer.parseInt(response.feedbackQuestionId);
+                questionNumber = Integer.parseInt(response.getFeedbackQuestionId());
             } catch (NumberFormatException e) {
                 // question ID already injected
                 continue;
             }
-            String sessionKey = makeSessionKey(response.feedbackSessionName, response.courseId);
+            String sessionKey = makeSessionKey(response.getFeedbackSessionName(), response.getCourseId());
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
-            response.feedbackQuestionId = questionIdMap.get(questionKey);
+            response.setFeedbackQuestionId(questionIdMap.get(questionKey));
         }
     }
 
@@ -256,18 +256,19 @@ public final class DataBundleLogic {
         for (FeedbackResponseCommentAttributes comment : responseComments) {
             int questionNumber;
             try {
-                questionNumber = Integer.parseInt(comment.feedbackQuestionId);
+                questionNumber = Integer.parseInt(comment.getFeedbackQuestionId());
             } catch (NumberFormatException e) {
                 // question ID already injected
                 continue;
             }
-            String sessionKey = makeSessionKey(comment.feedbackSessionName, comment.courseId);
+            String sessionKey = makeSessionKey(comment.getFeedbackSessionName(), comment.getCourseId());
             String questionKey = makeQuestionKey(sessionKey, questionNumber);
-            comment.feedbackQuestionId = questionIdMap.get(questionKey);
+            comment.setFeedbackQuestionId(questionIdMap.get(questionKey));
 
             // format of feedbackResponseId: questionNumber%giverEmail%recipient
-            String[] responseIdParam = comment.feedbackResponseId.split("%", 3);
-            comment.feedbackResponseId = comment.feedbackQuestionId + "%" + responseIdParam[1] + "%" + responseIdParam[2];
+            String[] responseIdParam = comment.getFeedbackResponseId().split("%", 3);
+            comment.setFeedbackResponseId(comment.getFeedbackQuestionId() + "%" + responseIdParam[1]
+                    + "%" + responseIdParam[2]);
         }
     }
 
@@ -284,52 +285,52 @@ public final class DataBundleLogic {
             return;
         }
 
-        InstructorPrivileges privileges = instructor.privileges;
+        InstructorPrivileges privileges = instructor.getPrivileges();
 
         switch (instructor.getRole()) {
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER:
-            Assumption.assertTrue(privileges.hasCoownerPrivileges());
+            assert privileges.hasCoownerPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER:
-            Assumption.assertTrue(privileges.hasManagerPrivileges());
+            assert privileges.hasManagerPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_OBSERVER:
-            Assumption.assertTrue(privileges.hasObserverPrivileges());
+            assert privileges.hasObserverPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_TUTOR:
-            Assumption.assertTrue(privileges.hasTutorPrivileges());
+            assert privileges.hasTutorPrivileges();
             break;
 
         case Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM:
             break;
 
         default:
-            Assumption.fail("Invalid instructor permission role name");
+            assert false : "Invalid instructor permission role name";
             break;
         }
     }
 
     private void populateNullSection(StudentAttributes student) {
-        student.section = student.section == null ? "None" : student.section;
+        student.setSection(student.getSection() == null ? "None" : student.getSection());
     }
 
     private AccountAttributes makeAccount(InstructorAttributes instructor) {
-        return AccountAttributes.builder(instructor.googleId)
-                .withName(instructor.name)
-                .withEmail(instructor.email)
+        return AccountAttributes.builder(instructor.getGoogleId())
+                .withName(instructor.getName())
+                .withEmail(instructor.getEmail())
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(true)
                 .build();
     }
 
     private AccountAttributes makeAccount(StudentAttributes student) {
-        return AccountAttributes.builder(student.googleId)
-                .withName(student.name)
-                .withEmail(student.email)
+        return AccountAttributes.builder(student.getGoogleId())
+                .withName(student.getName())
+                .withEmail(student.getEmail())
                 .withInstitute("TEAMMATES Test Institute 1")
                 .withIsInstructor(false)
                 .build();
@@ -347,6 +348,9 @@ public final class DataBundleLogic {
         return sessionKey + "%" + questionNumber;
     }
 
+    /**
+     * Removes the items in the data bundle from the database.
+     */
     public void removeDataBundle(DataBundle dataBundle) {
 
         // Questions and responses will be deleted automatically.
@@ -357,7 +361,7 @@ public final class DataBundleLogic {
             accountsDb.deleteAccount(account.getGoogleId());
         });
         dataBundle.profiles.values().forEach(profile -> {
-            profilesDb.deleteStudentProfile(profile.googleId);
+            profilesDb.deleteStudentProfile(profile.getGoogleId());
         });
     }
 

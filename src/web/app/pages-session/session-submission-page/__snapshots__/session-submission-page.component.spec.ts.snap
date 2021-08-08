@@ -1,0 +1,6653 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SessionSubmissionPageComponent should snap when feedback session questions have failed to load 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed={[Function Boolean]}
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading={[Function Boolean]}
+  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
+  isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName=""
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts="0"
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              
+            </b>
+          </mark>
+          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (optional). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    
+    <div
+      class="text-center"
+    >
+      <p
+        class="text-muted m-1"
+      >
+        Failed to load questions
+      </p>
+      <button
+        class="btn btn-primary"
+      >
+        <i
+          aria-hidden="true"
+          class="fas fa-redo"
+        />
+         Retry
+      </button>
+    </div>
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap when saving responses 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading={[Function Boolean]}
+  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
+  isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isModerationHintExpanded="false"
+  isSavingResponses={[Function Boolean]}
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName=""
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              
+            </b>
+          </mark>
+          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (optional). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap with default fields 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading={[Function Boolean]}
+  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
+  isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName=""
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              
+            </b>
+          </mark>
+          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (optional). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap with feedback session and user details 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions={[Function String]}
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime={[Function String]}
+  formattedSessionOpeningTime={[Function String]}
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading="false"
+  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
+  isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser={[Function String]}
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail={[Function String]}
+  personName={[Function String]}
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              person name
+            </b>
+          </mark>
+          . If you wish to link your Google account (logged-in-user) with this user, 
+          <a
+            href="#"
+          >
+            click here
+          </a>
+          . 
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><div
+    class="card card-plain"
+  >
+    <div
+      class="card-body"
+    >
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-id"
+        >
+          test.exa-demo
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="fs-name"
+        >
+          First team feedback session
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="opening-time"
+        >
+          Sun, 01 Apr, 2012, 11:59 PM +08
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="closing-time"
+        >
+          Mon, 02 Apr, 2012, 11:59 PM +08
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Instructions:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="instructions"
+        >
+          Please give your feedback based on the following questions.
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading="false"
+  isFeedbackSessionQuestionResponsesLoading="false"
+  isFeedbackSessionQuestionsLoading="false"
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName=""
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              
+            </b>
+          </mark>
+          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (optional). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><div
+    class="card card-plain"
+  >
+    <div
+      class="card-body"
+    >
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-id"
+        >
+          CS3281
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="fs-name"
+        >
+          Feedback Session Name
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Instructions:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="instructions"
+        />
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+      <tm-question-submission-form
+        id="feedback-question-id-mcq"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 1: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Other students in the course can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Unknown 
+                      </b>
+                      <span>
+                        (Team)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-mcq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 1
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 2
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 3
+                              </span>
+                            </label>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tm-mcq-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div>
+                      <tm-comment-row>
+                        
+                        
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-body"
+                          >
+                            <div
+                              class="row comment-row"
+                            >
+                              <div
+                                class="col-12"
+                              >
+                                
+                                <span
+                                  class="text-secondary"
+                                  id="by-response-giver"
+                                >
+                                   Comment by response giver. 
+                                </span>
+                                
+                                <i
+                                  aria-hidden="true"
+                                  class="fa fa-eye"
+                                />
+                                <div
+                                  class="float-right"
+                                >
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm"
+                                    id="btn-edit-comment"
+                                    ngbtooltip="Edit this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-pencil-alt"
+                                    />
+                                  </button>
+                                  
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm btn-margin-left"
+                                    id="btn-delete-comment"
+                                    ngbtooltip="Delete this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-trash"
+                                    />
+                                  </button>
+                                  
+                                </div>
+                              </div>
+                              <div
+                                class="col-12"
+                                id="comment-text"
+                              >
+                                comment text
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </tm-comment-row>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+            <div
+              class="alert alert-warning"
+              role="alert"
+            >
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-text"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 3: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Your team members can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            <tm-text-question-instruction />
+            
+            
+            
+            <tm-text-question-constraint />
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Unknown 
+                      </b>
+                      <span>
+                        (Instructor)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    <tm-text-question-edit-answer-form>
+                      
+                      <div
+                        class="plain-text-area"
+                      >
+                        <textarea
+                          class="ng-untouched ng-pristine ng-valid"
+                        />
+                      </div>
+                      
+                      <div
+                        class="margin-top-7px text-secondary text-right"
+                      >
+                        
+                        
+                      </div>
+                    </tm-text-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+            <div
+              class="alert alert-warning"
+              role="alert"
+            >
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-mcq-2"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 2: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving teams can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Team)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-mcq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 1
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 2
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 3
+                              </span>
+                            </label>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tm-mcq-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div
+                      style="display: inline-block;"
+                    >
+                      
+                      <button
+                        class="btn btn-light btn-sm"
+                        id="btn-add-comment"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                    
+                    
+                    
+                  </div>
+                </div>
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-1"
+                    >
+                      <b>
+                        Gene Harris 
+                      </b>
+                      <span>
+                        (Team)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-mcq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 1
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 2
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 3
+                              </span>
+                            </label>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tm-mcq-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div
+                      style="display: inline-block;"
+                    >
+                      
+                      <button
+                        class="btn btn-light btn-sm"
+                        id="btn-add-comment"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-msq"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 4: 
+              </b>
+              MSQ question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-msq-question-constraint>
+              
+              <div
+                class="text-info"
+              >
+                <p
+                  class="text-left font-weight-bold"
+                >
+                  Note:
+                </p>
+                
+                <p
+                  id="min-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Choose 
+                  <strong>
+                     at least 1
+                  </strong>
+                   options. 
+                </p>
+                
+                <p
+                  id="max-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Choose 
+                  <strong>
+                     no more than 2
+                  </strong>
+                   options. 
+                </p>
+              </div>
+            </tm-msq-question-constraint>
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-msq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="check-box"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                type="checkbox"
+                              />
+                              <strong>
+                                first
+                              </strong>
+                            </label>
+                          </div>
+                          <div
+                            class="check-box"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                type="checkbox"
+                              />
+                              <strong>
+                                second
+                              </strong>
+                            </label>
+                          </div>
+                          <div
+                            class="check-box"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                type="checkbox"
+                              />
+                              <strong>
+                                third
+                              </strong>
+                            </label>
+                          </div>
+                          
+                          
+                        </td>
+                      </tr>
+                    </tm-msq-question-edit-answer-form>
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-numscale"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 5: 
+              </b>
+              numerical scale question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            <tm-num-scale-question-instruction />
+            
+            
+            
+            <tm-num-scale-question-constraint />
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    <tm-num-scale-question-edit-answer-form>
+                      <div
+                        class="form-row text-left"
+                      >
+                        <div
+                          class="col-md-2 col-xs-5"
+                        >
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            max="10"
+                            min="1"
+                            step="1"
+                            type="number"
+                          />
+                        </div>
+                        <div
+                          class="col-md-9 col-xs-6 text-secondary"
+                          id="possible-values"
+                        >
+                           Possible values: [1,
+             2,
+             3,
+             ...,
+             8,
+             9,
+             10] 
+                        </div>
+                      </div>
+                      <div
+                        class="row mt-1"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                          
+                          
+                        </div>
+                      </div>
+                      <br />
+                    </tm-num-scale-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-constsum"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 6: 
+              </b>
+              constant sum question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-constsum-recipients-question-instruction>
+              <div
+                class="text-info"
+              >
+                <p
+                  class="font-weight-bold"
+                >
+                  Note:
+                </p>
+                <p
+                  id="total-points-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Total points distributed should 
+                  <strong>
+                    add up to 20.
+                  </strong>
+                </p>
+                
+                
+              </div>
+            </tm-constsum-recipients-question-instruction>
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-constsum-recipients-question-edit-answer-form>
+                      <div
+                        class="col-sm-3"
+                      >
+                        <div
+                          class="form-group row"
+                        >
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            min="0"
+                            step="1"
+                            type="number"
+                          />
+                        </div>
+                      </div>
+                    </tm-constsum-recipients-question-edit-answer-form>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+              <tm-constsum-recipients-question-constraint>
+                
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    
+                    <p
+                      class="text-danger"
+                    >
+                      <span
+                        class="fa fa-times"
+                      />
+                       Actual total is 7! Distribute the remaining 13 points.
+                    </p>
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                </div>
+              </tm-constsum-recipients-question-constraint>
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-contrib"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 7: 
+              </b>
+              contribution question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            <tm-contribution-question-instruction />
+            
+            
+            
+            <tm-contribution-question-constraint />
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    <tm-contribution-question-edit-answer-form>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-lg-3 col-sm-6 col-xs-12"
+                        >
+                          <select
+                            class="form-control color-negative ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              class="color-positive"
+                              value="1: 200"
+                            >
+                              Equal share + 100%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="2: 190"
+                            >
+                              Equal share + 90%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="3: 180"
+                            >
+                              Equal share + 80%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="4: 170"
+                            >
+                              Equal share + 70%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="5: 160"
+                            >
+                              Equal share + 60%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="6: 150"
+                            >
+                              Equal share + 50%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="7: 140"
+                            >
+                              Equal share + 40%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="8: 130"
+                            >
+                              Equal share + 30%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="9: 120"
+                            >
+                              Equal share + 20%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="10: 110"
+                            >
+                              Equal share + 10%
+                            </option>
+                            <option
+                              class="color-neutral"
+                              value="11: 100"
+                            >
+                              Equal share
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="12: 90"
+                            >
+                              Equal share - 10%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="13: 80"
+                            >
+                              Equal share - 20%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="14: 70"
+                            >
+                              Equal share - 30%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="15: 60"
+                            >
+                              Equal share - 40%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="16: 50"
+                            >
+                              Equal share - 50%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="17: 40"
+                            >
+                              Equal share - 60%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="18: 30"
+                            >
+                              Equal share - 70%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="19: 20"
+                            >
+                              Equal share - 80%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="20: 10"
+                            >
+                              Equal share - 90%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="21: 0"
+                            >
+                              0%
+                            </option>
+                            
+                          </select>
+                        </div>
+                        
+                        <div
+                          class="col-lg-9 col-sm-6 col-xs-12"
+                        >
+                          <button
+                            class="btn btn-link"
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-exclamation-circle"
+                            />
+                             More info about the 
+                            <code>
+                              Equal Share
+                            </code>
+                             scale
+                          </button>
+                        </div>
+                        
+                      </div>
+                    </tm-contribution-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-rubric"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 8: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-rubric-question-edit-answer-form>
+                      <table
+                        class="table table-bordered desktop-view"
+                      >
+                        <tbody>
+                          <tr>
+                            <td />
+                            
+                            <td
+                              class="font-weight-bold"
+                            >
+                              choice 1
+                            </td>
+                            <td
+                              class="font-weight-bold"
+                            >
+                              choice 2
+                            </td>
+                          </tr>
+                          
+                          <tr
+                            class="row-answered"
+                          >
+                            <td>
+                              subquestion 1
+                            </td>
+                            
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
+                                  type="radio"
+                                />
+                                 description 1 
+                              </label>
+                            </td>
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
+                                  type="radio"
+                                />
+                                 description 2 
+                              </label>
+                            </td>
+                          </tr>
+                          <tr
+                            class="row-answered"
+                          >
+                            <td>
+                              subquestion 2
+                            </td>
+                            
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
+                                  type="radio"
+                                />
+                                 description 3 
+                              </label>
+                            </td>
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
+                                  type="radio"
+                                />
+                                 description 4 
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div
+                        class="mobile-view"
+                      >
+                        
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-header bg-light"
+                          >
+                             subquestion 1 
+                          </div>
+                          <div
+                            class="card-body row-answered"
+                          >
+                            
+                            <div>
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
+                                  type="radio"
+                                />
+                                 choice 1 - description 1 
+                              </label>
+                            </div>
+                            <div>
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
+                                  type="radio"
+                                />
+                                 choice 2 - description 2 
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-header bg-light"
+                          >
+                             subquestion 2 
+                          </div>
+                          <div
+                            class="card-body row-answered"
+                          >
+                            
+                            <div>
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
+                                  type="radio"
+                                />
+                                 choice 1 - description 3 
+                              </label>
+                            </div>
+                            <div>
+                              <label>
+                                <input
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
+                                  type="radio"
+                                />
+                                 choice 2 - description 4 
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </tm-rubric-question-edit-answer-form>
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-rank-options"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 9: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            <tm-rank-options-question-instruction>
+              <div
+                class="text-info"
+              >
+                
+                <p
+                  class="font-weight-bold"
+                >
+                  Note:
+                </p>
+                
+                <p
+                  id="min-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                    at least 
+                  </strong>
+                   options. 
+                </p>
+                
+                <p
+                  id="max-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                    no more than 
+                  </strong>
+                   options. 
+                </p>
+              </div>
+            </tm-rank-options-question-instruction>
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    <tm-rank-options-question-edit-answer-form>
+                      
+                      <div
+                        class="form-group row text-left"
+                      >
+                        <div
+                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                        >
+                          <strong>
+                            option 1
+                          </strong>
+                        </div>
+                        <div
+                          class="col-md-3 col-xs-6 text-md-left"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                            <option
+                              value="2: 2"
+                            >
+                              2
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div
+                        class="form-group row text-left"
+                      >
+                        <div
+                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                        >
+                          <strong>
+                            option 2
+                          </strong>
+                        </div>
+                        <div
+                          class="col-md-3 col-xs-6 text-md-left"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                            <option
+                              value="2: 2"
+                            >
+                              2
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div
+                        class="col-md-9 offset-md-3"
+                      >
+                        
+                        
+                        
+                        
+                      </div>
+                    </tm-rank-options-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-rank-recipients"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 10: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-rank-recipients-question-instruction>
+              <div
+                class="text-info"
+              >
+                
+                <p
+                  class="font-weight-bold"
+                >
+                  Note:
+                </p>
+                
+                <p
+                  id="min-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                    at least 1
+                  </strong>
+                   options. 
+                </p>
+                
+                <p
+                  id="max-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                     no more than 2
+                  </strong>
+                   options. 
+                </p>
+              </div>
+            </tm-rank-recipients-question-instruction>
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    <tm-rank-recipients-question-edit-answer-form>
+                      <div
+                        class="row margin-bottom-15px"
+                      >
+                        <div
+                          class="col-md-3"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </tm-rank-recipients-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              <tm-rank-recipients-question-constraint>
+                <div>
+                  
+                  
+                  
+                  
+                </div>
+              </tm-rank-recipients-question-constraint>
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <br
+        class="mobile-invisible"
+      />
+      
+      
+      <div
+        class="row"
+      >
+        <div
+          class="col-12 text-center"
+        >
+          <button
+            class="btn btn-success"
+            id="btn-submit"
+            ngbtooltip="You can save your responses at any time and come back later to continue."
+            type="submit"
+          >
+            
+            Submit Feedback
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap with feedback session question submission forms when disabled 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading="false"
+  isFeedbackSessionQuestionResponsesLoading="false"
+  isFeedbackSessionQuestionsLoading="false"
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled={[Function Boolean]}
+  logService={[Function LogService]}
+  loggedInUser=""
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName=""
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              
+            </b>
+          </mark>
+          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (optional). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><div
+    class="card card-plain"
+  >
+    <div
+      class="card-body"
+    >
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Course ID:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="course-id"
+        >
+          CS3281
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Session:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="fs-name"
+        >
+          Feedback Session Name
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Opening time:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="opening-time"
+        >
+          
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Closing time:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="closing-time"
+        >
+          
+        </div>
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+      <div
+        class="row text-center"
+      >
+        <div
+          class="col-md-2 text-md-right"
+        >
+          <b>
+            Instructions:
+          </b>
+        </div>
+        <div
+          class="col-md-10 text-md-left"
+          id="instructions"
+        />
+      </div>
+      <br
+        class="mobile-invisible"
+      />
+    </div>
+  </div><tm-loading-retry>
+    
+    
+    <div>
+      
+      <tm-question-submission-form
+        id="feedback-question-id-mcq"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 1: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Other students in the course can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Unknown 
+                      </b>
+                      <span>
+                        (Team)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-mcq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 1
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 2
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcqbarry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 3
+                              </span>
+                            </label>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tm-mcq-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div>
+                      <tm-comment-row>
+                        
+                        
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-body"
+                          >
+                            <div
+                              class="row comment-row"
+                            >
+                              <div
+                                class="col-12"
+                              >
+                                
+                                <span
+                                  class="text-secondary"
+                                  id="by-response-giver"
+                                >
+                                   Comment by response giver. 
+                                </span>
+                                
+                                <i
+                                  aria-hidden="true"
+                                  class="fa fa-eye"
+                                />
+                                <div
+                                  class="float-right"
+                                >
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm"
+                                    disabled=""
+                                    id="btn-edit-comment"
+                                    ngbtooltip="Edit this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-pencil-alt"
+                                    />
+                                  </button>
+                                  
+                                  
+                                  <button
+                                    class="btn btn-outline-primary btn-sm btn-margin-left"
+                                    disabled=""
+                                    id="btn-delete-comment"
+                                    ngbtooltip="Delete this comment"
+                                    type="button"
+                                  >
+                                    <i
+                                      class="fas fa-trash"
+                                    />
+                                  </button>
+                                  
+                                </div>
+                              </div>
+                              <div
+                                class="col-12"
+                                id="comment-text"
+                              >
+                                comment text
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </tm-comment-row>
+                      
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+            <div
+              class="alert alert-warning"
+              role="alert"
+            >
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-text"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 3: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Your team members can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, but not the name of the recipient, or your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            <tm-text-question-instruction />
+            
+            
+            
+            <tm-text-question-constraint />
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Unknown 
+                      </b>
+                      <span>
+                        (Instructor)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    <tm-text-question-edit-answer-form>
+                      
+                      <div
+                        class="plain-text-area"
+                      >
+                        <textarea
+                          class="ng-untouched ng-pristine ng-valid"
+                        />
+                      </div>
+                      
+                      <div
+                        class="margin-top-7px text-secondary text-right"
+                      >
+                        
+                        
+                      </div>
+                    </tm-text-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+            <div
+              class="alert alert-warning"
+              role="alert"
+            >
+              
+              
+              
+            </div>
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-mcq-2"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 2: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving teams can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Team)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-mcq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 1
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 2
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcq-2barry-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 3
+                              </span>
+                            </label>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tm-mcq-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div
+                      style="display: inline-block;"
+                    >
+                      
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        id="btn-add-comment"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                    
+                    
+                    
+                  </div>
+                </div>
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-1"
+                    >
+                      <b>
+                        Gene Harris 
+                      </b>
+                      <span>
+                        (Team)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-mcq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 1
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 2
+                              </span>
+                            </label>
+                          </div>
+                          <div
+                            class="radio"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                name="mcq-feedback-question-id-mcq-2gene-harris-id"
+                                type="radio"
+                              />
+                              <span
+                                class="option-text"
+                              >
+                                choice 3
+                              </span>
+                            </label>
+                          </div>
+                          
+                        </td>
+                      </tr>
+                    </tm-mcq-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                  <div
+                    class="col-12 margin-bottom-20px margin-top-10px indent"
+                    id="comment-section"
+                  >
+                    
+                    <div
+                      style="display: inline-block;"
+                    >
+                      
+                      <button
+                        class="btn btn-light btn-sm"
+                        disabled=""
+                        id="btn-add-comment"
+                      >
+                        <i
+                          class="fas fa-comment"
+                        />
+                         [Optional] Comment on your response 
+                      </button>
+                    </div>
+                    
+                    
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-msq"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 4: 
+              </b>
+              MSQ question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-msq-question-constraint>
+              
+              <div
+                class="text-info"
+              >
+                <p
+                  class="text-left font-weight-bold"
+                >
+                  Note:
+                </p>
+                
+                <p
+                  id="min-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Choose 
+                  <strong>
+                     at least 1
+                  </strong>
+                   options. 
+                </p>
+                
+                <p
+                  id="max-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Choose 
+                  <strong>
+                     no more than 2
+                  </strong>
+                   options. 
+                </p>
+              </div>
+            </tm-msq-question-constraint>
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-msq-question-edit-answer-form>
+                      <tr>
+                        <td>
+                          
+                          <div
+                            class="check-box"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                type="checkbox"
+                              />
+                              <strong>
+                                first
+                              </strong>
+                            </label>
+                          </div>
+                          <div
+                            class="check-box"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                type="checkbox"
+                              />
+                              <strong>
+                                second
+                              </strong>
+                            </label>
+                          </div>
+                          <div
+                            class="check-box"
+                          >
+                            <label
+                              class="margin-right-15px"
+                            >
+                              <input
+                                class="margin-right-15px"
+                                disabled=""
+                                type="checkbox"
+                              />
+                              <strong>
+                                third
+                              </strong>
+                            </label>
+                          </div>
+                          
+                          
+                        </td>
+                      </tr>
+                    </tm-msq-question-edit-answer-form>
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-numscale"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 5: 
+              </b>
+              numerical scale question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            <tm-num-scale-question-instruction />
+            
+            
+            
+            <tm-num-scale-question-constraint />
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    <tm-num-scale-question-edit-answer-form>
+                      <div
+                        class="form-row text-left"
+                      >
+                        <div
+                          class="col-md-2 col-xs-5"
+                        >
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            max="10"
+                            min="1"
+                            step="1"
+                            type="number"
+                          />
+                        </div>
+                        <div
+                          class="col-md-9 col-xs-6 text-secondary"
+                          id="possible-values"
+                        >
+                           Possible values: [1,
+             2,
+             3,
+             ...,
+             8,
+             9,
+             10] 
+                        </div>
+                      </div>
+                      <div
+                        class="row mt-1"
+                      >
+                        <div
+                          class="col-12"
+                        >
+                          
+                          
+                        </div>
+                      </div>
+                      <br />
+                    </tm-num-scale-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-constsum"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 6: 
+              </b>
+              constant sum question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-constsum-recipients-question-instruction>
+              <div
+                class="text-info"
+              >
+                <p
+                  class="font-weight-bold"
+                >
+                  Note:
+                </p>
+                <p
+                  id="total-points-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Total points distributed should 
+                  <strong>
+                    add up to 20.
+                  </strong>
+                </p>
+                
+                
+              </div>
+            </tm-constsum-recipients-question-instruction>
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-constsum-recipients-question-edit-answer-form>
+                      <div
+                        class="col-sm-3"
+                      >
+                        <div
+                          class="form-group row"
+                        >
+                          <input
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                            min="0"
+                            step="1"
+                            type="number"
+                          />
+                        </div>
+                      </div>
+                    </tm-constsum-recipients-question-edit-answer-form>
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+              <tm-constsum-recipients-question-constraint>
+                
+                <div
+                  class="row"
+                >
+                  <div
+                    class="col-12"
+                  >
+                    
+                    <p
+                      class="text-danger"
+                    >
+                      <span
+                        class="fa fa-times"
+                      />
+                       Actual total is 7! Distribute the remaining 13 points.
+                    </p>
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                </div>
+              </tm-constsum-recipients-question-constraint>
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-contrib"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 7: 
+              </b>
+              contribution question
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            <tm-contribution-question-instruction />
+            
+            
+            
+            <tm-contribution-question-constraint />
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    <tm-contribution-question-edit-answer-form>
+                      <div
+                        class="row"
+                      >
+                        <div
+                          class="col-lg-3 col-sm-6 col-xs-12"
+                        >
+                          <select
+                            class="form-control color-negative ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              class="color-positive"
+                              value="1: 200"
+                            >
+                              Equal share + 100%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="2: 190"
+                            >
+                              Equal share + 90%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="3: 180"
+                            >
+                              Equal share + 80%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="4: 170"
+                            >
+                              Equal share + 70%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="5: 160"
+                            >
+                              Equal share + 60%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="6: 150"
+                            >
+                              Equal share + 50%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="7: 140"
+                            >
+                              Equal share + 40%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="8: 130"
+                            >
+                              Equal share + 30%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="9: 120"
+                            >
+                              Equal share + 20%
+                            </option>
+                            <option
+                              class="color-positive"
+                              value="10: 110"
+                            >
+                              Equal share + 10%
+                            </option>
+                            <option
+                              class="color-neutral"
+                              value="11: 100"
+                            >
+                              Equal share
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="12: 90"
+                            >
+                              Equal share - 10%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="13: 80"
+                            >
+                              Equal share - 20%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="14: 70"
+                            >
+                              Equal share - 30%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="15: 60"
+                            >
+                              Equal share - 40%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="16: 50"
+                            >
+                              Equal share - 50%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="17: 40"
+                            >
+                              Equal share - 60%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="18: 30"
+                            >
+                              Equal share - 70%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="19: 20"
+                            >
+                              Equal share - 80%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="20: 10"
+                            >
+                              Equal share - 90%
+                            </option>
+                            <option
+                              class="color-negative"
+                              value="21: 0"
+                            >
+                              0%
+                            </option>
+                            
+                          </select>
+                        </div>
+                        
+                        <div
+                          class="col-lg-9 col-sm-6 col-xs-12"
+                        >
+                          <button
+                            class="btn btn-link"
+                            type="button"
+                          >
+                            <i
+                              class="fas fa-exclamation-circle"
+                            />
+                             More info about the 
+                            <code>
+                              Equal Share
+                            </code>
+                             scale
+                          </button>
+                        </div>
+                        
+                      </div>
+                    </tm-contribution-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-rubric"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 8: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <tm-rubric-question-edit-answer-form>
+                      <table
+                        class="table table-bordered desktop-view"
+                      >
+                        <tbody>
+                          <tr>
+                            <td />
+                            
+                            <td
+                              class="font-weight-bold"
+                            >
+                              choice 1
+                            </td>
+                            <td
+                              class="font-weight-bold"
+                            >
+                              choice 2
+                            </td>
+                          </tr>
+                          
+                          <tr
+                            class="row-answered"
+                          >
+                            <td>
+                              subquestion 1
+                            </td>
+                            
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
+                                  type="radio"
+                                />
+                                 description 1 
+                              </label>
+                            </td>
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id0-desktop"
+                                  type="radio"
+                                />
+                                 description 2 
+                              </label>
+                            </td>
+                          </tr>
+                          <tr
+                            class="row-answered"
+                          >
+                            <td>
+                              subquestion 2
+                            </td>
+                            
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
+                                  type="radio"
+                                />
+                                 description 3 
+                              </label>
+                            </td>
+                            <td
+                              class="text-secondary answer-cell"
+                            >
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id1-desktop"
+                                  type="radio"
+                                />
+                                 description 4 
+                              </label>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <div
+                        class="mobile-view"
+                      >
+                        
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-header bg-light"
+                          >
+                             subquestion 1 
+                          </div>
+                          <div
+                            class="card-body row-answered"
+                          >
+                            
+                            <div>
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
+                                  type="radio"
+                                />
+                                 choice 1 - description 1 
+                              </label>
+                            </div>
+                            <div>
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id0-mobile"
+                                  type="radio"
+                                />
+                                 choice 2 - description 2 
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          class="card"
+                        >
+                          <div
+                            class="card-header bg-light"
+                          >
+                             subquestion 2 
+                          </div>
+                          <div
+                            class="card-body row-answered"
+                          >
+                            
+                            <div>
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
+                                  type="radio"
+                                />
+                                 choice 1 - description 3 
+                              </label>
+                            </div>
+                            <div>
+                              <label>
+                                <input
+                                  disabled=""
+                                  name="feedback-question-id-rubricbarry-harris-id1-mobile"
+                                  type="radio"
+                                />
+                                 choice 2 - description 4 
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </tm-rubric-question-edit-answer-form>
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-rank-options"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 9: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            <tm-rank-options-question-instruction>
+              <div
+                class="text-info"
+              >
+                
+                <p
+                  class="font-weight-bold"
+                >
+                  Note:
+                </p>
+                
+                <p
+                  id="min-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                    at least 
+                  </strong>
+                   options. 
+                </p>
+                
+                <p
+                  id="max-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                    no more than 
+                  </strong>
+                   options. 
+                </p>
+              </div>
+            </tm-rank-options-question-instruction>
+            
+            
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    <tm-rank-options-question-edit-answer-form>
+                      
+                      <div
+                        class="form-group row text-left"
+                      >
+                        <div
+                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                        >
+                          <strong>
+                            option 1
+                          </strong>
+                        </div>
+                        <div
+                          class="col-md-3 col-xs-6 text-md-left"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                            <option
+                              value="2: 2"
+                            >
+                              2
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div
+                        class="form-group row text-left"
+                      >
+                        <div
+                          class="col-md-3 col-xs-6 text-md-right col-form-label"
+                        >
+                          <strong>
+                            option 2
+                          </strong>
+                        </div>
+                        <div
+                          class="col-md-3 col-xs-6 text-md-left"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                            <option
+                              value="2: 2"
+                            >
+                              2
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div
+                        class="col-md-9 offset-md-3"
+                      >
+                        
+                        
+                        
+                        
+                      </div>
+                    </tm-rank-options-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <tm-question-submission-form
+        id="feedback-question-id-rank-recipients"
+      >
+        <div
+          class="card"
+          id="question-submission-form"
+        >
+          <div
+            class="card-header bg-primary text-white question-header"
+          >
+            <span
+              id="question-details"
+            >
+              <b>
+                Question 10: 
+              </b>
+              question brief
+            </span>
+          </div>
+          <div
+            class="card-body"
+          >
+            
+            <div
+              class="card mb-3"
+            >
+              <div
+                class="card-header"
+              >
+                <b>
+                  More details
+                </b>
+              </div>
+              <div
+                class="card-body"
+                id="question-description"
+              >
+                question description
+              </div>
+            </div>
+            <div
+              class="card-body visibility-card"
+            >
+              <p
+                class="text-secondary"
+              >
+                Only the following persons can see your responses: 
+              </p>
+              <ul
+                class="text-secondary"
+                id="visibility-list"
+              >
+                
+                
+                
+                
+                <li>
+                   The receiving students can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                
+                <li>
+                   Instructors in this course can see your response, the name of the recipient, and your name 
+                </li>
+                
+                
+              </ul>
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <tm-rank-recipients-question-instruction>
+              <div
+                class="text-info"
+              >
+                
+                <p
+                  class="font-weight-bold"
+                >
+                  Note:
+                </p>
+                
+                <p
+                  id="min-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                    at least 1
+                  </strong>
+                   options. 
+                </p>
+                
+                <p
+                  id="max-options-message"
+                >
+                  <span
+                    class="fa fa-info-circle"
+                  />
+                   Rank 
+                  <strong>
+                     no more than 2
+                  </strong>
+                   options. 
+                </p>
+              </div>
+            </tm-rank-recipients-question-instruction>
+            
+            
+            
+            <p
+              class="margin-top-30px margin-bottom-0px"
+            >
+              <span
+                class="ngb-tooltip-class font-bold"
+                ngbtooltip="The party being evaluated or given feedback to"
+              >
+                Evaluee/Recipient
+              </span>
+            </p>
+            
+            <div
+              class="row"
+            >
+              <div
+                class="evaluee-col col-12"
+              >
+                
+                <div
+                  class="row"
+                >
+                  
+                  <div
+                    class="col-12 margin-top-20px"
+                  >
+                    
+                    <div
+                      id="recipient-name-0"
+                    >
+                      <b>
+                        Barry Harris 
+                      </b>
+                      <span>
+                        (Student)
+                      </span>
+                    </div>
+                    
+                  </div>
+                  <div
+                    class="col-12 margin-top-10px indent"
+                  >
+                    
+                    
+                    
+                    
+                    <tm-rank-recipients-question-edit-answer-form>
+                      <div
+                        class="row margin-bottom-15px"
+                      >
+                        <div
+                          class="col-md-3"
+                        >
+                          <select
+                            class="form-control ng-untouched ng-pristine ng-valid"
+                          >
+                            <option
+                              value="0: -999"
+                            />
+                            
+                            <option
+                              value="1: 1"
+                            >
+                              1
+                            </option>
+                          </select>
+                        </div>
+                      </div>
+                    </tm-rank-recipients-question-edit-answer-form>
+                    
+                    
+                    
+                    
+                    
+                    
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div
+              class="col-12 constraint-margins"
+            >
+              
+              <tm-rank-recipients-question-constraint>
+                <div>
+                  
+                  
+                  
+                  
+                </div>
+              </tm-rank-recipients-question-constraint>
+              
+            </div>
+            
+          </div>
+        </div>
+      </tm-question-submission-form>
+      <br
+        class="mobile-invisible"
+      />
+      
+      
+      <div
+        class="row"
+      >
+        <div
+          class="col-12 text-center"
+        >
+          <button
+            class="btn btn-success"
+            disabled=""
+            id="btn-submit"
+            ngbtooltip="You can save your responses at any time and come back later to continue."
+            type="submit"
+          >
+            
+            Submit Feedback
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap with user that is logged in and using session link 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading={[Function Boolean]}
+  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
+  isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser={[Function String]}
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName={[Function String]}
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              alice
+            </b>
+          </mark>
+          . If you wish to link your Google account (alice) with this user, 
+          <a
+            href="#"
+          >
+            click here
+          </a>
+          . 
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;
+
+exports[`SessionSubmissionPageComponent should snap with user that is not logged in and using session link 1`] = `
+<tm-session-submission-page
+  FeedbackSessionSubmissionStatus={[Function Object]}
+  Intent={[Function Object]}
+  authService={[Function AuthService]}
+  backendUrl={[Function String]}
+  commentService={[Function FeedbackResponseCommentService]}
+  courseId={[Function String]}
+  document={[Function Document]}
+  feedbackQuestionsService={[Function FeedbackQuestionsService]}
+  feedbackResponsesService={[Function FeedbackResponsesService]}
+  feedbackSessionInstructions=""
+  feedbackSessionName={[Function String]}
+  feedbackSessionSubmissionStatus={[Function String]}
+  feedbackSessionTimezone=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  formattedSessionClosingTime=""
+  formattedSessionOpeningTime=""
+  hasFeedbackSessionQuestionsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
+  isFeedbackSessionLoading={[Function Boolean]}
+  isFeedbackSessionQuestionResponsesLoading={[Function Boolean]}
+  isFeedbackSessionQuestionsLoading={[Function Boolean]}
+  isModerationHintExpanded="false"
+  isSavingResponses="false"
+  isSubmissionFormsDisabled="false"
+  logService={[Function LogService]}
+  loggedInUser=""
+  moderatedPerson=""
+  moderatedQuestionId=""
+  navigationService={[Function NavigationService]}
+  ngbModal={[Function NgbModal]}
+  pageScrollService={[Function PageScrollService]}
+  personEmail=""
+  personName={[Function String]}
+  previewAsPerson=""
+  questionSubmissionForms={[Function Array]}
+  regKey={[Function String]}
+  retryAttempts={[Function Number]}
+  route={[Function Object]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <div
+    class="row"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        
+        
+        <div>
+           You are submitting feedback as 
+          <mark>
+            <b>
+              alice
+            </b>
+          </mark>
+          . You may submit feedback for sessions that are currently open and view results without logging in. To access other features you need to 
+          <a
+            href="#"
+          >
+            login using a Google account
+          </a>
+           (optional). 
+        </div>
+      </div>
+    </div>
+  </div><div
+    class="row mobile-invisible"
+  >
+    <div
+      class="col-12"
+    >
+      <div
+        class="alert alert-primary"
+        role="alert"
+      >
+        <i
+          class="fas fa-exclamation-circle"
+        />
+         Note that you can use the Submit button to save responses already entered, and continue to answer remaining questions after that. You may also edit your submission any number of times before the closing time of this session. 
+      </div>
+    </div>
+  </div><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+  </tm-loading-retry>
+</tm-session-submission-page>
+`;

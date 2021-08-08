@@ -36,7 +36,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String section1 = dataBundle.students.get("student1InCourse1").getSection();
         String session1 = dataBundle.feedbackSessions.get("session1InCourse1").getFeedbackSessionName();
-        InstructorPrivileges privileges = instructor1ofCourse1.privileges;
+        InstructorPrivileges privileges = instructor1ofCourse1.getPrivileges();
         // update section privilege for testing purpose.
 
         // course level privilege
@@ -66,15 +66,15 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         privileges.updatePrivilege(section1, session1,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        instructor1ofCourse1.privileges = privileges;
+        instructor1ofCourse1.setPrivileges(privileges);
 
-        instructor1ofCourse1.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+        instructor1ofCourse1.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         dataBundle.instructors.put("instructor1OfCourse1", instructor1ofCourse1);
         removeAndRestoreDataBundle(dataBundle);
     }
 
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests.
     }
 
@@ -398,7 +398,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = {

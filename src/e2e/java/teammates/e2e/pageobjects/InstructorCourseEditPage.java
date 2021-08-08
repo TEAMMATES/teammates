@@ -16,35 +16,35 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor course edit page of the website.
  */
 public class InstructorCourseEditPage extends AppPage {
-    public static final int INSTRUCTOR_TYPE_COOWNER = 0;
-    public static final int INSTRUCTOR_TYPE_MANAGER = 1;
-    public static final int INSTRUCTOR_TYPE_OBSERVER = 2;
-    public static final int INSTRUCTOR_TYPE_TUTOR = 3;
-    public static final int INSTRUCTOR_TYPE_CUSTOM = 4;
+    private static final int INSTRUCTOR_TYPE_COOWNER = 0;
+    private static final int INSTRUCTOR_TYPE_MANAGER = 1;
+    private static final int INSTRUCTOR_TYPE_OBSERVER = 2;
+    private static final int INSTRUCTOR_TYPE_TUTOR = 3;
+    private static final int INSTRUCTOR_TYPE_CUSTOM = 4;
 
-    public static final int COURSE_MODIFY_COURSE = 0;
-    public static final int COURSE_MODIFY_INSTRUCTORS = 1;
-    public static final int COURSE_MODIFY_SESSIONS = 2;
-    public static final int COURSE_MODIFY_STUDENTS = 3;
-    public static final int COURSE_VIEW_STUDENTS = 4;
-    public static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
-    public static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
-    public static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
+    private static final int COURSE_MODIFY_COURSE = 0;
+    private static final int COURSE_MODIFY_INSTRUCTORS = 1;
+    private static final int COURSE_MODIFY_SESSIONS = 2;
+    private static final int COURSE_MODIFY_STUDENTS = 3;
+    private static final int COURSE_VIEW_STUDENTS = 4;
+    private static final int COURSE_GIVE_RESPONSES_IN_SESSION = 5;
+    private static final int COURSE_VIEW_RESPONSES_IN_SESSION = 6;
+    private static final int COURSE_MODIFY_RESPONSES_IN_SESSION = 7;
 
-    public static final int SECTION_VIEW_STUDENTS = 0;
-    public static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
-    public static final int SECTION_VIEW_RESPONSES_IN_SESSION = 2;
-    public static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 3;
+    private static final int SECTION_VIEW_STUDENTS = 0;
+    private static final int SECTION_GIVE_RESPONSES_IN_SESSION = 1;
+    private static final int SECTION_VIEW_RESPONSES_IN_SESSION = 2;
+    private static final int SECTION_MODIFY_RESPONSES_IN_SESSION = 3;
 
-    public static final int SESSION_GIVE_RESPONSES = 0;
-    public static final int SESSION_VIEW_RESPONSES = 1;
-    public static final int SESSION_MODIFY_RESPONSES = 2;
+    private static final int SESSION_GIVE_RESPONSES = 0;
+    private static final int SESSION_VIEW_RESPONSES = 1;
+    private static final int SESSION_MODIFY_RESPONSES = 2;
 
     @FindBy(id = "course-id")
     private WebElement courseIdTextBox;
@@ -83,22 +83,22 @@ public class InstructorCourseEditPage extends AppPage {
     }
 
     public void verifyInstructorDetails(InstructorAttributes instructor) {
-        int instrNum = getIntrNum(instructor.email);
-        if (instructor.googleId != null) {
-            assertEquals(instructor.googleId, getInstructorGoogleId(instrNum));
+        int instrNum = getIntrNum(instructor.getEmail());
+        if (instructor.getGoogleId() != null) {
+            assertEquals(instructor.getGoogleId(), getInstructorGoogleId(instrNum));
         }
-        assertEquals(instructor.name, getInstructorName(instrNum));
-        assertEquals(instructor.email, getInstructorEmail(instrNum));
-        assertEquals(instructor.isDisplayedToStudents, getInstructorDisplayedToStudents(instrNum));
-        if (instructor.isDisplayedToStudents) {
-            assertEquals(instructor.displayedName, getInstructorDisplayName(instrNum));
+        assertEquals(instructor.getName(), getInstructorName(instrNum));
+        assertEquals(instructor.getEmail(), getInstructorEmail(instrNum));
+        assertEquals(instructor.isDisplayedToStudents(), getInstructorDisplayedToStudents(instrNum));
+        if (instructor.isDisplayedToStudents()) {
+            assertEquals(instructor.getDisplayedName(), getInstructorDisplayName(instrNum));
         } else {
             assertEquals("(This instructor will NOT be displayed to students)", getInstructorDisplayName(instrNum));
         }
-        assertEquals(instructor.role, getInstructorRole(instrNum));
-        if (instructor.role.equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
+        assertEquals(instructor.getRole(), getInstructorRole(instrNum));
+        if (instructor.getRole().equals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM)
                 && getEditInstructorButton(instrNum).isEnabled()) {
-            verifyCustomPrivileges(instrNum, instructor.privileges);
+            verifyCustomPrivileges(instrNum, instructor.getPrivileges());
         }
     }
 
@@ -198,40 +198,40 @@ public class InstructorCourseEditPage extends AppPage {
         clickAddNewInstructorButton();
         int instructorIndex = getNumInstructors();
 
-        fillTextBox(getNameField(instructorIndex), newInstructor.name);
-        fillTextBox(getEmailField(instructorIndex), newInstructor.email);
-        if (newInstructor.isDisplayedToStudents) {
+        fillTextBox(getNameField(instructorIndex), newInstructor.getName());
+        fillTextBox(getEmailField(instructorIndex), newInstructor.getEmail());
+        if (newInstructor.isDisplayedToStudents()) {
             markOptionAsSelected(getDisplayedToStudentCheckBox(instructorIndex));
-            fillTextBox(getDisplayNameField(instructorIndex), newInstructor.displayedName);
+            fillTextBox(getDisplayNameField(instructorIndex), newInstructor.getDisplayedName());
         } else {
             markOptionAsUnselected(getDisplayedToStudentCheckBox(instructorIndex));
         }
-        selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.role));
+        selectRoleForInstructor(instructorIndex, getRoleIndex(newInstructor.getRole()));
         clickSaveInstructorButton(instructorIndex);
     }
 
     public void resendInstructorInvite(InstructorAttributes instructor) {
-        int instrNum = getIntrNum(instructor.email);
+        int instrNum = getIntrNum(instructor.getEmail());
         clickAndConfirm(getInviteInstructorButton(instrNum));
     }
 
     public void deleteInstructor(InstructorAttributes instructor) {
-        int instrNum = getIntrNum(instructor.email);
+        int instrNum = getIntrNum(instructor.getEmail());
         clickAndConfirm(getDeleteInstructorButton(instrNum));
     }
 
     public void editInstructor(int instrNum, InstructorAttributes instructor) {
         clickEditInstructorButton(instrNum);
 
-        fillTextBox(getNameField(instrNum), instructor.name);
-        fillTextBox(getEmailField(instrNum), instructor.email);
-        if (instructor.isDisplayedToStudents) {
+        fillTextBox(getNameField(instrNum), instructor.getName());
+        fillTextBox(getEmailField(instrNum), instructor.getEmail());
+        if (instructor.isDisplayedToStudents()) {
             markOptionAsSelected(getDisplayedToStudentCheckBox(instrNum));
-            fillTextBox(getDisplayNameField(instrNum), instructor.displayedName);
+            fillTextBox(getDisplayNameField(instrNum), instructor.getDisplayedName());
         } else {
             markOptionAsUnselected(getDisplayedToStudentCheckBox(instrNum));
         }
-        selectRoleForInstructor(instrNum, getRoleIndex(instructor.role));
+        selectRoleForInstructor(instrNum, getRoleIndex(instructor.getRole()));
         clickSaveInstructorButton(instrNum);
     }
 
@@ -279,7 +279,7 @@ public class InstructorCourseEditPage extends AppPage {
         return browser.driver.findElements(By.cssSelector(".card-header")).size() - 1;
     }
 
-    /* Methods for clicking buttons and links */
+    // Methods for clicking buttons and links
 
     private void clickEditCourseButton() {
         click(editCourseButton);
@@ -320,7 +320,7 @@ public class InstructorCourseEditPage extends AppPage {
         click(getAddSessionLevelPrivilegesLink(instrNum, panelNum));
     }
 
-    /* Methods that return WebElements of the page */
+    // Methods that return WebElements of the page
 
     public String getCourseId() {
         return courseIdTextBox.getAttribute("value");
@@ -485,7 +485,7 @@ public class InstructorCourseEditPage extends AppPage {
         return sessionLevelTableRow.findElements(By.cssSelector("input[type='checkbox']")).get(checkBoxIndex);
     }
 
-    /* Methods for indexing */
+    // Methods for indexing
 
     private int getRoleIndex(String role) {
         switch(role) {

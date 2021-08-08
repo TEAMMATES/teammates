@@ -11,15 +11,12 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.UserInfo;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.logic.api.UserProvision;
 import teammates.ui.output.AuthInfo;
 
 /**
  * SUT: {@link GetAuthInfoAction}.
  */
 public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
-
-    private UserProvision userProvision = new UserProvision();
 
     @Override
     protected String getActionUri() {
@@ -45,9 +42,10 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         AuthInfo output = (AuthInfo) r.getOutput();
-        assertEquals(userProvision.getLoginUrl(Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
-        assertEquals(userProvision.getLoginUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
-        assertEquals(userProvision.getLoginUrl(Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
+        assertEquals(a.createLoginUrl("", Const.WebPageURIs.STUDENT_HOME_PAGE), output.getStudentLoginUrl());
+        assertEquals(a.createLoginUrl("", Const.WebPageURIs.INSTRUCTOR_HOME_PAGE), output.getInstructorLoginUrl());
+        assertEquals(a.createLoginUrl("", Const.WebPageURIs.ADMIN_HOME_PAGE), output.getAdminLoginUrl());
+        assertEquals(a.createLoginUrl("", Const.WebPageURIs.MAINTAINER_HOME_PAGE), output.getMaintainerLoginUrl());
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
@@ -63,9 +61,10 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (AuthInfo) r.getOutput();
-        assertEquals(userProvision.getLoginUrl(nextUrl), output.getStudentLoginUrl());
-        assertEquals(userProvision.getLoginUrl(nextUrl), output.getInstructorLoginUrl());
-        assertEquals(userProvision.getLoginUrl(nextUrl), output.getAdminLoginUrl());
+        assertEquals(a.createLoginUrl("", nextUrl), output.getStudentLoginUrl());
+        assertEquals(a.createLoginUrl("", nextUrl), output.getInstructorLoginUrl());
+        assertEquals(a.createLoginUrl("", nextUrl), output.getAdminLoginUrl());
+        assertEquals(a.createLoginUrl("", nextUrl), output.getMaintainerLoginUrl());
         assertNull(output.getUser());
         assertNull(output.getInstitute());
         assertFalse(output.isMasquerade());
@@ -83,6 +82,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertNull(output.getMaintainerLoginUrl());
         assertFalse(output.isMasquerade());
 
         UserInfo user = output.getUser();
@@ -108,6 +108,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertNull(output.getMaintainerLoginUrl());
         assertTrue(output.isMasquerade());
 
         assertEquals("TEAMMATES Test Institute 1", output.getInstitute());
@@ -129,6 +130,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
         assertNull(output.getStudentLoginUrl());
         assertNull(output.getInstructorLoginUrl());
         assertNull(output.getAdminLoginUrl());
+        assertNull(output.getMaintainerLoginUrl());
         assertFalse(output.isMasquerade());
 
         user = output.getUser();
@@ -159,7 +161,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        Cookie cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, "someFakeCsrfToken");
+        Cookie cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, "someFakeCsrfToken");
 
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);
         r = getJsonResult(a);
@@ -179,7 +181,7 @@ public class GetAuthInfoActionTest extends BaseActionTest<GetAuthInfoAction> {
 
         loginAsInstructor("idOfInstructor1OfCourse1");
 
-        cookieToAdd = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME,
+        cookieToAdd = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME,
                 StringHelper.encrypt("1234"));
 
         a = getActionWithCookie(new ArrayList<>(Arrays.asList(cookieToAdd)), emptyParams);

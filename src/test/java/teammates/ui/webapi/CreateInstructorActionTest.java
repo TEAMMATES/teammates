@@ -32,8 +32,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
     @Test
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         ______TS("Typical case: add an instructor successfully");
 
@@ -60,17 +60,18 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertNotNull(logic.getInstructorForEmail(courseId, newInstructorEmail));
 
         InstructorAttributes instructorAdded = logic.getInstructorForEmail(courseId, newInstructorEmail);
-        assertEquals(newInstructorName, instructorAdded.name);
+        assertEquals(newInstructorName, instructorAdded.getName());
         assertEquals(newInstructorName, response.getName());
-        assertEquals(newInstructorEmail, instructorAdded.email);
+        assertEquals(newInstructorEmail, instructorAdded.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
 
         assertEquals(courseId, taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
-        assertEquals(instructorAdded.email, reqBody.getEmail());
+        assertEquals(instructorAdded.getEmail(), reqBody.getEmail());
         assertEquals(instructorId, reqBody.getId());
 
         ______TS("Error: try to add an existing instructor");
@@ -128,18 +129,19 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertNotNull(logic.getInstructorForEmail(courseId, newInstructorEmail));
 
         instructorAdded = logic.getInstructorForEmail(courseId, newInstructorEmail);
-        assertEquals(newInstructorName, instructorAdded.name);
+        assertEquals(newInstructorName, instructorAdded.getName());
         assertEquals(newInstructorName, response.getName());
-        assertEquals(newInstructorEmail, instructorAdded.email);
+        assertEquals(newInstructorEmail, instructorAdded.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         Map<String, String> paramMap = taskAdded.getParamMap();
 
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
-        assertEquals(instructorAdded.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        assertEquals(instructorAdded.getEmail(), paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
     }
 
     @Override

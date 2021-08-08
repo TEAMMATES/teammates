@@ -17,7 +17,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackResponseCommentData;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
@@ -43,12 +42,12 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("Feedback response comment is not found"));
         }
 
-        String courseId = frc.courseId;
-        String feedbackResponseId = frc.feedbackResponseId;
+        String courseId = frc.getCourseId();
+        String feedbackResponseId = frc.getFeedbackResponseId();
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        String feedbackSessionName = frc.feedbackSessionName;
+        String feedbackSessionName = frc.getFeedbackSessionName();
         FeedbackSessionAttributes session = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        Assumption.assertNotNull(response);
+        assert response != null;
         String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
@@ -56,7 +55,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         switch (intent) {
         case STUDENT_SUBMISSION:
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(student);
+            if (student == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForStudent(question);
             verifySessionOpenExceptForModeration(session);
@@ -70,7 +71,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             break;
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
-            Assumption.assertNotNull(instructorAsFeedbackParticipant);
+            if (instructorAsFeedbackParticipant == null) {
+                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+            }
 
             gateKeeper.verifyAnswerableForInstructor(question);
             verifySessionOpenExceptForModeration(session);
@@ -86,9 +89,9 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             if (instructor != null && frc.getCommentGiver().equals(instructor.getEmail())) { // giver, allowed by default
                 return;
             }
-            gateKeeper.verifyAccessible(instructor, session, response.giverSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getGiverSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
-            gateKeeper.verifyAccessible(instructor, session, response.recipientSection,
+            gateKeeper.verifyAccessible(instructor, session, response.getRecipientSection(),
                     Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS);
             break;
         default:
@@ -97,7 +100,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         long feedbackResponseCommentId = getLongRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID);
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
@@ -106,10 +109,10 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     new EntityDoesNotExistException("Feedback response comment is not found"));
         }
 
-        String feedbackResponseId = frc.feedbackResponseId;
-        String courseId = frc.courseId;
+        String feedbackResponseId = frc.getFeedbackResponseId();
+        String courseId = frc.getCourseId();
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
-        Assumption.assertNotNull(response);
+        assert response != null;
 
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         String email;

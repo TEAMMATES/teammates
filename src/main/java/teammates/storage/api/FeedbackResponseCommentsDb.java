@@ -17,7 +17,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Logger;
 import teammates.storage.entity.FeedbackResponseComment;
 
@@ -27,9 +26,20 @@ import teammates.storage.entity.FeedbackResponseComment;
  * @see FeedbackResponseComment
  * @see FeedbackResponseCommentAttributes
  */
-public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
+public final class FeedbackResponseCommentsDb
+        extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
     private static final Logger log = Logger.getLogger();
+
+    private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
+
+    private FeedbackResponseCommentsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackResponseCommentsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a feedback response comment.
@@ -45,33 +55,19 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String feedbackResponseId, String commentGiver, Instant createdAt) {
-        Assumption.assertNotNull(feedbackResponseId);
-        Assumption.assertNotNull(commentGiver);
-        Assumption.assertNotNull(createdAt);
+        assert feedbackResponseId != null;
+        assert commentGiver != null;
+        assert createdAt != null;
 
         return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt));
-    }
-
-    /**
-     * Gets a feedback response comment by "fake" unique constraint course-createdAt-giver.
-     *
-     * <p>The method is only used in testing</p>
-     */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String courseId, Instant createdAt, String commentGiver) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(commentGiver);
-        Assumption.assertNotNull(createdAt);
-
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver));
     }
 
     /**
      * Gets all comments given by a user in a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String commentGiver) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(commentGiver);
+        assert courseId != null;
+        assert commentGiver != null;
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForGiverInCourse(courseId, commentGiver));
     }
@@ -80,7 +76,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Gets all response comments for a response.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponse(String feedbackResponseId) {
-        Assumption.assertNotNull(feedbackResponseId);
+        assert feedbackResponseId != null;
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForResponse(feedbackResponseId));
     }
@@ -94,7 +90,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseCommentForResponseFromParticipant(
             String feedbackResponseId) {
-        Assumption.assertNotNull(feedbackResponseId);
+        assert feedbackResponseId != null;
         return makeAttributesOrNull(getFeedbackResponseCommentEntitiesForResponseFromParticipant(feedbackResponseId));
     }
 
@@ -103,8 +99,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSession(
             String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForSession(courseId, feedbackSessionName));
     }
@@ -113,7 +109,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Gets all comments of a feedback question of a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForQuestion(String questionId) {
-        Assumption.assertNotNull(questionId);
+        assert questionId != null;
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForQuestion(questionId));
     }
@@ -123,9 +119,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForSessionInSection(
             String courseId, String feedbackSessionName, String section) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(section);
+        assert courseId != null;
+        assert feedbackSessionName != null;
+        assert section != null;
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForSessionInSection(courseId, feedbackSessionName, section));
     }
@@ -135,8 +131,8 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForQuestionInSection(
             String questionId, String section) {
-        Assumption.assertNotNull(questionId);
-        Assumption.assertNotNull(section);
+        assert questionId != null;
+        assert section != null;
 
         return makeAttributes(getFeedbackResponseCommentEntitiesForQuestionInSection(questionId, section));
     }
@@ -151,7 +147,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
     public FeedbackResponseCommentAttributes updateFeedbackResponseComment(
             FeedbackResponseCommentAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
         FeedbackResponseComment frc = getFeedbackResponseCommentEntity(updateOptions.getFeedbackResponseCommentId());
         if (frc == null) {
@@ -183,14 +179,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             return newAttributes;
         }
 
-        frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
-        frc.setCommentText(newAttributes.commentText);
-        frc.setShowCommentTo(newAttributes.showCommentTo);
-        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setLastEditorEmail(newAttributes.lastEditorEmail);
-        frc.setLastEditedAt(newAttributes.lastEditedAt);
-        frc.setGiverSection(newAttributes.giverSection);
-        frc.setReceiverSection(newAttributes.receiverSection);
+        frc.setFeedbackResponseId(newAttributes.getFeedbackResponseId());
+        frc.setCommentText(newAttributes.getCommentText());
+        frc.setShowCommentTo(newAttributes.getShowCommentTo());
+        frc.setShowGiverNameTo(newAttributes.getShowGiverNameTo());
+        frc.setLastEditorEmail(newAttributes.getLastEditorEmail());
+        frc.setLastEditedAt(newAttributes.getLastEditedAt());
+        frc.setGiverSection(newAttributes.getGiverSection());
+        frc.setReceiverSection(newAttributes.getReceiverSection());
 
         saveEntity(frc);
 
@@ -201,9 +197,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Updates the giver email to a new one for all comments in a course.
      */
     public void updateGiverEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(oldEmail);
-        Assumption.assertNotNull(updatedEmail);
+        assert courseId != null;
+        assert oldEmail != null;
+        assert updatedEmail != null;
 
         if (oldEmail.equals(updatedEmail)) {
             return;
@@ -223,9 +219,9 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Updates the last editor to a new one for all comments in a course.
      */
     public void updateLastEditorEmailOfFeedbackResponseComments(String courseId, String oldEmail, String updatedEmail) {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(oldEmail);
-        Assumption.assertNotNull(updatedEmail);
+        assert courseId != null;
+        assert oldEmail != null;
+        assert updatedEmail != null;
 
         if (oldEmail.equals(updatedEmail)) {
             return;
@@ -254,7 +250,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
      * Deletes comments using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(query);
+        assert query != null;
 
         Query<FeedbackResponseComment> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
@@ -270,17 +266,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             entitiesToDelete = entitiesToDelete.filter("feedbackResponseId =", query.getResponseId());
         }
 
-        List<Key<FeedbackResponseComment>> keysToDelete = entitiesToDelete.keys().list();
-
-        deleteEntity(keysToDelete.toArray(new Key<?>[0]));
-    }
-
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
-        return load()
-                .filter("courseId =", courseId)
-                .filter("createdAt =", createdAt)
-                .filter("giverEmail =", giverEmail)
-                .first().now();
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(long feedbackResponseCommentId) {
@@ -412,7 +398,7 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
 
     @Override
     FeedbackResponseCommentAttributes makeAttributes(FeedbackResponseComment entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return FeedbackResponseCommentAttributes.valueOf(entity);
     }

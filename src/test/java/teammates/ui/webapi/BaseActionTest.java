@@ -23,46 +23,53 @@ import teammates.common.datatransfer.UserInfo;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.JsonUtils;
-import teammates.test.BaseComponentTestCase;
+import teammates.logic.api.LogicExtension;
+import teammates.logic.api.MockEmailSender;
+import teammates.logic.api.MockFileStorage;
+import teammates.logic.api.MockLogsProcessor;
+import teammates.logic.api.MockRecaptchaVerifier;
+import teammates.logic.api.MockTaskQueuer;
+import teammates.logic.api.MockUserProvision;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
 import teammates.test.FileHelper;
-import teammates.test.MockEmailSender;
-import teammates.test.MockFileStorage;
-import teammates.test.MockLogsProcessor;
+import teammates.test.MockHttpServletRequest;
 import teammates.test.MockPart;
-import teammates.test.MockTaskQueuer;
-import teammates.test.MockUserProvision;
 import teammates.ui.request.BasicRequest;
 
 /**
  * Base class for all action tests.
  *
+ * <p>On top of having a local database, these tests require proxy services to be running (to be more precise, mocked).
+ *
  * @param <T> The action class being tested.
  */
-public abstract class BaseActionTest<T extends Action> extends BaseComponentTestCase {
+public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithLocalDatabaseAccess {
 
-    protected static final String GET = HttpGet.METHOD_NAME;
-    protected static final String POST = HttpPost.METHOD_NAME;
-    protected static final String PUT = HttpPut.METHOD_NAME;
-    protected static final String DELETE = HttpDelete.METHOD_NAME;
+    static final String GET = HttpGet.METHOD_NAME;
+    static final String POST = HttpPost.METHOD_NAME;
+    static final String PUT = HttpPut.METHOD_NAME;
+    static final String DELETE = HttpDelete.METHOD_NAME;
 
-    protected DataBundle typicalBundle = getTypicalDataBundle();
-    protected MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
-    protected MockEmailSender mockEmailSender = new MockEmailSender();
-    protected MockFileStorage mockFileStorage = new MockFileStorage();
-    protected MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
-    protected MockUserProvision mockUserProvision = new MockUserProvision();
+    DataBundle typicalBundle = getTypicalDataBundle();
+    LogicExtension logic = new LogicExtension();
+    MockTaskQueuer mockTaskQueuer = new MockTaskQueuer();
+    MockEmailSender mockEmailSender = new MockEmailSender();
+    MockFileStorage mockFileStorage = new MockFileStorage();
+    MockLogsProcessor mockLogsProcessor = new MockLogsProcessor();
+    MockUserProvision mockUserProvision = new MockUserProvision();
+    MockRecaptchaVerifier mockRecaptchaVerifier = new MockRecaptchaVerifier();
 
-    protected abstract String getActionUri();
+    abstract String getActionUri();
 
-    protected abstract String getRequestMethod();
+    abstract String getRequestMethod();
 
     /**
      * Gets an action with empty request body and empty multipart config.
@@ -81,12 +88,40 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     /**
      * Gets an action with request body and multipart config.
      */
-    @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
-        return (T) gaeSimulation.getActionObject(getActionUri(), getRequestMethod(), body, parts, cookies,
-                mockTaskQueuer, mockEmailSender, mockFileStorage, mockLogsProcessor, mockUserProvision, params);
+        MockHttpServletRequest req = new MockHttpServletRequest(getRequestMethod(), getActionUri());
+        for (int i = 0; i < params.length; i = i + 2) {
+            req.addParam(params[i], params[i + 1]);
+        }
+        if (body != null) {
+            req.setBody(body);
+        }
+        if (parts != null) {
+            parts.forEach((key, part) -> {
+                req.addPart(key, part);
+            });
+        }
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                req.addCookie(cookie);
+            }
+        }
+        try {
+            @SuppressWarnings("unchecked")
+            T action = (T) ActionFactory.getAction(req, getRequestMethod());
+            action.setTaskQueuer(mockTaskQueuer);
+            action.setEmailSender(mockEmailSender);
+            action.setFileStorage(mockFileStorage);
+            action.setLogsProcessor(mockLogsProcessor);
+            action.setUserProvision(mockUserProvision);
+            action.setRecaptchaVerifier(mockRecaptchaVerifier);
+            action.init(req);
+            return action;
+        } catch (ActionMappingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -111,12 +146,27 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         prepareTestData();
     }
 
+    /**
+     * Prepares the test data used for the current test.
+     */
     protected void prepareTestData() {
         removeAndRestoreTypicalDataBundle();
     }
 
+    /**
+     * Tests the {@link Action#execute()} method.
+     *
+     * <p>Some actions, particularly those with large number of different outcomes,
+     * can alternatively separate each test case to different test blocks.
+     */
     protected abstract void testExecute() throws Exception;
 
+    /**
+     * Tests the {@link Action#checkAccessControl()} method.
+     *
+     * <p>Some actions, particularly those with large number of different access control settings,
+     * can alternatively separate each test case to different test blocks.
+     */
     protected abstract void testAccessControl() throws Exception;
 
     /**
@@ -134,15 +184,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     // The next few methods are for logging in as various user
 
     /**
-     * Logs in the user to the GAE simulation environment as an admin.
+     * Logs in the user to the test environment as an admin.
      */
     protected void loginAsAdmin() {
-        UserInfo user = mockUserProvision.loginAsAdmin("admin.user");
+        UserInfo user = mockUserProvision.loginAsAdmin(Config.APP_ADMINS.get(0));
         assertTrue(user.isAdmin);
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as an unregistered user
+     * Logs in the user to the test environment as an unregistered user
      * (without any right).
      */
     protected void loginAsUnregistered(String userId) {
@@ -153,7 +203,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as an instructor
+     * Logs in the user to the test environment as an instructor
      * (without admin rights or student rights).
      */
     protected void loginAsInstructor(String userId) {
@@ -164,7 +214,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as a student
+     * Logs in the user to the test environment as a student
      * (without admin rights or instructor rights).
      */
     protected void loginAsStudent(String userId) {
@@ -175,7 +225,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs in the user to the GAE simulation environment as a student-instructor
+     * Logs in the user to the test environment as a student-instructor
      * (without admin rights).
      */
     protected void loginAsStudentInstructor(String userId) {
@@ -186,15 +236,23 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
     }
 
     /**
-     * Logs the current user out of the GAE simulation environment.
+     * Logs in the user to the test environment as a maintainer.
+     */
+    protected void loginAsMaintainer() {
+        UserInfo user = mockUserProvision.loginUser(Config.APP_MAINTAINERS.get(0));
+        assertTrue(user.isMaintainer);
+    }
+
+    /**
+     * Logs the current user out of the test environment.
      */
     protected void logoutUser() {
         mockUserProvision.logoutUser();
     }
 
-    protected void grantInstructorWithSectionPrivilege(
+    void grantInstructorWithSectionPrivilege(
             InstructorAttributes instructor, String privilege, String[] sections)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws Exception {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
         for (String section : sections) {
@@ -202,7 +260,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         }
 
         logic.updateInstructor(InstructorAttributes
-                .updateOptionsWithEmailBuilder(instructor.getCourseId(), instructor.email)
+                .updateOptionsWithEmailBuilder(instructor.getCourseId(), instructor.getEmail())
                 .withPrivileges(instructorPrivileges)
                 .build());
     }
@@ -211,19 +269,19 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     // 'High-level' access-control tests: here it tests access control of an action for the full range of user types.
 
-    protected void verifyAnyUserCanAccess(String... params) {
+    void verifyAnyUserCanAccess(String... params) {
         verifyAccessibleWithoutLogin(params);
         verifyAccessibleForUnregisteredUsers(params);
         verifyAccessibleForAdmin(params);
     }
 
-    protected void verifyAnyLoggedInUserCanAccess(String... params) {
+    void verifyAnyLoggedInUserCanAccess(String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyAccessibleForUnregisteredUsers(params);
         verifyAccessibleForAdmin(params);
     }
 
-    protected void verifyOnlyAdminCanAccess(String... params) {
+    void verifyOnlyAdminCanAccess(String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(params);
@@ -231,7 +289,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyAccessibleForAdmin(params);
     }
 
-    protected void verifyOnlyInstructorsCanAccess(String... params) {
+    void verifyOnlyInstructorsCanAccess(String... params) {
         verifyInaccessibleWithoutLogin(params);
         verifyInaccessibleForUnregisteredUsers(params);
         verifyInaccessibleForStudents(params);
@@ -240,7 +298,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyAccessibleForAdminToMasqueradeAsInstructor(params);
     }
 
-    protected void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
+    void verifyOnlyInstructorsOfTheSameCourseCanAccess(String[] submissionParams) {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
@@ -249,9 +307,9 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyAccessibleForAdminToMasqueradeAsInstructor(submissionParams);
     }
 
-    protected void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
+    void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
             String privilege, String[] submissionParams)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws Exception {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
@@ -261,7 +319,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     // 'Mid-level' access control tests: here it tests access control of an action for one user type.
 
-    protected void verifyAccessibleWithoutLogin(String... params) {
+    void verifyAccessibleWithoutLogin(String... params) {
 
         ______TS("Non-logged-in users can access");
 
@@ -270,7 +328,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyInaccessibleWithoutLogin(String... params) {
+    void verifyInaccessibleWithoutLogin(String... params) {
 
         ______TS("Non-logged-in users cannot access");
 
@@ -279,7 +337,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyAccessibleForUnregisteredUsers(String... params) {
+    void verifyAccessibleForUnregisteredUsers(String... params) {
 
         ______TS("Non-registered users can access");
 
@@ -289,7 +347,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyInaccessibleForUnregisteredUsers(String... params) {
+    void verifyInaccessibleForUnregisteredUsers(String... params) {
 
         ______TS("Non-registered users cannot access");
 
@@ -299,7 +357,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyAccessibleForAdmin(String... params) {
+    void verifyAccessibleForAdmin(String... params) {
 
         ______TS("Admin can access");
 
@@ -308,7 +366,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyInaccessibleForAdmin(String... params) {
+    void verifyInaccessibleForAdmin(String... params) {
 
         ______TS("Admin cannot access");
 
@@ -317,39 +375,39 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
     }
 
-    protected void verifyInaccessibleForStudents(String... params) {
+    void verifyInaccessibleForStudents(String... params) {
 
         ______TS("Students cannot access");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(params);
 
     }
 
-    protected void verifyInaccessibleForInstructors(String... params) {
+    void verifyInaccessibleForInstructors(String... params) {
 
         ______TS("Instructors cannot access");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCannotAccess(params);
 
     }
 
-    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(
+    void verifyAccessibleForAdminToMasqueradeAsInstructor(
             InstructorAttributes instructor, String[] submissionParams) {
 
         ______TS("admin can access");
 
         loginAsAdmin();
         //not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor.googleId, submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
-    protected void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
+    void verifyAccessibleForAdminToMasqueradeAsInstructor(String[] submissionParams) {
 
         ______TS("admin can access");
 
@@ -357,38 +415,36 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         loginAsAdmin();
         //not checking for non-masquerade mode because admin may not be an instructor
-        verifyCanMasquerade(instructor1OfCourse1.googleId, submissionParams);
+        verifyCanMasquerade(instructor1OfCourse1.getGoogleId(), submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
+    void verifyInaccessibleWithoutModifySessionPrivilege(String[] submissionParams) {
 
         ______TS("without Modify-Session privilege cannot access");
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
+    void verifyInaccessibleWithoutSubmitSessionInSectionsPrivilege(String[] submissionParams) {
 
         ______TS("without Submit-Session-In-Sections privilege cannot access");
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleWithoutCorrectCoursePrivilege(
-            String privilege, String[] submissionParams)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    void verifyInaccessibleWithoutCorrectCoursePrivilege(String privilege, String[] submissionParams) throws Exception {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
         ______TS("without correct course privilege cannot access");
 
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         ______TS("only instructor with correct course privilege should pass");
@@ -396,7 +452,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
 
         instructorPrivileges.updatePrivilege(privilege, true);
         logic.updateInstructor(InstructorAttributes
-                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.email)
+                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.getEmail())
                 .withPrivileges(instructorPrivileges)
                 .build());
 
@@ -404,12 +460,12 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         verifyAccessibleForAdminToMasqueradeAsInstructor(helperOfCourse1, submissionParams);
 
         logic.updateInstructor(InstructorAttributes
-                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.email)
+                .updateOptionsWithEmailBuilder(course.getId(), helperOfCourse1.getEmail())
                 .withPrivileges(new InstructorPrivileges())
                 .build());
     }
 
-    protected void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
+    void verifyAccessibleForInstructorsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course instructor can access");
 
@@ -417,15 +473,15 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
-        verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
+        verifyCannotMasquerade(student1InCourse1.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
 
     }
 
-    protected void verifyAccessibleForInstructorsOfOtherCourse(String[] submissionParams) {
+    void verifyAccessibleForInstructorsOfOtherCourse(String[] submissionParams) {
 
         ______TS("other course's instructor can access");
 
@@ -433,40 +489,48 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1OfCourse2.googleId);
+        loginAsInstructor(instructor1OfCourse2.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCannotMasquerade(student1InCourse1.googleId, submissionParams);
-        verifyCannotMasquerade(otherInstructor.googleId, submissionParams);
+        verifyCannotMasquerade(student1InCourse1.getGoogleId(), submissionParams);
+        verifyCannotMasquerade(otherInstructor.getGoogleId(), submissionParams);
     }
 
-    protected void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
+    void verifyAccessibleForStudentsOfTheSameCourse(String[] submissionParams) {
 
         ______TS("course students can access");
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleForStudentsOfOtherCourse(String[] submissionParams) {
+    void verifyInaccessibleForStudentsOfOtherCourse(String[] submissionParams) {
 
         ______TS("other course student cannot access");
 
         StudentAttributes otherStudent = typicalBundle.students.get("student1InCourse2");
 
-        loginAsStudent(otherStudent.googleId);
+        loginAsStudent(otherStudent.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 
-    protected void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
+    void verifyInaccessibleForInstructorsOfOtherCourses(String[] submissionParams) {
 
         ______TS("other course instructor cannot access");
 
         InstructorAttributes otherInstructor = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsInstructor(otherInstructor.googleId);
+        loginAsInstructor(otherInstructor.getGoogleId());
         verifyCannotAccess(submissionParams);
+    }
+
+    void verifyAccessibleForMaintainers(String... params) {
+
+        ______TS("Maintainer can access");
+
+        loginAsMaintainer();
+        verifyCanAccess(params);
     }
 
     // 'Low-level' access control tests: here it tests an action once with the given parameters.
@@ -540,43 +604,70 @@ public abstract class BaseActionTest<T extends Action> extends BaseComponentTest
         assertThrows(InvalidHttpParameterException.class, c::execute);
     }
 
+    /**
+     * Verifies that the executed action does not result in any background task being added.
+     */
     protected void verifyNoTasksAdded() {
         Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(0, tasksAdded.keySet().size());
     }
 
+    /**
+     * Verifies that the executed action results in the specified background tasks being added.
+     */
     protected void verifySpecifiedTasksAdded(String taskName, int taskCount) {
         Map<String, Integer> tasksAdded = mockTaskQueuer.getNumberOfTasksAdded();
         assertEquals(taskCount, tasksAdded.get(taskName).intValue());
     }
 
+    /**
+     * Verifies that the executed action does not result in any email being sent.
+     */
     protected void verifyNoEmailsSent() {
         assertTrue(getEmailsSent().isEmpty());
     }
 
+    /**
+     * Returns the list of emails sent as part of the executed action.
+     */
     protected List<EmailWrapper> getEmailsSent() {
         return mockEmailSender.getEmailsSent();
     }
 
+    /**
+     * Verifies that the executed action results in the specified number of emails being sent.
+     */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
     }
 
+    /**
+     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
+     */
     protected void verifyEntityNotFound(String... params) {
         Action c = getAction(params);
         assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
+    /**
+     * Writes a file into the mock file storage.
+     */
     protected void writeFileToStorage(String targetFileName, String sourceFilePath) throws IOException {
         byte[] bytes = FileHelper.readFileAsBytes(sourceFilePath);
         String contentType = URLConnection.guessContentTypeFromName(sourceFilePath);
         mockFileStorage.create(targetFileName, bytes, contentType);
     }
 
+    /**
+     * Deletes a file from the mock file storage.
+     */
     protected void deleteFile(String fileName) {
         mockFileStorage.delete(fileName);
     }
 
+    /**
+     * Returns true if the specified file exists in the mock file storage.
+     */
     protected boolean doesFileExist(String fileName) {
         return mockFileStorage.doesFileExist(fileName);
     }

@@ -26,7 +26,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes sessionPublishedInCourse1 = typicalBundle.feedbackSessions.get("closedSession");
@@ -84,7 +84,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("non-existent course");
 

@@ -25,9 +25,9 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
     @Test
     public void testExecute() throws Exception {
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
-        loginAsStudent(student1.googleId);
+        loginAsStudent(student1.getGoogleId());
 
-        deleteFile(student1.googleId);
+        deleteFile(student1.getGoogleId());
 
         ______TS("Typical case: upload profile picture operation successful");
 
@@ -36,7 +36,7 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
         JsonResult result = getJsonResult(action);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertTrue(doesFileExist(student1.googleId));
+        assertTrue(doesFileExist(student1.getGoogleId()));
 
         ______TS("Typical case: profile picture is null");
 
@@ -60,12 +60,12 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
 
         assertThrows(InvalidHttpRequestBodyException.class, () -> invalidProfilePicAction.execute());
 
-        deleteFile(student1.googleId);
+        deleteFile(student1.getGoogleId());
     }
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
     }

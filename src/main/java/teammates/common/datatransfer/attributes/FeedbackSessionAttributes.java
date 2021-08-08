@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackSession;
 
+/**
+ * The data transfer object for {@link FeedbackSession} entities.
+ */
 public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession> {
 
     private String feedbackSessionName;
@@ -52,6 +54,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
 
     }
 
+    /**
+     * Gets the {@link FeedbackSessionAttributes} instance of the given {@link FeedbackSession}.
+     */
     public static FeedbackSessionAttributes valueOf(FeedbackSession fs) {
         FeedbackSessionAttributes feedbackSessionAttributes =
                 new FeedbackSessionAttributes(fs.getFeedbackSessionName(), fs.getCourseId());
@@ -86,6 +91,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return new Builder(feedbackSessionName, courseId);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public FeedbackSessionAttributes getCopy() {
         return valueOf(toEntity());
     }
@@ -98,6 +106,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return feedbackSessionName;
     }
 
+    /**
+     * Gets the instructions of the feedback session.
+     */
     public String getInstructionsString() {
         if (instructions == null) {
             return null;
@@ -180,10 +191,16 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return errors;
     }
 
+    /**
+     * Returns true if the feedback session is closed after the number of specified hours.
+     */
     public boolean isClosedAfter(long hours) {
         return Instant.now().plus(Duration.ofHours(hours)).isAfter(endTime);
     }
 
+    /**
+     * Returns true if the feedback session is closing (almost closed) after the number of specified hours.
+     */
     public boolean isClosingWithinTimeLimit(long hours) {
         Instant now = Instant.now();
         Duration difference = Duration.between(now, endTime);
@@ -274,6 +291,9 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.isAfter(publishTime) || now.equals(publishTime);
     }
 
+    /**
+     * Returns true if the given email is the same as the creator email of the feedback session.
+     */
     public boolean isCreator(String instructorEmail) {
         return creatorEmail.equals(instructorEmail);
     }
@@ -520,7 +540,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public Builder withCreatorEmail(String creatorEmail) {
-            Assumption.assertNotNull(creatorEmail);
+            assert creatorEmail != null;
 
             feedbackSessionAttributes.creatorEmail = creatorEmail;
 
@@ -557,8 +577,8 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Boolean> isPublishedEmailEnabledOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackSessionName, String courseId) {
-            Assumption.assertNotNull(feedbackSessionName);
-            Assumption.assertNotNull(courseId);
+            assert feedbackSessionName != null;
+            assert courseId != null;
 
             this.feedbackSessionName = feedbackSessionName;
             this.courseId = courseId;
@@ -594,35 +614,13 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         /**
-         * Represents the change of email for an(a) instructor/student.
-         */
-        private static class EmailChange {
-
-            private String oldEmail;
-            private String newEmail;
-
-            private EmailChange(String oldEmail, String newEmail) {
-                this.oldEmail = oldEmail;
-                this.newEmail = newEmail;
-            }
-
-            private String getOldEmail() {
-                return oldEmail;
-            }
-
-            private String getNewEmail() {
-                return newEmail;
-            }
-        }
-
-        /**
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
             private Builder(UpdateOptions updateOptions) {
                 super(updateOptions);
-                Assumption.assertNotNull(updateOptions);
+                assert updateOptions != null;
                 thisBuilder = this;
             }
 
@@ -676,49 +674,49 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         public B withInstructions(String instruction) {
-            Assumption.assertNotNull(instruction);
+            assert instruction != null;
 
             updateOptions.instructionsOption = UpdateOption.of(instruction);
             return thisBuilder;
         }
 
         public B withStartTime(Instant startTime) {
-            Assumption.assertNotNull(startTime);
+            assert startTime != null;
 
             updateOptions.startTimeOption = UpdateOption.of(startTime);
             return thisBuilder;
         }
 
         public B withEndTime(Instant endTime) {
-            Assumption.assertNotNull(endTime);
+            assert endTime != null;
 
             updateOptions.endTimeOption = UpdateOption.of(endTime);
             return thisBuilder;
         }
 
         public B withSessionVisibleFromTime(Instant sessionVisibleFromTime) {
-            Assumption.assertNotNull(sessionVisibleFromTime);
+            assert sessionVisibleFromTime != null;
 
             updateOptions.sessionVisibleFromTimeOption = UpdateOption.of(sessionVisibleFromTime);
             return thisBuilder;
         }
 
         public B withResultsVisibleFromTime(Instant resultsVisibleFromTime) {
-            Assumption.assertNotNull(resultsVisibleFromTime);
+            assert resultsVisibleFromTime != null;
 
             updateOptions.resultsVisibleFromTimeOption = UpdateOption.of(resultsVisibleFromTime);
             return thisBuilder;
         }
 
         public B withTimeZone(ZoneId timeZone) {
-            Assumption.assertNotNull(timeZone);
+            assert timeZone != null;
 
             updateOptions.timeZoneOption = UpdateOption.of(timeZone);
             return thisBuilder;
         }
 
         public B withGracePeriod(Duration gracePeriod) {
-            Assumption.assertNotNull(gracePeriod);
+            assert gracePeriod != null;
 
             updateOptions.gracePeriodOption = UpdateOption.of(gracePeriod);
             return thisBuilder;

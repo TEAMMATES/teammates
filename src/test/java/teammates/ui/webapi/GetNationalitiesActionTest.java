@@ -24,7 +24,7 @@ public class GetNationalitiesActionTest extends BaseActionTest<GetNationalitiesA
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         ______TS("List of nationalities fetched matches the list stored in the server");
         GetNationalitiesAction action = getAction();
         JsonResult result = getJsonResult(action);
@@ -37,7 +37,7 @@ public class GetNationalitiesActionTest extends BaseActionTest<GetNationalitiesA
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyAnyUserCanAccess();
     }
 }

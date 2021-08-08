@@ -23,9 +23,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
 import teammates.e2e.util.TestProperties;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE}.
@@ -71,7 +71,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageE2ETest.json");
         studentToEmail = testData.students.get("Emily");
-        studentToEmail.email = TestProperties.TEST_EMAIL;
+        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("tm.e2e.IFRes.instr");
@@ -90,7 +90,6 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session");
 
         resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withUserId(instructor.getGoogleId())
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
@@ -126,7 +125,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void testQuestionView() {
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        logout();
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("Question view: no missing responses");
         resultsPage.includeMissingResponses(false);
@@ -162,7 +162,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void testGrqView() {
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        logout();
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("GRQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -196,7 +197,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void testRgqView() {
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        logout();
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("RGQ view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -231,7 +233,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void testGqrView() {
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        logout();
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("GQR view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -274,7 +277,8 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void testRqgView() {
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        logout();
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("RQG view: no missing responses");
         boolean isGroupedByTeam = true;
@@ -316,14 +320,15 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Test
     public void testActions() {
+        logout();
+
         CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2103");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session 2");
 
         AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
-                .withUserId(instructor.getGoogleId())
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        resultsPage = loginAdminToPage(resultsUrl, InstructorFeedbackResultsPage.class);
+        resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded session details");
         resultsPage.verifySessionDetails(feedbackSession);

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.FeedbackVisibilityType;
@@ -72,7 +71,6 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         FeedbackQuestionDetails details =
                 JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), questionType.getQuestionDetailsClass());
         details.setQuestionText(questionBrief);
-        // TODO remove this after migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
         if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
                 || questionType == FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
             details.setQuestionType(FeedbackQuestionType.CONSTSUM);
@@ -98,8 +96,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         case UNLIMITED:
             return Const.MAX_POSSIBLE_RECIPIENTS;
         default:
-            Assumption.fail("Unknown numberOfEntitiesToGiveFeedbackToSetting"
-                    + numberOfEntitiesToGiveFeedbackToSetting);
+            assert false : "Unknown numberOfEntitiesToGiveFeedbackToSetting: " + numberOfEntitiesToGiveFeedbackToSetting;
             break;
         }
         return 0;
@@ -152,7 +149,7 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
             case RECIPIENT_TEAM_MEMBERS:
                 return FeedbackParticipantType.RECEIVER_TEAM_MEMBERS;
             default:
-                Assumption.fail("Unknown feedbackVisibilityType" + feedbackVisibilityType);
+                assert false : "Unknown feedbackVisibilityType" + feedbackVisibilityType;
                 break;
             }
             return null;

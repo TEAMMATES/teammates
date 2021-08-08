@@ -10,30 +10,31 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
+/**
+ * The data transfer object for {@link FeedbackQuestion} entities.
+ */
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 
-    public String feedbackSessionName;
-    public String courseId;
-    public FeedbackQuestionDetails questionDetails;
-    public String questionDescription;
-    public int questionNumber;
-    public FeedbackParticipantType giverType;
-    public FeedbackParticipantType recipientType;
-    public int numberOfEntitiesToGiveFeedbackTo;
-    public List<FeedbackParticipantType> showResponsesTo;
-    public List<FeedbackParticipantType> showGiverNameTo;
-    public List<FeedbackParticipantType> showRecipientNameTo;
+    private String feedbackSessionName;
+    private String courseId;
+    private FeedbackQuestionDetails questionDetails;
+    private String questionDescription;
+    private int questionNumber;
+    private FeedbackParticipantType giverType;
+    private FeedbackParticipantType recipientType;
+    private int numberOfEntitiesToGiveFeedbackTo;
+    private List<FeedbackParticipantType> showResponsesTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
+    private List<FeedbackParticipantType> showRecipientNameTo;
     private transient Instant createdAt;
     private transient Instant updatedAt;
-
-    private String feedbackQuestionId;
+    private transient String feedbackQuestionId;
 
     private FeedbackQuestionAttributes() {
         this.showResponsesTo = new ArrayList<>();
@@ -48,6 +49,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return new Builder();
     }
 
+    /**
+     * Gets the {@link FeedbackQuestionAttributes} instance of the given {@link FeedbackQuestion}.
+     */
     public static FeedbackQuestionAttributes valueOf(FeedbackQuestion fq) {
         FeedbackQuestionAttributes faq = new FeedbackQuestionAttributes();
 
@@ -102,12 +106,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public FeedbackQuestionAttributes getCopy() {
         FeedbackQuestionAttributes faq = new FeedbackQuestionAttributes();
 
         faq.feedbackSessionName = this.feedbackSessionName;
         faq.courseId = this.courseId;
-        faq.questionDetails = this.getQuestionDetails();
+        faq.questionDetails = this.getQuestionDetailsCopy();
         faq.questionDescription = this.questionDescription;
         faq.questionNumber = this.questionNumber;
         faq.giverType = this.giverType;
@@ -160,6 +167,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return getInvalidityInfo().isEmpty();
     }
 
+    /**
+     * Returns true if the response is visible to the given participant type.
+     */
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }
@@ -175,7 +185,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             return true;
         }
 
-        return this.getQuestionDetails().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetails());
+        return this.getQuestionDetailsCopy().shouldChangesRequireResponseDeletion(newAttributes.getQuestionDetailsCopy());
     }
 
     @Override
@@ -316,6 +326,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return true;
     }
 
+    /**
+     * Removes irrelevant/extraneous response visibility option settings from the question.
+     */
     public void removeIrrelevantVisibilityOptions() {
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<>();
 
@@ -347,10 +360,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             }
         }
 
-        removeVisibilities(optionsToRemove);
-    }
-
-    private void removeVisibilities(List<FeedbackParticipantType> optionsToRemove) {
         if (showRecipientNameTo != null) {
             showResponsesTo.removeAll(optionsToRemove);
         }
@@ -369,11 +378,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.questionDescription = SanitizationHelper.sanitizeForRichText(this.questionDescription);
     }
 
+    public FeedbackQuestionDetails getQuestionDetails() {
+        return questionDetails;
+    }
+
     public void setQuestionDetails(FeedbackQuestionDetails newQuestionDetails) {
         this.questionDetails = newQuestionDetails.getDeepCopy();
     }
 
-    public FeedbackQuestionDetails getQuestionDetails() {
+    public FeedbackQuestionDetails getQuestionDetailsCopy() {
         return questionDetails.getDeepCopy();
     }
 
@@ -389,8 +402,16 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return feedbackSessionName;
     }
 
+    public void setFeedbackSessionName(String feedbackSessionName) {
+        this.feedbackSessionName = feedbackSessionName;
+    }
+
     public String getCourseId() {
         return courseId;
+    }
+
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public String getQuestionDescription() {
@@ -518,14 +539,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(feedbackSessionName);
+            assert feedbackSessionName != null;
 
             feedbackQuestionAttributes.feedbackSessionName = feedbackSessionName;
             return this;
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(courseId);
+            assert courseId != null;
 
             feedbackQuestionAttributes.courseId = courseId;
             return this;
@@ -557,7 +578,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         private UpdateOption<List<FeedbackParticipantType>> showRecipientNameToOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackQuestionId) {
-            Assumption.assertNotNull(feedbackQuestionId);
+            assert feedbackQuestionId != null;
 
             this.feedbackQuestionId = feedbackQuestionId;
         }
@@ -617,7 +638,7 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withQuestionDetails(FeedbackQuestionDetails questionDetails) {
-            Assumption.assertNotNull(questionDetails);
+            assert questionDetails != null;
 
             updateOptions.questionDetailsOption = UpdateOption.of(questionDetails.getDeepCopy());
             return thisBuilder;
@@ -636,14 +657,14 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withGiverType(FeedbackParticipantType giverType) {
-            Assumption.assertNotNull(giverType);
+            assert giverType != null;
 
             updateOptions.giverTypeOption = UpdateOption.of(giverType);
             return thisBuilder;
         }
 
         public B withRecipientType(FeedbackParticipantType recipientType) {
-            Assumption.assertNotNull(recipientType);
+            assert recipientType != null;
 
             updateOptions.recipientTypeOption = UpdateOption.of(recipientType);
             return thisBuilder;
@@ -655,24 +676,24 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         }
 
         public B withShowResponsesTo(List<FeedbackParticipantType> showResponsesTo) {
-            Assumption.assertNotNull(showResponsesTo);
-            Assumption.assertNotNull((Object[]) showResponsesTo.toArray());
+            assert showResponsesTo != null;
+            assert !showResponsesTo.contains(null);
 
             updateOptions.showResponsesToOption = UpdateOption.of(new ArrayList<>(showResponsesTo));
             return thisBuilder;
         }
 
         public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            Assumption.assertNotNull(showGiverNameTo);
-            Assumption.assertNotNull((Object[]) showGiverNameTo.toArray());
+            assert showGiverNameTo != null;
+            assert !showGiverNameTo.contains(null);
 
             updateOptions.showGiverNameToOption = UpdateOption.of(new ArrayList<>(showGiverNameTo));
             return thisBuilder;
         }
 
         public B withShowRecipientNameTo(List<FeedbackParticipantType> showRecipientNameTo) {
-            Assumption.assertNotNull(showRecipientNameTo);
-            Assumption.assertNotNull((Object[]) showRecipientNameTo.toArray());
+            assert showRecipientNameTo != null;
+            assert !showRecipientNameTo.contains(null);
 
             updateOptions.showRecipientNameToOption = UpdateOption.of(new ArrayList<>(showRecipientNameTo));
             return thisBuilder;

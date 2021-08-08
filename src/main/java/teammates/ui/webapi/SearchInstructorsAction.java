@@ -5,6 +5,7 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.InstructorData;
@@ -19,16 +20,21 @@ class SearchInstructorsAction extends AdminOnlyAction {
         if (googleId != null) {
             AccountAttributes account = logic.getAccount(googleId);
             if (account != null) {
-                return StringHelper.isEmpty(account.institute) ? "None" : account.institute;
+                return StringHelper.isEmpty(account.getInstitute()) ? "None" : account.getInstitute();
             }
         }
         return null;
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String searchKey = getNonNullRequestParamValue(Const.ParamsNames.SEARCH_KEY);
-        List<InstructorAttributes> instructors = logic.searchInstructorsInWholeSystem(searchKey).instructorList;
+        List<InstructorAttributes> instructors;
+        try {
+            instructors = logic.searchInstructorsInWholeSystem(searchKey);
+        } catch (SearchServiceException e) {
+            return new JsonResult(e.getMessage(), e.getStatusCode());
+        }
 
         List<InstructorData> instructorDataList = new ArrayList<>();
         for (InstructorAttributes instructor : instructors) {

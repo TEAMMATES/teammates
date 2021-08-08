@@ -44,8 +44,8 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
-        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE).withUserId(instructor.googleId);
-        InstructorAuditLogsPage auditLogsPage = loginAdminToPage(url, InstructorAuditLogsPage.class);
+        AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_AUDIT_LOGS_PAGE);
+        InstructorAuditLogsPage auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
 
         ______TS("verify default datetime");
         String currentLogsFromDate = auditLogsPage.getLogsFromDate();
@@ -72,19 +72,20 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         }
 
         ______TS("verify logs output");
+        logout();
         AppUrl studentSubmissionPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
-                .withUserId(student.googleId)
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        StudentFeedbackSubmissionPage studentSubmissionPage = loginAdminToPage(studentSubmissionPageUrl,
-                StudentFeedbackSubmissionPage.class);
+        StudentFeedbackSubmissionPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
+                StudentFeedbackSubmissionPage.class, student.getGoogleId());
         studentSubmissionPage.populateResponse();
         studentSubmissionPage.submit();
 
-        auditLogsPage = loginAdminToPage(url, InstructorAuditLogsPage.class);
+        logout();
+        auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
         auditLogsPage.setCourseId(course.getId());
         auditLogsPage.startSearching();
 
-        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.feedbackSessionName));
+        assertTrue(auditLogsPage.isLogPresentForSession(feedbackQuestion.getFeedbackSessionName()));
     }
 }

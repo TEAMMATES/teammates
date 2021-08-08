@@ -21,6 +21,9 @@ import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 
+/**
+ * Contains specific structure and processing logic for contribution feedback questions.
+ */
 public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails {
 
     static final String QUESTION_TYPE_NAME = "Team contribution question";
@@ -201,12 +204,12 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
             List<FeedbackResponseAttributes> teamResponseList = teamResponses.get(team);
             List<String> memberEmailList = teamMembersEmail.get(team);
             for (FeedbackResponseAttributes response : teamResponseList) {
-                int giverIndx = memberEmailList.indexOf(response.giver);
-                int recipientIndx = memberEmailList.indexOf(response.recipient);
+                int giverIndx = memberEmailList.indexOf(response.getGiver());
+                int recipientIndx = memberEmailList.indexOf(response.getRecipient());
                 if (giverIndx == -1 || recipientIndx == -1) {
                     continue;
                 }
-                int points = ((FeedbackContributionResponseDetails) response.getResponseDetails()).getAnswer();
+                int points = ((FeedbackContributionResponseDetails) response.getResponseDetailsCopy()).getAnswer();
                 teamSubmissionArray.get(team)[giverIndx][recipientIndx] = points;
             }
         }
@@ -286,35 +289,35 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         String errorMsg = "";
 
         // giver type can only be STUDENTS
-        if (feedbackQuestionAttributes.giverType != FeedbackParticipantType.STUDENTS) {
-            log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.giverType
+        if (feedbackQuestionAttributes.getGiverType() != FeedbackParticipantType.STUDENTS) {
+            log.severe("Unexpected giverType for contribution question: " + feedbackQuestionAttributes.getGiverType()
                        + " (forced to :" + FeedbackParticipantType.STUDENTS + ")");
-            feedbackQuestionAttributes.giverType = FeedbackParticipantType.STUDENTS;
+            feedbackQuestionAttributes.setGiverType(FeedbackParticipantType.STUDENTS);
             errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
 
         // recipient type can only be OWN_TEAM_MEMBERS_INCLUDING_SELF
-        if (feedbackQuestionAttributes.recipientType != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
+        if (feedbackQuestionAttributes.getRecipientType() != FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF) {
             log.severe("Unexpected recipientType for contribution question: "
-                       + feedbackQuestionAttributes.recipientType
+                       + feedbackQuestionAttributes.getRecipientType()
                        + " (forced to :" + FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF + ")");
-            feedbackQuestionAttributes.recipientType = FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+            feedbackQuestionAttributes.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF);
             errorMsg = CONTRIB_ERROR_INVALID_FEEDBACK_PATH;
         }
 
         // restrictions on visibility options
-        if (!(feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                && feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                == feedbackQuestionAttributes.showResponsesTo.contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
+        if (!(feedbackQuestionAttributes.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER)
+                == feedbackQuestionAttributes.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                && feedbackQuestionAttributes.getShowResponsesTo().contains(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
+                == feedbackQuestionAttributes.getShowResponsesTo().contains(FeedbackParticipantType.OWN_TEAM_MEMBERS))) {
             log.severe("Unexpected showResponsesTo for contribution question: "
-                       + feedbackQuestionAttributes.showResponsesTo + " (forced to :"
+                       + feedbackQuestionAttributes.getShowResponsesTo() + " (forced to :"
                        + "Shown anonymously to recipient and team members, visible to instructors"
                        + ")");
-            feedbackQuestionAttributes.showResponsesTo = Arrays.asList(FeedbackParticipantType.RECEIVER,
+            feedbackQuestionAttributes.setShowResponsesTo(Arrays.asList(FeedbackParticipantType.RECEIVER,
                                                                        FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                                                                        FeedbackParticipantType.OWN_TEAM_MEMBERS,
-                                                                       FeedbackParticipantType.INSTRUCTORS);
+                                                                       FeedbackParticipantType.INSTRUCTORS));
             errorMsg = CONTRIB_ERROR_INVALID_VISIBILITY_OPTIONS;
         }
 
@@ -339,19 +342,29 @@ public class FeedbackContributionQuestionDetails extends FeedbackQuestionDetails
         isNotSureAllowed = notSureAllowed;
     }
 
+    /**
+     * Represents a list of participants to their question statistics for one contribution question.
+     */
     public static class ContributionStatistics {
-        public final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
+        private final Map<String, ContributionStatisticsEntry> results = new HashMap<>();
 
         public Map<String, ContributionStatisticsEntry> getResults() {
             return results;
         }
     }
 
+    /**
+     * Represents the statistics of one feedback participant in one contribution question.
+     *
+     * <p>This class is a container for some representative values from {@link TeamEvalResult}.
+     *
+     * @see TeamEvalResult
+     */
     public static class ContributionStatisticsEntry {
-        public final int claimed;
-        public final int perceived;
-        public final Map<String, Integer> claimedOthers;
-        public final int[] perceivedOthers;
+        private final int claimed;
+        private final int perceived;
+        private final Map<String, Integer> claimedOthers;
+        private final int[] perceivedOthers;
 
         public ContributionStatisticsEntry(int claimed, int perceived, Map<String, Integer> claimedOthers,
                                            int[] perceivedOthers) {

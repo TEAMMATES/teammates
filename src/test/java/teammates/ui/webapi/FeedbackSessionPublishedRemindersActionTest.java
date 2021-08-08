@@ -24,7 +24,7 @@ public class FeedbackSessionPublishedRemindersActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
@@ -52,7 +52,7 @@ public class FeedbackSessionPublishedRemindersActionTest
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
                         .withResultsVisibleFromTime(session1.getResultsVisibleFromTime())
                         .build());
-        verifyPresentInDatastore(session1);
+        verifyPresentInDatabase(session1);
 
         // Publish session by moving automated publish time and disable publish reminder
 
@@ -65,7 +65,7 @@ public class FeedbackSessionPublishedRemindersActionTest
                         .withResultsVisibleFromTime(session2.getResultsVisibleFromTime())
                         .withIsPublishedEmailEnabled(session2.isPublishedEmailEnabled())
                         .build());
-        verifyPresentInDatastore(session2);
+        verifyPresentInDatabase(session2);
 
         // Do a manual publish
 
@@ -79,7 +79,7 @@ public class FeedbackSessionPublishedRemindersActionTest
         session3.setResultsVisibleFromTime(
                 logic.getFeedbackSession(session3.getFeedbackSessionName(), session3.getCourseId())
                         .getResultsVisibleFromTime());
-        verifyPresentInDatastore(session3);
+        verifyPresentInDatabase(session3);
 
         action = getAction();
         action.execute();

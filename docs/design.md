@@ -92,8 +92,8 @@ This type of request will be processed as follows:
 1. Request forwarded to the `WebApiServlet` and subsequent actions are the same as user-invoked AJAX requests.
 
 GAE server sends such automated requests through two different configurations:
-- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opening reminders. It is configured in `cron.xml`.
-- Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by GAE (i.e. GAE determines when and which tasks in the queue are executed at any point of time). This is typically used for tasks that may take a long time to finish and can exceed the 1 minute standard request processing limit imposed by GAE. It is configured in `queue.xml` as well as the `TaskQueue` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
+- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opening reminders. It is configured in `cron.yaml`.
+- Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by GAE (i.e. GAE determines when and which tasks in the queue are executed at any point of time). This is typically used for tasks that may take a long time to finish and might be blocking user's interaction. It is configured in `queue.yaml` as well as the `TaskQueue` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 
 ### Template Method pattern
 
@@ -119,7 +119,7 @@ On designing API endpoints (for AJAX requests):
   - Some fields are required be hidden in the API response, mostly for data privacy purposes. Whenever required, there should be methods in the request output objects catered for this.
 - API endpoints should not be concerned with how data is presented.
   - Case study 1: some endpoint will pass timezone information via two information: timezone ID and UNIX epoch milliseconds. It is up to the front-end on how to make use of those two pieces of information.
-  - Case study 2: CSV file for session result or student list is just a different way of presenting the same information in the web page. Due to this, when downloding CSV, the web page will request the same information as that used when displaying in web page and do the necessary conversion to CSV.
+  - Case study 2: CSV file for session result or student list is just a different way of presenting the same information in the web page. Due to this, when downloading CSV, the web page will request the same information as that used when displaying in web page and do the necessary conversion to CSV.
 
 On data exchange between front-end and back-end:
 
@@ -133,7 +133,7 @@ The `Logic` component handles the business logic of TEAMMATES. In particular, it
 - Managing relationships between entities, e.g. cascade logic for create/update/delete.
 - Managing transactions, e.g. ensuring atomicity of a transaction.
 - Sanitizing input values received from the UI component.
-- Connecting to GAE-provided or third-party APIs, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
+- Connecting to GCP or third-party services, e.g. for adding tasks to the task queue and for sending emails with third-party providers.
 
 ![Logic Component](images/LogicComponent.png)
 
@@ -185,7 +185,7 @@ The `Storage` component performs CRUD (Create, Read, Update, Delete) operations 
 It contains minimal logic beyond what is directly relevant to CRUD operations.
 In particular, it is reponsible for:
 - Validating data inside entities before creating/updating them, to ensure they are in a valid state.
-- Hiding the complexities of datastore from the `Logic` component. All GQL queries are to be contained inside the `Storage` component.
+- Hiding the complexities of the database from the `Logic` component. 
 - Hiding the persistable objects: Classes in the `storage::entity` package are not visible outside this component to hide information specific to data persistence.
   - Instead, a corresponding non-persistent [data transfer object](http://en.wikipedia.org/wiki/Data_transfer_object) named `*Attributes` (e.g., `CourseAttributes` is the data transfer object for `Course` entities) object is returned. These datatransfer classes are in `common::datatransfer` package, to be explained later.
 
@@ -205,14 +205,14 @@ This is because we want to keep the data schema flexible so that new entity type
 
 ### Storage API
 
-Represented by the `*Db` classes. These classes act as the bridge to the Google Cloud Datastore.
+Represented by the `*Db` classes. These classes act as the bridge to the database.
 
 ### Policies
 
-Add and Delete operations try to wait until data is persisted in the datastore before returning. This is not enough to compensate for eventual consistency involving multiple servers in the GAE production enviornment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
-Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all serves of the Google's distributed datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
+Add and Delete operations try to wait until data is persisted in the database before returning. This is not enough to compensate for eventual consistency involving multiple servers in the Google Cloud Datastore environment. However, it is expected to avoid test failures caused by eventual consistency in dev server and reduce such problems in the live server.
+Note: 'Eventual consistency' here means it takes some time for a database operation to propagate across all replicas of the Google Cloud Datastore. As a result, the data may be in an inconsistent states for short periods of time although things should become consistent 'eventually'. For example, an object we deleted may appear to still exist for a short while.
 
-Implementation of Transaction Control has been minimized due to limitations of GAE environment and the nature of our data schema.
+Implementation of Transaction Control has been minimized due to limitations of Google Cloud Datastore environment and the nature of our data schema.
 
 API for creating:
 + Attempt to create an entity that already exists: Throws `EntityAlreadyExistsException`.
@@ -284,11 +284,9 @@ The E2E component has no knowledge of the internal workings of the application a
 
 Package overview:
 
-- **`e2e.util`**: Contains helpers needed for running E2E tests.
+- **`e2e.util`**: Contains helpers needed for running E2E tests. Also contains the test cases for the said infrastructure/helpers.
 - **`e2e.pageobjects`**: Contains abstractions of the pages as they appear on a Browser (i.e. SUTs).
-- **`e2e.cases`**: Contains test cases.
-  - **`.util`**: Component test cases for testing the test helpers.
-  - **`.e2e`**: System test cases for testing the application as a whole.
+- **`e2e.cases`**: Contains system test cases for testing the application as a whole.
 
 ## Client Component
 
@@ -299,5 +297,5 @@ The Client component contains scripts that can connect directly to the applicati
 Package overview:
 
 - **`client.util`**: Contains helpers needed for client scripts.
-- **`client.remoteapi`**: Classes needed to connect to the back end directly.
+- **`client.connector`**: Classes needed to connect to the back end directly.
 - **`client.scripts`**: Scripts that deal with the back end data for administrative purposes.

@@ -75,6 +75,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   hasCoursesLoaded: boolean = false;
   hasCoursesLoadingFailed: boolean = false;
   isNewUser: boolean = false;
+  isCopyLoading: boolean = false;
 
   constructor(router: Router,
               statusMessageService: StatusMessageService,
@@ -312,13 +313,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Edits the feedback session.
-   */
-  editSessionEventHandler(tabIndex: number, rowIndex: number): void {
-    this.editSession(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
    * Moves the feedback session to the recycle bin.
    */
   moveSessionToRecycleBinEventHandler(tabIndex: number, rowIndex: number): void {
@@ -340,6 +334,7 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
    * Copies the feedback session.
    */
   copySessionEventHandler(tabIndex: number, result: CopySessionResult): void {
+    this.isCopyLoading = true;
     this.failedToCopySessions = {};
     const requestList: Observable<FeedbackSession>[] = this.createSessionCopyRequestsFromRowModel(
         this.courseTabModels[tabIndex].sessionsTableRowModels[result.sessionToCopyRowIndex], result);
@@ -347,24 +342,25 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
       this.copySingleSession(requestList[0]);
     }
     if (requestList.length > 1) {
-      forkJoin(requestList).subscribe((newSessions: FeedbackSession[]) => {
-        if (newSessions.length > 0) {
-          newSessions.forEach((session: FeedbackSession) => {
-            const model: SessionsTableRowModel = {
-              feedbackSession: session,
-              responseRate: '',
-              isLoadingResponseRate: false,
-              instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
-            };
-            const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
-                tabModel.course.courseId === session.courseId);
-            if (courseModel) {
-              courseModel.sessionsTableRowModels.push(model);
-            }
-          });
-        }
-        this.showCopyStatusMessage();
-      });
+      forkJoin(requestList).pipe(finalize(() => this.isCopyLoading = false))
+        .subscribe((newSessions: FeedbackSession[]) => {
+          if (newSessions.length > 0) {
+            newSessions.forEach((session: FeedbackSession) => {
+              const model: SessionsTableRowModel = {
+                feedbackSession: session,
+                responseRate: '',
+                isLoadingResponseRate: false,
+                instructorPrivilege: session.privileges || DEFAULT_INSTRUCTOR_PRIVILEGE,
+              };
+              const courseModel: CourseTabModel | undefined = this.courseTabModels.find((tabModel: CourseTabModel) =>
+                  tabModel.course.courseId === session.courseId);
+              if (courseModel && courseModel.hasPopulated) {
+                courseModel.sessionsTableRowModels.push(model);
+              }
+            });
+          }
+          this.showCopyStatusMessage();
+        });
     }
   }
 

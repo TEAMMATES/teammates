@@ -5,29 +5,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Account;
 
 /**
- * A data transfer object for Account entities.
+ * The data transfer object for {@link Account} entities.
  */
 public class AccountAttributes extends EntityAttributes<Account> {
 
-    public String googleId;
-
-    public String name;
-    public boolean isInstructor;
-    public String email;
-    public String institute;
-    public Instant createdAt;
+    private String googleId;
+    private String name;
+    private boolean isInstructor;
+    private String email;
+    private String institute;
+    private Instant createdAt;
 
     private AccountAttributes(String googleId) {
         this.googleId = googleId;
     }
 
+    /**
+     * Gets the {@link AccountAttributes} instance of the given {@link Account}.
+     */
     public static AccountAttributes valueOf(Account a) {
         AccountAttributes accountAttributes = new AccountAttributes(a.getGoogleId());
 
@@ -66,24 +67,48 @@ public class AccountAttributes extends EntityAttributes<Account> {
         return isInstructor;
     }
 
+    public void setInstructor(boolean instructor) {
+        isInstructor = instructor;
+    }
+
     public String getGoogleId() {
         return googleId;
+    }
+
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
     }
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getInstitute() {
         return institute;
     }
 
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     @Override
@@ -175,21 +200,21 @@ public class AccountAttributes extends EntityAttributes<Account> {
         }
 
         public Builder withName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             accountAttributes.name = name;
             return this;
         }
 
         public Builder withEmail(String email) {
-            Assumption.assertNotNull(email);
+            assert email != null;
 
             accountAttributes.email = email;
             return this;
         }
 
         public Builder withInstitute(String institute) {
-            Assumption.assertNotNull(institute);
+            assert institute != null;
 
             accountAttributes.institute = institute;
             return this;
@@ -212,7 +237,7 @@ public class AccountAttributes extends EntityAttributes<Account> {
         private UpdateOption<Boolean> isInstructorOption = UpdateOption.empty();
 
         private UpdateOptions(String googleId) {
-            Assumption.assertNotNull(googleId);
+            assert googleId != null;
 
             this.googleId = googleId;
         }

@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -19,7 +18,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.storage.api.FeedbackResponsesDb;
 
 /**
@@ -30,13 +28,13 @@ import teammates.storage.api.FeedbackResponsesDb;
  */
 public final class FeedbackResponsesLogic {
 
-    private static FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
+    private static final FeedbackResponsesLogic instance = new FeedbackResponsesLogic();
 
-    private static final FeedbackResponsesDb frDb = new FeedbackResponsesDb();
+    private final FeedbackResponsesDb frDb = FeedbackResponsesDb.inst();
 
-    private static final FeedbackQuestionsLogic fqLogic = FeedbackQuestionsLogic.inst();
-    private static final FeedbackResponseCommentsLogic frcLogic = FeedbackResponseCommentsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private FeedbackQuestionsLogic fqLogic;
+    private FeedbackResponseCommentsLogic frcLogic;
+    private StudentsLogic studentsLogic;
 
     private FeedbackResponsesLogic() {
         // prevent initialization
@@ -44,6 +42,12 @@ public final class FeedbackResponsesLogic {
 
     public static FeedbackResponsesLogic inst() {
         return instance;
+    }
+
+    void initLogicDependencies() {
+        fqLogic = FeedbackQuestionsLogic.inst();
+        frcLogic = FeedbackResponseCommentsLogic.inst();
+        studentsLogic = StudentsLogic.inst();
     }
 
     /**
@@ -180,11 +184,11 @@ public final class FeedbackResponsesLogic {
      */
     public List<FeedbackResponseAttributes> getFeedbackResponsesFromStudentOrTeamForQuestion(
             FeedbackQuestionAttributes question, StudentAttributes student) {
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             return getFeedbackResponsesFromTeamForQuestion(
-                    question.getId(), question.courseId, student.team, null);
+                    question.getId(), question.getCourseId(), student.getTeam(), null);
         }
-        return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.email);
+        return frDb.getFeedbackResponsesFromGiverForQuestion(question.getId(), student.getEmail());
     }
 
     /**
@@ -194,73 +198,73 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
-            UserRole role, boolean isGiverName, CourseRoster roster) {
+            boolean isInstructor, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
         }
 
         // Early return if user is giver
-        if (question.giverType == FeedbackParticipantType.TEAMS) {
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS) {
             // if response is given by team, then anyone in the team can see the response
             // The second check is used to accommodate legacy data where team giver is a student email
-            if (roster.isStudentInTeam(userEmail, response.giver)
-                    || roster.isStudentsInSameTeam(userEmail, response.giver)) {
+            if (roster.isStudentInTeam(userEmail, response.getGiver())
+                    || roster.isStudentsInSameTeam(userEmail, response.getGiver())) {
                 return true;
             }
         } else {
-            if (response.giver.equals(userEmail)) {
+            if (response.getGiver().equals(userEmail)) {
                 return true;
             }
         }
 
         return isFeedbackParticipantNameVisibleToUser(question, response,
-                userEmail, role, isGiverName, roster);
+                userEmail, isInstructor, isGiverName, roster);
     }
 
     private boolean isFeedbackParticipantNameVisibleToUser(
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-            String userEmail, UserRole role, boolean isGiverName, CourseRoster roster) {
+            String userEmail, boolean isInstructor, boolean isGiverName, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = isGiverName
-                                                 ? question.showGiverNameTo
-                                                 : question.showRecipientNameTo;
+                                                 ? question.getShowGiverNameTo()
+                                                 : question.getShowRecipientNameTo();
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null && role == UserRole.INSTRUCTOR) {
+                if (roster.getInstructorForEmail(userEmail) != null && isInstructor) {
                     return true;
                 }
                 break;
             case OWN_TEAM_MEMBERS:
             case OWN_TEAM_MEMBERS_INCLUDING_SELF:
                 // Refers to Giver's Team Members
-                if (roster.isStudentsInSameTeam(response.giver, userEmail)) {
+                if (roster.isStudentsInSameTeam(response.getGiver(), userEmail)) {
                     return true;
                 }
                 break;
             case RECEIVER:
                 // Response to team
-                if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
+                if (question.getRecipientType().isTeam()) {
+                    if (roster.isStudentInTeam(userEmail, response.getRecipient())) {
                         // this is a team name
                         return true;
                     }
                     break;
                     // Response to individual
-                } else if (response.recipient.equals(userEmail)) {
+                } else if (response.getRecipient().equals(userEmail)) {
                     return true;
                 } else {
                     break;
                 }
             case RECEIVER_TEAM_MEMBERS:
                 // Response to team; recipient = teamName
-                if (question.recipientType.isTeam()) {
-                    if (roster.isStudentInTeam(userEmail, response.recipient)) {
+                if (question.getRecipientType().isTeam()) {
+                    if (roster.isStudentInTeam(userEmail, response.getRecipient())) {
                         // this is a team name
                         return true;
                     }
                     break;
-                } else if (roster.isStudentsInSameTeam(response.recipient, userEmail)) {
+                } else if (roster.isStudentsInSameTeam(response.getRecipient(), userEmail)) {
                     // Response to individual
                     return true;
                 }
@@ -271,8 +275,8 @@ public final class FeedbackResponsesLogic {
                 }
                 break;
             default:
-                Assumption.fail("Invalid FeedbackParticipantType for showNameTo in "
-                                + "FeedbackResponseLogic.isFeedbackParticipantNameVisibleToUser()");
+                assert false : "Invalid FeedbackParticipantType for showNameTo in "
+                        + "FeedbackResponseLogic.isFeedbackParticipantNameVisibleToUser()";
                 break;
             }
         }
@@ -287,17 +291,17 @@ public final class FeedbackResponsesLogic {
             return true;
         }
         boolean isStudentRecipientType =
-                   question.recipientType.equals(FeedbackParticipantType.STUDENTS)
-                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                || question.recipientType.equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
-                || question.recipientType.equals(FeedbackParticipantType.GIVER)
-                   && question.giverType.equals(FeedbackParticipantType.STUDENTS);
+                   question.getRecipientType().equals(FeedbackParticipantType.STUDENTS)
+                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS)
+                || question.getRecipientType().equals(FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF)
+                || question.getRecipientType().equals(FeedbackParticipantType.GIVER)
+                   && question.getGiverType().equals(FeedbackParticipantType.STUDENTS);
 
-        if ((isStudentRecipientType || question.recipientType.isTeam())
+        if ((isStudentRecipientType || question.getRecipientType().isTeam())
                 && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
             return true;
         }
-        if (question.giverType == FeedbackParticipantType.TEAMS
+        if (question.getGiverType() == FeedbackParticipantType.TEAMS
                 || question.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)) {
             return true;
         }
@@ -333,8 +337,8 @@ public final class FeedbackResponsesLogic {
         FeedbackResponseAttributes newResponse = frDb.updateFeedbackResponse(updateOptions);
 
         boolean isResponseIdChanged = !oldResponse.getId().equals(newResponse.getId());
-        boolean isGiverSectionChanged = !oldResponse.giverSection.equals(newResponse.giverSection);
-        boolean isRecipientSectionChanged = !oldResponse.recipientSection.equals(newResponse.recipientSection);
+        boolean isGiverSectionChanged = !oldResponse.getGiverSection().equals(newResponse.getGiverSection());
+        boolean isRecipientSectionChanged = !oldResponse.getRecipientSection().equals(newResponse.getRecipientSection());
 
         if (isResponseIdChanged || isGiverSectionChanged || isRecipientSectionChanged) {
             List<FeedbackResponseCommentAttributes> responseComments =
@@ -348,11 +352,11 @@ public final class FeedbackResponsesLogic {
                 }
 
                 if (isGiverSectionChanged) {
-                    updateOptionsBuilder.withGiverSection(newResponse.giverSection);
+                    updateOptionsBuilder.withGiverSection(newResponse.getGiverSection());
                 }
 
                 if (isRecipientSectionChanged) {
-                    updateOptionsBuilder.withReceiverSection(newResponse.recipientSection);
+                    updateOptionsBuilder.withReceiverSection(newResponse.getRecipientSection());
                 }
 
                 frcLogic.updateFeedbackResponseComment(updateOptionsBuilder.build());
@@ -374,8 +378,8 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesFromUser =
                 getFeedbackResponsesFromGiverForCourse(courseId, userEmail);
         for (FeedbackResponseAttributes response : responsesFromUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
-            if (question.giverType == FeedbackParticipantType.TEAMS
+            question = fqLogic.getFeedbackQuestion(response.getFeedbackQuestionId());
+            if (question.getGiverType() == FeedbackParticipantType.TEAMS
                     || isRecipientTypeTeamMembers(question)) {
                 deleteFeedbackResponseCascade(response.getId());
             }
@@ -385,7 +389,7 @@ public final class FeedbackResponsesLogic {
         List<FeedbackResponseAttributes> responsesToUser =
                 getFeedbackResponsesForReceiverForCourse(courseId, userEmail);
         for (FeedbackResponseAttributes response : responsesToUser) {
-            question = fqLogic.getFeedbackQuestion(response.feedbackQuestionId);
+            question = fqLogic.getFeedbackQuestion(response.getFeedbackQuestionId());
             if (isRecipientTypeTeamMembers(question)) {
                 deleteFeedbackResponseCascade(response.getId());
             }
@@ -419,7 +423,7 @@ public final class FeedbackResponsesLogic {
                                 .withRecipientSection(newSection)
                                 .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Not possible to trigger recreating of response");
+                assert false : "Not possible to trigger recreating of response";
             }
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
@@ -437,15 +441,15 @@ public final class FeedbackResponsesLogic {
                                 .withGiverSection(newSection)
                                 .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption.fail("Not possible to trigger recreating of response");
+                assert false : "Not possible to trigger recreating of response";
             }
             frcLogic.updateFeedbackResponseCommentsForResponse(response.getId());
         }
     }
 
     private boolean isRecipientTypeTeamMembers(FeedbackQuestionAttributes question) {
-        return question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS
-               || question.recipientType == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
+        return question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS
+               || question.getRecipientType() == FeedbackParticipantType.OWN_TEAM_MEMBERS_INCLUDING_SELF;
     }
 
     /**
@@ -466,9 +470,7 @@ public final class FeedbackResponsesLogic {
                                 .build());
                 frcLogic.updateFeedbackResponseCommentsEmails(courseId, oldEmail, newEmail);
             } catch (EntityAlreadyExistsException e) {
-                Assumption
-                        .fail("Feedback response failed to update successfully "
-                            + "as email was already in use.");
+                assert false : "Feedback response failed to update successfully as email was already in use.";
             }
         }
 
@@ -482,9 +484,7 @@ public final class FeedbackResponsesLogic {
                                 .withRecipient(newEmail)
                                 .build());
             } catch (EntityAlreadyExistsException e) {
-                Assumption
-                        .fail("Feedback response failed to update successfully "
-                            + "as email was already in use.");
+                assert false : "Feedback response failed to update successfully as email was already in use.";
             }
         }
     }
@@ -550,7 +550,7 @@ public final class FeedbackResponsesLogic {
 
         for (StudentAttributes student : studentsInTeam) {
             responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(
-                    feedbackQuestionId, student.email));
+                    feedbackQuestionId, student.getEmail()));
         }
 
         responses.addAll(frDb.getFeedbackResponsesFromGiverForQuestion(

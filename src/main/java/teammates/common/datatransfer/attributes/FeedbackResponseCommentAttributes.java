@@ -6,41 +6,39 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
- * Represents a data transfer object for {@link FeedbackResponseComment} entities.
+ * The data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
-    public Long feedbackResponseCommentId;
-
-    public String courseId;
-    public String feedbackSessionName;
+    private Long feedbackResponseCommentId;
+    private String courseId;
+    private String feedbackSessionName;
     /**
      * Contains the email of student/instructor if comment giver is student/instructor
      * and name of team if comment giver is a team.
      */
-    public String commentGiver;
-    public String commentText;
-    public String feedbackResponseId;
-    public String feedbackQuestionId;
-    public List<FeedbackParticipantType> showCommentTo;
-    public List<FeedbackParticipantType> showGiverNameTo;
-    public boolean isVisibilityFollowingFeedbackQuestion;
-    public Instant createdAt;
-    public String lastEditorEmail;
-    public Instant lastEditedAt;
-    public String giverSection;
-    public String receiverSection;
+    private String commentGiver;
+    private String commentText;
+    private String feedbackResponseId;
+    private String feedbackQuestionId;
+    private List<FeedbackParticipantType> showCommentTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
+    private boolean isVisibilityFollowingFeedbackQuestion;
+    private Instant createdAt;
+    private String lastEditorEmail;
+    private Instant lastEditedAt;
+    private String giverSection;
+    private String receiverSection;
     // Determines the type of comment giver- instructor, student, or team
-    public FeedbackParticipantType commentGiverType;
+    private FeedbackParticipantType commentGiverType;
     // true if comment is given by response giver
-    public boolean isCommentFromFeedbackParticipant;
+    private boolean isCommentFromFeedbackParticipant;
 
     private FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -53,6 +51,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         isCommentFromFeedbackParticipant = false;
     }
 
+    /**
+     * Gets the {@link FeedbackResponseCommentAttributes} instance of the given {@link FeedbackResponseComment}.
+     */
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
         FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes();
         frca.courseId = comment.getCourseId();
@@ -101,6 +102,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return new Builder();
     }
 
+    /**
+     * Returns true if the response comment is visible to the given participant type.
+     */
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
@@ -113,24 +117,48 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return courseId;
     }
 
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
+    }
+
+    public void setFeedbackSessionName(String feedbackSessionName) {
+        this.feedbackSessionName = feedbackSessionName;
     }
 
     public String getCommentGiver() {
         return commentGiver;
     }
 
+    public void setCommentGiver(String commentGiver) {
+        this.commentGiver = commentGiver;
+    }
+
     public String getCommentText() {
         return commentText;
+    }
+
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
     public String getFeedbackResponseId() {
         return feedbackResponseId;
     }
 
+    public void setFeedbackResponseId(String feedbackResponseId) {
+        this.feedbackResponseId = feedbackResponseId;
+    }
+
     public String getFeedbackQuestionId() {
         return feedbackQuestionId;
+    }
+
+    public void setFeedbackQuestionId(String feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
     }
 
     public List<FeedbackParticipantType> getShowCommentTo() {
@@ -145,16 +173,32 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return isVisibilityFollowingFeedbackQuestion;
     }
 
+    public void setVisibilityFollowingFeedbackQuestion(boolean visibilityFollowingFeedbackQuestion) {
+        isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getLastEditorEmail() {
         return lastEditorEmail;
     }
 
+    public void setLastEditorEmail(String lastEditorEmail) {
+        this.lastEditorEmail = lastEditorEmail;
+    }
+
     public Instant getLastEditedAt() {
         return lastEditedAt;
+    }
+
+    public void setLastEditedAt(Instant lastEditedAt) {
+        this.lastEditedAt = lastEditedAt;
     }
 
     public String getGiverSection() {
@@ -169,8 +213,16 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return commentGiverType;
     }
 
+    public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
+        this.commentGiverType = commentGiverType;
+    }
+
     public boolean isCommentFromFeedbackParticipant() {
         return isCommentFromFeedbackParticipant;
+    }
+
+    public void setCommentFromFeedbackParticipant(boolean commentFromFeedbackParticipant) {
+        isCommentFromFeedbackParticipant = commentFromFeedbackParticipant;
     }
 
     /**
@@ -301,28 +353,28 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(courseId);
+            assert courseId != null;
             frca.courseId = courseId;
 
             return this;
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(feedbackSessionName);
+            assert feedbackSessionName != null;
             frca.feedbackSessionName = feedbackSessionName;
 
             return this;
         }
 
         public Builder withCommentGiver(String commentGiver) {
-            Assumption.assertNotNull(commentGiver);
+            assert commentGiver != null;
             frca.commentGiver = commentGiver;
 
             return this;
         }
 
         public Builder withFeedbackQuestionId(String feedbackQuestionId) {
-            Assumption.assertNotNull(feedbackQuestionId);
+            assert feedbackQuestionId != null;
             frca.feedbackQuestionId = feedbackQuestionId;
 
             return this;
@@ -334,7 +386,7 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public Builder withCommentGiverType(FeedbackParticipantType commentGiverType) {
-            Assumption.assertNotNull(commentGiverType);
+            assert commentGiverType != null;
 
             frca.commentGiverType = commentGiverType;
             return this;
@@ -369,8 +421,6 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         private UpdateOption<String> receiverSectionOption = UpdateOption.empty();
 
         private UpdateOptions(long feedbackResponseCommentId) {
-            Assumption.assertNotNull(feedbackResponseCommentId);
-
             this.feedbackResponseCommentId = feedbackResponseCommentId;
         }
 
@@ -402,14 +452,14 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
             }
 
             public Builder withLastEditorEmail(String lastEditorEmail) {
-                Assumption.assertNotNull(lastEditorEmail);
+                assert lastEditorEmail != null;
 
                 updateOptions.lastEditorEmailOption = UpdateOption.of(lastEditorEmail);
                 return this;
             }
 
             public Builder withLastEditorAt(Instant lastEditedAt) {
-                Assumption.assertNotNull(lastEditedAt);
+                assert lastEditedAt != null;
 
                 updateOptions.lastEditedAtOption = UpdateOption.of(lastEditedAt);
                 return this;
@@ -440,42 +490,42 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         }
 
         public B withFeedbackResponseId(String feedbackResponseId) {
-            Assumption.assertNotNull(feedbackResponseId);
+            assert feedbackResponseId != null;
 
             updateOptions.feedbackResponseIdOption = UpdateOption.of(feedbackResponseId);
             return thisBuilder;
         }
 
         public B withCommentText(String commentText) {
-            Assumption.assertNotNull(commentText);
+            assert commentText != null;
 
             updateOptions.commentTextOption = UpdateOption.of(commentText);
             return thisBuilder;
         }
 
         public B withShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
-            Assumption.assertNotNull(showCommentTo);
+            assert showCommentTo != null;
 
             updateOptions.showCommentToOption = UpdateOption.of(showCommentTo);
             return thisBuilder;
         }
 
         public B withShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
-            Assumption.assertNotNull(showGiverNameTo);
+            assert showGiverNameTo != null;
 
             updateOptions.showGiverNameToOption = UpdateOption.of(showGiverNameTo);
             return thisBuilder;
         }
 
         public B withGiverSection(String giverSection) {
-            Assumption.assertNotNull(giverSection);
+            assert giverSection != null;
 
             updateOptions.giverSectionOption = UpdateOption.of(giverSection);
             return thisBuilder;
         }
 
         public B withReceiverSection(String receiverSection) {
-            Assumption.assertNotNull(receiverSection);
+            assert receiverSection != null;
 
             updateOptions.receiverSectionOption = UpdateOption.of(receiverSection);
             return thisBuilder;

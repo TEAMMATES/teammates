@@ -60,7 +60,7 @@ public class StudentCourseDetailsPage extends AppPage {
         String[] actualInstructors = instructorsList.getText().split(System.lineSeparator());
         for (int i = 0; i < instructorDetails.length; i++) {
             InstructorAttributes expected = instructorDetails[i];
-            assertEquals(expected.displayedName + ": " + expected.name + " (" + expected.email + ")",
+            assertEquals(expected.getDisplayedName() + ": " + expected.getName() + " (" + expected.getEmail() + ")",
                     actualInstructors[i]);
         }
     }

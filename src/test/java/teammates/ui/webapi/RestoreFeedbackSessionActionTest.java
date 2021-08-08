@@ -17,8 +17,8 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     private final InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
     private final FeedbackSessionAttributes firstFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
-    private final String instructorId = instructor1OfCourse1.googleId;
-    private final String courseId = instructor1OfCourse1.courseId;
+    private final String instructorId = instructor1OfCourse1.getGoogleId();
+    private final String courseId = instructor1OfCourse1.getCourseId();
     private final String feedbackSessionName = firstFeedbackSession.getFeedbackSessionName();
     private final String[] submissionParams = new String[] {
             Const.ParamsNames.COURSE_ID, courseId,
@@ -37,7 +37,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // See test cases below.
     }
 

@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
 
 /**
@@ -24,7 +25,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         JsonResult actionOutput;
 
         CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
@@ -43,7 +44,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         );
         verifyHttpParameterFailure(
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.SUBMISSION,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail()
         );
 
@@ -61,7 +62,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsSuccessfulAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.ACCESS,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.ACCESS.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessfulAccess));
@@ -71,7 +72,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsSuccessfulSubmission = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa2.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.SUBMISSION,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student2.getEmail(),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessfulSubmission));
@@ -81,7 +82,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsNonExistentCourseId = {
                 Const.ParamsNames.COURSE_ID, "non-existent-course-id",
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.SUBMISSION,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
         actionOutput = getJsonResult(getAction(paramsNonExistentCourseId));
@@ -90,7 +91,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsNonExistentFsName = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "non-existent-feedback-session-name",
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.SUBMISSION,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
         actionOutput = getJsonResult(getAction(paramsNonExistentFsName));
@@ -99,7 +100,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsNonExistentStudentEmail = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.SUBMISSION,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@email.com",
         };
         actionOutput = getJsonResult(getAction(paramsNonExistentStudentEmail));
@@ -109,7 +110,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
         String[] paramsWithoutAccess = {
                 Const.ParamsNames.COURSE_ID, courseId1,
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fsa1.getFeedbackSessionName(),
-                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, Const.FeedbackSessionLogTypes.SUBMISSION,
+                Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, FeedbackSessionLogType.SUBMISSION.getLabel(),
                 Const.ParamsNames.STUDENT_EMAIL, student3.getEmail(),
         };
         actionOutput = getJsonResult(getAction(paramsWithoutAccess));
@@ -118,7 +119,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyAnyUserCanAccess();
     }
 }

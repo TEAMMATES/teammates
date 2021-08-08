@@ -35,6 +35,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
     @Override
     public void testAll() {
         testEditPage();
+        logout();
         testSubmitPage();
     }
 
@@ -45,7 +46,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
         FeedbackRubricQuestionDetails questionDetails =
-                (FeedbackRubricQuestionDetails) loadedQuestion.getQuestionDetails();
+                (FeedbackRubricQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyRubricQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -54,23 +55,23 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         feedbackEditPage.addRubricQuestion(loadedQuestion);
 
         feedbackEditPage.verifyRubricQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackRubricQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackRubricQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyRubricQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
         // add a new choice
-        questionDetails = (FeedbackRubricQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackRubricQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         List<String> choices = questionDetails.getRubricChoices();
         choices.add("Edited choice.");
         List<List<String>> descriptions = questionDetails.getRubricDescriptions();
@@ -90,11 +91,12 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         // remove assigned weights
         questionDetails.setHasAssignedWeights(false);
         questionDetails.setRubricWeightsForEachCell(new ArrayList<>());
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editRubricQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyRubricQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -105,14 +107,14 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
         FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1ForFirstSession");
         StudentAttributes receiver = testData.students.get("benny.tmms@FRubricQn.CS2104");
         feedbackSubmitPage.verifyRubricQuestion(1, receiver.getName(),
-                (FeedbackRubricQuestionDetails) question.getQuestionDetails());
+                (FeedbackRubricQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, Arrays.asList(1, 1));
         feedbackSubmitPage.submitRubricResponse(1, receiver.getName(), response);
 
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -124,7 +126,7 @@ public class FeedbackRubricQuestionE2ETest extends BaseFeedbackQuestionE2ETest {
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRubricResponse(1, receiver.getName(), response);
-        verifyPresentInDatastore(response);
+        verifyPresentInDatabase(response);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, StudentAttributes receiver, List<Integer> answers) {

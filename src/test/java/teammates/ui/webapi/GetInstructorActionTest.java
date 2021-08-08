@@ -29,11 +29,11 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();
@@ -56,7 +56,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         InstructorData response = (InstructorData) actionOutput.getOutput();
-        assertEquals(instructor1OfCourse1.name, response.getName());
+        assertEquals(instructor1OfCourse1.getName(), response.getName());
         assertNull(response.getGoogleId());
         assertNull(response.getKey());
 
@@ -132,7 +132,7 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("only instructors of the same course with correct privilege can access");
 

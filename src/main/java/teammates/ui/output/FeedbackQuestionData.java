@@ -14,7 +14,6 @@ import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
@@ -40,7 +39,7 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
     public FeedbackQuestionData(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetails();
+        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetailsCopy();
 
         this.feedbackQuestionId = feedbackQuestionAttributes.getFeedbackQuestionId();
         this.questionNumber = feedbackQuestionAttributes.getQuestionNumber();
@@ -81,9 +80,6 @@ public class FeedbackQuestionData extends ApiOutput {
         }
 
         if (this.questionType == FeedbackQuestionType.CONSTSUM) {
-            // TODO: remove the abstraction after migration
-            // need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
-            // correct to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
             FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                     (FeedbackConstantSumQuestionDetails) this.questionDetails;
             this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
@@ -131,7 +127,7 @@ public class FeedbackQuestionData extends ApiOutput {
             case RECEIVER_TEAM_MEMBERS:
                 return FeedbackVisibilityType.RECIPIENT_TEAM_MEMBERS;
             default:
-                Assumption.fail("Unknown feedbackParticipantType" + feedbackParticipantType);
+                assert false : "Unknown feedbackParticipantType" + feedbackParticipantType;
                 break;
             }
             return null;

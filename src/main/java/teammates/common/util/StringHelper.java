@@ -1,7 +1,6 @@
 package teammates.common.util;
 
 import java.text.DecimalFormat;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +17,6 @@ import javax.crypto.spec.SecretKeySpec;
 import com.google.common.base.CharMatcher;
 
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 
 /**
  * Holds String-related helper functions.
@@ -43,7 +41,7 @@ public final class StringHelper {
      * Generates a string which consists of {@code length} copies of {@code character} without space.
      */
     static String generateStringOfLength(int length, char character) {
-        Assumption.assertTrue(length >= 0);
+        assert length >= 0;
         return String.join("", Collections.nCopies(length, String.valueOf(character)));
     }
 
@@ -94,7 +92,7 @@ public final class StringHelper {
             byte[] value = mac.doFinal(data.getBytes());
             return byteArrayToHexString(value);
         } catch (Exception e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false;
             return null;
         }
     }
@@ -128,7 +126,7 @@ public final class StringHelper {
             byte[] encrypted = cipher.doFinal(value.getBytes());
             return byteArrayToHexString(encrypted);
         } catch (Exception e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false;
             return null;
         }
     }
@@ -152,7 +150,7 @@ public final class StringHelper {
             log.warning("Attempted to decrypt invalid ciphertext: " + message);
             throw new InvalidParametersException(e);
         } catch (Exception e) {
-            Assumption.fail(TeammatesException.toStringWithStackTrace(e));
+            assert false;
             return null;
         }
     }
@@ -319,23 +317,6 @@ public final class StringHelper {
      */
     public static String convertToEmptyStringIfNull(String str) {
         return str == null ? "" : str;
-    }
-
-    /**
-     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
-     * If {@code text} is null, false is returned.
-     */
-    public static boolean isTextContainingAny(String text, String... strings) {
-        if (text == null) {
-            return false;
-        }
-
-        if (strings.length == 0) {
-            return true;
-        }
-
-        return Arrays.stream(strings)
-                .anyMatch(s -> text.contains(s));
     }
 
 }

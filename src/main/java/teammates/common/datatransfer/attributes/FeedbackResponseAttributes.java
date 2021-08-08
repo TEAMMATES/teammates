@@ -8,38 +8,35 @@ import java.util.Objects;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.storage.entity.FeedbackResponse;
 
+/**
+ * The data transfer object for {@link FeedbackResponse} entities.
+ */
 public class FeedbackResponseAttributes extends EntityAttributes<FeedbackResponse> {
 
-    public String feedbackQuestionId;
+    private String feedbackQuestionId;
     /**
-    * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
-    * "anonymous", etc.
-    */
-    public String giver;
+     * Depending on the question giver type, {@code giver} may contain the giver's email, the team name,
+     * "anonymous", etc.
+     */
+    private String giver;
     /**
      * Depending on the question recipient type, {@code recipient} may contain the recipient's email, the team
      * name, "%GENERAL%", etc.
      */
-    public String recipient;
-
-    public String feedbackSessionName;
-    public String courseId;
-
-    public FeedbackResponseDetails responseDetails;
-
-    public String giverSection;
-    public String recipientSection;
-
+    private String recipient;
+    private String feedbackSessionName;
+    private String courseId;
+    private FeedbackResponseDetails responseDetails;
+    private String giverSection;
+    private String recipientSection;
     private transient Instant createdAt;
     private transient Instant updatedAt;
-
-    private String feedbackResponseId;
+    private transient String feedbackResponseId;
 
     private FeedbackResponseAttributes(String feedbackQuestionId, String giver, String recipient) {
         this.feedbackQuestionId = feedbackQuestionId;
@@ -62,9 +59,12 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         this.recipientSection = copy.recipientSection;
         this.createdAt = copy.createdAt;
         this.updatedAt = copy.updatedAt;
-        this.responseDetails = copy.getResponseDetails();
+        this.responseDetails = copy.getResponseDetailsCopy();
     }
 
+    /**
+     * Gets the {@link FeedbackResponseAttributes} instance of the given {@link FeedbackResponse}.
+     */
     public static FeedbackResponseAttributes valueOf(FeedbackResponse fr) {
         FeedbackResponseAttributes fra =
                 new FeedbackResponseAttributes(
@@ -115,16 +115,32 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return courseId;
     }
 
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getFeedbackQuestionId() {
         return feedbackQuestionId;
+    }
+
+    public void setFeedbackQuestionId(String feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
     }
 
     public String getGiver() {
         return giver;
     }
 
+    public void setGiver(String giver) {
+        this.giver = giver;
+    }
+
     public String getRecipient() {
         return recipient;
+    }
+
+    public void setRecipient(String recipient) {
+        this.recipient = recipient;
     }
 
     public String getGiverSection() {
@@ -200,16 +216,20 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         // nothing to sanitize before saving
     }
 
-    public String getSerializedFeedbackResponseDetail() {
-        return responseDetails.getJsonString();
-    }
-
     public FeedbackResponseDetails getResponseDetails() {
-        return responseDetails.getDeepCopy();
+        return responseDetails;
     }
 
     public void setResponseDetails(FeedbackResponseDetails newFeedbackResponseDetails) {
         responseDetails = newFeedbackResponseDetails.getDeepCopy();
+    }
+
+    public String getSerializedFeedbackResponseDetail() {
+        return responseDetails.getJsonString();
+    }
+
+    public FeedbackResponseDetails getResponseDetailsCopy() {
+        return responseDetails.getDeepCopy();
     }
 
     private FeedbackResponseDetails deserializeResponseFromSerializedString(String serializedResponseDetails,
@@ -258,21 +278,21 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             super(new UpdateOptions(""));
             thisBuilder = this;
 
-            Assumption.assertNotNull(feedbackQuestionId);
-            Assumption.assertNotNull(giver);
-            Assumption.assertNotNull(recipient);
+            assert feedbackQuestionId != null;
+            assert giver != null;
+            assert recipient != null;
             fra = new FeedbackResponseAttributes(feedbackQuestionId, giver, recipient);
         }
 
         public Builder withCourseId(String courseId) {
-            Assumption.assertNotNull(courseId);
+            assert courseId != null;
             fra.courseId = courseId;
 
             return this;
         }
 
         public Builder withFeedbackSessionName(String feedbackSessionName) {
-            Assumption.assertNotNull(feedbackSessionName);
+            assert feedbackSessionName != null;
             fra.feedbackSessionName = feedbackSessionName;
 
             return this;
@@ -299,7 +319,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         private UpdateOption<FeedbackResponseDetails> responseDetailsUpdateOption = UpdateOption.empty();
 
         private UpdateOptions(String feedbackResponseId) {
-            Assumption.assertNotNull(feedbackResponseId);
+            assert feedbackResponseId != null;
 
             this.feedbackResponseId = feedbackResponseId;
         }
@@ -331,14 +351,14 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
             }
 
             public Builder withGiver(String giver) {
-                Assumption.assertNotNull(giver);
+                assert giver != null;
 
                 updateOptions.giverOption = UpdateOption.of(giver);
                 return thisBuilder;
             }
 
             public Builder withRecipient(String recipient) {
-                Assumption.assertNotNull(recipient);
+                assert recipient != null;
 
                 updateOptions.recipientOption = UpdateOption.of(recipient);
                 return thisBuilder;
@@ -369,21 +389,21 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         }
 
         public B withGiverSection(String giverSection) {
-            Assumption.assertNotNull(giverSection);
+            assert giverSection != null;
 
             updateOptions.giverSectionOption = UpdateOption.of(giverSection);
             return thisBuilder;
         }
 
         public B withRecipientSection(String recipientSection) {
-            Assumption.assertNotNull(recipientSection);
+            assert recipientSection != null;
 
             updateOptions.recipientSectionOption = UpdateOption.of(recipientSection);
             return thisBuilder;
         }
 
         public B withResponseDetails(FeedbackResponseDetails responseDetails) {
-            Assumption.assertNotNull(responseDetails);
+            assert responseDetails != null;
 
             updateOptions.responseDetailsUpdateOption = UpdateOption.of(responseDetails.getDeepCopy());
             return thisBuilder;

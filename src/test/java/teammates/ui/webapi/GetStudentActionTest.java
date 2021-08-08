@@ -35,7 +35,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         assertEquals(student.getName(), studentData.getName());
 
         if (student.getLastName() == null) {
-            String[] name = StringHelper.splitName(student.name);
+            String[] name = StringHelper.splitName(student.getName());
             assertEquals(name[1], studentData.getLastName());
         } else {
             assertEquals(student.getLastName(), studentData.getLastName());
@@ -60,7 +60,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
 
         ______TS("Failure Case: No Course ID in params");
 
@@ -102,7 +102,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.getKey()),
         };
 
         action = getAction(submissionParams);
@@ -116,7 +116,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         logoutUser();
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
 
@@ -251,7 +251,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         verifyInaccessibleForInstructorsOfOtherCourses(submissionParams);
 
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
-        loginAsInstructor(helperOfCourse1.googleId);
+        loginAsInstructor(helperOfCourse1.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(helperOfCourse1,
@@ -287,7 +287,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.key),
+                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregStudent.getKey()),
         };
 
         verifyAccessibleForUnregisteredUsers(submissionParams);

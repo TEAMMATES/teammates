@@ -3,22 +3,9 @@
 This document can help you to fix the common problems encountered while contributing to TEAMMATES.
 Note that some of the screenshots might be outdated, but the instructions will remain the same and all necessary modifications will be explained.
 
-* [Troubleshooting project setup](#troubleshooting-project-setup)
-    * [Common setup errors and solutions](#common-setup-errors-and-solutions)
 * [Troubleshooting test failures](#troubleshooting-test-failures)
     * [Common test errors and solutions](#common-test-errors-and-solutions)
 * [Submitting help request](#submitting-help-request)
-
-## Troubleshooting project setup
-
-### Common setup errors and solutions
-
-* **ERROR**: After downloading and installing Google Cloud SDK, running any `gcloud` command results in `gcloud: command not found` or alike.
-
-  **REASON**: You did not choose to update the `PATH` variable when installing the SDK.
-
-  **SOLUTION**: You can re-run the install command again without any side effect. Make sure to choose to update the `PATH` variable this time. Alternatively, you can use other appropriate methods to update your `PATH` variable to include the `/bin` sub-folder of the SDK folder.<br>
-  To verify this, try running any `gcloud` command and it should now give you access to the SDK.
 
 ## Troubleshooting test failures
 

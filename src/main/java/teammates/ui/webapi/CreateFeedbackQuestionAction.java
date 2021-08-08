@@ -4,7 +4,6 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
@@ -35,7 +34,7 @@ class CreateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -55,19 +54,12 @@ class CreateFeedbackQuestionAction extends Action {
                 .build();
 
         // validate questions (giver & recipient)
-        String err = attributes.getQuestionDetails().validateGiverRecipientVisibility(attributes);
+        String err = attributes.getQuestionDetailsCopy().validateGiverRecipientVisibility(attributes);
         if (!err.isEmpty()) {
             throw new InvalidHttpRequestBodyException(err);
         }
         // validate questions (question details)
-        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetails();
-        if (questionDetails instanceof FeedbackMsqQuestionDetails) {
-            FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
-            int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
-                    attributes.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
-            msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
-            questionDetails = msqQuestionDetails;
-        }
+        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetailsCopy();
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
         if (!questionDetailsErrors.isEmpty()) {
             throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());

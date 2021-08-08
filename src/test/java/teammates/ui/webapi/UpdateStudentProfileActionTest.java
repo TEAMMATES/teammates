@@ -45,10 +45,10 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
     }
 
     private void testActionWithInvalidParameters(AccountAttributes student) throws Exception {
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
         ______TS("Failure case: invalid parameters");
 
-        String[] submissionParams = createValidParam(student.googleId);
+        String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createInvalidUpdateRequest();
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
@@ -77,10 +77,10 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
     }
 
     private void testActionWithScriptInjection(AccountAttributes student) throws Exception {
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
         ______TS("Failure case: invalid parameters with attempted script injection");
 
-        String[] submissionParams = createValidParam(student.googleId);
+        String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createInvalidUpdateRequestForProfileWithScriptInjection();
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
@@ -117,9 +117,9 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
     }
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
-        String[] submissionParams = createValidParam(student.googleId);
+        String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createValidRequestForProfile();
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
 
         ______TS(caseDescription);
 
@@ -134,7 +134,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         ______TS("Typical case: masquerade mode");
         loginAsAdmin();
 
-        String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
+        String[] submissionParams = createValidParamsForMasqueradeMode(student.getGoogleId());
         StudentProfileUpdateRequest req = createValidRequestForProfile();
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
@@ -207,11 +207,11 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
         AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
-        loginAsStudent(student2.googleId);
+        loginAsStudent(student2.getGoogleId());
 
         ______TS("Forbidden case: updating another student's profile");
 
-        String[] submissionParams = createValidParam(student1.googleId);
+        String[] submissionParams = createValidParam(student1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 }
