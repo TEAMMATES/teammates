@@ -345,7 +345,7 @@ export class SearchService {
   private getDistinctFeedbackSessions(distinctCourseIds: string[]): Observable<DistinctFeedbackSessionsMap> {
     return forkJoin(
       distinctCourseIds.map((id: string) =>
-        this.feedbackSessionService.getFeedbackSessionsForStudentByAdmin(id)),
+        this.feedbackSessionService.getFeedbackSessionsForStudent('admin', id)),
     )
     .pipe(
       map((feedbackSessionsArray: FeedbackSessions[]) => {

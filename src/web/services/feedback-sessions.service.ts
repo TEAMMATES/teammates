@@ -161,37 +161,17 @@ export class FeedbackSessionsService {
   /**
    * Gets all sessions for the student by calling API.
    */
-  getFeedbackSessionsForStudent(courseId?: string): Observable<FeedbackSessions> {
+  getFeedbackSessionsForStudent(entityType: string, courseId?: string): Observable<FeedbackSessions> {
 
     let paramMap: Record<string, string>;
     if (courseId != null) {
       paramMap = {
-        entitytype: 'student',
+        entitytype: entityType,
         courseid: courseId,
       };
     } else {
       paramMap = {
-        entitytype: 'student',
-      };
-    }
-
-    return this.httpRequestService.get(ResourceEndpoints.SESSIONS, paramMap);
-  }
-
-  /**
-   * Gets all sessions for the student by calling API.
-   */
-  getFeedbackSessionsForStudentByAdmin(courseId?: string): Observable<FeedbackSessions> {
-
-    let paramMap: Record<string, string>;
-    if (courseId != null) {
-      paramMap = {
-        entitytype: 'admin',
-        courseid: courseId,
-      };
-    } else {
-      paramMap = {
-        entitytype: 'admin',
+        entitytype: entityType,
       };
     }
 
