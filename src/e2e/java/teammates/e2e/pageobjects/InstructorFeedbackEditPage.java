@@ -34,7 +34,7 @@ import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor feedback edit page of the website.
@@ -452,7 +452,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void assertVisibilityBoxesSelected(WebElement table, FeedbackParticipantType giver,
                                                FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                                int colNum) {
-        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
@@ -557,7 +557,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             return;
         }
         verifyOptions(questionNum, questionDetails.getMcqChoices());
-        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        verifyOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMcqWeights());
         verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
@@ -583,7 +583,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             return;
         }
         verifyOptions(questionNum, questionDetails.getMsqChoices());
-        verifyOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        verifyOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMsqWeights());
         verifyOtherOption(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
     }
 
@@ -717,7 +717,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             }
         }
 
-        if (questionDetails.hasAssignedWeights()) {
+        if (questionDetails.isHasAssignedWeights()) {
             assertTrue(getWeightCheckbox(questionNum).isSelected());
             List<List<Double>> weights = questionDetails.getRubricWeights();
             for (int i = 0; i < numSubQn; i++) {
@@ -753,7 +753,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
             verifyOptions(questionNum, optionDetails.getOptions());
         }
-        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.areDuplicatesAllowed());
+        assertEquals(getAllowDuplicateRankCheckbox(questionNum).isSelected(), questionDetails.isAreDuplicatesAllowed());
         verifyMaxOptions(questionNum, questionDetails.getMaxOptionsToBeRanked());
         verifyMinOptions(questionNum, questionDetails.getMinOptionsToBeRanked());
     }
@@ -1099,7 +1099,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void selectVisibilityBoxes(WebElement table, FeedbackParticipantType giver,
                                        FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                        int colNum) {
-        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
@@ -1265,7 +1265,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         inputOptions(questionNum, questionDetails.getMcqChoices());
-        inputOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMcqWeights());
+        inputOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMcqWeights());
         inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMcqOtherWeight());
     }
 
@@ -1367,7 +1367,7 @@ public class InstructorFeedbackEditPage extends AppPage {
         }
 
         inputOptions(questionNum, questionDetails.getMsqChoices());
-        inputOptionWeights(questionNum, questionDetails.hasAssignedWeights(), questionDetails.getMsqWeights());
+        inputOptionWeights(questionNum, questionDetails.isHasAssignedWeights(), questionDetails.getMsqWeights());
         inputOtherChoice(questionNum, questionDetails.isOtherEnabled(), questionDetails.getMsqOtherWeight());
         inputMaxOptions(questionNum, questionDetails.getMaxSelectableChoices());
         inputMinOptions(questionNum, questionDetails.getMinSelectableChoices());
@@ -1530,7 +1530,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             }
         }
 
-        if (questionDetails.hasAssignedWeights()) {
+        if (questionDetails.isHasAssignedWeights()) {
             markOptionAsSelected(getWeightCheckbox(questionNum));
             List<List<Double>> weights = questionDetails.getRubricWeights();
             for (int i = 0; i < numSubQn; i++) {
@@ -1577,7 +1577,7 @@ public class InstructorFeedbackEditPage extends AppPage {
             FeedbackRankOptionsQuestionDetails optionDetails = (FeedbackRankOptionsQuestionDetails) questionDetails;
             inputOptions(questionNum, optionDetails.getOptions());
         }
-        if (questionDetails.areDuplicatesAllowed()) {
+        if (questionDetails.isAreDuplicatesAllowed()) {
             markOptionAsSelected(getAllowDuplicateRankCheckbox(questionNum));
         } else {
             markOptionAsUnselected(getAllowDuplicateRankCheckbox(questionNum));

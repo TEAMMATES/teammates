@@ -1,8 +1,5 @@
 package teammates.test;
 
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
-
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
@@ -25,7 +22,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
-import teammates.common.exception.TeammatesException;
 import teammates.logic.api.LogicExtension;
 import teammates.logic.core.LogicStarter;
 import teammates.storage.api.OfyHelper;
@@ -50,7 +46,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     private Closeable closeable;
 
     @BeforeSuite
-    public void setupDbLayer() throws IOException, InterruptedException {
+    public void setupDbLayer() throws Exception {
         LOCAL_DATASTORE_HELPER.start();
         DatastoreOptions options = LOCAL_DATASTORE_HELPER.getOptions();
         ObjectifyService.init(new ObjectifyFactory(
@@ -77,7 +73,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @AfterClass
-    public void resetDbLayer() throws IOException {
+    public void resetDbLayer() throws Exception {
         SearchManagerFactory.getInstructorSearchManager().resetCollections();
         SearchManagerFactory.getStudentSearchManager().resetCollections();
 
@@ -85,7 +81,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
     }
 
     @AfterSuite
-    public void tearDownLocalDatastoreHelper() throws InterruptedException, TimeoutException, IOException {
+    public void tearDownLocalDatastoreHelper() throws Exception {
         LOCAL_DATASTORE_HELPER.stop();
     }
 
@@ -148,7 +144,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             logic.persistDataBundle(dataBundle);
             return true;
         } catch (Exception e) {
-            print(TeammatesException.toStringWithStackTrace(e));
+            e.printStackTrace();
             return false;
         }
     }
@@ -159,7 +155,7 @@ public abstract class BaseTestCaseWithLocalDatabaseAccess extends BaseTestCaseWi
             logic.putDocuments(dataBundle);
             return true;
         } catch (Exception e) {
-            print(TeammatesException.toStringWithStackTrace(e));
+            e.printStackTrace();
             return false;
         }
     }

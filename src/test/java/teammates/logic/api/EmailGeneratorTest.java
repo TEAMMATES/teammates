@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
@@ -37,6 +36,8 @@ public class EmailGeneratorTest extends BaseLogicTest {
     private final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     private final StudentsLogic studentsLogic = StudentsLogic.inst();
 
+    private final EmailGenerator emailGenerator = EmailGenerator.inst();
+
     @Override
     public void prepareTestData() {
         dataBundle = loadDataBundle("/EmailGeneratorTest.json");
@@ -70,11 +71,11 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateSessionLinksRecoveryEmail() throws IOException {
+    public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
         ______TS("invalid email address");
 
-        EmailWrapper email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+        EmailWrapper email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
                 "non-existing-student");
         String subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -85,7 +86,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
 
-        email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
                 student1InCourse1.getEmail());
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
 
@@ -96,7 +97,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse3 = dataBundle.students.get("student1InCourse3");
 
-        email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
                 student1InCourse3.getEmail());
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
@@ -108,7 +109,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         StudentAttributes student1InCourse4 = dataBundle.students.get("student1InCourse4");
 
-        email = new EmailGenerator().generateSessionLinksRecoveryEmailForStudent(
+        email = emailGenerator.generateSessionLinksRecoveryEmailForStudent(
                 student1InCourse4.getEmail());
 
         subject = EmailType.SESSION_LINKS_RECOVERY.getSubject();
@@ -118,7 +119,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionEmails() throws IOException {
+    public void testGenerateFeedbackSessionEmails() throws Exception {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
@@ -137,7 +138,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session opening emails");
 
-        List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
+        List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionOpeningEmails(session);
         assertEquals(11, emails.size());
 
         String subject = String.format(EmailType.FEEDBACK_OPENING.getSubject(),
@@ -148,7 +149,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session reminders");
 
-        emails = new EmailGenerator().generateFeedbackSessionReminderEmails(session, students, instructors,
+        emails = emailGenerator.generateFeedbackSessionReminderEmails(session, students, instructors,
                 instructorToNotify);
         // (5 instructors, 6 students reminded) and (1 instructor to be notified)
         assertEquals(12, emails.size());
@@ -168,9 +169,17 @@ public class EmailGeneratorTest extends BaseLogicTest {
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
 
+        InstructorAttributes instructorNotJoinedYet = instructorsLogic.getInstructorForEmail(
+                "idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt");
+        String instructorReminderToJoinLine = "Note that you will need to join the course as an instructor";
+
+        // Verify that unregistered instructor gets reminder to join course
+        verifyEmailReceivedCorrectly(emails, instructorNotJoinedYet.getEmail(), subject,
+                "/sessionReminderEmailForInstructorNotJoinedYet.html", instructorReminderToJoinLine);
+
         ______TS("feedback session closing alerts");
 
-        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(session);
+        emails = emailGenerator.generateFeedbackSessionClosingEmails(session);
         assertEquals(8, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSING.getSubject(),
@@ -190,7 +199,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session closed alerts");
 
-        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+        emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
         assertEquals(8, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
@@ -200,7 +209,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session published alerts");
 
-        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(session);
+        emails = emailGenerator.generateFeedbackSessionPublishedEmails(session);
         assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(),
@@ -211,7 +220,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session unpublished alerts");
 
-        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(session);
+        emails = emailGenerator.generateFeedbackSessionUnpublishedEmails(session);
         assertEquals(11, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_UNPUBLISHED.getSubject(),
@@ -223,7 +232,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has joined the course");
 
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                 session.getCourseId(), student1.getEmail(), Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
 
@@ -232,7 +241,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "Edited student has not joined the course");
 
-        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                 session.getCourseId(), unregisteredStudent.getEmail(),
                 Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
@@ -243,7 +252,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all regenerated feedback session links of course email to student. "
                 + "Student has joined the course");
 
-        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.getEmail(),
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(session.getCourseId(), student1.getEmail(),
                                             Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
 
@@ -253,7 +262,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all regenerated feedback session links of course email to student. "
                 + "Student has not joined the course");
 
-        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(),
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(session.getCourseId(),
                 unregisteredStudent.getEmail(), Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
 
@@ -265,25 +274,25 @@ public class EmailGeneratorTest extends BaseLogicTest {
         FeedbackSessionAttributes notAnswerableSession =
                 fsLogic.getFeedbackSession("Not answerable feedback session", "idOfTypicalCourse2");
 
-        emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(notAnswerableSession);
+        emails = emailGenerator.generateFeedbackSessionOpeningEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionClosingEmails(notAnswerableSession);
+        emails = emailGenerator.generateFeedbackSessionClosingEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(notAnswerableSession);
+        emails = emailGenerator.generateFeedbackSessionClosedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionPublishedEmails(notAnswerableSession);
+        emails = emailGenerator.generateFeedbackSessionPublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
-        emails = new EmailGenerator().generateFeedbackSessionUnpublishedEmails(notAnswerableSession);
+        emails = emailGenerator.generateFeedbackSessionUnpublishedEmails(notAnswerableSession);
         assertTrue(emails.isEmpty());
 
     }
 
     @Test
-    public void testGenerateFeedbackSessionEmails_testSanitization() throws IOException {
+    public void testGenerateFeedbackSessionEmails_testSanitization() throws Exception {
 
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("Normal feedback session name",
                                                                        "idOfTestingSanitizationCourse");
@@ -294,7 +303,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session opening emails: sanitization required");
 
-        List<EmailWrapper> emails = new EmailGenerator().generateFeedbackSessionOpeningEmails(session);
+        List<EmailWrapper> emails = emailGenerator.generateFeedbackSessionOpeningEmails(session);
 
         assertEquals(2, emails.size());
 
@@ -308,7 +317,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback session closed alerts: sanitization required");
 
-        emails = new EmailGenerator().generateFeedbackSessionClosedEmails(session);
+        emails = emailGenerator.generateFeedbackSessionClosedEmails(session);
         assertEquals(2, emails.size());
 
         subject = String.format(EmailType.FEEDBACK_CLOSED.getSubject(),
@@ -321,7 +330,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("feedback sessions summary of course email: sanitization required");
 
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                 session.getCourseId(), student1.getEmail(), Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
         verifyEmail(email, student1.getEmail(), subject,
@@ -330,7 +339,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateInstructorJoinEmail() throws IOException {
+    public void testGenerateInstructorJoinEmail() throws Exception {
 
         ______TS("instructor new account email");
 
@@ -356,7 +365,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
-        EmailWrapper email = new EmailGenerator()
+        EmailWrapper email = emailGenerator
                 .generateNewInstructorAccountJoinEmail(instructorEmail, instructorName, joinLink);
         String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), instructorName);
 
@@ -371,7 +380,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withTimezone(ZoneId.of("UTC"))
                 .build();
 
-        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor, course);
+        email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, instructor.getEmail(), subject, "/instructorCourseJoinEmail.html");
@@ -379,7 +388,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionSummaryOfCourse_noSessionLinksFound() throws IOException {
+    public void testGenerateFeedbackSessionSummaryOfCourse_noSessionLinksFound() throws Exception {
         FeedbackSessionAttributes session =
                 fsLogic.getFeedbackSession("Feedback session with no emails sent", "idOfTestingNoEmailsSentCourse");
 
@@ -390,7 +399,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all feedback sessions of course email to new student. "
                 + "No feedback session opening or published emails have been sent");
 
-        EmailWrapper email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(
+        EmailWrapper email = emailGenerator.generateFeedbackSessionSummaryOfCourse(
                                                             session.getCourseId(), noLinksStudent.getEmail(),
                                                             Templates.EmailTemplates.USER_FEEDBACK_SESSION_RESEND_ALL_LINKS);
         String subject = String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), course.getName(), course.getId());
@@ -401,7 +410,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("send summary of all regenerated feedback session links of course email to student. "
                 + "No feedback session opening or published emails have been sent");
 
-        email = new EmailGenerator().generateFeedbackSessionSummaryOfCourse(session.getCourseId(), noLinksStudent.getEmail(),
+        email = emailGenerator.generateFeedbackSessionSummaryOfCourse(session.getCourseId(), noLinksStudent.getEmail(),
                 Templates.EmailTemplates.USER_REGKEY_REGENERATION_RESEND_ALL_COURSE_LINKS);
         subject = String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(), course.getName(), course.getId());
 
@@ -410,7 +419,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateInstructorJoinEmail_testSanitization() throws IOException {
+    public void testGenerateInstructorJoinEmail_testSanitization() throws Exception {
         ______TS("instructor new account email: sanitization required");
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
@@ -421,7 +430,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
-        EmailWrapper email = new EmailGenerator()
+        EmailWrapper email = emailGenerator
                 .generateNewInstructorAccountJoinEmail(instructor1.getEmail(), instructor1.getName(), joinLink);
         // InstructorAttributes sanitizes name before saving
         String subject = String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(),
@@ -434,14 +443,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         AccountAttributes inviter = dataBundle.accounts.get("instructor1OfTestingSanitizationCourse");
         CourseAttributes course = coursesLogic.getCourse("idOfTestingSanitizationCourse");
-        email = new EmailGenerator().generateInstructorCourseJoinEmail(inviter, instructor1, course);
+        email = emailGenerator.generateInstructorCourseJoinEmail(inviter, instructor1, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, instructor1.getEmail(), subject, "/instructorCourseJoinEmailTestingSanitization.html");
 
         ______TS("instructor course join email after Google ID reset");
 
-        email = new EmailGenerator().generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, null);
+        email = emailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, null);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
 
@@ -450,7 +459,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course join email after Google ID reset (with institute name set)");
 
-        email = new EmailGenerator()
+        email = emailGenerator
                 .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, "Test Institute");
         subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
@@ -460,7 +469,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateStudentCourseJoinEmail() throws IOException {
+    public void testGenerateStudentCourseJoinEmail() throws Exception {
 
         ______TS("student course join email");
 
@@ -476,14 +485,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
                         .build();
         student.setKey("skxxxxxxxxxks");
 
-        EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+        EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student.getEmail(), subject, "/studentCourseWithCoOwnersJoinEmail.html");
 
         ______TS("student course with co-owners join email after Google ID reset");
 
-        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
+        email = emailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                                 course.getName(), course.getId());
 
@@ -496,14 +505,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .withTimezone(ZoneId.of("UTC"))
                 .build();
 
-        email = new EmailGenerator().generateStudentCourseJoinEmail(course, student);
+        email = emailGenerator.generateStudentCourseJoinEmail(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student.getEmail(), subject, "/studentCourseWithoutCoOwnersJoinEmail.html");
 
         ______TS("student course (without-co-owners) join email after Google ID reset");
 
-        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
+        email = emailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student);
         subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                                 course.getName(), course.getId());
 
@@ -511,21 +520,21 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateStudentCourseJoinEmail_testSanitization() throws IOException {
+    public void testGenerateStudentCourseJoinEmail_testSanitization() throws Exception {
 
         ______TS("student course join email: sanitization required");
 
         CourseAttributes course = coursesLogic.getCourse("idOfTestingSanitizationCourse");
         StudentAttributes student1 = studentsLogic.getStudentForEmail(course.getId(), "normal@sanitization.tmt");
 
-        EmailWrapper email = new EmailGenerator().generateStudentCourseJoinEmail(course, student1);
+        EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student1);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());
 
         verifyEmail(email, student1.getEmail(), subject, "/studentCourseJoinEmailTestingSanitization.html");
 
         ______TS("student course join email after Google ID reset: sanitization required");
 
-        email = new EmailGenerator().generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student1);
+        email = emailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student1);
         subject = String.format(EmailType.STUDENT_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
 
@@ -534,7 +543,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateUserCourseRegisterEmail() throws IOException {
+    public void testGenerateUserCourseRegisterEmail() throws Exception {
 
         ______TS("student course register email");
 
@@ -548,7 +557,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         String googleId = "user.googleid";
 
         EmailWrapper email =
-                new EmailGenerator().generateUserCourseRegisteredEmail(name, emailAddress, googleId, false, course);
+                emailGenerator.generateUserCourseRegisteredEmail(name, emailAddress, googleId, false, course);
         String subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                 course.getName(), course.getId());
 
@@ -556,7 +565,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course register email");
 
-        email = new EmailGenerator().generateUserCourseRegisteredEmail(name, emailAddress, googleId, true, course);
+        email = emailGenerator.generateUserCourseRegisteredEmail(name, emailAddress, googleId, true, course);
         subject = String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                 course.getName(), course.getId());
 
@@ -565,13 +574,13 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateCompiledLogsEmail() throws IOException {
+    public void testGenerateCompiledLogsEmail() throws Exception {
         List<ErrorLogEntry> errorLogs = Arrays.asList(
-                new ErrorLogEntry("Typical log message", "ERROR"),
-                new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR")
+                new ErrorLogEntry("Typical log message", "ERROR", "123456"),
+                new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR", "abcdef")
         );
 
-        EmailWrapper email = new EmailGenerator().generateCompiledLogsEmail(errorLogs);
+        EmailWrapper email = emailGenerator.generateCompiledLogsEmail(errorLogs);
 
         String subject = String.format(EmailType.SEVERE_LOGS_COMPILATION.getSubject(), Config.APP_VERSION);
 
@@ -579,7 +588,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
-            throws IOException {
+            throws Exception {
         // check recipient
         assertEquals(recipient, email.getRecipient());
 
@@ -606,14 +615,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
     private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject, String emailContentFilePath)
-            throws IOException {
+            throws Exception {
         verifyEmailReceivedCorrectly(actualEmails, recipient, subject, emailContentFilePath, "");
     }
 
     private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject,
             String emailContentFilePath, String containsString)
-            throws IOException {
+            throws Exception {
         boolean hasReceivedEmailCorrectly = false;
         for (EmailWrapper email : actualEmails) {
             if (email.getRecipient().equals(recipient) && email.getContent().contains(containsString)) {

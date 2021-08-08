@@ -596,7 +596,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </span>
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-auto text-md-left"
                 >
                   
                   
@@ -606,13 +606,18 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                      testId 
                   </div>
                 </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
                 <div
-                  class="col-md-2 text-md-right font-bold mt-3 mt-md-0"
+                  class="col-md-2 text-md-right font-bold"
                 >
                    Time Zone 
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-3 text-md-left"
                   id="time-zone"
                 >
                   <span
@@ -633,7 +638,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                    Course Name 
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-10 text-md-left"
                   id="course-name"
                 >
                    Test Course 
@@ -653,7 +658,7 @@ exports[`InstructorSessionEditPageComponent should snap with feedback session qu
                   </span>
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-10 text-md-left"
                 >
                   
                   
@@ -3221,7 +3226,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </span>
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-auto text-md-left"
                 >
                   
                   
@@ -3231,13 +3236,18 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                       
                   </div>
                 </div>
+              </div>
+              <br />
+              <div
+                class="row text-center"
+              >
                 <div
-                  class="col-md-2 text-md-right font-bold mt-3 mt-md-0"
+                  class="col-md-2 text-md-right font-bold"
                 >
                    Time Zone 
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-3 text-md-left"
                   id="time-zone"
                 >
                   <span
@@ -3258,7 +3268,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                    Course Name 
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-10 text-md-left"
                   id="course-name"
                 >
                     
@@ -3278,7 +3288,7 @@ exports[`InstructorSessionEditPageComponent should snap with new question added 
                   </span>
                 </div>
                 <div
-                  class="col-md-4 text-md-left"
+                  class="col-md-10 text-md-left"
                 >
                   
                   

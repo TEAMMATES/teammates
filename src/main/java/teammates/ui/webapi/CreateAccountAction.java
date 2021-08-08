@@ -7,7 +7,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -34,7 +33,7 @@ class CreateAccountAction extends AdminOnlyAction {
 
         try {
             courseId = importDemoData(instructorEmail, instructorName);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+        } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
         String instructorInstitution = createRequest.getInstructorInstitution().trim();
@@ -59,7 +58,7 @@ class CreateAccountAction extends AdminOnlyAction {
      * @return the ID of demo course
      */
     private String importDemoData(String instructorEmail, String instructorName)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
 
@@ -78,8 +77,13 @@ class CreateAccountAction extends AdminOnlyAction {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putStudentDocuments(students);
-        logic.putInstructorDocuments(instructors);
+        for (StudentAttributes student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        }
+
+        for (InstructorAttributes instructor : instructors) {
+            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
+        }
 
         return courseId;
     }

@@ -21,10 +21,10 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelperExtension;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.

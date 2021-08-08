@@ -2,7 +2,6 @@ package teammates.common.util;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -25,8 +24,8 @@ public final class HttpRequestHelper {
     /**
      * Gets the parameters of the given HTTP request as key-value (possibly multi-values) mapping.
      */
-    static Map<String, Serializable> getRequestParameters(HttpServletRequest req) {
-        Map<String, Serializable> params = new HashMap<>();
+    static Map<String, Object> getRequestParameters(HttpServletRequest req) {
+        Map<String, Object> params = new HashMap<>();
         req.getParameterMap().forEach((key, values) -> {
             if (values.length == 1) {
                 params.put(key, values[0]);
@@ -40,8 +39,8 @@ public final class HttpRequestHelper {
     /**
      * Gets the headers of the given HTTP request as key-value (possibly multi-values) mapping.
      */
-    static Map<String, Serializable> getRequestHeaders(HttpServletRequest req) {
-        Map<String, Serializable> headers = new HashMap<>();
+    static Map<String, Object> getRequestHeaders(HttpServletRequest req) {
+        Map<String, Object> headers = new HashMap<>();
         Collections.list(req.getHeaderNames()).stream()
                 // Do not include cookie header in production for privacy reasons
                 .filter(headerName -> Config.isDevServer() || !"cookie".equalsIgnoreCase(headerName))

@@ -11,7 +11,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -199,7 +198,7 @@ public final class FeedbackResponsesLogic {
             FeedbackQuestionAttributes question,
             FeedbackResponseAttributes response,
             String userEmail,
-            UserRole role, boolean isGiverName, CourseRoster roster) {
+            boolean isInstructor, boolean isGiverName, CourseRoster roster) {
 
         if (question == null) {
             return false;
@@ -220,19 +219,19 @@ public final class FeedbackResponsesLogic {
         }
 
         return isFeedbackParticipantNameVisibleToUser(question, response,
-                userEmail, role, isGiverName, roster);
+                userEmail, isInstructor, isGiverName, roster);
     }
 
     private boolean isFeedbackParticipantNameVisibleToUser(
             FeedbackQuestionAttributes question, FeedbackResponseAttributes response,
-            String userEmail, UserRole role, boolean isGiverName, CourseRoster roster) {
+            String userEmail, boolean isInstructor, boolean isGiverName, CourseRoster roster) {
         List<FeedbackParticipantType> showNameTo = isGiverName
                                                  ? question.getShowGiverNameTo()
                                                  : question.getShowRecipientNameTo();
         for (FeedbackParticipantType type : showNameTo) {
             switch (type) {
             case INSTRUCTORS:
-                if (roster.getInstructorForEmail(userEmail) != null && role == UserRole.INSTRUCTOR) {
+                if (roster.getInstructorForEmail(userEmail) != null && isInstructor) {
                     return true;
                 }
                 break;

@@ -11,7 +11,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -176,7 +175,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testValueOf_textQuestions_shouldDeserializeCorrectly() throws InvalidParametersException {
+    public void testValueOf_textQuestions_shouldDeserializeCorrectly() {
         ______TS("legacy data: plain text: single word, should deserialize correctly");
         FeedbackQuestion qn = new FeedbackQuestion("session", "course",
                 "singleWord", "description", 1, FeedbackQuestionType.TEXT,
@@ -359,7 +358,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testValidate() {
+    public void testValidate() throws Exception {
 
         List<FeedbackParticipantType> showGiverNameToList = new ArrayList<>();
         showGiverNameToList.add(FeedbackParticipantType.SELF);

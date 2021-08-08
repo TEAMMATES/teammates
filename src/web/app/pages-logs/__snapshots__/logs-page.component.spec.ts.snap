@@ -3,17 +3,15 @@
 exports[`LogsPageComponent should snap when page is still loading 1`] = `
 <tm-logs-page
   ACTION_CLASSES={[Function Array]}
-  EVENT={[Function String]}
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
-  SEVERITY={[Function String]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
   earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
+  filterType={[Function String]}
   formModel={[Function Object]}
   hasNextPage="false"
   hasPreviousPage={[Function Boolean]}
@@ -26,6 +24,7 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
+  logsMap={[Function Map]}
   queryParams={[Function Object]}
   searchEndTime="0"
   searchResults={[Function Array]}
@@ -78,17 +77,15 @@ exports[`LogsPageComponent should snap when page is still loading 1`] = `
 exports[`LogsPageComponent should snap when searching for details in search form 1`] = `
 <tm-logs-page
   ACTION_CLASSES={[Function Array]}
-  EVENT={[Function String]}
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
-  SEVERITY={[Function String]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
   earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
+  filterType={[Function String]}
   formModel={[Function Object]}
   hasNextPage="false"
   hasPreviousPage={[Function Boolean]}
@@ -101,6 +98,7 @@ exports[`LogsPageComponent should snap when searching for details in search form
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
+  logsMap={[Function Map]}
   queryParams={[Function Object]}
   searchEndTime="0"
   searchResults={[Function Array]}
@@ -408,6 +406,11 @@ exports[`LogsPageComponent should snap when searching for details in search form
                     REQUEST_LOG
                   </option>
                   <option
+                    value="EXCEPTION_LOG"
+                  >
+                    EXCEPTION_LOG
+                  </option>
+                  <option
                     value="EMAIL_SENT"
                   >
                     EMAIL_SENT
@@ -500,17 +503,15 @@ exports[`LogsPageComponent should snap when searching for details in search form
 exports[`LogsPageComponent should snap with default fields 1`] = `
 <tm-logs-page
   ACTION_CLASSES={[Function Array]}
-  EVENT={[Function String]}
   EVENTS={[Function Array]}
   LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
   LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
-  MIN_SEVERITY={[Function String]}
   SEVERITIES={[Function Array]}
-  SEVERITY={[Function String]}
   activatedRoute={[Function ActivatedRoute]}
   dateToday={[Function Object]}
   earliestLogTimestampRetrieved={[Function Number]}
   earliestSearchDate={[Function Object]}
+  filterType={[Function String]}
   formModel={[Function Object]}
   hasNextPage="false"
   hasPreviousPage={[Function Boolean]}
@@ -523,6 +524,7 @@ exports[`LogsPageComponent should snap with default fields 1`] = `
   isTableView={[Function Boolean]}
   latestLogTimestampRetrieved="0"
   logService={[Function LogService]}
+  logsMap={[Function Map]}
   queryParams={[Function Object]}
   searchEndTime="0"
   searchResults={[Function Array]}
