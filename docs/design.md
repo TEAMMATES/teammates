@@ -92,8 +92,8 @@ This type of request will be processed as follows:
 1. Request forwarded to the `WebApiServlet` and subsequent actions are the same as user-invoked AJAX requests.
 
 GAE server sends such automated requests through two different configurations:
-- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opening reminders. It is configured in `cron.xml`.
-- Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by GAE (i.e. GAE determines when and which tasks in the queue are executed at any point of time). This is typically used for tasks that may take a long time to finish and can exceed the 1 minute standard request processing limit imposed by GAE. It is configured in `queue.xml` as well as the `TaskQueue` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
+- Cron jobs: These are jobs that are automatically scheduled for a specified period of time, e.g. scheduling feedback session opening reminders. It is configured in `cron.yaml`.
+- Task queue workers: These are hybrids of user-invoked and GAE-invoked in that they are queued by users (i.e. users request for the tasks to be added to queue), but executed by GAE (i.e. GAE determines when and which tasks in the queue are executed at any point of time). This is typically used for tasks that may take a long time to finish and might be blocking user's interaction. It is configured in `queue.yaml` as well as the `TaskQueue` nested class of the [Const](../src/main/java/teammates/common/util/Const.java) class.
 
 ### Template Method pattern
 
@@ -119,7 +119,7 @@ On designing API endpoints (for AJAX requests):
   - Some fields are required be hidden in the API response, mostly for data privacy purposes. Whenever required, there should be methods in the request output objects catered for this.
 - API endpoints should not be concerned with how data is presented.
   - Case study 1: some endpoint will pass timezone information via two information: timezone ID and UNIX epoch milliseconds. It is up to the front-end on how to make use of those two pieces of information.
-  - Case study 2: CSV file for session result or student list is just a different way of presenting the same information in the web page. Due to this, when downloding CSV, the web page will request the same information as that used when displaying in web page and do the necessary conversion to CSV.
+  - Case study 2: CSV file for session result or student list is just a different way of presenting the same information in the web page. Due to this, when downloading CSV, the web page will request the same information as that used when displaying in web page and do the necessary conversion to CSV.
 
 On data exchange between front-end and back-end:
 
@@ -284,11 +284,9 @@ The E2E component has no knowledge of the internal workings of the application a
 
 Package overview:
 
-- **`e2e.util`**: Contains helpers needed for running E2E tests.
+- **`e2e.util`**: Contains helpers needed for running E2E tests. Also contains the test cases for the said infrastructure/helpers.
 - **`e2e.pageobjects`**: Contains abstractions of the pages as they appear on a Browser (i.e. SUTs).
-- **`e2e.cases`**: Contains test cases.
-  - **`.util`**: Component test cases for testing the test helpers.
-  - **`.e2e`**: System test cases for testing the application as a whole.
+- **`e2e.cases`**: Contains system test cases for testing the application as a whole.
 
 ## Client Component
 

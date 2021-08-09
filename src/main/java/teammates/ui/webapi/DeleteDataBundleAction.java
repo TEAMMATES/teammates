@@ -25,7 +25,7 @@ class DeleteDataBundleAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
         logic.removeDataBundle(dataBundle);
         return new JsonResult("Data bundle successfully persisted.", HttpStatus.SC_OK);

@@ -27,7 +27,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
 
         ______TS("Not enough parameters");
 
@@ -36,8 +36,8 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         ______TS("Typical case with new course id");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         CourseCreateRequest courseCreateRequest = new CourseCreateRequest();
         courseCreateRequest.setCourseName("New Course");
@@ -87,7 +87,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         String[] submissionParams = new String[] {};
 
         verifyOnlyInstructorsCanAccess(submissionParams);

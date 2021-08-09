@@ -26,9 +26,20 @@ import teammates.storage.entity.FeedbackResponseComment;
  * @see FeedbackResponseComment
  * @see FeedbackResponseCommentAttributes
  */
-public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
+public final class FeedbackResponseCommentsDb
+        extends EntitiesDb<FeedbackResponseComment, FeedbackResponseCommentAttributes> {
 
     private static final Logger log = Logger.getLogger();
+
+    private static final FeedbackResponseCommentsDb instance = new FeedbackResponseCommentsDb();
+
+    private FeedbackResponseCommentsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackResponseCommentsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a feedback response comment.
@@ -49,20 +60,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         assert createdAt != null;
 
         return makeAttributesOrNull(getFeedbackResponseCommentEntity(feedbackResponseId, commentGiver, createdAt));
-    }
-
-    /**
-     * Gets a feedback response comment by "fake" unique constraint course-createdAt-giver.
-     *
-     * <p>The method is only used in testing</p>
-     */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String courseId, Instant createdAt, String commentGiver) {
-        assert courseId != null;
-        assert commentGiver != null;
-        assert createdAt != null;
-
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver));
     }
 
     /**
@@ -182,14 +179,14 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
             return newAttributes;
         }
 
-        frc.setFeedbackResponseId(newAttributes.feedbackResponseId);
-        frc.setCommentText(newAttributes.commentText);
-        frc.setShowCommentTo(newAttributes.showCommentTo);
-        frc.setShowGiverNameTo(newAttributes.showGiverNameTo);
-        frc.setLastEditorEmail(newAttributes.lastEditorEmail);
-        frc.setLastEditedAt(newAttributes.lastEditedAt);
-        frc.setGiverSection(newAttributes.giverSection);
-        frc.setReceiverSection(newAttributes.receiverSection);
+        frc.setFeedbackResponseId(newAttributes.getFeedbackResponseId());
+        frc.setCommentText(newAttributes.getCommentText());
+        frc.setShowCommentTo(newAttributes.getShowCommentTo());
+        frc.setShowGiverNameTo(newAttributes.getShowGiverNameTo());
+        frc.setLastEditorEmail(newAttributes.getLastEditorEmail());
+        frc.setLastEditedAt(newAttributes.getLastEditedAt());
+        frc.setGiverSection(newAttributes.getGiverSection());
+        frc.setReceiverSection(newAttributes.getReceiverSection());
 
         saveEntity(frc);
 
@@ -270,14 +267,6 @@ public class FeedbackResponseCommentsDb extends EntitiesDb<FeedbackResponseComme
         }
 
         deleteEntity(entitiesToDelete.keys().list());
-    }
-
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
-        return load()
-                .filter("courseId =", courseId)
-                .filter("createdAt =", createdAt)
-                .filter("giverEmail =", giverEmail)
-                .first().now();
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(long feedbackResponseCommentId) {

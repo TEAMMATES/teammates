@@ -4,8 +4,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -37,11 +35,11 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         loginAsAdmin();
 
         InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
-        String instructorId = instructor1OfCourse2.googleId;
+        String instructorId = instructor1OfCourse2.getGoogleId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse2.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse2.getCourseId(),
         };
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
@@ -52,20 +50,20 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor1OfCourse2.courseId, instructor1OfCourse2.email));
+        assertNull(logic.getInstructorForEmail(instructor1OfCourse2.getCourseId(), instructor1OfCourse2.getEmail()));
 
         ______TS("Typical case: instructor deletes another instructor by google id");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor2OfCourse1.googleId,
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructor2OfCourse1.getGoogleId(),
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertTrue(logic.getInstructorsForCourse(instructor1OfCourse1.courseId).size() > 1);
+        assertTrue(logic.getInstructorsForCourse(instructor1OfCourse1.getCourseId()).size() > 1);
 
         deleteInstructorAction = getAction(submissionParams);
         response = getJsonResult(deleteInstructorAction);
@@ -75,8 +73,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
-        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
+        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail()));
+        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
 
     }
 
@@ -84,14 +82,14 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
     public void testExecute_deleteInstructorByEmail_shouldSuccess() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, instructor2OfCourse1.getEmail(),
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertTrue(logic.getInstructorsForCourse(instructor1OfCourse1.courseId).size() > 1);
+        assertTrue(logic.getInstructorsForCourse(instructor1OfCourse1.getCourseId()).size() > 1);
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -101,8 +99,8 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
-        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
+        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail()));
+        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
     }
 
     @Test
@@ -110,14 +108,14 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         loginAsAdmin();
 
         InstructorAttributes instructor4 = typicalBundle.instructors.get("instructor4");
-        String instructorId = instructor4.googleId;
+        String instructorId = instructor4.getGoogleId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
-                Const.ParamsNames.COURSE_ID, instructor4.courseId,
+                Const.ParamsNames.COURSE_ID, instructor4.getCourseId(),
         };
 
-        assertEquals(logic.getInstructorsForCourse(instructor4.courseId).size(), 1);
+        assertEquals(logic.getInstructorsForCourse(instructor4.getCourseId()).size(), 1);
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -127,21 +125,21 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor4.courseId, instructor4.email));
+        assertNull(logic.getInstructorForEmail(instructor4.getCourseId(), instructor4.getEmail()));
     }
 
     @Test
     protected void testExecute_instructorDeleteOwnRoleByGoogleId_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor2OfCourse1.googleId);
+        loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.INSTRUCTOR_ID, instructor2OfCourse1.googleId,
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructor2OfCourse1.getGoogleId(),
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertTrue(logic.getInstructorsForCourse(instructor1OfCourse1.courseId).size() > 1);
+        assertTrue(logic.getInstructorsForCourse(instructor1OfCourse1.getCourseId()).size() > 1);
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -151,20 +149,20 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
-        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.courseId, instructor2OfCourse1.email));
-        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, instructor1OfCourse1.email));
+        assertNull(logic.getInstructorForEmail(instructor2OfCourse1.getCourseId(), instructor2OfCourse1.getEmail()));
+        assertNotNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()));
     }
 
     @Test
     protected void testExecute_deleteLastInstructorByGoogleId_shouldFail() {
         InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructor4");
-        String courseId = instructorToDelete.courseId;
+        String courseId = instructorToDelete.getCourseId();
 
-        loginAsInstructor(instructorToDelete.googleId);
+        loginAsInstructor(instructorToDelete.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.googleId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getGoogleId(),
         };
 
         assertEquals(logic.getInstructorsForCourse(courseId).size(), 1);
@@ -178,26 +176,26 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
 
-        assertNotNull(logic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
-        assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
+        assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
+        assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
     }
 
     @Test
     protected void testExecute_deleteLastInstructorInMasqueradeByGoogleId_shouldFail() {
         InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructor4");
-        String courseId = instructorToDelete.courseId;
+        String courseId = instructorToDelete.getCourseId();
 
         loginAsAdmin();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.googleId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getGoogleId(),
         };
 
         assertEquals(logic.getInstructorsForCourse(courseId).size(), 1);
 
         DeleteInstructorAction deleteInstructorAction =
-                getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
+                getAction(addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
         JsonResult response = getJsonResult(deleteInstructorAction);
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusCode());
@@ -206,18 +204,18 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
                 + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
 
-        assertNotNull(logic.getInstructorForEmail(instructorToDelete.courseId, instructorToDelete.email));
-        assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.courseId, instructorToDelete.googleId));
+        assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
+        assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
     }
 
     @Test
     protected void testExecute_deleteInstructorInMasqueradeByGoogleId_shouldPass() {
         InstructorAttributes instructorToDelete = typicalBundle.instructors.get("instructorNotDisplayedToStudent2");
-        String courseId = instructorToDelete.courseId;
+        String courseId = instructorToDelete.getCourseId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
-                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.googleId,
+                Const.ParamsNames.INSTRUCTOR_ID, instructorToDelete.getGoogleId(),
         };
 
         loginAsAdmin();
@@ -225,28 +223,28 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         assertTrue(logic.getInstructorsForCourse(courseId).size() > 1);
 
         DeleteInstructorAction deleteInstructorAction =
-                getAction(addUserIdToParams(instructorToDelete.googleId, submissionParams));
+                getAction(addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
         JsonResult response = getJsonResult(deleteInstructorAction);
 
         assertEquals(HttpStatus.SC_OK, response.getStatusCode());
         MessageOutput messageOutput = (MessageOutput) response.getOutput();
 
         assertEquals("Instructor is successfully deleted.", messageOutput.getMessage());
-        assertNull(logic.getInstructorForEmail(courseId, instructorToDelete.email));
+        assertNull(logic.getInstructorForEmail(courseId, instructorToDelete.getEmail()));
     }
 
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
 
         String[] onlyInstructorParameter = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
         };
 
         String[] onlyCourseParameter = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         loginAsAdmin();
@@ -270,7 +268,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         attemptToDeleteFakeInstructorByEmail();
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         attemptToDeleteFakeInstructorByGoogleId();
         attemptToDeleteFakeInstructorByEmail();
@@ -281,10 +279,10 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, "fake-googleId",
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertNull(logic.getInstructorForGoogleId(instructor1OfCourse1.courseId, "fake-googleId"));
+        assertNull(logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(), "fake-googleId"));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -300,10 +298,10 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_EMAIL, "fake-instructor@fake-email",
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        assertNull(logic.getInstructorForEmail(instructor1OfCourse1.courseId, "fake-instructor@fake-email"));
+        assertNull(logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(), "fake-instructor@fake-email"));
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
@@ -319,7 +317,7 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         loginAsAdmin();
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.INSTRUCTOR_ID, instructorId,
@@ -339,11 +337,11 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
     @Override
     @Test
-    protected void testAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl() throws Exception {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
-                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.email,
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, instructor.getEmail(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

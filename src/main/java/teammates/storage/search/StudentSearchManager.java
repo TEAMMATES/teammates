@@ -1,5 +1,6 @@
 package teammates.storage.search;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
+import org.apache.solr.common.SolrDocumentList;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -21,8 +23,8 @@ import teammates.storage.api.StudentsDb;
  */
 public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
-    private final CoursesDb coursesDb = new CoursesDb();
-    private final StudentsDb studentsDb = new StudentsDb();
+    private final CoursesDb coursesDb = CoursesDb.inst();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
     public StudentSearchManager(String searchServiceHost, boolean isResetAllowed) {
         super(searchServiceHost, isResetAllowed);
@@ -35,7 +37,7 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     StudentSearchDocument createDocument(StudentAttributes student) {
-        CourseAttributes course = coursesDb.getCourse(student.course);
+        CourseAttributes course = coursesDb.getCourse(student.getCourse());
         return new StudentSearchDocument(student, course);
     }
 
@@ -48,11 +50,11 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
 
     @Override
     void sortResult(List<StudentAttributes> result) {
-        result.sort(Comparator.comparing((StudentAttributes student) -> student.course)
-                .thenComparing(student -> student.section)
-                .thenComparing(student -> student.team)
-                .thenComparing(student -> student.name)
-                .thenComparing(student -> student.email));
+        result.sort(Comparator.comparing((StudentAttributes student) -> student.getCourse())
+                .thenComparing(student -> student.getSection())
+                .thenComparing(student -> student.getTeam())
+                .thenComparing(student -> student.getName())
+                .thenComparing(student -> student.getEmail()));
     }
 
     /**
@@ -64,20 +66,40 @@ public class StudentSearchManager extends SearchManager<StudentAttributes> {
             throws SearchServiceException {
         SolrQuery query = getBasicQuery(queryString);
 
-        if (instructors != null) {
-            String filterQueryString = prepareFilterQueryString(instructors);
-            query.addFilterQuery(filterQueryString);
+        List<String> courseIdsWithViewStudentPrivilege;
+        if (instructors == null) {
+            courseIdsWithViewStudentPrivilege = new ArrayList<>();
+        } else {
+            courseIdsWithViewStudentPrivilege = instructors.stream()
+                    .filter(i -> i.getPrivileges().getCourseLevelPrivileges()
+                            .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
+                    .map(ins -> ins.getCourseId())
+                    .collect(Collectors.toList());
+            if (courseIdsWithViewStudentPrivilege.isEmpty()) {
+                return new ArrayList<>();
+            }
+            String courseIdFq = String.join("\" OR \"", courseIdsWithViewStudentPrivilege);
+            query.addFilterQuery("courseId:(\"" + courseIdFq + "\")");
         }
 
         QueryResponse response = performQuery(query);
-        return convertDocumentToAttributes(response);
-    }
+        SolrDocumentList documents = response.getResults();
 
-    private String prepareFilterQueryString(List<InstructorAttributes> instructors) {
-        return instructors.stream()
-                .filter(i -> i.privileges.getCourseLevelPrivileges()
-                        .get(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS))
-                .map(ins -> ins.courseId).collect(Collectors.joining(" "));
+        // Sanity check such that the course ID of the students match exactly.
+        // In ideal case, this check is not expected to do anything,
+        // i.e. the resulting list should be the same as the incoming list.
+
+        List<SolrDocument> filteredDocuments = documents.stream()
+                .filter(document -> {
+                    if (instructors == null) {
+                        return true;
+                    }
+                    String courseId = (String) document.getFirstValue("courseId");
+                    return courseIdsWithViewStudentPrivilege.contains(courseId);
+                })
+                .collect(Collectors.toList());
+
+        return convertDocumentToAttributes(filteredDocuments);
     }
 
 }

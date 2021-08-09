@@ -12,7 +12,6 @@ import com.sun.jersey.api.client.WebResource;
 import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import com.sun.jersey.multipart.FormDataMultiPart;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -66,7 +65,7 @@ public class MailgunService implements EmailSenderService {
 
             return new EmailSendingStatus(response.getStatus(), response.getStatusInfo().getReasonPhrase());
         } catch (IOException e) {
-            log.warning("Could not clean up resources after sending email: " + TeammatesException.toStringWithStackTrace(e));
+            log.warning("Could not clean up resources after sending email", e);
             return new EmailSendingStatus(HttpStatus.SC_OK, e.getMessage());
         }
     }

@@ -14,17 +14,16 @@ import teammates.common.util.Logger;
 import teammates.storage.entity.Course;
 
 /**
- * The data transfer object for Course entities.
+ * The data transfer object for {@link Course} entities.
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
-    public Instant createdAt;
-    public Instant deletedAt;
+    private Instant createdAt;
+    private Instant deletedAt;
     private String name;
     private ZoneId timeZone;
-
     private String id;
 
     private CourseAttributes(String courseId) {
@@ -34,6 +33,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         this.deletedAt = null;
     }
 
+    /**
+     * Gets the {@link CourseAttributes} instance of the given {@link Course}.
+     */
     public static CourseAttributes valueOf(Course course) {
         CourseAttributes courseAttributes = new CourseAttributes(course.getUniqueId());
 
@@ -80,20 +82,28 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return timeZone;
     }
 
+    public void setTimeZone(ZoneId timeZone) {
+        this.timeZone = timeZone;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public boolean isCourseDeleted() {
-        return this.deletedAt != null;
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
+    public boolean isCourseDeleted() {
+        return this.deletedAt != null;
     }
 
     @Override
@@ -154,6 +164,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return o.createdAt.compareTo(createdAt);
     }
 
+    /**
+     * Sorts the list of courses by the course ID.
+     */
     public static void sortById(List<CourseAttributes> courses) {
         courses.sort(Comparator.comparing(CourseAttributes::getId));
     }

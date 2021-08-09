@@ -8,9 +8,7 @@ import java.util.Set;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -44,17 +42,26 @@ import teammates.logic.core.StudentsLogic;
  */
 public class Logic {
 
-    protected static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    protected static final StudentsLogic studentsLogic = StudentsLogic.inst();
-    protected static final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
-    protected static final CoursesLogic coursesLogic = CoursesLogic.inst();
-    protected static final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
-    protected static final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
-    protected static final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
-    protected static final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic =
-            FeedbackResponseCommentsLogic.inst();
-    protected static final ProfilesLogic profilesLogic = ProfilesLogic.inst();
-    protected static final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+    private static final Logic instance = new Logic();
+
+    final AccountsLogic accountsLogic = AccountsLogic.inst();
+    final StudentsLogic studentsLogic = StudentsLogic.inst();
+    final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
+    final CoursesLogic coursesLogic = CoursesLogic.inst();
+    final FeedbackSessionsLogic feedbackSessionsLogic = FeedbackSessionsLogic.inst();
+    final FeedbackQuestionsLogic feedbackQuestionsLogic = FeedbackQuestionsLogic.inst();
+    final FeedbackResponsesLogic feedbackResponsesLogic = FeedbackResponsesLogic.inst();
+    final FeedbackResponseCommentsLogic feedbackResponseCommentsLogic = FeedbackResponseCommentsLogic.inst();
+    final ProfilesLogic profilesLogic = ProfilesLogic.inst();
+    final DataBundleLogic dataBundleLogic = DataBundleLogic.inst();
+
+    Logic() {
+        // prevent initialization
+    }
+
+    public static Logic inst() {
+        return instance;
+    }
 
     /**
      * Preconditions: <br>
@@ -135,12 +142,25 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates documents for the given Instructors.
+     * Creates or updates search document for the given instructor.
      *
-     * @see InstructorsLogic#putDocuments(List)
+     * @see InstructorsLogic#putDocument(InstructorAttributes)
      */
-    public void putInstructorDocuments(List<InstructorAttributes> instructors) {
-        instructorsLogic.putDocuments(instructors);
+    public void putInstructorDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsLogic.putDocument(instructor);
+    }
+
+    /**
+     * Update instructor being edited to ensure validity of instructors for the course.
+     *
+     * @see InstructorsLogic#updateToEnsureValidityOfInstructorsForTheCourse(String, InstructorAttributes)
+     */
+    public void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
+
+        assert courseId != null;
+        assert instructorToEdit != null;
+
+        instructorsLogic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToEdit);
     }
 
     /**
@@ -761,10 +781,12 @@ public class Logic {
     }
 
     /**
-     * Batch creates or updates search documents for the given students.
+     * Creates or updates search document for the given student.
+     *
+     * @see StudentsLogic#putDocument(StudentAttributes)
      */
-    public void putStudentDocuments(List<StudentAttributes> students) {
-        studentsLogic.putDocuments(students);
+    public void putStudentDocument(StudentAttributes student) throws SearchServiceException {
+        studentsLogic.putDocument(student);
     }
 
     /**
@@ -1002,7 +1024,7 @@ public class Logic {
      * Soft-deletes a specific session to Recycle Bin.
      */
     public void moveFeedbackSessionToRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
@@ -1014,7 +1036,7 @@ public class Logic {
      * Restores a specific session from Recycle Bin to feedback sessions table.
      */
     public void restoreFeedbackSessionFromRecycleBin(String feedbackSessionName, String courseId)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws EntityDoesNotExistException {
 
         assert feedbackSessionName != null;
         assert courseId != null;
@@ -1109,18 +1131,17 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, UserRole, String, String)
+     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, boolean, String, String)
      */
     public SessionResultsBundle getSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserRole role,
+            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
             @Nullable String questionId, @Nullable String section) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
-        assert role != null;
 
         return feedbackSessionsLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, role, questionId, section);
+                feedbackSessionName, courseId, userEmail, isInstructor, questionId, section);
     }
 
     /**
@@ -1227,14 +1248,6 @@ public class Logic {
         return feedbackResponseCommentsLogic.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId,
-                                                                                      String giverEmail) {
-        assert courseId != null;
-        assert giverEmail != null;
-
-        return feedbackResponseCommentsLogic.getFeedbackResponseCommentsForGiver(courseId, giverEmail);
-    }
-
     /**
      * Gets comment associated with the response.
      *
@@ -1329,14 +1342,8 @@ public class Logic {
      *
      * @see DataBundleLogic#putDocuments(DataBundle)
      */
-    public void putDocuments(DataBundle dataBundle) {
+    public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         dataBundleLogic.putDocuments(dataBundle);
-    }
-
-    public int getNumOfGeneratedChoicesForParticipantType(String courseId, FeedbackParticipantType generateOptionsFor) {
-        assert courseId != null;
-        assert generateOptionsFor != null;
-        return feedbackQuestionsLogic.getNumOfGeneratedChoicesForParticipantType(courseId, generateOptionsFor);
     }
 
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
@@ -1345,5 +1352,4 @@ public class Logic {
         assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
     }
-
 }

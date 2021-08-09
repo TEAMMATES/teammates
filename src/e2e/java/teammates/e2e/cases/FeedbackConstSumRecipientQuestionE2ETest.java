@@ -45,7 +45,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
         FeedbackConstantSumQuestionDetails questionDetails =
-                (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetails();
+                (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyConstSumQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -58,22 +58,22 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackConstantSumQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackConstantSumQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyConstSumQuestionDetails(3, questionDetails);
         verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackConstantSumQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setPointsPerOption(true);
         questionDetails.setPoints(1000);
         questionDetails.setDistributePointsFor("At least some options");
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editConstSumQuestion(2, questionDetails);
         feedbackEditPage.waitForPageToLoad();
 
@@ -90,13 +90,13 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         StudentAttributes receiver = testData.students.get("benny.tmms@FCSumRcptQn.CS2104");
         StudentAttributes receiver2 = testData.students.get("charlie.tmms@FCSumRcptQn.CS2104");
         feedbackSubmitPage.verifyConstSumQuestion(1, "",
-                (FeedbackConstantSumQuestionDetails) question.getQuestionDetails());
+                (FeedbackConstantSumQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 49);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver2, 51);
-        List responses = Arrays.asList(response, response2);
+        List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2);
         feedbackSubmitPage.submitConstSumRecipientResponse(1, responses);
 
         verifyPresentInDatabase(response);

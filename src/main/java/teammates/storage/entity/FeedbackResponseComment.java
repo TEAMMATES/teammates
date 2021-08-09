@@ -175,10 +175,6 @@ public class FeedbackResponseComment extends BaseEntity {
      * Gets the giver type of the comment.
      */
     public FeedbackParticipantType getCommentGiverType() {
-        // TODO: Remove after data migration
-        if (commentGiverType == null) {
-            return FeedbackParticipantType.INSTRUCTORS;
-        }
         return commentGiverType;
     }
 
@@ -186,10 +182,6 @@ public class FeedbackResponseComment extends BaseEntity {
      * Sets the giver type of the comment.
      */
     public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
-        // TODO: Remove after data migration
-        if (commentGiverType == null) {
-            this.commentGiverType = FeedbackParticipantType.INSTRUCTORS;
-        }
         this.commentGiverType = commentGiverType;
     }
 

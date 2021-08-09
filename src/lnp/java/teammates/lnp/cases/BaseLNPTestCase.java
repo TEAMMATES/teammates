@@ -32,7 +32,6 @@ import com.google.gson.stream.JsonReader;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.lnp.util.BackDoor;
@@ -48,19 +47,22 @@ import teammates.test.FileHelper;
  */
 public abstract class BaseLNPTestCase extends BaseTestCase {
 
-    protected static final String GET = HttpGet.METHOD_NAME;
-    protected static final String POST = HttpPost.METHOD_NAME;
-    protected static final String PUT = HttpPut.METHOD_NAME;
-    protected static final String DELETE = HttpDelete.METHOD_NAME;
-    protected static final Logger log = Logger.getLogger();
+    static final String GET = HttpGet.METHOD_NAME;
+    static final String POST = HttpPost.METHOD_NAME;
+    static final String PUT = HttpPut.METHOD_NAME;
+    static final String DELETE = HttpDelete.METHOD_NAME;
 
-    private static final BackDoor BACKDOOR = BackDoor.getInstance();
+    private static final Logger log = Logger.getLogger();
 
     private static final int RESULT_COUNT = 3;
 
-    protected String timeStamp;
-    protected LNPSpecification specification;
+    final BackDoor backdoor = BackDoor.getInstance();
+    String timeStamp;
+    LNPSpecification specification;
 
+    /**
+     * Returns the test data used for the current test.
+     */
     protected abstract LNPTestData getTestData();
 
     /**
@@ -115,7 +117,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
                         this.getClass().getSimpleName(), this.timeStamp);
     }
 
-    protected String createFileAndDirectory(String directory, String fileName) throws IOException {
+    String createFileAndDirectory(String directory, String fileName) throws IOException {
         File dir = new File(directory);
         if (!dir.exists()) {
             dir.mkdir();
@@ -220,15 +222,11 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
     /**
      * Creates the JSON test data and CSV config data files for the performance test from {@code testData}.
      */
-    protected void createTestData() {
+    protected void createTestData() throws IOException, HttpRequestFailedException {
         LNPTestData testData = getTestData();
-        try {
-            createJsonDataFile(testData);
-            persistTestData();
-            createCsvConfigDataFile(testData);
-        } catch (IOException | HttpRequestFailedException ex) {
-            log.severe(TeammatesException.toStringWithStackTrace(ex));
-        }
+        createJsonDataFile(testData);
+        persistTestData();
+        createCsvConfigDataFile(testData);
     }
 
     /**
@@ -236,7 +234,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void persistTestData() throws IOException, HttpRequestFailedException {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        String responseBody = BACKDOOR.removeAndRestoreDataBundle(dataBundle);
+        String responseBody = backdoor.removeAndRestoreDataBundle(dataBundle);
 
         String pathToResultFile = createFileAndDirectory(TestProperties.LNP_TEST_DATA_FOLDER, getJsonDataPath());
         String jsonValue = JsonUtils.parse(responseBody).getAsJsonObject().get("message").getAsString();
@@ -301,7 +299,7 @@ public abstract class BaseLNPTestCase extends BaseTestCase {
      */
     protected void deleteTestData() {
         DataBundle dataBundle = loadDataBundle(getJsonDataPath());
-        BACKDOOR.removeDataBundle(dataBundle);
+        backdoor.removeDataBundle(dataBundle);
     }
 
     /**

@@ -12,7 +12,7 @@ import teammates.ui.request.SendEmailRequest;
 class SendEmailWorkerAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         SendEmailRequest emailRequest = getAndValidateRequestBody(SendEmailRequest.class);
         EmailWrapper email = emailRequest.getEmail();
         EmailSendingStatus status = emailSender.sendEmail(email);

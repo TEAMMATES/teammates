@@ -15,9 +15,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.InstructorHomePage;
 import teammates.e2e.util.TestProperties;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_HOME_PAGE}.
@@ -40,7 +40,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorHomePageE2ETest.json");
         studentToEmail = testData.students.get("IHome.charlie.d.tmms@IHome.CS2104");
-        studentToEmail.email = TestProperties.TEST_EMAIL;
+        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
         putDocuments(testData);
 
@@ -67,7 +67,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl url = createUrl(Const.WebPageURIs.INSTRUCTOR_HOME_PAGE);
-        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.googleId);
+        InstructorHomePage homePage = loginToPage(url, InstructorHomePage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         homePage.sortCoursesById();
@@ -167,7 +167,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         otherCourseIndex = 0;
         homePage.verifyCourseTabDetails(otherCourseIndex, otherCourse, otherCourseSessions);
         assertNotNull(getSoftDeletedSession(copiedSession.getFeedbackSessionName(),
-                instructor.googleId));
+                instructor.getGoogleId()));
 
         ______TS("archive course");
         homePage.archiveCourse(courseIndex);
@@ -191,7 +191,7 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         String sessionName = session.getFeedbackSessionName();
         boolean hasQuestion = testData.feedbackQuestions.values()
                 .stream()
-                .anyMatch(q -> q.feedbackSessionName.equals(sessionName));
+                .anyMatch(q -> q.getFeedbackSessionName().equals(sessionName));
 
         if (!hasQuestion) {
             return "0 / 0";
@@ -205,8 +205,8 @@ public class InstructorHomePageE2ETest extends BaseE2ETestCase {
         Set<String> uniqueGivers = new HashSet<>();
         testData.feedbackResponses.values()
                 .stream()
-                .filter(r -> r.feedbackSessionName.equals(sessionName))
-                .forEach(r -> uniqueGivers.add(r.giver));
+                .filter(r -> r.getFeedbackSessionName().equals(sessionName))
+                .forEach(r -> uniqueGivers.add(r.getGiver()));
         int numResponses = uniqueGivers.size();
 
         return numResponses + " / " + numStudents;

@@ -23,9 +23,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackResultsPage;
 import teammates.e2e.util.TestProperties;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE}.
@@ -71,7 +71,7 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorFeedbackResultsPageE2ETest.json");
         studentToEmail = testData.students.get("Emily");
-        studentToEmail.email = TestProperties.TEST_EMAIL;
+        studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
         instructor = testData.instructors.get("tm.e2e.IFRes.instr");

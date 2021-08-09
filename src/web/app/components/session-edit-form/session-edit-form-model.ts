@@ -6,6 +6,8 @@ import {
   FeedbackSessionSubmissionStatus,
   ResponseVisibleSetting, SessionVisibleSetting,
 } from '../../../types/api-output';
+import { DateFormat } from '../datepicker/datepicker.component';
+import { TimeFormat } from '../timepicker/timepicker.component';
 
 /**
  * The mode of operation for session edit form.
@@ -63,21 +65,4 @@ export interface SessionEditFormModel {
   isEditable: boolean;
   isDeleting: boolean;
   isCopying: boolean;
-}
-
-/**
- * The time format.
- */
-export interface TimeFormat {
-  hour: number;
-  minute: number;
-}
-
-/**
- * The date format.
- */
-export interface DateFormat {
-  year: number;
-  month: number;
-  day: number;
 }

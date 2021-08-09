@@ -55,20 +55,20 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         // Make student2InCourse2 and instructor1OfCourse1 belong to the same account.
         StudentAttributes student2InCourse2 = typicalBundle.students.get("student2InCourse2");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        student2InCourse2.googleId = instructor1OfCourse1.getGoogleId();
+        student2InCourse2.setGoogleId(instructor1OfCourse1.getGoogleId());
 
         removeAndRestoreDataBundle(typicalBundle);
     }
 
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests
     }
 
     @Test
     protected void testExecute_asInstructorWithCourseId_shouldReturnAllSessionsForCourse() {
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor2OfCourse1.googleId);
+        loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, instructor2OfCourse1.getCourseId(),
@@ -87,7 +87,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         FeedbackSessionAttributes session1InCourse1 = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor2OfCourse1.googleId);
+        loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "true",
@@ -105,7 +105,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_asInstructorWithRecycleBinFlagFalse_shouldReturnAllSessionsForInstructor() {
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
-        loginAsInstructor(instructor2OfCourse1.googleId);
+        loginAsInstructor(instructor2OfCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.IS_IN_RECYCLE_BIN, "false",
@@ -123,7 +123,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     protected void testExecute_instructorAsStudent_shouldReturnAllSessionsForStudent() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        loginAsStudentInstructor(instructor1OfCourse1.getGoogleId());
         String[] submissionParam = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
@@ -140,7 +140,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student2InCourse2 = typicalBundle.students.get("student2InCourse2");
 
-        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        loginAsStudentInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, student2InCourse2.getCourse(),
@@ -156,7 +156,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     protected void testExecute_instructorAsStudentWithInvalidCourseId_shouldReturnEmptyList() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        loginAsStudentInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, "invalid-course-id",
@@ -172,7 +172,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_asStudentWithCourseId_shouldReturnAllSessionsForCourse() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -190,7 +190,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_asStudent_shouldReturnAllSessionsForAccount() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] submissionParam = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -206,21 +206,21 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
     @Test
     protected void testExecute_unknownEntityType_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         verifyHttpParameterFailure();
     }
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student1InCourse2 = typicalBundle.students.get("student1InCourse2");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         InstructorAttributes instructor2OfCourse1 = typicalBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes instructor1OfCourse2 = typicalBundle.instructors.get("instructor1OfCourse2");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         ______TS("student can access");
         String[] studentEntityParam = {
@@ -229,7 +229,7 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyCanAccess(studentEntityParam);
 
         ______TS("student of the same course can access");
-        loginAsStudent(student1InCourse2.googleId);
+        loginAsStudent(student1InCourse2.getGoogleId());
         String[] courseParam = {
                 Const.ParamsNames.COURSE_ID, student1InCourse2.getCourse(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
@@ -237,11 +237,11 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyCanAccess(courseParam);
 
         ______TS("Student of another course cannot access");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCannotAccess(courseParam);
 
         ______TS("instructor can access");
-        loginAsInstructor(instructor1OfCourse2.googleId);
+        loginAsInstructor(instructor1OfCourse2.getGoogleId());
 
         String[] instructorParam = {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
@@ -257,15 +257,15 @@ public class GetFeedbackSessionsActionTest extends BaseActionTest<GetFeedbackSes
         verifyCanAccess(instructorAndCourseIdParam);
 
         ______TS("instructor of another course cannot access");
-        loginAsInstructor(instructor2OfCourse1.googleId);
+        loginAsInstructor(instructor2OfCourse1.getGoogleId());
         verifyCannotAccess(instructorAndCourseIdParam);
 
         ______TS("instructor as student can access");
-        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        loginAsStudentInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(studentEntityParam);
 
         ______TS("instructor as student can access for course");
-        loginAsStudentInstructor(instructor1OfCourse1.googleId);
+        loginAsStudentInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(courseParam);
 
         String[] adminEntityParam = {

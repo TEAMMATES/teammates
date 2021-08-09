@@ -14,9 +14,9 @@ import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetai
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorFeedbackEditPage;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_EDIT_PAGE}.
@@ -45,7 +45,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         InstructorFeedbackEditPage feedbackEditPage =
-                loginToPage(url, InstructorFeedbackEditPage.class, instructor.googleId);
+                loginToPage(url, InstructorFeedbackEditPage.class, instructor.getGoogleId());
 
         ______TS("verify loaded data");
         feedbackEditPage.verifySessionDetails(course, feedbackSession);
@@ -75,10 +75,10 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
 
         ______TS("copy question from other session");
         FeedbackQuestionAttributes questionToCopy = testData.feedbackQuestions.get("qn1");
-        questionToCopy.courseId = course.getId();
-        questionToCopy.feedbackSessionName = feedbackSession.getFeedbackSessionName();
-        questionToCopy.questionNumber = 2;
-        feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetails().getQuestionText());
+        questionToCopy.setCourseId(course.getId());
+        questionToCopy.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
+        questionToCopy.setQuestionNumber(2);
+        feedbackEditPage.copyQuestion(copiedCourse.getId(), questionToCopy.getQuestionDetailsCopy().getQuestionText());
 
         feedbackEditPage.verifyStatusMessage("The question has been added to this feedback session.");
         feedbackEditPage.verifyNumQuestions(2);
@@ -99,7 +99,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         ______TS("edit question");
         FeedbackQuestionAttributes editedQuestion = getTemplateQuestion();
         editedQuestion.setQuestionNumber(1);
-        String questionBrief = editedQuestion.getQuestionDetails().getQuestionText();
+        String questionBrief = editedQuestion.getQuestionDetailsCopy().getQuestionText();
         editedQuestion.setQuestionDetails(new FeedbackTextQuestionDetails(questionBrief));
         editedQuestion.setQuestionDescription("<p><em>New Description</em></p>");
         feedbackEditPage.editQuestionDetails(1, editedQuestion);
@@ -152,7 +152,7 @@ public class InstructorFeedbackEditPageE2ETest extends BaseE2ETestCase {
         feedbackEditPage.verifyStatusMessage("The feedback session has been deleted. "
                 + "You can restore it from the deleted sessions table below.");
         assertNotNull(getSoftDeletedSession(copiedSessionName,
-                instructor.googleId));
+                instructor.getGoogleId()));
     }
 
     private void verifyReorder(FeedbackQuestionAttributes question) {

@@ -31,11 +31,21 @@ import teammates.storage.search.StudentSearchManager;
  * @see CourseStudent
  * @see StudentAttributes
  */
-public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
+public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
     private static final int MAX_KEY_REGENERATION_TRIES = 5;
+
+    private static final StudentsDb instance = new StudentsDb();
+
+    private StudentsDb() {
+        // prevent initialization
+    }
+
+    public static StudentsDb inst() {
+        return instance;
+    }
 
     private StudentSearchManager getSearchManager() {
         return SearchManagerFactory.getStudentSearchManager();
@@ -44,15 +54,8 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     /**
      * Creates or updates search document for the given student.
      */
-    public void putDocument(StudentAttributes student) {
-        getSearchManager().putDocuments(Collections.singletonList(student));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given students.
-     */
-    public void putDocuments(List<StudentAttributes> students) {
-        getSearchManager().putDocuments(students);
+    public void putDocument(StudentAttributes student) throws SearchServiceException {
+        getSearchManager().putDocument(student);
     }
 
     /**
@@ -93,23 +96,6 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
     }
 
     /**
-     * Creates a student.
-     *
-     * @return the created student
-     * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the database
-     */
-    @Override
-    public StudentAttributes createEntity(StudentAttributes student)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-
-        StudentAttributes createdStudent = super.createEntity(student);
-        putDocument(createdStudent);
-
-        return createdStudent;
-    }
-
-    /**
      * Regenerates the registration key of a student in a course.
      *
      * @return the updated student
@@ -124,10 +110,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             if (!updatedEntity.getRegistrationKey().equals(originalStudent.getKey())) {
                 saveEntity(updatedEntity);
 
-                StudentAttributes updatedStudent = makeAttributes(updatedEntity);
-                putDocument(updatedStudent);
-
-                return updatedStudent;
+                return makeAttributes(updatedEntity);
             }
 
             numTries++;
@@ -223,7 +206,7 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
         List<StudentAttributes> unregistered = new ArrayList<>();
 
         for (StudentAttributes s : allStudents) {
-            if (s.googleId == null || s.googleId.trim().isEmpty()) {
+            if (s.getGoogleId() == null || s.getGoogleId().trim().isEmpty()) {
                 unregistered.add(s);
             }
         }
@@ -258,14 +241,13 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
             throw new InvalidParametersException(newAttributes.getInvalidityInfo());
         }
 
-        boolean isEmailChanged = !student.getEmail().equals(newAttributes.email);
+        boolean isEmailChanged = !student.getEmail().equals(newAttributes.getEmail());
 
         if (isEmailChanged) {
             newAttributes = createEntity(newAttributes);
             // delete the old student
             deleteStudent(student.getCourseId(), student.getEmail());
 
-            putDocument(newAttributes);
             return newAttributes;
         } else {
             // update only if change
@@ -281,21 +263,16 @@ public class StudentsDb extends EntitiesDb<CourseStudent, StudentAttributes> {
                 return newAttributes;
             }
 
-            student.setName(newAttributes.name);
-            student.setLastName(newAttributes.lastName);
-            student.setComments(newAttributes.comments);
-            student.setGoogleId(newAttributes.googleId);
-            student.setTeamName(newAttributes.team);
-            student.setSectionName(newAttributes.section);
-
-            putDocument(newAttributes);
+            student.setName(newAttributes.getName());
+            student.setLastName(newAttributes.getLastName());
+            student.setComments(newAttributes.getComments());
+            student.setGoogleId(newAttributes.getGoogleId());
+            student.setTeamName(newAttributes.getTeam());
+            student.setSectionName(newAttributes.getSection());
 
             saveEntity(student);
 
-            newAttributes = makeAttributes(student);
-            putDocument(newAttributes);
-
-            return newAttributes;
+            return makeAttributes(student);
         }
     }
 

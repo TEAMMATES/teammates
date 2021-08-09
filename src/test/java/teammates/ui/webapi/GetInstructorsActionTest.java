@@ -33,7 +33,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
@@ -44,7 +44,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         ______TS("unknown intent");
         assertThrows(InvalidHttpParameterException.class, () -> {
             String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, instructor.courseId,
+                    Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                     Const.ParamsNames.INTENT, "Unknown",
             };
 
@@ -56,7 +56,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     public void testExecute_withoutIntent_shouldReturnPartialData() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, studentAttributes.getCourse(),
@@ -90,7 +90,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         loginAsInstructor(instructor.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor.courseId,
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
@@ -118,7 +118,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         ______TS("course not exist");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
@@ -132,7 +132,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         });
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
         assertThrows(EntityNotFoundException.class, () -> {
             String[] submissionParams = new String[] {
                     Const.ParamsNames.COURSE_ID, "randomId",
@@ -172,7 +172,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
@@ -181,7 +181,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
     @Test
     public void testAccessControl_withoutIntent_shouldDoAuthenticationOfStudent() {
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(studentAttributes.googleId);
+        loginAsStudent(studentAttributes.getGoogleId());
 
         // try to access instructors in his own course
         String[] submissionParams = new String[] {

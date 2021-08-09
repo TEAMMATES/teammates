@@ -16,7 +16,7 @@
         <span>{{ FEEDBACK_SESSION_NAME_MAX_LENGTH - newFeedbackSessionName.length }} characters left</span>
       </div>
       <div class="form-check" *ngFor="let course of courseCandidates">
-        <label class="form-check-label">
+        <label class="form-check-label text-break">
           <input type="checkbox" name="copySessionChooseCourse" class="form-check-input"
                  [checked]="copyToCourseSet.has(course.courseId)" (click)="select(course.courseId)">
           [<span [ngClass]="{ 'text-danger': sessionToCopyCourseId === course.courseId }">{{ course.courseId }}</span>]

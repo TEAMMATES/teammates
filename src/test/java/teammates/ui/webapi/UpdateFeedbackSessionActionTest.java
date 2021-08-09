@@ -32,7 +32,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -255,7 +255,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcSession",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");

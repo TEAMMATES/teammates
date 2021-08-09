@@ -244,7 +244,6 @@
       "courseId": "idOfTypicalCourse1",
       "name": "Instructor Not Yet Joined Course 1",
       "email": "instructorNotYetJoinedCourse1@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse1",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -453,7 +452,6 @@
       "courseId": "idOfSampleCourse-demo",
       "name": "Instructor Not Yet Joined Course",
       "email": "instructorNotYetJoined@email.tmt",
-      "key": "regKeyForInstrNotYetJoinCourse",
       "role": "Co-owner",
       "isDisplayedToStudents": true,
       "displayedName": "Instructor",
@@ -553,8 +551,7 @@
       "name": "student1 In unregisteredCourse",
       "comments": "",
       "team": "Team 1",
-      "section": "Section 1",
-      "key": "regKeyForStuNotYetJoinCourse"
+      "section": "Section 1"
     },
     "student2InUnregisteredCourse": {
       "googleId": "",
@@ -563,8 +560,7 @@
       "name": "student2 In unregisteredCourse",
       "comments": "",
       "team": "Team 2",
-      "section": "Section 2",
-      "key": "regKey2ForStuNotYetJoinCourse"
+      "section": "Section 2"
     },
     "student1InArchivedCourse": {
       "googleId": "student1InArchivedCourse",
@@ -1228,7 +1224,7 @@
       "feedbackSessionName": "Second feedback session",
       "courseId": "idOfTypicalCourse1",
       "feedbackQuestionId": "1",
-      "giver": "student4InCourse1@gmail.tmt",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "giverSection": "Section 1",
       "recipientSection": "Section 2",
@@ -1240,8 +1236,8 @@
     "response1GracePeriodFeedback": {
       "feedbackSessionName": "Grace Period Session",
       "courseId": "idOfTypicalCourse1",
-      "feedbackQuestionId": "2",
-      "giver": "student4InCourse1@gmail.tmt",
+      "feedbackQuestionId": "1",
+      "giver": "Team 1.1</td></div>'\"",
       "recipient": "Team 1.2",
       "giverSection": "Section 1",
       "recipientSection": "Section 2",

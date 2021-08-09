@@ -24,7 +24,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -67,7 +67,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "randomName",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyEntityNotFound(submissionParams);
 
         ______TS("other verifications");

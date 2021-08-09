@@ -9,10 +9,11 @@ import com.google.cloud.storage.StorageOptions;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
+import teammates.client.util.BackDoor;
 import teammates.client.util.ClientProperties;
+import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Config;
-import teammates.storage.api.InstructorsDb;
 import teammates.storage.entity.Account;
 import teammates.storage.entity.CourseStudent;
 import teammates.storage.entity.Instructor;
@@ -38,15 +39,13 @@ import teammates.storage.entity.StudentProfile;
  */
 public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesBaseScript<Account> {
 
-    private static InstructorsDb instructorsDb = new InstructorsDb();
-
     @Override
     protected Query<Account> getFilterQuery() {
         return ofy().load().type(Account.class);
     }
 
     @Override
-    protected boolean isMigrationNeeded(Account account) throws Exception {
+    protected boolean isMigrationNeeded(Account account) {
         if (!isMigrationOfGoogleIdNeeded(account)) {
             return false;
         }
@@ -83,8 +82,13 @@ public abstract class GoogleIdMigrationBaseScript extends DataMigrationEntitiesB
         if (!oldInstructors.isEmpty()) {
             oldInstructors.forEach(instructor -> instructor.setGoogleId(newGoogleId));
             ofy().save().entities(oldInstructors).now();
-            instructorsDb.putDocuments(
-                    oldInstructors.stream().map(InstructorAttributes::valueOf).collect(Collectors.toList()));
+
+            DataBundle bundle = new DataBundle();
+            oldInstructors.stream()
+                    .map(InstructorAttributes::valueOf)
+                    .collect(Collectors.toList())
+                    .forEach(instructor -> bundle.instructors.put(instructor.getEmail(), instructor));
+            BackDoor.getInstance().putDocuments(bundle);
         }
 
         // recreate account and student profile

@@ -21,17 +21,17 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelperExtension;
 import teammates.test.AssertHelper;
-import teammates.test.BaseComponentTestCase;
+import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackSessionsDb}.
  */
-public class FeedbackSessionsDbTest extends BaseComponentTestCase {
+public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
-    private static final FeedbackSessionsDb fsDb = new FeedbackSessionsDb();
+    private final FeedbackSessionsDb fsDb = FeedbackSessionsDb.inst();
     private DataBundle dataBundle = getTypicalDataBundle();
 
     @BeforeMethod
@@ -385,7 +385,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(11, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
@@ -399,7 +399,7 @@ public class FeedbackSessionsDbTest extends BaseComponentTestCase {
         fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        assertEquals(10, fsaList.size());
+        assertEquals(7, fsaList.size());
     }
 
     @Test

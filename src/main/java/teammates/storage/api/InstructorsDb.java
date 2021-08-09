@@ -12,7 +12,6 @@ import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -27,7 +26,17 @@ import teammates.storage.search.SearchManagerFactory;
  * @see Instructor
  * @see InstructorAttributes
  */
-public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
+public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
+
+    private static final InstructorsDb instance = new InstructorsDb();
+
+    private InstructorsDb() {
+        // prevent initialization
+    }
+
+    public static InstructorsDb inst() {
+        return instance;
+    }
 
     private InstructorSearchManager getSearchManager() {
         return SearchManagerFactory.getInstructorSearchManager();
@@ -36,25 +45,12 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
     /**
      * Creates or updates search document for the given instructor.
      */
-    public void putDocument(InstructorAttributes instructorParam) {
+    public void putDocument(InstructorAttributes instructorParam) throws SearchServiceException {
         InstructorAttributes instructor = instructorParam;
-        if (instructor.key == null) {
-            instructor = this.getInstructorForEmail(instructor.courseId, instructor.email);
+        if (instructor.getKey() == null) {
+            instructor = this.getInstructorForEmail(instructor.getCourseId(), instructor.getEmail());
         }
-        getSearchManager().putDocuments(Collections.singletonList(instructor));
-    }
-
-    /**
-     * Batch creates or updates search documents for the given instructors.
-     */
-    public void putDocuments(List<InstructorAttributes> instructorParams) {
-        List<InstructorAttributes> instructors = instructorParams.stream()
-                .map(instructor -> instructor.key == null
-                        ? getInstructorForEmail(instructor.courseId, instructor.email)
-                        : instructor)
-                .collect(Collectors.toList());
-
-        getSearchManager().putDocuments(instructors);
+        getSearchManager().putDocument(instructor);
     }
 
     /**
@@ -79,22 +75,6 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
         }
 
         return getSearchManager().searchInstructors(queryString);
-    }
-
-    /**
-     * Creates an instructor.
-     *
-     * @return the created instructor
-     * @throws InvalidParametersException if the instructor is not valid
-     * @throws EntityAlreadyExistsException if the instructor already exists in the database
-     */
-    @Override
-    public InstructorAttributes createEntity(InstructorAttributes instructorToAdd)
-            throws InvalidParametersException, EntityAlreadyExistsException {
-        InstructorAttributes createdInstructor = super.createEntity(instructorToAdd);
-        putDocument(createdInstructor);
-
-        return createdInstructor;
     }
 
     /**
@@ -212,18 +192,17 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return newAttributes;
         }
 
-        instructor.setName(newAttributes.name);
-        instructor.setEmail(newAttributes.email);
-        instructor.setIsArchived(newAttributes.isArchived);
-        instructor.setRole(newAttributes.role);
-        instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents);
-        instructor.setDisplayedName(newAttributes.displayedName);
+        instructor.setName(newAttributes.getName());
+        instructor.setEmail(newAttributes.getEmail());
+        instructor.setIsArchived(newAttributes.isArchived());
+        instructor.setRole(newAttributes.getRole());
+        instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
+        instructor.setDisplayedName(newAttributes.getDisplayedName());
         instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
 
         saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
-        putDocument(newAttributes);
 
         return newAttributes;
     }
@@ -267,18 +246,17 @@ public class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> 
             return newAttributes;
         }
 
-        instructor.setGoogleId(newAttributes.googleId);
-        instructor.setName(newAttributes.name);
-        instructor.setIsArchived(newAttributes.isArchived);
-        instructor.setRole(newAttributes.role);
-        instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents);
-        instructor.setDisplayedName(newAttributes.displayedName);
+        instructor.setGoogleId(newAttributes.getGoogleId());
+        instructor.setName(newAttributes.getName());
+        instructor.setIsArchived(newAttributes.isArchived());
+        instructor.setRole(newAttributes.getRole());
+        instructor.setIsDisplayedToStudents(newAttributes.isDisplayedToStudents());
+        instructor.setDisplayedName(newAttributes.getDisplayedName());
         instructor.setInstructorPrivilegeAsText(newAttributes.getTextFromInstructorPrivileges());
 
         saveEntity(instructor);
 
         newAttributes = makeAttributes(instructor);
-        putDocument(newAttributes);
 
         return newAttributes;
     }
