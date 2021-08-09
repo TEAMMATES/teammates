@@ -471,7 +471,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteInstructorCascade() throws Exception {
+    public void testDeleteInstructorCascade() {
 
         String courseId = "idOfTypicalCourse1";
         String email = "instructor1@course1.tmt";

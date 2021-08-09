@@ -24,7 +24,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     private final CoursesDb coursesDb = CoursesDb.inst();
 
     @Test
-    public void testCreateCourse() throws EntityAlreadyExistsException, InvalidParametersException {
+    public void testCreateCourse() throws Exception {
 
         /*Explanation:
          * This is an inherited method from EntitiesDb and should be tested in
@@ -79,7 +79,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testGetCourse() throws InvalidParametersException {
+    public void testGetCourse() throws Exception {
         CourseAttributes c = createNewCourse();
 
         ______TS("Success: get an existent course");
@@ -99,7 +99,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testGetCourses() throws InvalidParametersException {
+    public void testGetCourses() throws Exception {
         CourseAttributes c = createNewCourse();
         List<String> courseIds = new ArrayList<>();
 
@@ -209,7 +209,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testDeleteCourse() throws InvalidParametersException {
+    public void testDeleteCourse() throws Exception {
         CourseAttributes c = createNewCourse();
         assertNotNull(coursesDb.getCourse(c.getId()));
 
@@ -238,7 +238,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testSoftDeleteCourse() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testSoftDeleteCourse() throws Exception {
         CourseAttributes c = createNewCourse();
 
         ______TS("Success: soft delete an existing course");
@@ -258,7 +258,7 @@ public class CoursesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     }
 
-    private CourseAttributes createNewCourse() throws InvalidParametersException {
+    private CourseAttributes createNewCourse() throws Exception {
 
         CourseAttributes c = CourseAttributes
                 .builder("Computing101")

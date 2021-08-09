@@ -6,8 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
@@ -33,7 +31,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // TODO: Add test cases
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -91,7 +89,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -142,7 +140,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     }
 
     @Test
-    protected void testAccessControl_studentResult() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl_studentResult() throws Exception {
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Intent intent = Intent.STUDENT_SUBMISSION;
         String[] params = generateParameters(feedbackSession, intent, "", "", "");
@@ -200,7 +198,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
     }
 
     @Test
-    protected void testAccessControl_instructorResult() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl_instructorResult() throws Exception {
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         Intent intent = Intent.INSTRUCTOR_RESULT;
         String[] params = generateParameters(feedbackSession, intent, "", "", "");

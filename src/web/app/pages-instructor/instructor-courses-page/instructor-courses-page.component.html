@@ -68,8 +68,8 @@
             <tm-ajax-loading [useBlueSpinner]="true"></tm-ajax-loading>
           </ng-template>
           <tr *ngFor="let course of activeCourses; let i = index">
-            <td id="course-id-{{ i }}">{{course.course.courseId}}</td>
-            <td>{{course.course.courseName}}</td>
+            <td id="course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
+            <td class="text-break">{{course.course.courseName}}</td>
             <td>
               <span class="ngb-tooltip-class" container="body" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                 {{course.course.creationTimestamp | date:'d MMM yyyy'}}
@@ -219,8 +219,8 @@
         </thead>
         <tbody>
         <tr *ngFor="let course of archivedCourses; let i = index">
-          <td id="archived-course-id-{{ i }}">{{course.course.courseId}}</td>
-          <td>{{course.course.courseName}}</td>
+          <td id="archived-course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
+          <td class="text-break">{{course.course.courseName}}</td>
           <td>
             <span container="body" class="ngb-tooltip-class" ngbTooltip="{{course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'}}">{{course.course.creationTimestamp | date:'d MMM yyyy'}}</span>
           </td>
@@ -310,8 +310,8 @@
           </thead>
           <tbody>
             <tr *ngFor="let course of softDeletedCourses; let i = index">
-              <td id="deleted-course-id-{{ i }}">{{course.course.courseId}}</td>
-              <td>{{course.course.courseName}}</td>
+              <td id="deleted-course-id-{{ i }}" class="text-break">{{course.course.courseId}}</td>
+              <td class="text-break">{{course.course.courseName}}</td>
               <td>
                 <span container="body" class="ngb-tooltip-class" [ngbTooltip]="course.course.creationTimestamp | date:'EEE, dd MMM yyyy, h:mma'">
                   {{course.course.creationTimestamp | date:'d MMM yyyy'}}

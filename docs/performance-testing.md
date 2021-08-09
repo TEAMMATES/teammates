@@ -19,7 +19,7 @@ To see a sample implementation of a test case, you can refer to `StudentProfileL
 
 If you want to use your own copy of [JMeter](https://jmeter.apache.org/download_jmeter.cgi), update the `test.jmeter.*` properties in `src/lnp/resources/test.properties` accordingly.  
 
-First, open the terminal and navigate to the root of project folder. Start the backend server, i.e. `./gradlew appengineRun`, before running the performance tests.
+First, open the terminal and navigate to the root of project folder. Start the backend server, i.e. `./gradlew serverRun`, before running the performance tests.
 
 For more details about how to set up and run your local server, please refer to [Developer Guide](https://github.com/TEAMMATES/teammates/blob/master/docs/development.md).
 

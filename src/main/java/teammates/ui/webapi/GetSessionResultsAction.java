@@ -1,7 +1,6 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -81,7 +80,7 @@ class GetSessionResultsAction extends Action {
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
-                    UserRole.INSTRUCTOR, questionId, selectedSection);
+                    true, questionId, selectedSection);
 
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
         case STUDENT_RESULT:
@@ -89,7 +88,7 @@ class GetSessionResultsAction extends Action {
             StudentAttributes student = getStudent(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
-                    UserRole.STUDENT, null, null);
+                    false, null, null);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case INSTRUCTOR_SUBMISSION:

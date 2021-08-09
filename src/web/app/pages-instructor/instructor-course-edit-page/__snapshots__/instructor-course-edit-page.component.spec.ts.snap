@@ -426,7 +426,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               class="form-row form-group"
             >
               <label
-                class="col-sm-3 control-label"
+                class="col-sm-2 control-label"
               >
                  Google ID: 
               </label>
@@ -448,7 +448,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               class="form-row form-group"
             >
               <label
-                class="col-sm-3 control-label"
+                class="col-sm-2 control-label"
               >
                  Name: 
               </label>
@@ -467,7 +467,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               class="form-row form-group"
             >
               <label
-                class="col-sm-3 control-label"
+                class="col-sm-2 control-label"
               >
                  Email: 
               </label>
@@ -486,7 +486,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               class="form-row form-group"
             >
               <label
-                class="col-sm-3 control-label"
+                class="col-sm-2 control-label"
               >
                 <input
                   checked=""
@@ -518,7 +518,7 @@ exports[`InstructorCourseEditPageComponent should snap with some instructor deta
               class="form-row form-group align-items-start text-left"
             >
               <label
-                class="col-sm-3 control-label text-center text-md-right"
+                class="col-sm-2 control-label text-center text-md-right"
               >
                  Access Level: 
               </label>
