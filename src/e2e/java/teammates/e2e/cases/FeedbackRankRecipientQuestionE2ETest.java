@@ -98,7 +98,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 1);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver2, 2);
-        List responses = Arrays.asList(response, response2);
+        List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2);
         feedbackSubmitPage.submitRankRecipientResponse(1, responses);
 
         verifyPresentInDatabase(response);

@@ -46,8 +46,8 @@
     <tbody>
       <tr *ngFor="let questionCandidate of questionToCopyCandidates">
         <td><input type="checkbox" class="form-control" [(ngModel)]="questionCandidate.isSelected"></td>
-        <td>{{ questionCandidate.courseId }}</td>
-        <td>{{ questionCandidate.feedbackSessionName }}</td>
+        <td class="text-break">{{ questionCandidate.courseId }}</td>
+        <td class="text-break">{{ questionCandidate.feedbackSessionName }}</td>
         <td>{{ questionCandidate.question.questionType | questionTypeName }}</td>
         <td>{{ questionCandidate.question.questionBrief }}</td>
       </tr>

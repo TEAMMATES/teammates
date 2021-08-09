@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
-import teammates.common.util.ThreadHelper;
 
 /**
  * Base class for all test cases which are allowed to access the database.

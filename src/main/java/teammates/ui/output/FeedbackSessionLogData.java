@@ -13,12 +13,6 @@ public class FeedbackSessionLogData {
     private final FeedbackSessionData feedbackSessionData;
     private final List<FeedbackSessionLogEntryData> feedbackSessionLogEntries;
 
-    public FeedbackSessionLogData(FeedbackSessionData feedbackSessionData,
-                              List<FeedbackSessionLogEntryData> feedbackSessionLogEntries) {
-        this.feedbackSessionData = feedbackSessionData;
-        this.feedbackSessionLogEntries = feedbackSessionLogEntries;
-    }
-
     public FeedbackSessionLogData(FeedbackSessionAttributes feedbackSession, List<FeedbackSessionLogEntry> logEntries) {
         FeedbackSessionData fsData = new FeedbackSessionData(feedbackSession);
         List<FeedbackSessionLogEntryData> fsLogEntryDatas = logEntries.stream()

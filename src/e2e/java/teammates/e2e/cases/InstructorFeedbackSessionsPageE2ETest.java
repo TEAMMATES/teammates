@@ -16,10 +16,10 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.e2e.pageobjects.InstructorFeedbackSessionsPage;
 import teammates.e2e.util.TestProperties;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSIONS_PAGE}.

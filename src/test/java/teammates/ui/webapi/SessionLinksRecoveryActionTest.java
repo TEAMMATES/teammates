@@ -149,13 +149,13 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests
     }
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyAnyUserCanAccess();
     }
 }

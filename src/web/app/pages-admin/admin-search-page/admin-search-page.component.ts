@@ -66,6 +66,8 @@ export class AdminSearchPageComponent {
         this.hideAllStudentsLinks();
       }
     }, (resp: ErrorMessageOutput) => {
+      this.instructors = [];
+      this.students = [];
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }

@@ -73,7 +73,7 @@ class UpdateStudentAction extends Action {
             logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.getCourse());
             studentToUpdate.setEmail(newEmail);
 
-            logic.updateStudentCascade(
+            StudentAttributes updatedStudent = logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())
                             .withNewEmail(updateRequest.getEmail())
@@ -81,6 +81,7 @@ class UpdateStudentAction extends Action {
                             .withSectionName(updateRequest.getSection())
                             .withComment(updateRequest.getComments())
                             .build());
+            taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse(), updatedStudent.getEmail());
 
             if (!student.getEmail().equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);

@@ -24,10 +24,8 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.ActionMappingException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -90,7 +88,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     /**
      * Gets an action with request body and multipart config.
      */
-    @SuppressWarnings("unchecked")
     protected T getAction(String body, Map<String, Part> parts, List<Cookie> cookies, String... params) {
         mockTaskQueuer.clearTasks();
         mockEmailSender.clearEmails();
@@ -103,11 +100,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         }
         if (parts != null) {
             parts.forEach((key, part) -> {
-                try {
-                    req.addPart(key, part);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                req.addPart(key, part);
             });
         }
         if (cookies != null) {
@@ -116,7 +109,8 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             }
         }
         try {
-            Action action = ActionFactory.getAction(req, getRequestMethod());
+            @SuppressWarnings("unchecked")
+            T action = (T) ActionFactory.getAction(req, getRequestMethod());
             action.setTaskQueuer(mockTaskQueuer);
             action.setEmailSender(mockEmailSender);
             action.setFileStorage(mockFileStorage);
@@ -124,7 +118,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
             action.setUserProvision(mockUserProvision);
             action.setRecaptchaVerifier(mockRecaptchaVerifier);
             action.init(req);
-            return (T) action;
+            return action;
         } catch (ActionMappingException e) {
             throw new RuntimeException(e);
         }
@@ -258,7 +252,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     void grantInstructorWithSectionPrivilege(
             InstructorAttributes instructor, String privilege, String[] sections)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws Exception {
         InstructorPrivileges instructorPrivileges = new InstructorPrivileges();
 
         for (String section : sections) {
@@ -315,7 +309,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
 
     void verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(
             String privilege, String[] submissionParams)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws Exception {
         verifyInaccessibleWithoutLogin(submissionParams);
         verifyInaccessibleForUnregisteredUsers(submissionParams);
         verifyInaccessibleForStudents(submissionParams);
@@ -444,9 +438,7 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
         verifyCannotAccess(submissionParams);
     }
 
-    void verifyInaccessibleWithoutCorrectCoursePrivilege(
-            String privilege, String[] submissionParams)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    void verifyInaccessibleWithoutCorrectCoursePrivilege(String privilege, String[] submissionParams) throws Exception {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         InstructorAttributes helperOfCourse1 = typicalBundle.instructors.get("helperOfCourse1");
 
