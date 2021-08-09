@@ -35,3 +35,11 @@ indexes:
     name: isPublishedEmailEnabled
   - direction: asc
     name: sentPublishedEmail
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: isPublishedEmailEnabled
+  - direction: asc
+    name: sentPublishedEmail
+  - direction: asc
+    name: resultsVisibleFromTime
