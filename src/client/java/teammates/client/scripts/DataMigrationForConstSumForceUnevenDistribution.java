@@ -48,7 +48,7 @@ public class DataMigrationForConstSumForceUnevenDistribution extends
         fcsqd.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
-        fqa.setQuestionDetails(fcsqd);
+        question.setQuestionText(fcsqd.getJsonString());
 
         saveEntityDeferred(question);
     }
