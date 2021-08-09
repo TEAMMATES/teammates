@@ -129,27 +129,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertNull(frLogic.getFeedbackResponse(
                 responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(), "student2InCourse1@gmail.tmt"));
 
-        ______TS("success: both giver and recipient changed (teammate changed response)");
-
-        responseToUpdate = getResponseFromDatabase("response1GracePeriodFeedback");
-        responseToUpdate.setGiver("student5InCourse1@gmail.tmt");
-        responseToUpdate.setRecipient("Team 1.1");
-
-        assertNotNull(frLogic.getFeedbackResponse(
-                responseToUpdate.getFeedbackQuestionId(), "student4InCourse1@gmail.tmt", "Team 1.2"));
-
-        frLogic.updateFeedbackResponseCascade(
-                FeedbackResponseAttributes.updateOptionsBuilder(responseToUpdate.getId())
-                        .withGiver(responseToUpdate.getGiver())
-                        .withRecipient(responseToUpdate.getRecipient())
-                        .build());
-
-        assertEquals(responseToUpdate.toString(),
-                frLogic.getFeedbackResponse(responseToUpdate.getFeedbackQuestionId(), responseToUpdate.getGiver(),
-                        responseToUpdate.getRecipient()).toString());
-        assertNull(frLogic.getFeedbackResponse(
-                responseToUpdate.getFeedbackQuestionId(), "student4InCourse1@gmail.tmt", "Team 1.2"));
-
         ______TS("success: update giver, recipient, giverSection and recipientSection, "
                 + "should do cascade update to comments");
 
@@ -207,7 +186,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         teamQuestion = getQuestionFromDatabase("team.feedback");
         assertEquals(1,
                 frLogic.getFeedbackResponsesFromGiverForQuestion(
-                teamQuestion.getId(), studentToUpdate.getEmail()).size());
+                teamQuestion.getId(), studentToUpdate.getTeam()).size());
 
         // Add one more non-team response
         FeedbackResponseAttributes responseToAdd =
@@ -451,11 +430,6 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
         fr.setRecipient(student5.getTeam());
         fr.setGiver(student.getTeam());
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
-        assertTrue(frLogic.isNameVisibleToUser(fq, fr, student5.getEmail(), false, false, roster));
-
-        fr.setGiver(student.getEmail());
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student3.getEmail(), false, false, roster));
         assertTrue(frLogic.isNameVisibleToUser(fq, fr, student5.getEmail(), false, false, roster));

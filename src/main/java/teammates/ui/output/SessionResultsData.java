@@ -291,12 +291,7 @@ public class SessionResultsData extends ApiOutput {
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();
         String lastName = userInfo.getLastName();
-        if (question.getGiverType() == FeedbackParticipantType.TEAMS
-                && bundle.getRoster().isStudentInCourse(response.getGiver())) {
-            // user gives responses on behalf of the team (legacy implementation), the name should be the team name instead
-            name = userInfo.getTeamName();
-            lastName = userInfo.getTeamName();
-        }
+
         if (!bundle.isResponseGiverVisible(response)) {
             name = SessionResultsBundle.getAnonName(participantType, name);
             lastName = null;
