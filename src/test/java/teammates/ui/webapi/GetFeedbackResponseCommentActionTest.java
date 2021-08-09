@@ -128,10 +128,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         ______TS("typical successful case as instructor_submission");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        assertEquals(2, logic.getFeedbackResponseCommentForGiver(
-                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()).size());
-        // there are two comments given by the instructor, one is his explanation for his response and one
-        // is his comment on the response
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -166,7 +162,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 

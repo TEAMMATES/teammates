@@ -3,7 +3,6 @@ package teammates.logic.api;
 import java.time.Instant;
 import java.util.List;
 
-import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -30,10 +29,6 @@ public class LogicExtension extends Logic {
 
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForResponse(String responseId) {
         return feedbackResponseCommentsLogic.getFeedbackResponseCommentForResponse(responseId);
-    }
-
-    public void deleteFeedbackResponseComments(AttributesDeletionQuery query) {
-        feedbackResponseCommentsLogic.deleteFeedbackResponseComments(query);
     }
 
     public List<FeedbackResponseAttributes> getFeedbackResponsesForQuestion(String feedbackQuestionId) {

@@ -24,7 +24,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
 
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");

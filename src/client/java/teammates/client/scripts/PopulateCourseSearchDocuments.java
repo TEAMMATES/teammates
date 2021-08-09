@@ -1,6 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -29,7 +28,7 @@ public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScri
         numberOfUpdatedEntities.set(0L);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         PopulateCourseSearchDocuments populator = new PopulateCourseSearchDocuments();
         populator.doOperationRemotely();
     }
@@ -55,7 +54,7 @@ public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScri
     }
 
     @Override
-    protected boolean isMigrationNeeded(Course course) throws Exception {
+    protected boolean isMigrationNeeded(Course course) {
         return true;
     }
 
