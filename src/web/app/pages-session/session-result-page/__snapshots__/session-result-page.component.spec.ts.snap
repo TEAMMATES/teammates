@@ -1205,12 +1205,10 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
     class="alert alert-primary"
     role="alert"
   >
-<<<<<<< HEAD
     <i
       class="fas fa-exclamation-circle"
     />
      Note: Questions without responses (i.e., no responses received or responses are not meant to be visible to you) are not shown below.
-=======
     <div
       class="card-body"
     >
@@ -1341,7 +1339,6 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
 >
   <h1>
      Feedback Session Results
->>>>>>> master
   
   </div><div
     class="card card-plain mt-3"
