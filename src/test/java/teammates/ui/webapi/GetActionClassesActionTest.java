@@ -27,7 +27,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         List<Class<? extends Action>> expectedActionClasses = Arrays.asList(
                 DeleteFeedbackResponseCommentAction.class,
                 CreateFeedbackResponseCommentAction.class,

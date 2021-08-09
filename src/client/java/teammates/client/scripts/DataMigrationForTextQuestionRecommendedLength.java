@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -17,7 +15,7 @@ import teammates.storage.entity.FeedbackQuestion;
 public class DataMigrationForTextQuestionRecommendedLength extends
         DataMigrationEntitiesBaseScript<FeedbackQuestion> {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new DataMigrationForTextQuestionRecommendedLength().doOperationRemotely();
     }
 

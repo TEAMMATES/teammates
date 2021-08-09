@@ -14,10 +14,6 @@ public class FeedbackSessionLogsData extends ApiOutput {
 
     private final List<FeedbackSessionLogData> feedbackSessionLogs;
 
-    public FeedbackSessionLogsData(List<FeedbackSessionLogData> feedbackSessionLogs) {
-        this.feedbackSessionLogs = feedbackSessionLogs;
-    }
-
     public FeedbackSessionLogsData(Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries) {
         List<FeedbackSessionLogData> fsLogDatas = groupedEntries.entrySet().stream()
                 .map(entry -> {

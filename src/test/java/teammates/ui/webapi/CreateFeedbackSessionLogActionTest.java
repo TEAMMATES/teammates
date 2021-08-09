@@ -25,7 +25,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         JsonResult actionOutput;
 
         CourseAttributes course1 = typicalBundle.courses.get("typicalCourse1");
@@ -119,7 +119,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyAnyUserCanAccess();
     }
 }

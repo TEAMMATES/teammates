@@ -29,12 +29,12 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.ThreadHelper;
-import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTask;
+import teammates.e2e.util.MaximumRetriesExceededException;
+import teammates.e2e.util.RetryManager;
+import teammates.e2e.util.Retryable;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -392,7 +392,7 @@ public abstract class AppPage {
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
         try {
-            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Wait for dropdown text to load") {
+            uiRetryManager.runUntilNoRecognizedException(new Retryable("Wait for dropdown text to load") {
                 @Override
                 public void run() {
                     String txt = select.getFirstSelectedOption().getText();
@@ -569,7 +569,7 @@ public abstract class AppPage {
     public void verifyStatusMessageWithLinks(String expectedMessage, String[] expectedLinks) {
         WebElement[] statusMessage = new WebElement[1];
         try {
-            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+            uiRetryManager.runUntilNoRecognizedException(new Retryable("Verify status to user") {
                 @Override
                 public void run() {
                     statusMessage[0] = waitForElementPresence(By.className("toast-body"));

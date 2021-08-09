@@ -31,7 +31,7 @@ public class MockPart implements Part {
     }
 
     @Override
-    public InputStream getInputStream() throws IOException {
+    public InputStream getInputStream() {
         return this.inputStream;
     }
 
@@ -56,12 +56,12 @@ public class MockPart implements Part {
     }
 
     @Override
-    public void write(String fileName) throws IOException {
+    public void write(String fileName) {
         // not used
     }
 
     @Override
-    public void delete() throws IOException {
+    public void delete() {
         // not used
     }
 
