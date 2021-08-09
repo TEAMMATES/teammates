@@ -385,7 +385,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
 
         List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
 
-        assertEquals(11, fsaList.size());
+        assertEquals(8, fsaList.size());
         for (FeedbackSessionAttributes fsa : fsaList) {
             assertFalse(fsa.isSentPublishedEmail());
             assertTrue(fsa.isPublishedEmailEnabled());
@@ -399,7 +399,7 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
 
         fsaList = fsDb.getFeedbackSessionsPossiblyNeedingPublishedEmail();
-        assertEquals(10, fsaList.size());
+        assertEquals(7, fsaList.size());
     }
 
     @Test
