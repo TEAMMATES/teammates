@@ -72,7 +72,7 @@ export class UserJoinPageComponent implements OnInit {
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 403) {
           this.isLoading = false;
-          const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+          const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
           this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
             if (!auth.user) {
               window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
