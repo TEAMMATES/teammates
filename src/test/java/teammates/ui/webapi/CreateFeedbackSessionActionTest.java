@@ -32,7 +32,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         loginAsInstructor(instructor1ofCourse1.getGoogleId());

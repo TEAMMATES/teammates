@@ -96,7 +96,7 @@ public class FeedbackConstSumRecipientQuestionE2ETest extends BaseFeedbackQuesti
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 49);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver2, 51);
-        List responses = Arrays.asList(response, response2);
+        List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2);
         feedbackSubmitPage.submitConstSumRecipientResponse(1, responses);
 
         verifyPresentInDatabase(response);

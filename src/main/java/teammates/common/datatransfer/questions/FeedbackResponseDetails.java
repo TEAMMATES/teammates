@@ -29,7 +29,6 @@ public abstract class FeedbackResponseDetails {
         assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the answer simply contains the response text, not a JSON
-            // This is due to legacy data in the data store before there were multiple question types
             return getAnswerString();
         }
         return JsonUtils.toJson(this, questionType.getResponseDetailsClass());

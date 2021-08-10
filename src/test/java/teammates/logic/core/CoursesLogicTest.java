@@ -253,7 +253,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertThrows(AssertionError.class, () -> coursesLogic.getTeamsForCourse(null));
     }
 
-    private void testGetCoursesForStudentAccount() throws Exception {
+    private void testGetCoursesForStudentAccount() {
 
         ______TS("student having two courses");
 
@@ -465,7 +465,7 @@ public class CoursesLogicTest extends BaseLogicTest {
                                 .build()));
     }
 
-    private void testMoveCourseToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testMoveCourseToRecycleBin() throws Exception {
 
         ______TS("typical case");
 
@@ -499,7 +499,7 @@ public class CoursesLogicTest extends BaseLogicTest {
         assertThrows(AssertionError.class, () -> coursesLogic.moveCourseToRecycleBin(null));
     }
 
-    private void testRestoreCourseFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testRestoreCourseFromRecycleBin() throws Exception {
 
         ______TS("typical case");
 

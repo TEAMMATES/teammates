@@ -74,7 +74,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
     }
 
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests.
     }
 
@@ -398,7 +398,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = {

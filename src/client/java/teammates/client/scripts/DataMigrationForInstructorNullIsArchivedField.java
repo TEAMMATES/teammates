@@ -1,6 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
 import java.lang.reflect.Field;
 
 import com.googlecode.objectify.cmd.Query;
@@ -12,7 +11,7 @@ import teammates.storage.entity.Instructor;
  */
 public class DataMigrationForInstructorNullIsArchivedField extends DataMigrationEntitiesBaseScript<Instructor> {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new DataMigrationForInstructorNullIsArchivedField().doOperationRemotely();
     }
 
@@ -27,7 +26,7 @@ public class DataMigrationForInstructorNullIsArchivedField extends DataMigration
     }
 
     @Override
-    protected boolean isMigrationNeeded(Instructor instructor) throws Exception {
+    protected boolean isMigrationNeeded(Instructor instructor) {
         try {
             Field isArchivedField = instructor.getClass().getDeclaredField("isArchived");
             isArchivedField.setAccessible(true);
@@ -38,7 +37,7 @@ public class DataMigrationForInstructorNullIsArchivedField extends DataMigration
     }
 
     @Override
-    protected void migrateEntity(Instructor instructor) throws Exception {
+    protected void migrateEntity(Instructor instructor) {
         instructor.setIsArchived(instructor.getIsArchived());
 
         saveEntityDeferred(instructor);

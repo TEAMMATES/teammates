@@ -133,7 +133,7 @@ public class StudentSectionUpdateLNPTest extends BaseLNPTestCase {
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
                         .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                         .withCreatorEmail(INSTRUCTOR_EMAIL)
-                        .withStartTime(Instant.now())
+                        .withStartTime(Instant.now().plusMillis(100))
                         .withEndTime(Instant.now().plusSeconds(500))
                         .withSessionVisibleFromTime(Instant.now())
                         .withResultsVisibleFromTime(Instant.now())

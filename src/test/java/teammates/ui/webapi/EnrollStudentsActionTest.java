@@ -32,7 +32,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         // See test cases below.
     }
 

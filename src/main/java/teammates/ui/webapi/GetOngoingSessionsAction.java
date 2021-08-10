@@ -25,7 +25,6 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
     private static final String UNKNOWN_INSTITUTION = "Unknown Institution";
 
     @Override
-    @SuppressWarnings("PMD.PreserveStackTrace")
     public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
         long startTime;
@@ -34,7 +33,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             //test for bounds
             Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
         } catch (NumberFormatException | ArithmeticException e) {
-            throw new InvalidHttpParameterException("Invalid startTime parameter");
+            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
         }
 
         String endTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_ENDTIME);
@@ -44,7 +43,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             //test for bounds
             Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
         } catch (NumberFormatException | ArithmeticException e) {
-            throw new InvalidHttpParameterException("Invalid endTime parameter");
+            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
         }
 
         if (startTime > endTime) {

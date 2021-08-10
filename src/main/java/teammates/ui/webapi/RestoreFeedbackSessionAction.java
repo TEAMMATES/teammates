@@ -6,7 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
@@ -47,7 +46,7 @@ class RestoreFeedbackSessionAction extends Action {
 
         try {
             logic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+        } catch (EntityDoesNotExistException e) {
             new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 

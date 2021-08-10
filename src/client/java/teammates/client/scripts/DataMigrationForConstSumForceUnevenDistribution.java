@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -18,7 +16,7 @@ import teammates.storage.entity.FeedbackQuestion;
 public class DataMigrationForConstSumForceUnevenDistribution extends
         DataMigrationEntitiesBaseScript<FeedbackQuestion> {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new DataMigrationForConstSumForceUnevenDistribution().doOperationRemotely();
     }
 
@@ -50,7 +48,7 @@ public class DataMigrationForConstSumForceUnevenDistribution extends
         fcsqd.setDistributePointsFor(
                 FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
 
-        fqa.setQuestionDetails(fcsqd);
+        question.setQuestionText(fcsqd.getJsonString());
 
         saveEntityDeferred(question);
     }

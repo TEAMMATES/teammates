@@ -28,7 +28,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         logoutUser();
 
         ______TS("Normal case: valid report with all fields populated");

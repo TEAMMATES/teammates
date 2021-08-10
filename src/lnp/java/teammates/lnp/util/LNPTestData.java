@@ -1,6 +1,5 @@
 package teammates.lnp.util;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +93,6 @@ public abstract class LNPTestData {
      *
      * @return List of entries, which are made up of a list of field values.
      */
-    public abstract List<List<String>> generateCsvData() throws IOException;
+    public abstract List<List<String>> generateCsvData();
 
 }

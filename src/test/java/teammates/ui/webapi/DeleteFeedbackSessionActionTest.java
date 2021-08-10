@@ -24,7 +24,7 @@ public class DeleteFeedbackSessionActionTest extends BaseActionTest<DeleteFeedba
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see test cases below
     }
 
