@@ -201,6 +201,7 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
             resp.message, { courseid: this.courseId });
       }, (resp: ErrorMessageOutput) => {
+        this.isFormSaving = false;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }

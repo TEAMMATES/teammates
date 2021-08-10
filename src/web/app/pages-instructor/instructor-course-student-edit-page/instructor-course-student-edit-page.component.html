@@ -111,7 +111,7 @@
             <button class="btn btn-success"
                     id="btn-submit"
                     type="submit"
-                    [disabled]="!editForm.valid">
+                    [disabled]="!editForm.valid || isFormSaving">
               <i [ngClass]="isFormSaving ? 'spinner-border spinner-border-sm' : 'fas fa-save'"></i>
               Save Changes
             </button>
