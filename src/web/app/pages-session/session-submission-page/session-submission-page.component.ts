@@ -149,7 +149,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
         this.isSubmissionFormsDisabled = true;
       }
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         const isPreviewOrModeration: boolean = !!(auth.user && (this.moderatedPerson || this.previewAsPerson));
         if (auth.user) {
