@@ -356,6 +356,7 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
         return load()
+                .filter("resultsVisibleFromTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
                 .list();

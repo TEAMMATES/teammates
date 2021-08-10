@@ -43,9 +43,9 @@ public class DataMigrationForTextQuestionRecommendedLength extends
         FeedbackTextQuestionDetails ftqd = (FeedbackTextQuestionDetails) fqa.getQuestionDetails();
         ftqd.setRecommendedLength(null);
 
-        fqa.setQuestionDetails(ftqd);
+        question.setQuestionText(ftqd.getJsonString());
 
-        saveEntityDeferred(fqa.toEntity());
+        saveEntityDeferred(question);
     }
 
 }
