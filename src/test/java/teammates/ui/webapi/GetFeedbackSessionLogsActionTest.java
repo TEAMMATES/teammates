@@ -32,7 +32,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         JsonResult actionOutput;
 
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
@@ -169,7 +169,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
         InstructorAttributes helper = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = instructor.getCourseId();

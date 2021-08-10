@@ -1,11 +1,9 @@
-package teammates.common.util;
+package teammates.test;
 
 /**
  * Holds thread-related helper functions.
  */
 public final class ThreadHelper {
-
-    private static final Logger log = Logger.getLogger();
 
     private ThreadHelper() {
         // utility class
@@ -18,7 +16,7 @@ public final class ThreadHelper {
         try {
             Thread.sleep(timeInMilliSeconds);
         } catch (InterruptedException e) {
-            log.severe("", e);
+            e.printStackTrace();
         }
     }
 

@@ -59,7 +59,7 @@ public class DeleteCourseActionTest
     }
 
     @Test
-    public void testExecute_notInRecycleBin_shouldPass() throws Exception {
+    public void testExecute_notInRecycleBin_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
         String courseId = instructor1OfCourse1.getCourseId();

@@ -75,7 +75,7 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
     }

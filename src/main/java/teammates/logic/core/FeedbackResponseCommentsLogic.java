@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -277,7 +276,7 @@ public final class FeedbackResponseCommentsLogic {
      * Verifies whether the comment is visible to certain user.
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, UserRole role,
+    public boolean isResponseCommentVisibleForUser(String userEmail, boolean isInstructor,
             StudentAttributes student, Set<String> studentsEmailInTeam, FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, FeedbackResponseCommentAttributes relatedComment) {
 
@@ -289,14 +288,11 @@ public final class FeedbackResponseCommentsLogic {
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                  || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
 
-        boolean isUserInstructor = role == UserRole.INSTRUCTOR;
-        boolean isUserStudent = role == UserRole.STUDENT;
-
         boolean isVisibleToUser = isVisibleToUser(userEmail, response, relatedQuestion, relatedComment,
-                isVisibleToGiver, isUserInstructor, isUserStudent);
+                isVisibleToGiver, isInstructor, !isInstructor);
 
         boolean isVisibleToUserTeam = isVisibleToUserTeam(student, studentsEmailInTeam, response,
-                relatedQuestion, relatedComment, isUserStudent);
+                relatedQuestion, relatedComment, !isInstructor);
 
         return isVisibleToUser || isVisibleToUserTeam;
     }
