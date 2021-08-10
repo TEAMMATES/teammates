@@ -430,7 +430,8 @@ public class StudentFeedbackResultsPage extends AppPage {
         case NUMSCALE:
             return getNumScaleAddInfo((FeedbackNumericalScaleQuestionDetails) question.getQuestionDetailsCopy());
         case CONTRIB:
-            return "Team contribution question";
+            return "Team contribution question<br/>"
+                    + "Note: Individual Responses are not configured to be shown for this question type.";
         case RANK_OPTIONS:
             return getRankOptionsAddInfo((FeedbackRankOptionsQuestionDetails) question.getQuestionDetailsCopy());
         case RANK_RECIPIENTS:
