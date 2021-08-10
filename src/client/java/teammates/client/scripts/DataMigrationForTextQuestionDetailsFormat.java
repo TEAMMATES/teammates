@@ -1,7 +1,6 @@
 package teammates.client.scripts;
 
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 import com.google.gson.JsonParseException;
 import com.googlecode.objectify.cmd.Query;
@@ -25,13 +24,6 @@ public class DataMigrationForTextQuestionDetailsFormat extends
 
     @Override
     protected Query<FeedbackQuestion> getFilterQuery() {
-        // Version 1: question has createdAt field
-        // Instant earliestDate = TimeHelper.parseInstant("2015-11-30T16:00:00.00Z");
-        // return ofy().load().type(FeedbackQuestion.class)
-        //         .filter("createdAt <=", earliestDate)
-        //         .order("-createdAt");
-
-        // Version 2: question does not have createdAt field
         return ofy().load().type(FeedbackQuestion.class)
                 .filter("questionType =", FeedbackQuestionType.TEXT);
     }
@@ -43,22 +35,6 @@ public class DataMigrationForTextQuestionDetailsFormat extends
 
     @Override
     protected boolean isMigrationNeeded(FeedbackQuestion question) {
-        // Version 1: question has createdAt field
-        // if (question.getQuestionType() != FeedbackQuestionType.TEXT) {
-        //     return false;
-        // }
-
-        // Version 2: question does not have createdAt field
-        try {
-            Field createdAt = question.getClass().getDeclaredField("createdAt");
-            createdAt.setAccessible(true);
-            if (createdAt.get(question) != null) {
-                return false;
-            }
-        } catch (ReflectiveOperationException e) {
-            // continue
-        }
-
         try {
             // Old non-JSON format will encounter exception when GSON tries to parse it.
             JsonUtils.fromJson(question.getQuestionText(), FeedbackQuestionType.TEXT.getQuestionDetailsClass());
