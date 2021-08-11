@@ -284,8 +284,6 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("severity=" + q.getSeverity());
         } else if (q.getMinSeverity() != null && q.getSeverity() == null) {
             logFilters.add("severity>=" + q.getMinSeverity());
-        } else {
-            logFilters.add("severity>=INFO");
         }
         if (q.getTraceId() != null) {
             logFilters.add("trace=\"" + TRACE_PREFIX + q.getTraceId() + "\"");
