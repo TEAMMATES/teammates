@@ -40,8 +40,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     private String getEncryptedKeyForInstructor(String courseId, String email) {
-        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
-        return StringHelper.encrypt(instructor.getKey());
+        return instructorsLogic.getInstructorForEmail(courseId, email).getEncryptedKey();
     }
 
     @Test
@@ -139,7 +138,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: invalid parameters");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), "wrong student"));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), "wrong student"));
         AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
         ______TS("failure: googleID belongs to an existing student in the course");
@@ -156,7 +155,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentsLogic.createStudent(existingStudent);
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), existingId));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), existingId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: without encryption and account already exists");
@@ -169,7 +168,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountData);
-        accountsLogic.joinCourseForStudent(StringHelper.encrypt(studentData.getKey()), correctStudentId);
+        accountsLogic.joinCourseForStudent(studentData.getEncryptedKey(), correctStudentId);
 
         studentData.setGoogleId(accountData.getGoogleId());
         verifyPresentInDatabase(studentData);
@@ -180,13 +179,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: already joined");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), correctStudentId));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), correctStudentId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("failure: valid key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(StringHelper.encrypt(finalStudent.getKey()), "wrongstudent"));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), "wrongstudent"));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
@@ -205,7 +204,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentData = studentsLogic.getStudentForEmail(courseId,
                 originalEmail);
 
-        String encryptedKey = StringHelper.encrypt(studentData.getKey());
+        String encryptedKey = studentData.getEncryptedKey();
         accountsLogic.joinCourseForStudent(encryptedKey, correctStudentId);
         studentData.setGoogleId(correctStudentId);
         verifyPresentInDatabase(studentData);

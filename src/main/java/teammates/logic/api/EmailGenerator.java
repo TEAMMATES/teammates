@@ -23,7 +23,6 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.common.util.Templates.EmailTemplates;
 import teammates.common.util.TimeHelper;
@@ -177,7 +176,7 @@ public final class EmailGenerator {
                 String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.getKey()))
+                        .withRegistrationKey(student.getEncryptedKey())
                         .withStudentEmail(student.getEmail())
                         .toAbsoluteString();
                 submitUrlHtml = "<a href=\"" + submitUrl + "\">" + submitUrl + "</a>";
@@ -187,7 +186,7 @@ public final class EmailGenerator {
                 String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(fsa.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.getKey()))
+                        .withRegistrationKey(student.getEncryptedKey())
                         .withStudentEmail(student.getEmail())
                         .toAbsoluteString();
                 reportUrlHtml = "<a href=\"" + reportUrl + "\">" + reportUrl + "</a>";
@@ -312,7 +311,7 @@ public final class EmailGenerator {
                 String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(session.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.getKey()))
+                        .withRegistrationKey(student.getEncryptedKey())
                         .withStudentEmail(student.getEmail())
                         .toAbsoluteString();
                 submitUrlHtml = "[<a href=\"" + submitUrl + "\">submission link</a>]";
@@ -322,7 +321,7 @@ public final class EmailGenerator {
                 String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                         .withCourseId(course.getId())
                         .withSessionName(session.getFeedbackSessionName())
-                        .withRegistrationKey(StringHelper.encrypt(student.getKey()))
+                        .withRegistrationKey(student.getEncryptedKey())
                         .withStudentEmail(student.getEmail())
                         .toAbsoluteString();
                 reportUrlHtml = "[<a href=\"" + reportUrl + "\">result link</a>]";
@@ -581,14 +580,14 @@ public final class EmailGenerator {
         String submitUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
-                .withRegistrationKey(StringHelper.encrypt(student.getKey()))
+                .withRegistrationKey(student.getEncryptedKey())
                 .withStudentEmail(student.getEmail())
                 .toAbsoluteString();
 
         String reportUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.SESSION_RESULTS_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(session.getFeedbackSessionName())
-                .withRegistrationKey(StringHelper.encrypt(student.getKey()))
+                .withRegistrationKey(student.getEncryptedKey())
                 .withStudentEmail(student.getEmail())
                 .toAbsoluteString();
 
@@ -801,7 +800,7 @@ public final class EmailGenerator {
 
     private String getInstructorCourseJoinUrl(InstructorAttributes instructor) {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.getKey()))
+                .withRegistrationKey(instructor.getEncryptedKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
     }
@@ -815,7 +814,7 @@ public final class EmailGenerator {
     private String fillUpInstructorRejoinAfterGoogleIdResetFragment(
             InstructorAttributes instructor, String institute) {
         AppUrl url = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.getKey()))
+                .withRegistrationKey(instructor.getEncryptedKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         if (institute != null) {
             url = url.withInstructorInstitution(institute);

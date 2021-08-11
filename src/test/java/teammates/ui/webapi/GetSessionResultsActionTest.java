@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
@@ -196,7 +195,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(student1.getKey()),
+                Const.ParamsNames.REGKEY, student1.getEncryptedKey(),
         };
 
         logic.publishFeedbackSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
