@@ -12,6 +12,7 @@ import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
@@ -27,6 +28,8 @@ import teammates.storage.search.SearchManagerFactory;
  * @see InstructorAttributes
  */
 public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttributes> {
+
+    private static final int MAX_KEY_REGENERATION_TRIES = 10;
 
     private static final InstructorsDb instance = new InstructorsDb();
 
@@ -332,7 +335,19 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     }
 
     private Instructor getInstructorEntityForRegistrationKey(String key) {
-        return load().filter("registrationKey =", key).first().now();
+        List<Instructor> instructorList = load().filter("registrationKey =", key).list();
+
+        // If registration key detected is not unique, something is wrong
+        if (instructorList.size() > 1) {
+            log.severe("Duplicate registration keys detected for: "
+                    + instructorList.stream().map(i -> i.getUniqueId()).collect(Collectors.joining(", ")));
+        }
+
+        if (instructorList.isEmpty()) {
+            return null;
+        }
+
+        return instructorList.get(0);
     }
 
     private List<Instructor> getInstructorEntitiesForGoogleId(String googleId) {
@@ -378,6 +393,23 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
         assert entity != null;
 
         return InstructorAttributes.valueOf(entity);
+    }
+
+    @Override
+    Instructor convertToEntityForSaving(InstructorAttributes attributes) throws EntityAlreadyExistsException {
+        int numTries = 0;
+        while (numTries < MAX_KEY_REGENERATION_TRIES) {
+            Instructor instructor = attributes.toEntity();
+            Key<Instructor> existingInstructor =
+                    load().filter("registrationKey =", instructor.getRegistrationKey()).keys().first().now();
+            if (existingInstructor == null) {
+                return instructor;
+            }
+            numTries++;
+        }
+        log.severe("Failed to generate new registration key for instructor after "
+                + MAX_KEY_REGENERATION_TRIES + " tries");
+        throw new EntityAlreadyExistsException("Unable to create new instructor");
     }
 
 }
