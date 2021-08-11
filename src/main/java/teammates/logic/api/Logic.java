@@ -1131,7 +1131,7 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForCourse(String, String, String, String, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(String, String, String, String, String)
      */
     public SessionResultsBundle getSessionResultsForCourse(
             String feedbackSessionName, String courseId, String userEmail,
@@ -1140,14 +1140,14 @@ public class Logic {
         assert courseId != null;
         assert userEmail != null;
 
-        return feedbackSessionsLogic.getSessionResultsForCourse(
+        return feedbackResponsesLogic.getSessionResultsForCourse(
                 feedbackSessionName, courseId, userEmail, questionId, section);
     }
 
     /**
      * Gets the session result for a feedback session for the given user.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, boolean, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String, boolean, String)
      */
     public SessionResultsBundle getSessionResultsForUser(
             String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
@@ -1156,7 +1156,7 @@ public class Logic {
         assert courseId != null;
         assert userEmail != null;
 
-        return feedbackSessionsLogic.getSessionResultsForUser(
+        return feedbackResponsesLogic.getSessionResultsForUser(
                 feedbackSessionName, courseId, userEmail, isInstructor, questionId);
     }
 
