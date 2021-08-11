@@ -432,7 +432,6 @@ describe('SessionResultPageComponent', () => {
     };
 
     const testFeedbackSessionResult: SessionResults = {
-      feedbackSession: testFeedbackSession,
       questions: [
         {
           feedbackQuestion: testQuestion1,

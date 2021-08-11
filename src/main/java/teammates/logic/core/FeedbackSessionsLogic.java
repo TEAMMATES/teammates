@@ -614,15 +614,14 @@ public final class FeedbackSessionsLogic {
 
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
-        FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
         if (isCourseWide) {
             missingResponses = buildMissingResponses(
-                    instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
-                    relatedQuestionsMap, existingResponses, roster, section);
+                    courseId, feedbackSessionName, instructor, responseGiverVisibilityTable,
+                    responseRecipientVisibilityTable, relatedQuestionsMap, existingResponses, roster, section);
         }
         RequestTracer.checkRemainingTime();
 
-        return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
+        return new SessionResultsBundle(relatedQuestionsMap, existingResponses, missingResponses,
                 responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
                 commentVisibilityTable, roster);
     }
@@ -712,7 +711,6 @@ public final class FeedbackSessionsLogic {
      *         the giver visibility table which will be updated with the visibility of missing responses
      * @param responseRecipientVisibilityTable
      *         the recipient visibility table which will be updated with the visibility of missing responses
-     * @param feedbackSession the feedback sessions
      * @param relatedQuestionsMap the relevant questions
      * @param existingResponses existing responses
      * @param courseRoster the course roster
@@ -720,9 +718,9 @@ public final class FeedbackSessionsLogic {
      * @return a list of missing responses for the session.
      */
     private List<FeedbackResponseAttributes> buildMissingResponses(
-            InstructorAttributes instructor,
+            String courseId, String feedbackSessionName, InstructorAttributes instructor,
             Map<String, Boolean> responseGiverVisibilityTable, Map<String, Boolean> responseRecipientVisibilityTable,
-            FeedbackSessionAttributes feedbackSession, Map<String, FeedbackQuestionAttributes> relatedQuestionsMap,
+            Map<String, FeedbackQuestionAttributes> relatedQuestionsMap,
             List<FeedbackResponseAttributes> existingResponses, CourseRoster courseRoster, @Nullable String section) {
 
         // first get all possible giver recipient pairs
@@ -730,7 +728,7 @@ public final class FeedbackSessionsLogic {
         for (FeedbackQuestionAttributes feedbackQuestion : relatedQuestionsMap.values()) {
             if (feedbackQuestion.getQuestionDetailsCopy().shouldGenerateMissingResponses(feedbackQuestion)) {
                 questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(),
-                        fqLogic.buildCompleteGiverRecipientMap(feedbackSession, feedbackQuestion, courseRoster));
+                        fqLogic.buildCompleteGiverRecipientMap(feedbackQuestion, courseRoster));
             } else {
                 questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(), new HashMap<>());
             }
@@ -773,8 +771,8 @@ public final class FeedbackSessionsLogic {
 
                     FeedbackResponseAttributes missingResponse =
                             FeedbackResponseAttributes.builder(questionId, giverIdentifier, recipientIdentifier)
-                                    .withCourseId(feedbackSession.getCourseId())
-                                    .withFeedbackSessionName(feedbackSession.getFeedbackSessionName())
+                                    .withCourseId(courseId)
+                                    .withFeedbackSessionName(feedbackSessionName)
                                     .withGiverSection(giverInfo.getSectionName())
                                     .withRecipientSection(recipientInfo.getSectionName())
                                     .withResponseDetails(new FeedbackTextResponseDetails("No Response"))

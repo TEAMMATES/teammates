@@ -882,9 +882,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
                 false, null);
 
-        // We just check for correct session once
-        assertEquals(session.toString(), bundle.getFeedbackSession().toString());
-
         // Student can see responses: q1r1, q2r1,3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r1-2
         // We don't check the actual IDs as this is also implicitly tested
         // later when checking the visibility table.
