@@ -60,6 +60,7 @@
                               [responses]="question.allResponses"
                               [statistics]="question.questionStatistics"
                               [isStudent]="true"></tm-single-statistics>
+            <p style="color: gray; font-size: small;"><i class="fas fa-info-circle" style="color: #087CFC;"></i> Individual Responses are not configured to be shown for this question type.</p>
           </div>
           <ng-template #nonStatisticQuestion>
             <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
