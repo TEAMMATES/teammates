@@ -155,13 +155,20 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
-     * Gets a student by unique constraint encryptedKey.
+     * Gets a student by unique constraint registrationKey.
      */
-    public StudentAttributes getStudentForRegistrationKey(String encryptedRegistrationKey) {
-        assert encryptedRegistrationKey != null;
+    public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
+        assert registrationKey != null;
 
+        StudentAttributes student = makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(registrationKey.trim()));
+        if (student != null) {
+            return student;
+        }
+
+        // Try to find student whose key is not yet encrypted
+        // TODO remove this block after data migration
         try {
-            String decryptedKey = StringHelper.decrypt(encryptedRegistrationKey.trim());
+            String decryptedKey = StringHelper.decrypt(registrationKey.trim());
             return makeAttributesOrNull(getCourseStudentEntityForRegistrationKey(decryptedKey));
         } catch (InvalidParametersException e) {
             return null; // invalid registration key cannot be decrypted
