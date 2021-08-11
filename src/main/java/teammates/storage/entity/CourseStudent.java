@@ -207,6 +207,7 @@ public class CourseStudent extends BaseEntity {
         assert uniqueId != null;
 
         SecureRandom prng = new SecureRandom();
-        return uniqueId + "%" + prng.nextInt();
+
+        return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
     }
 }
