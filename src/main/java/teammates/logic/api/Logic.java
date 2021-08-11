@@ -208,11 +208,11 @@ public class Logic {
      * * All parameters are non-null.
      * @return null if not found.
      */
-    public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
+    public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
 
-        assert encryptedKey != null;
+        assert registrationKey != null;
 
-        return instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
+        return instructorsLogic.getInstructorForRegistrationKey(registrationKey);
     }
 
     /**
@@ -291,15 +291,15 @@ public class Logic {
      * Make the instructor join the course, i.e. associate the Google ID to the instructor.<br>
      * Creates an account for the instructor if there is no existing account for him.
      * Preconditions: <br>
-     * * Parameters encryptedKey and googleId are non-null.
+     * * Parameters regkey and googleId are non-null.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String regkey, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert googleId != null;
-        assert encryptedKey != null;
+        assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(encryptedKey, googleId, institute, mac);
+        return accountsLogic.joinCourseForInstructor(regkey, googleId, institute, mac);
     }
 
     /**
@@ -688,7 +688,7 @@ public class Logic {
      * Create an account for the student if there is no account exist for him.
      * Preconditions: <br>
      * * All parameters are non-null.
-     * @param key the encrypted registration key
+     * @param key the registration key
      */
     public StudentAttributes joinCourseForStudent(String key, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {

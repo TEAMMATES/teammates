@@ -28,13 +28,13 @@ public class InstructorCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase
     @Override
     public void testAll() {
         ______TS("Click join link: invalid key");
-        String invalidEncryptedKey = "invalidKey";
+        String invalidKey = "invalidKey";
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(invalidEncryptedKey)
+                .withRegistrationKey(invalidKey)
                 .withEntityType(Const.EntityType.INSTRUCTOR);
         ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newInstructor.getGoogleId());
 
-        errorPage.verifyErrorMessage("No instructor with given registration key: " + invalidEncryptedKey);
+        errorPage.verifyErrorMessage("No instructor with given registration key: " + invalidKey);
 
         ______TS("Click join link: valid key");
         String courseId = testData.courses.get("ICJoinConf.CS1101").getId();

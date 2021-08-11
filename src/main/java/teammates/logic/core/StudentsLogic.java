@@ -86,7 +86,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Gets a student by unique constraint encryptedKey.
+     * Gets a student by unique constraint registrationKey.
      */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         return studentsDb.getStudentForRegistrationKey(registrationKey);
