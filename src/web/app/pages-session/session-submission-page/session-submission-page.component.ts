@@ -224,7 +224,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
    * Scrolls to the question based on its given question id.
    */
   scrollToQuestion(): void {
-    let div = document.getElementById(this.moderatedQuestionId);
+    const div: HTMLElement | null = document.getElementById(this.moderatedQuestionId);
 
     // continue scrolling as long as the element to scroll to is yet to be found or not in view
     if (div == null || !(this.isInViewport(div))) {
