@@ -67,8 +67,6 @@ export class TableComparatorService {
       case SortBy.RUBRIC_CHOICE:
       case SortBy.RANK_RECIPIENTS_TEAM:
       case SortBy.RANK_RECIPIENTS_RECIPIENT:
-      case SortBy.NUMERICAL_SCALE_MAX:
-      case SortBy.NUMERICAL_SCALE_MIN:
       case SortBy.MCQ_TEAM:
       case SortBy.MCQ_OPTION_SELECTED_TIMES:
       case SortBy.MSQ_TEAM:
@@ -121,6 +119,8 @@ export class TableComparatorService {
       case SortBy.CONSTSUM_RECIPIENTS_POINTS:
       case SortBy.RUBRIC_WEIGHT_AVERAGE:
       case SortBy.RUBRIC_TOTAL_CHOSEN_WEIGHT:
+      case SortBy.NUMERICAL_SCALE_MAX:
+      case SortBy.NUMERICAL_SCALE_MIN:
       case SortBy.NUMERICAL_SCALE_AVERAGE:
       case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
       case SortBy.MCQ_WEIGHT:
