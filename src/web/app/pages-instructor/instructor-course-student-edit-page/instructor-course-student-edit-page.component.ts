@@ -196,12 +196,13 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
       studentEmail: this.student.email,
       requestBody: reqBody,
     })
-      .subscribe((resp: MessageOutput) => {
+      .pipe(finalize(() => {
         this.isFormSaving = false;
+      }))
+      .subscribe((resp: MessageOutput) => {
         this.navigationService.navigateWithSuccessMessage(this.router, '/web/instructor/courses/details',
             resp.message, { courseid: this.courseId });
       }, (resp: ErrorMessageOutput) => {
-        this.isFormSaving = false;
         this.statusMessageService.showErrorToast(resp.error.message);
       });
   }
