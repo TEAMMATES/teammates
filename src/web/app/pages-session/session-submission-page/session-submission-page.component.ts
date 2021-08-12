@@ -174,7 +174,7 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
                 // Registration key belongs to another user who is not the logged in user
                 this.navigationService.navigateWithErrorMessage(this.router, '/web/front',
                     `You are trying to access TEAMMATES using the Google account ${this.loggedInUser}, which
-                    is not linked to any TEAMMATES account. If you used a different Google account to
+                    is not linked to this TEAMMATES account. If you used a different Google account to
                     join/access TEAMMATES before, please use that Google account to access TEAMMATES. If you
                     cannot remember which Google account you used before, please email us at
                     ${environment.supportEmail} for help.`);
