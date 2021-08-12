@@ -54,7 +54,7 @@
   <ul>
     <li>
       <strong>To submit, edit or view your feedback for the above session, please go to this Web address: </strong>
-      <a href="http://localhost:4200/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session">http://localhost:4200/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session</a>
+      <a href="${app.url}/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session">${app.url}/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session</a>
     </li>
     <li>
       The above link is unique to you. Please do not share it with others.
@@ -75,7 +75,7 @@
 <p>=====</p>
 <p>
     <strong>To "join" the course, please go to this Web address: </strong>
-    <a href="http://localhost:4200/web/join?key=${regkey.enc}&entitytype=instructor">http://localhost:4200/web/join?key=${regkey.enc}&entitytype=instructor</a>
+    <a href="${app.url}/web/join?key=${regkey.enc}&entitytype=instructor">${app.url}/web/join?key=${regkey.enc}&entitytype=instructor</a>
 <ul>
     <li>
         If prompted to log in, use your Google account to log in.
@@ -97,7 +97,7 @@
     </li>
     <li>
       <strong>Technical help regarding TEAMMATES</strong> (e.g. submission link is not working):
-      Email TEAMMATES support team at app_admin@gmail.com.
+      Email TEAMMATES support team at ${support.email}.
     </li>
   </ul>
 </p>

@@ -155,9 +155,17 @@ public class GoogleCloudLoggingService implements LogService {
             Payload<?> payload = entry.getPayload();
             long timestamp = entry.getTimestamp();
 
+            String file = "";
+            Long line = 0L;
+            String function = "";
+            if (sourceLocation != null) {
+                file = sourceLocation.getFile();
+                line = sourceLocation.getLine();
+                function = sourceLocation.getFunction();
+            }
+
             GeneralLogEntry logEntry = new GeneralLogEntry(convertSeverity(severity), trace, insertId,
-                    resourceIdentifier, new SourceLocation(sourceLocation.getFile(),
-                            sourceLocation.getLine(), sourceLocation.getFunction()), timestamp);
+                    resourceIdentifier, new SourceLocation(file, line, function), timestamp);
             if (payload.getType() == Payload.Type.JSON) {
                 Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
                 logEntry.setDetails(JsonUtils.fromJson(JsonUtils.toCompactJson(jsonPayloadMap), LogDetails.class));
@@ -276,8 +284,6 @@ public class GoogleCloudLoggingService implements LogService {
             logFilters.add("severity=" + q.getSeverity());
         } else if (q.getMinSeverity() != null && q.getSeverity() == null) {
             logFilters.add("severity>=" + q.getMinSeverity());
-        } else {
-            logFilters.add("severity>=INFO");
         }
         if (q.getTraceId() != null) {
             logFilters.add("trace=\"" + TRACE_PREFIX + q.getTraceId() + "\"");

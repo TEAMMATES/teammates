@@ -23,19 +23,19 @@ public class LoginServlet extends AuthServlet {
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        String nextUrl = req.getParameter("nextUrl");
+        if (nextUrl == null) {
+            nextUrl = "/";
+        }
         if (Config.isDevServer()) {
             resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
-            resp.setHeader("Location", "/devServerLogin");
+            resp.setHeader("Location", "/devServerLogin?nextUrl=" + nextUrl.replace("&", "%26"));
             return;
         }
 
         String cookie = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.AUTH_COOKIE_NAME);
         UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
         boolean isLoginNeeded = uic == null || !uic.isValid();
-        String nextUrl = req.getParameter("nextUrl");
-        if (nextUrl == null) {
-            nextUrl = "/";
-        }
         if (!isLoginNeeded) {
             resp.sendRedirect(nextUrl);
             return;
