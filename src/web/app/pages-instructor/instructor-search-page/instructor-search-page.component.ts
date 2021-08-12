@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
 import { finalize, map, mergeMap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { CourseService } from '../../../services/course.service';
 import { InstructorSearchResult, SearchService } from '../../../services/search.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -29,6 +30,7 @@ export class InstructorSearchPageComponent implements OnInit {
   studentsListRowTables: SearchStudentsListRowTable[] = [];
   isSearching: boolean = false;
   maxResultsToShow: number = 50;
+  searchWarningDisplayed: boolean = !!environment.searchWarningDisplayed;
 
   constructor(
     private statusMessageService: StatusMessageService,
@@ -76,6 +78,7 @@ export class InstructorSearchPageComponent implements OnInit {
         this.statusMessageService.showWarningToast('No results found.');
       }
     }, (resp: ErrorMessageOutput) => {
+      this.studentsListRowTables = [];
       this.statusMessageService.showErrorToast(resp.error.message);
     });
   }

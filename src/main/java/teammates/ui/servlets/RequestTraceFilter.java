@@ -1,7 +1,6 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Random;
 
 import javax.servlet.Filter;
@@ -104,7 +103,7 @@ public class RequestTraceFilter implements Filter {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(resp);
 
-        log.request(req, statusCode, message, new HashMap<>(), new HashMap<>());
+        log.request(req, statusCode, message);
     }
 
 }

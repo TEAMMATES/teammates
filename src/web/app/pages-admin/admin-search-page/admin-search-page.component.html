@@ -36,7 +36,7 @@
       <tbody>
         <ng-container *ngFor="let instructor of instructors; let i = index">
           <tr (click)="instructor.showLinks = !instructor.showLinks">
-            <td>
+            <td class="text-break">
               <span [ngbTooltip]="instructor.courseName">{{ instructor.courseId }}</span>
               <br>
               <div class="col-sm-1">
@@ -108,7 +108,7 @@
         <ng-container *ngFor="let student of students; let i = index">
           <tr (click)="student.showLinks = !student.showLinks">
             <td>
-              <span [ngbTooltip]="student.courseName">
+              <span class="text-break" [ngbTooltip]="student.courseName">
                 {{ student.courseId }} [{{ student.section }}] ({{ student.team }})
               </span>
               <br>

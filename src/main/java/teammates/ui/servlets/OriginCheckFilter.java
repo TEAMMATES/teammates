@@ -2,7 +2,6 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -178,7 +177,7 @@ public class OriginCheckFilter implements Filter {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(response);
 
-        log.request(request, statusCode, message, new HashMap<>(), new HashMap<>());
+        log.request(request, statusCode, message);
     }
 
     @Override

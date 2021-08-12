@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
@@ -27,7 +28,11 @@ class PutDataBundleDocumentsAction extends Action {
     @Override
     public JsonResult execute() {
         DataBundle dataBundle = JsonUtils.fromJson(getRequestBody(), DataBundle.class);
-        logic.putDocuments(dataBundle);
+        try {
+            logic.putDocuments(dataBundle);
+        } catch (SearchServiceException e) {
+            return new JsonResult("Failed to add data bundle documents.", HttpStatus.SC_BAD_GATEWAY);
+        }
         return new JsonResult("Data bundle documents successfully added.", HttpStatus.SC_OK);
     }
 

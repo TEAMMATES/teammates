@@ -37,7 +37,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // See test cases below.
     }
 

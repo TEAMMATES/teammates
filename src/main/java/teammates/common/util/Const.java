@@ -164,6 +164,7 @@ public final class Const {
         public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
         public static final String QUERY_LOGS_LATENCY = "latency";
         public static final String QUERY_LOGS_STATUS = "status";
+        public static final String QUERY_LOGS_VERSION = "version";
         public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
         public static final String QUERY_LOGS_ORDER = "order";
     }
@@ -199,15 +200,6 @@ public final class Const {
         public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
         public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
-    }
-
-    /**
-     * Represents types of feedback session-related events to be audited.
-     */
-    public static class FeedbackSessionLogTypes {
-        public static final String ACCESS = "access";
-        public static final String SUBMISSION = "submission";
-        public static final String VIEW_RESULT = "view result";
     }
 
     /**
@@ -394,6 +386,9 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
 
+        public static final String SEARCH_INDEXING_QUEUE_NAME = "search-indexing-queue";
+        public static final String INSTRUCTOR_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/instructorSearchIndexing";
+        public static final String STUDENT_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/studentSearchIndexing";
     }
 
 }

@@ -23,7 +23,7 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         ______TS("Normal case");
 
         GetTimeZonesAction a = getAction();
@@ -50,7 +50,7 @@ public class GetTimeZonesActionTest extends BaseActionTest<GetTimeZonesAction> {
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 }

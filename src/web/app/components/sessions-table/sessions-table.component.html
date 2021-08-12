@@ -43,8 +43,8 @@
       </thead>
       <tbody>
       <tr *ngFor="let sessionsTableRowModel of sessionsTableRowModels; let idx = index">
-        <td *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
-        <td>{{ sessionsTableRowModel.feedbackSession.feedbackSessionName }}</td>
+        <td class="text-break" *ngIf="columnsToShow.includes(SessionsTableColumn.COURSE_ID)">{{ sessionsTableRowModel.feedbackSession.courseId }}</td>
+        <td class="text-break">{{ sessionsTableRowModel.feedbackSession.feedbackSessionName }}</td>
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.START_DATE)">
           <span class="ngb-tooltip-class" [ngbTooltip]="sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateDetail: sessionsTableRowModel.feedbackSession.timeZone" >{{ sessionsTableRowModel.feedbackSession.submissionStartTimestamp | formatDateBrief: sessionsTableRowModel.feedbackSession.timeZone }}</span></td>
         <td *ngIf="columnsToShow.includes(SessionsTableColumn.END_DATE)">
@@ -83,7 +83,7 @@
                     [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN
                       || !sessionsTableRowModel.instructorPrivilege.canSubmitSessionInSections" (click)="submitSessionAsInstructorEvent.emit(idx)">Submit</button>
           </ng-template>
-          <div ngbDropdown class="d-inline-block">
+          <div ngbDropdown class="d-inline-block" container="body">
             <button id="btn-results-{{ idx }}" class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
               <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"

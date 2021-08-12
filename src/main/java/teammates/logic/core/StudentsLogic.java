@@ -420,10 +420,12 @@ public final class StudentsLogic {
     }
 
     /**
-     * Batch creates or updates documents for the given students.
+     * Creates or updates search document for the given student.
+     *
+     * @param student the student to be put into documents
      */
-    public void putDocuments(List<StudentAttributes> students) {
-        studentsDb.putDocuments(students);
+    public void putDocument(StudentAttributes student) throws SearchServiceException {
+        studentsDb.putDocument(student);
     }
 
     private boolean isInEnrollList(StudentAttributes student,

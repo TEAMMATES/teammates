@@ -26,7 +26,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes typicalCourse1 = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes sessionPublishedInCourse1 = typicalBundle.feedbackSessions.get("closedSession");

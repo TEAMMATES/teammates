@@ -27,7 +27,7 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         StudentAttributes studentNotSubmitFeedback = typicalBundle.students.get("student5InCourse1");

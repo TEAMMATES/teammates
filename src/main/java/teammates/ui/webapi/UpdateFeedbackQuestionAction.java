@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
@@ -69,13 +68,6 @@ class UpdateFeedbackQuestionAction extends Action {
         }
         // validate questions (question details)
         FeedbackQuestionDetails questionDetails = oldQuestion.getQuestionDetailsCopy();
-        if (questionDetails instanceof FeedbackMsqQuestionDetails) {
-            FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
-            int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
-                    oldQuestion.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
-            msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
-            questionDetails = msqQuestionDetails;
-        }
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
 
         if (!questionDetailsErrors.isEmpty()) {
