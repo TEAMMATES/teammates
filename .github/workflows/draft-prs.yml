@@ -1,0 +1,16 @@
+on:
+  pull_request: 
+    types: [opened, converted_to_draft, synchronize ] # added synchronise in case the merge conflicts prevent this workflow from running when a draft pr was opened or a pr was converted to draft
+
+jobs: 
+  handle_new_pr: 
+    name: Handle PR that may be draft
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Check if a PR is a draft and assign label s.Ongoing
+        uses: ./.github/pr_management/pr_marked_draft
+        with:
+          repo-token: ${{secrets.GITHUB_TOKEN}}

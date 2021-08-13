@@ -1,0 +1,16 @@
+on:
+  pull_request: 
+    types: [opened, ready_for_review, synchronize]
+
+jobs: 
+  handle_new_pr: 
+    name: Handle PR that may be ready for review
+    runs-on: ubuntu-latest
+    steps: 
+      - name: checkout
+        uses: actions/checkout@v2
+
+      - name: Check if a PR is ready to review, checks are passing and assign correct labels
+        uses: ./.github/pr_management/pr_marked_ready_for_review
+        with:
+          repo-token: ${{secrets.GITHUB_TOKEN}}
