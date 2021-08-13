@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.CourseData;
@@ -45,7 +46,7 @@ class CreateCourseAction extends Action {
         String newCourseId = courseCreateRequest.getCourseId();
         String newCourseName = courseCreateRequest.getCourseName();
 
-        String institute = "Unknown Institution";
+        String institute = Const.UNKNOWN_INSTITUTION;
         AccountAttributes account = logic.getAccount(userInfo.getId());
         if (account != null && !StringHelper.isEmpty(account.getInstitute())) {
             institute = account.getInstitute();
