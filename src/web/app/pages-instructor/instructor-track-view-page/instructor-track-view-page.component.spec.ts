@@ -13,9 +13,9 @@ import {
   Course,
   FeedbackSession,
   FeedbackSessionLog,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessionSubmissionStatus,
-  LogType,
   ResponseVisibleSetting,
   SessionVisibleSetting,
   Student,
@@ -109,12 +109,12 @@ describe('InstructorTrackViewPageComponent', () => {
     feedbackSessionLogEntries: [
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+        feedbackSessionLogType: FeedbackSessionLogType.VIEW_RESULT,
         timestamp: 0,
       },
       {
         studentData: testStudent,
-        feedbackSessionLogType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+        feedbackSessionLogType: FeedbackSessionLogType.VIEW_RESULT,
         timestamp: 1000,
       },
     ],

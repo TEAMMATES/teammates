@@ -34,13 +34,13 @@ public class FeedbackSessionRemindEmailWorkerActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
 
         ______TS("Send feedback session reminder email");
 

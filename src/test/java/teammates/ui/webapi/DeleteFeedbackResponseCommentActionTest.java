@@ -12,8 +12,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 import teammates.ui.request.Intent;
@@ -87,7 +85,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // See each independent test case
     }
 
@@ -226,7 +224,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Test
-    public void testCrossSectionAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testCrossSectionAccessControl() throws Exception {
         int questionNumber = 6;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment2FromStudent1");
@@ -277,7 +275,7 @@ public class DeleteFeedbackResponseCommentActionTest extends BaseActionTest<Dele
     }
 
     @Test
-    public void testAccessControlsForCommentByTeam() throws InvalidParametersException, EntityDoesNotExistException {
+    public void testAccessControlsForCommentByTeam() throws Exception {
         int questionNumber = 4;
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackResponseCommentAttributes comment = typicalBundle.feedbackResponseComments.get("comment1FromTeam1");

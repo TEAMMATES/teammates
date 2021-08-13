@@ -88,7 +88,7 @@ public class ProfilesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     }
 
     @Test
-    public void testUpdateOrCreateStudentProfile_nullParameter_shouldThrowAssertionException() throws Exception {
+    public void testUpdateOrCreateStudentProfile_nullParameter_shouldThrowAssertionException() {
         assertThrows(AssertionError.class,
                 () -> profilesDb.updateOrCreateStudentProfile(null));
     }

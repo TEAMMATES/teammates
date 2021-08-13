@@ -54,7 +54,10 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         if (StringHelper.isEmpty(searchServiceHost)) {
             this.client = null;
         } else {
-            this.client = new HttpSolrClient.Builder(searchServiceHost).build();
+            this.client = new HttpSolrClient.Builder(searchServiceHost)
+                    .withConnectionTimeout(2000) // timeout for connecting to Solr server
+                    .withSocketTimeout(5000) // timeout for reading data
+                    .build();
         }
     }
 

@@ -6,7 +6,7 @@ about: Report a bug or defect in the application
 
 <!-- Issue title: [brief description of bug] -->
 
-- **Environment**: <!-- The environment in which you encountered the bug, e.g. live server at `V7.0.0`, `master` branch at commit 1234567. -->
+- **Environment**: <!-- The environment in which you encountered the bug, e.g. live server at `V8.0.0`, `master` branch at commit 1234567. -->
 
 **Steps to reproduce**
 
