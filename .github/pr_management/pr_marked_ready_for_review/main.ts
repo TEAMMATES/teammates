@@ -1,6 +1,6 @@
 import core = require("@actions/core");
 import github = require("@actions/github");
-import { log, dropToReviewLabelAndAddOngoing, addToReviewLabel, postComment, validateChecksOnPrHead, addOngoingLabel } from "../common";
+import { log, dropToReviewLabelAndAddOngoing, addToReviewLabel, postComment, validateChecksOnPrHead, addOngoingLabel, dropOngoingLabel } from "../common";
 
 const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
@@ -30,11 +30,24 @@ async function run() {
     const { didChecksRunSuccessfully, errMessage } = await validateChecksOnPrHead();
 
     if (didChecksRunSuccessfully) {
-        if (!hasLabel(prLabels, "s.Ongoing") && !hasLabel(prLabels, "s.ToReview")) { // todo check correct pr
-            await addToReviewLabel();
-        } else if (hasLabel(prLabels, "s.Ongoing")) {
-            core.info("Waiting for user to manually state ready to review. exiting...");
+        if (hasLabel(prLabels, "s.ToReview")) {
+            core.info("already has review label and checks are passing, nothing to be done here. exiting...")
+            return;
         }
+
+        if (hasLabel(prLabels, "s.Ongoing") && isOnSynchronise()) {
+            core.info("Waiting for user to manually state ready to review. exiting...");
+            return;
+        }
+
+        // if checks pass on 'pr open' event, or on 'convert to ready for review' event, 
+        // then add review label (and drop ongoing if it exists)
+        if (hasLabel(prLabels, "s.Ongoing")) { 
+            await dropOngoingLabel();
+        }
+
+        await addToReviewLabel();
+        
     } else { 
         // for prs labelled as ongoing, for all other event types except on synchronise, 
         // we can be sure that the author hasn't been notified of the failing checks by the bot

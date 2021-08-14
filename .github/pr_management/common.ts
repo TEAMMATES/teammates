@@ -50,6 +50,8 @@ function isValidTimestamp(sinceTimeStamp: string) {
     }
 }
 
+//// abstractions for adding and dropping labels
+
 export async function addOngoingLabel() {
     await addLabel("s.Ongoing");
 }
@@ -66,6 +68,10 @@ export async function dropOngoingLabelAndAddToReview() {
 export async function dropToReviewLabelAndAddOngoing() {
     await removeLabel("s.ToReview");
     await addLabel("s.Ongoing");
+}
+
+export async function dropOngoingLabel() {
+    await removeLabel("s.Ongoing");
 }
 
 async function addLabel(labelName: string) {
@@ -97,8 +103,9 @@ export async function sleep(ms : number) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-////// things to help with logging //////
-/* these functions log using the core module but with the format "label: thingToLog". They also return the variable being logged for convenience */
+////// functions to help with logging //////
+/* these functions log using the core module but with the format "label: itemToLog". 
+They also return the variable being logged for convenience */
 export const log = { info: logInfo, warn: logWarn, jsonInfo: jsonInfo };
 
 function logInfo(toPrint, label) {
@@ -118,15 +125,14 @@ function logWarn(toPrint, label) {
 export async function postComment(message) {
     const commentBody = `Hi ${actor}, please note the following. ${message}`;
 
-    const comment = await octokit.rest.issues.createComment({
+    await octokit.rest.issues.createComment({
         owner,
         repo,
         issue_number,
         body: commentBody,
-    });
-
-    log.info(commentBody, "Commented");
-    log.info(comment.status, "Status of comment operation");
+    })
+    .then(res => core.info(`Commented:\n ${res.data.body}\n with status ${res.status}`))
+    .catch(err => core.error(err))
 }
 
 //// checks stuff
@@ -139,7 +145,6 @@ export async function validateChecksOnPrHead() {
 async function validateChecks(
     validateForRef: string
 ): Promise<{ didChecksRunSuccessfully: boolean; errMessage: string }> {
-    // GitHub Apps must have the checks:read permission on a private repository or pull access to a public repository to get check runs.
 
     core.info(`validating checks on ref: ${validateForRef}...`);
 
@@ -148,8 +153,8 @@ async function validateChecks(
 
     // wait for the checks to complete before proceeding
     while (areChecksOngoing) {
+        // https://octokit.github.io/rest.js/v18#checks-list-for-ref
         listChecks = await octokit.rest.checks.listForRef({
-            //https://octokit.github.io/rest.js/v18#checks-list-for-ref
             owner,
             repo,
             ref: validateForRef,
@@ -163,7 +168,7 @@ async function validateChecks(
             core.info(`current status for "${checkRun.name}": ${checkRun.status}`);
         });
 
-        // find checks that are not completed and sleep while waiting for it to complete
+        // find checks that are not completed and sleep while waiting for completion
         const res = checkRunsArr.find(
             checkRun => checkRun.status !== "completed" && !(checkRun.name in excludedChecksNames)
         );
