@@ -247,7 +247,7 @@ describe('InstructorAuditLogsPageComponent', () => {
     const logSpy: Spy = spyOn(logService, 'searchFeedbackSessionLog').and
         .returnValue(of({ feedbackSessionLogs: [testLogs1, testLogs2] }));
     const timeSpy: Spy = spyOn(timezoneService, 'resolveLocalDateTime').and.callThrough();
-    const tzOffset: number = timezoneService.getTzOffsets()['Asia/Singapore'];
+    const tzOffset: number = timezoneService.getTzOffsets()[testCourse1.timeZone];
 
     component.isLoading = false;
     component.isSearching = false;
