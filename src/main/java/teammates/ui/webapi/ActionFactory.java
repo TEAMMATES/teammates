@@ -147,6 +147,8 @@ public final class ActionFactory {
         map(TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_WORKER_URL, POST, InstructorCourseJoinEmailWorkerAction.class);
         map(TaskQueue.SEND_EMAIL_WORKER_URL, POST, SendEmailWorkerAction.class);
         map(TaskQueue.STUDENT_COURSE_JOIN_EMAIL_WORKER_URL, POST, StudentCourseJoinEmailWorkerAction.class);
+        map(TaskQueue.INSTRUCTOR_SEARCH_INDEXING_WORKER_URL, POST, InstructorSearchIndexingWorkerAction.class);
+        map(TaskQueue.STUDENT_SEARCH_INDEXING_WORKER_URL, POST, StudentSearchIndexingWorkerAction.class);
 
     }
 

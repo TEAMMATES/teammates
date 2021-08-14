@@ -27,7 +27,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         List<Class<? extends Action>> expectedActionClasses = Arrays.asList(
                 DeleteFeedbackResponseCommentAction.class,
                 CreateFeedbackResponseCommentAction.class,
@@ -123,7 +123,9 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 EnrollStudentsAction.class,
                 DeleteFeedbackQuestionAction.class,
                 CreateFeedbackQuestionAction.class,
-                UpdateFeedbackQuestionAction.class
+                UpdateFeedbackQuestionAction.class,
+                InstructorSearchIndexingWorkerAction.class,
+                StudentSearchIndexingWorkerAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)

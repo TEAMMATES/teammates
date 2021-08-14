@@ -4,8 +4,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 
 /**
@@ -57,7 +55,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Override
     @Test
-    protected void testAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {

@@ -63,20 +63,6 @@ public final class FeedbackResponseCommentsDb
     }
 
     /**
-     * Gets a feedback response comment by "fake" unique constraint course-createdAt-giver.
-     *
-     * <p>The method is only used in testing</p>
-     */
-    public FeedbackResponseCommentAttributes getFeedbackResponseComment(
-            String courseId, Instant createdAt, String commentGiver) {
-        assert courseId != null;
-        assert commentGiver != null;
-        assert createdAt != null;
-
-        return makeAttributesOrNull(getFeedbackResponseCommentEntity(courseId, createdAt, commentGiver));
-    }
-
-    /**
      * Gets all comments given by a user in a course.
      */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForGiver(String courseId, String commentGiver) {
@@ -281,14 +267,6 @@ public final class FeedbackResponseCommentsDb
         }
 
         deleteEntity(entitiesToDelete.keys().list());
-    }
-
-    private FeedbackResponseComment getFeedbackResponseCommentEntity(String courseId, Instant createdAt, String giverEmail) {
-        return load()
-                .filter("courseId =", courseId)
-                .filter("createdAt =", createdAt)
-                .filter("giverEmail =", giverEmail)
-                .first().now();
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(long feedbackResponseCommentId) {

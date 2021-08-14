@@ -1,6 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -232,7 +231,7 @@ public final class MockCourseWithLargeResponseScript extends DatastoreClient {
         return dataBundle;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         new MockCourseWithLargeResponseScript().doOperationRemotely();
     }
 

@@ -34,7 +34,7 @@ import teammates.common.datatransfer.questions.FeedbackRankQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the instructor feedback edit page of the website.
@@ -452,7 +452,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void assertVisibilityBoxesSelected(WebElement table, FeedbackParticipantType giver,
                                                FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                                int colNum) {
-        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {
@@ -1099,7 +1099,7 @@ public class InstructorFeedbackEditPage extends AppPage {
     private void selectVisibilityBoxes(WebElement table, FeedbackParticipantType giver,
                                        FeedbackParticipantType receiver, List<FeedbackParticipantType> participants,
                                        int colNum) {
-        List<FeedbackParticipantType> possibleTypes = new ArrayList(Arrays.asList(FeedbackParticipantType.RECEIVER,
+        List<FeedbackParticipantType> possibleTypes = new ArrayList<>(Arrays.asList(FeedbackParticipantType.RECEIVER,
                 FeedbackParticipantType.OWN_TEAM_MEMBERS, FeedbackParticipantType.RECEIVER_TEAM_MEMBERS,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.INSTRUCTORS));
         if (!giver.equals(FeedbackParticipantType.STUDENTS)) {

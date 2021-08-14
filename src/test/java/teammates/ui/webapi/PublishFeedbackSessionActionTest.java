@@ -27,7 +27,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         ______TS("Typical case");
 
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");

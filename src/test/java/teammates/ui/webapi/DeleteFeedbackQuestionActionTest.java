@@ -26,7 +26,7 @@ public class DeleteFeedbackQuestionActionTest extends BaseActionTest<DeleteFeedb
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes typicalQuestion =

@@ -38,7 +38,7 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     private static final String ERROR_SEARCH_NOT_IMPLEMENTED =
             "Search service is not implemented";
     private static final String ERROR_PUT_DOCUMENT =
-            "Failed to put document(s) %s into Solr. Root cause: %s ";
+            "Failed to put document %s into Solr. Root cause: %s ";
     private static final String ERROR_RESET_COLLECTION =
             "Failed to reset collections. Root cause: %s ";
 
@@ -54,7 +54,10 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
         if (StringHelper.isEmpty(searchServiceHost)) {
             this.client = null;
         } else {
-            this.client = new HttpSolrClient.Builder(searchServiceHost).build();
+            this.client = new HttpSolrClient.Builder(searchServiceHost)
+                    .withConnectionTimeout(2000) // timeout for connecting to Solr server
+                    .withSocketTimeout(5000) // timeout for reading data
+                    .build();
         }
     }
 
@@ -103,33 +106,31 @@ abstract class SearchManager<T extends EntityAttributes<?>> {
     abstract SearchDocument<T> createDocument(T attribute);
 
     /**
-     * Batch creates or updates search documents for the given entities.
+     * Creates or updates search document for the given entity.
      */
-    public void putDocuments(List<T> attributes) {
+    public void putDocument(T attributes) throws SearchServiceException {
         if (client == null) {
             log.warning(ERROR_SEARCH_NOT_IMPLEMENTED);
             return;
         }
 
-        List<SolrInputDocument> documents = new ArrayList<>();
-
-        for (T attribute : attributes) {
-            if (attribute == null) {
-                continue;
-            }
-            Map<String, Object> searchableFields = createDocument(attribute).getSearchableFields();
-            SolrInputDocument document = new SolrInputDocument();
-            searchableFields.forEach((key, value) -> document.addField(key, value));
-            documents.add(document);
+        if (attributes == null) {
+            return;
         }
 
+        Map<String, Object> searchableFields = createDocument(attributes).getSearchableFields();
+        SolrInputDocument document = new SolrInputDocument();
+        searchableFields.forEach((key, value) -> document.addField(key, value));
+
         try {
-            client.add(getCollectionName(), documents);
+            client.add(getCollectionName(), Collections.singleton(document));
             client.commit(getCollectionName());
         } catch (SolrServerException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getRootCause()), e);
+            log.severe(String.format(ERROR_PUT_DOCUMENT, document, e.getRootCause()), e);
+            throw new SearchServiceException(e, HttpStatus.SC_BAD_GATEWAY);
         } catch (IOException e) {
-            log.severe(String.format(ERROR_PUT_DOCUMENT, documents, e.getCause()), e);
+            log.severe(String.format(ERROR_PUT_DOCUMENT, document, e.getCause()), e);
+            throw new SearchServiceException(e, HttpStatus.SC_BAD_GATEWAY);
         }
     }
 

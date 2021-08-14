@@ -36,7 +36,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // See separated test cases below.
     }
 
@@ -176,7 +176,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         String[] studentParams = new String[] { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT, };
         String[] instructorParams = new String[] { Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR, };
 

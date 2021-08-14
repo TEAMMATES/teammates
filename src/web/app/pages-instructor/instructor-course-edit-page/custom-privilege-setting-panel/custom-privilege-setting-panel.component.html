@@ -160,7 +160,7 @@
         </thead>
         <tbody>
         <tr *ngFor="let sessionLevel of sectionLevel.sessionLevel; let j = index">
-          <th scope="row">{{ sessionLevel.sessionName }}</th>
+          <th scope="row" class="text-break">{{ sessionLevel.sessionName }}</th>
           <td>
             <input type="checkbox"
                    [ngModel]="sessionLevel.privilege.canSubmitSessionInSections"

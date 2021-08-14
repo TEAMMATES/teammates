@@ -19,10 +19,10 @@
     <ng-container *ngFor="let studentCourse of courses; index as i">
       <div class="card bg-light top-padded">
         <div class="card-header bg-primary text-white" *ngIf="studentCourse.course as course">
-          <strong>[{{ course.courseId }}]: {{ course.courseName }}</strong>
+          <strong class="text-break">[{{ course.courseId }}]: {{ course.courseName }}</strong>
           <div class="card-header-btn-toolbar">
             <a tmRouterLink="/web/student/course" [queryParams]="{courseid: course.courseId}"
-               id="view-team-btn-{{i}}" class="btn btn-primary btn-sm button">
+               id="view-team-btn-{{i}}" class="btn btn-primary btn-sm button text-nowrap">
               View team
             </a>
           </div>
@@ -42,7 +42,7 @@
             <tbody>
             <tr *ngFor="let session of studentCourse.feedbackSessions; index as i">
               <ng-container>
-                <td>{{ session.session.feedbackSessionName }}</td>
+                <td class="text-break">{{ session.session.feedbackSessionName }}</td>
                 <td *ngIf="session.session.submissionEndTimestamp">{{ session.session.submissionEndTimestamp | formatDateDetail: session.session.timeZone }}</td>
                 <td>
                   <span [ngbTooltip]="getSubmissionStatusTooltip(session)">
