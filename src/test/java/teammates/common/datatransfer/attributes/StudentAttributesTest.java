@@ -150,7 +150,7 @@ public class StudentAttributesTest extends BaseTestCase {
     }
 
     @Test
-    public void testBuilder_withTypicalData_shouldBuildAttributeWithCorrectValue() throws Exception {
+    public void testBuilder_withTypicalData_shouldBuildAttributeWithCorrectValue() {
         CourseStudent expected = generateTypicalStudentObject();
 
         StudentAttributes studentUnderTest = StudentAttributes

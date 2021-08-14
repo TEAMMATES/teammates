@@ -1,0 +1,18 @@
+.margin-left-3em {
+  margin-left: 3em;
+}
+
+.wrap {
+  white-space: pre-wrap;
+  word-break: keep-all;
+}
+
+.title {
+  color: steelblue;
+}
+
+.clickable:hover,
+.clickable:active {
+  background-color: lightblue;
+  cursor: pointer;
+}

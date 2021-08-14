@@ -31,7 +31,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(response.getGiverSection(), fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(response.getRecipientSection(), fra.getRecipientSection());
-        assertEquals(response.getResponseMetaData(), fra.getResponseDetailsCopy().getAnswerString());
+        assertEquals(response.getAnswer(), fra.getResponseDetailsCopy().getAnswerString());
         assertEquals(response.getCreatedAt(), fra.getCreatedAt());
         assertEquals(response.getUpdatedAt(), fra.getUpdatedAt());
     }
@@ -56,7 +56,7 @@ public class FeedbackResponseAttributesTest extends BaseTestCase {
         assertEquals(Const.DEFAULT_SECTION, fra.getGiverSection());
         assertEquals(response.getRecipientEmail(), fra.getRecipient());
         assertEquals(Const.DEFAULT_SECTION, fra.getRecipientSection());
-        assertEquals(response.getResponseMetaData(), fra.getResponseDetailsCopy().getAnswerString());
+        assertEquals(response.getAnswer(), fra.getResponseDetailsCopy().getAnswerString());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, fra.getCreatedAt());
         assertEquals(Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP, fra.getUpdatedAt());
     }

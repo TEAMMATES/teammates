@@ -96,7 +96,7 @@ public class FeedbackContributionQuestionE2ETest extends BaseFeedbackQuestionE2E
         FeedbackResponseAttributes response = getResponse(questionId, student, 170);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver, 180);
         FeedbackResponseAttributes response3 = getResponse(questionId, receiver2, 60);
-        List responses = Arrays.asList(response, response2, response3);
+        List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2, response3);
         feedbackSubmitPage.submitContributionResponse(1, responses);
 
         verifyPresentInDatabase(response);

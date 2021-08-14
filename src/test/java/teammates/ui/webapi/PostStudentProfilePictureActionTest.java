@@ -65,7 +65,7 @@ public class PostStudentProfilePictureActionTest extends BaseActionTest<PostStud
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyInaccessibleWithoutLogin();
         verifyInaccessibleForUnregisteredUsers();
     }

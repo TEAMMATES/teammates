@@ -214,7 +214,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         MessageOutput output = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
-        assertEquals("Search service is not implemented.", output.getMessage());
+        assertEquals("Full-text search is not available.", output.getMessage());
 
         loginAsAdmin();
         params = new String[] {
@@ -227,7 +227,7 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         output = (MessageOutput) result.getOutput();
 
         assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
-        assertEquals("Search service is not implemented.", output.getMessage());
+        assertEquals("Full-text search is not available.", output.getMessage());
     }
 
     @Override

@@ -115,7 +115,7 @@ public final class FeedbackQuestionsDb extends EntitiesDb<FeedbackQuestion, Feed
         boolean hasSameAttributes =
                 this.<Integer>hasSameValue(feedbackQuestion.getQuestionNumber(), newAttributes.getQuestionNumber())
                 && this.<String>hasSameValue(
-                        feedbackQuestion.getQuestionMetaData(), newAttributes.getSerializedQuestionDetails())
+                        feedbackQuestion.getQuestionText(), newAttributes.getSerializedQuestionDetails())
                 && this.<String>hasSameValue(
                         feedbackQuestion.getQuestionDescription(), newAttributes.getQuestionDescription())
                 && this.<FeedbackParticipantType>hasSameValue(

@@ -29,10 +29,10 @@ public final class FieldValidator {
     public static final String NATIONALITY_FIELD_NAME = "nationality";
 
     public static final String COURSE_NAME_FIELD_NAME = "course name";
-    public static final int COURSE_NAME_MAX_LENGTH = 64;
+    public static final int COURSE_NAME_MAX_LENGTH = 80;
 
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
-    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 64;
 
     public static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
@@ -71,7 +71,7 @@ public final class FieldValidator {
      * TODO: make case insensitive
      */
     public static final String COURSE_ID_FIELD_NAME = "course ID";
-    public static final int COURSE_ID_MAX_LENGTH = 40;
+    public static final int COURSE_ID_MAX_LENGTH = 64;
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
@@ -591,6 +591,13 @@ public final class FieldValidator {
         return "";
     }
 
+    /**
+     * Checks if both the giver type and recipient type for the feedback question is valid.
+     *
+     * @param giverType feedback question giver type to be checked.
+     * @param recipientType feedback question recipient type to be checked.
+     * @return Error string if either type is invalid, otherwise empty string.
+     */
     public static List<String> getValidityInfoForFeedbackParticipantType(
             FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
 
@@ -649,6 +656,15 @@ public final class FieldValidator {
         return "";
     }
 
+    /**
+     * Checks if all the given participant types are valid for the purpose of
+     * showing different fields of a feedback response.
+     *
+     * @param showResponsesTo the list of participant types to whom responses can be shown
+     * @param showGiverNameTo the list of participant types to whom giver name can be shown
+     * @param showRecipientNameTo the list of participant types to whom recipient name can be shown
+     * @return Error string if any type in any list is invalid, otherwise empty string.
+     */
     public static List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,
@@ -697,12 +713,18 @@ public final class FieldValidator {
         return errors;
     }
 
+    /**
+     * Checks if the given {@code value} has no HTML code.
+     */
     static String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }
 
+    /**
+     * Checks if the given {@code value} is not null.
+     */
     public static String getValidityInfoForNonNullField(String fieldName, Object value) {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
@@ -743,7 +765,7 @@ public final class FieldValidator {
                               .replace("${reason}", errorReason);
     }
 
-    public static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
+    private static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
             String fieldName, int maxLength) {
         return messageTemplate.replace("${fieldName}", fieldName)
                               .replace("${maxLength}", String.valueOf(maxLength));

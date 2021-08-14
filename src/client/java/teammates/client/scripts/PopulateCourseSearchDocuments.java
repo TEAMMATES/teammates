@@ -1,6 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +10,7 @@ import teammates.client.util.BackDoor;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.util.TimeHelper;
 import teammates.logic.api.Logic;
 import teammates.storage.entity.Course;
 
@@ -20,7 +20,7 @@ import teammates.storage.entity.Course;
 public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScript<Course> {
 
     private static final int STUDENT_SIZE_LIMIT = 300;
-    private final Logic logic = new Logic();
+    private final Logic logic = Logic.inst();
 
     public PopulateCourseSearchDocuments() {
         numberOfScannedKey.set(0L);
@@ -28,19 +28,24 @@ public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScri
         numberOfUpdatedEntities.set(0L);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         PopulateCourseSearchDocuments populator = new PopulateCourseSearchDocuments();
         populator.doOperationRemotely();
     }
 
     @Override
     protected Query<Course> getFilterQuery() {
-        Instant createdAtBound = Instant.now();
+        Instant createdAtUpperBound = Instant.now();
+        Instant createdAtLowerBound = TimeHelper.parseInstant("2020-12-31T16:00:00.00Z");
         // To change the boundary of the createdAt timestamp, uncomment the next line and insert the appropriate timestamp.
-        // createdAtBound = Instant.ofEpochMilli(1618053102147L);
-        return ofy().load().type(Course.class)
-                .filter("createdAt <=", createdAtBound)
-                .order("-createdAt");
+        // createdAtUpperBound = TimeHelper.parseInstant("2021-06-30T16:00:00.00Z");
+        // createdAtLowerBound = TimeHelper.parseInstant("2020-12-31T16:00:00.00Z");
+        Query<Course> query = ofy().load().type(Course.class)
+                .filter("createdAt <=", createdAtUpperBound);
+        if (createdAtLowerBound != null) {
+            query = query.filter("createdAt >=", createdAtLowerBound);
+        }
+        return query.order("-createdAt");
     }
 
     @Override
@@ -49,7 +54,7 @@ public class PopulateCourseSearchDocuments extends DataMigrationEntitiesBaseScri
     }
 
     @Override
-    protected boolean isMigrationNeeded(Course course) throws Exception {
+    protected boolean isMigrationNeeded(Course course) {
         return true;
     }
 
