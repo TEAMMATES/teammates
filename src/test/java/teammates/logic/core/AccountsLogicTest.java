@@ -38,8 +38,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         removeAndRestoreTypicalDataBundle();
     }
 
-    private String getEncryptedKeyForInstructor(String courseId, String email)
-            throws EntityDoesNotExistException {
+    private String getEncryptedKeyForInstructor(String courseId, String email) {
         InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, email);
         return StringHelper.encrypt(instructor.getKey());
     }
@@ -368,8 +367,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testJoinCourseForInstructor_validInstitute_shouldPass()
-            throws EntityDoesNotExistException, InvalidParametersException, EntityAlreadyExistsException {
+    public void testJoinCourseForInstructor_validInstitute_shouldPass() throws Exception {
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String institute = "National University of Singapore";
@@ -391,7 +389,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testJoinCourseForInstructor_invalidInstituteMac_shouldFail() throws EntityDoesNotExistException {
+    public void testJoinCourseForInstructor_invalidInstituteMac_shouldFail() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String institute = "National University of Singapore";
@@ -411,7 +409,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testJoinCourseForInstructor_missingInstituteMac_shouldFail() throws EntityDoesNotExistException {
+    public void testJoinCourseForInstructor_missingInstituteMac_shouldFail() {
         InstructorAttributes instructor = dataBundle.instructors.get("instructorNotYetJoinCourse");
         String loggedInGoogleId = "AccLogicT.instr.id";
         String institute = "National University of Singapore";

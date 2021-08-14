@@ -1,5 +1,8 @@
 package teammates.common.datatransfer.questions;
 
+/**
+ * Contains specific structure and processing logic for MCQ feedback responses.
+ */
 public class FeedbackMcqResponseDetails extends FeedbackResponseDetails {
     private String answer;
     private boolean isOther;

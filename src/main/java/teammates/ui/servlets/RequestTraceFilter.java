@@ -1,9 +1,6 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 import javax.servlet.Filter;
@@ -19,9 +16,6 @@ import org.apache.commons.codec.binary.Hex;
 import org.apache.http.HttpStatus;
 
 import teammates.common.util.Config;
-import teammates.common.util.Const;
-import teammates.common.util.HttpRequestHelper;
-import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 import teammates.common.util.RequestTracer;
 import teammates.ui.webapi.JsonResult;
@@ -79,24 +73,8 @@ public class RequestTraceFilter implements Filter {
 
         RequestTracer.init(traceId, spanId, timeoutInSeconds);
 
-        Map<String, Object> requestDetails = new HashMap<>();
-        Map<String, Serializable> requestParams = HttpRequestHelper.getRequestParameters(request);
-        requestDetails.put("requestMethod", request.getMethod());
-        requestDetails.put("requestUrl", request.getRequestURI());
-        requestDetails.put("userAgent", request.getHeader("User-Agent"));
-        requestDetails.put("requestParams", requestParams);
-        requestDetails.put("requestHeaders", HttpRequestHelper.getRequestHeaders(request));
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("regkey", requestParams.get(Const.ParamsNames.REGKEY));
-        if (!userInfo.isEmpty()) {
-            requestDetails.put("userInfo", userInfo);
-        }
-
-        String message = "Request " + RequestTracer.getTraceId() + " received: " + request.getRequestURI();
-        log.event(LogEvent.REQUEST_RECEIVED, message, requestDetails);
-
         if (Config.MAINTENANCE) {
-            throwError(response, HttpStatus.SC_SERVICE_UNAVAILABLE,
+            throwError(request, response, HttpStatus.SC_SERVICE_UNAVAILABLE,
                     "The server is currently undergoing some maintenance.");
             return;
         }
@@ -106,7 +84,7 @@ public class RequestTraceFilter implements Filter {
             request.getParameterMap();
         } catch (RuntimeException e) {
             if (e.getClass().getSimpleName().equals("BadMessageException")) {
-                throwError(response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
+                throwError(request, response, HttpStatus.SC_BAD_REQUEST, e.getMessage());
                 return;
             }
             throw e;
@@ -120,18 +98,12 @@ public class RequestTraceFilter implements Filter {
         // nothing to do
     }
 
-    private void throwError(HttpServletResponse resp, int statusCode, String message) throws IOException {
+    private void throwError(HttpServletRequest req, HttpServletResponse resp, int statusCode, String message)
+            throws IOException {
         JsonResult result = new JsonResult(message, statusCode);
         result.send(resp);
 
-        long timeElapsed = RequestTracer.getTimeElapsedMillis();
-        Map<String, Object> requestDetails = new HashMap<>();
-        requestDetails.put("responseStatus", statusCode);
-        requestDetails.put("responseTime", timeElapsed);
-
-        String logMessage = "Response " + RequestTracer.getTraceId() + " dispatched with "
-                + statusCode + " in " + timeElapsed + "ms";
-        log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
+        log.request(req, statusCode, message);
     }
 
 }

@@ -2,8 +2,6 @@ package teammates.ui.servlets;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -24,9 +22,7 @@ import org.apache.http.client.methods.HttpPut;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Url;
 import teammates.ui.webapi.JsonResult;
@@ -91,7 +87,7 @@ public class OriginCheckFilter implements Filter {
             // to accommodate users who choose to disable the HTTP referrer setting in their browser
             // for privacy reasons
         } else if (!isHttpReferrerValid(referrer, request.getRequestURL().toString())) {
-            denyAccess("Invalid HTTP referrer.", response);
+            denyAccess("Invalid HTTP referrer.", request, response);
             return;
         }
 
@@ -101,7 +97,7 @@ public class OriginCheckFilter implements Filter {
         case HttpDelete.METHOD_NAME:
             String message = getCsrfTokenErrorIfAny(request);
             if (message != null) {
-                denyAccess(message, response);
+                denyAccess(message, request, response);
                 return;
             }
             break;
@@ -176,19 +172,12 @@ public class OriginCheckFilter implements Filter {
         }
     }
 
-    private void denyAccess(String message, HttpServletResponse response) throws IOException {
+    private void denyAccess(String message, HttpServletRequest request, HttpServletResponse response) throws IOException {
         int statusCode = HttpStatus.SC_FORBIDDEN;
         JsonResult result = new JsonResult(message, statusCode);
         result.send(response);
 
-        long timeElapsed = RequestTracer.getTimeElapsedMillis();
-        Map<String, Object> requestDetails = new HashMap<>();
-        requestDetails.put("responseStatus", statusCode);
-        requestDetails.put("responseTime", timeElapsed);
-
-        String logMessage = "Response " + RequestTracer.getTraceId() + " dispatched with "
-                + statusCode + " in " + timeElapsed + "ms";
-        log.event(LogEvent.RESPONSE_DISPATCHED, logMessage, requestDetails);
+        log.request(request, statusCode, message);
     }
 
     @Override

@@ -72,22 +72,15 @@ If you are testing against a production server (staging server or live server), 
 1. Edit `src/e2e/resources/test.properties` as instructed is in its comments.
    * In particular, you will need a legitimate Gmail account to be used for testing.
 
-1. You need to setup a `Gmail API`<sup>1</sup> as follows:
+1. If you are testing email sending, you need to setup a `Gmail API` as follows:
    * [Obtain a Gmail API credentials](https://github.com/TEAMMATES/teammates-ops/blob/master/platform-guide.md#setting-up-gmail-api-credentials) and download it.
    * Copy the file to `src/e2e/resources/gmail-api` (create the `gmail-api` folder) of your project and rename it to `client_secret.json`.
    * It is also possible to use the Gmail API credentials from any other Google Cloud Platform project for this purpose.
    * Run `EmailAccountTest` to confirm that the setup works. For the first run, it is expected that you will need to grant access from the test Gmail account to the above API.
 
-1. Login manually to TEAMMATES on the browser used for testing to add cookie with login details to the browser profile.
-   * This profile will be added to the web driver so that E2E tests will start with user already logged in. 
-   * This is required as Google does not allow login by automated software.
-
 1. Run the full test suite or any subset of it as how you would have done it in dev server. 
    * Do note that the GAE daily quota is usually not enough to run the full test suite, in particular for accounts with no billing enabled.
    
-<sup>1</sup> This setup is necessary because our test suite uses the Gmail API to access the Gmail account used for testing (the account is specified in `test.properties`) to confirm that the account receives the expected emails from TEAMMATES.
-This is needed only when testing against a production server because no actual emails are sent by the dev server and therefore delivery of emails is not tested when testing against the dev server.
-
 ## Creating E2E tests
   
 As E2E tests should be written from the end user perspective, each test case should reflect some user workflow.   

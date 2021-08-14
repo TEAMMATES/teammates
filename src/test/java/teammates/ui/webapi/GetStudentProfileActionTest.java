@@ -27,7 +27,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         // See test cases below.
     }
 
@@ -139,7 +139,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // See test cases below.
     }
 

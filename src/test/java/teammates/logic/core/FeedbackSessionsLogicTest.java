@@ -15,7 +15,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -23,16 +22,15 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
 import teammates.storage.api.FeedbackSessionsDb;
 import teammates.test.AssertHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackSessionsLogic}.
@@ -57,8 +55,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion()
-            throws EntityDoesNotExistException {
+    public void testDeleteFeedbackSessionCascade_deleteSessionNotInRecycleBin_shouldDoCascadeDeletion() {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertNotNull(fsLogic.getFeedbackSession(fsa.getFeedbackSessionName(), fsa.getCourseId()));
         assertNull(fsLogic.getFeedbackSessionFromRecycleBin(fsa.getFeedbackSessionName(), fsa.getCourseId()));
@@ -85,8 +82,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion()
-            throws InvalidParametersException, EntityDoesNotExistException {
+    public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion() throws Exception {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
         assertFalse(
                 fqLogic.getFeedbackQuestionsForSession(fsa.getFeedbackSessionName(), fsa.getCourseId()).isEmpty());
@@ -165,7 +161,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testIsFeedbackSessionHasQuestionForStudents();
         testIsFeedbackSessionCompletedByStudent();
         testIsFeedbackSessionCompletedByInstructor();
-        testIsFeedbackSessionFullyCompletedByStudent();
 
         testMoveFeedbackSessionToRecycleBin();
         testRestoreFeedbackSessionFromRecycleBin();
@@ -439,7 +434,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertEquals(0, sessionList.size());
     }
 
-    private void testCreateAndDeleteFeedbackSession() throws InvalidParametersException, EntityAlreadyExistsException {
+    private void testCreateAndDeleteFeedbackSession() throws Exception {
         ______TS("test create");
 
         FeedbackSessionAttributes fs = getNewFeedbackSession();
@@ -743,29 +738,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(fsLogic.isFeedbackSessionCompletedByStudent(fs, student.getEmail()));
     }
 
-    private void testIsFeedbackSessionFullyCompletedByStudent() throws Exception {
-
-        FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("session1InCourse1");
-        StudentAttributes student1OfCourse1 = dataBundle.students.get("student1InCourse1");
-        StudentAttributes student3OfCourse1 = dataBundle.students.get("student3InCourse1");
-
-        ______TS("failure: non-existent feedback session for student");
-
-        EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
-                () -> fsLogic.isFeedbackSessionFullyCompletedByStudent(
-                        "nonExistentFSName", fs.getCourseId(), "random.student@email"));
-        assertEquals("Trying to check a non-existent feedback session: " + fs.getCourseId() + "/nonExistentFSName",
-                ednee.getMessage());
-
-        ______TS("success case: fully done by student 1");
-        assertTrue(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                student1OfCourse1.getEmail()));
-
-        ______TS("success case: partially done by student 3");
-        assertFalse(fsLogic.isFeedbackSessionFullyCompletedByStudent(fs.getFeedbackSessionName(), fs.getCourseId(),
-                student3OfCourse1.getEmail()));
-    }
-
     private FeedbackSessionAttributes getNewFeedbackSession() {
         return FeedbackSessionAttributes.builder("fsTest1", "testCourse")
                 .withCreatorEmail("valid@email.tmt")
@@ -810,7 +782,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 response.getGiver(), response.getRecipient());
     }
 
-    private void unpublishAllSessions() throws InvalidParametersException, EntityDoesNotExistException {
+    private void unpublishAllSessions() throws Exception {
         for (FeedbackSessionAttributes fs : dataBundle.feedbackSessions.values()) {
             if (fs.isPublished()) {
                 fsLogic.unpublishFeedbackSession(fs.getFeedbackSessionName(), fs.getCourseId());
@@ -818,7 +790,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         }
     }
 
-    private void testMoveFeedbackSessionToRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testMoveFeedbackSessionToRecycleBin() throws Exception {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
@@ -833,7 +805,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertTrue(feedbackSession.isSessionDeleted());
     }
 
-    private void testRestoreFeedbackSessionFromRecycleBin() throws InvalidParametersException, EntityDoesNotExistException {
+    private void testRestoreFeedbackSessionFromRecycleBin() throws Exception {
         FeedbackSessionAttributes feedbackSession = dataBundle.feedbackSessions.get("session2InCourse3");
         String feedbackSessionName = dataBundle.feedbackSessions.get("session2InCourse3").getFeedbackSessionName();
         String courseId = dataBundle.courses.get("typicalCourse3").getId();
@@ -858,7 +830,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         assertThrows(UnsupportedOperationException.class, () -> {
             fsLogic.getSessionResultsForUser(
                     "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
-                    UserRole.STUDENT, question.getId(), Const.DEFAULT_SECTION);
+                    false, question.getId(), Const.DEFAULT_SECTION);
         });
     }
 
@@ -870,43 +842,43 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
                 "First Session", "FQLogicPCT.CS2104", 1);
 
-        // Alice will see 4 responses
+        // Alice will see 3 responses
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(4, responseForQuestion.size());
+        assertEquals(3, responseForQuestion.size());
 
-        // Benny will see 4 responses
+        // Benny will see 3 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.benny.c@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(4, responseForQuestion.size());
+        assertEquals(3, responseForQuestion.size());
 
-        // Charlie will see 3 responses
+        // Charlie will see 2 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.charlie.d@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(3, responseForQuestion.size());
+        assertEquals(2, responseForQuestion.size());
 
-        // Danny will see 3 responses
+        // Danny will see 2 responses
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.danny.e@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
-        assertEquals(3, responseForQuestion.size());
+        assertEquals(2, responseForQuestion.size());
 
         // Emily will see 1 response
         bundle = fsLogic.getSessionResultsForUser(
                 "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.emily.f@gmail.tmt",
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(1, responseForQuestion.size());
@@ -924,7 +896,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         FeedbackQuestionAttributes question = getQuestionFromDatabase("qn2InSession1InCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         // there won't be question generated for student
         assertEquals(0, bundle.getQuestionsMap().size());
         assertEquals(0, bundle.getQuestionResponseMap().size());
@@ -934,7 +906,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         question = getQuestionFromDatabase("qn3InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 question.getFeedbackSessionName(), question.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, question.getId(), null);
+                false, question.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -954,7 +926,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         StudentAttributes student = responseBundle.students.get("student1InCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, null, null);
+                false, null, null);
 
         // We just check for correct session once
         assertEquals(session.toString(), bundle.getFeedbackSession().toString());
@@ -1022,7 +994,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         // no section specified
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, fq.getId(), null);
+                true, fq.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
@@ -1032,7 +1004,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         fq = getQuestionFromDatabase("qn2InSession1InCourse1");
         bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, fq.getId(), "Section 1");
+                true, fq.getId(), "Section 1");
         assertEquals(1, bundle.getQuestionResponseMap().size());
         responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
         assertEquals(3, responseForQuestion.size());
@@ -1048,7 +1020,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, null, null);
+                true, null, null);
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         int totalResponse = 0;
@@ -1110,7 +1082,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
-                UserRole.INSTRUCTOR, null, "Section A");
+                true, null, "Section A");
 
         // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
         // after filtering by section, the number of responses seen by instructor will differ.
@@ -1158,8 +1130,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     // TODO: check for cases where a person is both a student and an instructor
 
     @Test
-    public void testGetSessionResultsForUser_orphanResponseInDB_shouldStillHandleCorrectly()
-            throws InvalidParametersException, EntityAlreadyExistsException {
+    public void testGetSessionResultsForUser_orphanResponseInDB_shouldStillHandleCorrectly() throws Exception {
         dataBundle = getTypicalDataBundle();
         removeAndRestoreDataBundle(dataBundle);
 
@@ -1180,7 +1151,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
 
         SessionResultsBundle bundle = fsLogic.getSessionResultsForUser(
                 fq.getFeedbackSessionName(), fq.getCourseId(), student.getEmail(),
-                UserRole.STUDENT, fq.getId(), null);
+                false, fq.getId(), null);
         assertEquals(1, bundle.getQuestionResponseMap().size());
         List<FeedbackResponseAttributes> responseForQuestion =
                 bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();

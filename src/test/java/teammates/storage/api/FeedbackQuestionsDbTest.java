@@ -18,9 +18,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackQuestionsDb}.

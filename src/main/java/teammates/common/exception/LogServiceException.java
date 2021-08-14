@@ -6,10 +6,6 @@ package teammates.common.exception;
 @SuppressWarnings("serial")
 public class LogServiceException extends Exception {
 
-    public LogServiceException(String message) {
-        super(message);
-    }
-
     public LogServiceException(Throwable cause) {
         super(cause);
     }

@@ -291,12 +291,7 @@ public class SessionResultsData extends ApiOutput {
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();
         String lastName = userInfo.getLastName();
-        if (question.getGiverType() == FeedbackParticipantType.TEAMS
-                && bundle.getRoster().isStudentInCourse(response.getGiver())) {
-            // user gives responses on behalf of the team (legacy implementation), the name should be the team name instead
-            name = userInfo.getTeamName();
-            lastName = userInfo.getTeamName();
-        }
+
         if (!bundle.isResponseGiverVisible(response)) {
             name = SessionResultsBundle.getAnonName(participantType, name);
             lastName = null;
@@ -417,13 +412,6 @@ public class SessionResultsData extends ApiOutput {
         private QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
-        }
-
-        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
-                       List<ResponseOutput> allResponses) {
-            this.questionStatistics = null;
-            this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
-            this.allResponses.addAll(allResponses);
         }
 
         public FeedbackQuestionData getFeedbackQuestion() {
@@ -579,7 +567,6 @@ public class SessionResultsData extends ApiOutput {
                 responseOutput = new ResponseOutput();
             }
 
-            //CHECKSTYLE.OFF:MissingJavadocMethod
             private Builder withIsMissingResponse(boolean isMissingResponse) {
                 responseOutput.isMissingResponse = isMissingResponse;
                 return this;
@@ -663,7 +650,6 @@ public class SessionResultsData extends ApiOutput {
             ResponseOutput build() {
                 return responseOutput;
             }
-            //CHECKSTYLE.ON:MissingJavadocMethod
         }
     }
 
@@ -709,7 +695,6 @@ public class SessionResultsData extends ApiOutput {
                 commentOutput = new CommentOutput(frc);
             }
 
-            //CHECKSTYLE.OFF:MissingJavadocMethod
             Builder withCommentGiver(@Nullable String commentGiver) {
                 commentOutput.commentGiver = commentGiver;
                 return this;
@@ -733,7 +718,6 @@ public class SessionResultsData extends ApiOutput {
             CommentOutput build() {
                 return commentOutput;
             }
-            //CHECKSTYLE.ON:MissingJavadocMethod
         }
     }
 

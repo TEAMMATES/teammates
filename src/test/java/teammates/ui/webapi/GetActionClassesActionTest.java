@@ -27,7 +27,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         List<Class<? extends Action>> expectedActionClasses = Arrays.asList(
                 DeleteFeedbackResponseCommentAction.class,
                 CreateFeedbackResponseCommentAction.class,
@@ -51,6 +51,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 UpdateStudentProfileAction.class,
                 GetNationalitiesAction.class,
                 AdminExceptionTestAction.class,
+                GetUserCookieAction.class,
                 RemindFeedbackSessionResultAction.class,
                 DeleteInstructorAction.class,
                 CreateInstructorAction.class,
@@ -122,7 +123,9 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 EnrollStudentsAction.class,
                 DeleteFeedbackQuestionAction.class,
                 CreateFeedbackQuestionAction.class,
-                UpdateFeedbackQuestionAction.class
+                UpdateFeedbackQuestionAction.class,
+                InstructorSearchIndexingWorkerAction.class,
+                StudentSearchIndexingWorkerAction.class
         );
         List<String> expectedActionClassesNames = expectedActionClasses.stream()
                 .map(Class::getSimpleName)
@@ -142,7 +145,12 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        verifyAccessibleForAdmin();
+        verifyAccessibleForMaintainers();
+        verifyInaccessibleForStudents();
+        verifyInaccessibleForInstructors();
+        verifyInaccessibleWithoutLogin();
+        verifyInaccessibleForUnregisteredUsers();
     }
 
 }
