@@ -1,8 +1,8 @@
 /**
  * Collection of common functions to use in this folder
  */
-import core = require("@actions/core");
-import github = require("@actions/github");
+import * as core from '@actions/core'
+import * as github from '@actions/github';
 const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
 
@@ -92,7 +92,7 @@ async function removeLabel(labelName: string) {
             owner,
             repo,
             issue_number,
-            name: [labelName], // todo check if this works
+            name: labelName, // todo check if this works
         })
         .then(res => logInfo(res.status, `removing label ${res.status} with status`))
         .catch(err => logInfo(err, "error removing label (label may not have been applied)"));

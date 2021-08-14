@@ -9,9 +9,7 @@
 *.exe
 
 # Node.js
-node_modules/*
-!node_modules/@actions/
-!node_modules/@octokit/
+node_modules
 npm-debug.log
 coverage/*
 

@@ -1,5 +1,5 @@
-import core = require("@actions/core");
-import github = require("@actions/github");
+import * as core from '@actions/core'
+import * as github from '@actions/github';
 import { log, dropToReviewLabelAndAddOngoing, addToReviewLabel, postComment, validateChecksOnPrHead, addOngoingLabel, dropOngoingLabel } from "../common";
 
 const token = core.getInput("repo-token");
@@ -23,7 +23,7 @@ async function run() {
         repo, 
         issue_number
     })
-    .then(res => res.data.labels.map(label => label.name || label)) // label may be of type string instead of an object so need this ||
+    .then(res => res.data.labels.map((label: {name: string}) => label.name || label)) // label may be of type string instead of an object so need this ||
     .then(l => log.info(l, `labels returned for pr ${issue_number}`))
     .catch(err => {core.info(err); throw err});
 

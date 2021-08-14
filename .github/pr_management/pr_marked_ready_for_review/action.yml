@@ -9,4 +9,4 @@ inputs:
 
 runs:
     using: "node12"
-    main: "../../lib/pr_management/pr_marked_ready_for_review/main.js"
+    main: "index.js"

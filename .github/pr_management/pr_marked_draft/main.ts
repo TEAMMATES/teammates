@@ -1,6 +1,6 @@
-import core = require("@actions/core");
-import github = require("@actions/github");
-import { addOngoingLabel, log } from "../common";
+import * as core from '@actions/core'
+import * as github from '@actions/github';
+import { addOngoingLabel, log } from '../common';
 
 const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
