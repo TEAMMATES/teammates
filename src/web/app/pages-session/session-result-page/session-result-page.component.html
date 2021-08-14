@@ -55,14 +55,14 @@
       <div id="question-{{ question.feedbackQuestion.questionNumber }}-responses" class="card-body">
         <tm-question-text-with-info [questionNumber]="question.feedbackQuestion.questionNumber" [questionDetails]="question.feedbackQuestion.questionDetails" class="question-text"></tm-question-text-with-info>
         <div id="other-responses" *ngIf="canStudentSeeResponses(question), else nonViewableResponse">
-          <div *ngIf="question.questionStatistics, else nonStatisticQuestion">
-            <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
+          <tm-single-statistics [question]="question.feedbackQuestion.questionDetails"
                               [responses]="question.allResponses"
                               [statistics]="question.questionStatistics"
                               [isStudent]="true"></tm-single-statistics>
+          <div *ngIf="question.questionStatistics, else dontShowAdditionalMsg">
             <p style="color: gray; font-size: small;"><i class="fas fa-info-circle" style="color: #087CFC;"></i> Individual Responses are not configured to be shown for this question type.</p>
           </div>
-          <ng-template #nonStatisticQuestion>
+          <ng-template #dontShowAdditionalMsg>
             <tm-student-view-responses *ngIf="question.responsesToSelf.length" [responses]="question.responsesToSelf" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
             <div *ngFor="let responsesForOtherRecipient of question.otherResponses">
               <tm-student-view-responses *ngIf="responsesForOtherRecipient.length" [responses]="responsesForOtherRecipient" [feedbackQuestion]="question.feedbackQuestion" [timezone]="session.timeZone" [statistics]="question.questionStatistics"></tm-student-view-responses>
