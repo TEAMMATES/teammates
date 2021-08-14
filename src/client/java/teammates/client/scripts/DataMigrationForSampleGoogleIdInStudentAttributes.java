@@ -1,7 +1,5 @@
 package teammates.client.scripts;
 
-import java.io.IOException;
-
 import com.googlecode.objectify.cmd.Query;
 
 import teammates.storage.entity.CourseStudent;
@@ -12,7 +10,7 @@ import teammates.storage.entity.CourseStudent;
 public class DataMigrationForSampleGoogleIdInStudentAttributes
         extends DataMigrationEntitiesBaseScript<CourseStudent> {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         DataMigrationForSampleGoogleIdInStudentAttributes migrator =
                 new DataMigrationForSampleGoogleIdInStudentAttributes();
         migrator.doOperationRemotely();
@@ -40,12 +38,12 @@ public class DataMigrationForSampleGoogleIdInStudentAttributes
     }
 
     @Override
-    protected boolean isMigrationNeeded(CourseStudent student) throws Exception {
+    protected boolean isMigrationNeeded(CourseStudent student) {
         return true;
     }
 
     @Override
-    protected void migrateEntity(CourseStudent student) throws Exception {
+    protected void migrateEntity(CourseStudent student) {
         student.setGoogleId("");
 
         saveEntityDeferred(student);

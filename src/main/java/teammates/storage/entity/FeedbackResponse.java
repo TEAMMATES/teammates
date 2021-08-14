@@ -158,7 +158,7 @@ public class FeedbackResponse extends BaseEntity {
         this.receiverSection = recipientSection;
     }
 
-    public String getResponseMetaData() {
+    public String getAnswer() {
         return answer;
     }
 

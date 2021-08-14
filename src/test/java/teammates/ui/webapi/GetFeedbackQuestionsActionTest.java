@@ -38,7 +38,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 

@@ -6,7 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Represents the student feedback submission page of the website.

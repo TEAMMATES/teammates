@@ -1,6 +1,5 @@
 package teammates.logic.api;
 
-import java.io.IOException;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
@@ -72,7 +71,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateSessionLinksRecoveryEmail() throws IOException {
+    public void testGenerateSessionLinksRecoveryEmail() throws Exception {
 
         ______TS("invalid email address");
 
@@ -120,7 +119,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionEmails() throws IOException {
+    public void testGenerateFeedbackSessionEmails() throws Exception {
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("First feedback session", "idOfTypicalCourse1");
 
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
@@ -169,6 +168,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 "/web/instructor/sessions/submission?courseid=idOfTypicalCourse1&fsname=First%20feedback%20session";
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject,
                 "/sessionReminderEmailForInstructor.html", lineInEmailToInstructor);
+
+        InstructorAttributes instructorNotJoinedYet = instructorsLogic.getInstructorForEmail(
+                "idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt");
+        String instructorReminderToJoinLine = "Note that you will need to join the course as an instructor";
+
+        // Verify that unregistered instructor gets reminder to join course
+        verifyEmailReceivedCorrectly(emails, instructorNotJoinedYet.getEmail(), subject,
+                "/sessionReminderEmailForInstructorNotJoinedYet.html", instructorReminderToJoinLine);
 
         ______TS("feedback session closing alerts");
 
@@ -285,7 +292,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionEmails_testSanitization() throws IOException {
+    public void testGenerateFeedbackSessionEmails_testSanitization() throws Exception {
 
         FeedbackSessionAttributes session = fsLogic.getFeedbackSession("Normal feedback session name",
                                                                        "idOfTestingSanitizationCourse");
@@ -332,7 +339,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateInstructorJoinEmail() throws IOException {
+    public void testGenerateInstructorJoinEmail() throws Exception {
 
         ______TS("instructor new account email");
 
@@ -381,7 +388,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateFeedbackSessionSummaryOfCourse_noSessionLinksFound() throws IOException {
+    public void testGenerateFeedbackSessionSummaryOfCourse_noSessionLinksFound() throws Exception {
         FeedbackSessionAttributes session =
                 fsLogic.getFeedbackSession("Feedback session with no emails sent", "idOfTestingNoEmailsSentCourse");
 
@@ -412,7 +419,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateInstructorJoinEmail_testSanitization() throws IOException {
+    public void testGenerateInstructorJoinEmail_testSanitization() throws Exception {
         ______TS("instructor new account email: sanitization required");
         InstructorAttributes instructor1 =
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
@@ -462,7 +469,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateStudentCourseJoinEmail() throws IOException {
+    public void testGenerateStudentCourseJoinEmail() throws Exception {
 
         ______TS("student course join email");
 
@@ -513,7 +520,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateStudentCourseJoinEmail_testSanitization() throws IOException {
+    public void testGenerateStudentCourseJoinEmail_testSanitization() throws Exception {
 
         ______TS("student course join email: sanitization required");
 
@@ -536,7 +543,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateUserCourseRegisterEmail() throws IOException {
+    public void testGenerateUserCourseRegisterEmail() throws Exception {
 
         ______TS("student course register email");
 
@@ -567,7 +574,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     @Test
-    public void testGenerateCompiledLogsEmail() throws IOException {
+    public void testGenerateCompiledLogsEmail() throws Exception {
         List<ErrorLogEntry> errorLogs = Arrays.asList(
                 new ErrorLogEntry("Typical log message", "ERROR", "123456"),
                 new ErrorLogEntry("Log line <br> with line break <br> and also HTML br tag", "ERROR", "abcdef")
@@ -581,7 +588,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
     }
 
     private void verifyEmail(EmailWrapper email, String recipient, String subject, String emailContentFilePath)
-            throws IOException {
+            throws Exception {
         // check recipient
         assertEquals(recipient, email.getRecipient());
 
@@ -608,14 +615,14 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
     private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject, String emailContentFilePath)
-            throws IOException {
+            throws Exception {
         verifyEmailReceivedCorrectly(actualEmails, recipient, subject, emailContentFilePath, "");
     }
 
     private void verifyEmailReceivedCorrectly(
             List<EmailWrapper> actualEmails, String recipient, String subject,
             String emailContentFilePath, String containsString)
-            throws IOException {
+            throws Exception {
         boolean hasReceivedEmailCorrectly = false;
         for (EmailWrapper email : actualEmails) {
             if (email.getRecipient().equals(recipient) && email.getContent().contains(containsString)) {

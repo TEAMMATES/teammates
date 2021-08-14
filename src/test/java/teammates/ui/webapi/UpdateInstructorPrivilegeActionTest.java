@@ -29,7 +29,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
     }
 
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests
     }
 

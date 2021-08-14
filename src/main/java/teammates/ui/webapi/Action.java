@@ -1,8 +1,6 @@
 package teammates.ui.webapi;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,6 +10,7 @@ import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
@@ -117,19 +116,19 @@ public abstract class Action {
     /**
      * Gets the user information of the current user.
      */
-    public Map<String, String> getUserInfoForLogging() {
-        Map<String, String> info = new HashMap<>();
+    public RequestLogUser getUserInfoForLogging() {
+        RequestLogUser user = new RequestLogUser();
 
         String googleId = userInfo == null ? null : userInfo.getId();
 
-        info.put("googleId", googleId);
+        user.setGoogleId(googleId);
         if (unregisteredStudent == null) {
-            info.put("regkey", getRequestParamValue(Const.ParamsNames.REGKEY));
+            user.setRegkey(getRequestParamValue(Const.ParamsNames.REGKEY));
         } else {
-            info.put("regkey", unregisteredStudent.getKey());
-            info.put("email", unregisteredStudent.getEmail());
+            user.setRegkey(unregisteredStudent.getKey());
+            user.setEmail(unregisteredStudent.getEmail());
         }
-        return info;
+        return user;
     }
 
     private void initAuthInfo() {
@@ -183,28 +182,26 @@ public abstract class Action {
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request as boolean.
      */
-    @SuppressWarnings("PMD.PreserveStackTrace")
     boolean getBooleanRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return Boolean.parseBoolean(value);
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
-                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]");
+                    "Expected boolean value for " + paramName + " parameter, but found: [" + value + "]", e);
         }
     }
 
     /**
      * Returns the first value for the specified parameter expected to be present in the HTTP request as long.
      */
-    @SuppressWarnings("PMD.PreserveStackTrace")
     long getLongRequestParamValue(String paramName) {
         String value = getNonNullRequestParamValue(paramName);
         try {
             return Long.parseLong(value);
         } catch (IllegalArgumentException e) {
             throw new InvalidHttpParameterException(
-                    "Expected long value for " + paramName + " parameter, but found: [" + value + "]");
+                    "Expected long value for " + paramName + " parameter, but found: [" + value + "]", e);
         }
     }
 

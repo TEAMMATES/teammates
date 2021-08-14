@@ -604,7 +604,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
     }
 
     @Test
-    public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() throws Exception {
+    public void testDeleteFeedbackQuestionCascade_cascadeDeleteResponseOfStudent_shouldUpdateRespondents() {
         FeedbackResponseAttributes fra = dataBundle.feedbackResponses.get("response1ForQ1S1C1");
         FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(
                 fra.getFeedbackSessionName(), fra.getCourseId(), Integer.parseInt(fra.getFeedbackQuestionId()));
