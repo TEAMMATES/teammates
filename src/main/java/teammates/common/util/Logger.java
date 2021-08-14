@@ -141,17 +141,21 @@ public final class Logger {
     }
 
     private String getLogMessageWithStackTrace(String message, Throwable t, LogSeverity severity) {
-        String logMessage;
         if (Config.isDevServer()) {
             StringWriter sw = new StringWriter();
             try (PrintWriter pw = new PrintWriter(sw)) {
                 t.printStackTrace(pw);
             }
 
-            logMessage = formatLogMessageForHumanDisplay(message) + " stack_trace: "
+            return formatLogMessageForHumanDisplay(message) + " stack_trace: "
                     + System.lineSeparator() + sw.toString();
-        } else {
-            StackTraceElement tSource = t.getStackTrace()[0];
+        }
+
+        StackTraceElement[] stackTraces = t.getStackTrace();
+        Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
+
+        if (stackTraces.length > 0) {
+            StackTraceElement tSource = stackTraces[0];
             SourceLocation tSourceLocation = new SourceLocation(
                     tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
 
@@ -168,8 +172,6 @@ public final class Logger {
                 currentT = currentT.getCause();
             }
 
-            Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
-
             // Replace the source location with the Throwable's source location instead
             SourceLocation loggerSourceLocation = (SourceLocation) payload.get("logging.googleapis.com/sourceLocation");
             payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
@@ -184,11 +186,9 @@ public final class Logger {
             Map<String, Object> detailsSpecificPayload =
                     JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
             payload.putAll(detailsSpecificPayload);
-
-            logMessage = JsonUtils.toCompactJson(payload);
         }
 
-        return logMessage;
+        return JsonUtils.toCompactJson(payload);
     }
 
     private List<String> getStackTraceToDisplay(Throwable t) {
