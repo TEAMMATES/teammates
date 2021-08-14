@@ -60,7 +60,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
 
         ______TS("Failure Case: No Course ID in params");
 

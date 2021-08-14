@@ -29,10 +29,10 @@ public final class FieldValidator {
     public static final String NATIONALITY_FIELD_NAME = "nationality";
 
     public static final String COURSE_NAME_FIELD_NAME = "course name";
-    public static final int COURSE_NAME_MAX_LENGTH = 64;
+    public static final int COURSE_NAME_MAX_LENGTH = 80;
 
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
-    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 64;
 
     public static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
@@ -71,7 +71,7 @@ public final class FieldValidator {
      * TODO: make case insensitive
      */
     public static final String COURSE_ID_FIELD_NAME = "course ID";
-    public static final int COURSE_ID_MAX_LENGTH = 40;
+    public static final int COURSE_ID_MAX_LENGTH = 64;
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
