@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.FieldValidator;
@@ -52,9 +53,9 @@ class CreateCourseAction extends Action {
         try {
             logic.createCourseAndInstructor(userInfo.getId(), courseAttributes);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("The course ID " + courseAttributes.getId()
+            throw new InvalidOperationException("The course ID " + courseAttributes.getId()
                     + " has been used by another course, possibly by some other user."
-                    + " Please try again with a different course ID.", HttpStatus.SC_CONFLICT);
+                    + " Please try again with a different course ID.", e);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
