@@ -1,0 +1,8 @@
+<details *ngIf="details" open>
+  <summary class="title">details:</summary>
+  <pre class="margin-left-3em wrap">{{ details | json }}</pre>
+</details>
+<details *ngIf="exceptionStackTrace" open>
+  <summary class="title">stack trace:</summary>
+  <pre class="margin-left-3em wrap">{{ exceptionStackTrace }}</pre>
+</details>

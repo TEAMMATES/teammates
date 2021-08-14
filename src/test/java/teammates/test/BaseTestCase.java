@@ -126,8 +126,11 @@ public class BaseTestCase {
                                      null, new Object[] { messageTemplate, userInput, fieldName, errorReason, maxLength });
     }
 
-    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength) {
-        return FieldValidator.getPopulatedEmptyStringErrorMessage(messageTemplate, fieldName, maxLength);
+    protected static String getPopulatedEmptyStringErrorMessage(String messageTemplate, String fieldName, int maxLength)
+            throws ReflectiveOperationException {
+        return (String) invokeMethod(FieldValidator.class, "getPopulatedEmptyStringErrorMessage",
+                new Class<?>[] { String.class, String.class, int.class },
+                null, new Object[] { messageTemplate, fieldName, maxLength });
     }
 
     /*

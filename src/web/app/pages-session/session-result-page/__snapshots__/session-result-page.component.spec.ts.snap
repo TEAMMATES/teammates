@@ -71,7 +71,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -89,7 +89,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -107,7 +107,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -125,7 +125,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -229,7 +229,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           CS3281
@@ -247,7 +247,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           Peer Review 1
@@ -265,7 +265,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -283,7 +283,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -374,7 +374,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -392,7 +392,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -410,7 +410,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -428,7 +428,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -519,7 +519,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           CS1231
@@ -537,7 +537,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           First Session
@@ -555,7 +555,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -573,7 +573,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -1143,7 +1143,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -1161,7 +1161,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -1179,7 +1179,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -1197,7 +1197,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -1301,7 +1301,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -1319,7 +1319,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -1337,7 +1337,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -1355,7 +1355,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -1446,7 +1446,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -1464,7 +1464,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -1482,7 +1482,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -1500,7 +1500,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           

@@ -29,7 +29,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
@@ -99,7 +99,7 @@ public class GetStudentsActionTest extends BaseActionTest<GetStudentsAction> {
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         ______TS("unknown courseId for (instructor access)");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 

@@ -4,17 +4,17 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.gson.JsonParseException;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackQuestion;
 
+/**
+ * The data transfer object for {@link FeedbackQuestion} entities.
+ */
 public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestion>
         implements Comparable<FeedbackQuestionAttributes> {
 
@@ -46,12 +46,15 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return new Builder();
     }
 
+    /**
+     * Gets the {@link FeedbackQuestionAttributes} instance of the given {@link FeedbackQuestion}.
+     */
     public static FeedbackQuestionAttributes valueOf(FeedbackQuestion fq) {
         FeedbackQuestionAttributes faq = new FeedbackQuestionAttributes();
 
         faq.feedbackSessionName = fq.getFeedbackSessionName();
         faq.courseId = fq.getCourseId();
-        faq.questionDetails = deserializeFeedbackQuestionDetails(fq.getQuestionMetaData(), fq.getQuestionType());
+        faq.questionDetails = deserializeFeedbackQuestionDetails(fq.getQuestionText(), fq.getQuestionType());
         faq.questionDescription = fq.getQuestionDescription();
         faq.questionNumber = fq.getQuestionNumber();
         faq.giverType = fq.getGiverType();
@@ -100,6 +103,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
                                     showResponsesTo, showGiverNameTo, showRecipientNameTo);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public FeedbackQuestionAttributes getCopy() {
         FeedbackQuestionAttributes faq = new FeedbackQuestionAttributes();
 
@@ -158,6 +164,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return getInvalidityInfo().isEmpty();
     }
 
+    /**
+     * Returns true if the response is visible to the given participant type.
+     */
     public boolean isResponseVisibleTo(FeedbackParticipantType userType) {
         return showResponsesTo.contains(userType);
     }
@@ -314,6 +323,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         return true;
     }
 
+    /**
+     * Removes irrelevant/extraneous response visibility option settings from the question.
+     */
     public void removeIrrelevantVisibilityOptions() {
         List<FeedbackParticipantType> optionsToRemove = new ArrayList<>();
 
@@ -345,10 +357,6 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
             }
         }
 
-        removeVisibilities(optionsToRemove);
-    }
-
-    private void removeVisibilities(List<FeedbackParticipantType> optionsToRemove) {
         if (showRecipientNameTo != null) {
             showResponsesTo.removeAll(optionsToRemove);
         }
@@ -471,22 +479,9 @@ public class FeedbackQuestionAttributes extends EntityAttributes<FeedbackQuestio
         this.showRecipientNameTo = showRecipientNameTo;
     }
 
-    private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(String questionDetailsInJson,
-                                                                              FeedbackQuestionType questionType) {
-        if (questionType == FeedbackQuestionType.TEXT) {
-            return deserializeFeedbackTextQuestionDetails(questionDetailsInJson);
-        }
+    private static FeedbackQuestionDetails deserializeFeedbackQuestionDetails(
+            String questionDetailsInJson, FeedbackQuestionType questionType) {
         return JsonUtils.fromJson(questionDetailsInJson, questionType.getQuestionDetailsClass());
-    }
-
-    private static FeedbackQuestionDetails deserializeFeedbackTextQuestionDetails(String questionDetailsInJson) {
-        try {
-            // There are `FeedbackTextQuestion` with plain text, Json without `recommendedLength`, and complete Json
-            // in data store. Gson cannot parse the plain text case, so we need to handle it separately.
-            return JsonUtils.fromJson(questionDetailsInJson, FeedbackQuestionType.TEXT.getQuestionDetailsClass());
-        } catch (JsonParseException e) {
-            return new FeedbackTextQuestionDetails(questionDetailsInJson);
-        }
     }
 
     /**

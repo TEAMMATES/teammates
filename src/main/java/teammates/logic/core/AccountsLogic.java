@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -57,15 +56,26 @@ public final class AccountsLogic {
         return accountsDb.createEntity(accountData);
     }
 
+    /**
+     * Gets an account.
+     */
     public AccountAttributes getAccount(String googleId) {
         return accountsDb.getAccount(googleId);
     }
 
+    /**
+     * Returns true if the given account exists and is an instructor.
+     */
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor();
     }
 
+    /**
+     * Gets the institute associated with the course.
+     *
+     * <p>The institute of a course is determined by the account of an instructor associated to it.
+     */
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
         assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
@@ -104,7 +114,7 @@ public final class AccountsLogic {
                             .withGoogleId(student.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
-            assert false : "Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Student disappeared while trying to register";
         }
 
         if (accountsDb.getAccount(googleId) == null) {
@@ -130,8 +140,7 @@ public final class AccountsLogic {
                             .withGoogleId(instructor.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
-            assert false : "Instructor disappeared while trying to register "
-                    + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Instructor disappeared while trying to register";
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);

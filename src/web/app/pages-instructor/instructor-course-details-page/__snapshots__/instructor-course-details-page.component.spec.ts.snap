@@ -84,12 +84,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Course ID:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="course-id"
               >
                 <p
@@ -103,12 +103,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Course name:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="course-name"
               >
                 <p
@@ -122,12 +122,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Sections:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="num-sections"
               >
                 <p
@@ -141,12 +141,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Teams:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="num-teams"
               >
                 <p
@@ -160,12 +160,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Total students:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="num-students"
               >
                 <p
@@ -180,12 +180,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-sm-right control-label"
+              class="col-sm-2 text-sm-right control-label"
             >
               Instructors:
             </label>
             <div
-              class="col-sm-6 text-sm-left"
+              class="col-sm-9 text-sm-left"
               id="instructors"
             >
               
@@ -261,12 +261,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Course ID:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="course-id"
               >
                 <p
@@ -280,12 +280,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Course name:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="course-name"
               >
                 <p
@@ -299,12 +299,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Sections:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="num-sections"
               >
                 <p
@@ -318,12 +318,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Teams:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="num-teams"
               >
                 <p
@@ -337,12 +337,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
               class="form-group row"
             >
               <label
-                class="col-sm-3 text-sm-right"
+                class="col-sm-2 text-sm-right"
               >
                 Total students:
               </label>
               <div
-                class="col-sm-6 text-sm-left"
+                class="col-sm-9 text-sm-left"
                 id="num-students"
               >
                 <p
@@ -357,12 +357,12 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
             class="form-group row"
           >
             <label
-              class="col-sm-3 text-sm-right control-label"
+              class="col-sm-2 text-sm-right control-label"
             >
               Instructors:
             </label>
             <div
-              class="col-sm-6 text-sm-left"
+              class="col-sm-9 text-sm-left"
               id="instructors"
             >
               

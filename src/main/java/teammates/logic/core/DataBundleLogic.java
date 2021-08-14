@@ -21,6 +21,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
@@ -149,7 +150,7 @@ public final class DataBundleLogic {
     /**
      * Creates document for entities that have document, i.e. searchable.
      */
-    public void putDocuments(DataBundle dataBundle) {
+    public void putDocuments(DataBundle dataBundle) throws SearchServiceException {
         // query the entity in db first to get the actual data and create document for actual entity
 
         Map<String, StudentAttributes> students = dataBundle.students;
@@ -347,6 +348,9 @@ public final class DataBundleLogic {
         return sessionKey + "%" + questionNumber;
     }
 
+    /**
+     * Removes the items in the data bundle from the database.
+     */
     public void removeDataBundle(DataBundle dataBundle) {
 
         // Questions and responses will be deleted automatically.

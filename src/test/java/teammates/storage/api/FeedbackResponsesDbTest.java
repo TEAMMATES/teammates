@@ -22,9 +22,9 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.ThreadHelper;
 import teammates.test.AssertHelper;
 import teammates.test.BaseTestCaseWithLocalDatabaseAccess;
+import teammates.test.ThreadHelper;
 
 /**
  * SUT: {@link FeedbackResponsesDb}.
@@ -53,7 +53,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         fras = dataBundle.feedbackResponses;
     }
 
-    private void addQuestionsAndResponsesToDb() throws InvalidParametersException, EntityAlreadyExistsException {
+    private void addQuestionsAndResponsesToDb() throws Exception {
         // Add responses for corresponding question to DB
         Set<String> keys = dataBundle.feedbackResponses.keySet();
         for (String i : keys) {
@@ -84,8 +84,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
     }
 
     @Test
-    public void testTimestamp()
-            throws InvalidParametersException, EntityAlreadyExistsException, EntityDoesNotExistException {
+    public void testTimestamp() throws Exception {
 
         ______TS("success : created");
 

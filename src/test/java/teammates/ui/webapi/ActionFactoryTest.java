@@ -17,14 +17,12 @@ public class ActionFactoryTest extends BaseTestCase {
 
     @Test
     public void testGetAction() throws Exception {
-        ActionFactory actionFactory = new ActionFactory();
-
         ______TS("Action exists and is retrieved");
 
         MockHttpServletRequest existingActionServletRequest = new MockHttpServletRequest(
                 HttpGet.METHOD_NAME, Const.ResourceURIs.AUTH);
         existingActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
-        Action existingAction = actionFactory.getAction(existingActionServletRequest, HttpGet.METHOD_NAME);
+        Action existingAction = ActionFactory.getAction(existingActionServletRequest, HttpGet.METHOD_NAME);
         assertTrue(existingAction instanceof GetAuthInfoAction);
 
         ______TS("Action does not exist and ActionMappingException is thrown");
@@ -33,7 +31,7 @@ public class ActionFactoryTest extends BaseTestCase {
                 HttpGet.METHOD_NAME, "/blahblahblah");
         nonExistentActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         ActionMappingException nonExistentActionException = assertThrows(ActionMappingException.class,
-                () -> actionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
+                () -> ActionFactory.getAction(nonExistentActionServletRequest, HttpGet.METHOD_NAME));
         assertTrue(nonExistentActionException.getMessage()
                 .equals("Resource with URI /blahblahblah is not found."));
 
@@ -43,7 +41,7 @@ public class ActionFactoryTest extends BaseTestCase {
                 HttpGet.METHOD_NAME, Const.ResourceURIs.AUTH);
         nonExistentMethodOnActionServletRequest.addHeader("Backdoor-Key", Config.BACKDOOR_KEY);
         ActionMappingException nonExistentMethodOnActionException = assertThrows(ActionMappingException.class,
-                () -> actionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
+                () -> ActionFactory.getAction(nonExistentMethodOnActionServletRequest, HttpPost.METHOD_NAME));
         assertTrue(nonExistentMethodOnActionException.getMessage()
                 .equals("Method [" + HttpPost.METHOD_NAME + "] is not allowed for URI "
                 + Const.ResourceURIs.AUTH + "."));

@@ -187,22 +187,11 @@
     }
   },
   "feedbackResponses": {
-    "response1": {
-      "feedbackSessionName": "First Session",
-      "courseId": "FQLogicPCT.CS2104",
-      "feedbackQuestionId": "1",
-      "giver": "FQLogicPCT.charlie.d@gmail.tmt",
-      "recipient": "Team 1\"><'",
-      "responseDetails": {
-        "questionType": "TEXT",
-        "answer": "Team 2 (charlie) to team 1"
-      }
-    },
     "response2": {
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "FQLogicPCT.danny.e@gmail.tmt",
+      "giver": "Team 2",
       "recipient": "Team 1\"><'",
       "responseDetails": {
         "questionType": "TEXT",
@@ -213,7 +202,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "FQLogicPCT.emily.f@gmail.tmt",
+      "giver": "Team 3",
       "recipient": "Team 1\"><'",
       "responseDetails": {
         "questionType": "TEXT",
@@ -224,7 +213,7 @@
       "feedbackSessionName": "First Session",
       "courseId": "FQLogicPCT.CS2104",
       "feedbackQuestionId": "1",
-      "giver": "FQLogicPCT.alice.b@gmail.tmt",
+      "giver": "Team 1\"><'",
       "recipient": "Team 2",
       "responseDetails": {
         "questionType": "TEXT",

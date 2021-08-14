@@ -26,7 +26,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
 
