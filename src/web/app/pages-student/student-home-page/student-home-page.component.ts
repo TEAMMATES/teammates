@@ -91,7 +91,7 @@ export class StudentHomePageComponent implements OnInit {
         this.isCoursesLoading = false;
       }
       for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+        this.feedbackSessionsService.getFeedbackSessionsForStudent('student', course.courseId)
           .pipe(finalize(() => this.isCoursesLoading = false))
           .subscribe((fss: FeedbackSessions) => {
             const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);

@@ -112,10 +112,13 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   search(): void {
     this.isSearching = true;
     this.searchResults = [];
+    const selectedCourse: Course | undefined =
+      this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
+    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo);
+        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.formModel.courseId,
