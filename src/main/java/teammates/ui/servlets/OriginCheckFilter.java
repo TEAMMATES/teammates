@@ -45,6 +45,7 @@ public class OriginCheckFilter implements Filter {
     private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
             Const.SecurityConfig.CSRF_HEADER_NAME,
             "Content-Type",
+            "X-WEB-VERSION",
             "ngsw-bypass"
     ));
 
