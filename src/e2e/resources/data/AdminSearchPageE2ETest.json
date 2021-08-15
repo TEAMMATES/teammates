@@ -27,7 +27,7 @@
       "id": "tm.e2e.ASearch.course1",
       "name": "Typical Course 1",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {

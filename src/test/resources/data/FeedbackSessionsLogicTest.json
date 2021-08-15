@@ -112,21 +112,21 @@
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "typicalCourse3": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
@@ -670,11 +670,11 @@
       "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:57:00Z",
-      "startTime": "2013-02-02T00:00:00Z",
-      "endTime": "2013-04-29T00:00:00Z",
-      "sessionVisibleFromTime": "2013-01-21T00:00:00Z",
-      "resultsVisibleFromTime": "2013-04-30T00:00:00Z",
-      "timeZone": "UTC",
+      "startTime": "2013-02-01T22:00:00Z",
+      "endTime": "2013-04-28T22:00:00Z",
+      "sessionVisibleFromTime": "2013-01-20T22:00:00Z",
+      "resultsVisibleFromTime": "2013-04-29T22:00:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
       "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,
@@ -691,11 +691,11 @@
       "creatorEmail": "instructor2@course1.tmt",
       "instructions": "Please please fill in the following questions.",
       "createdTime": "2013-01-20T23:00:00Z",
-      "startTime": "2030-04-01T23:00:00Z",
-      "endTime": "2030-04-28T23:00:00Z",
-      "sessionVisibleFromTime": "2030-04-01T23:00:00Z",
-      "resultsVisibleFromTime": "2030-04-29T23:00:00Z",
-      "timeZone": "UTC",
+      "startTime": "2030-04-01T21:00:00Z",
+      "endTime": "2030-04-28T21:00:00Z",
+      "sessionVisibleFromTime": "2030-04-01T21:00:00Z",
+      "resultsVisibleFromTime": "2030-04-29T21:00:00Z",
+      "timeZone": "Africa/Johannesburg",
       "gracePeriod": 5,
       "sentOpeningSoonEmail": false,
       "sentOpenEmail": false,

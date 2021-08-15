@@ -14,14 +14,14 @@
       "id": "tm.e2e.IHome.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "IHome.CS1101": {
       "createdAt": "2013-04-01T23:59:00Z",
       "id": "tm.e2e.IHome.CS1101",
       "name": "Programming Methodology",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     }
   },
   "instructors": {

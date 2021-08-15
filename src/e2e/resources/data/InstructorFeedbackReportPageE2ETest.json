@@ -34,13 +34,13 @@
       "id": "tm.e2e.IFRep.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "tm.e2e.IFRep.CS2103": {
       "id": "tm.e2e.IFRep.CS2103",
       "name": "Software Engineering",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     }
   },
   "instructors": {

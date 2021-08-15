@@ -140,7 +140,7 @@
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "typicalCourse3": {
       "createdAt": "2012-04-02T23:58:00Z",
@@ -148,52 +148,52 @@
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse4": {
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "courseNoEvals": {
       "id": "idOfCourseNoEvals",
       "name": "Typical Course 3 with 0 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "sampleCourse": {
       "id": "idOfSampleCourse-demo",
       "name": "Sample Course",
       "institute": "TEAMMATES Test Institute 7",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "archivedCourse": {
       "id": "idOfArchivedCourse",
       "name": "Archived Course",
       "institute": "TEAMMATES Test Institute 5",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "unregisteredCourse": {
       "id": "idOfUnregisteredCourse",
       "name": "Unregistered Course",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "testingInstructorsDisplayedCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingInstructorsDisplayedCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
       "institute": "inst<script> alert('hi!'); </script>",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {

@@ -20,25 +20,25 @@
       "id": "tm.e2e.SHome.CS2104",
       "name": "Programming Language Concepts",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "SHome.CS1101": {
       "id": "tm.e2e.SHome.CS1101",
       "name": "Programming Methodology",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "SHome.CS4215": {
       "id": "tm.e2e.SHome.CS4215",
       "name": "Programming Language Implementation",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     },
     "SHome.CS4221": {
       "id": "tm.e2e.SHome.CS4221",
       "name": "Database Design",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Asia/Singapore"
     }
   },
   "instructors": {

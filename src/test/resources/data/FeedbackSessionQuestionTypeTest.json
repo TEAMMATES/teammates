@@ -76,19 +76,19 @@
       "id": "FSQTT.idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "id": "FSQTT.idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     },
     "courseWithSections": {
       "id": "FSQTT.idOfCourseWithSections",
       "name": "Course With Sections with 1 Evals",
       "institute": "TEAMMATES Test Institute 1",
-      "timeZone": "UTC"
+      "timeZone": "Africa/Johannesburg"
     }
   },
   "instructors": {
