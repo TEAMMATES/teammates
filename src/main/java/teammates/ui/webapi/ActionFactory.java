@@ -137,7 +137,6 @@ public final class ActionFactory {
 
         // Task queue workers; use POST request
         // Reference: https://cloud.google.com/tasks/docs/creating-appengine-tasks
-        // task queue = stuff triggered by a button by instructors ?
 
         map(TaskQueue.FEEDBACK_SESSION_PUBLISHED_EMAIL_WORKER_URL, POST, FeedbackSessionPublishedEmailWorkerAction.class);
         map(TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_WORKER_URL, POST,

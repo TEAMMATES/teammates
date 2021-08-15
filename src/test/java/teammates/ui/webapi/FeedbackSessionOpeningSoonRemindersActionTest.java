@@ -9,9 +9,9 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.TaskWrapper;
-import teammates.common.util.ThreadHelper;
 import teammates.common.util.TimeHelper;
 import teammates.common.util.TimeHelperExtension;
+import teammates.test.ThreadHelper;
 import teammates.ui.request.SendEmailRequest;
 
 /**
@@ -75,7 +75,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
                         .withStartTime(session2.getStartTime())
                         .withEndTime(session2.getEndTime())
                         .build());
-        session2.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(24)); // todo 24 or 23?
+        session2.setStartTime(TimeHelperExtension.getInstantHoursOffsetFromNow(24));
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session2.getFeedbackSessionName(), session2.getCourseId())
@@ -197,7 +197,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
 
         ______TS("Modifying a session which has started and ended, "
                 + "to open in 24 hours should resend an opening soon email");
-        // todo ??? similar to previous but the session has already ended in the past and is being reopened, so
+        // todo ??? similar to previous but the session has already ended in the past and is being reopened
         // is this a logical use case?
 
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
@@ -238,7 +238,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
         }
 
         ______TS("Modifying an opened session with opening soon email already sent, to open in < 24 hours "
-                + "should not send another opening soon email"); // todo right?
+                + "should not send another opening soon email"); // todo is this the correct behaviour
 
         // set start and end time to be sometime in the past
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
