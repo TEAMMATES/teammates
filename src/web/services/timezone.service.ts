@@ -74,7 +74,12 @@ export class TimezoneService {
   }
 
   formatToString(timestamp: number, timeZone: string, format: string): string {
-    return moment(timestamp).tz(timeZone).format(format);
+    const inst: moment.Moment = moment(timestamp).tz(timeZone);
+    // Midnight time (00:00 AM) will be displayed as 11:59 PM of the previous day
+    if (inst.hour() === 0 && inst.minute() === 0) {
+      inst.subtract(1, 'minute');
+    }
+    return inst.format(format);
   }
 
   getMomentInstance(timestamp: number | null, timeZone: string): moment.Moment {
