@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -149,9 +148,7 @@ public class InstructorHomePage extends AppPage {
     }
 
     private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("d MMM h:mm a")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "d MMM h:mm a");
     }
 
     private String[] getExpectedSessionDetails(FeedbackSessionAttributes session) {

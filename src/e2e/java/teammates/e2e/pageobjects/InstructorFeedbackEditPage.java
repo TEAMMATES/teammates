@@ -7,7 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -853,19 +852,15 @@ public class InstructorFeedbackEditPage extends AppPage {
     }
 
     private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
     }
 
     private String getTimeString(Instant instant, ZoneId timeZone) {
         ZonedDateTime dateTime = instant.atZone(timeZone);
-        if (dateTime.getHour() == 23 && dateTime.getMinute() == 59) {
+        if (dateTime.getHour() == 0 && dateTime.getMinute() == 0) {
             return "23:59H";
         }
-        return DateTimeFormatter
-                .ofPattern("HH:00")
-                .format(instant.atZone(timeZone)) + "H";
+        return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
     private void setInstructions(String newInstructions) {

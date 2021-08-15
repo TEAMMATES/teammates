@@ -4,12 +4,13 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+
+import teammates.common.util.TimeHelper;
 
 /**
  * Page Object Model for the admin sessions page.
@@ -95,9 +96,7 @@ public class AdminSessionsPage extends AppPage {
     }
 
     private String formatDateTimeForFilter(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("yyyy-MM-dd")
-                .format(instant.atZone(timeZone));
+        return TimeHelper.formatInstant(instant, timeZone, "yyyy-MM-dd");
     }
 
     public String getSessionsTableTimezone() {

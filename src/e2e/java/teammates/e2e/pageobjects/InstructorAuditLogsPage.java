@@ -3,7 +3,6 @@ package teammates.e2e.pageobjects;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -111,9 +110,7 @@ public class InstructorAuditLogsPage extends AppPage {
     }
 
     private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
     }
 
     private String getTimeString(Instant instant, ZoneId timeZone) {
@@ -121,9 +118,7 @@ public class InstructorAuditLogsPage extends AppPage {
         if (dateTime.getHour() == 0) {
             return "23:59H";
         }
-        return DateTimeFormatter
-                .ofPattern("HH:00")
-                .format(instant.atZone(timeZone)) + "H";
+        return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
     private void setDateTime(WebElement dateBox, WebElement timeBox, Instant startInstant, ZoneId timeZone) {

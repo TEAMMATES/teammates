@@ -32,7 +32,6 @@ import teammates.common.datatransfer.questions.FeedbackRankOptionsResponseDetail
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackRubricResponseDetails;
-import teammates.common.util.TimeHelper;
 import teammates.e2e.util.TestProperties;
 
 /**
@@ -785,7 +784,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getDateString(Instant date, ZoneId timeZone) {
-        return TimeHelper.formatInstant(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
+        return getDisplayedDateTime(date, timeZone, "EEE, dd MMM, yyyy, hh:mm a X");
     }
 
     private String getDoubleString(double value) {

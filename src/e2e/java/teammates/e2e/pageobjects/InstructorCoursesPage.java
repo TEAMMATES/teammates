@@ -6,7 +6,6 @@ import static org.testng.AssertJUnit.assertTrue;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -267,10 +266,7 @@ public class InstructorCoursesPage extends AppPage {
     }
 
     private String getDateString(Instant instant) {
-        return DateTimeFormatter
-                .ofPattern("d MMM yyyy")
-                .withZone(ZoneId.systemDefault())
-                .format(instant);
+        return getDisplayedDateTime(instant, ZoneId.systemDefault(), "d MMM yyyy");
     }
 
     private String[][] getDeletedCourseDetails(CourseAttributes[] courses) {

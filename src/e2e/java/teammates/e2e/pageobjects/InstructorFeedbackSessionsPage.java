@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -309,25 +308,19 @@ public class InstructorFeedbackSessionsPage extends AppPage {
     }
 
     private String getDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy");
     }
 
     private String getSimpleDateString(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("dd MMM, yyyy")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "dd MMM, yyyy");
     }
 
     private String getTimeString(Instant instant, ZoneId timeZone) {
         ZonedDateTime dateTime = instant.atZone(timeZone);
-        if (dateTime.getHour() == 23 && dateTime.getMinute() == 59) {
+        if (dateTime.getHour() == 0 && dateTime.getMinute() == 0) {
             return "23:59H";
         }
-        return DateTimeFormatter
-                .ofPattern("HH:00")
-                .format(instant.atZone(timeZone)) + "H";
+        return getDisplayedDateTime(instant, timeZone, "HH:00") + "H";
     }
 
     private String getResponseRate(int rowId) {

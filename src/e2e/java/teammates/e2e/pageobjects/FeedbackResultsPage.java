@@ -6,7 +6,6 @@ import static org.junit.Assert.fail;
 
 import java.time.Instant;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -290,15 +289,11 @@ public class FeedbackResultsPage extends AppPage {
     }
 
     private String getDateStringWithAbbr(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy, hh:mm a z")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy, hh:mm a z");
     }
 
     private String getDateStringWithOffset(Instant instant, ZoneId timeZone) {
-        return DateTimeFormatter
-                .ofPattern("EE, dd MMM, yyyy, hh:mm a X")
-                .format(instant.atZone(timeZone));
+        return getDisplayedDateTime(instant, timeZone, "EE, dd MMM, yyyy, hh:mm a X");
     }
 
     private String getQuestionText(int questionNum) {
