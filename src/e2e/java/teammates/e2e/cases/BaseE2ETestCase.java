@@ -22,7 +22,6 @@ import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
-import teammates.common.util.ThreadHelper;
 import teammates.e2e.pageobjects.AppPage;
 import teammates.e2e.pageobjects.Browser;
 import teammates.e2e.pageobjects.DevServerLoginPage;
@@ -32,6 +31,7 @@ import teammates.e2e.util.EmailAccount;
 import teammates.e2e.util.TestProperties;
 import teammates.test.BaseTestCaseWithDatabaseAccess;
 import teammates.test.FileHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Base class for all browser tests.
@@ -47,7 +47,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
     private Browser browser;
 
     @BeforeClass
-    public void baseClassSetup() throws Exception {
+    public void baseClassSetup() {
         prepareTestData();
         prepareBrowser();
     }

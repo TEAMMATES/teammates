@@ -16,9 +16,9 @@ import {
   FeedbackSessionLog,
   FeedbackSessionLogEntry,
   FeedbackSessionLogs,
+  FeedbackSessionLogType,
   FeedbackSessionPublishStatus,
   FeedbackSessions,
-  LogType,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -215,8 +215,8 @@ export class InstructorTrackViewPageComponent implements OnInit {
 
             targetFeedbackSessionLog.feedbackSessionLogEntries
                 .filter((entry: FeedbackSessionLogEntry) =>
-                    LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-                    === LogType.FEEDBACK_SESSION_VIEW_RESULT)
+                    entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+                    === 'VIEW_RESULT')
                 .filter((entry: FeedbackSessionLogEntry) =>
                     !(entry.studentData.email in this.studentToLog)
                     || this.studentToLog[entry.studentData.email].timestamp < entry.timestamp)

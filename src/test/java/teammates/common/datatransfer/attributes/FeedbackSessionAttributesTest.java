@@ -274,9 +274,9 @@ public class FeedbackSessionAttributesTest extends BaseTestCase {
                 .build();
 
         String feedbackSessionNameError = "The field 'feedback session name' should not be empty. The value of 'feedback "
-                + "session name' field should be no longer than 38 characters.";
+                + "session name' field should be no longer than 64 characters.";
         String courseIdError = "The field 'course ID' is empty. A course ID can contain letters, numbers, fullstops, "
-                + "hyphens, underscores, and dollar signs. It cannot be longer than 40 characters, cannot be empty and "
+                + "hyphens, underscores, and dollar signs. It cannot be longer than 64 characters, cannot be empty and "
                 + "cannot contain spaces.";
         String creatorEmailError = "The field 'email' is empty. An email address contains some text followed "
                 + "by one '@' sign followed by some more text, and should end with a top level domain address like .com. "

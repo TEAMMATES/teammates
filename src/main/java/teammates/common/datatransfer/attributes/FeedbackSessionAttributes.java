@@ -653,28 +653,6 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         }
 
         /**
-         * Represents the change of email for an(a) instructor/student.
-         */
-        private static class EmailChange {
-
-            private String oldEmail;
-            private String newEmail;
-
-            private EmailChange(String oldEmail, String newEmail) {
-                this.oldEmail = oldEmail;
-                this.newEmail = newEmail;
-            }
-
-            private String getOldEmail() {
-                return oldEmail;
-            }
-
-            private String getNewEmail() {
-                return newEmail;
-            }
-        }
-
-        /**
          * Builder class to build {@link UpdateOptions}.
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {

@@ -17,7 +17,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -555,13 +554,13 @@ public final class FeedbackSessionsLogic {
      * @param feedbackSessionName the feedback session name
      * @param courseId the ID of the course
      * @param userEmail the user viewing the feedback session
-     * @param role the role of the use
+     * @param isInstructor true if the user is an instructor
      * @param questionId if not null, will only return partial bundle for the question
      * @param section if not null, will only return partial bundle for the section
      * @return the session result bundle
      */
     public SessionResultsBundle getSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, UserRole role,
+            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
             @Nullable String questionId, @Nullable String section) {
         CourseRoster roster = new CourseRoster(
                 studentsLogic.getStudentsForCourse(courseId),
@@ -586,9 +585,9 @@ public final class FeedbackSessionsLogic {
         RequestTracer.checkRemainingTime();
 
         // load response(s)
-        StudentAttributes student = getStudent(courseId, userEmail, role);
+        StudentAttributes student = getStudent(courseId, userEmail, isInstructor);
         List<FeedbackResponseAttributes> allResponses;
-        if (isInstructor(role)) {
+        if (isInstructor) {
             // load all response for instructors and passively filter them later
             if (questionId == null) {
                 allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
@@ -624,7 +623,7 @@ public final class FeedbackSessionsLogic {
         Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
         Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
         // student will have no related question at the beginning
-        if (isInstructor(role)) {
+        if (isInstructor) {
             // all questions are related questions for instructor
             for (FeedbackQuestionAttributes qn : allQuestions) {
                 relatedQuestionsMap.put(qn.getId(), qn);
@@ -633,7 +632,7 @@ public final class FeedbackSessionsLogic {
 
         // consider the current viewing user
         Set<String> studentsEmailInTeam = getTeammateEmails(student, roster);
-        InstructorAttributes instructor = getInstructor(courseId, userEmail, role);
+        InstructorAttributes instructor = getInstructor(courseId, userEmail, isInstructor);
 
         // visibility table for each response and comment
         Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
@@ -649,7 +648,7 @@ public final class FeedbackSessionsLogic {
             }
             // check visibility of response
             boolean isVisibleResponse = isResponseVisibleForUser(
-                    userEmail, role, student, studentsEmailInTeam, response, correspondingQuestion, instructor);
+                    userEmail, isInstructor, student, studentsEmailInTeam, response, correspondingQuestion, instructor);
             if (!isVisibleResponse) {
                 continue;
             }
@@ -660,9 +659,9 @@ public final class FeedbackSessionsLogic {
             relatedResponsesMap.put(response.getId(), response);
             // generate giver/recipient name visibility table
             responseGiverVisibilityTable.put(response.getId(),
-                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, role, true, roster));
+                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, isInstructor, true, roster));
             responseRecipientVisibilityTable.put(response.getId(),
-                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, role, false, roster));
+                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, isInstructor, false, roster));
         }
         RequestTracer.checkRemainingTime();
 
@@ -676,7 +675,7 @@ public final class FeedbackSessionsLogic {
             }
             // check visibility of comment
             boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
-                    userEmail, role, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
+                    userEmail, isInstructor, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
             if (!isVisibleResponseComment) {
                 continue;
             }
@@ -690,7 +689,7 @@ public final class FeedbackSessionsLogic {
         List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
         List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
         FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-        if (role == UserRole.INSTRUCTOR) {
+        if (isInstructor) {
             missingResponses = buildMissingResponses(
                     instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
                     relatedQuestionsMap, existingResponses, roster, section);
@@ -780,7 +779,7 @@ public final class FeedbackSessionsLogic {
 
                     // check visibility of the missing response
                     boolean isVisibleResponse = isResponseVisibleForUser(
-                            instructor.getEmail(), UserRole.INSTRUCTOR, null, Collections.emptySet(),
+                            instructor.getEmail(), true, null, Collections.emptySet(),
                             missingResponse, correspondingQuestion, instructor);
                     if (!isVisibleResponse) {
                         continue;
@@ -789,10 +788,10 @@ public final class FeedbackSessionsLogic {
                     // generate giver/recipient name visibility table
                     responseGiverVisibilityTable.put(missingResponse.getId(),
                             frLogic.isNameVisibleToUser(correspondingQuestion, missingResponse,
-                                    instructor.getEmail(), UserRole.INSTRUCTOR, true, courseRoster));
+                                    instructor.getEmail(), true, true, courseRoster));
                     responseRecipientVisibilityTable.put(missingResponse.getId(),
                             frLogic.isNameVisibleToUser(correspondingQuestion, missingResponse,
-                                    instructor.getEmail(), UserRole.INSTRUCTOR, false, courseRoster));
+                                    instructor.getEmail(), true, false, courseRoster));
                     missingResponses.add(missingResponse);
                 }
             }
@@ -802,12 +801,12 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets the associated instructor if {@code role} is {@link UserRole#INSTRUCTOR}.
+     * Gets the associated instructor if {@code isInstructor} is true.
      *
      * <p>Returns null if it is not an instructor or the instructor cannot be found.
      */
-    private InstructorAttributes getInstructor(String courseId, String userEmail, UserRole role) {
-        if (isInstructor(role)) {
+    private InstructorAttributes getInstructor(String courseId, String userEmail, boolean isInstructor) {
+        if (isInstructor) {
             return instructorsLogic.getInstructorForEmail(courseId, userEmail);
         }
         return null;
@@ -830,45 +829,37 @@ public final class FeedbackSessionsLogic {
     }
 
     /**
-     * Gets the associated student if {@code role} is {@link UserRole#STUDENT}.
+     * Gets the associated student if {@code isInstructor} is false.
      *
      * <p>Returns null if it is not a student or the student cannot be found.
      */
-    private StudentAttributes getStudent(String courseId, String userEmail, UserRole role) {
-        if (isStudent(role)) {
+    private StudentAttributes getStudent(String courseId, String userEmail, boolean isInstructor) {
+        if (!isInstructor) {
             return studentsLogic.getStudentForEmail(courseId, userEmail);
         }
         return null;
     }
 
-    private boolean isStudent(UserRole role) {
-        return role == UserRole.STUDENT;
-    }
-
-    private boolean isInstructor(UserRole role) {
-        return role == UserRole.INSTRUCTOR;
-    }
-
     private boolean isResponseVisibleForUser(String userEmail,
-            UserRole role, StudentAttributes student,
+            boolean isInstructor, StudentAttributes student,
             Set<String> studentsEmailInTeam,
             FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
 
         boolean isVisibleResponse = false;
-        if (isInstructor(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
+        if (isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
                 || response.getRecipient().equals(userEmail)
                         && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                 || response.getGiver().equals(userEmail)
-                || isStudent(role) && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
+                || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
             isVisibleResponse = true;
-        } else if (studentsEmailInTeam != null && isStudent(role)) {
+        } else if (studentsEmailInTeam != null && !isInstructor) {
             if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
                     && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
                     && response.getRecipient().equals(student.getTeam())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                       && studentsEmailInTeam.contains(response.getGiver())) {
+                       && response.getGiver().equals(student.getTeam())) {
                 isVisibleResponse = true;
             } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
                        && studentsEmailInTeam.contains(response.getGiver())) {
@@ -907,32 +898,6 @@ public final class FeedbackSessionsLogic {
     private List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsListForCourse(String courseId) {
 
         return fsDb.getSoftDeletedFeedbackSessionsForCourse(courseId);
-    }
-
-    /**
-     * Returns true if the feedback session has been fully answered by the given student.
-     */
-    public boolean isFeedbackSessionFullyCompletedByStudent(
-            String feedbackSessionName,
-            String courseId, String userEmail)
-            throws EntityDoesNotExistException {
-
-        if (!isFeedbackSessionExists(feedbackSessionName, courseId)) {
-            throw new EntityDoesNotExistException(ERROR_NON_EXISTENT_FS_CHECK + courseId + "/" + feedbackSessionName);
-        }
-
-        List<FeedbackQuestionAttributes> allQuestions =
-                fqLogic.getFeedbackQuestionsForStudents(feedbackSessionName,
-                        courseId);
-
-        for (FeedbackQuestionAttributes question : allQuestions) {
-            if (!fqLogic.isQuestionFullyAnsweredByUser(question, userEmail)) {
-                // If any question is not completely answered, session is not
-                // completed
-                return false;
-            }
-        }
-        return true;
     }
 
     /**

@@ -6,14 +6,12 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 
 /**
@@ -85,27 +83,6 @@ public class FeedbackQuestionData extends ApiOutput {
             this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
                     ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
             this.questionDetails.setQuestionType(this.questionType);
-
-            // TODO: remove after data migration
-            // distributePointsFor is added after forceUnevenDistribution, see #8577
-            if (constantSumQuestionDetails.isForceUnevenDistribution()
-                    && FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()
-                    .equals(constantSumQuestionDetails.getDistributePointsFor())) {
-                constantSumQuestionDetails.setDistributePointsFor(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
-            }
-        }
-
-        if (this.questionType == FeedbackQuestionType.TEXT) {
-            // TODO: remove after data migration
-            FeedbackTextQuestionDetails feedbackTextQuestionDetails =
-                    (FeedbackTextQuestionDetails) this.questionDetails;
-            if (feedbackTextQuestionDetails.getRecommendedLength() != null
-                    && feedbackTextQuestionDetails.getRecommendedLength() == 0) {
-                // for legacy data, 0 is treated as optional for recommended length
-                feedbackTextQuestionDetails.setRecommendedLength(null);
-            }
-
         }
     }
 

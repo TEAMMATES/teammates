@@ -35,7 +35,6 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private String instructions;
 
-    @Unindex
     @Translate(InstantTranslatorFactory.class)
     private Instant createdTime;
 
@@ -48,11 +47,9 @@ public class FeedbackSession extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant endTime;
 
-    @Unindex
     @Translate(InstantTranslatorFactory.class)
     private Instant sessionVisibleFromTime;
 
-    @Unindex
     @Translate(InstantTranslatorFactory.class)
     private Instant resultsVisibleFromTime;
 

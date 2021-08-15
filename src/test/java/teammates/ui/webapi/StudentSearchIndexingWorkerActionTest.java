@@ -57,7 +57,7 @@ public class StudentSearchIndexingWorkerActionTest extends BaseActionTest<Studen
     }
 
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 }

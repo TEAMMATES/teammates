@@ -11,7 +11,6 @@ import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
@@ -43,7 +42,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(expectedQuestion.getQuestionType(), actualQuestion.getQuestionType());
         assertEquals(expectedQuestion.getNumberOfEntitiesToGiveFeedbackTo(),
                 actualQuestion.getNumberOfEntitiesToGiveFeedbackTo());
-        assertEquals(expectedQuestion.getQuestionMetaData(), actualQuestion.getQuestionMetaData());
+        assertEquals(expectedQuestion.getQuestionText(), actualQuestion.getQuestionText());
         assertEquals(expectedQuestion.getGiverType(), actualQuestion.getGiverType());
         assertEquals(expectedQuestion.getRecipientType(), actualQuestion.getRecipientType());
         assertEquals(expectedQuestion.getShowGiverNameTo(), actualQuestion.getShowGiverNameTo());
@@ -55,8 +54,9 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf_withAllFieldPopulatedFeedbackQuestion_shouldGenerateAttributesCorrectly() {
+        FeedbackTextQuestionDetails qnDetails = new FeedbackTextQuestionDetails("text");
         FeedbackQuestion qn = new FeedbackQuestion("session", "course",
-                "text", "description", 1, FeedbackQuestionType.TEXT,
+                JsonUtils.toCompactJson(qnDetails), "description", 1, FeedbackQuestionType.TEXT,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS, Const.MAX_POSSIBLE_RECIPIENTS,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         qn.setFeedbackQuestionId(1L);
@@ -66,7 +66,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getId(), feedbackQuestionAttributes.getId());
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionDetailsCopy().getQuestionText());
+        assertEquals(qn.getQuestionText(), JsonUtils.toCompactJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
@@ -85,8 +85,9 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf_withSomeFieldsPopulatedAsNull_shouldUseDefaultValues() {
+        FeedbackTextQuestionDetails qnDetails = new FeedbackTextQuestionDetails("text");
         FeedbackQuestion qn = new FeedbackQuestion("session", "course",
-                "text", "description", 1, FeedbackQuestionType.TEXT,
+                JsonUtils.toCompactJson(qnDetails), "description", 1, FeedbackQuestionType.TEXT,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS, Const.MAX_POSSIBLE_RECIPIENTS,
                 null, null, null);
         qn.setFeedbackQuestionId(1L);
@@ -104,7 +105,7 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
         assertEquals(qn.getId(), feedbackQuestionAttributes.getId());
         assertEquals(qn.getFeedbackSessionName(), feedbackQuestionAttributes.getFeedbackSessionName());
         assertEquals(qn.getCourseId(), feedbackQuestionAttributes.getCourseId());
-        assertEquals(qn.getQuestionMetaData(), feedbackQuestionAttributes.getQuestionDetailsCopy().getQuestionText());
+        assertEquals(qn.getQuestionText(), JsonUtils.toCompactJson(feedbackQuestionAttributes.getQuestionDetailsCopy()));
         assertEquals(qn.getQuestionDescription(), feedbackQuestionAttributes.getQuestionDescription());
         assertEquals(feedbackQuestionAttributes.getQuestionNumber(), qn.getQuestionNumber());
         assertEquals(qn.getQuestionType(), feedbackQuestionAttributes.getQuestionType());
@@ -123,8 +124,9 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
 
     @Test
     public void testValueOf_modificationInAttributes_shouldNotLeakStateToEntity() {
+        FeedbackTextQuestionDetails qnDetails = new FeedbackTextQuestionDetails("text");
         FeedbackQuestion qn = new FeedbackQuestion("session", "course",
-                "text", "description", 1, FeedbackQuestionType.TEXT,
+                JsonUtils.toCompactJson(qnDetails), "description", 1, FeedbackQuestionType.TEXT,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS, Const.MAX_POSSIBLE_RECIPIENTS,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
 
@@ -176,24 +178,12 @@ public class FeedbackQuestionAttributesTest extends BaseAttributesTest {
     }
 
     @Test
-    public void testValueOf_textQuestions_shouldDeserializeCorrectly() throws InvalidParametersException {
-        ______TS("legacy data: plain text: single word, should deserialize correctly");
+    public void testValueOf_textQuestions_shouldDeserializeCorrectly() {
         FeedbackQuestion qn = new FeedbackQuestion("session", "course",
                 "singleWord", "description", 1, FeedbackQuestionType.TEXT,
                 FeedbackParticipantType.STUDENTS, FeedbackParticipantType.STUDENTS, Const.MAX_POSSIBLE_RECIPIENTS,
                 new ArrayList<>(), new ArrayList<>(), new ArrayList<>());
         qn.setFeedbackQuestionId(1L);
-
-        FeedbackQuestionAttributes fqa = FeedbackQuestionAttributes.valueOf(qn);
-        assertEquals("singleWord", fqa.getQuestionDetails().getQuestionText());
-        assertNull(((FeedbackTextQuestionDetails) fqa.getQuestionDetails()).getRecommendedLength());
-
-        ______TS("legacy data: plain text: multiple words, should deserialize correctly");
-        qn.setQuestionText("multiple words text");
-
-        FeedbackQuestionAttributes fqaMulti = FeedbackQuestionAttributes.valueOf(qn);
-        assertEquals("multiple words text", fqaMulti.getQuestionDetails().getQuestionText());
-        assertNull(((FeedbackTextQuestionDetails) fqaMulti.getQuestionDetails()).getRecommendedLength());
 
         ______TS("json text: should deserialize as json");
         String jsonQuestionText = "{\n"

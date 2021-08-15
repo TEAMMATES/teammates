@@ -29,7 +29,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String instructorId = instructor1OfCourse1.getGoogleId();
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
@@ -59,7 +59,7 @@ public class GetFeedbackSessionSubmittedGiverSetActionTest
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
         FeedbackSessionAttributes fsa = typicalBundle.feedbackSessions.get("session1InCourse1");
         String[] submissionParams = new String[] {
