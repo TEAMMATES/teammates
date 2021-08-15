@@ -31,14 +31,14 @@
       <label class="col-md-3 text-md-right col-form-label">Course ID:</label>
       <div class="col-md-6 text-md-left">
         <input id="new-course-id" class="form-control" type="text" [(ngModel)]="newCourseId"
-            [maxlength]="40" [disabled]="isAddingCourse" placeholder="e.g. CS3215-2013Semester1"/>
+            [maxlength]="64" [disabled]="isAddingCourse" placeholder="e.g. CS3215-2013Semester1"/>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-md-3 text-md-right col-form-label">Course Name:</label>
       <div class="col-md-6 text-md-left">
         <input id="new-course-name" class="form-control" type="text" [(ngModel)]="newCourseName"
-            [maxlength]="64" [disabled]="isAddingCourse" placeholder="e.g. Software Engineering"/>
+            [maxlength]="80" [disabled]="isAddingCourse" placeholder="e.g. Software Engineering"/>
       </div>
     </div>
     <div class="form-group row">

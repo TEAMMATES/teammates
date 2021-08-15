@@ -178,11 +178,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               style=""
             >
               <td
+                class="text-break"
                 id="archived-course-id-0"
               >
                 CS2104
               </td>
-              <td>
+              <td
+                class="text-break"
+              >
                 Can modify archived
               </td>
               <td>
@@ -218,11 +221,14 @@ exports[`InstructorCoursesPageComponent should snap when archived courses are ex
               style=""
             >
               <td
+                class="text-break"
                 id="archived-course-id-1"
               >
                 CS2106
               </td>
-              <td>
+              <td
+                class="text-break"
+              >
                 Cannot modify archived
               </td>
               <td>
@@ -476,11 +482,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Modifiable Students and Courses
                 </td>
                 <td>
@@ -604,11 +613,14 @@ exports[`InstructorCoursesPageComponent should snap when it is undeletable and u
               </tr>
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Nothing modifiable
                 </td>
                 <td>
@@ -967,7 +979,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="new-course-id"
-                maxlength="40"
+                maxlength="64"
                 placeholder="e.g. CS3215-2013Semester1"
                 type="text"
               />
@@ -987,7 +999,7 @@ exports[`InstructorCoursesPageComponent should snap when new course form is expa
               <input
                 class="form-control ng-untouched ng-pristine ng-valid"
                 id="new-course-name"
-                maxlength="64"
+                maxlength="80"
                 placeholder="e.g. Software Engineering"
                 type="text"
               />
@@ -1242,11 +1254,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Modifiable Students and Courses
                 </td>
                 <td>
@@ -1370,11 +1385,14 @@ exports[`InstructorCoursesPageComponent should snap with all courses in course s
               </tr>
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Nothing modifiable
                 </td>
                 <td>
@@ -1815,11 +1833,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-0"
                 >
                   CS3281
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Modifiable Students and Courses
                 </td>
                 <td>
@@ -1964,11 +1985,14 @@ exports[`InstructorCoursesPageComponent should snap with no courses in course st
               </tr>
               <tr>
                 <td
+                  class="text-break"
                   id="course-id-1"
                 >
                   CS3282
                 </td>
-                <td>
+                <td
+                  class="text-break"
+                >
                   Nothing modifiable
                 </td>
                 <td>

@@ -33,7 +33,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
 
@@ -118,7 +118,7 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         ______TS("course not exist");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());

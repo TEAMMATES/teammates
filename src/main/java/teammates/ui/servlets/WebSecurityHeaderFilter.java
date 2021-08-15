@@ -11,17 +11,23 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
+import teammates.common.util.Config;
+
 /**
  * Filter to add web security headers.
  */
 public class WebSecurityHeaderFilter implements Filter {
+
+    private static final String IMG_SRC_CSP = Config.isDevServer()
+            ? "'self' data: http: https:"
+            : "'self' data: https:";
 
     private static final String CSP_POLICY = String.join("; ", Arrays.asList(
             "default-src 'none'",
             "script-src 'self' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/ https://cdn.jsdelivr.net/",
             "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net/",
             "frame-src 'self' docs.google.com https://www.google.com/recaptcha/",
-            "img-src 'self' data: http: https:",
+            "img-src " + IMG_SRC_CSP,
             "font-src 'self' https://cdn.jsdelivr.net/",
             "connect-src 'self'",
             "manifest-src 'self'",

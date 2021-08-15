@@ -1,7 +1,7 @@
 package teammates.storage.search;
 
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.testng.annotations.Test;
@@ -141,8 +141,10 @@ public class StudentSearchTest extends BaseSearchTest {
             return;
         }
 
+        List<InstructorAttributes> ins1OfCourse1 = Collections.singletonList(
+                dataBundle.instructors.get("instructor1OfCourse1"));
         assertThrows(SearchServiceException.class,
-                () -> studentsDb.search("anything", new ArrayList<>()));
+                () -> studentsDb.search("anything", ins1OfCourse1));
         assertThrows(SearchServiceException.class,
                 () -> studentsDb.searchStudentsInWholeSystem("anything"));
     }

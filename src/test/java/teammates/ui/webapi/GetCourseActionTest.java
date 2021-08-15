@@ -6,9 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.MessageOutput;
@@ -30,7 +27,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         //See test cases below
     }
 
@@ -123,7 +120,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         //see test cases below
     }
 
@@ -182,9 +179,7 @@ public class GetCourseActionTest extends BaseActionTest<GetCourseAction> {
     }
 
     @Test
-    protected void testAccessControl_loggedInEntityBothInstructorAndStudent_shouldBeAccessible()
-            throws InvalidParametersException, EntityDoesNotExistException,
-            EntityAlreadyExistsException {
+    protected void testAccessControl_loggedInEntityBothInstructorAndStudent_shouldBeAccessible() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         CourseAttributes typicalCourse2 = typicalBundle.courses.get("typicalCourse2");
 
