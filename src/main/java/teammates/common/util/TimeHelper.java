@@ -64,6 +64,23 @@ public final class TimeHelper {
     }
 
     /**
+     * Gets an Instant which is adjusted for midnight time (23:59 and 00:00) at the specified time zone.
+     * The direction of adjustment (23:59 to 00:00 or vice versa) is determined by {@code isForward} parameter.
+     */
+    public static Instant getMidnightAdjustedInstantBasedOnZone(Instant instant, ZoneId timeZone, boolean isForward) {
+        if (isSpecialTime(instant)) {
+            return instant;
+        }
+        ZonedDateTime zonedDateTime = instant.atZone(timeZone);
+        if (isForward && zonedDateTime.getHour() == 23 && zonedDateTime.getMinute() == 59) {
+            zonedDateTime = zonedDateTime.plusMinutes(1L);
+        } else if (!isForward && zonedDateTime.getHour() == 0 && zonedDateTime.getMinute() == 0) {
+            zonedDateTime = zonedDateTime.minusMinutes(1L);
+        }
+        return zonedDateTime.toInstant();
+    }
+
+    /**
      * Returns whether the given {@code instant} is being used as a special representation, signifying its face value
      * should not be used without proper processing.
      *
