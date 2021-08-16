@@ -315,7 +315,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         assertEquals(warningLogJsonPayLoad1.getMessage(), details3.getMessage());
         assertNull(details3.getRequestParams());
         assertNull(details3.getRequestHeaders());
-        assertNull(details3.getUserAgent());
+        assertNull(details3.getUserInfo());
         assertNull(entry3.getMessage());
 
         assertEquals(warningLogJsonPayLoad2.getEmailStatusMessage(), details4.getEmailStatusMessage());

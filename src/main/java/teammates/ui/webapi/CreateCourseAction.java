@@ -4,12 +4,15 @@ import java.time.ZoneId;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
+import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
+import teammates.common.util.StringHelper;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseCreateRequest;
 
@@ -44,10 +47,17 @@ class CreateCourseAction extends Action {
         String newCourseId = courseCreateRequest.getCourseId();
         String newCourseName = courseCreateRequest.getCourseName();
 
+        String institute = Const.UNKNOWN_INSTITUTION;
+        AccountAttributes account = logic.getAccount(userInfo.getId());
+        if (account != null && !StringHelper.isEmpty(account.getInstitute())) {
+            institute = account.getInstitute();
+        }
+
         CourseAttributes courseAttributes =
                 CourseAttributes.builder(newCourseId)
                         .withName(newCourseName)
                         .withTimezone(ZoneId.of(newCourseTimeZone))
+                        .withInstitute(institute)
                         .build();
 
         try {

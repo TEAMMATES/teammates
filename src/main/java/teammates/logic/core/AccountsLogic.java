@@ -10,6 +10,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -162,6 +163,20 @@ public final class AccountsLogic {
             }
         } else {
             makeAccountInstructor(googleId);
+        }
+
+        // TODO remove this block 30 days after release of V8.1.0
+        if (instituteToSave != null) {
+            CourseAttributes course = coursesLogic.getCourse(instructor.getCourseId());
+
+            // Note that this bypasses access control check (i.e. the instructor may not have permission to update course),
+            // however since this update only happens when the institute is still unknown, the risk of misuse is minimum.
+
+            if (course.getInstitute() == null || Const.UNKNOWN_INSTITUTION.equals(course.getInstitute())) {
+                coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.getCourseId())
+                        .withInstitute(instituteToSave)
+                        .build());
+            }
         }
 
         // Update the googleId of the student entity for the instructor which was created from sample data.

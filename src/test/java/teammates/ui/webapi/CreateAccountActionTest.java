@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
@@ -70,6 +71,12 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
+
+        CourseAttributes course = logic.getCourse(courseId);
+        assertNotNull(course);
+        assertEquals("Sample Course 101", course.getName());
+        assertEquals(institute, course.getInstitute());
+
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
