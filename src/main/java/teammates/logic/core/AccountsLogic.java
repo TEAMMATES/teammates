@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -142,6 +143,8 @@ public final class AccountsLogic {
                             .build());
         } catch (EntityDoesNotExistException e) {
             assert false : "Instructor disappeared while trying to register";
+        } catch (InstructorUpdateException e) {
+            assert false;
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);

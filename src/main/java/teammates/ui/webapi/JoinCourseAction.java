@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -50,7 +51,7 @@ class JoinCourseAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException eaee) {
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
@@ -68,7 +69,7 @@ class JoinCourseAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException eaee) {
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
