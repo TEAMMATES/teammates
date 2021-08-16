@@ -7,10 +7,9 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
-import teammates.test.AssertHelper;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.CourseCreateRequest;
 
 /**
@@ -74,12 +73,9 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId(courseId);
 
-        action = getAction(courseCreateRequest);
-        result = getJsonResult(action);
-        MessageOutput message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_CONFLICT, result.getStatusCode());
-        AssertHelper.assertContains("has been used by another course, possibly by some other user.", message.getMessage());
+        InvalidOperationException ioe = verifyInvalidOperation(courseCreateRequest);
+        assertEquals("The course ID idOfTypicalCourse1 has been used by another course, possibly by some other user. "
+                + "Please try again with a different course ID.", ioe.getMessage());
 
         ______TS("Typical case missing course id");
 
