@@ -26,6 +26,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -602,6 +603,22 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     protected void verifyHttpParameterFailure(String... params) {
         Action c = getAction(params);
         assertThrows(InvalidHttpParameterException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link InvalidOperationException} being thrown.
+     */
+    protected InvalidOperationException verifyInvalidOperation(String... params) {
+        Action c = getAction(params);
+        return assertThrows(InvalidOperationException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link InvalidOperationException} being thrown.
+     */
+    protected InvalidOperationException verifyInvalidOperation(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(InvalidOperationException.class, c::execute);
     }
 
     /**

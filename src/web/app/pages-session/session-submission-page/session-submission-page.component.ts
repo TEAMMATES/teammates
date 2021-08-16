@@ -340,7 +340,13 @@ this session.`;
       }, (resp: ErrorMessageOutput) => {
         if (resp.status === 404) {
           this.simpleModalService.openInformationModal('Feedback Session Does Not Exist!', SimpleModalType.DANGER,
-            'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
+              'The session does not exist (most likely deleted by the instructor after the submission link was sent).');
+          this.navigationService.navigateByURL(this.router, '/web/student/home');
+        } else if (resp.status === 403) {
+          this.simpleModalService.openInformationModal('Not Authorised To Access!', SimpleModalType.DANGER,
+              resp.error.message);
+          this.navigationService.navigateByURL(this.router, '/web/student/home');
+        } else {
           this.navigationService.navigateWithErrorMessage(this.router, '/web/student/home', resp.error.message);
         }
       });
