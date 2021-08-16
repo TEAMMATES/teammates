@@ -25,6 +25,8 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
+    public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
+
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
     public static final String ENCODING = "UTF8";
 
