@@ -77,6 +77,7 @@ public final class Logger {
         details.setRequestUrl(requestUrl);
         details.setUserAgent(request.getHeader("User-Agent"));
         details.setWebVersion(request.getHeader("X-WEB-VERSION"));
+        details.setInstanceId(getInstanceId());
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
 
@@ -90,6 +91,14 @@ public final class Logger {
                 statusCode, timeElapsed, method, requestUrl, message);
 
         event(logMessage, details);
+    }
+
+    private static String getInstanceId() {
+        String instanceId = System.getenv("GAE_INSTANCE");
+        if (instanceId == null) {
+            return "dev_server_instance_id";
+        }
+        return instanceId;
     }
 
     /**
