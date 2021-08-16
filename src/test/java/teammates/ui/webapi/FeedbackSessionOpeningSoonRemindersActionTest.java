@@ -155,7 +155,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
                 + "to open in 24 hours should resend an opening soon email");
 
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
-        session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3)); // todo check if -ve number works also
+        session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(3));
         logic.updateFeedbackSession(
                 FeedbackSessionAttributes
                         .updateOptionsBuilder(session1.getFeedbackSessionName(), session1.getCourseId())
@@ -238,7 +238,7 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
         }
 
         ______TS("Modifying an opened session with opening soon email already sent, to open in < 24 hours "
-                + "should not send another opening soon email"); // todo is this the correct behaviour
+                + "should not send another opening soon email");
 
         // set start and end time to be sometime in the past
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
