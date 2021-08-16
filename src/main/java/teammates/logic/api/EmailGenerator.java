@@ -42,7 +42,6 @@ import teammates.logic.core.StudentsLogic;
 public final class EmailGenerator {
     // status-related strings
     private static final String FEEDBACK_STATUS_SESSION_OPEN = "is still open for submissions";
-    private static final String FEEDBACK_STATUS_SESSION_OPENING_SOON = "is opening soon";
     private static final String FEEDBACK_STATUS_SESSION_OPENING = "is now open";
     private static final String FEEDBACK_STATUS_SESSION_CLOSING = "is closing soon";
     private static final String FEEDBACK_STATUS_SESSION_CLOSED =
@@ -105,22 +104,22 @@ public final class EmailGenerator {
      * in case the feedback session opening info was set wrongly.
      */
     public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSessionAttributes session) {
-        String template = EmailTemplates.USER_FEEDBACK_SESSION.replace("${status}",
-                FEEDBACK_STATUS_SESSION_OPENING_SOON);
-
         CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
 
-        // notify only course co-owners, no students
+        // notify only course co-owners
         List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(session.getCourseId());
         List<EmailWrapper> emails = new ArrayList<>();
 
-        // todo ??? these parts of the template may not be relevant to co-owners
-        String feedbackAction = FEEDBACK_ACTION_SUBMIT_EDIT_OR_VIEW;
-        String additionalContactInformation = getAdditionalContactInformationFragment(course);
-
         for (InstructorAttributes coOwner : coOwners) {
-            emails.add(generateFeedbackSessionEmailBasesForOpeningSoonEmails(course, session, coOwner, template,
-                    EmailType.FEEDBACK_OPENING_SOON, feedbackAction, additionalContactInformation));
+            // todo ??? need reviewers' help to confirm this is correct.
+            // the link doesn't seem unique so there's no registration key being used i think.
+            String editUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
+                    .withCourseId(course.getId())
+                    .withSessionName(session.getFeedbackSessionName())
+                    .toAbsoluteString();
+
+            emails.add(generateFeedbackSessionEmailBasesForOpeningSoonEmails(course, session, coOwner,
+                    EmailType.FEEDBACK_OPENING_SOON, editUrl));
         }
 
         return emails;
@@ -132,10 +131,9 @@ public final class EmailGenerator {
      */
     private EmailWrapper generateFeedbackSessionEmailBasesForOpeningSoonEmails(
             CourseAttributes course, FeedbackSessionAttributes session,
-            InstructorAttributes coOwner, String template, EmailType type,
-            String feedbackAction, String additionalContactInformation) {
+            InstructorAttributes coOwner, EmailType type, String editUrl) {
 
-        String emailBody = Templates.populateTemplate(template,
+        String emailBody = Templates.populateTemplate(EmailTemplates.OPENING_SOON_EMAIL_TEMPLATE,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
@@ -144,10 +142,11 @@ public final class EmailGenerator {
                         TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
                 "${instructorFragment}", "",
                 "${sessionInstructions}", session.getInstructionsString(),
-                "${submitUrl}", "{in the actual email sent to the students, this will be the unique link}",
-                "${feedbackAction}", feedbackAction,
+                "${startTime}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatInstant(
+                        session.getStartTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                "${sessionEditUrl}", editUrl,
                 "${additionalNotes}", "",
-                "${additionalContactInformation}", additionalContactInformation);
+                "${additionalContactInformation}", "");
 
         EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
         email.setType(type);

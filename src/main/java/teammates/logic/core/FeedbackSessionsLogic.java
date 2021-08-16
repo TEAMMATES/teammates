@@ -313,7 +313,6 @@ public final class FeedbackSessionsLogic {
         if (oldSession.isSentOpenEmail()) {
             newUpdateOptions.withSentOpenEmail(newSession.isOpened());
 
-            // todo - help needed - not very sure what logic to use for resetting sentOpeningSoonEmail.
             // also reset sentOpeningSoonEmail
             newUpdateOptions.withSentOpeningSoonEmail(
                     newSession.isOpened()
