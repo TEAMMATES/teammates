@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -56,8 +57,9 @@ class DeleteInstructorAction extends Action {
 
         // Deleting last instructor from the course is not allowed if you're not the admin
         if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.getEmail())) {
-            return new JsonResult("The instructor you are trying to delete is the last instructor in the course. "
-                    + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidOperationException(
+                    "The instructor you are trying to delete is the last instructor in the course. "
+                    + "Deleting the last instructor from the course is not allowed.");
         }
 
         logic.deleteInstructorCascade(courseId, instructor.getEmail());
