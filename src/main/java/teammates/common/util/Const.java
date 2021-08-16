@@ -342,7 +342,7 @@ public final class Const {
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
         public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
-        // todo !!! may need to test this URI
+        // todo !!! need help to test this URI / confirm that this is okay
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS =

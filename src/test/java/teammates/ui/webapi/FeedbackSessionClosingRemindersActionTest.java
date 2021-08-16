@@ -64,7 +64,6 @@ public class FeedbackSessionClosingRemindersActionTest
                         .withStartTime(session1.getStartTime())
                         .withEndTime(session1.getEndTime())
                         .build());
-        // todo !!! should i be changing json file to include setOpeningSoonEmail and set it to true? --> ask
         session1.setSentOpeningSoonEmail(true); // fsLogic will set the flag to true
         session1.setSentOpenEmail(true); // fsLogic will set the flag to true
         verifyPresentInDatabase(session1);

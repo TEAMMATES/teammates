@@ -197,8 +197,8 @@ public class FeedbackSessionOpeningSoonRemindersActionTest
 
         ______TS("Modifying a session which has started and ended, "
                 + "to open in 24 hours should resend an opening soon email");
-        // todo ??? similar to previous but the session has already ended in the past and is being reopened
-        // is this a logical use case?
+        // similar to previous but the session has already ended in the past and is being reopened
+        // this could happen if an instructor reuses a session for example 
 
         session1.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(-2));
         session1.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(-1));

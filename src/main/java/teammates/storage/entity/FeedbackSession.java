@@ -286,14 +286,15 @@ public class FeedbackSession extends BaseEntity {
                 + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod
+                + ", sentOpeningSoonEmail" + sentOpeningSoonEmail
                 + ", sentOpenEmail=" + sentOpenEmail
+                + ", sentClosingEmail" + sentClosingEmail
+                + ", sentClosedEmail" + sentClosedEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
                 + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
                 + "]";
-        // todo should the tostring be changed to include sentOpeningEmail?
-        // (that's a field attribute that's only relevant to instructors)
     }
 
 }
