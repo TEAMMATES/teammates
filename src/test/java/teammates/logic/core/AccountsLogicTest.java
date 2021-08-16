@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
@@ -386,6 +387,9 @@ public class AccountsLogicTest extends BaseLogicTest {
 
         AccountAttributes accountCreated = accountsLogic.getAccount(loggedInGoogleId);
         assertNotNull(accountCreated);
+
+        CourseAttributes course = coursesLogic.getCourse(instructor.getCourseId());
+        assertEquals(institute, course.getInstitute());
     }
 
     @Test
