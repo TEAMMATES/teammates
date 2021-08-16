@@ -1,7 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { FeedbackNumericalScaleResponseDetails } from '../../../../types/api-output';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
 import { NumScaleQuestionStatisticsComponent } from './num-scale-question-statistics.component';
+import { Response } from './question-statistics';
 import ResponseTestData from './test-data/numScaleQuestionResponses.json';
 
 describe('NumScaleQuestionStatisticsComponent', () => {
@@ -27,7 +29,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   });
 
   it('should calculate statistics correctly', () => {
-    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responses));
+    component.responses = ResponseTestData.responses as Response<FeedbackNumericalScaleResponseDetails>[];
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
@@ -51,7 +53,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   });
 
   it('should calculate statistics correctly if responses are zero', () => {
-    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responsesAtZero));
+    component.responses = ResponseTestData.responsesAtZero  as Response<FeedbackNumericalScaleResponseDetails>[];
     component.question.maxScale = 5;
     component.question.minScale = 0;
 
@@ -76,7 +78,7 @@ describe('NumScaleQuestionStatisticsComponent', () => {
   });
 
   it('should calculate statistics correctly if self-response exists', () => {
-    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responsesWithSelf));
+    component.responses = ResponseTestData.responsesWithSelf as Response<FeedbackNumericalScaleResponseDetails>[];
     component.question.maxScale = 5;
     component.question.minScale = 0;
 

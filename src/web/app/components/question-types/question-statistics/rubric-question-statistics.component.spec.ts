@@ -2,7 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackRubricResponseDetails } from '../../../../types/api-output';
 import { SortableTableModule } from '../../sortable-table/sortable-table.module';
+import { Response } from './question-statistics';
 import { RubricQuestionStatisticsComponent } from './rubric-question-statistics.component';
 import ResponseTestData from './test-data/rubricQuestionResponses.json';
 
@@ -33,7 +35,7 @@ describe('RubricQuestionStatisticsComponent', () => {
   });
 
   it('should calculate responses correctly', () => {
-    component.responses = JSON.parse(JSON.stringify(ResponseTestData.responses));
+    component.responses = ResponseTestData.responses as Response<FeedbackRubricResponseDetails>[];
     component.question.rubricSubQuestions = ['Question1', 'Question2', 'Question3'];
     component.question.rubricChoices = ['Yes', 'No'];
     component.question.hasAssignedWeights = true;
