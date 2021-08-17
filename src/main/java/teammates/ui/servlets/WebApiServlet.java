@@ -17,6 +17,7 @@ import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -85,6 +86,10 @@ public class WebApiServlet extends HttpServlet {
             statusCode = HttpStatus.SC_NOT_FOUND;
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet", enfe);
             throwError(resp, statusCode, enfe.getMessage());
+        } catch (InvalidOperationException ioe) {
+            statusCode = HttpStatus.SC_CONFLICT;
+            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet", ioe);
+            throwError(resp, statusCode, ioe.getMessage());
         } catch (DeadlineExceededException dee) {
             statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
             log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);

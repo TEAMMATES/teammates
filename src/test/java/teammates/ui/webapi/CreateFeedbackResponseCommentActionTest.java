@@ -392,7 +392,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
-    protected void testAccessControl_commentAlreadyExist_shouldNotCreateAgain() {
+    protected void testExecute_commentAlreadyExist_shouldNotCreateAgain() {
         ______TS("students give a comment already exists");
 
         assertNotNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId()));
@@ -402,9 +402,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("New comment",
+                Arrays.asList(CommentVisibilityType.GIVER), new ArrayList<>());
 
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsStudent).checkSpecificAccessControl());
+        verifyInvalidOperation(requestBody, submissionParamsStudent);
 
         ______TS("instructors give a comment already exists");
 
@@ -416,8 +417,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+        verifyInvalidOperation(requestBody, submissionParamsInstructor);
     }
 
     @Test

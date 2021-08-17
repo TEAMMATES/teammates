@@ -79,8 +79,7 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         if (fr.getRecipientSection() != null) {
             fra.recipientSection = fr.getRecipientSection();
         }
-        fra.responseDetails =
-                fra.deserializeResponseFromSerializedString(fr.getResponseMetaData(), fr.getFeedbackQuestionType());
+        fra.responseDetails = deserializeResponseFromSerializedString(fr.getAnswer(), fr.getFeedbackQuestionType());
         fra.createdAt = fr.getCreatedAt();
         fra.updatedAt = fr.getUpdatedAt();
 
@@ -232,11 +231,10 @@ public class FeedbackResponseAttributes extends EntityAttributes<FeedbackRespons
         return responseDetails.getDeepCopy();
     }
 
-    private FeedbackResponseDetails deserializeResponseFromSerializedString(String serializedResponseDetails,
-                                                                            FeedbackQuestionType questionType) {
+    private static FeedbackResponseDetails deserializeResponseFromSerializedString(
+            String serializedResponseDetails, FeedbackQuestionType questionType) {
         if (questionType == FeedbackQuestionType.TEXT) {
-            // For Text questions, the questionText simply contains the question, not a JSON
-            // This is due to legacy data in the data store before there are multiple question types
+            // For Text questions, the answer simply contains the response text, not a JSON
             return new FeedbackTextResponseDetails(serializedResponseDetails);
         }
         return JsonUtils.fromJson(serializedResponseDetails, questionType.getResponseDetailsClass());
