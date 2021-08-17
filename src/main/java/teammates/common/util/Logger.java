@@ -76,7 +76,7 @@ public final class Logger {
         details.setRequestMethod(method);
         details.setRequestUrl(requestUrl);
         details.setUserAgent(request.getHeader("User-Agent"));
-        details.setWebVersion(request.getHeader("X-WEB-VERSION"));
+        details.setWebVersion(request.getHeader(Const.HeaderNames.WEB_VERSION));
         details.setInstanceId(getInstanceId());
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
