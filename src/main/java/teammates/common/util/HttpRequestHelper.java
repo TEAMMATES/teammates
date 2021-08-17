@@ -42,8 +42,10 @@ public final class HttpRequestHelper {
     static Map<String, Object> getRequestHeaders(HttpServletRequest req) {
         Map<String, Object> headers = new HashMap<>();
         Collections.list(req.getHeaderNames()).stream()
-                // Do not include cookie header in production for privacy reasons
+                // Do not include cookie header/secret keys in production for privacy reasons
                 .filter(headerName -> Config.isDevServer() || !"cookie".equalsIgnoreCase(headerName))
+                .filter(headerName -> Config.isDevServer() || !"Backdoor-Key".equalsIgnoreCase(headerName))
+                .filter(headerName -> Config.isDevServer() || !"CSRF-Key".equalsIgnoreCase(headerName))
                 .forEach(headerName -> {
                     List<String> headerValues = Collections.list(req.getHeaders(headerName));
                     if (headerValues.size() == 1) {
