@@ -1890,5 +1890,28 @@
       "line": "59",
       "function": "execute"
     }
+  },
+  {
+    "insertId": "123454d20006fcaeaf8dcc52",
+    "details": {
+      "message": "Instance startup: 954845e59212724cae605b074c8c7f5c",
+      "event": "INSTANCE_LOG",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "instanceEvent": "STARTUP"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "951f19331e63e19deebf52e6c21577e5",
+    "sourceLocation": {
+      "file": "teammates.main.Application",
+      "line": "59",
+      "function": "execute"
+    }
   }
 ]
