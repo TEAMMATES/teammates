@@ -247,7 +247,7 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
                     this.<String>hasSameValue(oldResponse.getGiverSection(), newAttributes.getGiverSection())
                     && this.<String>hasSameValue(oldResponse.getRecipientSection(), newAttributes.getRecipientSection())
                     && this.<String>hasSameValue(
-                            oldResponse.getResponseMetaData(), newAttributes.getSerializedFeedbackResponseDetail());
+                            oldResponse.getAnswer(), newAttributes.getSerializedFeedbackResponseDetail());
             if (hasSameAttributes) {
                 log.info(String.format(
                         OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackResponse.class.getSimpleName(), updateOptions));

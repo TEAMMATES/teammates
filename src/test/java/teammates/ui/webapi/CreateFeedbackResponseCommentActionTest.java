@@ -8,7 +8,6 @@ import java.util.stream.Collectors;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -99,7 +98,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         //see individual test cases.
     }
 
@@ -283,11 +282,11 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     @Test
     protected void testExecute_typicalCaseForSubmission_shouldPass() {
         // clean any existing comments.
-        logic.deleteFeedbackResponseComments(
-                AttributesDeletionQuery.builder().withResponseId(response1ForQ3.getId()).build());
+        logic.getFeedbackResponseCommentForResponse(response1ForQ3.getId())
+                .forEach(frc -> logic.deleteFeedbackResponseComment(frc.getId()));
         assertNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId()));
-        logic.deleteFeedbackResponseComments(
-                AttributesDeletionQuery.builder().withResponseId(response1ForQ1.getId()).build());
+        logic.getFeedbackResponseCommentForResponse(response1ForQ1.getId())
+                .forEach(frc -> logic.deleteFeedbackResponseComment(frc.getId()));
         assertNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ1.getId()));
 
         ______TS("Successful case: student submission");
@@ -352,7 +351,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 
@@ -393,7 +392,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     }
 
     @Test
-    protected void testAccessControl_commentAlreadyExist_shouldNotCreateAgain() {
+    protected void testExecute_commentAlreadyExist_shouldNotCreateAgain() {
         ______TS("students give a comment already exists");
 
         assertNotNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId()));
@@ -403,9 +402,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("New comment",
+                Arrays.asList(CommentVisibilityType.GIVER), new ArrayList<>());
 
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsStudent).checkSpecificAccessControl());
+        verifyInvalidOperation(requestBody, submissionParamsStudent);
 
         ______TS("instructors give a comment already exists");
 
@@ -417,8 +417,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+        verifyInvalidOperation(requestBody, submissionParamsInstructor);
     }
 
     @Test

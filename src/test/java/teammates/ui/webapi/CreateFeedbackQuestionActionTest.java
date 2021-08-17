@@ -37,7 +37,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -131,7 +131,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     }
 
     @Test
-    protected void testExecute_masqueradeMode_shouldCreateQuestionSuccessfully() throws Exception {
+    protected void testExecute_masqueradeMode_shouldCreateQuestionSuccessfully() {
         loginAsAdmin();
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");

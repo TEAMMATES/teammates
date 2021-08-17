@@ -1,12 +1,11 @@
 package teammates.logic.api;
 
-import java.time.Instant;
 import java.util.List;
 
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
-import teammates.common.datatransfer.QueryLogsParams;
 import teammates.common.datatransfer.QueryLogsResults;
+import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.logic.core.GoogleCloudLoggingService;
@@ -21,14 +20,19 @@ import teammates.logic.core.LogService;
  */
 public class LogsProcessor {
 
+    private static final LogsProcessor instance = new LogsProcessor();
     private final LogService service;
 
-    public LogsProcessor() {
+    LogsProcessor() {
         if (Config.isDevServer()) {
             service = new LocalLoggingService();
         } else {
             service = new GoogleCloudLoggingService();
         }
+    }
+
+    public static LogsProcessor inst() {
+        return instance;
     }
 
     /**
@@ -59,7 +63,7 @@ public class LogsProcessor {
      * @param email Can be null
      */
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
-            Instant startTime, Instant endTime, String fsName) throws LogServiceException {
+            long startTime, long endTime, String fsName) throws LogServiceException {
         return service.getFeedbackSessionLogs(courseId, email, startTime, endTime, fsName);
     }
 

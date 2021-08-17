@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
@@ -48,17 +49,13 @@ public final class InstructorsLogic {
         frcLogic = FeedbackResponseCommentsLogic.inst();
     }
 
-    /* ====================================
-     * methods related to google search API
-     * ====================================
-     */
-
     /**
-     * Batch creates or updates documents for the given Instructors.
-     * @param instructors a list of instructors to be put into documents
+     * Creates or updates search document for the given instructor.
+     *
+     * @param instructor the instructor to be put into documents
      */
-    public void putDocuments(List<InstructorAttributes> instructors) {
-        instructorsDb.putDocuments(instructors);
+    public void putDocument(InstructorAttributes instructor) throws SearchServiceException {
+        instructorsDb.putDocument(instructor);
     }
 
     /**
@@ -71,10 +68,6 @@ public final class InstructorsLogic {
             throws SearchServiceException {
         return instructorsDb.searchInstructorsInWholeSystem(queryString);
     }
-
-    /* ====================================
-     * ====================================
-     */
 
     /**
      * Creates an instructor.
@@ -101,26 +94,37 @@ public final class InstructorsLogic {
         );
     }
 
+    /**
+     * Gets an instructor by unique constraint courseId-email.
+     */
     public InstructorAttributes getInstructorForEmail(String courseId, String email) {
-
         return instructorsDb.getInstructorForEmail(courseId, email);
     }
 
+    /**
+     * Gets an instructor by unique ID.
+     */
     public InstructorAttributes getInstructorById(String courseId, String email) {
-
         return instructorsDb.getInstructorById(courseId, email);
     }
 
+    /**
+     * Gets an instructor by unique constraint courseId-googleId.
+     */
     public InstructorAttributes getInstructorForGoogleId(String courseId, String googleId) {
-
         return instructorsDb.getInstructorForGoogleId(courseId, googleId);
     }
 
+    /**
+     * Gets an instructor by unique constraint encryptedKey.
+     */
     public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-
         return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
     }
 
+    /**
+     * Gets all instructors of a course.
+     */
     public List<InstructorAttributes> getInstructorsForCourse(String courseId) {
         List<InstructorAttributes> instructorReturnList = instructorsDb.getInstructorsForCourse(courseId);
         InstructorAttributes.sortByName(instructorReturnList);
@@ -128,26 +132,37 @@ public final class InstructorsLogic {
         return instructorReturnList;
     }
 
+    /**
+     * Gets all non-archived instructors associated with a googleId.
+     */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId) {
-
         return getInstructorsForGoogleId(googleId, false);
     }
 
+    /**
+     * Gets all instructors associated with a googleId.
+     *
+     * @param omitArchived whether archived instructors should be omitted or not
+     */
     public List<InstructorAttributes> getInstructorsForGoogleId(String googleId, boolean omitArchived) {
-
         return instructorsDb.getInstructorsForGoogleId(googleId, omitArchived);
     }
 
+    /**
+     * Verifies that at least one instructor is displayed to student.
+     *
+     * @throws InstructorUpdateException if there is no instructor displayed to student.
+     */
     void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
                                                boolean isEditedInstructorDisplayed)
-            throws InvalidParametersException {
+            throws InstructorUpdateException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
         boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
 
         if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
                 && isEditedInstructorChangedToNonVisible)) {
-            throw new InvalidParametersException("At least one instructor must be displayed to students");
+            throw new InstructorUpdateException("At least one instructor must be displayed to students");
         }
     }
 
@@ -162,7 +177,7 @@ public final class InstructorsLogic {
      */
     public InstructorAttributes updateInstructorByGoogleIdCascade(
             InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
@@ -233,7 +248,7 @@ public final class InstructorsLogic {
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
         InstructorAttributes originalInstructor =
@@ -287,6 +302,9 @@ public final class InstructorsLogic {
         }
     }
 
+    /**
+     * Gets the list of instructors with co-owner privileges in a course.
+     */
     public List<InstructorAttributes> getCoOwnersForCourse(String courseId) {
         List<InstructorAttributes> instructors = getInstructorsForCourse(courseId);
         List<InstructorAttributes> instructorsWithCoOwnerPrivileges = new ArrayList<>();

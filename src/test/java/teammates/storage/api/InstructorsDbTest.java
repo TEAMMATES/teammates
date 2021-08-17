@@ -36,8 +36,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         }
     }
 
-    private void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private void setArchiveStatusOfInstructor(String googleId, String courseId, boolean archiveStatus) throws Exception {
         instructorsDb.updateInstructorByGoogleId(
                 InstructorAttributes.updateOptionsWithGoogleIdBuilder(courseId, googleId)
                         .withIsArchived(archiveStatus)

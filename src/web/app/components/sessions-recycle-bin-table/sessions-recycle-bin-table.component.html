@@ -55,8 +55,8 @@
           </thead>
           <tbody>
           <tr *ngFor="let recycleBinFeedbackSessionRowModel of recycleBinFeedbackSessionRowModels; let i = index">
-            <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
-            <td>{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
+            <td class="text-break">{{ recycleBinFeedbackSessionRowModel.feedbackSession.courseId }}</td>
+            <td class="text-break">{{ recycleBinFeedbackSessionRowModel.feedbackSession.feedbackSessionName }}</td>
             <td>
               <span class="ngb-tooltip-class" [ngbTooltip]="recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | formatDateDetail:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone" container="body">
                 {{ recycleBinFeedbackSessionRowModel.feedbackSession.createdAtTimestamp | recycleBinTableFormatDate:recycleBinFeedbackSessionRowModel.feedbackSession.timeZone }}

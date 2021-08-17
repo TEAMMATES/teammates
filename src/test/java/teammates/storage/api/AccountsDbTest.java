@@ -44,7 +44,7 @@ public class AccountsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     @Test
     public void testCreateAccount() throws Exception {
 
-        ______TS("typical success case (legacy data)");
+        ______TS("typical success case");
         AccountAttributes a = AccountAttributes.builder("test.account")
                 .withName("Test account Name")
                 .withIsInstructor(false)

@@ -32,7 +32,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         // See test cases below.
     }
 
@@ -48,6 +48,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         assertEquals(1, enrolledStudents.size());
         verifyStudentInDatabase(newStudent, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
+
+        // verify search indexing task is added to task queue when new student is enrolled
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -95,6 +98,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         assertEquals(1, enrolledStudents.size());
         verifyStudentInDatabase(studentToUpdate, enrolledStudents.get(0).getCourseId(), enrolledStudents.get(0).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
+
+        // verify search indexing task is added to task queue when existing student is updated
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
     }
 
     @Test
@@ -160,6 +166,9 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 enrolledStudents.get(1).getEmail());
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(0), enrolledStudents.get(0));
         verifyCorrectResponseData(req.getStudentEnrollRequests().get(2), enrolledStudents.get(1));
+
+        // verify tasks only added for students successfully enrolled
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 2);
     }
 
     @Test
@@ -173,6 +182,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
         verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(),
                 student1.getSection(), studentInCourse1.getSection());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -188,6 +199,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(student1, student2));
         loginAsInstructor(typicalBundle.instructors.get("instructor1OfCourse1").getGoogleId());
         verifyDuplicatedTeamNameDetected(courseId, req, student1.getTeam(), student1.getSection(), student2.getSection());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -238,6 +251,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                         + "please do not enroll more than %d students in a single section.", Const.SECTION_SIZE_LIMIT);
 
         assertEquals(expectedErrorMessage, ee.getMessage());
+
+        verifyNoTasksAdded();
     }
 
     private void verifyCorrectResponseData(StudentsEnrollRequest.StudentEnrollRequest request, StudentData response) {

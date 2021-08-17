@@ -8,8 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.TeammatesException;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -57,15 +58,26 @@ public final class AccountsLogic {
         return accountsDb.createEntity(accountData);
     }
 
+    /**
+     * Gets an account.
+     */
     public AccountAttributes getAccount(String googleId) {
         return accountsDb.getAccount(googleId);
     }
 
+    /**
+     * Returns true if the given account exists and is an instructor.
+     */
     public boolean isAccountAnInstructor(String googleId) {
         AccountAttributes a = accountsDb.getAccount(googleId);
         return a != null && a.isInstructor();
     }
 
+    /**
+     * Gets the institute associated with the course.
+     *
+     * <p>The institute of a course is determined by the account of an instructor associated to it.
+     */
     public String getCourseInstitute(String courseId) {
         CourseAttributes cd = coursesLogic.getCourse(courseId);
         assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
@@ -104,7 +116,7 @@ public final class AccountsLogic {
                             .withGoogleId(student.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
-            assert false : "Student disappeared while trying to register " + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Student disappeared while trying to register";
         }
 
         if (accountsDb.getAccount(googleId) == null) {
@@ -130,8 +142,9 @@ public final class AccountsLogic {
                             .withGoogleId(instructor.getGoogleId())
                             .build());
         } catch (EntityDoesNotExistException e) {
-            assert false : "Instructor disappeared while trying to register "
-                    + TeammatesException.toStringWithStackTrace(e);
+            assert false : "Instructor disappeared while trying to register";
+        } catch (InstructorUpdateException e) {
+            assert false;
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
@@ -150,6 +163,20 @@ public final class AccountsLogic {
             }
         } else {
             makeAccountInstructor(googleId);
+        }
+
+        // TODO remove this block 30 days after release of V8.1.0
+        if (instituteToSave != null) {
+            CourseAttributes course = coursesLogic.getCourse(instructor.getCourseId());
+
+            // Note that this bypasses access control check (i.e. the instructor may not have permission to update course),
+            // however since this update only happens when the institute is still unknown, the risk of misuse is minimum.
+
+            if (course.getInstitute() == null || Const.UNKNOWN_INSTITUTION.equals(course.getInstitute())) {
+                coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.getCourseId())
+                        .withInstitute(instituteToSave)
+                        .build());
+            }
         }
 
         // Update the googleId of the student entity for the instructor which was created from sample data.

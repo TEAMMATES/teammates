@@ -11,10 +11,7 @@ import java.time.ZoneId;
  */
 public final class Const {
 
-    /*
-     * This section holds constants that are defined as constants primarily
-     * because they are repeated in many places.
-     */
+    // This section holds constants that are defined as constants primarily because they are repeated in many places.
 
     public static final String USER_NOBODY_TEXT = "-";
 
@@ -28,16 +25,16 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
+    public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
+
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
     public static final String ENCODING = "UTF8";
 
     public static final Duration FEEDBACK_SESSIONS_SEARCH_WINDOW = Duration.ofDays(30);
     public static final Duration LOGS_RETENTION_PERIOD = Duration.ofDays(30);
 
-    /*
-     * These constants are used as variable values to mean that the variable
-     * is in a 'special' state.
-     */
+    // These constants are used as variable values to mean that the variable is in a 'special' state.
+
     public static final int INT_UNINITIALIZED = -9999;
 
     public static final int MAX_POSSIBLE_RECIPIENTS = -100;
@@ -65,14 +62,15 @@ public final class Const {
 
     public static final String TEST_EMAIL_DOMAIN = "@gmail.tmt";
 
-    /*
-     * Other Constants
-     */
+    // Other Constants
 
     private Const() {
         // Utility class containing constants
     }
 
+    /**
+     * Represents role names for instructors based on their permission settings.
+     */
     public static class InstructorPermissionRoleNames {
         public static final String INSTRUCTOR_PERMISSION_ROLE_COOWNER = "Co-owner";
         public static final String INSTRUCTOR_PERMISSION_ROLE_MANAGER = "Manager";
@@ -81,6 +79,9 @@ public final class Const {
         public static final String INSTRUCTOR_PERMISSION_ROLE_CUSTOM = "Custom";
     }
 
+    /**
+     * Represents atomic permission for instructors.
+     */
     public static class InstructorPermissions {
         public static final String CAN_MODIFY_COURSE = "canmodifycourse";
         public static final String CAN_MODIFY_INSTRUCTOR = "canmodifyinstructor";
@@ -92,6 +93,9 @@ public final class Const {
         public static final String CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS = "canmodifysessioncommentinsection";
     }
 
+    /**
+     * Represents keys for HTTP requests to the API layer.
+     */
     public static class ParamsNames {
 
         public static final String IS_IN_RECYCLE_BIN = "isinrecyclebin";
@@ -160,8 +164,11 @@ public final class Const {
         public static final String QUERY_LOGS_SOURCE_LOCATION_FILE = "sourcelocationfile";
         public static final String QUERY_LOGS_SOURCE_LOCATION_FUNCTION = "sourcelocationfunction";
         public static final String QUERY_LOGS_EXCEPTION_CLASS = "exceptionclass";
+        public static final String QUERY_LOGS_LATENCY = "latency";
+        public static final String QUERY_LOGS_STATUS = "status";
+        public static final String QUERY_LOGS_VERSION = "version";
+        public static final String QUERY_LOGS_EXTRA_FILTERS = "extrafilters";
         public static final String QUERY_LOGS_ORDER = "order";
-        public static final String NEXT_PAGE_TOKEN = "nextpagetoken";
     }
 
     /**
@@ -174,14 +181,21 @@ public final class Const {
         public static final String SOFT_DELETED = "softDeleted";
     }
 
+    /**
+     * Represents user types.
+     */
     public static class EntityType {
 
         public static final String STUDENT = "student";
         public static final String INSTRUCTOR = "instructor";
         public static final String ADMIN = "admin";
+        public static final String MAINTAINER = "maintainer";
 
     }
 
+    /**
+     * Represents security-related configuration.
+     */
     public static class SecurityConfig {
 
         public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
@@ -190,12 +204,9 @@ public final class Const {
 
     }
 
-    public static class FeedbackSessionLogTypes {
-        public static final String ACCESS = "access";
-        public static final String SUBMISSION = "submission";
-        public static final String VIEW_RESULT = "view result";
-    }
-
+    /**
+     * Represents URIs of accessible pages in the front-end in past versions (V6 and before).
+     */
     @Deprecated
     public static class LegacyURIs {
 
@@ -211,6 +222,9 @@ public final class Const {
 
     }
 
+    /**
+     * Represents URIs of accessible pages in the front-end.
+     */
     public static class WebPageURIs {
         public static final String LOGIN = "/login";
         public static final String LOGOUT = "/logout";
@@ -219,6 +233,7 @@ public final class Const {
         private static final String STUDENT_PAGE = URI_PREFIX + "/" + EntityType.STUDENT;
         private static final String INSTRUCTOR_PAGE = URI_PREFIX + "/" + EntityType.INSTRUCTOR;
         private static final String ADMIN_PAGE = URI_PREFIX + "/" + EntityType.ADMIN;
+        private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
         private static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
 
@@ -228,6 +243,8 @@ public final class Const {
         public static final String ADMIN_SESSIONS_PAGE = ADMIN_PAGE + "/sessions";
         public static final String ADMIN_TIMEZONE_PAGE = ADMIN_PAGE + "/timezone";
         public static final String ADMIN_LOGS_PAGE = ADMIN_PAGE + "/logs";
+
+        public static final String MAINTAINER_HOME_PAGE = MAINTAINER_PAGE + "/home";
 
         public static final String INSTRUCTOR_HOME_PAGE = INSTRUCTOR_PAGE + "/home";
         public static final String INSTRUCTOR_SEARCH_PAGE = INSTRUCTOR_PAGE + "/search";
@@ -256,6 +273,9 @@ public final class Const {
         public static final String SESSIONS_LINK_RECOVERY_PAGE = FRONT_PAGE + "/help/session-links-recovery";
     }
 
+    /**
+     * Represents URIs of resource endpoints.
+     */
     public static class ResourceURIs {
         private static final String URI_PREFIX = "/webapi";
 
@@ -312,6 +332,9 @@ public final class Const {
         public static final String STUDENT_COURSE_LINKS_REGENERATION = URI_PREFIX + "/student/courselinks/regeneration";
     }
 
+    /**
+     * Represents URIs of endpoints used by cron jobs.
+     */
     public static class CronJobURIs {
         private static final String URI_PREFIX = "/auto";
 
@@ -365,6 +388,9 @@ public final class Const {
         public static final String STUDENT_COURSE_JOIN_EMAIL_QUEUE_NAME = "student-course-join-email-queue";
         public static final String STUDENT_COURSE_JOIN_EMAIL_WORKER_URL = URI_PREFIX + "/studentCourseJoinEmail";
 
+        public static final String SEARCH_INDEXING_QUEUE_NAME = "search-indexing-queue";
+        public static final String INSTRUCTOR_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/instructorSearchIndexing";
+        public static final String STUDENT_SEARCH_INDEXING_WORKER_URL = URI_PREFIX + "/studentSearchIndexing";
     }
 
 }

@@ -11,7 +11,7 @@ import {
   Course,
   Courses,
   FeedbackSessionLog, FeedbackSessionLogEntry,
-  FeedbackSessionLogs, LogType,
+  FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
   Students,
 } from '../../../types/api-output';
@@ -112,10 +112,13 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   search(): void {
     this.isSearching = true;
     this.searchResults = [];
+    const selectedCourse: Course | undefined =
+      this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
+    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
     const searchFrom: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateFrom, this.formModel.logsTimeFrom);
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone);
     const searchUntil: number = this.timezoneService.resolveLocalDateTime(
-        this.formModel.logsDateTo, this.formModel.logsTimeTo);
+        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone);
 
     this.logsService.searchFeedbackSessionLog({
       courseId: this.formModel.courseId,
@@ -175,15 +178,15 @@ export class InstructorAuditLogsPageComponent implements OnInit {
       ],
       logRowsData: log.feedbackSessionLogEntries
         .filter((entry: FeedbackSessionLogEntry) =>
-          LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-            !== LogType.FEEDBACK_SESSION_VIEW_RESULT)
+            entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+            !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
             { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
               style: 'font-family:monospace;'},
             { value: entry.studentData.name },
-            { value: LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-              === LogType.FEEDBACK_SESSION_ACCESS ? 'Viewed the submission page' : 'Submitted responses' },
+            { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+              === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses' },
             { value: entry.studentData.email },
             { value: entry.studentData.sectionName },
             { value: entry.studentData.teamName },

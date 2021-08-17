@@ -1,8 +1,6 @@
 package teammates.ui.servlets;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -13,12 +11,13 @@ import org.apache.http.HttpStatus;
 
 import com.google.cloud.datastore.DatastoreException;
 
+import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.TeammatesException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
@@ -65,7 +64,7 @@ public class WebApiServlet extends HttpServlet {
         int statusCode = 0;
         Action action = null;
         try {
-            action = new ActionFactory().getAction(req, req.getMethod());
+            action = ActionFactory.getAction(req, req.getMethod());
             action.init(req);
             action.checkAccessControl();
 
@@ -80,42 +79,39 @@ public class WebApiServlet extends HttpServlet {
             throwErrorBasedOnRequester(req, resp, e, statusCode);
         } catch (UnauthorizedAccessException uae) {
             statusCode = HttpStatus.SC_FORBIDDEN;
-            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(uae));
+            log.warning(uae.getClass().getSimpleName() + " caught by WebApiServlet", uae);
             throwError(resp, statusCode,
                     uae.isShowErrorMessage() ? uae.getMessage() : "You are not authorized to access this resource.");
         } catch (EntityNotFoundException enfe) {
             statusCode = HttpStatus.SC_NOT_FOUND;
-            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(enfe));
+            log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet", enfe);
             throwError(resp, statusCode, enfe.getMessage());
+        } catch (InvalidOperationException ioe) {
+            statusCode = HttpStatus.SC_CONFLICT;
+            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet", ioe);
+            throwError(resp, statusCode, ioe.getMessage());
         } catch (DeadlineExceededException dee) {
             statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
-            log.severe("TimeoutException caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(dee));
+            log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);
             throwError(resp, statusCode, "The request exceeded the server timeout limit. Please try again later.");
         } catch (DatastoreException e) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet", e);
             throwError(resp, statusCode, e.getMessage());
         } catch (Throwable t) {
             statusCode = HttpStatus.SC_INTERNAL_SERVER_ERROR;
-            log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(t));
+            log.severe(t.getClass().getSimpleName() + " caught by WebApiServlet", t);
             throwError(resp, statusCode,
                     "The server encountered an error when processing your request.");
         } finally {
-            Map<String, Object> extraInfo = new HashMap<>();
-            Map<String, String> userInfo = new HashMap<>();
-            String actionClass = "Unknown Action";
+            RequestLogUser userInfo = new RequestLogUser();
+            String actionClass = null;
             if (action != null) {
                 actionClass = action.getClass().getSimpleName();
-                extraInfo.put("actionClass", actionClass);
                 userInfo = action.getUserInfoForLogging();
             }
 
-            log.request(req, statusCode, actionClass, userInfo, extraInfo);
+            log.request(req, statusCode, actionClass, userInfo, actionClass);
         }
     }
 
@@ -126,8 +122,7 @@ public class WebApiServlet extends HttpServlet {
         boolean isRequestFromAppEngineQueue = req.getHeader("X-AppEngine-QueueName") != null;
 
         if (isRequestFromAppEngineQueue) {
-            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.severe(e.getClass().getSimpleName() + " caught by WebApiServlet", e);
 
             // Response status is not set to 4XX to 5XX to prevent Cloud Tasks retry mechanism because
             // if the cause of the exception is improper request URL, no amount of retry is going to help.
@@ -135,8 +130,7 @@ public class WebApiServlet extends HttpServlet {
             // to trace the origin of the problem.
             throwError(resp, HttpStatus.SC_ACCEPTED, e.getMessage());
         } else {
-            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet: "
-                    + TeammatesException.toStringWithStackTrace(e));
+            log.warning(e.getClass().getSimpleName() + " caught by WebApiServlet", e);
             throwError(resp, statusCode, e.getMessage());
         }
     }

@@ -9,7 +9,6 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.UserRole;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -71,15 +70,26 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.createEntity(frComment);
     }
 
+    /**
+     * Gets a feedback response comment.
+     */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(Long feedbackResponseCommentId) {
         return frcDb.getFeedbackResponseComment(feedbackResponseCommentId);
     }
 
+    /**
+     * Gets a feedback response comment by "fake" unique constraint response-giver-createdAt.
+     *
+     * <p>The method is only used in testing</p>
+     */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(
             String responseId, String giverEmail, Instant creationDate) {
         return frcDb.getFeedbackResponseComment(responseId, giverEmail, creationDate);
     }
 
+    /**
+     * Gets all response comments for a response.
+     */
     public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentForResponse(String feedbackResponseId) {
         return frcDb.getFeedbackResponseCommentsForResponse(feedbackResponseId);
     }
@@ -127,15 +137,19 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.getFeedbackResponseCommentsForQuestionInSection(questionId, section);
     }
 
-    /*
-     * Updates all email fields of feedback response comments with the new email
+    /**
+     * Updates all email fields of feedback response comments with the new email.
      */
     public void updateFeedbackResponseCommentsEmails(String courseId, String oldEmail, String updatedEmail) {
         frcDb.updateGiverEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
         frcDb.updateLastEditorEmailOfFeedbackResponseComments(courseId, oldEmail, updatedEmail);
     }
 
-    // right now this method only updates comment's giverSection and receiverSection for a given response
+    /**
+     * Updates all common fields of feedback response comments with the same field from its parent response.
+     *
+     * <p>Currently, this method only updates comment's giverSection and receiverSection for a given response.</p>
+     */
     public void updateFeedbackResponseCommentsForResponse(String feedbackResponseId)
             throws InvalidParametersException, EntityDoesNotExistException {
         List<FeedbackResponseCommentAttributes> comments = getFeedbackResponseCommentForResponse(feedbackResponseId);
@@ -164,8 +178,11 @@ public final class FeedbackResponseCommentsLogic {
         return frcDb.updateFeedbackResponseComment(updateOptions);
     }
 
-    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(String courseId,
-                                                                                       String giverEmail) {
+    /**
+     * Gets all comments given by a user in a course.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForGiver(
+            String courseId, String giverEmail) {
         return frcDb.getFeedbackResponseCommentForGiver(courseId, giverEmail);
     }
 
@@ -259,7 +276,7 @@ public final class FeedbackResponseCommentsLogic {
      * Verifies whether the comment is visible to certain user.
      * @return true/false
      */
-    public boolean isResponseCommentVisibleForUser(String userEmail, UserRole role,
+    public boolean isResponseCommentVisibleForUser(String userEmail, boolean isInstructor,
             StudentAttributes student, Set<String> studentsEmailInTeam, FeedbackResponseAttributes response,
             FeedbackQuestionAttributes relatedQuestion, FeedbackResponseCommentAttributes relatedComment) {
 
@@ -271,14 +288,11 @@ public final class FeedbackResponseCommentsLogic {
         boolean isVisibleToGiver = isVisibilityFollowingFeedbackQuestion
                                  || relatedComment.isVisibleTo(FeedbackParticipantType.GIVER);
 
-        boolean isUserInstructor = role == UserRole.INSTRUCTOR;
-        boolean isUserStudent = role == UserRole.STUDENT;
-
         boolean isVisibleToUser = isVisibleToUser(userEmail, response, relatedQuestion, relatedComment,
-                isVisibleToGiver, isUserInstructor, isUserStudent);
+                isVisibleToGiver, isInstructor, !isInstructor);
 
         boolean isVisibleToUserTeam = isVisibleToUserTeam(student, studentsEmailInTeam, response,
-                relatedQuestion, relatedComment, isUserStudent);
+                relatedQuestion, relatedComment, !isInstructor);
 
         return isVisibleToUser || isVisibleToUserTeam;
     }

@@ -16,7 +16,7 @@ public class SingleAccountGoogleIdMigrationScript extends GoogleIdMigrationBaseS
     private String fromAccountGoogleId = "alice@gmail.tmt";
     private String toAccountGoogleId = "bob@gmail.tmt";
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new SingleAccountGoogleIdMigrationScript().doOperationRemotely();
     }
 

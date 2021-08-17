@@ -1,4 +1,4 @@
-<h1 id="records-header">{{studentName}}'s Records<small class="text-muted"> - {{courseId}}</small></h1>
+<h1 id="records-header">{{studentName}}'s Records<small class="text-muted text-break"> - {{courseId}}</small></h1>
 <tm-loading-retry [shouldShowRetry]="hasStudentLoadingFailed || hasStudentProfileLoadingFailed" [message]="'Failed to load student records'" (retryEvent)="loadStudentRecords()">
   <tm-student-profile *tmIsLoading="isStudentProfileLoading" [studentProfile]="studentProfile" [photoUrl]="photoUrl"></tm-student-profile>
   <tm-more-info *tmIsLoading="isStudentLoading" [studentName]="studentName" [moreInfoText]="studentProfile.moreInfo"></tm-more-info>
@@ -8,7 +8,7 @@
   <div *tmIsLoading="isStudentResultsLoading">
     <div *ngFor="let session of sessionTabs" class="card card-default mb-4">
       <div class="card-header cursor-pointer" (click)="session.isCollapsed = !session.isCollapsed">
-        <strong>Feedback Session: {{ session.feedbackSession.feedbackSessionName }}</strong>
+        <strong class="text-break">Feedback Session: {{ session.feedbackSession.feedbackSessionName }}</strong>
         <div class="card-header-btn-toolbar">
           <tm-panel-chevron [isExpanded]="!session.isCollapsed"></tm-panel-chevron>
         </div>

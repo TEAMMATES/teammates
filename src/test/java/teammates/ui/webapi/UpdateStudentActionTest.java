@@ -7,6 +7,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -55,6 +56,7 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
         verifyHttpParameterFailure(invalidParams);
+        verifyNoTasksAdded();
 
         ______TS("Typical case, successful edit and save student detail");
         String newStudentEmail = "newemail@gmail.tmt";
@@ -81,6 +83,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         assertEquals(String.format(EmailType.STUDENT_EMAIL_CHANGED.getSubject(), courseName,
                 instructor1OfCourse1.getCourseId()), email.getSubject());
         assertEquals(newStudentEmail, email.getRecipient());
+
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         ______TS("Typical case, successful edit and save student detail with spaces to be trimmed");
         String newStudentEmailToBeTrimmed = "  newemail@gmail.tmt   "; // after trim, this is equal to newStudentEmail
@@ -119,13 +123,15 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
         JsonResult invalidEmailOutput = getJsonResult(invalidEmailAction);
 
-        assertEquals(HttpStatus.SC_INTERNAL_SERVER_ERROR, invalidEmailOutput.getStatusCode());
+        assertEquals(HttpStatus.SC_BAD_REQUEST, invalidEmailOutput.getStatusCode());
         MessageOutput invalidParamsOutput = (MessageOutput) invalidEmailOutput.getOutput();
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.EMAIL_MAX_LENGTH),
                 invalidParamsOutput.getMessage());
+
+        verifyNoTasksAdded();
 
         ______TS("Error case, invalid email parameter (email already taken by others)");
 
@@ -140,13 +146,10 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
-        UpdateStudentAction takenEmailAction = getAction(updateRequest, submissionParams);
-        JsonResult takenEmailOutput = getJsonResult(takenEmailAction);
+        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
+        assertEquals("Trying to update to an email that is already in use", ioe.getMessage());
 
-        assertEquals(HttpStatus.SC_CONFLICT, takenEmailOutput.getStatusCode());
-        invalidParamsOutput = (MessageOutput) takenEmailOutput.getOutput();
-
-        assertEquals("Trying to update to an email that is already in use", invalidParamsOutput.getMessage());
+        verifyNoTasksAdded();
 
         // deleting edited student
         logic.deleteAccountCascade(student2InCourse1.getGoogleId());
@@ -170,6 +173,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
 
         assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, invalidParamsOutput.getMessage());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -189,11 +194,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
-        UpdateStudentAction duplicateTeamAction = getAction(updateRequest, submissionParams);
-        JsonResult duplicateTeamOutput = getJsonResult(duplicateTeamAction);
+        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
         assertEquals("Team \"Team 1.2\" is detected in both Section \"Section 1\" "
                         + "and Section \"Section 2\". Please use different team names in different sections.",
-                ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
+                ioe.getMessage());
+
+        verifyNoTasksAdded();
     }
 
     @Test
@@ -240,11 +246,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, studentToJoinMaxSection.getEmail(),
         };
 
-        UpdateStudentAction duplicateTeamAction = getAction(updateRequest, submissionParams);
-        JsonResult duplicateTeamOutput = getJsonResult(duplicateTeamAction);
+        InvalidOperationException ioe = verifyInvalidOperation(updateRequest, submissionParams);
         assertEquals("You are trying enroll more than 100 students in section \"sectionInMaxCapacity\". "
                         + "To avoid performance problems, please do not enroll more than 100 students in a single section.",
-                ((MessageOutput) duplicateTeamOutput.getOutput()).getMessage());
+                ioe.getMessage());
+
+        verifyNoTasksAdded();
     }
 
     @Test

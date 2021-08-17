@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -67,6 +68,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_SESSION));
         assertFalse(editedInstructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_STUDENT));
 
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+
         ______TS("Failure case: edit failed due to invalid parameters");
 
         String invalidEmail = "wrongEmail.com";
@@ -83,18 +86,18 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
         assertEquals(expectedErrorMessage, msg.getMessage());
 
+        verifyNoTasksAdded();
+
         ______TS("Failure case: after editing instructor, no instructors are displayed");
 
         reqBody = new InstructorCreateRequest(instructorId, instructorToEdit.getName(),
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        updateInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(updateInstructorAction);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        InvalidOperationException ioe = verifyInvalidOperation(reqBody, submissionParams);
+        assertEquals("At least one instructor must be displayed to students", ioe.getMessage());
 
-        msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("At least one instructor must be displayed to students", msg.getMessage());
+        verifyNoTasksAdded();
 
         ______TS("Masquerade mode: edit instructor successfully");
 
@@ -123,6 +126,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         //remove the new instructor entity that was created
         logic.deleteCourseCascade("icieat.courseId");
 
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
+
         ______TS("Unsuccessful case: test null course id parameter");
 
         final String[] emptySubmissionParams = new String[0];
@@ -135,6 +140,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
             getJsonResult(illegalAction);
         });
 
+        verifyNoTasksAdded();
+
         ______TS("Unsuccessful case: test null instructor name parameter");
 
         final InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
@@ -146,6 +153,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
             getJsonResult(illegalAction);
         });
 
+        verifyNoTasksAdded();
+
         ______TS("Unsuccessful case: test null instructor email parameter");
 
         final InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
@@ -156,6 +165,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
             UpdateInstructorAction illegalAction = getAction(nullEmailReq, submissionParams);
             getJsonResult(illegalAction);
         });
+
+        verifyNoTasksAdded();
     }
 
     @Override
