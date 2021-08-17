@@ -22,8 +22,6 @@ import teammates.ui.output.OngoingSessionsData;
  */
 class GetOngoingSessionsAction extends AdminOnlyAction {
 
-    private static final String UNKNOWN_INSTITUTION = "Unknown Institution";
-
     @Override
     public JsonResult execute() {
         String startTimeString = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_STARTTIME);
@@ -81,7 +79,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
             List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
             AccountAttributes account = getRegisteredInstructorAccountFromInstructors(instructors);
 
-            String institute = account == null ? UNKNOWN_INSTITUTION : account.getInstitute();
+            String institute = account == null ? Const.UNKNOWN_INSTITUTION : account.getInstitute();
             List<OngoingSession> sessions = courseIdToFeedbackSessionsMap.get(courseId).stream()
                     .map(session -> new OngoingSession(session, account))
                     .collect(Collectors.toList());
@@ -90,7 +88,7 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         }
 
         long totalInstitutes = instituteToFeedbackSessionsMap.keySet().stream()
-                .filter(key -> !key.equals(UNKNOWN_INSTITUTION))
+                .filter(key -> !key.equals(Const.UNKNOWN_INSTITUTION))
                 .count();
 
         OngoingSessionsData output = new OngoingSessionsData();
