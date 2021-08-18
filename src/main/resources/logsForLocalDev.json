@@ -625,6 +625,7 @@
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseStatus": 200,
       "requestMethod": "GET",
       "actionClass": "QueryLogsAction"
@@ -687,6 +688,7 @@
       "message": "[200] [144ms] [GET /webapi/auth] GetAuthInfoAction",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
         "googleId": "john"
       },
@@ -713,6 +715,7 @@
       "requestMethod": "GET",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestParams": {},
       "message": "[200] [115ms] [GET /webapi/actionclass] GetActionClassesAction",
       "responseStatus": 200,
@@ -812,6 +815,7 @@
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseTime": 2111,
       "requestUrl": "/webapi/logs/query",
       "requestMethod": "GET",
@@ -876,6 +880,7 @@
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "message": "[200] [2525ms] [GET /webapi/logs/query] QueryLogsAction",
       "requestMethod": "GET",
       "userInfo": {
@@ -910,6 +915,7 @@
       "requestParams": {},
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestHeaders": {
         "Accept-Encoding": "gzip, deflate, br",
         "X-AppEngine-Timeout-Ms": "599999",
@@ -1013,6 +1019,7 @@
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "event": "REQUEST_LOG",
       "responseStatus": 200,
       "actionClass": "GetCoursesAction",
@@ -1081,6 +1088,7 @@
       "actionClass": "GetFeedbackSessionsAction",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestUrl": "/webapi/sessions",
       "message": "[200] [612ms] [GET /webapi/sessions] GetFeedbackSessionsAction"
     },
@@ -1104,6 +1112,7 @@
     "details": {
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
         "googleId": "john"
       },
@@ -1207,6 +1216,7 @@
       "requestUrl": "/webapi/sessions",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseTime": 5620,
       "message": "[200] [5620ms] [GET /webapi/sessions] GetFeedbackSessionsAction",
       "event": "REQUEST_LOG",
@@ -1237,6 +1247,7 @@
       "requestUrl": "/webapi/auth",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "actionClass": "GetAuthInfoAction",
       "responseStatus": 200,
       "requestMethod": "GET",
@@ -1302,6 +1313,7 @@
       "responseStatus": 200,
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "actionClass": "GetCoursesAction",
       "responseTime": 384,
       "message": "[200] [384ms] [GET /webapi/courses] GetCoursesAction",
@@ -1405,6 +1417,7 @@
       "event": "REQUEST_LOG",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestHeaders": {
         "X-AppEngine-Api-Ticket": "ChA2YWVlOGRhNDNhZjQ1MDJiGhMIqOOr0IyA8gIVagJYCB35awGd",
         "Accept-Encoding": "gzip, deflate, br",
@@ -1471,6 +1484,7 @@
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestHeaders": {
         "X-AppEngine-Country": "SG",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
@@ -1558,6 +1572,7 @@
       "requestUrl": "/webapi/responses",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "actionClass": "GetFeedbackResponsesAction",
       "requestMethod": "GET",
       "responseTime": 609,
@@ -1596,6 +1611,7 @@
       "event": "REQUEST_LOG",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
         "googleId": "john"
       },
@@ -1667,6 +1683,7 @@
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "message": "[200] [156ms] [GET /webapi/auth] GetAuthInfoAction",
       "requestHeaders": {
         "X-AppEngine-City": "singapore",
@@ -1720,6 +1737,7 @@
     "details": {
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestParams": {
         "courseid": "john.gma-demo",
         "intent": "STUDENT_RESULT",
@@ -1829,6 +1847,7 @@
       "actionClass": "GetStudentAction",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
       "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseStatus": 200,
       "message": "[200] [408ms] [GET /webapi/student] GetStudentAction"
     },
@@ -1868,6 +1887,29 @@
     "trace": "9e39efa77897fc1caf99fed100f582cb",
     "sourceLocation": {
       "file": "teammates.ui.webapi.CreateFeedbackSessionLogAction",
+      "line": "59",
+      "function": "execute"
+    }
+  },
+  {
+    "insertId": "123454d20006fcaeaf8dcc52",
+    "details": {
+      "message": "Instance startup: 954845e59212724cae605b074c8c7f5c",
+      "event": "INSTANCE_LOG",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "instanceEvent": "STARTUP"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "951f19331e63e19deebf52e6c21577e5",
+    "sourceLocation": {
+      "file": "teammates.main.Application",
       "line": "59",
       "function": "execute"
     }
