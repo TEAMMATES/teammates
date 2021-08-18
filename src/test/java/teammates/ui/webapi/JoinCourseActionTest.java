@@ -3,6 +3,7 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -63,12 +64,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("Student has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
         ______TS("Normal case: student is not registered");
 
@@ -117,12 +116,10 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        ioe = verifyInvalidOperation(params);
+        assertEquals("Instructor has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
         ______TS("Normal case: instructor is not registered");
 
