@@ -150,9 +150,9 @@ describe('AddCourseFormComponent', () => {
       .and.returnValue(of({ feedbackSessions: [testFeedbackSession] }));
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
     component.activeCourses = [testCourse];
-    mockModalRef.componentInstance.selectCourseEvent.emit(testCourseId);
 
     component.onCopy();
+    mockModalRef.componentInstance.selectCourseEvent.emit(testCourse.courseId);
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);
