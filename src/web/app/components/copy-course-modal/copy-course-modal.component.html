@@ -40,7 +40,7 @@
       <div class="form-group" *ngIf="isCopyFromOtherSession">
         <label>Course to copy from:</label>
         <div class="input-group">
-          <select id="course-to-copy-from" class="form-control" (change)="clearSelectedFeedbackSession()" [(ngModel)]="oldCourseId">
+          <select id="course-to-copy-from" class="form-control" (change)="onSelectCourseChange()" [(ngModel)]="oldCourseId">
             <option *ngFor="let course of activeCourses" [value]="course.courseId">{{ course.courseId }}</option>
           </select>
         </div>
