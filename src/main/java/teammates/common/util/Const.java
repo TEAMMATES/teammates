@@ -172,6 +172,16 @@ public final class Const {
     }
 
     /**
+     * Represents custom header names used by the system.
+     */
+    public static class HeaderNames {
+        public static final String BACKDOOR_KEY = "Backdoor-Key";
+        public static final String CSRF_KEY = "CSRF-Key";
+        public static final String WEB_VERSION = "X-WEB-VERSION";
+        public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
+    }
+
+    /**
      * The course status respect to the instructor's point of view.
      * This parameter is used to get a course list for instructor.
      */
@@ -198,7 +208,6 @@ public final class Const {
      */
     public static class SecurityConfig {
 
-        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
         public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
         public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
