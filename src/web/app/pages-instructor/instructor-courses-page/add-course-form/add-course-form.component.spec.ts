@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EventEmitter } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -115,12 +116,13 @@ describe('AddCourseFormComponent', () => {
     expect(spyStatusMessageService.showSuccessToast).toHaveBeenCalled();
   });
 
-  it('should open copy couse modal', () => {
+  it('should open copy course modal', () => {
     class MockNgbModalRef {
       componentInstance: any = {
         isCopyFromOtherSession: false,
         courses: [],
         courseToFeedbackSession: {},
+        selectCourseEvent: new EventEmitter<string>(),
       };
       result: Promise<any> = Promise.resolve();
     }
@@ -148,6 +150,7 @@ describe('AddCourseFormComponent', () => {
       .and.returnValue(of({ feedbackSessions: [testFeedbackSession] }));
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
     component.activeCourses = [testCourse];
+    mockModalRef.componentInstance.selectCourseEvent.emit(testCourseId);
 
     component.onCopy();
 
