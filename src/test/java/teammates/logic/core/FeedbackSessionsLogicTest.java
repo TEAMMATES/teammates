@@ -81,6 +81,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .isEmpty());
     }
 
+    // todo need extra methods
+
     @Test
     public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion() throws Exception {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
@@ -145,6 +147,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         testGetFeedbackSessionsClosedWithinThePastHour();
         testGetFeedbackSessionsWhichNeedOpenMailsToBeSent();
         testGetFeedbackSessionWhichNeedPublishedEmailsToBeSent();
+        testGetFeedbackSessionsOpeningWithinTimeLimit();
     }
 
     @Test
@@ -273,6 +276,46 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
         ______TS("case : 1 closed session in deleted course within the past hour");
         coursesLogic.moveCourseToRecycleBin(session.getCourseId());
         sessionList = fsLogic.getFeedbackSessionsClosedWithinThePastHour();
+
+        assertEquals(0, sessionList.size());
+
+        // restore the new course from Recycle Bin, and delete the newly added session as
+        // removeAndRestoreTypicalDataInDatabase() wont do it
+        coursesLogic.restoreCourseFromRecycleBin(session.getCourseId());
+        fsLogic.deleteFeedbackSessionCascade(session.getFeedbackSessionName(), session.getCourseId());
+    }
+
+    private void testGetFeedbackSessionsOpeningWithinTimeLimit() throws Exception {
+        ______TS("init : 0 standard sessions opening within time-limit");
+        List<FeedbackSessionAttributes> sessionList = fsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+
+        assertEquals(0, sessionList.size());
+
+        ______TS("case : 1 closed session in undeleted course opening within time-limit");
+        FeedbackSessionAttributes session = getNewFeedbackSession();
+        session.setTimeZone(ZoneId.of("UTC"));
+        session.setSessionVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(1));
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(1));
+        session.setEndTime(TimeHelper.getInstantDaysOffsetFromNow(5));
+        session.setResultsVisibleFromTime(TimeHelper.getInstantDaysOffsetFromNow(5));
+        fsLogic.createFeedbackSession(session);
+
+        // wait for very briefly so that the above session will be within the time limit
+        ThreadHelper.waitFor(5);
+
+        sessionList = fsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+
+        assertEquals(1, sessionList.size());
+        assertEquals(session.getFeedbackSessionName(), sessionList.get(0).getFeedbackSessionName());
+
+        ______TS("case : 1 closed session in deleted course opening within time-limit");
+        session.setStartTime(TimeHelper.getInstantDaysOffsetFromNow(1));
+        coursesLogic.moveCourseToRecycleBin(session.getCourseId());
+
+        // wait for very briefly so that the above session will be within the time limit
+        ThreadHelper.waitFor(5);
+
+        sessionList = fsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
 
         assertEquals(0, sessionList.size());
 
