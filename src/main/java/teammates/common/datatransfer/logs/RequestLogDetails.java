@@ -15,6 +15,8 @@ public class RequestLogDetails extends LogDetails {
     private String requestUrl;
     private String userAgent;
     @Nullable // TODO remove nullable annotation 30 days after release of V8.1.0
+    private String instanceId;
+    @Nullable // TODO remove nullable annotation 30 days after release of V8.1.0
     private String webVersion;
     @Nullable
     private Map<String, Object> requestParams;
@@ -59,6 +61,14 @@ public class RequestLogDetails extends LogDetails {
 
     public void setRequestUrl(String requestUrl) {
         this.requestUrl = requestUrl;
+    }
+
+    public String getInstanceId() {
+        return instanceId;
+    }
+
+    public void setInstanceId(String instanceId) {
+        this.instanceId = instanceId;
     }
 
     public String getWebVersion() {
