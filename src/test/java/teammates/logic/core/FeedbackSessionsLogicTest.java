@@ -531,7 +531,8 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
     public void testUpdateFeedbackSession_shouldAdjustEmailSendingStatusAccordingly() throws Exception {
         FeedbackSessionAttributes typicalSession = dataBundle.feedbackSessions.get("session1InCourse1");
 
-        ______TS("open email sent, whether the updated session is open determines the open email sending status");
+        ______TS("open email sent, whether the updated session is open determines the " +
+                "open/opening soon email sending status");
 
         fsDb.updateFeedbackSession(
                 FeedbackSessionAttributes.updateOptionsBuilder(

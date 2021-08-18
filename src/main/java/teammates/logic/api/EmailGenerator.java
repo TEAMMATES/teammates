@@ -111,8 +111,6 @@ public final class EmailGenerator {
         List<EmailWrapper> emails = new ArrayList<>();
 
         for (InstructorAttributes coOwner : coOwners) {
-            // todo ??? need reviewers' help to confirm this is correct.
-            // the link doesn't seem unique so there's no registration key being used i think.
             String editUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
                     .withCourseId(course.getId())
                     .withSessionName(session.getFeedbackSessionName())

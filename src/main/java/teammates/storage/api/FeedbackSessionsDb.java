@@ -201,8 +201,6 @@ public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, Feedba
     /**
      * Gets a list of undeleted feedback sessions which open in the future
      * and possibly need a opening soon email to be sent.
-     * todo ??? check if time range is correct (why do the javadocs of these functions say 2 hours?)
-     * the get function used below uses "getInstantDaysOffsetFromNow(2 days)
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
         return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail()).stream()
