@@ -47,3 +47,5 @@ indexes:
   properties:
   - direction: asc
     name: sentOpeningSoonEmail
+  - direction: asc
+    name: startTime

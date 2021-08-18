@@ -59,10 +59,15 @@ public class AutomatedSessionRemindersE2ETest extends BaseE2ETestCase {
     @Test
     @Override
     public void testAll() {
+        testFeedbackSessionOpeningSoonReminders();
         testFeedbackSessionOpeningReminders();
         testFeedbackSessionClosingReminders();
         testFeedbackSessionClosedReminders();
         testFeedbackSessionPublishedReminders();
+    }
+
+    private void testFeedbackSessionOpeningSoonReminders() {
+        BACKDOOR.executeGetRequest(Const.CronJobURIs.AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS, null);
     }
 
     private void testFeedbackSessionOpeningReminders() {

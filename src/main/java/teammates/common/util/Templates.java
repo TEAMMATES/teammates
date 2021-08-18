@@ -74,8 +74,8 @@ public final class Templates {
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
-        public static final String OPENING_SOON_EMAIL_TEMPLATE =
-                FileHelper.readResourceFile("coownerEmailTemplate-openingSoonEmailInformation.html");
+        public static final String OWNER_FEEDBACK_SESSION_OPENING_SOON =
+                FileHelper.readResourceFile("ownerEmailTemplate-sessionOpeningSoon.html");
     }
 
 }

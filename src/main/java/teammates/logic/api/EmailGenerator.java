@@ -116,7 +116,7 @@ public final class EmailGenerator {
                     .withSessionName(session.getFeedbackSessionName())
                     .toAbsoluteString();
 
-            emails.add(generateFeedbackSessionEmailBasesForOpeningSoonEmails(course, session, coOwner,
+            emails.add(generateFeedbackSessionOpeningSoonEmailBase(course, session, coOwner,
                     EmailType.FEEDBACK_OPENING_SOON, editUrl));
         }
 
@@ -127,11 +127,11 @@ public final class EmailGenerator {
      * Creates an email for a co-owner, reminding them that a session is opening soon.
      * @return
      */
-    private EmailWrapper generateFeedbackSessionEmailBasesForOpeningSoonEmails(
+    private EmailWrapper generateFeedbackSessionOpeningSoonEmailBase(
             CourseAttributes course, FeedbackSessionAttributes session,
             InstructorAttributes coOwner, EmailType type, String editUrl) {
 
-        String emailBody = Templates.populateTemplate(EmailTemplates.OPENING_SOON_EMAIL_TEMPLATE,
+        String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
                 "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
