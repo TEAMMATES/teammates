@@ -117,16 +117,17 @@ export class AddCourseFormComponent implements OnInit {
    */
   onCopy(): void {
     const modalRef: NgbModalRef = this.ngbModal.open(CopyCourseModalComponent);
+
     modalRef.componentInstance.isCopyFromOtherSession = true;
     modalRef.componentInstance.allCourses = this.allCourses;
     modalRef.componentInstance.activeCourses = this.activeCourses;
 
-    this.activeCourses.forEach((course: Course) => {
+    modalRef.componentInstance.courseChosenEvent.subscribe((oldCourseId: string) => {
       this.feedbackSessionsService
-        .getFeedbackSessionsForInstructor(course.courseId)
-        .subscribe((feedbackSessions: FeedbackSessions) => {
-          modalRef.componentInstance.courseToFeedbackSession[course.courseId] = [...feedbackSessions.feedbackSessions];
-        });
+          .getFeedbackSessionsForInstructor(oldCourseId)
+          .subscribe((feedbackSessions: FeedbackSessions) => {
+            modalRef.componentInstance.feedBackSessions = [...feedbackSessions.feedbackSessions];
+          });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
+
+    <threadsafe>true</threadsafe>
+
+    <!-- GAE instance class that determines compute resources available to the application -->
+    <instance-class>F1</instance-class>
+
+    <!-- Specify which file contains logging configuration to be used by java.util.logging -->
+    <system-properties>
+        <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
+    </system-properties>
+
+    <!-- Run/deploy with Java 8 runtime -->
+    <runtime>java8</runtime>
+
+    <!-- Enable session to maintain one-time status message -->
+    <sessions-enabled>true</sessions-enabled>
+
+    <static-files>
+        <include path="/index.html" expiration="1d" />
+        <include path="/*.js" expiration="14d" />
+        <include path="/*.css" expiration="14d" />
+        <include path="/fa-*" expiration="14d" />
+        <include path="/assets/**" expiration="14d" />
+    </static-files>
+
+</appengine-web-app>
