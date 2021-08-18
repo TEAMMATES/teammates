@@ -20,6 +20,7 @@ import {
 } from '../../../../types/api-output';
 import { AjaxLoadingModule } from '../../../components/ajax-loading/ajax-loading.module';
 import { AddCourseFormComponent } from './add-course-form.component';
+import { EventEmitter } from "@angular/core";
 
 describe('AddCourseFormComponent', () => {
   let component: AddCourseFormComponent;
@@ -120,7 +121,8 @@ describe('AddCourseFormComponent', () => {
       componentInstance: any = {
         isCopyFromOtherSession: false,
         courses: [],
-        courseToFeedbackSession: {},
+        feedBackSessions: [],
+        courseChosenEvent: new EventEmitter<string>(),
       };
       result: Promise<any> = Promise.resolve();
     }
@@ -147,13 +149,16 @@ describe('AddCourseFormComponent', () => {
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForInstructor')
       .and.returnValue(of({ feedbackSessions: [testFeedbackSession] }));
     spyOn(ngbModal, 'open').and.returnValue(mockModalRef);
+
     component.activeCourses = [testCourse];
 
     component.onCopy();
 
+    mockModalRef.componentInstance.courseChosenEvent.emit(testCourseId);
+
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);
     expect(mockModalRef.componentInstance.activeCourses[0]).toEqual(testCourse);
-    expect(mockModalRef.componentInstance.courseToFeedbackSession[testCourse.courseId]).toEqual([testFeedbackSession]);
+    expect(mockModalRef.componentInstance.feedBackSessions).toEqual([testFeedbackSession]);
   });
 });

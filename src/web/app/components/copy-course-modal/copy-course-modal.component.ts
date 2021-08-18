@@ -33,7 +33,7 @@ export class CopyCourseModalComponent implements OnInit {
   @Input()
   allCourses: Course[] = [];
 
-  courseChosenEvent = new EventEmitter<string>();
+  courseChosenEvent: EventEmitter<string> = new EventEmitter<string>();
 
   isCopyFromOtherSession: boolean = false;
   newCourseIdIsConflicting: boolean = false;
