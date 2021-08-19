@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -195,7 +196,6 @@ public final class Logger {
                     + System.lineSeparator() + sw.toString();
         }
 
-        StackTraceElement[] stackTraces = t.getStackTrace();
         Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
 
         List<String> exceptionClasses = new ArrayList<>();
@@ -217,8 +217,8 @@ public final class Logger {
         details.setExceptionStackTraces(exceptionStackTraces);
         details.setExceptionMessages(exceptionMessages);
 
-        if (stackTraces.length > 0) {
-            StackTraceElement tSource = stackTraces[0];
+        StackTraceElement tSource = getFirstInternalStackTrace(t);
+        if (tSource != null) {
             SourceLocation tSourceLocation = new SourceLocation(
                     tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
 
@@ -234,6 +234,22 @@ public final class Logger {
         payload.putAll(detailsSpecificPayload);
 
         return JsonUtils.toCompactJson(payload);
+    }
+
+    /**
+     * Returns the first stack trace for the throwable that originates from an internal class
+     * (i.e. package name starting with teammates).
+     * If no such stack trace is found, return the first element of the stack trace list.
+     */
+    private StackTraceElement getFirstInternalStackTrace(Throwable t) {
+        StackTraceElement[] stackTraces = t.getStackTrace();
+        if (stackTraces.length == 0) {
+            return null;
+        }
+        return Arrays.stream(stackTraces)
+                .filter(ste -> ste.getClassName().startsWith("teammates"))
+                .findFirst()
+                .orElse(stackTraces[0]);
     }
 
     private List<String> getStackTraceToDisplay(Throwable t) {
