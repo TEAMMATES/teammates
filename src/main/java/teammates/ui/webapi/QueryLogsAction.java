@@ -80,6 +80,10 @@ public class QueryLogsAction extends AdminOnlyAction {
                 throw new InvalidHttpParameterException("Invalid log minimum severity.", e);
             }
         }
+        if (severity == null && minSeverity == null) {
+            // default to logs with INFO level or higher
+            minSeverity = LogSeverity.INFO;
+        }
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String actionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ACTION_CLASS);
         String logEvent = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_EVENT);

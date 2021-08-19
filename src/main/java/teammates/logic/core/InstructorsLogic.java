@@ -10,6 +10,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
@@ -150,18 +151,18 @@ public final class InstructorsLogic {
     /**
      * Verifies that at least one instructor is displayed to student.
      *
-     * @throws InvalidParametersException if there is no instructor displayed to student.
+     * @throws InstructorUpdateException if there is no instructor displayed to student.
      */
     void verifyAtLeastOneInstructorIsDisplayed(String courseId, boolean isOriginalInstructorDisplayed,
                                                boolean isEditedInstructorDisplayed)
-            throws InvalidParametersException {
+            throws InstructorUpdateException {
         List<InstructorAttributes> instructorsDisplayed = instructorsDb.getInstructorsDisplayedToStudents(courseId);
         boolean isEditedInstructorChangedToNonVisible = isOriginalInstructorDisplayed && !isEditedInstructorDisplayed;
         boolean isNoInstructorMadeVisible = instructorsDisplayed.isEmpty() && !isEditedInstructorDisplayed;
 
         if (isNoInstructorMadeVisible || (instructorsDisplayed.size() == 1
                 && isEditedInstructorChangedToNonVisible)) {
-            throw new InvalidParametersException("At least one instructor must be displayed to students");
+            throw new InstructorUpdateException("At least one instructor must be displayed to students");
         }
     }
 
@@ -176,7 +177,7 @@ public final class InstructorsLogic {
      */
     public InstructorAttributes updateInstructorByGoogleIdCascade(
             InstructorAttributes.UpdateOptionsWithGoogleId updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
 
         InstructorAttributes originalInstructor =
                 instructorsDb.getInstructorForGoogleId(updateOptions.getCourseId(), updateOptions.getGoogleId());
@@ -247,7 +248,7 @@ public final class InstructorsLogic {
      * @throws EntityDoesNotExistException if the instructor cannot be found
      */
     public InstructorAttributes updateInstructorByEmail(InstructorAttributes.UpdateOptionsWithEmail updateOptions)
-            throws InvalidParametersException, EntityDoesNotExistException {
+            throws InstructorUpdateException, InvalidParametersException, EntityDoesNotExistException {
         assert updateOptions != null;
 
         InstructorAttributes originalInstructor =

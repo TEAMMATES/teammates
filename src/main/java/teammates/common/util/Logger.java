@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
+import teammates.common.datatransfer.logs.InstanceLogDetails;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
@@ -56,6 +57,46 @@ public final class Logger {
     }
 
     /**
+     * Logs an instance startup event.
+     */
+    public void startup() {
+        instance("STARTUP");
+    }
+
+    /**
+     * Logs an instance shutdown event.
+     */
+    public void shutdown() {
+        instance("SHUTDOWN");
+    }
+
+    @SuppressWarnings("PMD.SystemPrintln")
+    private void instance(String instanceEvent) {
+        String instanceId = Config.getInstanceId();
+        String shortenedInstanceId = instanceId;
+        if (shortenedInstanceId.length() > 32) {
+            shortenedInstanceId = shortenedInstanceId.substring(0, 32);
+        }
+
+        InstanceLogDetails details = new InstanceLogDetails();
+        details.setInstanceId(instanceId);
+        details.setInstanceEvent(instanceEvent);
+
+        String message = "Instance " + instanceEvent.toLowerCase() + ": " + shortenedInstanceId;
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("message", message);
+        payload.put("severity", LogSeverity.INFO);
+
+        Map<String, Object> detailsSpecificPayload =
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+        payload.putAll(detailsSpecificPayload);
+
+        // Need to use println as the logger is disabled when the instance is shutting down
+        System.out.println(JsonUtils.toCompactJson(payload));
+    }
+
+    /**
      * Logs an HTTP request.
      */
     public void request(HttpServletRequest request, int statusCode, String message) {
@@ -76,6 +117,8 @@ public final class Logger {
         details.setRequestMethod(method);
         details.setRequestUrl(requestUrl);
         details.setUserAgent(request.getHeader("User-Agent"));
+        details.setWebVersion(request.getHeader(Const.HeaderNames.WEB_VERSION));
+        details.setInstanceId(Config.getInstanceId());
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
 

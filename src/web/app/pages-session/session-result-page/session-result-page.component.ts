@@ -85,7 +85,7 @@ export class SessionResultPageComponent implements OnInit {
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key || '';
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         if (auth.user) {
           this.loggedInUser = auth.user.id;
