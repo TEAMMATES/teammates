@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -167,14 +168,9 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         assertEquals(logic.getInstructorsForCourse(courseId).size(), 1);
 
-        DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
-        JsonResult response = getJsonResult(deleteInstructorAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusCode());
-
-        MessageOutput messageOutput = (MessageOutput) response.getOutput();
+        InvalidOperationException ioe = verifyInvalidOperation(submissionParams);
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
-                + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
         assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));
@@ -194,15 +190,10 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         assertEquals(logic.getInstructorsForCourse(courseId).size(), 1);
 
-        DeleteInstructorAction deleteInstructorAction =
-                getAction(addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
-        JsonResult response = getJsonResult(deleteInstructorAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, response.getStatusCode());
-
-        MessageOutput messageOutput = (MessageOutput) response.getOutput();
+        InvalidOperationException ioe = verifyInvalidOperation(
+                addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
         assertEquals("The instructor you are trying to delete is the last instructor in the course. "
-                + "Deleting the last instructor from the course is not allowed.", messageOutput.getMessage());
+                + "Deleting the last instructor from the course is not allowed.", ioe.getMessage());
 
         assertNotNull(logic.getInstructorForEmail(instructorToDelete.getCourseId(), instructorToDelete.getEmail()));
         assertNotNull(logic.getInstructorForGoogleId(instructorToDelete.getCourseId(), instructorToDelete.getGoogleId()));

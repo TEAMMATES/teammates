@@ -56,6 +56,7 @@ export class LogsPageComponent implements OnInit {
   ];
   readonly EVENTS: LogEvent[] = [
     LogEvent.REQUEST_LOG, LogEvent.EXCEPTION_LOG, LogEvent.EMAIL_SENT, LogEvent.FEEDBACK_SESSION_AUDIT,
+    LogEvent.INSTANCE_LOG,
   ];
   filterType: 'SEVERITY' | 'MIN_SEVERITY' | 'EVENT' = 'EVENT';
   ACTION_CLASSES: string[] = [];
