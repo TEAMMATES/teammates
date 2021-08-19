@@ -118,6 +118,7 @@ public final class Logger {
         details.setRequestUrl(requestUrl);
         details.setUserAgent(request.getHeader("User-Agent"));
         details.setWebVersion(request.getHeader(Const.HeaderNames.WEB_VERSION));
+        details.setReferrer(request.getHeader("referer"));
         details.setInstanceId(Config.getInstanceId());
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
