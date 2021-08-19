@@ -123,10 +123,10 @@ export class AddCourseFormComponent implements OnInit {
 
     modalRef.componentInstance.selectCourseEvent.subscribe((courseId: string) => {
       this.feedbackSessionsService
-          .getFeedbackSessionsForInstructor(courseId)
-          .subscribe((feedbackSessions: FeedbackSessions) => {
-            modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
-          });
+        .getFeedbackSessionsForInstructor(courseId)
+        .subscribe((feedbackSessions: FeedbackSessions) => {
+          modalRef.componentInstance.courseToFeedbackSession[courseId] = [...feedbackSessions.feedbackSessions];
+        });
     }, (resp: ErrorMessageOutput) => {
       this.statusMessageService.showErrorToast(resp.error.message);
     });
