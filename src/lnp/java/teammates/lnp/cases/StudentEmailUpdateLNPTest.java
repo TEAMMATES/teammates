@@ -249,7 +249,7 @@ public class StudentEmailUpdateLNPTest extends BaseLNPTestCase {
     private Map<String, String> getRequestHeaders() {
         Map<String, String> headers = new HashMap<>();
 
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put(Const.HeaderNames.CSRF_TOKEN, "${csrfToken}");
         headers.put("Content-Type", "application/json");
 
         return headers;
