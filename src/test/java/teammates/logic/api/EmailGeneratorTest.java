@@ -217,11 +217,10 @@ public class EmailGeneratorTest extends BaseLogicTest {
         subject = String.format(EmailType.FEEDBACK_OPENING_SOON.getSubject(), course.getName(),
                 session.getFeedbackSessionName());
 
-        /* this instructor email has been given co-owner privileges in the test file */
+        // this instructor email has been given co-owner privileges in the test file
         InstructorAttributes coOwner1 =
                 instructorsLogic.getInstructorForEmail(course.getId(), "instructorNotYetJoinedCourse1@email.tmt");
 
-        // this is a dev assertion. the next line assumes that instructor 1 is a co-owner
         assertTrue(coOwner1.hasCoownerPrivileges());
 
         verifyEmailReceivedCorrectly(emails, coOwner1.getEmail(), subject,

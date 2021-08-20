@@ -81,8 +81,6 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                         .isEmpty());
     }
 
-    // todo need extra methods
-
     @Test
     public void testDeleteFeedbackSessionCascade_deleteSessionInRecycleBin_shouldDoCascadeDeletion() throws Exception {
         FeedbackSessionAttributes fsa = dataBundle.feedbackSessions.get("session1InCourse1");
