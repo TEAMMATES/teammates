@@ -119,7 +119,10 @@ export class CopyCourseModalComponent implements OnInit {
    */
   onSelectCourseChange(): void {
     this.selectedFeedbackSessions.clear();
-    this.selectCourseEvent.emit(this.oldCourseId);
+
+    if (!this.courseToFeedbackSession[this.oldCourseId]) {
+      this.selectCourseEvent.emit(this.oldCourseId);
+    }
   }
 }
 
