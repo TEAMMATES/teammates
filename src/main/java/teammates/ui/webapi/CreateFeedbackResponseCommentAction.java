@@ -43,8 +43,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         }
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         if (response == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("The feedback response does not exist."));
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
 
         String courseId = response.getCourseId();
@@ -58,7 +57,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case STUDENT_SUBMISSION:
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(courseId);
             if (studentAttributes == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+                throw new EntityNotFoundException("Student does not exist.");
             }
 
             gateKeeper.verifyAnswerableForStudent(question);
@@ -74,7 +73,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             if (instructorAsFeedbackParticipant == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
 
             gateKeeper.verifyAnswerableForInstructor(question);
@@ -115,7 +114,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
         FeedbackResponseAttributes response = logic.getFeedbackResponse(feedbackResponseId);
         if (response == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
         FeedbackResponseCommentCreateRequest comment = getAndValidateRequestBody(FeedbackResponseCommentCreateRequest.class);
 

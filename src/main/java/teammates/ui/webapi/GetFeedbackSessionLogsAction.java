@@ -11,7 +11,6 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
@@ -39,7 +38,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         CourseAttributes courseAttributes = logic.getCourse(courseId);
 
         if (courseAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Course is not found"));
+            throw new EntityNotFoundException("Course is not found");
         }
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());

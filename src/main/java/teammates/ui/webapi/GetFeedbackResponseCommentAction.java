@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidParametersException;
@@ -40,7 +39,7 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         FeedbackResponseAttributes feedbackResponseAttributes = logic.getFeedbackResponse(feedbackResponseId);
 
         if (feedbackResponseAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback response does not exist."));
+            throw new EntityNotFoundException("The feedback response does not exist.");
         }
         String courseId = feedbackResponseAttributes.getCourseId();
         FeedbackSessionAttributes feedbackSession =
@@ -88,8 +87,7 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             if (comment == null) {
                 FeedbackResponseAttributes fr = logic.getFeedbackResponse(feedbackResponseId);
                 if (fr == null) {
-                    throw new EntityNotFoundException(
-                            new EntityDoesNotExistException("The feedback response does not exist."));
+                    throw new EntityNotFoundException("The feedback response does not exist.");
                 }
                 return new JsonResult("Comment not found", HttpStatus.SC_NO_CONTENT);
             }

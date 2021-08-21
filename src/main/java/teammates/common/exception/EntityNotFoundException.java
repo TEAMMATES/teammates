@@ -7,7 +7,11 @@ package teammates.common.exception;
 public class EntityNotFoundException extends RuntimeException {
 
     public EntityNotFoundException(EntityDoesNotExistException e) {
-        super(e.getMessage());
+        super(e.getMessage(), e);
+    }
+
+    public EntityNotFoundException(String message) {
+        super(message);
     }
 
 }

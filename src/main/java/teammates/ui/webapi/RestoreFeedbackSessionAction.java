@@ -41,7 +41,7 @@ class RestoreFeedbackSessionAction extends Action {
 
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
         if (feedbackSession == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session is not in recycle bin"));
+            throw new EntityNotFoundException("Feedback session is not in recycle bin");
         }
 
         try {

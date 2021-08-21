@@ -38,8 +38,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
         if (frc == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("Feedback response comment is not found"));
+            throw new EntityNotFoundException("Feedback response comment is not found");
         }
 
         String courseId = frc.getCourseId();
@@ -56,7 +55,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case STUDENT_SUBMISSION:
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
             if (student == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Student does not exist."));
+                throw new EntityNotFoundException("Student does not exist.");
             }
 
             gateKeeper.verifyAnswerableForStudent(question);
@@ -72,7 +71,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             if (instructorAsFeedbackParticipant == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Instructor does not exist."));
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
 
             gateKeeper.verifyAnswerableForInstructor(question);
@@ -105,8 +104,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
         FeedbackResponseCommentAttributes frc = logic.getFeedbackResponseComment(feedbackResponseCommentId);
         if (frc == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("Feedback response comment is not found"));
+            throw new EntityNotFoundException("Feedback response comment is not found");
         }
 
         String feedbackResponseId = frc.getFeedbackResponseId();

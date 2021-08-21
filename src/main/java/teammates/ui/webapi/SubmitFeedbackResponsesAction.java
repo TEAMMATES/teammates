@@ -48,7 +48,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
+            throw new EntityNotFoundException("The feedback question does not exist.");
         }
         FeedbackSessionAttributes feedbackSession =
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
@@ -82,7 +82,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
+            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         List<FeedbackResponseAttributes> existingResponses;

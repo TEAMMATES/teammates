@@ -4,7 +4,6 @@ import com.google.cloud.datastore.DatastoreException;
 import com.google.rpc.Code;
 
 import teammates.common.exception.DeadlineExceededException;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -53,7 +52,7 @@ class AdminExceptionTestAction extends Action {
             throw new InvalidHttpParameterException("InvalidHttpParameterException testing");
         }
         if (error.equals(EntityNotFoundException.class.getSimpleName())) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("EntityNotFoundException testing"));
+            throw new EntityNotFoundException("EntityNotFoundException testing");
         }
         return new JsonResult("Test output");
     }

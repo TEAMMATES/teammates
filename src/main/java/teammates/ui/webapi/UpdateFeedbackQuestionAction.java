@@ -31,7 +31,7 @@ class UpdateFeedbackQuestionAction extends Action {
         FeedbackQuestionAttributes questionAttributes = logic.getFeedbackQuestion(feedbackQuestionId);
 
         if (questionAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Unknown question id"));
+            throw new EntityNotFoundException("Unknown question id");
         }
 
         gateKeeper.verifyAccessible(logic.getInstructorForGoogleId(questionAttributes.getCourseId(), userInfo.getId()),

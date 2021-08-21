@@ -11,7 +11,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.NullHttpParameterException;
@@ -218,7 +217,7 @@ public abstract class Action {
     FeedbackSessionAttributes getNonNullFeedbackSession(String feedbackSessionName, String courseId) {
         FeedbackSessionAttributes feedbackSession = logic.getFeedbackSession(feedbackSessionName, courseId);
         if (feedbackSession == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback session not found"));
+            throw new EntityNotFoundException("Feedback session not found");
         }
         return feedbackSession;
     }
