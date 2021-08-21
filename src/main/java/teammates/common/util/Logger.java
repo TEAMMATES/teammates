@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,6 +119,7 @@ public final class Logger {
         details.setRequestUrl(requestUrl);
         details.setUserAgent(request.getHeader("User-Agent"));
         details.setWebVersion(request.getHeader(Const.HeaderNames.WEB_VERSION));
+        details.setReferrer(request.getHeader("referer"));
         details.setInstanceId(Config.getInstanceId());
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
@@ -194,44 +196,60 @@ public final class Logger {
                     + System.lineSeparator() + sw.toString();
         }
 
-        StackTraceElement[] stackTraces = t.getStackTrace();
         Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
 
-        if (stackTraces.length > 0) {
-            StackTraceElement tSource = stackTraces[0];
+        List<String> exceptionClasses = new ArrayList<>();
+        List<List<String>> exceptionStackTraces = new ArrayList<>();
+        List<String> exceptionMessages = new ArrayList<>();
+
+        Throwable currentT = t;
+        while (currentT != null) {
+            exceptionClasses.add(currentT.getClass().getName());
+            exceptionStackTraces.add(getStackTraceToDisplay(currentT));
+            exceptionMessages.add(currentT.getMessage());
+
+            currentT = currentT.getCause();
+        }
+
+        ExceptionLogDetails details = new ExceptionLogDetails();
+        details.setExceptionClass(t.getClass().getSimpleName());
+        details.setExceptionClasses(exceptionClasses);
+        details.setExceptionStackTraces(exceptionStackTraces);
+        details.setExceptionMessages(exceptionMessages);
+
+        StackTraceElement tSource = getFirstInternalStackTrace(t);
+        if (tSource != null) {
             SourceLocation tSourceLocation = new SourceLocation(
                     tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
-
-            List<String> exceptionClasses = new ArrayList<>();
-            List<List<String>> exceptionStackTraces = new ArrayList<>();
-            List<String> exceptionMessages = new ArrayList<>();
-
-            Throwable currentT = t;
-            while (currentT != null) {
-                exceptionClasses.add(currentT.getClass().getName());
-                exceptionStackTraces.add(getStackTraceToDisplay(currentT));
-                exceptionMessages.add(currentT.getMessage());
-
-                currentT = currentT.getCause();
-            }
 
             // Replace the source location with the Throwable's source location instead
             SourceLocation loggerSourceLocation = (SourceLocation) payload.get("logging.googleapis.com/sourceLocation");
             payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
 
-            ExceptionLogDetails details = new ExceptionLogDetails();
             details.setLoggerSourceLocation(loggerSourceLocation);
-            details.setExceptionClass(t.getClass().getSimpleName());
-            details.setExceptionClasses(exceptionClasses);
-            details.setExceptionStackTraces(exceptionStackTraces);
-            details.setExceptionMessages(exceptionMessages);
-
-            Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
-            payload.putAll(detailsSpecificPayload);
         }
 
+        Map<String, Object> detailsSpecificPayload =
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+        payload.putAll(detailsSpecificPayload);
+
         return JsonUtils.toCompactJson(payload);
+    }
+
+    /**
+     * Returns the first stack trace for the throwable that originates from an internal class
+     * (i.e. package name starting with teammates).
+     * If no such stack trace is found, return the first element of the stack trace list.
+     */
+    private StackTraceElement getFirstInternalStackTrace(Throwable t) {
+        StackTraceElement[] stackTraces = t.getStackTrace();
+        if (stackTraces.length == 0) {
+            return null;
+        }
+        return Arrays.stream(stackTraces)
+                .filter(ste -> ste.getClassName().startsWith("teammates"))
+                .findFirst()
+                .orElse(stackTraces[0]);
     }
 
     private List<String> getStackTraceToDisplay(Throwable t) {
