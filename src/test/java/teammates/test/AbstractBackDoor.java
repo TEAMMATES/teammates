@@ -218,8 +218,8 @@ public abstract class AbstractBackDoor {
     }
 
     private void addAuthKeys(HttpRequestBase request) {
-        request.addHeader("Backdoor-Key", getBackdoorKey());
-        request.addHeader("CSRF-Key", getCsrfKey());
+        request.addHeader(Const.HeaderNames.BACKDOOR_KEY, getBackdoorKey());
+        request.addHeader(Const.HeaderNames.CSRF_KEY, getCsrfKey());
     }
 
     /**
