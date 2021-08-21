@@ -4,8 +4,6 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -30,12 +28,6 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
             String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
             String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
             FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-
-            if (feedbackSession == null) {
-                throw new EntityNotFoundException(new EntityDoesNotExistException("Feedback Session could not be "
-                        + "found"));
-            }
-
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;

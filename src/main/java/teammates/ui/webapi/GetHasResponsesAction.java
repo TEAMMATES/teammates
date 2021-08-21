@@ -118,10 +118,6 @@ class GetHasResponsesAction extends Action {
         }
 
         FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
-        if (feedbackSession == null) {
-            return new JsonResult("No feedback session found with name: " + feedbackSessionName,
-                    HttpStatus.SC_NOT_FOUND);
-        }
 
         StudentAttributes student = logic.getStudentForGoogleId(courseId, userInfo.getId());
         return new JsonResult(new HasResponsesData(
