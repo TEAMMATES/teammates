@@ -25,7 +25,7 @@ export class MoreInfoComponent implements OnInit {
    */
   openMoreInfoModal(): void {
     this.simpleModalService
-        .openInformationModal(`<strong>${this.studentName}<strong>\'s Profile - More Info`, SimpleModalType.NEUTRAL,
+        .openInformationModal(`<b>${this.studentName}\'s Profile - More Info</b>`, SimpleModalType.NEUTRAL,
             this.moreInfoText, { confirmMessage: 'Close' });
   }
 

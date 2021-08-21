@@ -62,7 +62,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
         setupMocks(HttpGet.METHOD_NAME);
 
         mockRequest.addHeader("referer", "http://localhost:9090");
-        mockRequest.addHeader("CSRF-Key", Config.CSRF_KEY);
+        mockRequest.addHeader(Const.HeaderNames.CSRF_KEY, Config.CSRF_KEY);
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
@@ -77,7 +77,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         setupMocks(HttpPost.METHOD_NAME);
 
-        mockRequest.addHeader("CSRF-Key", Config.CSRF_KEY);
+        mockRequest.addHeader(Const.HeaderNames.CSRF_KEY, Config.CSRF_KEY);
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
@@ -85,13 +85,13 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         setupMocks(HttpPost.METHOD_NAME);
 
-        mockRequest.addHeader(Const.SecurityConfig.CSRF_HEADER_NAME, StringHelper.encrypt("wrongtoken"));
+        mockRequest.addHeader(Const.HeaderNames.CSRF_TOKEN, StringHelper.encrypt("wrongtoken"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
         setupMocks(HttpPost.METHOD_NAME);
 
-        mockRequest.addHeader(Const.SecurityConfig.CSRF_HEADER_NAME, "JZBCKJZXBKJBZJSDJNJKADSA");
+        mockRequest.addHeader(Const.HeaderNames.CSRF_TOKEN, "JZBCKJZXBKJBZJSDJNJKADSA");
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_FORBIDDEN, mockResponse.getStatus());
 
@@ -99,8 +99,8 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         setupMocks(HttpPost.METHOD_NAME);
 
-        mockRequest.addHeader("CSRF-Key", Config.CSRF_KEY);
-        mockRequest.addHeader(Const.SecurityConfig.CSRF_HEADER_NAME, StringHelper.encrypt("wrongtoken"));
+        mockRequest.addHeader(Const.HeaderNames.CSRF_KEY, Config.CSRF_KEY);
+        mockRequest.addHeader(Const.HeaderNames.CSRF_TOKEN, StringHelper.encrypt("wrongtoken"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 
@@ -108,7 +108,7 @@ public class OriginCheckFilterTest extends BaseTestCase {
 
         setupMocks(HttpPost.METHOD_NAME);
 
-        mockRequest.addHeader(Const.SecurityConfig.CSRF_HEADER_NAME, StringHelper.encrypt("requestedsessionid"));
+        mockRequest.addHeader(Const.HeaderNames.CSRF_TOKEN, StringHelper.encrypt("requestedsessionid"));
         FILTER.doFilter(mockRequest, mockResponse, mockFilterChain);
         assertEquals(HttpStatus.SC_OK, mockResponse.getStatus());
 

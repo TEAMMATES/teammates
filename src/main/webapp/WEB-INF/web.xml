@@ -20,6 +20,10 @@
     </filter>
     <filter-mapping>
         <filter-name>RequestTraceFilter</filter-name>
+        <url-pattern>/login</url-pattern>
+        <url-pattern>/logout</url-pattern>
+        <url-pattern>/oauth2callback/*</url-pattern>
+        <url-pattern>/page/*</url-pattern>
         <url-pattern>/webapi/*</url-pattern>
         <url-pattern>/auto/*</url-pattern>
         <url-pattern>/worker/*</url-pattern>

@@ -18,6 +18,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -56,35 +57,23 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         verifySessionOpenExceptForModeration(feedbackSession);
         verifyNotPreview();
 
-        Map<String, String> recipientsOfTheQuestion;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case STUDENT_SUBMISSION:
             gateKeeper.verifyAnswerableForStudent(feedbackQuestion);
             StudentAttributes studentAttributes = getStudentOfCourseFromRequest(feedbackQuestion.getCourseId());
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, feedbackSession);
-            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, null, studentAttributes);
             break;
         case INSTRUCTOR_SUBMISSION:
             gateKeeper.verifyAnswerableForInstructor(feedbackQuestion);
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackQuestion.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
-            recipientsOfTheQuestion = logic.getRecipientsOfQuestion(feedbackQuestion, instructorAttributes, null);
             break;
         case INSTRUCTOR_RESULT:
         case STUDENT_RESULT:
             throw new InvalidHttpParameterException("Invalid intent for this action");
         default:
             throw new InvalidHttpParameterException("Unknown intent " + intent);
-        }
-
-        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
-
-        for (String recipient : submitRequest.getRecipients()) {
-            if (!recipientsOfTheQuestion.containsKey(recipient)) {
-                throw new UnauthorizedAccessException(
-                        "The recipient " + recipient + " is not a valid recipient of the question", true);
-            }
         }
     }
 
@@ -130,12 +119,19 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         Map<String, FeedbackResponseAttributes> existingResponsesPerRecipient = new HashMap<>();
         existingResponses.forEach(response -> existingResponsesPerRecipient.put(response.getRecipient(), response));
 
+        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
+        log.info(JsonUtils.toCompactJson(submitRequest));
+
+        for (String recipient : submitRequest.getRecipients()) {
+            if (!recipientsOfTheQuestion.containsKey(recipient)) {
+                throw new InvalidOperationException(
+                        "The recipient " + recipient + " is not a valid recipient of the question");
+            }
+        }
+
         List<FeedbackResponseAttributes> feedbackResponsesToValidate = new ArrayList<>();
         List<FeedbackResponseAttributes> feedbackResponsesToAdd = new ArrayList<>();
         List<FeedbackResponseAttributes.UpdateOptions> feedbackResponsesToUpdate = new ArrayList<>();
-
-        FeedbackResponsesRequest submitRequest = getAndValidateRequestBody(FeedbackResponsesRequest.class);
-        log.info(JsonUtils.toCompactJson(submitRequest));
 
         submitRequest.getResponses().forEach(responseRequest -> {
             String recipient = responseRequest.getRecipient();
@@ -210,7 +206,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             try {
                 output.add(logic.createFeedbackResponse(feedbackResponse));
             } catch (InvalidParametersException | EntityAlreadyExistsException e) {
-                throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+                // None of the exceptions should be happening as the responses have been pre-validated
+                log.severe("Encountered exception when creating response: " + e.getMessage(), e);
             }
         }
 
@@ -218,7 +215,8 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
             try {
                 output.add(logic.updateFeedbackResponseCascade(feedbackResponse));
             } catch (InvalidParametersException | EntityAlreadyExistsException | EntityDoesNotExistException e) {
-                throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+                // None of the exceptions should be happening as the responses have been pre-validated
+                log.severe("Encountered exception when updating response: " + e.getMessage(), e);
             }
         }
 
