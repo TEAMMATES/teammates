@@ -11,7 +11,6 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.RegenerateStudentException;
 import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
@@ -86,7 +85,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Gets a student by unique constraint encryptedKey.
+     * Gets a student by unique constraint registrationKey.
      */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         return studentsDb.getStudentForRegistrationKey(registrationKey);
@@ -240,12 +239,12 @@ public final class StudentsLogic {
      * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
      *
      * @return the student attributes with the new registration key.
-     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     * @throws EntityAlreadyExistsException if the newly generated course student has the same registration key as the
      *          original one.
      * @throws EntityDoesNotExistException if the student does not exist.
      */
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, RegenerateStudentException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
         StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
         if (originalStudent == null) {
