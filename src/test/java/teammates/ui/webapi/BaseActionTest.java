@@ -606,6 +606,30 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     }
 
     /**
+     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
+     */
+    protected EntityNotFoundException verifyEntityNotFound(String... params) {
+        Action c = getAction(params);
+        return assertThrows(EntityNotFoundException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
+     */
+    protected EntityNotFoundException verifyEntityNotFound(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(EntityNotFoundException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the action results in {@link EntityNotFoundException} being thrown when checking for access control.
+     */
+    protected EntityNotFoundException verifyEntityNotFoundAcl(String... params) {
+        Action c = getAction(params);
+        return assertThrows(EntityNotFoundException.class, c::checkAccessControl);
+    }
+
+    /**
      * Verifies that the executed action results in {@link InvalidOperationException} being thrown.
      */
     protected InvalidOperationException verifyInvalidOperation(String... params) {
@@ -656,14 +680,6 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      */
     protected void verifyNumberOfEmailsSent(int emailCount) {
         assertEquals(emailCount, mockEmailSender.getEmailsSent().size());
-    }
-
-    /**
-     * Verifies that the executed action results in {@link EntityNotFoundException} being thrown.
-     */
-    protected void verifyEntityNotFound(String... params) {
-        Action c = getAction(params);
-        assertThrows(EntityNotFoundException.class, c::checkAccessControl);
     }
 
     /**

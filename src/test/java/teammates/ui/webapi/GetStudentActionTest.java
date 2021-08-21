@@ -5,10 +5,10 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.JoinState;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.output.StudentData;
 
 /**
@@ -77,26 +77,18 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
         };
 
-        GetStudentAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(submissionParams);
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, enfe.getMessage());
 
         ______TS("Failure Case: Unregistered Student with random RegKey");
 
-        final String[] submissionParamsRandomRegKey = new String[] {
+        String[] submissionParamsRandomRegKey = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
                 Const.ParamsNames.REGKEY, "RANDOM_KEY",
         };
 
-        action = getAction(submissionParamsRandomRegKey);
-        result = getJsonResult(action);
-        message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+        enfe = verifyEntityNotFound(submissionParamsRandomRegKey);
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, enfe.getMessage());
 
         ______TS("Success Case: Unregistered Student");
 
@@ -105,8 +97,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.REGKEY, unregStudent.getEncryptedKey(),
         };
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
+        GetStudentAction action = getAction(submissionParams);
+        JsonResult result = getJsonResult(action);
         StudentData outputData = (StudentData) result.getOutput();
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
@@ -126,12 +118,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
         };
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
-        message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+        enfe = verifyEntityNotFound(submissionParams);
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, enfe.getMessage());
 
         ______TS("Success Case: Student - Logged In");
 
@@ -181,12 +169,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.STUDENT_EMAIL, "RANDOM_EMAIL",
         };
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
-        message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+        enfe = verifyEntityNotFound(submissionParams);
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, enfe.getMessage());
 
         ______TS("Failure Case: Instructor - Random Course Given");
 
@@ -195,12 +179,8 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
 
-        action = getAction(submissionParams);
-        result = getJsonResult(action);
-        message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, message.getMessage());
+        enfe = verifyEntityNotFound(submissionParams);
+        assertEquals(GetStudentAction.STUDENT_NOT_FOUND, enfe.getMessage());
     }
 
     @Test

@@ -78,8 +78,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid1));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid1);
 
         ______TS("Failure case: invalid student email");
         String[] paramsInvalid2 = {
@@ -88,8 +87,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid2));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid2);
 
         ______TS("Failure case: invalid start or end times");
         String[] paramsInvalid3 = {

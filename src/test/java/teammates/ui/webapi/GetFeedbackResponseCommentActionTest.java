@@ -10,7 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -157,7 +156,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomresponseid"),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getAction(nonExistentResponseSubmissionParams).execute());
+        verifyEntityNotFound(nonExistentResponseSubmissionParams);
     }
 
     @Override
@@ -220,7 +219,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("responseIdOfNonExistingResponse"),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

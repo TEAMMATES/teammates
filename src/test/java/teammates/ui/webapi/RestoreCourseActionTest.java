@@ -79,10 +79,7 @@ public class RestoreCourseActionTest
         String[] nonExistentCourse = new String[] {
                 Const.ParamsNames.COURSE_ID, "123C",
         };
-        action = getAction(nonExistentCourse);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(nonExistentCourse);
     }
 
     @Override

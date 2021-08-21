@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -53,13 +54,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        a = getAction(invalidInstructorParams);
-        r = getJsonResult(a);
-
-        MessageOutput output = (MessageOutput) r.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-        assertEquals("Instructor does not exist.", output.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(invalidInstructorParams);
+        assertEquals("Instructor does not exist.", enfe.getMessage());
 
         ______TS("Failure case: Student not exist");
         String[] invalidStudentParams = {
@@ -67,13 +63,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        a = getAction(invalidStudentParams);
-        r = getJsonResult(a);
-
-        output = (MessageOutput) r.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-        assertEquals("Student does not exist.", output.getMessage());
+        enfe = verifyEntityNotFound(invalidStudentParams);
+        assertEquals("Student does not exist.", enfe.getMessage());
 
         ______TS("Failure case: Course not exist");
         String[] invalidCourseParams = {
@@ -81,13 +72,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 Const.ParamsNames.COURSE_ID, "non exist course id",
         };
 
-        a = getAction(invalidCourseParams);
-        r = getJsonResult(a);
-
-        output = (MessageOutput) r.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
-        assertEquals("Student does not exist.", output.getMessage());
+        enfe = verifyEntityNotFound(invalidCourseParams);
+        assertEquals("Student does not exist.", enfe.getMessage());
 
         ______TS("typical success case: reset instructor account");
 

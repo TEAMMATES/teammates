@@ -16,7 +16,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.CommentVisibilityType;
@@ -281,9 +280,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 comment1FromInstructor1.getCommentText() + " (Edited)",
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS),
                 Arrays.asList(CommentVisibilityType.GIVER, CommentVisibilityType.INSTRUCTORS));
-        UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
-        UpdateFeedbackResponseCommentAction action0 = action;
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(action0));
+        verifyEntityNotFound(requestBody, submissionParams);
     }
 
     @Test
@@ -497,7 +494,7 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, "123123123123123",
         };
-        assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

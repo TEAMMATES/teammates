@@ -46,12 +46,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        JoinCourseAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        verifyEntityNotFound(params);
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
         ______TS("Failure case: student is already registered");
 
@@ -80,8 +77,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        JoinCourseAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
@@ -100,12 +97,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        verifyEntityNotFound(params);
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
         ______TS("Failure case: instructor is already registered");
 

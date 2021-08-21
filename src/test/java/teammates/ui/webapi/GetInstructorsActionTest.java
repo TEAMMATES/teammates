@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorData;
@@ -122,24 +121,18 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         ______TS("course not exist");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        assertThrows(EntityNotFoundException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, "randomId",
-                    Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-            };
-            GetInstructorsAction action = getAction(submissionParams);
-            action.checkAccessControl();
-        });
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "randomId",
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+        verifyEntityNotFoundAcl(submissionParams);
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(studentAttributes.getGoogleId());
-        assertThrows(EntityNotFoundException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, "randomId",
-            };
-            GetInstructorsAction action = getAction(submissionParams);
-            action.checkAccessControl();
-        });
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "randomId",
+        };
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("unknown login entity");
         loginAsUnregistered("unregistered");
@@ -156,15 +149,11 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
         ______TS("unknown intent");
         loginAsInstructor(instructor.getGoogleId());
-        assertThrows(InvalidHttpParameterException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                    Const.ParamsNames.INTENT, "Unknown",
-            };
-
-            GetInstructorsAction action = getAction(submissionParams);
-            action.checkAccessControl();
-        });
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, "Unknown",
+        };
+        verifyHttpParameterFailure(submissionParams);
     }
 
     @Test

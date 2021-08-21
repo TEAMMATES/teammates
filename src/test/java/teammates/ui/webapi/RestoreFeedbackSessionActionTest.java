@@ -61,11 +61,8 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     @Test
     protected void testExecute_withSessionNotInBin_shouldFail() {
         loginAsInstructor(instructorId);
-        RestoreFeedbackSessionAction notFoundAction = getAction(submissionParams);
 
-        EntityNotFoundException notFoundException = assertThrows(EntityNotFoundException.class, () -> {
-            getJsonResult(notFoundAction);
-        });
+        EntityNotFoundException notFoundException = verifyEntityNotFound(submissionParams);
         assertEquals("Feedback session is not in recycle bin", notFoundException.getMessage());
     }
 

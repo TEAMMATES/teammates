@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
@@ -468,9 +467,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        assertThrows(EntityNotFoundException.class, () -> {
-            getAction(new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"}).checkSpecificAccessControl();
-        });
+        verifyEntityNotFoundAcl(Const.ParamsNames.FEEDBACK_QUESTION_ID, "random");
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

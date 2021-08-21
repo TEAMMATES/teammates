@@ -83,10 +83,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(params);
 
         ______TS("Normal case: instructor is already registered");
 
@@ -134,10 +131,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(params);
 
         ______TS("Failure case: invalid entity type");
 

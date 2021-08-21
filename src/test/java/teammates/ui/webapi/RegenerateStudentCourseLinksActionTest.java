@@ -65,10 +65,7 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
         assertNull(logic.getCourse("non-existent-course"));
 
-        RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
-        JsonResult result = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(nonExistingParams);
     }
 
     @Test
@@ -84,10 +81,7 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
         assertNull(logic.getStudentForEmail(student1InCourse1.getCourse(), "non-existent-student@abc.com"));
 
-        RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
-        JsonResult result = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(nonExistingParams);
     }
 
     @Test

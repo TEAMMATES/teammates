@@ -8,6 +8,7 @@ import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorPrivilegeData;
@@ -89,12 +90,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.INSTRUCTOR_ID, "invalidid",
         };
 
-        GetInstructorPrivilegeAction a = getAction(invalidInstructorParams);
-        JsonResult result = getJsonResult(a);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals("Instructor does not exist.", output.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(invalidInstructorParams);
+        assertEquals("Instructor does not exist.", enfe.getMessage());
     }
 
     @Test

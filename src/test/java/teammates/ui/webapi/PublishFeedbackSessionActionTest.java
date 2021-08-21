@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
@@ -75,13 +76,9 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
 
         assertNull(logic.getFeedbackSession(randomSessionName, course.getId()));
 
-        PublishFeedbackSessionAction publishFeedbackSessionAction = getAction(params);
-        JsonResult result = getJsonResult(publishFeedbackSessionAction);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
         assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
-                course.getId(), randomSessionName), output.getMessage());
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+                course.getId(), randomSessionName), enfe.getMessage());
 
         ______TS("non existent course id");
 
@@ -93,13 +90,9 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         };
         assertNull(logic.getFeedbackSession(session.getFeedbackSessionName(), randomCourseId));
 
-        publishFeedbackSessionAction = getAction(params);
-        result = getJsonResult(publishFeedbackSessionAction);
-        output = (MessageOutput) result.getOutput();
-
+        enfe = verifyEntityNotFound(params);
         assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
-                randomCourseId, session.getFeedbackSessionName()), output.getMessage());
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+                randomCourseId, session.getFeedbackSessionName()), enfe.getMessage());
     }
 
     @Test

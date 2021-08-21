@@ -158,8 +158,8 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 Const.ParamsNames.INSTRUCTOR_EMAIL, invalidEmail,
         };
 
-        EntityNotFoundException entityNotFoundException = assertThrows(EntityNotFoundException.class, () ->
-                getAction(addUserIdToParams(instructorId, invalidInstructorEmailSubmissionParams)).execute());
+        EntityNotFoundException entityNotFoundException = verifyEntityNotFound(
+                addUserIdToParams(instructorId, invalidInstructorEmailSubmissionParams));
         assertEquals("Instructor with email " + invalidEmail + " does not exist "
                 + "in course " + courseId + "!", entityNotFoundException.getMessage());
 
@@ -168,8 +168,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 Const.ParamsNames.STUDENT_EMAIL, invalidEmail,
         };
 
-        entityNotFoundException = assertThrows(EntityNotFoundException.class, () ->
-                getAction(invalidStudentEmailSubmissionParams).execute());
+        entityNotFoundException = verifyEntityNotFound(invalidStudentEmailSubmissionParams);
         assertEquals("Student with email " + invalidEmail + " does not exist "
                 + "in course " + courseId + "!", entityNotFoundException.getMessage());
 
@@ -180,8 +179,7 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
                 Const.ParamsNames.INSTRUCTOR_EMAIL, anotherInstructorOfCourse1.getEmail(),
         };
 
-        entityNotFoundException = assertThrows(EntityNotFoundException.class, () ->
-                getAction(invalidCourseIdSubmissionParams).execute());
+        entityNotFoundException = verifyEntityNotFound(invalidCourseIdSubmissionParams);
         assertEquals("Course with ID invalidCourseId does not exist!", entityNotFoundException.getMessage());
     }
 
