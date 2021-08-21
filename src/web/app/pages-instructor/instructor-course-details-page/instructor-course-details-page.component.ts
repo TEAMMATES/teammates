@@ -63,6 +63,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
 
   isLoadingCsv: boolean = false;
   isStudentsLoading: boolean = false;
+  sectionsLoaded: number = 0;
   hasLoadingStudentsFailed: boolean = false;
   isDeleting: boolean = false;
 
@@ -123,7 +124,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid })
-    .pipe(finalize(() => this.isStudentsLoading = false))
     .subscribe((students: Students) => {
       this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
@@ -132,6 +132,7 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         return acc;
       }, {});
 
+      const sectionLength: number = Object.keys(sections).length;
       Object.keys(sections).forEach((key: string) => {
         const studentsInSection: Student[] = sections[key];
         const data: StudentListRowModel[] = studentsInSection.map((studentInSection: Student) => {
@@ -142,10 +143,15 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           };
         });
 
-        this.loadPrivilege(courseid, key, data);
+        this.loadPrivilege(courseid, key, data, sectionLength);
       });
 
+      if (!sectionLength) {
+        this.isStudentsLoading = false;
+      }
+
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
+
     }, (resp: ErrorMessageOutput) => {
       this.isStudentsLoading = false;
       this.hasLoadingStudentsFailed = true;
@@ -156,7 +162,8 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   /**
    * Loads privilege of an instructor for a specified course and section.
    */
-  private loadPrivilege(courseid: string, sectionName: string, students: StudentListRowModel[]): void {
+  private loadPrivilege(courseid: string, sectionName: string,
+    students: StudentListRowModel[], sectionLength: number): void {
     this.instructorService.loadInstructorPrivilege({
       sectionName,
       courseId: courseid,
@@ -170,7 +177,14 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
           });
           this.students.push(...students);
           this.students.sort(this.sortStudentBy(SortBy.NONE, SortOrder.ASC));
+
+          this.sectionsLoaded += 1;
+          if (this.sectionsLoaded === sectionLength) {
+            this.isStudentsLoading = false;
+          }
+
         }, (resp: ErrorMessageOutput) => {
+          this.isStudentsLoading = false;
           this.hasLoadingStudentsFailed = true;
           this.statusMessageService.showErrorToast(resp.error.message);
         });
