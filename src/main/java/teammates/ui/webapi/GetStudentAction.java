@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.StudentData;
 
 /**
@@ -82,7 +81,7 @@ class GetStudentAction extends Action {
 
         StudentData studentData = new StudentData(student);
         if (userInfo != null && userInfo.isAdmin) {
-            studentData.setKey(StringHelper.encrypt(student.getKey()));
+            studentData.setKey(student.getEncryptedKey());
             studentData.setGoogleId(student.getGoogleId());
         }
 

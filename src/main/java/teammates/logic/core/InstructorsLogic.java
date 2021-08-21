@@ -116,10 +116,10 @@ public final class InstructorsLogic {
     }
 
     /**
-     * Gets an instructor by unique constraint encryptedKey.
+     * Gets an instructor by unique constraint registrationKey.
      */
-    public InstructorAttributes getInstructorForRegistrationKey(String encryptedKey) {
-        return instructorsDb.getInstructorForRegistrationKey(encryptedKey);
+    public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
+        return instructorsDb.getInstructorForRegistrationKey(registrationKey);
     }
 
     /**
