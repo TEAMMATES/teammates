@@ -13,7 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.NullHttpParameterException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -173,7 +173,7 @@ public abstract class Action {
     String getNonNullRequestParamValue(String paramName) {
         String value = req.getParameter(paramName);
         if (value == null) {
-            throw new NullHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
+            throw new InvalidHttpParameterException(String.format("The [%s] HTTP parameter is null.", paramName));
         }
         return value;
     }
@@ -228,7 +228,7 @@ public abstract class Action {
     <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
-            throw new NullHttpParameterException("The request body is null");
+            throw new InvalidHttpRequestBodyException("The request body is null");
         }
         requestBody.validate();
         return requestBody;

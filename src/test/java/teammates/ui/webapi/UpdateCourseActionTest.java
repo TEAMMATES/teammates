@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.output.CourseData;
@@ -52,10 +51,8 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        verifyHttpParameterFailure();
-        verifyHttpParameterFailure(submissionParams);
-        UpdateCourseAction updateCourseActionWithoutParam = getAction(courseUpdateRequest);
-        assertThrows(NullHttpParameterException.class, () -> getJsonResult(updateCourseActionWithoutParam));
+        verifyHttpRequestBodyFailure(null);
+        verifyHttpParameterFailure(courseUpdateRequest);
 
         ______TS("Typical case: edit course name with same name");
 

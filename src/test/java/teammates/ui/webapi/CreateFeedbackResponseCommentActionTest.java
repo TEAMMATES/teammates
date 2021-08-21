@@ -328,20 +328,22 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("text",
+                new ArrayList<>(), new ArrayList<>());
 
         ______TS("invalid intent STUDENT_RESULT");
         String[] invalidIntent1 = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        verifyHttpParameterFailure(invalidIntent1);
+        verifyHttpParameterFailure(requestBody, invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        verifyHttpParameterFailure(invalidIntent2);
+        verifyHttpParameterFailure(requestBody, invalidIntent2);
     }
 
     @Override

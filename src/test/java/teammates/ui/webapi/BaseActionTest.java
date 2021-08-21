@@ -606,6 +606,14 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     }
 
     /**
+     * Verifies that the executed action results in {@link InvalidHttpParameterException} being thrown.
+     */
+    protected InvalidHttpParameterException verifyHttpParameterFailure(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(InvalidHttpParameterException.class, c::execute);
+    }
+
+    /**
      * Verifies that the action results in {@link InvalidHttpParameterException} being thrown
      * when checking for access control.
      */

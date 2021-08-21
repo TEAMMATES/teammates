@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.output.InstructorData;
@@ -129,10 +128,7 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
 
-        assertThrows(NullHttpParameterException.class, () -> {
-            UpdateInstructorAction illegalAction = getAction(newReqBody, emptySubmissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpParameterFailure(newReqBody, emptySubmissionParams);
 
         verifyNoTasksAdded();
 

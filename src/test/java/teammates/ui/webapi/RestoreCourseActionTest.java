@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -69,10 +68,7 @@ public class RestoreCourseActionTest
 
         ______TS("Not enough parameters");
 
-        assertThrows(NullHttpParameterException.class, () -> {
-            RestoreCourseAction emptyParamsAction = getAction();
-            getJsonResult(emptyParamsAction);
-        });
+        verifyHttpParameterFailure();
 
         ______TS("Non-Existent Course");
 

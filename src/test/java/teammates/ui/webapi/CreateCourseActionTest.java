@@ -33,7 +33,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
 
         ______TS("Not enough parameters");
 
-        verifyHttpParameterFailure();
+        verifyHttpRequestBodyFailure(null);
 
         ______TS("Typical case with new course id");
 
