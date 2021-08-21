@@ -203,17 +203,47 @@ export class SessionSubmissionPageComponent implements OnInit, AfterViewInit {
     });
   }
 
+  // Solution for checking partial element visibility adapted from
+  // https://stackoverflow.com/questions/30943662/check-if-element-is-partially-in-viewport
+  /**
+   * Checks if a given element is in view.
+   *
+   * @params e element to perform check for
+   */
+  isInViewport(e: HTMLElement): boolean {
+    const rect: ClientRect = e.getBoundingClientRect();
+    const windowHeight: number = (window.innerHeight || document.documentElement.clientHeight);
+
+    return !(
+      Math.floor(100 - (((rect.top >= 0 ? 0 : rect.top) / +-rect.height) * 100)) < 1 ||
+      Math.floor(100 - ((rect.bottom - windowHeight) / rect.height) * 100) < 1
+    );
+  }
+
+  /**
+   * Scrolls to the question based on its given question id.
+   */
+  scrollToQuestion(): void {
+    const div: HTMLElement | null = document.getElementById(this.moderatedQuestionId);
+
+    // continue scrolling as long as the element to scroll to is yet to be found or not in view
+    if (div == null || !(this.isInViewport(div))) {
+      setTimeout(() => {
+        this.pageScrollService.scroll({
+          document: this.document,
+          scrollTarget: `#${this.moderatedQuestionId}`,
+          scrollOffset: 70,
+        });
+        this.scrollToQuestion();
+      }, 500);
+    }
+  }
+
   ngAfterViewInit(): void {
     if (!this.moderatedQuestionId) {
       return;
     }
-    setTimeout(() => {
-      this.pageScrollService.scroll({
-        document: this.document,
-        scrollTarget: `#${this.moderatedQuestionId}`,
-        scrollOffset: 70,
-      });
-    }, 500);
+    this.scrollToQuestion();
   }
 
   /**
