@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -9,10 +8,10 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorPrivilegeData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetInstructorPrivilegeAction}.
@@ -385,12 +384,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, "invalid role",
         };
 
-        GetInstructorPrivilegeAction a = getAction(invalidRoleParams);
-        JsonResult result = getJsonResult(a);
-
-        MessageOutput output = (MessageOutput) result.getOutput();
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals("Invalid instructor role.", output.getMessage());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(invalidRoleParams);
+        assertEquals("Invalid instructor role.", ihpe.getMessage());
     }
 
     @Test

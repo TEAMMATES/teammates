@@ -7,7 +7,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorPermissionRole;
@@ -41,15 +40,12 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         verifyHttpParameterFailure();
 
         ______TS("unknown intent");
-        assertThrows(InvalidHttpParameterException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                    Const.ParamsNames.INTENT, "Unknown",
-            };
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, "Unknown",
+        };
 
-            GetInstructorsAction action = getAction(submissionParams);
-            getJsonResult(action);
-        });
+        verifyHttpParameterFailure(submissionParams);
     }
 
     @Test
@@ -149,11 +145,11 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
         ______TS("unknown intent");
         loginAsInstructor(instructor.getGoogleId());
-        submissionParams = new String[] {
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
                 Const.ParamsNames.INTENT, "Unknown",
         };
-        verifyHttpParameterFailure(submissionParams);
+        verifyHttpParameterFailureAcl(params);
     }
 
     @Test

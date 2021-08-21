@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -16,10 +15,9 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.output.CommentVisibilityType;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackResponseCommentUpdateRequest;
 import teammates.ui.request.Intent;
 
@@ -358,12 +356,8 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
 
         FeedbackResponseCommentUpdateRequest requestBody = new FeedbackResponseCommentUpdateRequest(
                 "", new ArrayList<>(), new ArrayList<>());
-        UpdateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, submissionParams);
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, ihrbe.getMessage());
     }
 
     @Test
@@ -435,14 +429,14 @@ public class UpdateFeedbackResponseCommentActionTest extends BaseActionTest<Upda
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment1FromStudent1.getId().toString(),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent1).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_COMMENT_ID, comment1FromStudent1.getId().toString(),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent2).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent2);
     }
 
     @Test

@@ -26,6 +26,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
@@ -597,12 +598,28 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     // The next few methods are for verifying action results
 
     /**
-     * Verifies that the {@code parameters} violates an assumption of the
-     * matching {@link Action}. e.g., missing a compulsory parameter.
+     * Verifies that the executed action results in {@link InvalidHttpParameterException} being thrown.
      */
-    protected void verifyHttpParameterFailure(String... params) {
+    protected InvalidHttpParameterException verifyHttpParameterFailure(String... params) {
         Action c = getAction(params);
-        assertThrows(InvalidHttpParameterException.class, c::execute);
+        return assertThrows(InvalidHttpParameterException.class, c::execute);
+    }
+
+    /**
+     * Verifies that the action results in {@link InvalidHttpParameterException} being thrown
+     * when checking for access control.
+     */
+    protected InvalidHttpParameterException verifyHttpParameterFailureAcl(String... params) {
+        Action c = getAction(params);
+        return assertThrows(InvalidHttpParameterException.class, c::checkAccessControl);
+    }
+
+    /**
+     * Verifies that the executed action results in {@link InvalidHttpRequestBodyException} being thrown.
+     */
+    protected InvalidHttpRequestBodyException verifyHttpRequestBodyFailure(BasicRequest requestBody, String... params) {
+        Action c = getAction(requestBody, params);
+        return assertThrows(InvalidHttpRequestBodyException.class, c::execute);
     }
 
     /**

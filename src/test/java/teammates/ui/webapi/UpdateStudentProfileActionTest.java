@@ -7,10 +7,10 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.StudentProfileUpdateRequest;
 
 /**
@@ -51,13 +51,9 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createInvalidUpdateRequest();
 
-        UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(req, submissionParams);
 
         List<String> expectedErrorMessages = new ArrayList<>();
-        MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, req.getShortName(),
@@ -73,7 +69,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         SanitizationHelper.sanitizeForHtml(req.getNationality())));
 
-        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
+        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), ihrbe.getMessage());
     }
 
     private void testActionWithScriptInjection(AccountAttributes student) throws Exception {
@@ -83,13 +79,9 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createInvalidUpdateRequestForProfileWithScriptInjection();
 
-        UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(req, submissionParams);
 
         List<String> expectedErrorMessages = new ArrayList<>();
-        MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
@@ -113,7 +105,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         req.getNationality()));
 
-        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
+        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), ihrbe.getMessage());
     }
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {

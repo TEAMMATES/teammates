@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -33,12 +34,8 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
 
         ______TS("Failure case: no parameters supplied");
 
-        ResetAccountAction a = getAction();
-        JsonResult r = getJsonResult(a);
-        MessageOutput response = (MessageOutput) r.getOutput();
-
-        assertEquals("Either student email or instructor email has to be specified.", response.getMessage());
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure();
+        assertEquals("Either student email or instructor email has to be specified.", ihpe.getMessage());
 
         ______TS("Failure case: no course id supplied");
 
@@ -82,11 +79,11 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
-        a = getAction(paramsInstructor);
-        r = getJsonResult(a);
+        ResetAccountAction a = getAction(paramsInstructor);
+        JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-        response = (MessageOutput) r.getOutput();
+        MessageOutput response = (MessageOutput) r.getOutput();
 
         InstructorAttributes instructor = logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(),
                 instructor1OfCourse1.getEmail());

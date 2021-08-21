@@ -146,12 +146,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, "unknown",
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
-
-        verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        verifyHttpParameterFailure(params);
 
     }
 

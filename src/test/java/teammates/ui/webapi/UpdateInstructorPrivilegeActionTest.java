@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
@@ -300,10 +299,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         reqBody.setCanSubmitSessionInSections(true);
         reqBody.setFeedbackSessionName("session1");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorPrivilegeAction illegalAction = getAction(reqBody, submissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpRequestBodyFailure(reqBody, submissionParams);
     }
 
     @Test
@@ -319,10 +315,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         reqBody.setCanModifyInstructor(true);
         reqBody.setSectionName("section1");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorPrivilegeAction illegalAction = getAction(reqBody, submissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpRequestBodyFailure(reqBody, submissionParams);
     }
 
     @Test
@@ -339,10 +332,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         reqBody.setSectionName("section1");
         reqBody.setFeedbackSessionName("session1");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorPrivilegeAction illegalAction = getAction(reqBody, submissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpRequestBodyFailure(reqBody, submissionParams);
     }
 
     @Test
@@ -356,10 +346,7 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
 
         InstructorPrivilegeUpdateRequest reqBody = new InstructorPrivilegeUpdateRequest();
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorPrivilegeAction illegalAction = getAction(reqBody, submissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpRequestBodyFailure(reqBody, submissionParams);
     }
 
     @Test

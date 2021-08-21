@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -9,7 +8,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.FeedbackSessionPublishStatus;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link PublishFeedbackSessionAction}.
@@ -48,15 +46,15 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         assertEquals(FeedbackSessionPublishStatus.PUBLISHED, feedbackSessionData.getPublishStatus());
         assertTrue(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()).isPublished());
 
-        ______TS("Failure case: Session is already published");
+        ______TS("Typical case: Session is already published");
         // Attempt to publish the same session again.
-        assertTrue(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()).isPublished());
 
         result = getJsonResult(getAction(params));
-        MessageOutput output = (MessageOutput) result.getOutput();
+        feedbackSessionData = (FeedbackSessionData) result.getOutput();
 
-        assertEquals("Error publishing feedback session: Session has already been published.", output.getMessage());
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        assertEquals(feedbackSessionData.getFeedbackSessionName(), session.getFeedbackSessionName());
+        assertEquals(FeedbackSessionPublishStatus.PUBLISHED, feedbackSessionData.getPublishStatus());
+        assertTrue(logic.getFeedbackSession(session.getFeedbackSessionName(), course.getId()).isPublished());
     }
 
     @Test
@@ -77,8 +75,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         assertNull(logic.getFeedbackSession(randomSessionName, course.getId()));
 
         EntityNotFoundException enfe = verifyEntityNotFound(params);
-        assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
-                course.getId(), randomSessionName), enfe.getMessage());
+        assertEquals("Feedback session not found", enfe.getMessage());
 
         ______TS("non existent course id");
 
@@ -91,8 +88,7 @@ public class PublishFeedbackSessionActionTest extends BaseActionTest<PublishFeed
         assertNull(logic.getFeedbackSession(session.getFeedbackSessionName(), randomCourseId));
 
         enfe = verifyEntityNotFound(params);
-        assertEquals(String.format("Trying to update a non-existent feedback session: %s/%s",
-                randomCourseId, session.getFeedbackSessionName()), enfe.getMessage());
+        assertEquals("Feedback session not found", enfe.getMessage());
     }
 
     @Test

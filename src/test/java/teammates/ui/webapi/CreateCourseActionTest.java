@@ -83,10 +83,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         courseCreateRequest.setTimeZone("UTC");
         courseCreateRequest.setCourseId("");
 
-        action = getAction(courseCreateRequest);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        verifyHttpRequestBodyFailure(courseCreateRequest);
     }
 
     @Override

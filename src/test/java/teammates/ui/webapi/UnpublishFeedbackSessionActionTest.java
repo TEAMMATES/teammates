@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link UnpublishFeedbackSessionAction}.
@@ -61,21 +60,25 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         // sent unpublish email task is added
         assertEquals(1, mockTaskQueuer.getTasksAdded().size());
 
-        ______TS("Failed case, session is not published yet");
+        ______TS("Typical case, session is not published yet");
 
         assertFalse(session1InCourse1.isPublished());
-        String[] failedParams = new String[] {
+        params = new String[] {
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, session1InCourse1.getFeedbackSessionName(),
         };
 
-        a = getAction(failedParams);
+        a = getAction(params);
         r = getJsonResult(a);
-        MessageOutput out = (MessageOutput) r.getOutput();
 
-        assertEquals(out.getMessage(),
-                "Error unpublishing feedback session: Session has already been unpublished.");
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        // session is still unpublished
+        assertFalse(logic.getFeedbackSession(sessionPublishedInCourse1.getFeedbackSessionName(),
+                typicalCourse1.getId()).isPublished());
+
+        // sent unpublish email task should not be added
+        verifyNoEmailsSent();
     }
 
     @Test

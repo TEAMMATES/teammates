@@ -14,7 +14,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.FeedbackQuestionData;
@@ -229,12 +228,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("Edit: Invalid recipient type");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionUpdateRequest request = getTypicalContributionQuestionUpdateRequest();
-            request.setQuestionNumber(fq.getQuestionNumber());
-            request.setRecipientType(FeedbackParticipantType.STUDENTS);
-            getJsonResult(getAction(request, param));
-        });
+        FeedbackQuestionUpdateRequest request = getTypicalContributionQuestionUpdateRequest();
+        request.setQuestionNumber(fq.getQuestionNumber());
+        request.setRecipientType(FeedbackParticipantType.STUDENTS);
+        verifyHttpRequestBodyFailure(request, param);
     }
 
     @Test
@@ -252,11 +249,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
         updateRequest.setQuestionNumber(-1);
 
-        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(a);
-        });
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),
@@ -282,9 +275,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // set recommended length as a negative integer
         textQuestionDetails.setRecommendedLength(-1);
         updateRequest.setQuestionDetails(textQuestionDetails);
-        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(a));
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),
@@ -310,11 +302,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setGiverType(FeedbackParticipantType.TEAMS);
         updateRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
-        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(a);
-        });
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),

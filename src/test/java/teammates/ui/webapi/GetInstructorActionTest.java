@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorData;
 import teammates.ui.request.Intent;
@@ -94,27 +93,23 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
 
         ______TS("Intent is specified as STUDENT_SUBMISSION");
 
-        assertThrows(InvalidHttpParameterException.class, () -> {
-            String[] invalidIntentParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
-                    Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
-                    Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
-            };
+        String[] invalidIntentParams = new String[] {
+                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
+        };
 
-            getAction(invalidIntentParams).execute();
-        });
+        verifyHttpParameterFailure(invalidIntentParams);
 
         ______TS("Intent is specified as something new");
 
-        assertThrows(IllegalArgumentException.class, () -> {
-            String[] invalidIntentParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
-                    Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
-                    Const.ParamsNames.INTENT, "RANDOM INTENT",
-            };
+        invalidIntentParams = new String[] {
+                Const.ParamsNames.COURSE_ID, feedbackSessionAttributes.getCourseId(),
+                Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
+                Const.ParamsNames.INTENT, "RANDOM INTENT",
+        };
 
-            getAction(invalidIntentParams).execute();
-        });
+        verifyHttpParameterFailure(invalidIntentParams);
     }
 
     @Test

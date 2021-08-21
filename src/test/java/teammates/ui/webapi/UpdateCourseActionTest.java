@@ -7,11 +7,11 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.output.CourseData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.CourseUpdateRequest;
 
 /**
@@ -98,16 +98,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
-        result = getJsonResult(updateCourseAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-
-        MessageOutput message = (MessageOutput) result.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(courseUpdateRequest, submissionParams);
         statusMessage = getPopulatedEmptyStringErrorMessage(
                 FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                 FieldValidator.COURSE_NAME_FIELD_NAME, FieldValidator.COURSE_NAME_MAX_LENGTH);
-        assertEquals(statusMessage, message.getMessage());
+        assertEquals(statusMessage, ihrbe.getMessage());
         assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: edit course name with non-alphanumeric start character");
@@ -116,16 +111,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
-        result = getJsonResult(updateCourseAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-
-        message = (MessageOutput) result.getOutput();
+        ihrbe = verifyHttpRequestBodyFailure(courseUpdateRequest, submissionParams);
         statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR);
-        assertEquals(statusMessage, message.getMessage());
+        assertEquals(statusMessage, ihrbe.getMessage());
         assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: edit course name with name containing | and %");
@@ -134,16 +124,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         courseUpdateRequest.setCourseName(courseName);
         courseUpdateRequest.setTimeZone(courseTimeZone);
 
-        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
-        result = getJsonResult(updateCourseAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-
-        message = (MessageOutput) result.getOutput();
+        ihrbe = verifyHttpRequestBodyFailure(courseUpdateRequest, submissionParams);
         statusMessage = getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
                 courseName, FieldValidator.COURSE_NAME_FIELD_NAME,
                 FieldValidator.REASON_CONTAINS_INVALID_CHAR);
-        assertEquals(statusMessage, message.getMessage());
+        assertEquals(statusMessage, ihrbe.getMessage());
         assertNotEquals(logic.getCourse(courseId).getName(), courseName);
 
         ______TS("Failure case: invalid time zone");
@@ -159,16 +144,11 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         assertNotEquals(courseTimeZone, oldCourseTimeZone);
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
 
-        updateCourseAction = getAction(courseUpdateRequest, submissionParams);
-        result = getJsonResult(updateCourseAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-
-        message = (MessageOutput) result.getOutput();
+        ihrbe = verifyHttpRequestBodyFailure(courseUpdateRequest, submissionParams);
         statusMessage = getPopulatedErrorMessage(FieldValidator.TIME_ZONE_ERROR_MESSAGE,
                 courseTimeZone, FieldValidator.TIME_ZONE_FIELD_NAME,
                 FieldValidator.REASON_UNAVAILABLE_AS_CHOICE);
-        assertEquals(statusMessage, message.getMessage());
+        assertEquals(statusMessage, ihrbe.getMessage());
         verifySessionsInCourseHaveTimeZone(courseId, oldCourseTimeZone);
     }
 

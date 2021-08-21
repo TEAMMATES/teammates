@@ -4,10 +4,10 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.output.SessionLinksRecoveryResponseData;
 
 /**
@@ -35,16 +35,12 @@ public class SessionLinksRecoveryActionTest extends BaseActionTest<SessionLinksR
     @Test
     protected void testExecute_invalidEmail_shouldFail() {
         ______TS("email address is not valid");
-        String[] nonExistingParam = new String[] {
+        String[] invalidEmailParam = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, "invalid-email-address",
         };
 
-        SessionLinksRecoveryAction a = getAction(nonExistingParam);
-        JsonResult result = getJsonResult(a);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals("Invalid email address: invalid-email-address", output.getMessage());
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(invalidEmailParam);
+        assertEquals("Invalid email address: invalid-email-address", ihpe.getMessage());
     }
 
     @Test

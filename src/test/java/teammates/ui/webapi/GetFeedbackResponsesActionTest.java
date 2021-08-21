@@ -13,7 +13,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -184,24 +183,21 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(unauthorizedIntentFullDetail).checkAccessControl());
+        verifyHttpParameterFailureAcl(unauthorizedIntentFullDetail);
 
         ______TS("Unauthorized Intent Instructor Result");
         String[] unauthorizedIntentInstructorResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(unauthorizedIntentInstructorResult).checkAccessControl());
+        verifyHttpParameterFailureAcl(unauthorizedIntentInstructorResult);
 
         ______TS("Unauthorized Intent Student Result");
         String[] unauthorizedIntentStudentResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(unauthorizedIntentStudentResult).checkAccessControl());
+        verifyHttpParameterFailureAcl(unauthorizedIntentStudentResult);
     }
 
     @Test

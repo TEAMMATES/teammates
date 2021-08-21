@@ -238,10 +238,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 .build();
 
         req = prepareRequest(Arrays.asList(oneMoreStudentToGoBeyondLimit));
-        EnrollStudentsAction action = getAction(req, params);
 
-        InvalidHttpRequestBodyException ee = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> action.execute());
+        InvalidHttpRequestBodyException ee = verifyHttpRequestBodyFailure(req, params);
 
         String expectedErrorMessage = String.format(
                 "You are trying enroll more than %d students in section \"%s\".",
@@ -270,9 +268,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        EnrollStudentsAction action = getAction(req, params);
-        InvalidHttpRequestBodyException actualException =
-                assertThrows(InvalidHttpRequestBodyException.class, () -> action.execute());
+        InvalidHttpRequestBodyException actualException = verifyHttpRequestBodyFailure(req, params);
         assertEquals(actualException.getMessage(),
                 String.format(expectedMessage, expectedTeam, expectedSectionOne, expectedSectionTwo));
     }

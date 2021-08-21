@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -121,16 +122,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
-        UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
-        JsonResult invalidEmailOutput = getJsonResult(invalidEmailAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, invalidEmailOutput.getStatusCode());
-        MessageOutput invalidParamsOutput = (MessageOutput) invalidEmailOutput.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.EMAIL_MAX_LENGTH),
-                invalidParamsOutput.getMessage());
+                ihrbe.getMessage());
 
         verifyNoTasksAdded();
 

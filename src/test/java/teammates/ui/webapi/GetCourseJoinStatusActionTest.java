@@ -140,10 +140,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
                 Const.ParamsNames.ENTITY_TYPE, "unknown",
         };
 
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        verifyHttpParameterFailure(params);
 
     }
 

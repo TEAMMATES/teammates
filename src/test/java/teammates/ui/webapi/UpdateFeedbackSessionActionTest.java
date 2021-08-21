@@ -115,11 +115,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setCustomSessionVisibleTimestamp(
                 updateRequest.getSubmissionStartTime().plusSeconds(10).toEpochMilli());
 
-        InvalidHttpRequestBodyException ihrbe = assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-            getJsonResult(a);
-        });
-
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, param);
         assertEquals("The start time for this feedback session cannot be "
                 + "earlier than the time when the session will be visible.", ihrbe.getMessage());
     }
@@ -216,10 +212,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         FeedbackSessionUpdateRequest updateRequest = getTypicalFeedbackSessionUpdateRequest();
         updateRequest.setInstructions(null);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-            getJsonResult(a);
-        });
+        verifyHttpRequestBodyFailure(updateRequest, param);
     }
 
     private FeedbackSessionUpdateRequest getTypicalFeedbackSessionUpdateRequest() {
