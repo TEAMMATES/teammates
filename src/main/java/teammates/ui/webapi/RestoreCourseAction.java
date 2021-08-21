@@ -1,8 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -38,7 +37,7 @@ class RestoreCourseAction extends Action {
 
             statusMessage = "The course " + idOfCourseToRestore + " has been restored.";
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(statusMessage);

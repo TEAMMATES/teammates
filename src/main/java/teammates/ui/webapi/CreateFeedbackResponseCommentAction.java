@@ -185,7 +185,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         try {
             createdComment = logic.createFeedbackResponseComment(feedbackResponseComment);
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(e);
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {

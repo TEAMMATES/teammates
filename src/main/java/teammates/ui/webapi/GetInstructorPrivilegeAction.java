@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
@@ -133,7 +134,7 @@ class GetInstructorPrivilegeAction extends Action {
         } else {
             instructor = logic.getInstructorForGoogleId(courseId, instructorOfInterest);
             if (instructor == null) {
-                return new JsonResult("Instructor does not exist.", HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
         }
 

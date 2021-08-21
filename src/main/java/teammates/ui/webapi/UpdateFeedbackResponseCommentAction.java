@@ -155,7 +155,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         try {
             updatedComment = logic.updateFeedbackResponseComment(commentUpdateOptions.build());
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

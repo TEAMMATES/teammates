@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -47,7 +45,7 @@ class RestoreFeedbackSessionAction extends Action {
         try {
             logic.restoreFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
-            new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(e);
         }
 
         FeedbackSessionAttributes restoredFs = getNonNullFeedbackSession(feedbackSessionName, courseId);

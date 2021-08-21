@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
@@ -38,7 +37,7 @@ class BinFeedbackSessionAction extends Action {
         try {
             logic.moveFeedbackSessionToRecycleBin(feedbackSessionName, courseId);
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(e);
         }
 
         FeedbackSessionAttributes recycleBinFs = logic.getFeedbackSessionFromRecycleBin(feedbackSessionName, courseId);

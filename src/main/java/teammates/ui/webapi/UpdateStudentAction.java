@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -53,7 +54,7 @@ class UpdateStudentAction extends Action {
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            return new JsonResult(STUDENT_NOT_FOUND_FOR_EDIT, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
@@ -99,7 +100,7 @@ class UpdateStudentAction extends Action {
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException("Trying to update to an email that is already in use", e);
         }

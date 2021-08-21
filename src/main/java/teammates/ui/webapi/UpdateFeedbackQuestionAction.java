@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.exception.EntityDoesNotExistException;
@@ -90,7 +88,7 @@ class UpdateFeedbackQuestionAction extends Action {
         } catch (InvalidParametersException e) {
             throw new InvalidHttpRequestBodyException(e.getMessage(), e);
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(e);
         }
 
         return new JsonResult(new FeedbackQuestionData(oldQuestion));

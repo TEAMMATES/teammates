@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.JoinStatus;
 
@@ -39,7 +40,7 @@ class GetCourseJoinStatusAction extends Action {
     private JsonResult getStudentJoinStatus(String regkey) {
         StudentAttributes student = logic.getStudentForRegistrationKey(regkey);
         if (student == null) {
-            return new JsonResult("No student with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No student with given registration key: " + regkey);
         }
         return getJoinStatusResult(student.isRegistered());
     }
@@ -47,7 +48,7 @@ class GetCourseJoinStatusAction extends Action {
     private JsonResult getInstructorJoinStatus(String regkey) {
         InstructorAttributes instructor = logic.getInstructorForRegistrationKey(regkey);
         if (instructor == null) {
-            return new JsonResult("No instructor with given registration key: " + regkey, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No instructor with given registration key: " + regkey);
         }
         return getJoinStatusResult(instructor.isRegistered());
     }

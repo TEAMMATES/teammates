@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -58,7 +57,7 @@ class UpdateFeedbackSessionAction extends Action {
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new EntityNotFoundException(ednee);
         }
     }
 

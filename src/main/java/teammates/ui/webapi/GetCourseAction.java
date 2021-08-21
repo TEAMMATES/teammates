@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
@@ -49,7 +48,7 @@ class GetCourseAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes courseAttributes = logic.getCourse(courseId);
         if (courseAttributes == null) {
-            return new JsonResult("No course with id: " + courseId, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("No course with id: " + courseId);
         }
         CourseData output = new CourseData(courseAttributes);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);

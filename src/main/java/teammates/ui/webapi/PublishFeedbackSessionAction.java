@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -47,7 +48,7 @@ class PublishFeedbackSessionAction extends Action {
 
             return new JsonResult(new FeedbackSessionData(publishFeedbackSession));
         } catch (EntityDoesNotExistException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }

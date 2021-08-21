@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -60,7 +59,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
         }
 
         if (instructorAttributes == null) {
-            return new JsonResult("Instructor could not be found for this course", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Instructor could not be found for this course");
         }
 
         InstructorData instructorData = new InstructorData(instructorAttributes);

@@ -8,7 +8,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.output.RegenerateStudentCourseLinksData;
 
 /**
@@ -69,11 +68,6 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
         RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
         JsonResult result = getJsonResult(a);
 
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(String.format(RegenerateStudentCourseLinksAction.STUDENT_NOT_FOUND,
-                student1InCourse1.getEmail(), "non-existent-course"),
-                     output.getMessage());
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
     }
 
@@ -93,11 +87,6 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
         RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
         JsonResult result = getJsonResult(a);
 
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(String.format(RegenerateStudentCourseLinksAction.STUDENT_NOT_FOUND,
-                                "non-existent-student@abc.com", student1InCourse1.getCourse()),
-                     output.getMessage());
         assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
     }
 

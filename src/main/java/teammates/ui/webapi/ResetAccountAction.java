@@ -29,8 +29,7 @@ class ResetAccountAction extends AdminOnlyAction {
         if (studentEmail != null) {
             StudentAttributes existingStudent = logic.getStudentForEmail(courseId, studentEmail);
             if (existingStudent == null) {
-                return new JsonResult("Student does not exist.",
-                        HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("Student does not exist.");
             }
             wrongGoogleId = existingStudent.getGoogleId();
 
@@ -43,8 +42,7 @@ class ResetAccountAction extends AdminOnlyAction {
         } else if (instructorEmail != null) {
             InstructorAttributes existingInstructor = logic.getInstructorForEmail(courseId, instructorEmail);
             if (existingInstructor == null) {
-                return new JsonResult("Instructor does not exist.",
-                        HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("Instructor does not exist.");
             }
             wrongGoogleId = existingInstructor.getGoogleId();
             AccountAttributes account = logic.getAccount(wrongGoogleId);

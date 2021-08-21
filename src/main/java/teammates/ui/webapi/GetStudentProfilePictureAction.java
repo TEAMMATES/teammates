@@ -1,9 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -55,7 +54,7 @@ class GetStudentProfilePictureAction extends Action {
         } else {
             StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
             if (student == null) {
-                return new JsonResult("No student found", HttpStatus.SC_NOT_FOUND);
+                throw new EntityNotFoundException("No student found");
             }
 
             if (!StringHelper.isEmpty(student.getGoogleId())) {

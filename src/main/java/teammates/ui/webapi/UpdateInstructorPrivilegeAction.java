@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -40,7 +41,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         InstructorAttributes instructorToUpdate = logic.getInstructorForEmail(courseId, emailOfInstructorToUpdate);
 
         if (instructorToUpdate == null) {
-            return new JsonResult("Instructor does not exist.", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Instructor does not exist.");
         }
 
         InstructorPrivilegeUpdateRequest request = getAndValidateRequestBody(InstructorPrivilegeUpdateRequest.class);
@@ -78,7 +79,7 @@ class UpdateInstructorPrivilegeAction extends Action {
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         }
 
         InstructorPrivilegeData response = new InstructorPrivilegeData();

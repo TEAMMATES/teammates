@@ -51,15 +51,15 @@ public class GetFeedbackSessionLogsAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (logic.getCourse(courseId) == null) {
-            return new JsonResult("Course not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Course not found");
         }
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         if (email != null && logic.getStudentForEmail(courseId, email) == null) {
-            return new JsonResult("Student not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Student not found");
         }
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            return new JsonResult("Feedback session not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Feedback session not found");
         }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);

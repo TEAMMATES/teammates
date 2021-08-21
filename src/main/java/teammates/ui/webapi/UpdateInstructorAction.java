@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
@@ -85,7 +86,7 @@ class UpdateInstructorAction extends Action {
         } catch (InstructorUpdateException e) {
             throw new InvalidOperationException(e);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         }
     }
 

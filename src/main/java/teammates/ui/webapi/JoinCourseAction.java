@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -49,7 +50,7 @@ class JoinCourseAction extends Action {
         try {
             student = logic.joinCourseForStudent(regkey, userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
@@ -67,7 +68,7 @@ class JoinCourseAction extends Action {
         try {
             instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute, mac);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
