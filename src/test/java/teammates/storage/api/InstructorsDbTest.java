@@ -158,17 +158,14 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("Success: get an instructor");
 
-        String key = i.getKey();
-
-        InstructorAttributes retrieved = instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+        InstructorAttributes retrieved = instructorsDb.getInstructorForRegistrationKey(i.getEncryptedKey());
         assertEquals(i.getCourseId(), retrieved.getCourseId());
         assertEquals(i.getName(), retrieved.getName());
         assertEquals(i.getEmail(), retrieved.getEmail());
 
         ______TS("Failure: instructor does not exist");
 
-        key = "non.existent.key";
-        retrieved = instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+        retrieved = instructorsDb.getInstructorForRegistrationKey(StringHelper.encrypt("non.existent.key"));
         assertNull(retrieved);
 
         ______TS("Failure: null parameters");

@@ -102,9 +102,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         ______TS("Error: try to add the same session again");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(getAction(getTypicalCreateRequest(), params));
-        });
+        verifyInvalidOperation(getTypicalCreateRequest(), params);
 
         ______TS("Error: Invalid parameters (invalid session name > 64 characters)");
 

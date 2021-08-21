@@ -72,12 +72,16 @@ abstract class EntitiesDb<E extends BaseEntity, A extends EntityAttributes<E>> {
             throw new EntityAlreadyExistsException(error);
         }
 
-        E entity = entityToAdd.toEntity();
+        E entity = convertToEntityForSaving(entityToAdd);
 
         ofy().save().entity(entity).now();
         log.info("Entity created: " + JsonUtils.toJson(entityToAdd));
 
         return makeAttributes(entity);
+    }
+
+    E convertToEntityForSaving(A entityAttributes) throws EntityAlreadyExistsException {
+        return entityAttributes.toEntity();
     }
 
     /**
