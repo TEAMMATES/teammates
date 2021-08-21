@@ -526,6 +526,7 @@ describe('SessionSubmissionPageComponent', () => {
       isAdmin: false,
       isInstructor: false,
       isStudent: true,
+      isMaintainer: false,
     },
   };
 
@@ -841,13 +842,29 @@ describe('SessionSubmissionPageComponent', () => {
       error: { message: 'This is an error' },
       status: 404,
     }));
-    const navSpy: Spy = spyOn(navService, 'navigateWithErrorMessage');
+    const navSpy: Spy = spyOn(navService, 'navigateByURL');
     const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
 
     component.loadFeedbackSession();
 
     expect(modalSpy.calls.count()).toEqual(1);
     expect(modalSpy.calls.mostRecent().args[0]).toEqual('Feedback Session Does Not Exist!');
+    expect(navSpy.calls.count()).toEqual(1);
+    expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
+  });
+
+  it('should redirect when loading non-viewable feedback session', () => {
+    spyOn(feedbackSessionsService, 'getFeedbackSession').and.returnValue(throwError({
+      error: { message: 'This is an error' },
+      status: 403,
+    }));
+    const navSpy: Spy = spyOn(navService, 'navigateByURL');
+    const modalSpy: Spy = spyOn(simpleModalService, 'openInformationModal');
+
+    component.loadFeedbackSession();
+
+    expect(modalSpy.calls.count()).toEqual(1);
+    expect(modalSpy.calls.mostRecent().args[0]).toEqual('Not Authorised To Access!');
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });

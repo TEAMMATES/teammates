@@ -7,7 +7,6 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -25,28 +24,28 @@ import teammates.ui.request.AccountCreateRequest;
 class CreateAccountAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
-        String courseId = null;
+        String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName);
-        } catch (InvalidParametersException | EntityDoesNotExistException e) {
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
+        } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).key))
+                .withRegistrationKey(instructorList.get(0).getEncryptedKey())
                 .withInstructorInstitution(instructorInstitution)
                 .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).email, instructorName, joinLink);
+                instructorList.get(0).getEmail(), instructorName, joinLink);
         emailSender.sendEmail(email);
 
         JoinLinkData output = new JoinLinkData(joinLink);
@@ -58,8 +57,8 @@ class CreateAccountAction extends AdminOnlyAction {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName)
-            throws InvalidParametersException, EntityDoesNotExistException {
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute)
+            throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
 
@@ -69,7 +68,9 @@ class CreateAccountAction extends AdminOnlyAction {
                 // replace name
                 "Demo_Instructor", instructorName,
                 // replace course
-                "demo.course", courseId);
+                "demo.course", courseId,
+                // replace institute
+                "demo.institute", instructorInstitute);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
@@ -78,8 +79,13 @@ class CreateAccountAction extends AdminOnlyAction {
         List<StudentAttributes> students = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
 
-        logic.putStudentDocuments(students);
-        logic.putInstructorDocuments(instructors);
+        for (StudentAttributes student : students) {
+            taskQueuer.scheduleStudentForSearchIndexing(student.getCourse(), student.getEmail());
+        }
+
+        for (InstructorAttributes instructor : instructors) {
+            taskQueuer.scheduleInstructorForSearchIndexing(instructor.getCourseId(), instructor.getEmail());
+        }
 
         return courseId;
     }

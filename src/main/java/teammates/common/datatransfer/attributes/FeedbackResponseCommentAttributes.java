@@ -12,34 +12,33 @@ import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.FeedbackResponseComment;
 
 /**
- * Represents a data transfer object for {@link FeedbackResponseComment} entities.
+ * The data transfer object for {@link FeedbackResponseComment} entities.
  */
 public class FeedbackResponseCommentAttributes extends EntityAttributes<FeedbackResponseComment> {
 
-    public Long feedbackResponseCommentId;
-
-    public String courseId;
-    public String feedbackSessionName;
+    private Long feedbackResponseCommentId;
+    private String courseId;
+    private String feedbackSessionName;
     /**
      * Contains the email of student/instructor if comment giver is student/instructor
      * and name of team if comment giver is a team.
      */
-    public String commentGiver;
-    public String commentText;
-    public String feedbackResponseId;
-    public String feedbackQuestionId;
-    public List<FeedbackParticipantType> showCommentTo;
-    public List<FeedbackParticipantType> showGiverNameTo;
-    public boolean isVisibilityFollowingFeedbackQuestion;
-    public Instant createdAt;
-    public String lastEditorEmail;
-    public Instant lastEditedAt;
-    public String giverSection;
-    public String receiverSection;
+    private String commentGiver;
+    private String commentText;
+    private String feedbackResponseId;
+    private String feedbackQuestionId;
+    private List<FeedbackParticipantType> showCommentTo;
+    private List<FeedbackParticipantType> showGiverNameTo;
+    private boolean isVisibilityFollowingFeedbackQuestion;
+    private Instant createdAt;
+    private String lastEditorEmail;
+    private Instant lastEditedAt;
+    private String giverSection;
+    private String receiverSection;
     // Determines the type of comment giver- instructor, student, or team
-    public FeedbackParticipantType commentGiverType;
+    private FeedbackParticipantType commentGiverType;
     // true if comment is given by response giver
-    public boolean isCommentFromFeedbackParticipant;
+    private boolean isCommentFromFeedbackParticipant;
 
     private FeedbackResponseCommentAttributes() {
         giverSection = Const.DEFAULT_SECTION;
@@ -52,6 +51,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         isCommentFromFeedbackParticipant = false;
     }
 
+    /**
+     * Gets the {@link FeedbackResponseCommentAttributes} instance of the given {@link FeedbackResponseComment}.
+     */
     public static FeedbackResponseCommentAttributes valueOf(FeedbackResponseComment comment) {
         FeedbackResponseCommentAttributes frca = new FeedbackResponseCommentAttributes();
         frca.courseId = comment.getCourseId();
@@ -100,6 +102,9 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return new Builder();
     }
 
+    /**
+     * Returns true if the response comment is visible to the given participant type.
+     */
     public boolean isVisibleTo(FeedbackParticipantType viewerType) {
         return showCommentTo.contains(viewerType);
     }
@@ -112,28 +117,60 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return courseId;
     }
 
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
+    }
+
     public String getFeedbackSessionName() {
         return feedbackSessionName;
+    }
+
+    public void setFeedbackSessionName(String feedbackSessionName) {
+        this.feedbackSessionName = feedbackSessionName;
     }
 
     public String getCommentGiver() {
         return commentGiver;
     }
 
+    public void setCommentGiver(String commentGiver) {
+        this.commentGiver = commentGiver;
+    }
+
     public String getCommentText() {
         return commentText;
+    }
+
+    public void setCommentText(String commentText) {
+        this.commentText = commentText;
     }
 
     public String getFeedbackResponseId() {
         return feedbackResponseId;
     }
 
+    public void setFeedbackResponseId(String feedbackResponseId) {
+        this.feedbackResponseId = feedbackResponseId;
+    }
+
     public String getFeedbackQuestionId() {
         return feedbackQuestionId;
     }
 
+    public void setFeedbackQuestionId(String feedbackQuestionId) {
+        this.feedbackQuestionId = feedbackQuestionId;
+    }
+
+    public void setShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
+        this.showCommentTo = showCommentTo;
+    }
+
     public List<FeedbackParticipantType> getShowCommentTo() {
         return showCommentTo;
+    }
+
+    public void setShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+        this.showGiverNameTo = showGiverNameTo;
     }
 
     public List<FeedbackParticipantType> getShowGiverNameTo() {
@@ -144,16 +181,32 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return isVisibilityFollowingFeedbackQuestion;
     }
 
+    public void setVisibilityFollowingFeedbackQuestion(boolean visibilityFollowingFeedbackQuestion) {
+        isVisibilityFollowingFeedbackQuestion = visibilityFollowingFeedbackQuestion;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public String getLastEditorEmail() {
         return lastEditorEmail;
     }
 
+    public void setLastEditorEmail(String lastEditorEmail) {
+        this.lastEditorEmail = lastEditorEmail;
+    }
+
     public Instant getLastEditedAt() {
         return lastEditedAt;
+    }
+
+    public void setLastEditedAt(Instant lastEditedAt) {
+        this.lastEditedAt = lastEditedAt;
     }
 
     public String getGiverSection() {
@@ -168,8 +221,16 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         return commentGiverType;
     }
 
+    public void setCommentGiverType(FeedbackParticipantType commentGiverType) {
+        this.commentGiverType = commentGiverType;
+    }
+
     public boolean isCommentFromFeedbackParticipant() {
         return isCommentFromFeedbackParticipant;
+    }
+
+    public void setCommentFromFeedbackParticipant(boolean commentFromFeedbackParticipant) {
+        isCommentFromFeedbackParticipant = commentFromFeedbackParticipant;
     }
 
     /**

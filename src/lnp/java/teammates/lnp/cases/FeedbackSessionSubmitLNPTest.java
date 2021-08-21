@@ -28,6 +28,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
@@ -133,7 +134,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
                                                             .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                                                             .withCreatorEmail(INSTRUCTOR_EMAIL)
-                                                            .withStartTime(Instant.now())
+                                                            .withStartTime(Instant.now().plusMillis(100))
                                                             .withEndTime(Instant.now().plusSeconds(500))
                                                             .withSessionVisibleFromTime(Instant.now())
                                                             .withResultsVisibleFromTime(Instant.now())
@@ -184,7 +185,6 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("googleId");
                 headers.add("studentEmail");
                 for (int i = 1; i <= NUMBER_OF_QUESTIONS; i++) {
@@ -202,13 +202,14 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
                 dataBundle.students.forEach((studentKey, student) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(student.googleId); // "googleId" is used for logging in, not "email"
-                    csvRow.add("no");
-                    csvRow.add(student.googleId);
-                    csvRow.add(student.email);
+                    csvRow.add(student.getGoogleId()); // "googleId" is used for logging in, not "email"
+                    csvRow.add(student.getGoogleId());
+                    csvRow.add(student.getEmail());
 
-                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, feedbackQuestion) -> {
-                        csvRow.add(feedbackQuestion.getId());
+                    dataBundle.feedbackQuestions.forEach((feedbackQuestionKey, fq) -> {
+                        FeedbackQuestionAttributes fqa = backdoor.getFeedbackQuestion(
+                                fq.getCourseId(), fq.getFeedbackSessionName(), fq.getQuestionNumber());
+                        csvRow.add(fqa.getId());
                     });
 
                     csvData.add(csvRow);
@@ -223,7 +224,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     private Map<String, String> getRequestHeaders() {
         Map<String, String> headers = new LinkedHashMap<>();
 
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put(Const.HeaderNames.CSRF_TOKEN, "${csrfToken}");
         headers.put("Content-Type", "application/json");
 
         return headers;
@@ -270,7 +271,7 @@ public class FeedbackSessionSubmitLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

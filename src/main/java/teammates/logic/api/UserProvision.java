@@ -11,8 +11,18 @@ import teammates.logic.core.StudentsLogic;
  */
 public class UserProvision {
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private static final UserProvision instance = new UserProvision();
+
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+
+    UserProvision() {
+        // prevent initialization
+    }
+
+    public static UserProvision inst() {
+        return instance;
+    }
 
     /**
      * Gets the information of the current logged in user.
@@ -28,10 +38,11 @@ public class UserProvision {
         user.isAdmin = Config.APP_ADMINS.contains(userId);
         user.isInstructor = accountsLogic.isAccountAnInstructor(userId);
         user.isStudent = studentsLogic.isStudentInAnyCourse(userId);
+        user.isMaintainer = Config.APP_MAINTAINERS.contains(user.getId());
         return user;
     }
 
-    protected UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
+    UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
         if (uic == null || !uic.isValid()) {
             return null;
         }
@@ -47,6 +58,7 @@ public class UserProvision {
         userInfo.isAdmin = false;
         userInfo.isInstructor = accountsLogic.isAccountAnInstructor(googleId);
         userInfo.isStudent = studentsLogic.isStudentInAnyCourse(googleId);
+        userInfo.isMaintainer = Config.APP_MAINTAINERS.contains(googleId);
         return userInfo;
     }
 

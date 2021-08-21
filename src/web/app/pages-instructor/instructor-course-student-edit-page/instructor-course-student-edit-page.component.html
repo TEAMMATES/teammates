@@ -108,12 +108,13 @@
           </div>
           <br>
           <div class="text-center">
-            <input
-                type="submit"
-                class="btn btn-success"
-                id="btn-submit"
-                value="Save Changes"
-                [disabled]="!editForm.valid">
+            <button class="btn btn-success"
+                    id="btn-submit"
+                    type="submit"
+                    [disabled]="!editForm.valid || isFormSaving">
+              <i [ngClass]="isFormSaving ? 'spinner-border spinner-border-sm' : 'fas fa-save'"></i>
+              Save Changes
+            </button>
           </div>
           <br>
           <br>

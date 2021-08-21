@@ -36,13 +36,13 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     public void testBuilder_withNothingPassed_shouldUseDefaultValues() {
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.builder(VALID_GOOGLE_ID).build();
 
-        assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.gender);
-        assertEquals(VALID_GOOGLE_ID, profileAttributes.googleId);
-        assertEquals("", profileAttributes.shortName);
-        assertEquals("", profileAttributes.email);
-        assertEquals("", profileAttributes.institute);
-        assertEquals("", profileAttributes.nationality);
-        assertEquals("", profileAttributes.moreInfo);
+        assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.getGender());
+        assertEquals(VALID_GOOGLE_ID, profileAttributes.getGoogleId());
+        assertEquals("", profileAttributes.getShortName());
+        assertEquals("", profileAttributes.getEmail());
+        assertEquals("", profileAttributes.getInstitute());
+        assertEquals("", profileAttributes.getNationality());
+        assertEquals("", profileAttributes.getMoreInfo());
     }
 
     @Test
@@ -114,13 +114,13 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 "hello");
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
-        assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
-        assertEquals(studentProfile.getShortName(), profileAttributes.shortName);
-        assertEquals(studentProfile.getEmail(), profileAttributes.email);
-        assertEquals(studentProfile.getInstitute(), profileAttributes.institute);
-        assertEquals(studentProfile.getNationality(), profileAttributes.nationality);
-        assertEquals(studentProfile.getGender(), profileAttributes.gender.name().toLowerCase());
-        assertEquals(studentProfile.getMoreInfo(), profileAttributes.moreInfo);
+        assertEquals(studentProfile.getGoogleId(), profileAttributes.getGoogleId());
+        assertEquals(studentProfile.getShortName(), profileAttributes.getShortName());
+        assertEquals(studentProfile.getEmail(), profileAttributes.getEmail());
+        assertEquals(studentProfile.getInstitute(), profileAttributes.getInstitute());
+        assertEquals(studentProfile.getNationality(), profileAttributes.getNationality());
+        assertEquals(studentProfile.getGender(), profileAttributes.getGender().name().toLowerCase());
+        assertEquals(studentProfile.getMoreInfo(), profileAttributes.getMoreInfo());
 
     }
 
@@ -130,13 +130,13 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
                 null, null, null, null);
         StudentProfileAttributes profileAttributes = StudentProfileAttributes.valueOf(studentProfile);
 
-        assertEquals(studentProfile.getGoogleId(), profileAttributes.googleId);
-        assertEquals("", profileAttributes.shortName);
-        assertEquals("", profileAttributes.email);
-        assertEquals("", profileAttributes.institute);
-        assertEquals("", profileAttributes.nationality);
-        assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.gender);
-        assertEquals("", profileAttributes.moreInfo);
+        assertEquals(studentProfile.getGoogleId(), profileAttributes.getGoogleId());
+        assertEquals("", profileAttributes.getShortName());
+        assertEquals("", profileAttributes.getEmail());
+        assertEquals("", profileAttributes.getInstitute());
+        assertEquals("", profileAttributes.getNationality());
+        assertEquals(StudentProfileAttributes.Gender.OTHER, profileAttributes.getGender());
+        assertEquals("", profileAttributes.getMoreInfo());
     }
 
     @Test
@@ -158,10 +158,10 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfileAttributes validProfile = profile.getCopy();
 
         ______TS("Typical case: valid profile with empty attributes");
-        validProfile.shortName = "";
-        validProfile.email = "";
-        validProfile.nationality = "";
-        validProfile.institute = "";
+        validProfile.setShortName("");
+        validProfile.setEmail("");
+        validProfile.setNationality("");
+        validProfile.setInstitute("");
 
         assertTrue("'validProfile' indicated as invalid", validProfile.isValid());
         assertEquals(new ArrayList<>(), validProfile.getInvalidityInfo());
@@ -183,14 +183,14 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         StudentProfileAttributes profileToSanitizeExpected = getStudentProfileAttributesToSanitize();
         profileToSanitize.sanitizeForSaving();
 
-        assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.googleId),
-                     profileToSanitize.googleId);
-        assertEquals(profileToSanitizeExpected.shortName, profileToSanitize.shortName);
-        assertEquals(profileToSanitizeExpected.institute, profileToSanitize.institute);
-        assertEquals(profileToSanitizeExpected.email, profileToSanitize.email);
-        assertEquals(profileToSanitizeExpected.nationality, profileToSanitize.nationality);
-        assertEquals(profileToSanitizeExpected.gender, profileToSanitize.gender);
-        assertEquals(profileToSanitizeExpected.moreInfo, profileToSanitize.moreInfo);
+        assertEquals(SanitizationHelper.sanitizeGoogleId(profileToSanitizeExpected.getGoogleId()),
+                profileToSanitize.getGoogleId());
+        assertEquals(profileToSanitizeExpected.getShortName(), profileToSanitize.getShortName());
+        assertEquals(profileToSanitizeExpected.getInstitute(), profileToSanitize.getInstitute());
+        assertEquals(profileToSanitizeExpected.getEmail(), profileToSanitize.getEmail());
+        assertEquals(profileToSanitizeExpected.getNationality(), profileToSanitize.getNationality());
+        assertEquals(profileToSanitizeExpected.getGender(), profileToSanitize.getGender());
+        assertEquals(profileToSanitizeExpected.getMoreInfo(), profileToSanitize.getMoreInfo());
     }
 
     @Override
@@ -211,7 +211,7 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
     @Test
     public void testToString() {
         StudentProfileAttributes spa = StudentProfileAttributes.valueOf(profile.toEntity());
-        profile.modifiedDate = spa.modifiedDate;
+        profile.setModifiedDate(spa.getModifiedDate());
 
         // the toString must be unique to the values in the object
         assertEquals(profile.toString(), spa.toString());
@@ -235,12 +235,12 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
         profileAttributes.update(updateOptions);
 
-        assertEquals("testName", profileAttributes.shortName);
-        assertEquals("test@email.com", profileAttributes.email);
-        assertEquals("NUS", profileAttributes.institute);
-        assertEquals("Singapore", profileAttributes.nationality);
-        assertEquals(StudentProfileAttributes.Gender.MALE, profileAttributes.gender);
-        assertEquals("more info", profileAttributes.moreInfo);
+        assertEquals("testName", profileAttributes.getShortName());
+        assertEquals("test@email.com", profileAttributes.getEmail());
+        assertEquals("NUS", profileAttributes.getInstitute());
+        assertEquals("Singapore", profileAttributes.getNationality());
+        assertEquals(StudentProfileAttributes.Gender.MALE, profileAttributes.getGender());
+        assertEquals("more info", profileAttributes.getMoreInfo());
     }
 
     @Test
@@ -334,9 +334,9 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
 
     private StudentProfile createStudentProfileFrom(
             StudentProfileAttributes profile) {
-        return new StudentProfile(profile.googleId, profile.shortName, profile.email,
-                                  profile.institute, profile.nationality, profile.gender.name().toLowerCase(),
-                                  profile.moreInfo);
+        return new StudentProfile(profile.getGoogleId(), profile.getShortName(), profile.getEmail(),
+                profile.getInstitute(), profile.getNationality(), profile.getGender().name().toLowerCase(),
+                profile.getMoreInfo());
     }
 
     private List<String> generatedExpectedErrorMessages(StudentProfileAttributes profile) throws Exception {
@@ -345,21 +345,21 @@ public class StudentProfileAttributesTest extends BaseAttributesTest {
         // tests both the constructor and the invalidity info
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(
-                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.shortName,
+                    FieldValidator.INVALID_NAME_ERROR_MESSAGE, profile.getShortName(),
                     FieldValidator.PERSON_NAME_FIELD_NAME,
                     FieldValidator.REASON_START_WITH_NON_ALPHANUMERIC_CHAR,
                     FieldValidator.PERSON_NAME_MAX_LENGTH));
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(
-                    FieldValidator.EMAIL_ERROR_MESSAGE, profile.email,
+                    FieldValidator.EMAIL_ERROR_MESSAGE, profile.getEmail(),
                     FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                     FieldValidator.EMAIL_MAX_LENGTH));
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(
-                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, profile.institute,
+                    FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE, profile.getInstitute(),
                     FieldValidator.INSTITUTE_NAME_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                     FieldValidator.INSTITUTE_NAME_MAX_LENGTH));
-        expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.nationality));
+        expectedErrorMessages.add(String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE, profile.getNationality()));
 
         return expectedErrorMessages;
     }

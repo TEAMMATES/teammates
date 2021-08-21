@@ -1,13 +1,11 @@
 package teammates.ui.webapi;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.apache.http.HttpStatus;
 
+import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
-import teammates.common.util.LogEvent;
 import teammates.common.util.Logger;
 
 /**
@@ -28,11 +26,10 @@ class CreateFeedbackSessionLogAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
-        if (!fslType.equals(Const.FeedbackSessionLogTypes.ACCESS)
-                && !fslType.equals(Const.FeedbackSessionLogTypes.SUBMISSION)
-                && !fslType.equals(Const.FeedbackSessionLogTypes.VIEW_RESULT)) {
+        FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
+        if (convertedFslType == null) {
             return new JsonResult("Invalid log type", HttpStatus.SC_BAD_REQUEST);
         }
 
@@ -50,13 +47,13 @@ class CreateFeedbackSessionLogAction extends Action {
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        Map<String, Object> details = new HashMap<>();
-        details.put("courseId", courseId);
-        details.put("feedbackSessionName", fsName);
-        details.put("studentEmail", studentEmail);
-        details.put("accessType", fslType);
+        FeedbackSessionAuditLogDetails details = new FeedbackSessionAuditLogDetails();
+        details.setCourseId(courseId);
+        details.setFeedbackSessionName(fsName);
+        details.setStudentEmail(studentEmail);
+        details.setAccessType(fslType);
 
-        log.event(LogEvent.FEEDBACK_SESSION_AUDIT, "Feedback session audit event: " + fslType, details);
+        log.event("Feedback session audit event: " + fslType, details);
 
         return new JsonResult("Successful");
     }

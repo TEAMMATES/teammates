@@ -11,9 +11,9 @@ import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.RegenerateStudentException;
-import teammates.common.exception.SearchNotImplementedException;
+import teammates.common.exception.SearchServiceException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.storage.api.StudentsDb;
 
 /**
@@ -33,11 +33,11 @@ public final class StudentsLogic {
     static final String ERROR_ENROLL_EXCEED_SECTION_LIMIT_INSTRUCTION =
             "To avoid performance problems, please do not enroll more than %s students in a single section.";
 
-    private static StudentsLogic instance = new StudentsLogic();
+    private static final StudentsLogic instance = new StudentsLogic();
 
-    private static final StudentsDb studentsDb = new StudentsDb();
+    private final StudentsDb studentsDb = StudentsDb.inst();
 
-    private static final FeedbackResponsesLogic frLogic = FeedbackResponsesLogic.inst();
+    private FeedbackResponsesLogic frLogic;
 
     private StudentsLogic() {
         // prevent initialization
@@ -47,38 +47,60 @@ public final class StudentsLogic {
         return instance;
     }
 
+    void initLogicDependencies() {
+        frLogic = FeedbackResponsesLogic.inst();
+    }
+
     /**
      * Creates a student.
      *
      * @return the created student
      * @throws InvalidParametersException if the student is not valid
-     * @throws EntityAlreadyExistsException if the student already exists in the Datastore
+     * @throws EntityAlreadyExistsException if the student already exists in the database
      */
     public StudentAttributes createStudent(StudentAttributes studentData)
             throws InvalidParametersException, EntityAlreadyExistsException {
         return studentsDb.createEntity(studentData);
     }
 
+    /**
+     * Gets a student by unique constraint courseId-email.
+     */
     public StudentAttributes getStudentForEmail(String courseId, String email) {
         return studentsDb.getStudentForEmail(courseId, email);
     }
 
+    /**
+     * Gets list of students by email.
+     */
     public List<StudentAttributes> getAllStudentsForEmail(String email) {
         return studentsDb.getAllStudentsForEmail(email);
     }
 
+    /**
+     * Gets a student by unique constraint courseId-googleId.
+     */
     public StudentAttributes getStudentForCourseIdAndGoogleId(String courseId, String googleId) {
         return studentsDb.getStudentForGoogleId(courseId, googleId);
     }
 
+    /**
+     * Gets a student by unique constraint registrationKey.
+     */
     public StudentAttributes getStudentForRegistrationKey(String registrationKey) {
         return studentsDb.getStudentForRegistrationKey(registrationKey);
     }
 
+    /**
+     * Gets all students associated with a googleId.
+     */
     public List<StudentAttributes> getStudentsForGoogleId(String googleId) {
         return studentsDb.getStudentsForGoogleId(googleId);
     }
 
+    /**
+     * Gets all students of a course.
+     */
     public List<StudentAttributes> getStudentsForCourse(String courseId) {
         return studentsDb.getStudentsForCourse(courseId);
     }
@@ -90,12 +112,20 @@ public final class StudentsLogic {
         return studentsDb.getStudentsForTeam(teamName, courseId);
     }
 
+    /**
+     * Gets all unregistered students of a course.
+     */
     public List<StudentAttributes> getUnregisteredStudentsForCourse(String courseId) {
         return studentsDb.getUnregisteredStudentsForCourse(courseId);
     }
 
+    /**
+     * Searches for students.
+     *
+     * @param instructors the constraint that restricts the search result
+     */
     public List<StudentAttributes> searchStudents(String queryString, List<InstructorAttributes> instructors)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         return studentsDb.search(queryString, instructors);
     }
 
@@ -106,14 +136,20 @@ public final class StudentsLogic {
      * @return null if no result found
      */
     public List<StudentAttributes> searchStudentsInWholeSystem(String queryString)
-            throws SearchNotImplementedException {
+            throws SearchServiceException {
         return studentsDb.searchStudentsInWholeSystem(queryString);
     }
 
+    /**
+     * Returns true if the user associated with the googleId is a student in any course in the system.
+     */
     public boolean isStudentInAnyCourse(String googleId) {
-        return studentsDb.getStudentsForGoogleId(googleId).size() != 0;
+        return !getStudentsForGoogleId(googleId).isEmpty();
     }
 
+    /**
+     * Returns true if the given student is in the given team of course.
+     */
     boolean isStudentInTeam(String courseId, String teamName, String studentEmail) {
 
         StudentAttributes student = getStudentForEmail(courseId, studentEmail);
@@ -123,19 +159,22 @@ public final class StudentsLogic {
 
         List<StudentAttributes> teammates = getStudentsForTeam(teamName, courseId);
         for (StudentAttributes teammate : teammates) {
-            if (teammate.email.equals(student.email)) {
+            if (teammate.getEmail().equals(student.getEmail())) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Returns true if the two given emails belong to the same team in the given course.
+     */
     public boolean isStudentsInSameTeam(String courseId, String student1Email, String student2Email) {
         StudentAttributes student1 = getStudentForEmail(courseId, student1Email);
         if (student1 == null) {
             return false;
         }
-        return isStudentInTeam(courseId, student1.team, student2Email);
+        return isStudentInTeam(courseId, student1.getTeam(), student2Email);
     }
 
     /**
@@ -159,21 +198,21 @@ public final class StudentsLogic {
         StudentAttributes updatedStudent = studentsDb.updateStudent(updateOptions);
 
         // cascade email change, if any
-        if (!originalStudent.email.equals(updatedStudent.email)) {
+        if (!originalStudent.getEmail().equals(updatedStudent.getEmail())) {
             frLogic.updateFeedbackResponsesForChangingEmail(
-                    updatedStudent.course, originalStudent.email, updatedStudent.email);
+                    updatedStudent.getCourse(), originalStudent.getEmail(), updatedStudent.getEmail());
         }
 
         // adjust submissions if moving to a different team
-        if (isTeamChanged(originalStudent.team, updatedStudent.team)) {
-            frLogic.updateFeedbackResponsesForChangingTeam(updatedStudent.course, updatedStudent.email,
-                    originalStudent.team, updatedStudent.team);
+        if (isTeamChanged(originalStudent.getTeam(), updatedStudent.getTeam())) {
+            frLogic.updateFeedbackResponsesForChangingTeam(updatedStudent.getCourse(), updatedStudent.getEmail(),
+                    originalStudent.getTeam(), updatedStudent.getTeam());
         }
 
         // update the new section name in responses
-        if (isSectionChanged(originalStudent.section, updatedStudent.section)) {
-            frLogic.updateFeedbackResponsesForChangingSection(updatedStudent.course, updatedStudent.email,
-                    originalStudent.section, updatedStudent.section);
+        if (isSectionChanged(originalStudent.getSection(), updatedStudent.getSection())) {
+            frLogic.updateFeedbackResponsesForChangingSection(updatedStudent.getCourse(), updatedStudent.getEmail(),
+                    originalStudent.getSection(), updatedStudent.getSection());
         }
 
         // TODO: check to delete comments for this section/team if the section/team is no longer existent in the course
@@ -200,12 +239,12 @@ public final class StudentsLogic {
      * Regenerates the registration key for the student with email address {@code email} in course {@code courseId}.
      *
      * @return the student attributes with the new registration key.
-     * @throws RegenerateStudentException if the newly generated course student has the same registration key as the
+     * @throws EntityAlreadyExistsException if the newly generated course student has the same registration key as the
      *          original one.
      * @throws EntityDoesNotExistException if the student does not exist.
      */
     public StudentAttributes regenerateStudentRegistrationKey(String courseId, String email)
-            throws EntityDoesNotExistException, RegenerateStudentException {
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
         StudentAttributes originalStudent = studentsDb.getStudentForEmail(courseId, email);
         if (originalStudent == null) {
@@ -251,13 +290,16 @@ public final class StudentsLogic {
         return mergedList;
     }
 
+    /**
+     * Returns the section name for the given team name for the given course.
+     */
     public String getSectionForTeam(String courseId, String teamName) {
 
         List<StudentAttributes> students = getStudentsForTeam(teamName, courseId);
         if (students.isEmpty()) {
             return Const.DEFAULT_SECTION;
         }
-        return students.get(0).section;
+        return students.get(0).getSection();
     }
 
     private String getSectionInvalidityInfo(List<StudentAttributes> mergedList) {
@@ -269,17 +311,17 @@ public final class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.section.equals(previousStudent.section)) {
+            if (currentStudent.getSection().equals(previousStudent.getSection())) {
                 studentsCount++;
             } else {
                 if (studentsCount > Const.SECTION_SIZE_LIMIT) {
-                    invalidSectionList.add(previousStudent.section);
+                    invalidSectionList.add(previousStudent.getSection());
                 }
                 studentsCount = 1;
             }
 
             if (i == mergedList.size() - 1 && studentsCount > Const.SECTION_SIZE_LIMIT) {
-                invalidSectionList.add(currentStudent.section);
+                invalidSectionList.add(currentStudent.getSection());
             }
         }
 
@@ -307,16 +349,16 @@ public final class StudentsLogic {
         for (int i = 1; i < mergedList.size(); i++) {
             StudentAttributes currentStudent = mergedList.get(i);
             StudentAttributes previousStudent = mergedList.get(i - 1);
-            if (currentStudent.team.equals(previousStudent.team)
-                    && !currentStudent.section.equals(previousStudent.section)
-                    && !invalidTeamList.contains(currentStudent.team)) {
+            if (currentStudent.getTeam().equals(previousStudent.getTeam())
+                    && !currentStudent.getSection().equals(previousStudent.getSection())
+                    && !invalidTeamList.contains(currentStudent.getTeam())) {
 
                 errorMessage.add(String.format(ERROR_INVALID_TEAM_NAME,
-                        currentStudent.team,
-                        previousStudent.section,
-                        currentStudent.section));
+                        currentStudent.getTeam(),
+                        previousStudent.getSection(),
+                        currentStudent.getSection()));
 
-                invalidTeamList.add(currentStudent.team);
+                invalidTeamList.add(currentStudent.getTeam());
             }
         }
 
@@ -333,7 +375,8 @@ public final class StudentsLogic {
     public void deleteStudentsInCourseCascade(String courseId) {
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
         for (StudentAttributes student : studentsInCourse) {
-            deleteStudentCascade(courseId, student.email);
+            RequestTracer.checkRemainingTime();
+            deleteStudentCascade(courseId, student.getEmail());
         }
     }
 
@@ -360,11 +403,11 @@ public final class StudentsLogic {
      * Deletes all students associated a googleId and cascade its associated feedback responses and comments.
      */
     public void deleteStudentsForGoogleIdCascade(String googleId) {
-        List<StudentAttributes> students = studentsDb.getStudentsForGoogleId(googleId);
+        List<StudentAttributes> students = getStudentsForGoogleId(googleId);
 
         // Cascade delete students
         for (StudentAttributes student : students) {
-            deleteStudentCascade(student.course, student.email);
+            deleteStudentCascade(student.getCourse(), student.getEmail());
         }
     }
 
@@ -376,16 +419,18 @@ public final class StudentsLogic {
     }
 
     /**
-     * Batch creates or updates documents for the given students.
+     * Creates or updates search document for the given student.
+     *
+     * @param student the student to be put into documents
      */
-    public void putDocuments(List<StudentAttributes> students) {
-        studentsDb.putDocuments(students);
+    public void putDocument(StudentAttributes student) throws SearchServiceException {
+        studentsDb.putDocument(student);
     }
 
     private boolean isInEnrollList(StudentAttributes student,
             List<StudentAttributes> studentInfoList) {
         for (StudentAttributes studentInfo : studentInfoList) {
-            if (studentInfo.email.equalsIgnoreCase(student.email)) {
+            if (studentInfo.getEmail().equalsIgnoreCase(student.getEmail())) {
                 return true;
             }
         }

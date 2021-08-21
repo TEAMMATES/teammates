@@ -5,13 +5,15 @@ import java.io.File;
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.util.component.LifeCycle;
+import org.eclipse.jetty.util.log.StdErrLog;
 import org.eclipse.jetty.webapp.Configuration.ClassList;
 import org.eclipse.jetty.webapp.JettyWebXmlConfiguration;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import teammates.common.util.Config;
-import teammates.ui.webapi.DevServerLoginServlet;
-import teammates.ui.webapi.WebPageServlet;
+import teammates.common.util.Logger;
+import teammates.ui.servlets.DevServerLoginServlet;
 
 /**
  * Entrypoint to the system.
@@ -21,16 +23,18 @@ import teammates.ui.webapi.WebPageServlet;
 // CHECKSTYLE.OFF:UncommentedMain this is the entrypoint class
 public final class Application {
 
+    private static final Logger log = Logger.getLogger();
+
     private Application() {
         // prevent initialization
     }
 
     @SuppressWarnings("PMD.SignatureDeclareThrowsException") // ok to ignore as this is a startup method
     public static void main(String[] args) throws Exception {
-        System.setProperty("org.eclipse.jetty.util.log.class", org.eclipse.jetty.util.log.StdErrLog.class.getName());
+        System.setProperty("org.eclipse.jetty.util.log.class", StdErrLog.class.getName());
         System.setProperty("org.eclipse.jetty.LEVEL", "INFO");
 
-        Server server = new Server(8080);
+        Server server = new Server(Config.getPort());
 
         WebAppContext webapp = new WebAppContext();
         webapp.setContextPath("/");
@@ -40,12 +44,7 @@ public final class Application {
         ClassList classlist = ClassList.setServerDefault(server);
 
         if (Config.isDevServer()) {
-            // For dev server, we dynamically add servlets to serve the dev server login page and the bundled front-end.
-            // The front-end needs not be added in production server as it is configured separately in app.yaml.
-            webapp.setWelcomeFiles(new String[] { "index.html" });
-
-            ServletHolder webPageServlet = new ServletHolder("WebPageServlet", new WebPageServlet());
-            webapp.addServlet(webPageServlet, "/web/*");
+            // For dev server, we dynamically add servlet to serve the dev server login page.
 
             ServletHolder devServerLoginServlet =
                     new ServletHolder("DevServerLoginServlet", new DevServerLoginServlet());
@@ -58,6 +57,33 @@ public final class Application {
                 AnnotationConfiguration.class.getName());
 
         server.setHandler(webapp);
+        server.setStopAtShutdown(true);
+        server.addLifeCycleListener(new LifeCycle.Listener() {
+            @Override
+            public void lifeCycleStarting(LifeCycle event) {
+                log.startup();
+            }
+
+            @Override
+            public void lifeCycleStarted(LifeCycle event) {
+                // do nothing
+            }
+
+            @Override
+            public void lifeCycleFailure(LifeCycle event, Throwable cause) {
+                log.severe("Instance failed to start/stop: " + Config.getInstanceId());
+            }
+
+            @Override
+            public void lifeCycleStopping(LifeCycle event) {
+                log.shutdown();
+            }
+
+            @Override
+            public void lifeCycleStopped(LifeCycle event) {
+                // do nothing
+            }
+        });
 
         server.start();
 

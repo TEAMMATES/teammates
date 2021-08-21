@@ -10,16 +10,16 @@ import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
-import { LogType } from '../../../types/api-const';
 import {
   AuthInfo,
-  FeedbackSession, FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  FeedbackSession, FeedbackSessionLogType,
+  FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   QuestionOutput, RegkeyValidity,
   ResponseVisibleSetting,
   SessionResults,
   SessionVisibleSetting, Student,
 } from '../../../types/api-output';
-import { Intent } from '../../../types/api-request';
+import { FeedbackVisibilityType, Intent } from '../../../types/api-request';
 import { DEFAULT_NUMBER_OF_RETRY_ATTEMPTS } from '../../../types/default-retry-attempts';
 import { ErrorReportComponent } from '../../components/error-report/error-report.component';
 import { ErrorMessageOutput } from '../../error-message-output';
@@ -85,7 +85,7 @@ export class SessionResultPageComponent implements OnInit {
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key || '';
 
-      const nextUrl: string = `${window.location.pathname}${window.location.search}`;
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
         if (auth.user) {
           this.loggedInUser = auth.user.id;
@@ -149,7 +149,7 @@ export class SessionResultPageComponent implements OnInit {
           courseId: this.courseId,
           feedbackSessionName: this.feedbackSessionName,
           studentEmail: this.personEmail,
-          logType: LogType.FEEDBACK_SESSION_VIEW_RESULT,
+          logType: FeedbackSessionLogType.VIEW_RESULT,
         }).subscribe(
           () => {
             // No action needed if log is successfully created.
@@ -190,6 +190,13 @@ export class SessionResultPageComponent implements OnInit {
       this.isFeedbackSessionResultsLoading = false;
       this.handleError(resp);
     });
+  }
+
+  canStudentSeeResponses(question: QuestionOutput): boolean {
+    const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
+
+    return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
+        visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
   }
 
   /**

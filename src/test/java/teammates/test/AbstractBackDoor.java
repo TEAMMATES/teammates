@@ -57,6 +57,7 @@ import teammates.ui.output.FeedbackSessionsData;
 import teammates.ui.output.FeedbackVisibilityType;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
+import teammates.ui.output.MessageOutput;
 import teammates.ui.output.NumberOfEntitiesToGiveFeedbackToSetting;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;
@@ -68,10 +69,19 @@ import teammates.ui.request.Intent;
  */
 public abstract class AbstractBackDoor {
 
+    /**
+     * Gets the URL of the back-end.
+     */
     protected abstract String getAppUrl();
 
+    /**
+     * Gets the backdoor key used to authenticate with the back-end.
+     */
     protected abstract String getBackdoorKey();
 
+    /**
+     * Gets the CSRF key used to authenticate with the back-end.
+     */
     protected abstract String getCsrfKey();
 
     /**
@@ -208,29 +218,29 @@ public abstract class AbstractBackDoor {
     }
 
     private void addAuthKeys(HttpRequestBase request) {
-        request.addHeader("Backdoor-Key", getBackdoorKey());
-        request.addHeader("CSRF-Key", getCsrfKey());
+        request.addHeader(Const.HeaderNames.BACKDOOR_KEY, getBackdoorKey());
+        request.addHeader(Const.HeaderNames.CSRF_KEY, getCsrfKey());
     }
 
     /**
-     * Removes and restores given data in the datastore. This method is to be called on test startup.
+     * Removes and restores given data in the database. This method is to be called on test startup.
      *
      * <p>Note:  The data associated with the test accounts have to be <strong>manually</strong> removed by removing the data
      * bundle when a test ends because the test accounts are shared across tests.
      *
-     * <p>Test data should never be cleared after test in order to prevent incurring additional datastore costs because the
+     * <p>Test data should never be cleared after test in order to prevent incurring additional database costs because the
      * test's data may not be accessed in another test. Also although unlikely in normal conditions, when a test fail to
      * remove data bundle on teardown, another test should have no reason to fail.
      *
      * <p>Another reason not to remove associated data after a test is that in case of test failures, it helps to have the
-     * associated data in the datastore to debug the failure.
+     * associated data in the database to debug the failure.
      *
      * <p>This means that removing the data bundle on startup is not always sufficient because a test only knows how
      * to remove its associated data.
      * This is why some tests would fail when they use the same account and use different data.
      * Extending this method to remove data outside its associated data would introduce
      * unnecessary complications such as extra costs and knowing exactly how much data to remove. Removing too much data
-     * would not just incur higher datastore costs but we can make tests unexpectedly pass(fail) when the data is expected to
+     * would not just incur higher database costs but we can make tests unexpectedly pass(fail) when the data is expected to
      * be not present(present) in another test.
      *
      * <p>TODO: Hence, we need to explicitly remove the data bundle in tests on teardown to avoid instability of tests.
@@ -249,7 +259,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Removes given data from the datastore.
+     * Removes given data from the database.
      *
      * <p>If given entities have already been deleted, it fails silently.
      */
@@ -258,7 +268,19 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Puts searchable documents in data bundle into the datastore.
+     * Gets the cookie format for the given user ID.
+     */
+    public String getUserCookie(String userId) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.USER_ID, userId);
+        ResponseBodyAndCode response = executePostRequest(Const.ResourceURIs.USER_COOKIE, params, null);
+
+        MessageOutput output = JsonUtils.fromJson(response.responseBody, MessageOutput.class);
+        return output.getMessage();
+    }
+
+    /**
+     * Puts searchable documents in data bundle into the database.
      */
     public String putDocuments(DataBundle dataBundle) throws HttpRequestFailedException {
         ResponseBodyAndCode putRequestOutput =
@@ -271,7 +293,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets an account from the datastore.
+     * Gets an account from the database.
      */
     public AccountAttributes getAccount(String googleId) {
         Map<String, String> params = new HashMap<>();
@@ -291,7 +313,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets course data from the datastore.
+     * Gets course data from the database.
      */
     public CourseData getCourseData(String courseId) {
         Map<String, String> params = new HashMap<>();
@@ -306,7 +328,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets a course from the datastore.
+     * Gets a course from the database.
      */
     public CourseAttributes getCourse(String courseId) {
         CourseData courseData = getCourseData(courseId);
@@ -320,7 +342,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets archived course data from the datastore.
+     * Gets archived course data from the database.
      */
     public CourseData getArchivedCourseData(String instructorId, String courseId) {
         Map<String, String> params = new HashMap<>();
@@ -349,7 +371,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets a archived course from the datastore.
+     * Gets a archived course from the database.
      */
     public CourseAttributes getArchivedCourse(String instructorId, String courseId) {
         CourseData courseData = getArchivedCourseData(instructorId, courseId);
@@ -374,7 +396,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Gets instructor data from the datastore.
+     * Gets instructor data from the database.
      */
     public InstructorData getInstructorData(String courseId, String email) {
         Map<String, String> params = new HashMap<>();
@@ -400,7 +422,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get instructor from datastore. Does not include certain fields like InstructorPrivileges.
+     * Get instructor from database. Does not include certain fields like InstructorPrivileges.
      */
     public InstructorAttributes getInstructor(String courseId, String instructorEmail) {
         InstructorData instructorData = getInstructorData(courseId, instructorEmail);
@@ -426,13 +448,13 @@ public abstract class AbstractBackDoor {
         }
         InstructorAttributes instructorAttributes = instructor.build();
         if (instructorData.getKey() != null) {
-            instructorAttributes.key = instructorData.getKey();
+            instructorAttributes.setKey(instructorData.getKey());
         }
         return instructorAttributes;
     }
 
     /**
-     * Gets student data from the datastore.
+     * Gets student data from the database.
      */
     public StudentData getStudentData(String courseId, String studentEmail) {
         Map<String, String> params = new HashMap<>();
@@ -446,7 +468,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get student from datastore.
+     * Get student from database.
      */
     public StudentAttributes getStudent(String courseId, String studentEmail) {
         StudentData studentData = getStudentData(courseId, studentEmail);
@@ -475,13 +497,13 @@ public abstract class AbstractBackDoor {
         }
         StudentAttributes student = builder.build();
         if (studentData.getKey() != null) {
-            student.key = studentData.getKey();
+            student.setKey(studentData.getKey());
         }
         return student;
     }
 
     /**
-     * Get feedback session data from datastore.
+     * Get feedback session data from database.
      */
     public FeedbackSessionData getFeedbackSessionData(String courseId, String feedbackSessionName) {
         Map<String, String> params = new HashMap<>();
@@ -496,7 +518,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback session from datastore.
+     * Get feedback session from database.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
         FeedbackSessionData sessionData = getFeedbackSessionData(courseId, feedbackSessionName);
@@ -537,7 +559,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get soft deleted feedback session from datastore.
+     * Get soft deleted feedback session from database.
      */
     public FeedbackSessionAttributes getSoftDeletedSession(String feedbackSessionName, String instructorId) {
         Map<String, String> params = new HashMap<>();
@@ -566,7 +588,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback question from datastore.
+     * Get feedback question from database.
      */
     public FeedbackQuestionAttributes getFeedbackQuestion(String courseId, String feedbackSessionName,
                                                                  int qnNumber) {
@@ -639,7 +661,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response from datastore.
+     * Get feedback response from database.
      */
     public FeedbackResponseAttributes getFeedbackResponse(String feedbackQuestionId, String giver,
                                                                  String recipient) {
@@ -674,7 +696,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Get feedback response comment from datastore.
+     * Get feedback response comment from database.
      */
     public FeedbackResponseCommentAttributes getFeedbackResponseComment(String feedbackResponseId) {
         Map<String, String> params = new HashMap<>();
@@ -698,7 +720,7 @@ public abstract class AbstractBackDoor {
     }
 
     /**
-     * Deletes a course from the datastore.
+     * Deletes a course from the database.
      */
     public void deleteCourse(String courseId) {
         Map<String, String> params = new HashMap<>();

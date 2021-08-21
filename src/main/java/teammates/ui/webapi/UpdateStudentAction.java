@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -30,7 +31,7 @@ class UpdateStudentAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return authType.LOGGED_IN;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
@@ -46,7 +47,7 @@ class UpdateStudentAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
@@ -69,11 +70,11 @@ class UpdateStudentAction extends Action {
             //we swap out email before we validate
             //TODO: this is duct tape at the moment, need to refactor how we do the validation
             String newEmail = studentToUpdate.getEmail();
-            studentToUpdate.email = student.getEmail();
-            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.course);
-            studentToUpdate.email = newEmail;
+            studentToUpdate.setEmail(student.getEmail());
+            logic.validateSectionsAndTeams(Arrays.asList(studentToUpdate), student.getCourse());
+            studentToUpdate.setEmail(newEmail);
 
-            logic.updateStudentCascade(
+            StudentAttributes updatedStudent = logic.updateStudentCascade(
                     StudentAttributes.updateOptionsBuilder(courseId, studentEmail)
                             .withName(updateRequest.getName())
                             .withNewEmail(updateRequest.getEmail())
@@ -81,8 +82,9 @@ class UpdateStudentAction extends Action {
                             .withSectionName(updateRequest.getSection())
                             .withComment(updateRequest.getComments())
                             .build());
+            taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse(), updatedStudent.getEmail());
 
-            if (!student.email.equals(updateRequest.getEmail())) {
+            if (!student.getEmail().equals(updateRequest.getEmail())) {
                 logic.resetStudentGoogleId(updateRequest.getEmail(), courseId);
 
                 if (updateRequest.getIsSessionSummarySendEmail()) {
@@ -92,13 +94,14 @@ class UpdateStudentAction extends Action {
                     return new JsonResult(statusMessage);
                 }
             }
-        } catch (EnrollException | InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (EnrollException e) {
+            throw new InvalidOperationException(e);
+        } catch (InvalidParametersException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("Trying to update to an email that is already in use",
-                    HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException("Trying to update to an email that is already in use", e);
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);

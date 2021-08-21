@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
@@ -44,16 +45,14 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     // see https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
     private static final int BATCH_SIZE = 100;
 
-    /*
-     * Creates the folder that will contain the stored log.
-     */
+    // Creates the folder that will contain the stored log.
     static {
         new File(BASE_LOG_URI).mkdir();
     }
 
-    protected AtomicLong numberOfScannedKey;
-    protected AtomicLong numberOfAffectedEntities;
-    protected AtomicLong numberOfUpdatedEntities;
+    AtomicLong numberOfScannedKey;
+    AtomicLong numberOfAffectedEntities;
+    AtomicLong numberOfUpdatedEntities;
 
     // buffer of entities to save
     private List<T> entitiesSavingBuffer;
@@ -81,7 +80,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
      *
      * <p>Causation: this method might be called in multiple threads if using transaction.</p>
      */
-    protected abstract boolean isMigrationNeeded(T entity) throws Exception;
+    protected abstract boolean isMigrationNeeded(T entity);
 
     /**
      * Migrates the entity.
@@ -282,4 +281,64 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
 
         log("[ERROR]" + logLine);
     }
+
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    private static boolean isTextContainingAny(String text, List<String> strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.isEmpty()) {
+            return true;
+        }
+
+        return strings.stream().anyMatch(s -> text.contains(s));
+    }
+
+    /**
+     * Returns true if the {@code string} has evidence of having been sanitized.
+     * A string is considered sanitized if it does not contain any of the chars '<', '>', '/', '\"', '\'',
+     * and contains at least one of their sanitized equivalents or the sanitized equivalent of '&'.
+     *
+     * <p>Eg. "No special characters", "{@code <p>&quot;with quotes&quot;</p>}" are considered to be not sanitized.<br>
+     *     "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
+     * </p>
+     */
+    static boolean isSanitizedHtml(String string) {
+        return string != null
+                && !isTextContainingAny(string, Arrays.asList("<", ">", "\"", "/", "\'"))
+                && isTextContainingAny(string, Arrays.asList("&lt;", "&gt;", "&quot;", "&#x2f;", "&#39;", "&amp;"));
+    }
+
+    /**
+     * Returns the desanitized {@code string} if it is sanitized, otherwise returns the unchanged string.
+     */
+    static String desanitizeIfHtmlSanitized(String string) {
+        return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
+    }
+
+    /**
+     * Recovers a html-sanitized string using {@link #sanitizeForHtml}
+     * to original encoding for appropriate display.<br>
+     * It restores encoding for < > \ / ' &  <br>
+     * The method should only be used once on sanitized html
+     *
+     * @return recovered string
+     */
+    private static String desanitizeFromHtml(String sanitizedString) {
+        if (sanitizedString == null) {
+            return null;
+        }
+
+        return sanitizedString.replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&#x2f;", "/")
+                .replace("&#39;", "'")
+                .replace("&amp;", "&");
+    }
+
 }

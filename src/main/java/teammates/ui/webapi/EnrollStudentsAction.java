@@ -14,6 +14,7 @@ import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
+import teammates.common.util.RequestTracer;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentsData;
 import teammates.ui.request.StudentsEnrollRequest;
@@ -31,7 +32,7 @@ class EnrollStudentsAction extends Action {
 
     @Override
     AuthType getMinAuthLevel() {
-        return authType.LOGGED_IN;
+        return AuthType.LOGGED_IN;
     }
 
     @Override
@@ -47,7 +48,7 @@ class EnrollStudentsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         StudentsEnrollRequest enrollRequests = getAndValidateRequestBody(StudentsEnrollRequest.class);
@@ -73,8 +74,9 @@ class EnrollStudentsAction extends Action {
                 existingStudents.stream().map(StudentAttributes::getEmail).collect(Collectors.toSet());
         List<StudentAttributes> enrolledStudents = new ArrayList<>();
         List<EnrollStudentsData.EnrollErrorResults> failToEnrollStudents = new ArrayList<>();
-        studentsToEnroll.forEach(student -> {
-            if (existingStudentsEmail.contains(student.email)) {
+        for (StudentAttributes student : studentsToEnroll) {
+            RequestTracer.checkRemainingTime();
+            if (existingStudentsEmail.contains(student.getEmail())) {
                 // The student has been enrolled in the course.
                 StudentAttributes.UpdateOptions updateOptions =
                         StudentAttributes.updateOptionsBuilder(student.getCourse(), student.getEmail())
@@ -85,25 +87,27 @@ class EnrollStudentsAction extends Action {
                                 .build();
                 try {
                     StudentAttributes updatedStudent = logic.updateStudentCascade(updateOptions);
+                    taskQueuer.scheduleStudentForSearchIndexing(updatedStudent.getCourse(), updatedStudent.getEmail());
                     enrolledStudents.add(updatedStudent);
                 } catch (InvalidParametersException | EntityDoesNotExistException
                         | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
                             exception.getMessage()));
                 }
             } else {
                 // The student is new.
                 try {
                     StudentAttributes newStudent = logic.createStudent(student);
+                    taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse(), newStudent.getEmail());
                     enrolledStudents.add(newStudent);
                 } catch (InvalidParametersException | EntityAlreadyExistsException exception) {
                     // Unsuccessfully enrolled students will not be returned.
-                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.email,
+                    failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(student.getEmail(),
                             exception.getMessage()));
                 }
             }
-        });
+        }
         return new JsonResult(new EnrollStudentsData(new StudentsData(enrolledStudents), failToEnrollStudents));
     }
 }

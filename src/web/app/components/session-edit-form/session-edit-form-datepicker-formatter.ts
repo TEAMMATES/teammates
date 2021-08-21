@@ -15,7 +15,7 @@ export class SessionEditFormDatePickerFormatter extends NgbDateParserFormatter {
       return '';
     }
 
-    const inst: any = moment();
+    const inst: moment.Moment = moment();
     inst.set('year', date.year);
     inst.set('month', date.month - 1); // moment month is from 0-11
     inst.set('date', date.day);
@@ -24,7 +24,7 @@ export class SessionEditFormDatePickerFormatter extends NgbDateParserFormatter {
   }
 
   parse(value: string): NgbDateStruct {
-    const inst: any = moment(value, DATE_FORMAT);
+    const inst: moment.Moment = moment(value, DATE_FORMAT);
     return {
       year: inst.year(),
       month: inst.month() + 1, // moment return 0-11 for month

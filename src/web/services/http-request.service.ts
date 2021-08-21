@@ -41,6 +41,7 @@ export class HttpRequestService {
 
   private backendUrl: string = environment.backendUrl;
   private withCredentials: boolean = environment.withCredentials;
+  private version: string = environment.version;
 
   constructor(private httpClient: HttpClient, private masqueradeModeService: MasqueradeModeService) {}
 
@@ -70,7 +71,7 @@ export class HttpRequestService {
       responseType: any = 'json' as 'text'): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = new HttpHeaders({ 'ngsw-bypass': 'true' });
+    const headers: HttpHeaders = this.getHeaders(false);
     return this.httpClient.get(
         `${this.backendUrl}${endpoint}`,
         { params, headers, responseType, withCredentials },
@@ -83,8 +84,7 @@ export class HttpRequestService {
   post(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getCsrfHeader();
-    headers.set('ngsw-bypass', 'true');
+    const headers: HttpHeaders = this.getHeaders(true);
     return this.httpClient.post(
         `${this.backendUrl}${endpoint}`, body,
         { params, headers, withCredentials },
@@ -97,8 +97,7 @@ export class HttpRequestService {
   put(endpoint: string, paramsMap: Record<string, string> = {}, body: any = null): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getCsrfHeader();
-    headers.set('ngsw-bypass', 'true');
+    const headers: HttpHeaders = this.getHeaders(true);
     return this.httpClient.put(
         `${this.backendUrl}${endpoint}`,
         body,
@@ -112,25 +111,25 @@ export class HttpRequestService {
   delete(endpoint: string, paramsMap: Record<string, string> = {}): Observable<any> {
     const params: HttpParams = this.buildParams(paramsMap);
     const withCredentials: boolean = this.withCredentials;
-    const headers: HttpHeaders = this.getCsrfHeader();
-    headers.set('ngsw-bypass', 'true');
+    const headers: HttpHeaders = this.getHeaders(true);
     return this.httpClient.delete(
         `${this.backendUrl}${endpoint}`,
         { params, headers, withCredentials },
     );
   }
 
-  private getCsrfHeader(): HttpHeaders {
-    if (!document.cookie) {
-      return new HttpHeaders();
+  private getHeaders(withCsrfHeader: boolean): HttpHeaders {
+    const headers: Record<string, string> = {
+      'X-WEB-VERSION': this.version,
+      'ngsw-bypass': 'true',
+    };
+    if (withCsrfHeader && document.cookie) {
+      const csrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('CSRF-TOKEN'));
+      if (csrfTokenCookie.length) {
+        headers['X-CSRF-TOKEN'] = csrfTokenCookie[0].replace('CSRF-TOKEN=', '');
+      }
     }
-    const csrfTokenCookie: string[] = document.cookie.split('; ').filter((c: string) => c.startsWith('CSRF-TOKEN'));
-    if (csrfTokenCookie.length) {
-      return new HttpHeaders({
-        'X-CSRF-TOKEN': csrfTokenCookie[0].replace('CSRF-TOKEN=', ''),
-      });
-    }
-    return new HttpHeaders();
+    return new HttpHeaders(headers);
   }
 
 }

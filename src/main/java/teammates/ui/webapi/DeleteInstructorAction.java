@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
@@ -37,7 +38,7 @@ class DeleteInstructorAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -55,12 +56,13 @@ class DeleteInstructorAction extends Action {
         }
 
         // Deleting last instructor from the course is not allowed if you're not the admin
-        if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.email)) {
-            return new JsonResult("The instructor you are trying to delete is the last instructor in the course. "
-                    + "Deleting the last instructor from the course is not allowed.", HttpStatus.SC_BAD_REQUEST);
+        if (!userInfo.isAdmin && !hasAlternativeInstructor(courseId, instructor.getEmail())) {
+            throw new InvalidOperationException(
+                    "The instructor you are trying to delete is the last instructor in the course. "
+                    + "Deleting the last instructor from the course is not allowed.");
         }
 
-        logic.deleteInstructorCascade(courseId, instructor.email);
+        logic.deleteInstructorCascade(courseId, instructor.getEmail());
 
         return new JsonResult("Instructor is successfully deleted.", HttpStatus.SC_OK);
     }

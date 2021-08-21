@@ -30,7 +30,7 @@
             </button>
           </div>
           <div id="logs-from-timepicker" class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
+            <tm-timepicker [(time)]="formModel.logsTimeFrom"></tm-timepicker>
           </div>
         </div>
       </div>
@@ -60,7 +60,7 @@
             </button>
           </div>
           <div id="logs-to-timepicker" class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
+            <tm-timepicker [(time)]="formModel.logsTimeTo"></tm-timepicker>
           </div>
           <div class="col-md-2">
             <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
@@ -73,8 +73,8 @@
 <div id="logs-output">
   <div *tmIsLoading="isSearching">
     <div *ngFor="let results of searchResults">
-      <div class="card mb-3 alert-success-border">
-        <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">
+      <div [ngClass]="{ 'alert-success-border': results.logRowsData.length, 'alert-failure-border': !results.logRowsData.length }" class="card mb-3">
+        <div [ngClass]="{ 'alert-success': results.logRowsData.length, 'alert-failure': !results.logRowsData.length}" class="card-header cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
           {{results.feedbackSessionName}}
           <div class="card-header-btn-toolbar">
             <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>

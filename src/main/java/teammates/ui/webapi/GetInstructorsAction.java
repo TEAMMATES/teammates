@@ -11,7 +11,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
@@ -56,7 +55,7 @@ class GetInstructorsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         List<InstructorAttributes> instructorsOfCourse = logic.getInstructorsForCourse(courseId);
 
@@ -85,9 +84,9 @@ class GetInstructorsAction extends Action {
                 data = new InstructorsData();
                 for (InstructorAttributes instructor : instructorsOfCourse) {
                     InstructorData instructorData = new InstructorData(instructor);
-                    instructorData.setGoogleId(instructor.googleId);
+                    instructorData.setGoogleId(instructor.getGoogleId());
                     if (userInfo.isAdmin) {
-                        instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
+                        instructorData.setKey(instructor.getEncryptedKey());
                     }
                     data.getInstructors().add(instructorData);
                 }

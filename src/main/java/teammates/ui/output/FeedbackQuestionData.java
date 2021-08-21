@@ -6,14 +6,12 @@ import java.util.stream.Collectors;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.questions.FeedbackConstantSumDistributePointsType;
 import teammates.common.datatransfer.questions.FeedbackConstantSumQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMcqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackRubricQuestionDetails;
-import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.util.Const;
 
 /**
@@ -39,7 +37,7 @@ public class FeedbackQuestionData extends ApiOutput {
     private List<FeedbackVisibilityType> showRecipientNameTo;
 
     public FeedbackQuestionData(FeedbackQuestionAttributes feedbackQuestionAttributes) {
-        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetails();
+        FeedbackQuestionDetails feedbackQuestionDetails = feedbackQuestionAttributes.getQuestionDetailsCopy();
 
         this.feedbackQuestionId = feedbackQuestionAttributes.getFeedbackQuestionId();
         this.questionNumber = feedbackQuestionAttributes.getQuestionNumber();
@@ -80,35 +78,11 @@ public class FeedbackQuestionData extends ApiOutput {
         }
 
         if (this.questionType == FeedbackQuestionType.CONSTSUM) {
-            // TODO: remove the abstraction after migration
-            // need to migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
-            // correct to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
             FeedbackConstantSumQuestionDetails constantSumQuestionDetails =
                     (FeedbackConstantSumQuestionDetails) this.questionDetails;
             this.questionType = constantSumQuestionDetails.isDistributeToRecipients()
                     ? FeedbackQuestionType.CONSTSUM_RECIPIENTS : FeedbackQuestionType.CONSTSUM_OPTIONS;
             this.questionDetails.setQuestionType(this.questionType);
-
-            // TODO: remove after data migration
-            // distributePointsFor is added after forceUnevenDistribution, see #8577
-            if (constantSumQuestionDetails.isForceUnevenDistribution()
-                    && FeedbackConstantSumDistributePointsType.NONE.getDisplayedOption()
-                    .equals(constantSumQuestionDetails.getDistributePointsFor())) {
-                constantSumQuestionDetails.setDistributePointsFor(
-                        FeedbackConstantSumDistributePointsType.DISTRIBUTE_ALL_UNEVENLY.getDisplayedOption());
-            }
-        }
-
-        if (this.questionType == FeedbackQuestionType.TEXT) {
-            // TODO: remove after data migration
-            FeedbackTextQuestionDetails feedbackTextQuestionDetails =
-                    (FeedbackTextQuestionDetails) this.questionDetails;
-            if (feedbackTextQuestionDetails.getRecommendedLength() != null
-                    && feedbackTextQuestionDetails.getRecommendedLength() == 0) {
-                // for legacy data, 0 is treated as optional for recommended length
-                feedbackTextQuestionDetails.setRecommendedLength(null);
-            }
-
         }
     }
 

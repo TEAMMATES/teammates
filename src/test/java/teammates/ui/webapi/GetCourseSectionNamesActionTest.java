@@ -28,7 +28,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // See test cases below
     }
 
@@ -37,7 +37,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         List<String> expectedSectionNames = logic.getSectionNamesForCourse(instructor1OfCourse1.getCourseId());
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("typical success case for instructor");
 
@@ -54,9 +54,9 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
     }
 
     @Test
-    protected void testExecute_nonExistCourse_shouldFail() throws Exception {
+    protected void testExecute_nonExistCourse_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("failed case for non-existent course");
 
@@ -71,12 +71,12 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // See test cases below
     }
 
     @Test
-    protected void testAccessControl_testInvalidAccess_shouldPass() throws Exception {
+    protected void testAccessControl_testInvalidAccess_shouldPass() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] instructorLoginParams = new String[] {
@@ -96,12 +96,12 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         verifyInaccessibleForUnregisteredUsers(instructorParams);
 
         ______TS("Login as instructor, then can access");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
     }
 
     @Test
-    protected void testAccessControl_testInstructorAccess_shouldPass() throws Exception {
+    protected void testAccessControl_testInstructorAccess_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {

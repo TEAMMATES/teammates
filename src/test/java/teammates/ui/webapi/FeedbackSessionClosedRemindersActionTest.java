@@ -33,7 +33,7 @@ public class FeedbackSessionClosedRemindersActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
@@ -65,7 +65,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withEndTime(session1.getEndTime())
                         .build());
         session1.setSentOpenEmail(false); // fsLogic will set the flag to false
-        verifyPresentInDatastore(session1);
+        verifyPresentInDatabase(session1);
 
         // Ditto, but with disabled closed reminder
 
@@ -83,7 +83,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withIsClosingEmailEnabled(session2.isClosingEmailEnabled())
                         .build());
         session2.setSentOpenEmail(false); // fsLogic will set the flag to false
-        verifyPresentInDatastore(session2);
+        verifyPresentInDatabase(session2);
 
         // Still in grace period; closed reminder should not be sent
 
@@ -99,7 +99,7 @@ public class FeedbackSessionClosedRemindersActionTest
                         .withEndTime(session3.getEndTime())
                         .build());
         session3.setSentOpenEmail(false); // fsLogic will set the flag to false
-        verifyPresentInDatastore(session3);
+        verifyPresentInDatabase(session3);
 
         action = getAction();
         action.execute();

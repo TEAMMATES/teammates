@@ -71,7 +71,6 @@ public class FeedbackQuestionBasicRequest extends BasicRequest {
         FeedbackQuestionDetails details =
                 JsonUtils.fromJson(JsonUtils.toCompactJson(questionDetails), questionType.getQuestionDetailsClass());
         details.setQuestionText(questionBrief);
-        // TODO remove this after migrate CONSTSUM to either CONSTSUM_OPTIONS or CONSTSUM_RECIPIENTS
         if (questionType == FeedbackQuestionType.CONSTSUM_OPTIONS
                 || questionType == FeedbackQuestionType.CONSTSUM_RECIPIENTS) {
             details.setQuestionType(FeedbackQuestionType.CONSTSUM);

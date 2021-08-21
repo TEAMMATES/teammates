@@ -12,19 +12,18 @@ import teammates.common.util.StringHelper;
 import teammates.storage.entity.StudentProfile;
 
 /**
- * The data transfer object for StudentProfile entities.
+ * The data transfer object for {@link StudentProfile} entities.
  */
 public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
 
-    public String googleId;
-
-    public String shortName;
-    public String email;
-    public String institute;
-    public String nationality;
-    public Gender gender;
-    public String moreInfo;
-    public Instant modifiedDate;
+    private String googleId;
+    private String shortName;
+    private String email;
+    private String institute;
+    private String nationality;
+    private Gender gender;
+    private String moreInfo;
+    private Instant modifiedDate;
 
     private StudentProfileAttributes(String googleId) {
         this.googleId = googleId;
@@ -37,6 +36,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         this.modifiedDate = Instant.now();
     }
 
+    /**
+     * Gets the {@link StudentProfileAttributes} instance of the given {@link StudentProfile}.
+     */
     public static StudentProfileAttributes valueOf(StudentProfile sp) {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(sp.getGoogleId());
 
@@ -70,6 +72,9 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         return new Builder(googleId);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public StudentProfileAttributes getCopy() {
         StudentProfileAttributes studentProfileAttributes = new StudentProfileAttributes(googleId);
 
@@ -92,28 +97,56 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
         return shortName;
     }
 
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
+    }
+
     public String getEmail() {
         return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getInstitute() {
         return institute;
     }
 
+    public void setInstitute(String institute) {
+        this.institute = institute;
+    }
+
     public String getNationality() {
         return nationality;
+    }
+
+    public void setNationality(String nationality) {
+        this.nationality = nationality;
     }
 
     public Gender getGender() {
         return gender;
     }
 
+    public void setGender(Gender gender) {
+        this.gender = gender;
+    }
+
     public String getMoreInfo() {
         return moreInfo;
     }
 
+    public void setMoreInfo(String moreInfo) {
+        this.moreInfo = moreInfo;
+    }
+
     public Instant getModifiedDate() {
         return modifiedDate;
+    }
+
+    public void setModifiedDate(Instant modifiedDate) {
+        this.modifiedDate = modifiedDate;
     }
 
     @Override
@@ -234,9 +267,11 @@ public class StudentProfileAttributes extends EntityAttributes<StudentProfile> {
      * Represents the gender of a student.
      */
     public enum Gender {
+        // CHECKSTYLE.OFF:JavadocVariable enum names are self-documenting
         MALE,
         FEMALE,
         OTHER;
+        // CHECKSTYLE.ON:JavadocVariable
 
         /**
          * Returns the Gender enum value corresponding to {@code gender}, or OTHER by default.

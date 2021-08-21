@@ -33,8 +33,8 @@
           <tr *ngFor="let feedbackSession of existingFeedbackSession">
             <td><input type="radio" name="copySessionFrom" [(ngModel)]="copyFromFeedbackSession"
                        [value]="feedbackSession"></td>
-            <td>{{ feedbackSession.courseId }}</td>
-            <td>{{ feedbackSession.feedbackSessionName }}</td>
+            <td class="text-break">{{ feedbackSession.courseId }}</td>
+            <td class="text-break">{{ feedbackSession.feedbackSessionName }}</td>
           </tr>
         </table>
       </div>

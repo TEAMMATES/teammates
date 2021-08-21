@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
@@ -27,7 +28,7 @@ class JoinCourseAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
@@ -50,12 +51,12 @@ class JoinCourseAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException eaee) {
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        sendJoinEmail(student.course, student.name, student.email, false);
+        sendJoinEmail(student.getCourse(), student.getName(), student.getEmail(), false);
 
         return new JsonResult("Student successfully joined course", HttpStatus.SC_OK);
     }
@@ -68,12 +69,12 @@ class JoinCourseAction extends Action {
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException eaee) {
-            return new JsonResult(eaee.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
-        sendJoinEmail(instructor.courseId, instructor.name, instructor.email, true);
+        sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
 
         return new JsonResult("Instructor successfully joined course", HttpStatus.SC_OK);
     }

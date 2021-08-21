@@ -1,9 +1,13 @@
 package teammates.ui.webapi;
 
+import java.util.List;
+
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -39,27 +43,20 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String institute = "TEAMMATES Test Institute 1";
 
         ______TS("Not enough parameters");
-        AccountCreateRequest badRequest = buildCreateRequest(null, institute, email);
 
-        try {
-            getAction(badRequest).execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals("name cannot be null", e.getMessage());
-        }
+        Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(null, institute, email)).execute());
+        assertEquals("name cannot be null", ex.getMessage());
 
-        badRequest = buildCreateRequest(name, null, email);
-        try {
-            getAction(badRequest).execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals("institute cannot be null", e.getMessage());
-        }
+        ex = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(name, null, email)).execute());
+        assertEquals("institute cannot be null", ex.getMessage());
 
-        badRequest = buildCreateRequest(name, institute, null);
-        try {
-            getAction(badRequest).execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            assertEquals("email cannot be null", e.getMessage());
-        }
+        ex = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(name, institute, null)).execute());
+        assertEquals("email cannot be null", ex.getMessage());
+
+        verifyNoTasksAdded();
 
         ______TS("Normal case");
 
@@ -74,10 +71,16 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
+
+        CourseAttributes course = logic.getCourse(courseId);
+        assertNotNull(course);
+        assertEquals("Sample Course 101", course.getName());
+        assertEquals(institute, course.getInstitute());
+
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor.key))
+                .withRegistrationKey(instructor.getEncryptedKey())
                 .withInstructorInstitution(institute)
                 .withInstitutionMac(StringHelper.generateSignature(institute))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
@@ -92,24 +95,27 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
                 emailSent.getSubject());
         assertEquals(email, emailSent.getRecipient());
 
+        List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
+        List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
+                studentList.size() + instructorList.size());
+
         ______TS("Error: invalid parameter");
 
         String invalidName = "James%20Bond99";
 
         req = buildCreateRequest(invalidName, institute, emailWithSpaces);
 
-        CreateAccountAction finalA = getAction(req);
-        try {
-            finalA.execute();
-        } catch (InvalidHttpRequestBodyException e) {
-            String expectedError =
-                    "\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                            + "it contains invalid characters. A/An person name must start with an "
-                            + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).";
-            assertEquals(expectedError, e.getMessage());
-        }
+        final CreateAccountAction finalA = getAction(req);
+
+        ex = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
+        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+                + "it contains invalid characters. A/An person name must start with an "
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
+                ex.getMessage());
 
         verifyNoEmailsSent();
+        verifyNoTasksAdded();
     }
 
     @Override

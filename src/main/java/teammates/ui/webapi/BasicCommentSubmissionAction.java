@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.UnauthorizedAccessException;
 
 /**
@@ -20,7 +21,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
      * Validates the questionType of the corresponding question.
      */
     void validQuestionForCommentInSubmission(FeedbackQuestionAttributes feedbackQuestion) {
-        if (!feedbackQuestion.getQuestionDetails().isFeedbackParticipantCommentsOnResponsesAllowed()) {
+        if (!feedbackQuestion.getQuestionDetailsCopy().isFeedbackParticipantCommentsOnResponsesAllowed()) {
             throw new InvalidHttpParameterException("Invalid question type for comment in submission");
         }
     }
@@ -33,7 +34,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
         if (comment != null) {
-            throw new InvalidHttpParameterException("Comment has been created for the response in submission");
+            throw new InvalidOperationException("Comment has been created for the response in submission");
         }
 
     }

@@ -3,10 +3,10 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 
 /**
  * SUT: {@link JoinCourseAction}.
@@ -56,27 +56,27 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").key;
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt")
+                        .getEncryptedKey();
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(registeredStudentKey),
+                Const.ParamsNames.REGKEY, registeredStudentKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        InvalidOperationException ioe = verifyInvalidOperation(params);
+        assertEquals("Student has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").key;
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt")
+                        .getEncryptedKey();
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredStudentKey),
+                Const.ParamsNames.REGKEY, unregisteredStudentKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
@@ -110,27 +110,26 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: instructor is already registered");
 
         String registeredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").key;
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getEncryptedKey();
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(registeredInstructorKey),
+                Const.ParamsNames.REGKEY, registeredInstructorKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        ioe = verifyInvalidOperation(params);
+        assertEquals("Instructor has already joined course", ioe.getMessage());
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").key;
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt")
+                        .getEncryptedKey();
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredInstructorKey),
+                Const.ParamsNames.REGKEY, unregisteredInstructorKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
@@ -149,7 +148,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Failure case: invalid entity type");
 
         params = new String[] {
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(unregisteredStudentKey),
+                Const.ParamsNames.REGKEY, unregisteredStudentKey,
                 Const.ParamsNames.ENTITY_TYPE, "unknown",
         };
 

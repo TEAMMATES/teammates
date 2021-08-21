@@ -46,7 +46,7 @@ public class FeedbackResponse extends BaseEntity {
     /**
      * Serialized {@link teammates.common.datatransfer.questions.FeedbackResponseDetails} stored as a string.
      *
-     * @see teammates.common.datatransfer.attributes.FeedbackResponseAttributes#getResponseDetails()
+     * @see teammates.common.datatransfer.attributes.FeedbackResponseAttributes#getResponseDetailsCopy()
      */
     @Unindex
     private String answer;
@@ -158,7 +158,7 @@ public class FeedbackResponse extends BaseEntity {
         this.receiverSection = recipientSection;
     }
 
-    public String getResponseMetaData() {
+    public String getAnswer() {
         return answer;
     }
 

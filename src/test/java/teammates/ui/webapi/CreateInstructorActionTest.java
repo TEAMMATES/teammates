@@ -6,6 +6,7 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TaskWrapper;
@@ -32,8 +33,8 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
     @Test
     protected void testExecute() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         ______TS("Typical case: add an instructor successfully");
 
@@ -60,29 +61,25 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertNotNull(logic.getInstructorForEmail(courseId, newInstructorEmail));
 
         InstructorAttributes instructorAdded = logic.getInstructorForEmail(courseId, newInstructorEmail);
-        assertEquals(newInstructorName, instructorAdded.name);
+        assertEquals(newInstructorName, instructorAdded.getName());
         assertEquals(newInstructorName, response.getName());
-        assertEquals(newInstructorEmail, instructorAdded.email);
+        assertEquals(newInstructorEmail, instructorAdded.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         TaskWrapper taskAdded = mockTaskQueuer.getTasksAdded().get(0);
 
         assertEquals(courseId, taskAdded.getParamMap().get(Const.ParamsNames.COURSE_ID));
-        assertEquals(instructorAdded.email, reqBody.getEmail());
+        assertEquals(instructorAdded.getEmail(), reqBody.getEmail());
         assertEquals(instructorId, reqBody.getId());
 
         ______TS("Error: try to add an existing instructor");
 
-        createInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(createInstructorAction);
-
-        assertEquals(HttpStatus.SC_CONFLICT, actionOutput.getStatusCode());
-
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
+        InvalidOperationException ioe = verifyInvalidOperation(reqBody, submissionParams);
         assertEquals("An instructor with the same email address already exists in the course.",
-                msg.getMessage());
+                ioe.getMessage());
 
         verifyNoTasksAdded();
 
@@ -98,7 +95,7 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
 
         assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
 
-        msg = (MessageOutput) actionOutput.getOutput();
+        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                 FieldValidator.EMAIL_MAX_LENGTH),
@@ -128,18 +125,19 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
         assertNotNull(logic.getInstructorForEmail(courseId, newInstructorEmail));
 
         instructorAdded = logic.getInstructorForEmail(courseId, newInstructorEmail);
-        assertEquals(newInstructorName, instructorAdded.name);
+        assertEquals(newInstructorName, instructorAdded.getName());
         assertEquals(newInstructorName, response.getName());
-        assertEquals(newInstructorEmail, instructorAdded.email);
+        assertEquals(newInstructorEmail, instructorAdded.getEmail());
         assertEquals(newInstructorEmail, response.getEmail());
 
         verifySpecifiedTasksAdded(Const.TaskQueue.INSTRUCTOR_COURSE_JOIN_EMAIL_QUEUE_NAME, 1);
+        verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME, 1);
 
         taskAdded = mockTaskQueuer.getTasksAdded().get(0);
         Map<String, String> paramMap = taskAdded.getParamMap();
 
         assertEquals(courseId, paramMap.get(Const.ParamsNames.COURSE_ID));
-        assertEquals(instructorAdded.email, paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
+        assertEquals(instructorAdded.getEmail(), paramMap.get(Const.ParamsNames.INSTRUCTOR_EMAIL));
     }
 
     @Override

@@ -1,12 +1,12 @@
 package teammates.ui.webapi;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -33,7 +33,7 @@ class UpdateInstructorPrivilegeAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         String emailOfInstructorToUpdate = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
@@ -63,15 +63,18 @@ class UpdateInstructorPrivilegeAction extends Action {
             updateSessionLevelPrivileges(sectionName, sessionName, sessionLevelPrivilegesMap, instructorToUpdate);
         }
 
-        instructorToUpdate.privileges.validatePrivileges();
-        updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
+        instructorToUpdate.getPrivileges().validatePrivileges();
+        logic.updateToEnsureValidityOfInstructorsForTheCourse(courseId, instructorToUpdate);
 
         try {
             instructorToUpdate = logic.updateInstructor(
                     InstructorAttributes
-                            .updateOptionsWithEmailBuilder(instructorToUpdate.courseId, instructorToUpdate.getEmail())
-                            .withPrivileges(instructorToUpdate.privileges)
+                            .updateOptionsWithEmailBuilder(instructorToUpdate.getCourseId(), instructorToUpdate.getEmail())
+                            .withPrivileges(instructorToUpdate.getPrivileges())
                             .build());
+        } catch (InstructorUpdateException e) {
+            // Should not happen as only privilege is updated
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
@@ -80,12 +83,12 @@ class UpdateInstructorPrivilegeAction extends Action {
 
         InstructorPrivilegeData response = new InstructorPrivilegeData();
 
-        response.constructCourseLevelPrivilege(instructorToUpdate.privileges);
+        response.constructCourseLevelPrivilege(instructorToUpdate.getPrivileges());
 
         if (sessionName != null) {
-            response.constructSessionLevelPrivilege(instructorToUpdate.privileges, sectionName, sessionName);
+            response.constructSessionLevelPrivilege(instructorToUpdate.getPrivileges(), sectionName, sessionName);
         } else if (sectionName != null) {
-            response.constructSectionLevelPrivilege(instructorToUpdate.privileges, sectionName);
+            response.constructSectionLevelPrivilege(instructorToUpdate.getPrivileges(), sectionName);
         }
 
         return new JsonResult(response);
@@ -93,50 +96,21 @@ class UpdateInstructorPrivilegeAction extends Action {
 
     private void updateCourseLevelPrivileges(Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.privileges.updatePrivilege(entry.getKey(), entry.getValue());
+            toUpdate.getPrivileges().updatePrivilege(entry.getKey(), entry.getValue());
         }
     }
 
     private void updateSectionLevelPrivileges(
             String sectionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.privileges.updatePrivilege(sectionName, entry.getKey(), entry.getValue());
+            toUpdate.getPrivileges().updatePrivilege(sectionName, entry.getKey(), entry.getValue());
         }
     }
 
     private void updateSessionLevelPrivileges(
             String sectionName, String sessionName, Map<String, Boolean> privilegesMap, InstructorAttributes toUpdate) {
         for (Map.Entry<String, Boolean> entry : privilegesMap.entrySet()) {
-            toUpdate.privileges.updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
-        }
-    }
-
-    /**
-     * Checks if there are any other registered instructors that can modify instructors.
-     * If there are none, the instructor currently being edited will be granted the privilege
-     * of modifying instructors automatically.
-     *
-     * @param courseId         Id of the course.
-     * @param instructorToEdit Instructor that will be edited.
-     *                         This may be modified within the method.
-     */
-    private void updateToEnsureValidityOfInstructorsForTheCourse(String courseId, InstructorAttributes instructorToEdit) {
-        List<InstructorAttributes> instructors = logic.getInstructorsForCourse(courseId);
-        int numOfInstrCanModifyInstructor = 0;
-        InstructorAttributes instrWithModifyInstructorPrivilege = null;
-        for (InstructorAttributes instructor : instructors) {
-            if (instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR)) {
-                numOfInstrCanModifyInstructor++;
-                instrWithModifyInstructorPrivilege = instructor;
-            }
-        }
-        boolean isLastRegInstructorWithPrivilege = numOfInstrCanModifyInstructor <= 1
-                && instrWithModifyInstructorPrivilege != null
-                && (!instrWithModifyInstructorPrivilege.isRegistered()
-                || instrWithModifyInstructorPrivilege.googleId
-                .equals(instructorToEdit.googleId));
-        if (isLastRegInstructorWithPrivilege) {
-            instructorToEdit.privileges.updatePrivilege(Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR, true);
+            toUpdate.getPrivileges().updatePrivilege(sectionName, sessionName, entry.getKey(), entry.getValue());
         }
     }
 }

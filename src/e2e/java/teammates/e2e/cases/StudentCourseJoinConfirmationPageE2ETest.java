@@ -21,7 +21,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
         removeAndRestoreDataBundle(testData);
 
         newStudent = testData.students.get("alice.tmms@SCJoinConf.CS2104");
-        newStudent.googleId = testData.accounts.get("alice.tmms").googleId;
+        newStudent.setGoogleId(testData.accounts.get("alice.tmms").getGoogleId());
     }
 
     @Test
@@ -29,14 +29,14 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
     public void testAll() {
         ______TS("Click join link: invalid key");
         String courseId = testData.courses.get("SCJoinConf.CS2104").getId();
-        String invalidEncryptedKey = "invalidKey";
+        String invalidKey = "invalidKey";
         AppUrl joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(invalidEncryptedKey)
+                .withRegistrationKey(invalidKey)
                 .withCourseId(courseId)
                 .withEntityType(Const.EntityType.STUDENT);
-        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newStudent.googleId);
+        ErrorReportingModal errorPage = loginToPage(joinLink, ErrorReportingModal.class, newStudent.getGoogleId());
 
-        errorPage.verifyErrorMessage("No student with given registration key: " + invalidEncryptedKey);
+        errorPage.verifyErrorMessage("No student with given registration key: " + invalidKey);
 
         ______TS("Click join link: valid key");
         joinLink = createUrl(Const.WebPageURIs.JOIN_PAGE)
@@ -45,7 +45,7 @@ public class StudentCourseJoinConfirmationPageE2ETest extends BaseE2ETestCase {
                 .withEntityType(Const.EntityType.STUDENT);
         CourseJoinConfirmationPage confirmationPage = getNewPageInstance(joinLink, CourseJoinConfirmationPage.class);
 
-        confirmationPage.verifyJoiningUser(newStudent.googleId);
+        confirmationPage.verifyJoiningUser(newStudent.getGoogleId());
         confirmationPage.confirmJoinCourse(StudentHomePage.class);
 
         ______TS("Already joined, no confirmation page");

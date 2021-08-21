@@ -47,7 +47,7 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         ______TS("verify loaded question");
         FeedbackQuestionAttributes loadedQuestion = testData.feedbackQuestions.get("qn1ForFirstSession").getCopy();
         FeedbackRankRecipientsQuestionDetails questionDetails =
-                (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetails();
+                (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.verifyRankQuestionDetails(1, questionDetails);
 
         ______TS("add new question");
@@ -56,30 +56,31 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         feedbackEditPage.addRankRecipientsQuestion(loadedQuestion);
 
         feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
 
         ______TS("copy question");
         FeedbackQuestionAttributes copiedQuestion = testData.feedbackQuestions.get("qn1ForSecondSession");
-        questionDetails = (FeedbackRankRecipientsQuestionDetails) copiedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackRankRecipientsQuestionDetails) copiedQuestion.getQuestionDetailsCopy();
         feedbackEditPage.copyQuestion(copiedQuestion.getCourseId(),
-                copiedQuestion.getQuestionDetails().getQuestionText());
-        copiedQuestion.courseId = course.getId();
-        copiedQuestion.feedbackSessionName = feedbackSession.getFeedbackSessionName();
+                copiedQuestion.getQuestionDetailsCopy().getQuestionText());
+        copiedQuestion.setCourseId(course.getId());
+        copiedQuestion.setFeedbackSessionName(feedbackSession.getFeedbackSessionName());
         copiedQuestion.setQuestionNumber(3);
 
         feedbackEditPage.verifyRankQuestionDetails(3, questionDetails);
-        verifyPresentInDatastore(copiedQuestion);
+        verifyPresentInDatabase(copiedQuestion);
 
         ______TS("edit question");
-        questionDetails = (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetails();
+        questionDetails = (FeedbackRankRecipientsQuestionDetails) loadedQuestion.getQuestionDetailsCopy();
         questionDetails.setAreDuplicatesAllowed(false);
         questionDetails.setMaxOptionsToBeRanked(3);
         questionDetails.setMinOptionsToBeRanked(Const.POINTS_NO_VALUE);
-        loadedQuestion.questionDetails = questionDetails;
+        loadedQuestion.setQuestionDetails(questionDetails);
         feedbackEditPage.editRankQuestion(2, questionDetails);
+        feedbackEditPage.waitForPageToLoad();
 
         feedbackEditPage.verifyRankQuestionDetails(2, questionDetails);
-        verifyPresentInDatastore(loadedQuestion);
+        verifyPresentInDatabase(loadedQuestion);
     }
 
     @Override
@@ -91,17 +92,17 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
         InstructorAttributes receiver = testData.instructors.get("instructor");
         InstructorAttributes receiver2 = testData.instructors.get("instructor2");
         feedbackSubmitPage.verifyRankQuestion(1, receiver.getName(),
-                (FeedbackRankQuestionDetails) question.getQuestionDetails());
+                (FeedbackRankQuestionDetails) question.getQuestionDetailsCopy());
 
         ______TS("submit response");
         String questionId = getFeedbackQuestion(question).getId();
         FeedbackResponseAttributes response = getResponse(questionId, receiver, 1);
         FeedbackResponseAttributes response2 = getResponse(questionId, receiver2, 2);
-        List responses = Arrays.asList(response, response2);
+        List<FeedbackResponseAttributes> responses = Arrays.asList(response, response2);
         feedbackSubmitPage.submitRankRecipientResponse(1, responses);
 
-        verifyPresentInDatastore(response);
-        verifyPresentInDatastore(response2);
+        verifyPresentInDatabase(response);
+        verifyPresentInDatabase(response2);
 
         ______TS("check previous response");
         feedbackSubmitPage = getFeedbackSubmitPage();
@@ -115,8 +116,8 @@ public class FeedbackRankRecipientQuestionE2ETest extends BaseFeedbackQuestionE2
 
         feedbackSubmitPage = getFeedbackSubmitPage();
         feedbackSubmitPage.verifyRankRecipientResponse(1, responses);
-        verifyAbsentInDatastore(response);
-        verifyPresentInDatastore(response2);
+        verifyAbsentInDatabase(response);
+        verifyPresentInDatabase(response2);
     }
 
     private FeedbackResponseAttributes getResponse(String questionId, InstructorAttributes receiver, Integer answer) {
