@@ -43,9 +43,9 @@ public class OriginCheckFilter implements Filter {
     ));
 
     private static final String ALLOWED_HEADERS = String.join(", ", Arrays.asList(
-            Const.SecurityConfig.CSRF_HEADER_NAME,
+            Const.HeaderNames.CSRF_TOKEN,
             "Content-Type",
-            "X-WEB-VERSION",
+            Const.HeaderNames.WEB_VERSION,
             "ngsw-bypass"
     ));
 
@@ -66,7 +66,7 @@ public class OriginCheckFilter implements Filter {
             response.setHeader("Access-Control-Allow-Credentials", "true");
         }
 
-        if (Config.CSRF_KEY.equals(request.getHeader("CSRF-Key"))) {
+        if (Config.CSRF_KEY.equals(request.getHeader(Const.HeaderNames.CSRF_KEY))) {
             // Can bypass CSRF check with the correct key
             chain.doFilter(req, res);
             return;
@@ -155,7 +155,7 @@ public class OriginCheckFilter implements Filter {
     }
 
     private String getCsrfTokenErrorIfAny(HttpServletRequest request) {
-        String csrfToken = request.getHeader(Const.SecurityConfig.CSRF_HEADER_NAME);
+        String csrfToken = request.getHeader(Const.HeaderNames.CSRF_TOKEN);
         if (csrfToken == null || csrfToken.isEmpty()) {
             return "Missing CSRF token.";
         }
