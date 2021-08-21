@@ -124,7 +124,9 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
     this.isStudentListEmpty = true;
-    this.studentService.getStudentsFromCourse({ courseId: courseid }).subscribe((students: Students) => {
+    this.studentService.getStudentsFromCourse({ courseId: courseid })
+    .pipe(finalize(() => this.isStudentsLoading = false))
+    .subscribe((students: Students) => {
       this.students = []; // Reset the list of students
       const sections: StudentIndexedData = students.students.reduce((acc: StudentIndexedData, x: Student) => {
         const term: string = x.sectionName;
@@ -145,10 +147,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
         this.loadPrivilege(courseid, key, data);
       });
 
-      if (!Object.keys(sections).length) {
-        this.isStudentsLoading = false;
-      }
-
       this.courseDetails.stats = this.courseService.calculateCourseStatistics(students.students);
     }, (resp: ErrorMessageOutput) => {
       this.isStudentsLoading = false;
@@ -165,7 +163,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
       sectionName,
       courseId: courseid,
     })
-        .pipe(finalize(() => this.isStudentsLoading = false))
         .subscribe((instructorPrivilege: InstructorPrivilege) => {
           students.forEach((studentModel: StudentListRowModel) => {
             if (studentModel.student.sectionName === sectionName) {
