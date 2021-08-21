@@ -65,7 +65,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   isStudentsLoading: boolean = false;
   hasLoadingStudentsFailed: boolean = false;
   isDeleting: boolean = false;
-  isStudentListEmpty: boolean = true;
 
   studentSortBy: SortBy = SortBy.NONE;
   studentSortOrder: SortOrder = SortOrder.ASC;
@@ -123,7 +122,6 @@ export class InstructorCourseDetailsPageComponent implements OnInit {
   loadStudents(courseid: string): void {
     this.hasLoadingStudentsFailed = false;
     this.isStudentsLoading = true;
-    this.isStudentListEmpty = true;
     this.studentService.getStudentsFromCourse({ courseId: courseid })
     .pipe(finalize(() => this.isStudentsLoading = false))
     .subscribe((students: Students) => {

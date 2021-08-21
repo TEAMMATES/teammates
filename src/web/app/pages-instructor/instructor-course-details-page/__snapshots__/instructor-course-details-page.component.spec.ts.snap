@@ -9,7 +9,6 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
-  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -54,7 +53,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
-  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -232,7 +230,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
-  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
@@ -639,7 +636,6 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   instructors={[Function Array]}
   isDeleting="false"
   isLoadingCsv="false"
-  isStudentListEmpty={[Function Boolean]}
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
