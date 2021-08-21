@@ -2,11 +2,10 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -41,7 +40,7 @@ class CreateCourseAction extends Action {
 
         String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(newCourseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
-            return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(timeZoneErrorMessage);
         }
 
         String newCourseId = courseCreateRequest.getCourseId();
@@ -67,7 +66,7 @@ class CreateCourseAction extends Action {
                     + " has been used by another course, possibly by some other user."
                     + " Please try again with a different course ID.", e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new CourseData(logic.getCourse(newCourseId)));

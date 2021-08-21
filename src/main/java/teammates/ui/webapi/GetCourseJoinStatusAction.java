@@ -1,10 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.JoinStatus;
 
@@ -33,7 +32,7 @@ class GetCourseJoinStatusAction extends Action {
         case Const.EntityType.INSTRUCTOR:
             return getInstructorJoinStatus(regkey);
         default:
-            return new JsonResult("Error: invalid entity type", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 

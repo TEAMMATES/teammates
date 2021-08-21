@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -13,6 +11,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -120,7 +119,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
 
         String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
-            return new JsonResult(FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(FEEDBACK_RESPONSE_COMMENT_EMPTY);
         }
         String questionId = response.getFeedbackQuestionId();
         FeedbackQuestionAttributes question = logic.getFeedbackQuestion(questionId);
@@ -189,7 +188,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new FeedbackResponseCommentData(createdComment));

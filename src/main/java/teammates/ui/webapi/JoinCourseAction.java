@@ -8,6 +8,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -40,7 +41,7 @@ class JoinCourseAction extends Action {
             String mac = getRequestParamValue(Const.ParamsNames.INSTITUTION_MAC);
             return joinCourseForInstructor(regKey, institute, mac);
         default:
-            return new JsonResult("Error: invalid entity type", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Error: invalid entity type");
         }
     }
 

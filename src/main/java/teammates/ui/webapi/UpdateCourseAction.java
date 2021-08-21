@@ -2,12 +2,11 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -44,7 +43,7 @@ class UpdateCourseAction extends Action {
 
         String timeZoneErrorMessage = FieldValidator.getInvalidityInfoForTimeZone(courseTimeZone);
         if (!timeZoneErrorMessage.isEmpty()) {
-            return new JsonResult(timeZoneErrorMessage, HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(timeZoneErrorMessage);
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
@@ -58,7 +57,7 @@ class UpdateCourseAction extends Action {
                             .withTimezone(ZoneId.of(courseTimeZone))
                             .build());
         } catch (InvalidParametersException ipe) {
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException edee) {
             throw new EntityNotFoundException(edee);
         }

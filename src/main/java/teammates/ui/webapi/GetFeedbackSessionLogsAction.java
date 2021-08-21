@@ -69,7 +69,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             startTime = Long.parseLong(startTimeStr);
             endTime = Long.parseLong(endTimeStr);
         } catch (NumberFormatException e) {
-            return new JsonResult("Invalid start or end time", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid start or end time", e);
         }
         // TODO: we might want to impose limits on the time range from startTime to endTime
 

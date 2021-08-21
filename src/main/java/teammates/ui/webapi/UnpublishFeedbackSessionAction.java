@@ -37,6 +37,11 @@ class UnpublishFeedbackSessionAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        FeedbackSessionAttributes feedbackSession = getNonNullFeedbackSession(feedbackSessionName, courseId);
+        if (!feedbackSession.isPublished()) {
+            // If feedback session was not published to begin with, return early
+            return new JsonResult(new FeedbackSessionData(feedbackSession));
+        }
 
         try {
             FeedbackSessionAttributes unpublishFeedbackSession =
@@ -51,7 +56,8 @@ class UnpublishFeedbackSessionAction extends Action {
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            // There should not be any invalid parameter here
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
 }

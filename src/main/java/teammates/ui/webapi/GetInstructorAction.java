@@ -41,7 +41,13 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
 
     @Override
     public JsonResult execute() {
-        Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
+        String intentString = getNonNullRequestParamValue(Const.ParamsNames.INTENT);
+        Intent intent;
+        try {
+            intent = Intent.valueOf(intentString);
+        } catch (IllegalArgumentException e) {
+            throw new InvalidHttpParameterException("Invalid intent: " + intentString, e);
+        }
 
         InstructorAttributes instructorAttributes;
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

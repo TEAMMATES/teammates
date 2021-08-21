@@ -7,6 +7,7 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 
 /**
@@ -20,8 +21,7 @@ class ResetAccountAction extends AdminOnlyAction {
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
 
         if (studentEmail == null && instructorEmail == null) {
-            return new JsonResult("Either student email or instructor email has to be specified.",
-                    HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Either student email or instructor email has to be specified.");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

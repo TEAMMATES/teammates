@@ -1,12 +1,11 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InstructorUpdateException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -82,7 +81,7 @@ class UpdateInstructorAction extends Action {
 
             return new JsonResult(newInstructorData);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         } catch (InstructorUpdateException e) {
             throw new InvalidOperationException(e);
         } catch (EntityDoesNotExistException ednee) {

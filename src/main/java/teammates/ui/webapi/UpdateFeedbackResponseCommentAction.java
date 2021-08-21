@@ -3,8 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -15,6 +13,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -137,7 +136,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         // Edit comment text
         String commentText = comment.getCommentText();
         if (commentText.trim().isEmpty()) {
-            return new JsonResult(FEEDBACK_RESPONSE_COMMENT_EMPTY, HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(FEEDBACK_RESPONSE_COMMENT_EMPTY);
         }
 
         List<FeedbackParticipantType> showCommentTo = comment.getShowCommentTo();
@@ -157,7 +156,7 @@ class UpdateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new FeedbackResponseCommentData(updatedComment));

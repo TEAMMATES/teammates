@@ -2,14 +2,13 @@ package teammates.ui.webapi;
 
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -98,7 +97,7 @@ class UpdateStudentAction extends Action {
         } catch (EnrollException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException e) {

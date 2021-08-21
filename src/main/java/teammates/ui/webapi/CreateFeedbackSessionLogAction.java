@@ -4,6 +4,7 @@ import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
@@ -30,7 +31,7 @@ class CreateFeedbackSessionLogAction extends Action {
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
         if (convertedFslType == null) {
-            return new JsonResult("Invalid log type", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid log type");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

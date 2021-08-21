@@ -73,11 +73,9 @@ class UpdateInstructorPrivilegeAction extends Action {
                             .updateOptionsWithEmailBuilder(instructorToUpdate.getCourseId(), instructorToUpdate.getEmail())
                             .withPrivileges(instructorToUpdate.getPrivileges())
                             .build());
-        } catch (InstructorUpdateException e) {
+        } catch (InstructorUpdateException | InvalidParametersException e) {
             // Should not happen as only privilege is updated
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
-        } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         }

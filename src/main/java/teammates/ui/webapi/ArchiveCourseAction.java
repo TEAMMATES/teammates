@@ -38,7 +38,8 @@ class ArchiveCourseAction extends Action {
             // Set the archive status and status shown to user and admin
             logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            // There should not be any invalid parameter here
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

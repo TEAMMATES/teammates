@@ -3,10 +3,9 @@ package teammates.ui.webapi;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityNotFoundException;
+import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
@@ -113,7 +112,7 @@ class GetInstructorPrivilegeAction extends Action {
                                 InstructorPermissionRole.valueOf(instructorRole).getRoleName(), null);
                 return new JsonResult(rolePrivilege);
             } catch (IllegalArgumentException e) {
-                return new JsonResult("Invalid instructor role.", HttpStatus.SC_BAD_REQUEST);
+                throw new InvalidHttpParameterException("Invalid instructor role.", e);
             }
         }
 

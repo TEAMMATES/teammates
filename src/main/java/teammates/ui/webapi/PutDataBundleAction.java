@@ -1,8 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
@@ -32,8 +31,7 @@ class PutDataBundleAction extends Action {
         try {
             dataBundle = logic.persistDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
-            return new JsonResult("Error when persisting data bundle: " + e.getMessage(),
-                    HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            throw new InvalidHttpRequestBodyException("Error when persisting data bundle: " + e.getMessage(), e);
         }
 
         return new JsonResult(JsonUtils.toJson(dataBundle));

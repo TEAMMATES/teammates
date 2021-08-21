@@ -1,10 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
@@ -60,7 +59,7 @@ class CreateInstructorAction extends Action {
             throw new InvalidOperationException(
                     "An instructor with the same email address already exists in the course.", e);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
     }
