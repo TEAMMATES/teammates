@@ -65,7 +65,7 @@ class EnrollStudentsAction extends Action {
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);

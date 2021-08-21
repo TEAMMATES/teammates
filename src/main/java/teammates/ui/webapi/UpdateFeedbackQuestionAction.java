@@ -86,7 +86,7 @@ class UpdateFeedbackQuestionAction extends Action {
                             .withShowRecipientNameTo(oldQuestion.getShowRecipientNameTo())
                             .build());
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
         }

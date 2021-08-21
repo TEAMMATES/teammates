@@ -68,7 +68,7 @@ class CreateFeedbackQuestionAction extends Action {
         try {
             attributes = logic.createFeedbackQuestion(attributes);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new FeedbackQuestionData(attributes));

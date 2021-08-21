@@ -34,7 +34,7 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
         FeedbackResponseAttributes feedbackResponseAttributes = logic.getFeedbackResponse(feedbackResponseId);
 
@@ -75,7 +75,7 @@ class GetFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             feedbackResponseId = StringHelper.decrypt(
                     getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_RESPONSE_ID));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpParameterException(ipe.getMessage(), ipe);
+            throw new InvalidHttpParameterException(ipe);
         }
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
 

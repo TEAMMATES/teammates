@@ -70,7 +70,7 @@ class CreateFeedbackSessionAction extends Action {
         } catch (EntityAlreadyExistsException e) {
             throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         if (createRequest.getToCopyCourseId() != null) {

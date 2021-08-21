@@ -55,7 +55,7 @@ class UpdateFeedbackSessionAction extends Action {
 
             return new JsonResult(new FeedbackSessionData(updateFeedbackSession));
         } catch (InvalidParametersException ipe) {
-            throw new InvalidHttpRequestBodyException(ipe.getMessage(), ipe);
+            throw new InvalidHttpRequestBodyException(ipe);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         }

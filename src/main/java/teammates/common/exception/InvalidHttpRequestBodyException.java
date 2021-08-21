@@ -11,8 +11,8 @@ public class InvalidHttpRequestBodyException extends RuntimeException {
         super(message);
     }
 
-    public InvalidHttpRequestBodyException(String message, Throwable cause) {
-        super(message, cause);
+    public InvalidHttpRequestBodyException(Throwable cause) {
+        super(cause.getMessage(), cause);
     }
 
 }
