@@ -7,6 +7,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap when student is st
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isFormSaving="false"
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   navigationService={[Function NavigationService]}
@@ -49,6 +50,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with default field
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isFormSaving="false"
   isStudentLoading={[Function Boolean]}
   isTeamnameFieldChanged="false"
   navigationService={[Function NavigationService]}
@@ -92,6 +94,7 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
   hasStudentLoadingFailed="false"
   isEmailFieldChanged="false"
   isEnabled={[Function Boolean]}
+  isFormSaving="false"
   isStudentLoading="false"
   isTeamnameFieldChanged="false"
   navigationService={[Function NavigationService]}
@@ -237,12 +240,16 @@ exports[`InstructorCourseStudentEditPageComponent should snap with student detai
             <div
               class="text-center"
             >
-              <input
+              <button
                 class="btn btn-success"
                 id="btn-submit"
                 type="submit"
-                value="Save Changes"
-              />
+              >
+                <i
+                  class="fas fa-save"
+                />
+                 Save Changes 
+              </button>
             </div>
             <br />
             <br />

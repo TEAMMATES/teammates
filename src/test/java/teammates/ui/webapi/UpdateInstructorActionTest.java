@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -93,12 +94,8 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        updateInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(updateInstructorAction);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
-
-        msg = (MessageOutput) actionOutput.getOutput();
-        assertEquals("At least one instructor must be displayed to students", msg.getMessage());
+        InvalidOperationException ioe = verifyInvalidOperation(reqBody, submissionParams);
+        assertEquals("At least one instructor must be displayed to students", ioe.getMessage());
 
         verifyNoTasksAdded();
 

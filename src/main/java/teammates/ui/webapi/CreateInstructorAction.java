@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.datatransfer.InstructorPrivileges;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -56,8 +57,8 @@ class CreateInstructorAction extends Action {
 
             return new JsonResult(new InstructorData(createdInstructor));
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("An instructor with the same email address already exists in the course.",
-                    HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException(
+                    "An instructor with the same email address already exists in the course.", e);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
