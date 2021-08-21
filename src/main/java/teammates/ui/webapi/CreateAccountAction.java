@@ -39,7 +39,7 @@ class CreateAccountAction extends AdminOnlyAction {
         }
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).getKey()))
+                .withRegistrationKey(instructorList.get(0).getEncryptedKey())
                 .withInstructorInstitution(instructorInstitution)
                 .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
