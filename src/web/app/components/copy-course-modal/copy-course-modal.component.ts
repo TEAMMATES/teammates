@@ -115,7 +115,7 @@ export class CopyCourseModalComponent implements OnInit {
   }
 
   /**
-   * Clears all selected feedback sessions and fetch feedback sessions for chosen course.
+   * Clears all selected feedback sessions of previously chosen course.
    */
   onSelectCourseChange(): void {
     this.selectedFeedbackSessions.clear();
