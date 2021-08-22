@@ -1131,17 +1131,33 @@ public class Logic {
     /**
      * Gets the session result for a feedback session.
      *
-     * @see FeedbackSessionsLogic#getSessionResultsForUser(String, String, String, boolean, String, String)
+     * @see FeedbackResponsesLogic#getSessionResultsForCourse(String, String, String, String, String)
      */
-    public SessionResultsBundle getSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
+    public SessionResultsBundle getSessionResultsForCourse(
+            String feedbackSessionName, String courseId, String userEmail,
             @Nullable String questionId, @Nullable String section) {
         assert feedbackSessionName != null;
         assert courseId != null;
         assert userEmail != null;
 
-        return feedbackSessionsLogic.getSessionResultsForUser(
-                feedbackSessionName, courseId, userEmail, isInstructor, questionId, section);
+        return feedbackResponsesLogic.getSessionResultsForCourse(
+                feedbackSessionName, courseId, userEmail, questionId, section);
+    }
+
+    /**
+     * Gets the session result for a feedback session for the given user.
+     *
+     * @see FeedbackResponsesLogic#getSessionResultsForUser(String, String, String, boolean, String)
+     */
+    public SessionResultsBundle getSessionResultsForUser(
+            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
+            @Nullable String questionId) {
+        assert feedbackSessionName != null;
+        assert courseId != null;
+        assert userEmail != null;
+
+        return feedbackResponsesLogic.getSessionResultsForUser(
+                feedbackSessionName, courseId, userEmail, isInstructor, questionId);
     }
 
     /**
