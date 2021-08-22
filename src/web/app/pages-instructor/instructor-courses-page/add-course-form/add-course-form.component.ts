@@ -121,7 +121,7 @@ export class AddCourseFormComponent implements OnInit {
     modalRef.componentInstance.allCourses = this.allCourses;
     modalRef.componentInstance.activeCourses = this.activeCourses;
 
-    modalRef.componentInstance.selectCourseEvent.subscribe((courseId: string) => {
+    modalRef.componentInstance.fetchFeedbackSessionsEvent.subscribe((courseId: string) => {
       this.feedbackSessionsService
         .getFeedbackSessionsForInstructor(courseId)
         .subscribe((feedbackSessions: FeedbackSessions) => {

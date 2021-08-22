@@ -15,7 +15,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
-  selectCourseEvent={[Function EventEmitter]}
+  fetchFeedbackSessionsEvent={[Function EventEmitter]}
   selectedFeedbackSessions={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -30,7 +30,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
       <div>
         Copy course
       </div>
-      
+
     </h5>
     <button
       class="close"
@@ -109,7 +109,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
               class="form-control ng-untouched ng-pristine ng-valid"
               id="copy-time-zone"
             >
-              
+
               <option
                 value="Africa/Abidjan"
               >
@@ -3058,7 +3058,7 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
             </span>
           </div>
         </div>
-        
+
         <div
           class="form-group"
         >
@@ -3072,11 +3072,11 @@ exports[`CopyCourseModalComponent should snap when copying from other sessions 1
               class="form-control ng-untouched ng-pristine ng-valid"
               id="course-to-copy-from"
             >
-              
+
             </select>
           </div>
         </div>
-        
+
       </div>
     </div>
   </div><div
@@ -3115,7 +3115,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
-  selectCourseEvent={[Function EventEmitter]}
+  fetchFeedbackSessionsEvent={[Function EventEmitter]}
   selectedFeedbackSessions={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -3130,11 +3130,11 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
       <div>
         Copy course
       </div>
-      
+
       <small>
-        Copy from: [] 
+        Copy from: []
         <b>
-          
+
         </b>
       </small>
     </h5>
@@ -3215,7 +3215,7 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
               class="form-control ng-untouched ng-pristine ng-valid"
               id="copy-time-zone"
             >
-              
+
               <option
                 value="Africa/Abidjan"
               >
@@ -6164,8 +6164,8 @@ exports[`CopyCourseModalComponent should snap with default fields 1`] = `
             </span>
           </div>
         </div>
-        
-        
+
+
       </div>
     </div>
   </div><div
@@ -6204,7 +6204,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
   newTimezone={[Function String]}
   oldCourseId=""
   oldCourseName=""
-  selectCourseEvent={[Function EventEmitter]}
+  fetchFeedbackSessionsEvent={[Function EventEmitter]}
   selectedFeedbackSessions={[Function Set]}
   statusMessageService={[Function StatusMessageService]}
   timezoneService={[Function TimezoneService]}
@@ -6219,11 +6219,11 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
       <div>
         Copy course
       </div>
-      
+
       <small>
-        Copy from: [] 
+        Copy from: []
         <b>
-          
+
         </b>
       </small>
     </h5>
@@ -6304,7 +6304,7 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
               class="form-control ng-untouched ng-pristine ng-valid"
               id="copy-time-zone"
             >
-              
+
               <option
                 value="Africa/Abidjan"
               >
@@ -9253,8 +9253,8 @@ exports[`CopyCourseModalComponent should snap with some course id 1`] = `
             </span>
           </div>
         </div>
-        
-        
+
+
       </div>
     </div>
   </div><div

@@ -122,7 +122,7 @@ describe('AddCourseFormComponent', () => {
         isCopyFromOtherSession: false,
         courses: [],
         courseToFeedbackSession: {},
-        selectCourseEvent: new EventEmitter<string>(),
+        fetchFeedbackSessionsEvent: new EventEmitter<string>(),
       };
       result: Promise<any> = Promise.resolve();
     }
@@ -152,7 +152,7 @@ describe('AddCourseFormComponent', () => {
     component.activeCourses = [testCourse];
 
     component.onCopy();
-    mockModalRef.componentInstance.selectCourseEvent.emit(testCourse.courseId);
+    mockModalRef.componentInstance.fetchFeedbackSessionsEvent.emit(testCourse.courseId);
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);

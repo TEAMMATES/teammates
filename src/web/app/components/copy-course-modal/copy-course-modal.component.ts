@@ -33,7 +33,7 @@ export class CopyCourseModalComponent implements OnInit {
   @Input()
   allCourses: Course[] = [];
 
-  selectCourseEvent: EventEmitter<string> = new EventEmitter<string>();
+  fetchFeedbackSessionsEvent: EventEmitter<string> = new EventEmitter<string>();
 
   isCopyFromOtherSession: boolean = false;
   newCourseIdIsConflicting: boolean = false;
@@ -121,7 +121,7 @@ export class CopyCourseModalComponent implements OnInit {
     this.selectedFeedbackSessions.clear();
 
     if (!this.courseToFeedbackSession[this.oldCourseId]) {
-      this.selectCourseEvent.emit(this.oldCourseId);
+      this.fetchFeedbackSessionsEvent.emit(this.oldCourseId);
     }
   }
 }
