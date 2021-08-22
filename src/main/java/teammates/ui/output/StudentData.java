@@ -125,7 +125,7 @@ public class StudentData extends ApiOutput {
 
     /**
      * Adds additional information only for search result for admin.
-     * @param key The encrypted key
+     * @param key The registration key
      * @param institute The institute of the student
      * @param googleId The googleId of the student
      */
