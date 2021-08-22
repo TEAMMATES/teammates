@@ -355,7 +355,13 @@ public final class FeedbackResponsesLogic {
             }
         }
 
-        Set<String> studentsEmailInTeam = getTeammateEmails(student, roster);
+        Set<String> studentsEmailInTeam = new HashSet<>();
+        if (student != null) {
+            for (StudentAttributes studentInTeam
+                    : roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList())) {
+                studentsEmailInTeam.add(studentInTeam.getEmail());
+            }
+        }
 
         // visibility table for each response and comment
         Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
@@ -454,7 +460,7 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         // consider the current viewing user
-        InstructorAttributes instructor = getInstructor(courseId, instructorEmail, true);
+        InstructorAttributes instructor = instructorsLogic.getInstructorForEmail(courseId, instructorEmail);
 
         return buildResultsBundle(true, feedbackSessionName, courseId, section, questionId, true, instructorEmail,
                 instructor, null, roster, allQuestions, allResponses);
@@ -482,8 +488,8 @@ public final class FeedbackResponsesLogic {
         RequestTracer.checkRemainingTime();
 
         // load response(s)
-        StudentAttributes student = getStudent(courseId, userEmail, isInstructor);
-        InstructorAttributes instructor = getInstructor(courseId, userEmail, isInstructor);
+        StudentAttributes student = isInstructor ? null : studentsLogic.getStudentForEmail(courseId, userEmail);
+        InstructorAttributes instructor = isInstructor ? instructorsLogic.getInstructorForEmail(courseId, userEmail) : null;
         List<FeedbackResponseAttributes> allResponses = new ArrayList<>();
         for (FeedbackQuestionAttributes question : allQuestions) {
             // load viewable responses for students/instructors proactively
@@ -595,46 +601,6 @@ public final class FeedbackResponsesLogic {
         }
 
         return missingResponses;
-    }
-
-    /**
-     * Gets the associated instructor if {@code isInstructor} is true.
-     *
-     * <p>Returns null if it is not an instructor or the instructor cannot be found.
-     */
-    private InstructorAttributes getInstructor(String courseId, String userEmail, boolean isInstructor) {
-        if (isInstructor) {
-            return instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        }
-        return null;
-    }
-
-    /**
-     * Gets emails of student's teammates if student is not null, else returns an empty set.
-     */
-    private Set<String> getTeammateEmails(StudentAttributes student, CourseRoster roster) {
-        if (student == null) {
-            return Collections.emptySet();
-        }
-        Set<String> studentsEmailInTeam = new HashSet<>();
-        List<StudentAttributes> studentsInTeam =
-                roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
-        for (StudentAttributes teammates : studentsInTeam) {
-            studentsEmailInTeam.add(teammates.getEmail());
-        }
-        return studentsEmailInTeam;
-    }
-
-    /**
-     * Gets the associated student if {@code isInstructor} is false.
-     *
-     * <p>Returns null if it is not a student or the student cannot be found.
-     */
-    private StudentAttributes getStudent(String courseId, String userEmail, boolean isInstructor) {
-        if (!isInstructor) {
-            return studentsLogic.getStudentForEmail(courseId, userEmail);
-        }
-        return null;
     }
 
     private boolean isResponseVisibleForUser(
