@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment-timezone';
 import { SortBy, SortOrder } from '../types/sort-properties';
 
 /**
@@ -10,6 +11,24 @@ import { SortBy, SortOrder } from '../types/sort-properties';
 export class TableComparatorService {
 
   constructor() { }
+
+  /**
+   * Compares two strings which are expected to be dates depending on order given.
+   * Assumes that the strings are formatted in the format 'ddd, DD MMM YYYY hh:mm:ss A'.
+   */
+  compareChronologically(strA: string, strB: string, order: SortOrder): number {
+    const dateFormat: string = 'ddd, DD MMM YYYY hh:mm:ss A';
+    const dateA: moment.Moment = moment(strA, dateFormat);
+    const dateB: moment.Moment = moment(strB, dateFormat);
+
+    if (order === SortOrder.ASC) {
+      return dateA.isAfter(dateB) ? 1 : (dateA.isBefore(dateB) ? -1 : 0);
+    }
+    if (order === SortOrder.DESC) {
+      return dateB.isAfter(dateA) ? 1 : (dateB.isBefore(dateA) ? -1 : 0);
+    }
+    return 0;
+  }
 
   /**
    * Compares two strings lexicographically depending on order given.
@@ -104,7 +123,6 @@ export class TableComparatorService {
       case SortBy.GIVER_NAME:
       case SortBy.RECIPIENT_NAME:
       case SortBy.LOG_TYPE:
-      case SortBy.LOG_DATE:
       case SortBy.RESULT_VIEW_STATUS:
         return this.compareLexicographically(strA, strB, order);
       case SortBy.MCQ_RESPONSE_COUNT:
@@ -134,6 +152,8 @@ export class TableComparatorService {
       case SortBy.MSQ_WEIGHT_TOTAL:
       case SortBy.MSQ_WEIGHT_AVERAGE:
         return this.compareNumbers(strA, strB, order);
+      case SortBy.LOG_DATE:
+        return this.compareChronologically(strA, strB, order);
       default:
         return 0;
     }
