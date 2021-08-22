@@ -39,6 +39,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
             InstructorAttributes instructorAttributes = getInstructorOfCourseFromRequest(feedbackSession.getCourseId());
             checkAccessControlForInstructorFeedbackSubmission(instructorAttributes, feedbackSession);
             break;
+        case INSTRUCTOR_RESULT:
         case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             break;
@@ -58,6 +59,7 @@ class GetInstructorAction extends BasicFeedbackSubmissionAction {
         case INSTRUCTOR_SUBMISSION:
             instructorAttributes = getInstructorOfCourseFromRequest(courseId);
             break;
+        case INSTRUCTOR_RESULT:
         case FULL_DETAIL:
             instructorAttributes = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             break;

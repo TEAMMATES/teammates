@@ -20,7 +20,7 @@ class SearchInstructorsAction extends AdminOnlyAction {
         if (googleId != null) {
             AccountAttributes account = logic.getAccount(googleId);
             if (account != null) {
-                return StringHelper.isEmpty(account.getInstitute()) ? "None" : account.getInstitute();
+                return StringHelper.isEmpty(account.getInstitute()) ? Const.UNKNOWN_INSTITUTION : account.getInstitute();
             }
         }
         return null;
@@ -40,7 +40,7 @@ class SearchInstructorsAction extends AdminOnlyAction {
         for (InstructorAttributes instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
-                    StringHelper.encrypt(instructor.getKey()),
+                    instructor.getEncryptedKey(),
                     getInstituteFromGoogleId(instructor.getGoogleId()),
                     instructor.getGoogleId());
 

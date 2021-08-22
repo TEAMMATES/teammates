@@ -8,7 +8,9 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
+import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.storage.api.AccountsDb;
 
@@ -128,9 +130,9 @@ public final class AccountsLogic {
      * Joins the user as an instructor and sets the institute if it is not null.
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String key, String googleId, String institute, String mac)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
+        InstructorAttributes instructor = validateInstructorJoinRequest(key, googleId, institute, mac);
 
         // Register the instructor
         instructor.setGoogleId(googleId);
@@ -141,6 +143,8 @@ public final class AccountsLogic {
                             .build());
         } catch (EntityDoesNotExistException e) {
             assert false : "Instructor disappeared while trying to register";
+        } catch (InstructorUpdateException e) {
+            assert false;
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
@@ -161,6 +165,20 @@ public final class AccountsLogic {
             makeAccountInstructor(googleId);
         }
 
+        // TODO remove this block 30 days after release of V8.1.0
+        if (instituteToSave != null) {
+            CourseAttributes course = coursesLogic.getCourse(instructor.getCourseId());
+
+            // Note that this bypasses access control check (i.e. the instructor may not have permission to update course),
+            // however since this update only happens when the institute is still unknown, the risk of misuse is minimum.
+
+            if (course.getInstitute() == null || Const.UNKNOWN_INSTITUTION.equals(course.getInstitute())) {
+                coursesLogic.updateCourseCascade(CourseAttributes.updateOptionsBuilder(instructor.getCourseId())
+                        .withInstitute(instituteToSave)
+                        .build());
+            }
+        }
+
         // Update the googleId of the student entity for the instructor which was created from sample data.
         StudentAttributes student = studentsLogic.getStudentForEmail(instructor.getCourseId(), instructor.getEmail());
         if (student != null) {
@@ -174,7 +192,7 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private InstructorAttributes validateInstructorJoinRequest(String encryptedKey,
+    private InstructorAttributes validateInstructorJoinRequest(String registrationKey,
                                                                String googleId,
                                                                String institute,
                                                                String mac)
@@ -184,10 +202,10 @@ public final class AccountsLogic {
             throw new InvalidParametersException("Institute authentication failed.");
         }
 
-        InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
+        InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {
-            throw new EntityDoesNotExistException("No instructor with given registration key: " + encryptedKey);
+            throw new EntityDoesNotExistException("No instructor with given registration key: " + registrationKey);
         }
 
         if (instructorForKey.isRegistered()) {
@@ -212,13 +230,13 @@ public final class AccountsLogic {
         return instructorForKey;
     }
 
-    private StudentAttributes validateStudentJoinRequest(String encryptedKey, String googleId)
+    private StudentAttributes validateStudentJoinRequest(String registrationKey, String googleId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(encryptedKey);
+        StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(registrationKey);
 
         if (studentRole == null) {
-            throw new EntityDoesNotExistException("No student with given registration key: " + encryptedKey);
+            throw new EntityDoesNotExistException("No student with given registration key: " + registrationKey);
         }
 
         if (studentRole.isRegistered()) {

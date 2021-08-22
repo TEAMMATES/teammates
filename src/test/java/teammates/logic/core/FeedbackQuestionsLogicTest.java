@@ -878,11 +878,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
         FeedbackQuestionAttributes qn1InSession1InCourse1 = getQuestionFromDatabase("qn1InSession1InCourse1");
-        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
-                qn1InSession1InCourse1.getFeedbackSessionName(), qn1InSession1InCourse1.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session1, qn1InSession1InCourse1, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(qn1InSession1InCourse1, courseRoster);
 
         assertEquals(5, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get("student1InCourse1@gmail.tmt").size());
@@ -903,11 +901,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
         FeedbackQuestionAttributes qn4InSession1InCourse1 = getQuestionFromDatabase("qn4InSession1InCourse1");
-        FeedbackSessionAttributes session1 = fsLogic.getFeedbackSession(
-                qn4InSession1InCourse1.getFeedbackSessionName(), qn4InSession1InCourse1.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session1, qn4InSession1InCourse1, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(qn4InSession1InCourse1, courseRoster);
 
         assertEquals(5, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get("instructor1@course1.tmt").size());
@@ -933,7 +929,7 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 qn3InSession1InCourse1.getFeedbackSessionName(), qn3InSession1InCourse1.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session1, qn3InSession1InCourse1, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(qn3InSession1InCourse1, courseRoster);
 
         assertEquals(1, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get(session1.getCreatorEmail()).size());
@@ -946,11 +942,9 @@ public class FeedbackQuestionsLogicTest extends BaseLogicTest {
                 studentsLogic.getStudentsForCourse("idOfTypicalCourse1"),
                 instructorsLogic.getInstructorsForCourse("idOfTypicalCourse1"));
         FeedbackQuestionAttributes teamFeedbackQuestion = getQuestionFromDatabase("team.feedback");
-        FeedbackSessionAttributes session2 = fsLogic.getFeedbackSession(
-                teamFeedbackQuestion.getFeedbackSessionName(), teamFeedbackQuestion.getCourseId());
 
         Map<String, Set<String>> completeGiverRecipientMap =
-                fqLogic.buildCompleteGiverRecipientMap(session2, teamFeedbackQuestion, courseRoster);
+                fqLogic.buildCompleteGiverRecipientMap(teamFeedbackQuestion, courseRoster);
 
         assertEquals(2, completeGiverRecipientMap.size());
         assertEquals(1, completeGiverRecipientMap.get("Team 1.1</td></div>'\"").size());
