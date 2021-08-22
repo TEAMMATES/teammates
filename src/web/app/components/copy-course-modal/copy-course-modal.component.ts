@@ -102,7 +102,7 @@ export class CopyCourseModalComponent implements OnInit {
    * Select all sessions or clear all sessions
    */
   toggleSelectionForAll(): void {
-    this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId].length
+    this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId]?.length
       ? this.selectedFeedbackSessions.clear()
       : this.selectedFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
   }
