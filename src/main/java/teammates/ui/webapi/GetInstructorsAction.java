@@ -11,7 +11,6 @@ import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
@@ -87,7 +86,7 @@ class GetInstructorsAction extends Action {
                     InstructorData instructorData = new InstructorData(instructor);
                     instructorData.setGoogleId(instructor.getGoogleId());
                     if (userInfo.isAdmin) {
-                        instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
+                        instructorData.setKey(instructor.getEncryptedKey());
                     }
                     data.getInstructors().add(instructorData);
                 }

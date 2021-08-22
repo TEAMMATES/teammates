@@ -10,6 +10,8 @@ import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
+import teammates.common.util.StringHelper;
+
 /**
  * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
@@ -170,7 +172,7 @@ public class Instructor extends BaseEntity {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
 
-        return uniqueId + prng.nextInt();
+        return StringHelper.encrypt(uniqueId + prng.nextInt());
     }
 
     public String getRole() {

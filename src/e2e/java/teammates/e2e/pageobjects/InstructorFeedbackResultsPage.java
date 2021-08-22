@@ -779,7 +779,7 @@ public class InstructorFeedbackResultsPage extends AppPage {
     }
 
     private String getSessionDurationString(FeedbackSessionAttributes feedbackSession) {
-        return getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()) + "   to   "
+        return getDateString(feedbackSession.getStartTime(), feedbackSession.getTimeZone()) + "   to\n"
                 + getDateString(feedbackSession.getEndTime(), feedbackSession.getTimeZone());
     }
 

@@ -157,6 +157,17 @@ public final class Config {
     }
 
     /**
+     * Returns the GAE instance ID.
+     */
+    public static String getInstanceId() {
+        String instanceId = System.getenv("GAE_INSTANCE");
+        if (instanceId == null) {
+            return "dev_server_instance_id";
+        }
+        return instanceId;
+    }
+
+    /**
      * Returns true if the server is configured to be the dev server.
      */
     public static boolean isDevServer() {

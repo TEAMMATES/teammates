@@ -287,7 +287,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
       questionId,
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
+      intent: Intent.FULL_DETAIL,
     })
     .subscribe((resp: SessionResults) => {
       if (resp.questions.length) {
@@ -324,7 +324,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService.getFeedbackSessionResults({
       courseId: this.session.courseId,
       feedbackSessionName: this.session.feedbackSessionName,
-      intent: Intent.INSTRUCTOR_RESULT,
+      intent: Intent.FULL_DETAIL,
       groupBySection: sectionName,
     })
     .subscribe((resp: SessionResults) => {
@@ -438,7 +438,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
           this.feedbackSessionsService.downloadSessionResults(
               this.session.courseId,
               this.session.feedbackSessionName,
-              Intent.INSTRUCTOR_RESULT,
+              Intent.FULL_DETAIL,
               this.indicateMissingResponses,
               this.showStatistics,
               this.questionsModel[k].question.feedbackQuestionId,
@@ -478,7 +478,7 @@ export class InstructorSessionResultPageComponent extends InstructorCommentsComp
     this.feedbackSessionsService.downloadSessionResults(
         this.session.courseId,
         this.session.feedbackSessionName,
-        Intent.INSTRUCTOR_RESULT,
+        Intent.FULL_DETAIL,
         this.indicateMissingResponses,
         this.showStatistics,
         question.questionId,

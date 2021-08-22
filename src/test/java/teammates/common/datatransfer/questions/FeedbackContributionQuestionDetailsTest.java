@@ -12,7 +12,6 @@ import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 
@@ -72,10 +71,8 @@ public class FeedbackContributionQuestionDetailsTest extends BaseTestCase {
         DataBundle responseBundle = loadDataBundle("/FeedbackContributionQuestionTest.json");
         populateQuestionAndResponseIds(responseBundle);
 
-        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("session1InCourse1");
-
         SessionResultsBundle bundle =
-                new SessionResultsBundle(session,
+                new SessionResultsBundle(
                         responseBundle.feedbackQuestions, new ArrayList<>(responseBundle.feedbackResponses.values()),
                         new ArrayList<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(), new HashMap<>(),
                         new CourseRoster(new ArrayList<>(responseBundle.students.values()),
