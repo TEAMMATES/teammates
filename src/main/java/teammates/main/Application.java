@@ -43,7 +43,7 @@ public final class Application {
         webapp.setWar(warPath);
         ClassList classlist = ClassList.setServerDefault(server);
 
-        if (Config.isDevServer()) {
+        if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
 
             ServletHolder devServerLoginServlet =
