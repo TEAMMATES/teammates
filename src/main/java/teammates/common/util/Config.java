@@ -51,6 +51,9 @@ public final class Config {
     /** The value of the "app.oauth2.client.secret" in build.properties file. */
     public static final String OAUTH2_CLIENT_SECRET;
 
+    /** The value of the "app.enable.devserver.login" in build.properties file. */
+    public static final boolean ENABLE_DEVSERVER_LOGIN;
+
     /** The value of the "app.captcha.secretkey" in build.properties file. */
     public static final String CAPTCHA_SECRET_KEY;
 
@@ -119,6 +122,7 @@ public final class Config {
         ENCRYPTION_KEY = properties.getProperty("app.encryption.key");
         OAUTH2_CLIENT_ID = properties.getProperty("app.oauth2.client.id");
         OAUTH2_CLIENT_SECRET = properties.getProperty("app.oauth2.client.secret");
+        ENABLE_DEVSERVER_LOGIN = Boolean.parseBoolean(properties.getProperty("app.enable.devserver.login", "true"));
         CAPTCHA_SECRET_KEY = properties.getProperty("app.captcha.secretkey");
         APP_ADMINS = Arrays.asList(properties.getProperty("app.admins", "").split(","));
         APP_MAINTAINERS = Arrays.asList(properties.getProperty("app.maintainers", "").split(","));
@@ -190,6 +194,13 @@ public final class Config {
 
         // GAE flexible; GAE_ENV variable should not exist in GAE flexible environment
         return env != null;
+    }
+
+    /**
+     * Indicates whether dev server login is enabled.
+     */
+    public static boolean isDevServerLoginEnabled() {
+        return Config.isDevServer() && ENABLE_DEVSERVER_LOGIN;
     }
 
     /**
