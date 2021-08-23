@@ -16,6 +16,7 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
@@ -174,9 +175,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String email = "instructorNotYetJoined@email.tmt";
 
         InstructorAttributes instr = instructorsDb.getInstructorForEmail(courseId, email);
-        key = instr.getKey();
 
-        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(instr.getEncryptedKey());
 
         assertEquals(instr.getCourseId(), retrieved.getCourseId());
         assertEquals(instr.getName(), retrieved.getName());
@@ -271,10 +271,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         ______TS("failure: No instructors displayed to students");
 
-        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+        InstructorUpdateException iue = assertThrows(InstructorUpdateException.class,
                 () -> instructorsLogic.verifyAtLeastOneInstructorIsDisplayed(courseIdWithNoInstructorsDisplayed,
                         true, false));
-        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+        assertEquals("At least one instructor must be displayed to students", iue.getMessage());
 
         ______TS("failure: null parameter");
 
@@ -402,10 +402,10 @@ public class InstructorsLogicTest extends BaseLogicTest {
                         .withIsDisplayedToStudents(false)
                         .build();
 
-        InvalidParametersException ive = assertThrows(InvalidParametersException.class,
+        InstructorUpdateException iue = assertThrows(InstructorUpdateException.class,
                 () -> instructorsLogic.updateInstructorByGoogleIdCascade(visibleInstructorUpdateOptions));
 
-        assertEquals("At least one instructor must be displayed to students", ive.getMessage());
+        assertEquals("At least one instructor must be displayed to students", iue.getMessage());
     }
 
     private void testUpdateInstructorByEmail() throws Exception {

@@ -14,6 +14,7 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.HttpRequestHelper;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
 /**
@@ -21,15 +22,18 @@ import teammates.common.util.StringHelper;
  */
 public class LoginServlet extends AuthServlet {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         String nextUrl = req.getParameter("nextUrl");
         if (nextUrl == null) {
             nextUrl = "/";
         }
-        if (Config.isDevServer()) {
+        if (Config.isDevServerLoginEnabled()) {
             resp.setStatus(HttpStatus.SC_MOVED_PERMANENTLY);
             resp.setHeader("Location", "/devServerLogin?nextUrl=" + nextUrl.replace("&", "%26"));
+            log.request(req, HttpStatus.SC_MOVED_PERMANENTLY, "Redirect to dev server login page");
             return;
         }
 
@@ -37,6 +41,7 @@ public class LoginServlet extends AuthServlet {
         UserInfoCookie uic = UserInfoCookie.fromCookie(cookie);
         boolean isLoginNeeded = uic == null || !uic.isValid();
         if (!isLoginNeeded) {
+            log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to next URL");
             resp.sendRedirect(nextUrl);
             return;
         }
@@ -45,6 +50,9 @@ public class LoginServlet extends AuthServlet {
         AuthorizationCodeRequestUrl authorizationUrl = getAuthorizationFlow().newAuthorizationUrl();
         authorizationUrl.setRedirectUri(getRedirectUri(req));
         authorizationUrl.setState(StringHelper.encrypt(JsonUtils.toCompactJson(state)));
+
+        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Redirect to Google sign-in page");
+
         resp.sendRedirect(authorizationUrl.build());
     }
 

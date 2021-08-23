@@ -13,6 +13,7 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.EntityNotFoundException;
 import teammates.common.exception.InvalidHttpParameterException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -68,7 +69,6 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             checkAccessControlForStudentFeedbackSubmission(studentAttributes, session);
 
             validQuestionForCommentInSubmission(question);
-            verifyCommentNotExist(feedbackResponseId);
             verifyResponseOwnerShipForStudent(studentAttributes, response, question);
             break;
         case INSTRUCTOR_SUBMISSION:
@@ -85,7 +85,6 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
             checkAccessControlForInstructorFeedbackSubmission(instructorAsFeedbackParticipant, session);
 
             validQuestionForCommentInSubmission(question);
-            verifyCommentNotExist(feedbackResponseId);
             verifyResponseOwnerShipForInstructor(instructorAsFeedbackParticipant, response);
             break;
         case INSTRUCTOR_RESULT:
@@ -135,6 +134,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         FeedbackParticipantType commentGiverType;
         switch (intent) {
         case STUDENT_SUBMISSION:
+            verifyCommentNotExist(feedbackResponseId);
             StudentAttributes student = getStudentOfCourseFromRequest(courseId);
             email = question.getGiverType() == FeedbackParticipantType.TEAMS
                     ? student.getTeam() : student.getEmail();
@@ -144,6 +144,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
                     ? FeedbackParticipantType.TEAMS : FeedbackParticipantType.STUDENTS;
             break;
         case INSTRUCTOR_SUBMISSION:
+            verifyCommentNotExist(feedbackResponseId);
             InstructorAttributes instructorAsFeedbackParticipant = getInstructorOfCourseFromRequest(courseId);
             email = instructorAsFeedbackParticipant.getEmail();
             isFromParticipant = true;
@@ -187,7 +188,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
         } catch (EntityDoesNotExistException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException(e);
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
