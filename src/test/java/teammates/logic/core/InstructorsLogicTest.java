@@ -175,9 +175,8 @@ public class InstructorsLogicTest extends BaseLogicTest {
         String email = "instructorNotYetJoined@email.tmt";
 
         InstructorAttributes instr = instructorsDb.getInstructorForEmail(courseId, email);
-        key = instr.getKey();
 
-        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(StringHelper.encrypt(key));
+        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(instr.getEncryptedKey());
 
         assertEquals(instr.getCourseId(), retrieved.getCourseId());
         assertEquals(instr.getName(), retrieved.getName());

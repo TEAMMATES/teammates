@@ -10,6 +10,8 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -168,6 +170,8 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -313,6 +317,8 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -458,6 +464,8 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
@@ -1082,6 +1090,8 @@ exports[`SessionResultPageComponent should snap with session results are loading
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading={[Function Boolean]}
   logService={[Function LogService]}
   loggedInUser=""
@@ -1239,6 +1249,8 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser={[Function String]}
@@ -1385,6 +1397,8 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
   logService={[Function LogService]}
   loggedInUser=""
