@@ -3,12 +3,11 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.RegenerateStudentException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.RegenerateStudentCourseLinksData;
 
@@ -46,7 +45,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
         } catch (EntityDoesNotExistException ex) {
             return new JsonResult(
                     String.format(STUDENT_NOT_FOUND, studentEmailAddress, courseId), HttpStatus.SC_NOT_FOUND);
-        } catch (RegenerateStudentException ex) {
+        } catch (EntityAlreadyExistsException ex) {
             return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
@@ -56,7 +55,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
                                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
         return new JsonResult(
-                new RegenerateStudentCourseLinksData(statusMessage, StringHelper.encrypt(updatedStudent.getKey())));
+                new RegenerateStudentCourseLinksData(statusMessage, updatedStudent.getEncryptedKey()));
     }
 
     /**

@@ -191,7 +191,7 @@ export class AdminSearchPageComponent {
     };
 
     student.courseJoinLink = this.getUpdatedUrl(student.courseJoinLink, newKey);
-
+    updateSessions(student.awaitingSessions);
     updateSessions(student.openSessions);
     updateSessions(student.notOpenSessions);
     updateSessions(student.publishedSessions);

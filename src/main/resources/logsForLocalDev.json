@@ -72,7 +72,7 @@
     },
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -158,7 +158,7 @@
     },
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -241,7 +241,7 @@
     },
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -287,7 +287,7 @@
     },
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -334,7 +334,7 @@
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -381,7 +381,7 @@
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -428,7 +428,7 @@
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -475,7 +475,7 @@
     "severity": "ERROR",
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -520,7 +520,7 @@
     "severity": "WARNING",
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -565,7 +565,7 @@
     "severity": "WARNING",
     "resourceIdentifier": {
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john",
       "zone": "asia-east2-3"
     },
@@ -592,6 +592,7 @@
       "requestHeaders": {
         "X-Cloud-Trace-Context": "b5e8ad59e0bc03e1691197b9654acd47/5531960319092037144",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "sec-fetch-mode": "cors",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
         "X-Forwarded-Proto": "https",
@@ -623,6 +624,8 @@
         "googleId": "john"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseStatus": 200,
       "requestMethod": "GET",
       "actionClass": "QueryLogsAction"
@@ -631,7 +634,7 @@
       "project_id": "teammates-john",
       "module_id": "default",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -666,6 +669,7 @@
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
         "X-AppEngine-Timeout-Ms": "599999",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-Api-Ticket": "ChBhZTk3MWUzMzMxNDk3YWVkGhMI+o+jpYyA8gIVFQVYCB0M1Qdt",
         "X-AppEngine-Https": "on",
         "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
@@ -683,6 +687,8 @@
       "requestParams": {},
       "message": "[200] [144ms] [GET /webapi/auth] GetAuthInfoAction",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
         "googleId": "john"
       },
@@ -691,7 +697,7 @@
     "resourceIdentifier": {
       "project_id": "teammates-john",
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3"
     },
     "severity": "INFO",
@@ -708,6 +714,8 @@
     "details": {
       "requestMethod": "GET",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestParams": {},
       "message": "[200] [115ms] [GET /webapi/actionclass] GetActionClassesAction",
       "responseStatus": 200,
@@ -727,6 +735,7 @@
         "Host": "teammates-john.appspot.com",
         "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-Request-Log-Id": "1234547c00ff0c2ab07e663e1500016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
         "X-Cloud-Trace-Context": "436675c565c4ddf520532261f7f2e826/16130292809135566483;o=1",
         "X-AppEngine-Api-Ticket": "ChBkNmY0YzQ3NWE0Y2ViYzNiGhMIsIO1pYyA8gIVuANYCB188gM8",
@@ -750,7 +759,7 @@
       "responseTime": 115
     },
     "resourceIdentifier": {
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3",
       "project_id": "teammates-john",
       "module_id": "default"
@@ -788,6 +797,7 @@
         "sec-ch-ua-mobile": "?0",
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "Accept-Encoding": "gzip, deflate, br",
         "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
         "X-AppEngine-Api-Ticket": "ChBmZTgzMjAwZDU1YzcwMzRmGhMI7cP2p4yA8gIVFQVYCB0M1Qdt",
@@ -804,6 +814,8 @@
         "googleId": "john"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseTime": 2111,
       "requestUrl": "/webapi/logs/query",
       "requestMethod": "GET",
@@ -818,7 +830,7 @@
       "module_id": "default",
       "project_id": "teammates-john",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -837,6 +849,7 @@
       "responseStatus": 200,
       "requestHeaders": {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-Cloud-Trace-Context": "f8873a234ed8ea3d59c7a2a9d42be2d8/1447767642330079431;o=1",
         "X-AppEngine-Region": "?",
         "sec-fetch-dest": "empty",
@@ -866,6 +879,8 @@
         "sec-fetch-site": "same-origin"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "message": "[200] [2525ms] [GET /webapi/logs/query] QueryLogsAction",
       "requestMethod": "GET",
       "userInfo": {
@@ -883,7 +898,7 @@
       "project_id": "teammates-john",
       "module_id": "default",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -899,10 +914,13 @@
     "details": {
       "requestParams": {},
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestHeaders": {
         "Accept-Encoding": "gzip, deflate, br",
         "X-AppEngine-Timeout-Ms": "599999",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-Api-Ticket": "ChA3NWIwNDI2MDMxZGI0OTE3GhMI+MP8vYyA8gIVagJYCB35awGd",
         "X-AppEngine-Https": "on",
         "X-AppEngine-City": "singapore",
@@ -943,7 +961,7 @@
     "resourceIdentifier": {
       "project_id": "teammates-john",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "module_id": "default"
     },
     "severity": "INFO",
@@ -972,6 +990,7 @@
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "sec-fetch-mode": "cors",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-Forwarded-Proto": "https",
         "X-AppEngine-Region": "?",
         "X-AppEngine-Timeout-Ms": "599999",
@@ -999,13 +1018,15 @@
         "coursestatus": "active"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "event": "REQUEST_LOG",
       "responseStatus": 200,
       "actionClass": "GetCoursesAction",
       "requestMethod": "GET"
     },
     "resourceIdentifier": {
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3",
       "project_id": "teammates-john",
       "module_id": "default"
@@ -1060,18 +1081,21 @@
         "sec-ch-ua": "\" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"",
         "X-Cloud-Trace-Context": "2628bc85cae489ec0ed5927749eb57bf/11973258524763026336",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0"
       },
       "responseStatus": 200,
       "actionClass": "GetFeedbackSessionsAction",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestUrl": "/webapi/sessions",
       "message": "[200] [612ms] [GET /webapi/sessions] GetFeedbackSessionsAction"
     },
     "resourceIdentifier": {
       "module_id": "default",
       "project_id": "teammates-john",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3"
     },
     "severity": "INFO",
@@ -1087,6 +1111,8 @@
     "insertId": "123454b2000115050e3ce761",
     "details": {
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
         "googleId": "john"
       },
@@ -1109,6 +1135,7 @@
         "sec-fetch-site": "same-origin",
         "sec-ch-ua-mobile": "?0",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-Region": "?",
         "X-Client-Data": "CgSM6ZsV",
         "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
@@ -1135,7 +1162,7 @@
     "resourceIdentifier": {
       "module_id": "default",
       "project_id": "teammates-john",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3"
     },
     "severity": "INFO",
@@ -1163,6 +1190,7 @@
         "Referer": "https://teammates-john.appspot.com/web/instructor/home",
         "sec-fetch-site": "same-origin",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-Timeout-Ms": "599999",
         "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
         "X-Client-Data": "CgSM6ZsV",
@@ -1187,6 +1215,8 @@
       },
       "requestUrl": "/webapi/sessions",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseTime": 5620,
       "message": "[200] [5620ms] [GET /webapi/sessions] GetFeedbackSessionsAction",
       "event": "REQUEST_LOG",
@@ -1200,7 +1230,7 @@
       "module_id": "default",
       "project_id": "teammates-john",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -1216,6 +1246,8 @@
     "details": {
       "requestUrl": "/webapi/auth",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "actionClass": "GetAuthInfoAction",
       "responseStatus": 200,
       "requestMethod": "GET",
@@ -1223,6 +1255,7 @@
       "responseTime": 296,
       "requestHeaders": {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "sec-fetch-site": "same-origin",
         "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
         "X-AppEngine-Country": "SG",
@@ -1258,7 +1291,7 @@
       }
     },
     "resourceIdentifier": {
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "module_id": "default",
       "zone": "asia-east2-3",
       "project_id": "teammates-john"
@@ -1279,6 +1312,8 @@
       "requestMethod": "GET",
       "responseStatus": 200,
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "actionClass": "GetCoursesAction",
       "responseTime": 384,
       "message": "[200] [384ms] [GET /webapi/courses] GetCoursesAction",
@@ -1310,6 +1345,7 @@
         "Accept": "application/json, text/plain, */*",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "Referer": "https://teammates-john.appspot.com/web/instructor/courses?isAddNewCourse=true",
         "sec-ch-ua-mobile": "?0",
         "X-AppEngine-Https": "on",
@@ -1324,7 +1360,7 @@
     "resourceIdentifier": {
       "module_id": "default",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john"
     },
     "severity": "INFO",
@@ -1349,7 +1385,7 @@
     "resourceIdentifier": {
       "zone": "asia-east2-3",
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john"
     },
     "severity": "INFO",
@@ -1380,6 +1416,8 @@
       "responseTime": 9435,
       "event": "REQUEST_LOG",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestHeaders": {
         "X-AppEngine-Api-Ticket": "ChA2YWVlOGRhNDNhZjQ1MDJiGhMIqOOr0IyA8gIVagJYCB35awGd",
         "Accept-Encoding": "gzip, deflate, br",
@@ -1404,6 +1442,7 @@
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "sec-fetch-mode": "cors",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-Client-Data": "CgSM6ZsV",
         "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
         "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
@@ -1416,7 +1455,7 @@
     },
     "resourceIdentifier": {
       "project_id": "teammates-john",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3",
       "module_id": "default"
     },
@@ -1444,6 +1483,8 @@
         "questionid": "ahRzfnRlYW1tYXRlcy1waW5oc3VhbnIdCxIQRmVlZGJhY2tRdWVzdGlvbhiAgICY5oiRCQy"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestHeaders": {
         "X-AppEngine-Country": "SG",
         "X-AppEngine-Default-Version-Hostname": "teammates-john.df.r.appspot.com",
@@ -1467,6 +1508,7 @@
         "X-Client-Data": "CgSM6ZsV",
         "traceparent": "00-e9212fb29ca33616705cfa5e487a7a81-e85d5e2b58a6e4ee-00",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "sec-fetch-mode": "cors",
         "X-AppEngine-Api-Ticket": "ChBiODI3MGE1Yjk3MDA0YjRiGhMInrvs1IyA8gIVFQVYCB0M1Qdt",
         "X-Forwarded-Proto": "https",
@@ -1479,7 +1521,7 @@
       "actionClass": "GetFeedbackResponsesAction"
     },
     "resourceIdentifier": {
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3",
       "module_id": "default",
       "project_id": "teammates-john"
@@ -1507,6 +1549,7 @@
         "X-AppEngine-City": "singapore",
         "Accept-Encoding": "gzip, deflate, br",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-User-IP": "1234:1234:1234:1234:1234:1234:1234:1234",
         "sec-fetch-site": "same-origin",
         "X-Client-Data": "CgSM6ZsV",
@@ -1528,6 +1571,8 @@
       },
       "requestUrl": "/webapi/responses",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "actionClass": "GetFeedbackResponsesAction",
       "requestMethod": "GET",
       "responseTime": 609,
@@ -1546,7 +1591,7 @@
       "zone": "asia-east2-3",
       "module_id": "default",
       "project_id": "teammates-john",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -1565,6 +1610,8 @@
       "responseTime": 143,
       "event": "REQUEST_LOG",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "userInfo": {
         "googleId": "john"
       },
@@ -1579,6 +1626,7 @@
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "X-AppEngine-City": "singapore",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "traceparent": "00-e1fee3136190f7e5e3ad23ff1e1f0b82-30d2584f34931154-00",
         "Accept": "application/json, text/plain, */*",
         "X-AppEngine-Api-Ticket": "ChBiYmMxNjM1NzZiZTgzNzczGhMIkv3u1YyA8gIVuANYCB188gM8",
@@ -1604,7 +1652,7 @@
       }
     },
     "resourceIdentifier": {
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "zone": "asia-east2-3",
       "project_id": "teammates-john",
       "module_id": "default"
@@ -1634,6 +1682,8 @@
         "googleId": "john"
       },
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "message": "[200] [156ms] [GET /webapi/auth] GetAuthInfoAction",
       "requestHeaders": {
         "X-AppEngine-City": "singapore",
@@ -1661,6 +1711,7 @@
         "X-AppEngine-Api-Ticket": "ChBiMWRkN2RmZmM1NjkzZTRmGhMIkoHv1YyA8gIVuANYCB188gM8",
         "Referer": "https://teammates-john.appspot.com/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "sec-fetch-site": "same-origin",
         "X-AppEngine-Country": "SG",
         "X-AppEngine-Request-Log-Id": "123454e200ff064412ff0056de9700016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100"
@@ -1670,7 +1721,7 @@
       "module_id": "default",
       "project_id": "teammates-john",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -1685,6 +1736,8 @@
     "insertId": "123454d1000d4e520e871023",
     "details": {
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "requestParams": {
         "courseid": "john.gma-demo",
         "intent": "STUDENT_RESULT",
@@ -1709,6 +1762,7 @@
         "Accept-Language": "en;q=0.8,en-US;q=0.7",
         "Referer": "https://teammates-john.appspot.com/web/student/sessions/result?courseid=john.gma-demo&fsname=Second%20team%20feedback%20session",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "X-AppEngine-Request-Log-Id": "123454e200ff0a0bb8fa87e3ea00016e7e7465616d6d617465732d70696e687375616e0001372d302d30000100",
         "X-Forwarded-For": "1234:1234:1234:1234:1234:1234:1234:1234, 169.254.1.1",
         "X-Client-Data": "CgSM6ZsV",
@@ -1734,7 +1788,7 @@
     "resourceIdentifier": {
       "zone": "asia-east2-3",
       "module_id": "default",
-      "version_id": "7-0-0",
+      "version_id": "8-0-0",
       "project_id": "teammates-john"
     },
     "severity": "INFO",
@@ -1779,6 +1833,7 @@
         "Accept-Encoding": "gzip, deflate, br",
         "X-AppEngine-Region": "?",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+        "X-WEB-VERSION": "8.0.0",
         "traceparent": "00-d6fe5a03aa5db12ddf5b5370c2fecc2d-58c565da25af5793-00",
         "X-AppEngine-CityLatLong": "1.234567,100.123456",
         "Forwarded": "for=\"1234:1234:1234:1234:1234:1234:1234:1234\";proto=https"
@@ -1791,6 +1846,8 @@
       },
       "actionClass": "GetStudentAction",
       "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.164 Safari/537.36",
+      "webVersion": "8.0.0",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
       "responseStatus": 200,
       "message": "[200] [408ms] [GET /webapi/student] GetStudentAction"
     },
@@ -1798,7 +1855,7 @@
       "project_id": "teammates-john",
       "zone": "asia-east2-3",
       "module_id": "default",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
@@ -1823,13 +1880,36 @@
       "module_id": "default",
       "project_id": "teammates-john",
       "zone": "asia-east2-3",
-      "version_id": "7-0-0"
+      "version_id": "8-0-0"
     },
     "severity": "INFO",
     "logName": "projects/teammates-john/logs/stdout",
     "trace": "9e39efa77897fc1caf99fed100f582cb",
     "sourceLocation": {
       "file": "teammates.ui.webapi.CreateFeedbackSessionLogAction",
+      "line": "59",
+      "function": "execute"
+    }
+  },
+  {
+    "insertId": "123454d20006fcaeaf8dcc52",
+    "details": {
+      "message": "Instance startup: 954845e59212724cae605b074c8c7f5c",
+      "event": "INSTANCE_LOG",
+      "instanceId": "954845e59212724cae605b074c8c7f5c08f7d6cffad8638bf19bbf88d7dab5a1da1921b1",
+      "instanceEvent": "STARTUP"
+    },
+    "resourceIdentifier": {
+      "module_id": "default",
+      "project_id": "teammates-john",
+      "zone": "asia-east2-3",
+      "version_id": "8-0-0"
+    },
+    "severity": "INFO",
+    "logName": "projects/teammates-john/logs/stdout",
+    "trace": "951f19331e63e19deebf52e6c21577e5",
+    "sourceLocation": {
+      "file": "teammates.main.Application",
       "line": "59",
       "function": "execute"
     }

@@ -161,8 +161,16 @@ public class FeedbackResponseCommentAttributes extends EntityAttributes<Feedback
         this.feedbackQuestionId = feedbackQuestionId;
     }
 
+    public void setShowCommentTo(List<FeedbackParticipantType> showCommentTo) {
+        this.showCommentTo = showCommentTo;
+    }
+
     public List<FeedbackParticipantType> getShowCommentTo() {
         return showCommentTo;
+    }
+
+    public void setShowGiverNameTo(List<FeedbackParticipantType> showGiverNameTo) {
+        this.showGiverNameTo = showGiverNameTo;
     }
 
     public List<FeedbackParticipantType> getShowGiverNameTo() {
