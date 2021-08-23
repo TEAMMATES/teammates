@@ -76,7 +76,7 @@ public class CourseStudent extends BaseEntity {
         setCreatedAt(Instant.now());
 
         this.id = generateId(getEmail(), getCourseId());
-        registrationKey = generateRegistrationKey();
+        setRegistrationKey(generateRegistrationKey());
     }
 
     /**
@@ -167,6 +167,10 @@ public class CourseStudent extends BaseEntity {
         return registrationKey;
     }
 
+    public void setRegistrationKey(String registrationKey) {
+        this.registrationKey = registrationKey;
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -207,6 +211,7 @@ public class CourseStudent extends BaseEntity {
         assert uniqueId != null;
 
         SecureRandom prng = new SecureRandom();
-        return uniqueId + "%" + prng.nextInt();
+
+        return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
     }
 }

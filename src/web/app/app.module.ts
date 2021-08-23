@@ -54,6 +54,9 @@ let routes: Routes = [
             path: 'result',
             loadChildren: () => import('./pages-session/session-result-page/session-result-page.module')
                 .then((m: any) => m.SessionResultPageModule),
+            data: {
+              intent: Intent.STUDENT_RESULT,
+            },
           },
           {
             path: 'submission',

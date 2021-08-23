@@ -18,6 +18,8 @@ public class RequestLogDetails extends LogDetails {
     private String instanceId;
     @Nullable // TODO remove nullable annotation 30 days after release of V8.1.0
     private String webVersion;
+    @Nullable // TODO remove nullable annotation 30 days after release of V8.1.0
+    private String referrer;
     @Nullable
     private Map<String, Object> requestParams;
     @Nullable
@@ -79,6 +81,14 @@ public class RequestLogDetails extends LogDetails {
         this.webVersion = webVersion;
     }
 
+    public String getReferrer() {
+        return referrer;
+    }
+
+    public void setReferrer(String referrer) {
+        this.referrer = referrer;
+    }
+
     public String getUserAgent() {
         return userAgent;
     }
@@ -124,6 +134,11 @@ public class RequestLogDetails extends LogDetails {
         requestHeaders = null;
         requestParams = null;
         userInfo = null;
+
+        if (referrer != null) {
+            // Hide only the query parameters as the URL on its own is not sensitive
+            referrer = referrer.split("\\?", 2)[0];
+        }
     }
 
 }

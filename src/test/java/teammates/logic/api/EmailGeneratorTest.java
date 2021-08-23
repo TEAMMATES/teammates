@@ -425,7 +425,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructor1.getKey()))
+                .withRegistrationKey(instructor1.getEncryptedKey())
                 .withInstructorInstitution("Test Institute")
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
