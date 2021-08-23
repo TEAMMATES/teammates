@@ -642,6 +642,7 @@ describe('SessionResultPageComponent', () => {
           otherResponses: [],
         },
       ],
+      feedbackSession: testFeedbackSession
     };
 
     spyOn(authService, 'getAuthUser').and.returnValue(of(testInfo));
