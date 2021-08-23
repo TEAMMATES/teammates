@@ -1,4 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { EventEmitter } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -115,12 +116,13 @@ describe('AddCourseFormComponent', () => {
     expect(spyStatusMessageService.showSuccessToast).toHaveBeenCalled();
   });
 
-  it('should open copy couse modal', () => {
+  it('should open copy course modal', () => {
     class MockNgbModalRef {
       componentInstance: any = {
         isCopyFromOtherSession: false,
         courses: [],
         courseToFeedbackSession: {},
+        fetchFeedbackSessionsEvent: new EventEmitter<string>(),
       };
       result: Promise<any> = Promise.resolve();
     }
@@ -150,6 +152,7 @@ describe('AddCourseFormComponent', () => {
     component.activeCourses = [testCourse];
 
     component.onCopy();
+    mockModalRef.componentInstance.fetchFeedbackSessionsEvent.emit(testCourse.courseId);
 
     expect(ngbModal.open).toHaveBeenCalledWith(CopyCourseModalComponent);
     expect(mockModalRef.componentInstance.isCopyFromOtherSession).toEqual(true);

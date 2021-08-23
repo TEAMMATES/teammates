@@ -420,6 +420,11 @@ exports[`LogsPageComponent should snap when searching for details in search form
                   >
                     FEEDBACK_SESSION_AUDIT
                   </option>
+                  <option
+                    value="INSTANCE_LOG"
+                  >
+                    INSTANCE_LOG
+                  </option>
                 </select>
               </div>
               <br />

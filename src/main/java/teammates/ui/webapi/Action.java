@@ -132,7 +132,7 @@ public abstract class Action {
     }
 
     private void initAuthInfo() {
-        if (Config.BACKDOOR_KEY.equals(req.getHeader("Backdoor-Key"))) {
+        if (Config.BACKDOOR_KEY.equals(req.getHeader(Const.HeaderNames.BACKDOOR_KEY))) {
             authType = AuthType.ALL_ACCESS;
             userInfo = userProvision.getAdminOnlyUser(getRequestParamValue(Const.ParamsNames.USER_ID));
             userInfo.isStudent = true;

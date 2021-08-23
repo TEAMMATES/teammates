@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { finalize } from 'rxjs/operators';
+import { finalize, switchMap, tap } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../../../services/auth.service';
 import { FeedbackSessionsService } from '../../../services/feedback-sessions.service';
+import { InstructorService } from '../../../services/instructor.service';
 import { LogService } from '../../../services/log.service';
 import { NavigationService } from '../../../services/navigation.service';
 import { StatusMessageService } from '../../../services/status-message.service';
@@ -14,6 +15,7 @@ import {
   AuthInfo,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
+  Instructor,
   QuestionOutput, RegkeyValidity,
   ResponseVisibleSetting,
   SessionResults,
@@ -61,6 +63,8 @@ export class SessionResultPageComponent implements OnInit {
   loggedInUser: string = '';
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
+  intent: Intent = Intent.STUDENT_RESULT;
+
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
   isFeedbackSessionResultsEmpty: boolean = false;
@@ -75,6 +79,7 @@ export class SessionResultPageComponent implements OnInit {
               private navigationService: NavigationService,
               private authService: AuthService,
               private studentService: StudentService,
+              private instructorService: InstructorService,
               private statusMessageService: StatusMessageService,
               private logService: LogService,
               private ngbModal: NgbModal) {
@@ -82,7 +87,12 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((queryParams: any) => {
+    this.route.data.pipe(
+        tap((data: any) => {
+          this.intent = data.intent;
+        }),
+        switchMap(() => this.route.queryParams),
+    ).subscribe((queryParams: any) => {
       this.courseId = queryParams.courseid;
       this.feedbackSessionName = queryParams.fsname;
       this.regKey = queryParams.key || '';
@@ -93,8 +103,7 @@ export class SessionResultPageComponent implements OnInit {
           this.loggedInUser = auth.user.id;
         }
         if (this.regKey) {
-          const intent: Intent = Intent.STUDENT_RESULT;
-          this.authService.getAuthRegkeyValidity(this.regKey, intent).subscribe((resp: RegkeyValidity) => {
+          this.authService.getAuthRegkeyValidity(this.regKey, this.intent).subscribe((resp: RegkeyValidity) => {
             if (resp.isAllowedAccess) {
               if (resp.isUsed) {
                 // The logged in user matches the registration key; redirect to the logged in URL
@@ -141,23 +150,37 @@ export class SessionResultPageComponent implements OnInit {
   }
 
   private loadPersonName(): void {
-    this.studentService
-      .getStudent(this.courseId, '', this.regKey)
-      .subscribe((student: Student) => {
-        this.personName = student.name;
-        this.personEmail = student.email;
+    switch (this.intent) {
+      case Intent.STUDENT_RESULT:
+        this.studentService.getStudent(this.courseId, '', this.regKey).subscribe((student: Student) => {
+          this.personName = student.name;
+          this.personEmail = student.email;
 
-        this.logService.createFeedbackSessionLog({
+          this.logService.createFeedbackSessionLog({
+            courseId: this.courseId,
+            feedbackSessionName: this.feedbackSessionName,
+            studentEmail: this.personEmail,
+            logType: FeedbackSessionLogType.VIEW_RESULT,
+          }).subscribe(
+              () => {
+                // No action needed if log is successfully created.
+              },
+              () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
+        });
+        break;
+      case Intent.INSTRUCTOR_RESULT:
+        this.instructorService.getInstructor({
           courseId: this.courseId,
           feedbackSessionName: this.feedbackSessionName,
-          studentEmail: this.personEmail,
-          logType: FeedbackSessionLogType.VIEW_RESULT,
-        }).subscribe(
-          () => {
-            // No action needed if log is successfully created.
-          },
-          () => this.statusMessageService.showWarningToast('Failed to log feedback session view'));
-      });
+          intent: this.intent,
+          key: this.regKey,
+        }).subscribe((instructor: Instructor) => {
+          this.personName = instructor.name;
+          this.personEmail = instructor.email;
+        });
+        break;
+      default:
+    }
   }
 
   private loadFeedbackSession(): void {
@@ -165,7 +188,7 @@ export class SessionResultPageComponent implements OnInit {
     this.feedbackSessionsService.getFeedbackSession({
       courseId: this.courseId,
       feedbackSessionName: this.feedbackSessionName,
-      intent: Intent.STUDENT_RESULT,
+      intent: this.intent,
       key: this.regKey,
     }).subscribe((feedbackSession: FeedbackSession) => {
       const TIME_FORMAT: string = 'ddd, DD MMM, YYYY, hh:mm A zz';
@@ -177,7 +200,7 @@ export class SessionResultPageComponent implements OnInit {
       this.feedbackSessionsService.getFeedbackSessionResults({
         courseId: this.courseId,
         feedbackSessionName: this.feedbackSessionName,
-        intent: Intent.STUDENT_RESULT,
+        intent: this.intent,
         key: this.regKey,
       })
           .pipe(finalize(() => this.isFeedbackSessionResultsLoading = false))
@@ -197,11 +220,18 @@ export class SessionResultPageComponent implements OnInit {
     });
   }
 
-  canStudentSeeResponses(question: QuestionOutput): boolean {
+  canUserSeeResponses(question: QuestionOutput): boolean {
     const showResponsesTo: FeedbackVisibilityType[] = question.feedbackQuestion.showResponsesTo;
 
-    return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
-        visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
+    if (this.intent === Intent.STUDENT_RESULT) {
+      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
+          visibilityType !== FeedbackVisibilityType.INSTRUCTORS).length > 0;
+    }
+    if (this.intent === Intent.INSTRUCTOR_RESULT) {
+      return showResponsesTo.filter((visibilityType: FeedbackVisibilityType) =>
+          visibilityType === FeedbackVisibilityType.INSTRUCTORS).length > 0;
+    }
+    return false;
   }
 
   /**

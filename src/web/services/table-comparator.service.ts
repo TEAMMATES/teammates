@@ -67,14 +67,9 @@ export class TableComparatorService {
       case SortBy.RUBRIC_CHOICE:
       case SortBy.RANK_RECIPIENTS_TEAM:
       case SortBy.RANK_RECIPIENTS_RECIPIENT:
-      case SortBy.RANK_OPTIONS_OVERALL_RANK:
-      case SortBy.NUMERICAL_SCALE_MAX:
-      case SortBy.NUMERICAL_SCALE_MIN:
       case SortBy.MCQ_TEAM:
-      case SortBy.MCQ_RESPONSE_COUNT:
       case SortBy.MCQ_OPTION_SELECTED_TIMES:
       case SortBy.MSQ_TEAM:
-      case SortBy.MSQ_RESPONSE_COUNT:
       case SortBy.MSQ_OPTION_SELECTED_TIMES:
       case SortBy.SECTION_NAME:
       case SortBy.TEAM_NAME:
@@ -85,11 +80,6 @@ export class TableComparatorService {
       case SortBy.CONSTSUM_OPTIONS_OPTION:
       case SortBy.CONTRIBUTION_RECIPIENT:
       case SortBy.COMMENTS_CREATION_DATE:
-      case SortBy.RANK_RECIPIENTS_SELF_RANK:
-      case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
-      case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
-      case SortBy.RANK_RECIPIENTS_TEAM_RANK:
-      case SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF:
       case SortBy.RANK_OPTIONS_OPTION:
       case SortBy.MCQ_CHOICE:
       case SortBy.MCQ_RECIPIENT_NAME:
@@ -117,10 +107,20 @@ export class TableComparatorService {
       case SortBy.LOG_DATE:
       case SortBy.RESULT_VIEW_STATUS:
         return this.compareLexicographically(strA, strB, order);
+      case SortBy.MCQ_RESPONSE_COUNT:
+      case SortBy.MSQ_RESPONSE_COUNT:
+      case SortBy.RANK_OPTIONS_OVERALL_RANK:
+      case SortBy.RANK_RECIPIENTS_SELF_RANK:
+      case SortBy.RANK_RECIPIENTS_OVERALL_RANK:
+      case SortBy.RANK_RECIPIENTS_OVERALL_RANK_EXCLUDING_SELF:
+      case SortBy.RANK_RECIPIENTS_TEAM_RANK:
+      case SortBy.RANK_RECIPIENTS_TEAM_RANK_EXCLUDING_SELF:
       case SortBy.CONSTSUM_OPTIONS_POINTS:
       case SortBy.CONSTSUM_RECIPIENTS_POINTS:
       case SortBy.RUBRIC_WEIGHT_AVERAGE:
       case SortBy.RUBRIC_TOTAL_CHOSEN_WEIGHT:
+      case SortBy.NUMERICAL_SCALE_MAX:
+      case SortBy.NUMERICAL_SCALE_MIN:
       case SortBy.NUMERICAL_SCALE_AVERAGE:
       case SortBy.NUMERICAL_SCALE_AVERAGE_EXCLUDE_SELF:
       case SortBy.MCQ_WEIGHT:
