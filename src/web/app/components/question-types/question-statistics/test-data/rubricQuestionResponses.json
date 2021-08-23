@@ -56,5 +56,35 @@
         "questionType": "FeedbackQuestionType.RUBRIC"
       }
     }
-  ]
+  ],
+  "expectedStatsMap": {
+    "Alice": {
+      "answers": [
+        [1, 1], [1, 1], [2, 0]
+      ],
+      "percentages": [
+        [50, 50], [50, 50], [100, 0]
+      ],
+      "recipientEmail": "alice@gmail.com",
+      "recipientName": "Alice",
+      "recipientTeam": "Team 1",
+      "subQuestionTotalChosenWeight": [1, 1, 0.8],
+      "subQuestionWeightAverage": [0.5, 0.5, 0.4],
+      "weightAverage": 0.47
+    },
+    "Bob": {
+      "answers": [
+        [2, 0], [1, 1], [2, 0]
+      ],
+      "percentages": [
+        [100, 0], [50, 50], [100, 0]
+      ],
+      "recipientEmail": "bob@gmail.com",
+      "recipientName": "Bob",
+      "recipientTeam": "Team 2",
+      "subQuestionTotalChosenWeight": [0.4, 1, 0.8],
+      "subQuestionWeightAverage": [0.2, 0.5, 0.4],
+      "weightAverage": 0.37
+    }
+  }
 }
