@@ -4,9 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorPrivilegeData;

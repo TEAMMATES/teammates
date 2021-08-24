@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 
 /**

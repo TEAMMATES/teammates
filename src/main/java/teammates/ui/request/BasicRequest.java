@@ -1,7 +1,5 @@
 package teammates.ui.request;
 
-import teammates.common.exception.InvalidHttpRequestBodyException;
-
 /**
  * The request body of a HTTP request.
  */

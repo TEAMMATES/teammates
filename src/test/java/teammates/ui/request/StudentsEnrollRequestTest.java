@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import org.testng.annotations.Test;
 
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.test.BaseTestCase;
 
 /**

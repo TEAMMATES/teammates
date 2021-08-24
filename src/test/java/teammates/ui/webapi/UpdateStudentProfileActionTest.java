@@ -7,10 +7,10 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentProfileUpdateRequest;
 
 /**

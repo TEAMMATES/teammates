@@ -1,11 +1,10 @@
 package teammates.ui.webapi;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Persists a data bundle into the DB.

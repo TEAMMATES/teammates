@@ -5,7 +5,6 @@ import java.time.Instant;
 
 import javax.annotation.Nullable;
 
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.output.ResponseVisibleSetting;
 import teammates.ui.output.SessionVisibleSetting;

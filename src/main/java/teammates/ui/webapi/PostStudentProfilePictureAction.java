@@ -8,8 +8,7 @@ import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.UnauthorizedAccessException;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Action: saves the file information of the profile picture that was just uploaded.

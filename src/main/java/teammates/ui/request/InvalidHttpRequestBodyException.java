@@ -1,10 +1,9 @@
-package teammates.common.exception;
+package teammates.ui.request;
 
 /**
  * Exception thrown when an HTTP request body does not conform to an expected format
  * (e.g. It is not deserializable or some fields are missing).
  */
-@SuppressWarnings("serial")
 public class InvalidHttpRequestBodyException extends RuntimeException {
 
     public InvalidHttpRequestBodyException(String message) {

@@ -1,4 +1,4 @@
-package teammates.common.exception;
+package teammates.ui.webapi;
 
 /**
  * Exception thrown when a normally valid operation is not valid due to factors outside of the operation itself,

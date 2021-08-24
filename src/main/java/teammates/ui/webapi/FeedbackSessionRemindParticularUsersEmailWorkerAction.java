@@ -6,10 +6,10 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.ui.request.FeedbackSessionRemindRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.

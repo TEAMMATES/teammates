@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;

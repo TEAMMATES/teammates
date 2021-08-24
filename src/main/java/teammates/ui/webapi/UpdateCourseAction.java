@@ -5,14 +5,12 @@ import java.time.ZoneId;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.output.CourseData;
 import teammates.ui.request.CourseUpdateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Updates a course.
