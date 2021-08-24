@@ -158,7 +158,7 @@ public class InstructorsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("Success: get an instructor");
 
-        InstructorAttributes retrieved = instructorsDb.getInstructorForRegistrationKey(i.getEncryptedKey());
+        InstructorAttributes retrieved = instructorsDb.getInstructorForRegistrationKey(i.getKey());
         assertEquals(i.getCourseId(), retrieved.getCourseId());
         assertEquals(i.getName(), retrieved.getName());
         assertEquals(i.getEmail(), retrieved.getEmail());

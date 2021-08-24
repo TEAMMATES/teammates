@@ -40,7 +40,7 @@ public class AccountsLogicTest extends BaseLogicTest {
     }
 
     private String getKeyForInstructor(String courseId, String email) {
-        return instructorsLogic.getInstructorForEmail(courseId, email).getEncryptedKey();
+        return instructorsLogic.getInstructorForEmail(courseId, email).getKey();
     }
 
     @Test
@@ -138,7 +138,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: invalid parameters");
 
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), "wrong student"));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getKey(), "wrong student"));
         AssertHelper.assertContains(FieldValidator.REASON_INCORRECT_FORMAT, ipe.getMessage());
 
         ______TS("failure: googleID belongs to an existing student in the course");
@@ -155,7 +155,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentsLogic.createStudent(existingStudent);
 
         EntityAlreadyExistsException eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), existingId));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getKey(), existingId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: without encryption and account already exists");
@@ -168,7 +168,7 @@ public class AccountsLogicTest extends BaseLogicTest {
                 .build();
 
         accountsLogic.createAccount(accountData);
-        accountsLogic.joinCourseForStudent(studentData.getEncryptedKey(), correctStudentId);
+        accountsLogic.joinCourseForStudent(studentData.getKey(), correctStudentId);
 
         studentData.setGoogleId(accountData.getGoogleId());
         verifyPresentInDatabase(studentData);
@@ -179,13 +179,13 @@ public class AccountsLogicTest extends BaseLogicTest {
         ______TS("failure: already joined");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), correctStudentId));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getKey(), correctStudentId));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("failure: valid key belongs to a different user");
 
         eaee = assertThrows(EntityAlreadyExistsException.class,
-                () -> accountsLogic.joinCourseForStudent(finalStudent.getEncryptedKey(), "wrongstudent"));
+                () -> accountsLogic.joinCourseForStudent(finalStudent.getKey(), "wrongstudent"));
         assertEquals("Student has already joined course", eaee.getMessage());
 
         ______TS("success: with encryption and new account to be created");
@@ -204,7 +204,7 @@ public class AccountsLogicTest extends BaseLogicTest {
         studentData = studentsLogic.getStudentForEmail(courseId,
                 originalEmail);
 
-        String key = studentData.getEncryptedKey();
+        String key = studentData.getKey();
         accountsLogic.joinCourseForStudent(key, correctStudentId);
         studentData.setGoogleId(correctStudentId);
         verifyPresentInDatabase(studentData);

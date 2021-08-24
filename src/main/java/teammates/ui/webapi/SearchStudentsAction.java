@@ -94,7 +94,7 @@ class SearchStudentsAction extends Action {
 
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
-                        s.getEncryptedKey(),
+                        s.getKey(),
                         getInstituteFromCourseId(s.getCourse()),
                         s.getGoogleId()
                 );

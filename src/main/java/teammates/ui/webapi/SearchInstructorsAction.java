@@ -40,7 +40,7 @@ class SearchInstructorsAction extends AdminOnlyAction {
         for (InstructorAttributes instructor : instructors) {
             InstructorData instructorData = new InstructorData(instructor);
             instructorData.addAdditionalInformationForAdminSearch(
-                    instructor.getEncryptedKey(),
+                    instructor.getKey(),
                     getInstituteFromGoogleId(instructor.getGoogleId()),
                     instructor.getGoogleId());
 

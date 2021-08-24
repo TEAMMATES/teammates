@@ -176,7 +176,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
 
         InstructorAttributes instr = instructorsDb.getInstructorForEmail(courseId, email);
 
-        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(instr.getEncryptedKey());
+        InstructorAttributes retrieved = instructorsLogic.getInstructorForRegistrationKey(instr.getKey());
 
         assertEquals(instr.getCourseId(), retrieved.getCourseId());
         assertEquals(instr.getName(), retrieved.getName());

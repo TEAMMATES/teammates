@@ -50,7 +50,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
                                 : SUCCESSFUL_REGENERATION_BUT_EMAIL_FAILED;
 
         return new JsonResult(
-                new RegenerateStudentCourseLinksData(statusMessage, updatedStudent.getEncryptedKey()));
+                new RegenerateStudentCourseLinksData(statusMessage, updatedStudent.getKey()));
     }
 
     /**
