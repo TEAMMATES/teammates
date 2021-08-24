@@ -13,6 +13,7 @@ import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.StringHelper;
 
 /**
  * Action: joins a course for a student/instructor.
@@ -39,7 +40,10 @@ class JoinCourseAction extends Action {
         case Const.EntityType.INSTRUCTOR:
             String institute = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
             String mac = getRequestParamValue(Const.ParamsNames.INSTITUTION_MAC);
-            return joinCourseForInstructor(regKey, institute, mac);
+            if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
+                throw new InvalidHttpParameterException("Institute validation failed");
+            }
+            return joinCourseForInstructor(regKey, institute);
         default:
             throw new InvalidHttpParameterException("Error: invalid entity type");
         }
@@ -63,11 +67,11 @@ class JoinCourseAction extends Action {
         return new JsonResult("Student successfully joined course", HttpStatus.SC_OK);
     }
 
-    private JsonResult joinCourseForInstructor(String regkey, String institute, String mac) {
+    private JsonResult joinCourseForInstructor(String regkey, String institute) {
         InstructorAttributes instructor;
 
         try {
-            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute, mac);
+            instructor = logic.joinCourseForInstructor(regkey, userInfo.id, institute);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {
