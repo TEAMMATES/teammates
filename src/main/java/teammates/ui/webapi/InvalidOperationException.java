@@ -1,5 +1,9 @@
 package teammates.ui.webapi;
 
+import teammates.common.exception.EnrollException;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.InstructorUpdateException;
+
 /**
  * Exception thrown when a normally valid operation is not valid due to factors outside of the operation itself,
  * e.g. when trying to insert duplicate entry into the database.
@@ -10,11 +14,19 @@ public class InvalidOperationException extends RuntimeException {
         super(message);
     }
 
-    public InvalidOperationException(Throwable cause) {
+    public InvalidOperationException(EntityAlreadyExistsException cause) {
         super(cause.getMessage(), cause);
     }
 
-    public InvalidOperationException(String message, Throwable cause) {
+    public InvalidOperationException(EnrollException cause) {
+        super(cause.getMessage(), cause);
+    }
+
+    public InvalidOperationException(InstructorUpdateException cause) {
+        super(cause.getMessage(), cause);
+    }
+
+    public InvalidOperationException(String message, EntityAlreadyExistsException cause) {
         super(message, cause);
     }
 

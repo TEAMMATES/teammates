@@ -12,7 +12,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**
@@ -239,7 +238,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
 
         req = prepareRequest(Arrays.asList(oneMoreStudentToGoBeyondLimit));
 
-        InvalidHttpRequestBodyException ee = verifyHttpRequestBodyFailure(req, params);
+        InvalidOperationException ee = verifyInvalidOperation(req, params);
 
         String expectedErrorMessage = String.format(
                 "You are trying enroll more than %d students in section \"%s\".",
@@ -268,7 +267,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        InvalidHttpRequestBodyException actualException = verifyHttpRequestBodyFailure(req, params);
+        InvalidOperationException actualException = verifyInvalidOperation(req, params);
         assertEquals(actualException.getMessage(),
                 String.format(expectedMessage, expectedTeam, expectedSectionOne, expectedSectionTwo));
     }

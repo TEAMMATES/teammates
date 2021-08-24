@@ -1,5 +1,7 @@
 package teammates.ui.webapi;
 
+import teammates.common.exception.InvalidParametersException;
+
 /**
  * Exception thrown when an HTTP parameter does not conform to an expected format
  * (e.g. passing a string when the expected parameter is a number).
@@ -10,11 +12,19 @@ public class InvalidHttpParameterException extends RuntimeException {
         super(message);
     }
 
-    public InvalidHttpParameterException(Throwable cause) {
+    public InvalidHttpParameterException(InvalidParametersException cause) {
         super(cause.getMessage(), cause);
     }
 
-    public InvalidHttpParameterException(String message, Throwable cause) {
+    public InvalidHttpParameterException(String message, ArithmeticException cause) {
+        super(message, cause);
+    }
+
+    public InvalidHttpParameterException(String message, NumberFormatException cause) {
+        super(message, cause);
+    }
+
+    public InvalidHttpParameterException(String message, IllegalArgumentException cause) {
         super(message, cause);
     }
 

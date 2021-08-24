@@ -27,9 +27,13 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         long startTime;
         try {
             startTime = Long.parseLong(startTimeString);
-            //test for bounds
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
+        }
+        try {
+            // test for bounds
             Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (NumberFormatException | ArithmeticException e) {
+        } catch (ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid startTime parameter", e);
         }
 
@@ -37,9 +41,13 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         long endTime;
         try {
             endTime = Long.parseLong(endTimeString);
-            //test for bounds
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
+        }
+        try {
+            // test for bounds
             Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (NumberFormatException | ArithmeticException e) {
+        } catch (ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid endTime parameter", e);
         }
 

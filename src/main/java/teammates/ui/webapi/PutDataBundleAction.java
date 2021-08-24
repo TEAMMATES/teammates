@@ -30,7 +30,7 @@ class PutDataBundleAction extends Action {
         try {
             dataBundle = logic.persistDataBundle(dataBundle);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException("Error when persisting data bundle: " + e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(JsonUtils.toJson(dataBundle));

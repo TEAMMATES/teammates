@@ -15,7 +15,6 @@ import teammates.common.util.Const;
 import teammates.common.util.RequestTracer;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentsData;
-import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentsEnrollRequest;
 
 /**
@@ -64,7 +63,7 @@ class EnrollStudentsAction extends Action {
         try {
             logic.validateSectionsAndTeams(studentsToEnroll, courseId);
         } catch (EnrollException e) {
-            throw new InvalidHttpRequestBodyException(e);
+            throw new InvalidOperationException(e);
         }
 
         List<StudentAttributes> existingStudents = logic.getStudentsForCourse(courseId);
