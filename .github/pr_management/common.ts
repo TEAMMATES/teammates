@@ -11,40 +11,40 @@ const repo = github.context.repo.repo;
 const issue_number = github.context.issue.number;
 const actor = github.context.actor;
 
-//// variables to configure
-// todo change in teammates
-const usualTimeForChecksToRun = 5000; // 20 * 60 * 1000; // min * sec * ms
+export const ongoingLabel = "s.Ongoing";
+export const toReviewLabel = "s.ToReview";
 
-// to prevent cyclical checking when checking for passing runs. note: needs to match names assigned by workflow files
+//// variables to configure
+const usualTimeForChecksToRun = 10 * 60 * 1000; // min * sec * ms
+
+/* this list of names of excluded checks is to prevent cyclical checking when checking for passing runs. 
+note: each string needs to match the jobs.<id>.name property in yaml files */ 
 const excludedChecksNames = {
     "Handle PR that may be draft": 1,
     "Handle PR that may be ready for review": 1,
 };
 
 export async function wereReviewCommentsAdded(pr, sinceTimeStamp: string) {
-    isValidTimestamp(sinceTimeStamp);
+    validateTimeStamp(sinceTimeStamp);
 
-    const comments = await octokit.rest.pulls
-        .listReviewComments({
-            owner,
-            repo,
-            pull_number: pr.number,
-            since: sinceTimeStamp, // todo unsure if this works as expected --> test
-        })
-        .then(res => {
-            core.info("these comments were retrieved\n" + res);
-            return res;
-        })
-        .catch(err => {
-            throw err;
-        });
+    const comments = await octokit.rest.pulls.listReviewComments({
+        owner,
+        repo,
+        pull_number: pr.number,
+        since: sinceTimeStamp, 
+    }).then(res => {
+        core.info("these comments were retrieved\n" + res);
+        return res;
+    }).catch(err => {
+        throw err;
+    });
 
     return comments.data.length > 0;
 }
 
-function isValidTimestamp(sinceTimeStamp: string) {
+function validateTimeStamp(timeStamp: string) {
     try {
-        Date.parse(sinceTimeStamp);
+        Date.parse(timeStamp);
     } catch (err) {
         throw new Error(`the sinceTimeStamp argument passed is an invalid timestamp`);
     }
@@ -53,25 +53,25 @@ function isValidTimestamp(sinceTimeStamp: string) {
 //// abstractions for adding and dropping labels
 
 export async function addOngoingLabel() {
-    await addLabel("s.Ongoing");
+    await addLabel(ongoingLabel);
 }
 
 export async function addToReviewLabel() {
-    await addLabel("s.ToReview");
+    await addLabel(toReviewLabel);
 }
 
 export async function dropOngoingLabelAndAddToReview() {
-    await removeLabel("s.Ongoing");
-    await addLabel("s.ToReview");
+    await removeLabel(ongoingLabel);
+    await addLabel(toReviewLabel);
 }
 
 export async function dropToReviewLabelAndAddOngoing() {
-    await removeLabel("s.ToReview");
-    await addLabel("s.Ongoing");
+    await removeLabel(toReviewLabel);
+    await addLabel(ongoingLabel);
 }
 
 export async function dropOngoingLabel() {
-    await removeLabel("s.Ongoing");
+    await removeLabel(ongoingLabel);
 }
 
 async function addLabel(labelName: string) {
@@ -87,15 +87,14 @@ async function addLabel(labelName: string) {
 }
 
 async function removeLabel(labelName: string) {
-    await octokit.rest.issues
-        .removeLabel({
-            owner,
-            repo,
-            issue_number,
-            name: labelName, // todo check if this works
-        })
-        .then(res => logInfo(res.status, `removing label ${res.status} with status`))
-        .catch(err => logInfo(err, "error removing label (label may not have been applied)"));
+    await octokit.rest.issues.removeLabel({
+        owner,
+        repo,
+        issue_number,
+        name: labelName,
+    })
+    .then(res => logInfo(res.status, `removing label ${res.status} with status`))
+    .catch(err => logInfo(err, "error removing label (label may not have been applied)"));
 }
 
 export async function sleep(ms : number) {
@@ -121,9 +120,9 @@ function logWarn(toPrint, label) {
     core.warning(`${label}: ${toPrint}`);
 }
 
-//// comments
+//// comments related functions
 export async function postComment(message) {
-    const commentBody = `Hi ${actor}, please note the following. ${message}`;
+    const commentBody = `Hi @${actor}, please note the following. ${message}`;
 
     await octokit.rest.issues.createComment({
         owner,
@@ -135,16 +134,15 @@ export async function postComment(message) {
     .catch(err => core.error(err))
 }
 
-//// checks stuff
+//// check runs related functions
 
 export async function validateChecksOnPrHead() {
     const sha = await getPRHeadShaForIssueNumber(issue_number);
     return await validateChecks(sha);
 }
 
-async function validateChecks(
-    validateForRef: string
-): Promise<{ didChecksRunSuccessfully: boolean; errMessage: string }> {
+async function validateChecks(validateForRef: string)
+: Promise<{ didChecksRunSuccessfully: boolean; errMessage: string }> {
 
     core.info(`validating checks on ref: ${validateForRef}...`);
 
@@ -163,7 +161,6 @@ async function validateChecks(
         // array of check runs, may include the workflow that is running the current file
         const checkRunsArr = listChecks.data.check_runs;
 
-        // todo [low] change to core.debug
         checkRunsArr.forEach(checkRun => {
             core.info(`current status for "${checkRun.name}": ${checkRun.status}`);
         });
@@ -187,7 +184,7 @@ async function validateChecks(
 
     listChecks.data.check_runs.forEach(checkRun => {
         if (checkRun.status !== "completed") {
-            conclusionsDetails += `${checkRun.name}'s completion status was ignored because this check is found the excluded checks list\n`;
+            conclusionsDetails += `${checkRun.name}'s completion status was ignored because this check is found in the excluded checks list\n`;
         } else {
             conclusionsDetails += `${checkRun.name} has ended with the conclusion: \`${checkRun.conclusion}\`. [Here are the details.](${checkRun.details_url})\n`;
         }

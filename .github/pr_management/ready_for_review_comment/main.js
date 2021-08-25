@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
-const { log, postComment, getPRHeadShaForIssueNumber, validateChecksOnPrHead, dropOngoingLabelAndAddToReview } = require("../../lib/pr_management/common");
+const { log, postComment, validateChecksOnPrHead, dropOngoingLabelAndAddToReview } = require("../../lib/pr_management/common");
 const reviewKeywords = "@bot ready for review";
 
 // params to set for api requests

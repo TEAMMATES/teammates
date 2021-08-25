@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
-import { log, dropToReviewLabelAndAddOngoing, addToReviewLabel, postComment, validateChecksOnPrHead, addOngoingLabel, dropOngoingLabel } from "../common";
+import { log, dropToReviewLabelAndAddOngoing, addToReviewLabel, postComment, validateChecksOnPrHead, addOngoingLabel, dropOngoingLabel, toReviewLabel, ongoingLabel } from "../common";
 
 const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
@@ -13,9 +13,6 @@ const issue_number = github.context.issue.number;
 const furtherInstructions = "Please comment `@bot ready for review` when you've passed all checks, resolved merge conflicts and are ready to request a review."
 
 async function run() {
-    log.info(github.context.action, "action");
-    log.info(github.context.payload.action, "payload action");
-    
     if (!(await isPRMarkedReadyForReview())) return; // needed because synchronise event triggers this workflow on even draft PRs
 
     const prLabels : string[] = await octokit.rest.issues.get({
@@ -23,26 +20,31 @@ async function run() {
         repo, 
         issue_number
     })
-    .then(res => res.data.labels.map((label: {name: string}) => label.name || label)) // label may be of type string instead of an object so need this ||
+    .then(res => res.data.labels.map((label: {name: string}) => label.name)) 
     .then(l => log.info(l, `labels returned for pr ${issue_number}`))
     .catch(err => {core.info(err); throw err});
 
     const { didChecksRunSuccessfully, errMessage } = await validateChecksOnPrHead();
 
+    // todo remove debugging
+    log.info(hasOngoingLabel(prLabels), "hasOngoingLabel");
+    log.info(hasToReviewLabel(prLabels), "hasToReviewLabel");
+
     if (didChecksRunSuccessfully) {
-        if (hasLabel(prLabels, "s.ToReview")) {
+        if (hasToReviewLabel(prLabels)) {
             core.info("already has review label and checks are passing, nothing to be done here. exiting...")
             return;
         }
 
-        if (hasLabel(prLabels, "s.Ongoing") && isOnSynchronise()) {
+        // ongoing and ready-for-review prs mean that user was previously told to state when it's ready for review
+        if (hasOngoingLabel(prLabels) && isOnSynchronise()) {
             core.info("Waiting for user to manually state ready to review. exiting...");
             return;
         }
 
         // if checks pass on 'pr open' event, or on 'convert to ready for review' event, 
         // then add review label (and drop ongoing if it exists)
-        if (hasLabel(prLabels, "s.Ongoing")) { 
+        if (hasOngoingLabel(prLabels)) { 
             await dropOngoingLabel();
         }
 
@@ -51,14 +53,14 @@ async function run() {
     } else { 
         // for prs labelled as ongoing, for all other event types except on synchronise, 
         // we can be sure that the author hasn't been notified of the failing checks by the bot
-        if (hasLabel(prLabels, "s.Ongoing") && isOnSynchronise() && await wasAuthorLinkedToFailingChecks()) {
+        if (hasOngoingLabel(prLabels) && isOnSynchronise() && await wasAuthorLinkedToFailingChecks()) {
             core.info("PR has the ongoing label and author has been notified, exiting...")
             return;
         } 
         
-        if (hasLabel(prLabels, "s.ToReview")) {
+        if (hasToReviewLabel(prLabels)) {
             await dropToReviewLabelAndAddOngoing();
-        } else if (!hasLabel(prLabels, "s.ToReview") && !hasLabel(prLabels, "s.Ongoing")) {
+        } else if (!hasToReviewLabel(prLabels) && !hasOngoingLabel(prLabels)) {
             await addOngoingLabel();
         }
 
@@ -69,14 +71,22 @@ async function run() {
 run();
 
 ///// HELPER FUNCTIONS /////
-/* did the currently running action get triggered by an on synchronise event */
+// checks if the currently running action get triggered by an on synchronise event
 function isOnSynchronise() {
     log.info(github.context.payload.action, "what triggered this run");
     return github.context.payload.action === "synchronize";
 }
 
-function hasLabel(arrayOfLabels : Array<string>,  label) : boolean{
-    return arrayOfLabels.findIndex(l => l ===label) !== -1;
+function hasLabel(arrayOfLabels : Array<string>,  label : string) : boolean{
+    return arrayOfLabels.findIndex(l => l === label) !== -1;
+}
+
+function hasOngoingLabel(arrayOfLabels : Array<string>) {
+    return hasLabel(arrayOfLabels, ongoingLabel);
+}
+
+function hasToReviewLabel(arrayOfLabels : Array<string>) {
+    return hasLabel(arrayOfLabels, toReviewLabel);
 }
 
 /**
@@ -104,7 +114,7 @@ async function wasAuthorLinkedToFailingChecks() : Promise<boolean> {
         throw err;
     });
     
-    const labelEvent = events.find(e => e.event === "labeled" && e.label?.name == "s.Ongoing");
+    const labelEvent = events.find(e => e.event === "labeled" && e.label?.name == ongoingLabel);
 
     if (!labelEvent) {
         core.warning("Some wrong assumption may have been made or the API used to fetch the PRs may have changed. This function should have been called only on PRs that are assigned the label.")

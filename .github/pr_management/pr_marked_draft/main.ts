@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
-import { addOngoingLabel, log } from '../common';
+import { addOngoingLabel, log, ongoingLabel } from '../common';
 
 const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
@@ -35,8 +35,7 @@ async function isDraftAndNotLabelledOngoing() {
     })
     .then(res => {
         log.info(res.data.draft, `is pr ${issue_number} draft`)
-        log.info(res.data.labels, "details of existing labels")
-        return res.data.draft && res.data.labels.find(l => l.name === "s.Ongoing") === undefined;
+        return res.data.draft && res.data.labels.find(l => l.name === ongoingLabel) === undefined;
     })
     .catch(err => {log.info(err, "error getting pr (issue) that triggered this workflow"); throw err;});
 }
