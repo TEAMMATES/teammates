@@ -41,7 +41,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
         GetSessionResultsAction a = getAction(submissionParams);
@@ -52,10 +52,10 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         SessionResultsData output = (SessionResultsData) r.getOutput();
 
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
-                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                logic.getSessionResultsForCourse(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         instructorAttributes.getEmail(),
-                        true, null, null));
+                        null, null));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
@@ -80,7 +80,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         studentAttributes.getEmail(),
-                        false, null, null),
+                        false, null),
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));

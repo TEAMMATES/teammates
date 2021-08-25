@@ -267,7 +267,7 @@ export abstract class InstructorSessionBasePageComponent {
         this.feedbackSessionsService.downloadSessionResults(
             model.feedbackSession.courseId,
             model.feedbackSession.feedbackSessionName,
-            Intent.INSTRUCTOR_RESULT,
+            Intent.FULL_DETAIL,
             true,
             true,
             question.feedbackQuestionId,

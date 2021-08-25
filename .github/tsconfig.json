@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "outDir": "./lib",
+      "rootDir": "./",
+      "strict": false,
+      // "noImplicitAny": true,
+      "esModuleInterop": true,
+      "moduleResolution": "Node", // needed for ncc to find the @actions modules
+      "checkJs": false,
+      "noEmit": true
+    },
+    "include": ["./pr_management/*/*.ts", "./pr_management/common.ts"]
+  }

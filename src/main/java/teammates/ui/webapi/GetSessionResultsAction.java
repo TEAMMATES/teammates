@@ -36,6 +36,7 @@ class GetSessionResultsAction extends Action {
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
         case INSTRUCTOR_RESULT:
+        case FULL_DETAIL:
             gateKeeper.verifyLoggedInUserPrivileges(userInfo);
             InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
             gateKeeper.verifyAccessible(instructor, fs);
@@ -74,21 +75,36 @@ class GetSessionResultsAction extends Action {
         String selectedSection = getRequestParamValue(Const.ParamsNames.FEEDBACK_RESULTS_GROUPBYSECTION);
 
         SessionResultsBundle bundle;
+        InstructorAttributes instructor;
+        StudentAttributes student;
         Intent intent = Intent.valueOf(getNonNullRequestParamValue(Const.ParamsNames.INTENT));
         switch (intent) {
-        case INSTRUCTOR_RESULT:
-            InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+        case FULL_DETAIL:
+            instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
 
-            bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
-                    true, questionId, selectedSection);
+            bundle = logic.getSessionResultsForCourse(feedbackSessionName, courseId, instructor.getEmail(),
+                    questionId, selectedSection);
 
             return new JsonResult(SessionResultsData.initForInstructor(bundle));
+        case INSTRUCTOR_RESULT:
+            // Section name filter is not applicable here
+            instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
+
+            bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, instructor.getEmail(),
+                    true, questionId);
+
+            // Build a fake student object, as the results will be displayed as if they are displayed to a student
+            student = StudentAttributes.builder(instructor.getCourseId(), instructor.getEmail())
+                    .withTeamName(Const.USER_TEAM_FOR_INSTRUCTOR)
+                    .build();
+
+            return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case STUDENT_RESULT:
-            // Question number and section name filters are not applied here
-            StudentAttributes student = getStudent(courseId);
+            // Section name filter is not applicable here
+            student = getStudent(courseId);
 
             bundle = logic.getSessionResultsForUser(feedbackSessionName, courseId, student.getEmail(),
-                    false, null, null);
+                    false, questionId);
 
             return new JsonResult(SessionResultsData.initForStudent(bundle, student));
         case INSTRUCTOR_SUBMISSION:

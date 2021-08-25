@@ -1,0 +1,12 @@
+name: "Workflow for handling draft pr (newly opened or pr converted to draft)"
+
+description: "add comment and label to a draft pr"
+
+inputs:
+    repo-token:
+        required: true
+        description: "Token with permissions to do repo things"
+
+runs:
+    using: "node12"
+    main: "index.js"

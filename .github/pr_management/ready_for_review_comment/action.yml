@@ -1,0 +1,13 @@
+name: "Workflow for responding to \"@bot ready for review\" comment"
+
+description: "Adds correct label to a pr when someone comments that it's ready for review."
+
+inputs:
+    repo-token:
+        required: true
+        description: "Token with permissions to do repo things"
+
+runs:
+    using: "node12"
+    main: "index.js"
+    

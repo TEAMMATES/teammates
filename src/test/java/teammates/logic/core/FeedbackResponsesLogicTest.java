@@ -3,6 +3,7 @@ package teammates.logic.core;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,7 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.CourseRoster;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
+import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -767,6 +769,344 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
         assertTrue(frcLogic.getFeedbackResponseCommentForResponse(fra2GivenByTeam.getId()).isEmpty());
     }
 
+    @Test
+    public void testGetSessionResultsForUser_studentSpecificQuestion_shouldHaveCorrectResponsesFiltered() {
+        // extra test data used on top of typical data bundle
+        removeAndRestoreDataBundle(loadDataBundle("/SpecialCharacterTest.json"));
+
+        FeedbackQuestionAttributes question = fqLogic.getFeedbackQuestion(
+                "First Session", "FQLogicPCT.CS2104", 1);
+
+        // Alice will see 3 responses
+        SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
+                "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.alice.b@gmail.tmt",
+                false, question.getId());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        List<FeedbackResponseAttributes> responseForQuestion =
+                bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(3, responseForQuestion.size());
+
+        // Benny will see 3 responses
+        bundle = frLogic.getSessionResultsForUser(
+                "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.benny.c@gmail.tmt",
+                false, question.getId());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(3, responseForQuestion.size());
+
+        // Charlie will see 2 responses
+        bundle = frLogic.getSessionResultsForUser(
+                "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.charlie.d@gmail.tmt",
+                false, question.getId());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(2, responseForQuestion.size());
+
+        // Danny will see 2 responses
+        bundle = frLogic.getSessionResultsForUser(
+                "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.danny.e@gmail.tmt",
+                false, question.getId());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(2, responseForQuestion.size());
+
+        // Emily will see 1 response
+        bundle = frLogic.getSessionResultsForUser(
+                "First Session", "FQLogicPCT.CS2104", "FQLogicPCT.emily.f@gmail.tmt",
+                false, question.getId());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(1, responseForQuestion.size());
+    }
+
+    @Test
+    public void testGetSessionResultsForUser_studentAllQuestions_shouldGenerateCorrectBundle() {
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("standard.session");
+
+        // Test result bundle for student1
+        StudentAttributes student = responseBundle.students.get("student1InCourse1");
+        SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
+                session.getFeedbackSessionName(), session.getCourseId(), student.getEmail(),
+                false, null);
+
+        // Student can see responses: q1r1, q2r1,3, q3r1, qr4r2-3, q5r1, q7r1-2, q8r1-2
+        // We don't check the actual IDs as this is also implicitly tested
+        // later when checking the visibility table.
+        int totalResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionResponseMap().entrySet()) {
+            totalResponse += entry.getValue().size();
+        }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
+        assertEquals(11, totalResponse);
+        // student should not see missing responses
+        assertEquals(0, totalMissingResponse);
+        // student cannot see q6 because there is no viewable response
+        assertEquals(7, bundle.getQuestionsMap().size());
+        assertEquals(7, bundle.getQuestionResponseMap().size());
+        assertEquals(7, bundle.getQuestionMissingResponseMap().size());
+
+        // Test the generated response visibilityTable for userNames.
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn1.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn7.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn7.resp2", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn8.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn8.resp2", responseBundle)));
+        assertEquals(totalResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn1.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn7.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn7.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn8.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn8.resp2", responseBundle)));
+        assertEquals(totalResponse, responseRecipientVisibilityTable.size());
+
+        // no entry in comment visibility table
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
+    }
+
+    @Test
+    public void testGetSessionResultsForUser_instructor_shouldGenerateCorrectBundle() {
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("standard.session");
+
+        // Test result bundle for instructor1
+        InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                true, null);
+
+        // Instructor can see responses: q3r1, q6r1
+        // We don't check the actual IDs as this is also implicitly tested
+        // later when checking the visibility table.
+        int totalResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionResponseMap().entrySet()) {
+            totalResponse += entry.getValue().size();
+        }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
+        assertEquals(2, totalResponse);
+        // instructor should not see missing responses
+        assertEquals(0, totalMissingResponse);
+
+        assertEquals(2, bundle.getQuestionsMap().size());
+        assertEquals(2, bundle.getQuestionResponseMap().size());
+        assertEquals(2, bundle.getQuestionMissingResponseMap().size());
+
+        // Test the generated response visibilityTable for userNames.
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn6.resp1", responseBundle)));
+        assertEquals(totalResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn6.resp1", responseBundle)));
+        assertEquals(totalResponse, responseRecipientVisibilityTable.size());
+
+        // no entry in comment visibility table
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
+    }
+
+    @Test
+    public void testGetSessionResultsForCourse_specificQuestion_shouldHaveCorrectResponsesFiltered() {
+        FeedbackQuestionAttributes fq = getQuestionFromDatabase("qn3InSession1InCourse1");
+        InstructorAttributes instructor = dataBundle.instructors.get("instructor1OfCourse1");
+
+        // no section specified
+        SessionResultsBundle bundle = frLogic.getSessionResultsForCourse(
+                fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
+                fq.getId(), null);
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        List<FeedbackResponseAttributes> responseForQuestion =
+                bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(1, responseForQuestion.size());
+
+        // section specified
+        fq = getQuestionFromDatabase("qn2InSession1InCourse1");
+        bundle = frLogic.getSessionResultsForCourse(
+                fq.getFeedbackSessionName(), fq.getCourseId(), instructor.getEmail(),
+                fq.getId(), "Section 1");
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        responseForQuestion = bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(3, responseForQuestion.size());
+    }
+
+    @Test
+    public void testGetSessionResultsForCourse_allQuestions_shouldGenerateCorrectBundle() {
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("standard.session");
+
+        InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        SessionResultsBundle bundle = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, null);
+
+        // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
+        int totalResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionResponseMap().entrySet()) {
+            totalResponse += entry.getValue().size();
+        }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
+        assertEquals(10, totalResponse);
+        assertEquals(19, totalMissingResponse);
+        // Instructor should still see all questions
+        assertEquals(8, bundle.getQuestionsMap().size());
+        assertEquals(8, bundle.getQuestionResponseMap().size());
+        assertEquals(8, bundle.getQuestionMissingResponseMap().size());
+
+        // Test the generated response visibilityTable for userNames.
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp2", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn3.resp2", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn6.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp2", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp2", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn5.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn6.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseRecipientVisibilityTable.size());
+
+        // no entry in comment visibility table
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
+    }
+
+    @Test
+    public void testGetSessionResultsForCourse_allQuestionsSpecificSection_shouldGenerateCorrectBundle() {
+        DataBundle responseBundle = loadDataBundle("/FeedbackSessionResultsTest.json");
+        removeAndRestoreDataBundle(responseBundle);
+
+        FeedbackSessionAttributes session = responseBundle.feedbackSessions.get("standard.session");
+
+        InstructorAttributes instructor = responseBundle.instructors.get("instructor1OfCourse1");
+        SessionResultsBundle bundle = frLogic.getSessionResultsForCourse(
+                session.getFeedbackSessionName(), session.getCourseId(), instructor.getEmail(),
+                null, "Section A");
+
+        // Instructor can see responses: q2r1-3, q3r1-2, q4r1-3, q5r1, q6r1
+        // after filtering by section, the number of responses seen by instructor will differ.
+        // Responses viewed by instructor after filtering: q2r1-3, q3r1, q4r2-3, q5r1
+        int totalResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionResponseMap().entrySet()) {
+            totalResponse += entry.getValue().size();
+        }
+        int totalMissingResponse = 0;
+        for (Map.Entry<String, List<FeedbackResponseAttributes>> entry
+                : bundle.getQuestionMissingResponseMap().entrySet()) {
+            totalMissingResponse += entry.getValue().size();
+        }
+        assertEquals(7, totalResponse);
+        assertEquals(13, totalMissingResponse);
+        // Instructor should still see all questions
+        assertEquals(8, bundle.getQuestionsMap().size());
+        assertEquals(8, bundle.getQuestionResponseMap().size());
+        assertEquals(8, bundle.getQuestionMissingResponseMap().size());
+
+        // Test the generated response visibilityTable for userNames.
+        Map<String, Boolean> responseGiverVisibilityTable = bundle.getResponseGiverVisibilityTable();
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseGiverVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertFalse(responseGiverVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseGiverVisibilityTable.size());
+
+        Map<String, Boolean> responseRecipientVisibilityTable = bundle.getResponseRecipientVisibilityTable();
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn3.resp1", responseBundle)));
+        assertTrue(responseRecipientVisibilityTable.get(getResponseId("qn4.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp3", responseBundle)));
+        assertFalse(responseRecipientVisibilityTable.get(getResponseId("qn2.resp1", responseBundle)));
+        assertEquals(totalResponse + totalMissingResponse, responseGiverVisibilityTable.size());
+        assertEquals(totalResponse + totalMissingResponse, responseRecipientVisibilityTable.size());
+
+        // no entry in comment visibility table
+        Map<Long, Boolean> commentGiverVisibilityTable = bundle.getCommentGiverVisibilityTable();
+        assertEquals(0, commentGiverVisibilityTable.size());
+    }
+
+    // TODO: check for cases where a person is both a student and an instructor
+
+    @Test
+    public void testGetSessionResultsForUser_orphanResponseInDB_shouldStillHandleCorrectly() throws Exception {
+        dataBundle = getTypicalDataBundle();
+        removeAndRestoreDataBundle(dataBundle);
+
+        FeedbackQuestionAttributes fq = getQuestionFromDatabase("qn2InSession1InCourse1");
+        FeedbackResponseAttributes existingResponse = getResponseFromDatabase(dataBundle, "response1ForQ2S1C1");
+        // create a "null" response to simulate trying to get a null student's response
+        FeedbackResponseAttributes newResponse =
+                FeedbackResponseAttributes.builder(
+                        existingResponse.getFeedbackQuestionId(), existingResponse.getGiver(), "nullRecipient@gmail.tmt")
+                        .withFeedbackSessionName(existingResponse.getFeedbackSessionName())
+                        .withCourseId("nullCourse")
+                        .withGiverSection("Section 1")
+                        .withRecipientSection("Section 1")
+                        .withResponseDetails(existingResponse.getResponseDetailsCopy())
+                        .build();
+        frLogic.createFeedbackResponse(newResponse);
+        StudentAttributes student = dataBundle.students.get("student2InCourse1");
+
+        SessionResultsBundle bundle = frLogic.getSessionResultsForUser(
+                fq.getFeedbackSessionName(), fq.getCourseId(), student.getEmail(),
+                false, fq.getId());
+        assertEquals(1, bundle.getQuestionResponseMap().size());
+        List<FeedbackResponseAttributes> responseForQuestion =
+                bundle.getQuestionResponseMap().entrySet().iterator().next().getValue();
+        assertEquals(4, responseForQuestion.size());
+    }
+
     private FeedbackQuestionAttributes getQuestionFromDatabase(DataBundle dataBundle, String jsonId) {
         FeedbackQuestionAttributes questionToGet = dataBundle.feedbackQuestions.get(jsonId);
         questionToGet = fqLogic.getFeedbackQuestion(questionToGet.getFeedbackSessionName(),
@@ -781,8 +1121,7 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
     }
 
     private FeedbackResponseAttributes getResponseFromDatabase(DataBundle dataBundle, String jsonId) {
-        FeedbackResponseAttributes response =
-                                        dataBundle.feedbackResponses.get(jsonId);
+        FeedbackResponseAttributes response = dataBundle.feedbackResponses.get(jsonId);
 
         String qnId;
         try {
@@ -798,6 +1137,10 @@ public class FeedbackResponsesLogicTest extends BaseLogicTest {
 
     private FeedbackResponseAttributes getResponseFromDatabase(String jsonId) {
         return getResponseFromDatabase(dataBundle, jsonId);
+    }
+
+    private String getResponseId(String jsonId, DataBundle bundle) {
+        return getResponseFromDatabase(bundle, jsonId).getId();
     }
 
     private List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponsesFromDatabase(

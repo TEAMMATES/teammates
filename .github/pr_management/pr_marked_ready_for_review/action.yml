@@ -1,0 +1,12 @@
+name: "Workflow for handling ready for review pr (newly opened or pr converted to ready for review)"
+
+description: ""
+
+inputs:
+    repo-token:
+        required: true
+        description: "Token with permissions to do repo things"
+
+runs:
+    using: "node12"
+    main: "index.js"

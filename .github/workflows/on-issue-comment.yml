@@ -1,0 +1,18 @@
+on: 
+  issue_comment: # reference https://docs.github.com/en/actions/reference/events-that-trigger-workflows#issue_comment
+    types:
+      - created
+
+jobs: 
+  pr_commented: 
+    name: PR Comment
+    if: ${{ github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Check if ready for review was commented on PR
+        uses: ./.github/pr_management/ready_for_review_comment
+        with: 
+          repo-token: ${{secrets.GITHUB_TOKEN}}

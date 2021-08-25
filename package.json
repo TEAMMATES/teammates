@@ -10,10 +10,15 @@
     "lint:json": "jsonlint-cli ./*.json src/web/**/*.json src/main/resources/*.json src/test/resources/data/*.json",
     "lint:css": "stylelint \"src/web/**/*.css\" \"src/web/**/*.scss\" \"src/web/**/*.html\" --config static-analysis/teammates-stylelint.yml",
     "lint:spaces": "lintspaces -n -t -d spaces -l 1 -. \"src/main/**/*.html\" \"src/web/**/*.html\" \"src/**/*.xml\" \"src/**/*.json\" \"src/**/*.properties\" \"*.yml\" \"*.json\" \"*.gradle\" \"static-analysis/*.*ml\"",
-    "lint": "npm-run-all lint:* -c"
+    "lint": "npm-run-all lint:* -c",
+    "actions:tsc": "cd .github && tsc",
+    "actions:minify": "ncc build .github/pr_management/pr_marked_draft/main.ts -o .github/pr_management/pr_marked_draft/ -m --license licenses.txt && ncc build .github/pr_management/pr_marked_ready_for_review/main.ts -o .github/pr_management/pr_marked_ready_for_review/ -m --license licenses.txt && ncc build .github/pr_management/ready_for_review_comment/main.js -o .github/pr_management/ready_for_review_comment/ -m --license licenses.txt",
+    "actions:build": "npm-run-all actions:*"
   },
   "private": true,
   "dependencies": {
+    "@actions/core": "^1.4.0",
+    "@actions/github": "^5.0.0",
     "@angular/animations": "~9.1.11",
     "@angular/cdk": "^9.2.4",
     "@angular/common": "~9.1.11",
