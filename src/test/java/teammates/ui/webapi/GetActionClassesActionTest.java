@@ -118,6 +118,7 @@ public class GetActionClassesActionTest extends BaseActionTest<GetActionClassesA
                 GetCourseSectionNamesAction.class,
                 ResetAccountAction.class,
                 FeedbackSessionOpeningRemindersAction.class,
+                FeedbackSessionOpeningSoonRemindersAction.class,
                 DeleteStudentsAction.class,
                 GetStudentsAction.class,
                 EnrollStudentsAction.class,

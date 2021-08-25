@@ -1316,6 +1316,10 @@ public class Logic {
         return feedbackSessionsLogic.getFeedbackSessionsClosingWithinTimeLimit();
     }
 
+    public List<FeedbackSessionAttributes> getFeedbackSessionsOpeningWithinTimeLimit() {
+        return feedbackSessionsLogic.getFeedbackSessionsOpeningWithinTimeLimit();
+    }
+
     /**
      * Returns a list of sessions that require automated emails to be sent as they are published.
      *

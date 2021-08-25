@@ -43,3 +43,9 @@ indexes:
     name: sentPublishedEmail
   - direction: asc
     name: resultsVisibleFromTime
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: sentOpeningSoonEmail
+  - direction: asc
+    name: startTime

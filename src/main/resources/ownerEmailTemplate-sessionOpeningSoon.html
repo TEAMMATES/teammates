@@ -1,0 +1,79 @@
+<p>Hello ${userName},</p>
+
+${instructorFragment}
+
+<p>
+  Heads up! The following feedback session is due to open soon.
+<div>
+  <table style="max-width:600px;border:1px solid black;">
+    <tr>
+      <td style="padding:5px;">
+        <strong>
+          Course:
+        </strong>
+      </td>
+      <td style="padding:5px;">
+        [${courseId}] ${courseName}
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:5px;">
+        <strong>
+          Feedback Session Name:
+        </strong>
+      </td>
+      <td style="padding:5px;">
+        ${feedbackSessionName}
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:5px;">
+        <strong>
+          Session Start Time:
+        </strong>
+      </td>
+      <td style="padding:5px;">
+        ${startTime}
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:5px;">
+        <strong>
+          Deadline:
+        </strong>
+      </td>
+      <td style="padding:5px;">
+        ${deadline}
+      </td>
+    </tr>
+
+    <tr>
+      <td style="padding:5px;vertical-align:top">
+        <strong>
+          Session Instructions:
+        </strong>
+      </td>
+      <td style="padding:5px;">
+        ${sessionInstructions}
+      </td>
+    </tr>
+  </table>
+</div>
+<p>
+<ul>
+  <li>
+    <strong>To edit details of this session,</strong> please visit <a href="${sessionEditUrl}">${sessionEditUrl}</a>
+  </li>
+  <li>
+    No other action is needed if you deem the session details to be correct.
+  </li>
+</ul>
+</p>
+
+<p>
+  Regards,
+  <br>TEAMMATES Team.
+</p>

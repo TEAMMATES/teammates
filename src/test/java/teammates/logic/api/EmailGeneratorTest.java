@@ -207,6 +207,25 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         verifyEmailReceivedCorrectly(emails, instructor1.getEmail(), subject, "/sessionClosedEmailForInstructor.html");
 
+        ______TS("feedback session opening soon alerts for co-owners");
+
+        emails = emailGenerator.generateFeedbackSessionOpeningSoonEmails(session);
+        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(course.getId());
+        assertNotEquals(coOwners.size(), 0);
+        assertEquals(coOwners.size(), emails.size());
+
+        subject = String.format(EmailType.FEEDBACK_OPENING_SOON.getSubject(), course.getName(),
+                session.getFeedbackSessionName());
+
+        // this instructor email has been given co-owner privileges in the test file
+        InstructorAttributes coOwner1 =
+                instructorsLogic.getInstructorForEmail(course.getId(), "instructorNotYetJoinedCourse1@email.tmt");
+
+        assertTrue(coOwner1.hasCoownerPrivileges());
+
+        verifyEmailReceivedCorrectly(emails, coOwner1.getEmail(), subject,
+                "/sessionOpeningSoonEmailForCoOwner.html");
+
         ______TS("feedback session published alerts");
 
         emails = emailGenerator.generateFeedbackSessionPublishedEmails(session);
