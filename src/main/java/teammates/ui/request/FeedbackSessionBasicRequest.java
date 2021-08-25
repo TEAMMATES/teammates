@@ -49,7 +49,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     /**
      * Gets the result visible from time of the session.
      */
-    public Instant getResultsVisibleFromTime() {
+    public Instant getResultsVisibleFromTime() throws InvalidHttpRequestBodyException {
         switch (responseVisibleSetting) {
         case AT_VISIBLE:
             return Const.TIME_REPRESENTS_FOLLOW_VISIBLE;
@@ -65,7 +65,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     /**
      * Gets the session visible from time.
      */
-    public Instant getSessionVisibleFromTime() {
+    public Instant getSessionVisibleFromTime() throws InvalidHttpRequestBodyException {
         switch (sessionVisibleSetting) {
         case AT_OPEN:
             return Const.TIME_REPRESENTS_FOLLOW_OPENING;
@@ -125,7 +125,7 @@ public class FeedbackSessionBasicRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(instructions != null, "Instructions cannot be null");
         assertTrue(submissionStartTimestamp > 0L, "Start timestamp should be more than zero");
         assertTrue(submissionEndTimestamp > 0L, "End timestamp should be more than zero");

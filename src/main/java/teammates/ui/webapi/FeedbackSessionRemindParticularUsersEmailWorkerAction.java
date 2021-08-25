@@ -19,7 +19,7 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
     private static final Logger log = Logger.getLogger();
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
         String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
         if (googleIdOfInstructorToNotify == null) {

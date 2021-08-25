@@ -222,7 +222,7 @@ public abstract class Action {
     /**
      * Deserializes and validates the request body payload.
      */
-    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) {
+    <T extends BasicRequest> T getAndValidateRequestBody(Type typeOfBody) throws InvalidHttpRequestBodyException {
         T requestBody = JsonUtils.fromJson(getRequestBody(), typeOfBody);
         if (requestBody == null) {
             throw new InvalidHttpRequestBodyException("The request body is null");
@@ -281,6 +281,6 @@ public abstract class Action {
     /**
      * Executes the action.
      */
-    public abstract ActionResult execute();
+    public abstract ActionResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException;
 
 }

@@ -98,7 +98,7 @@ class CreateFeedbackResponseCommentAction extends BasicCommentSubmissionAction {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String feedbackResponseId;
         try {
             feedbackResponseId = StringHelper.decrypt(

@@ -36,7 +36,7 @@ class UpdateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes oldQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
 

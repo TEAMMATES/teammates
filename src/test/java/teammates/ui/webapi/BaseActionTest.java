@@ -578,7 +578,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * <p>Assumption: The action returns a {@link JsonResult}.
      */
     protected JsonResult getJsonResult(Action a) {
-        return (JsonResult) a.execute();
+        try {
+            return (JsonResult) a.execute();
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /**
@@ -587,7 +591,11 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
      * <p>Assumption: The action returns a {@link ImageResult}.
      */
     protected ImageResult getImageResult(Action a) {
-        return (ImageResult) a.execute();
+        try {
+            return (ImageResult) a.execute();
+        } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // The next few methods are for verifying action results

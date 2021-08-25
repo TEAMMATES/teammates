@@ -30,7 +30,7 @@ class PostStudentProfilePictureAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         try {
             Part image = req.getPart("studentprofilephoto");
             if (image == null) {

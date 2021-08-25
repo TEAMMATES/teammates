@@ -8,7 +8,7 @@ import teammates.common.exception.InstructorUpdateException;
  * Exception thrown when a normally valid operation is not valid due to factors outside of the operation itself,
  * e.g. when trying to insert duplicate entry into the database.
  */
-public class InvalidOperationException extends RuntimeException {
+public class InvalidOperationException extends Exception {
 
     public InvalidOperationException(String message) {
         super(message);

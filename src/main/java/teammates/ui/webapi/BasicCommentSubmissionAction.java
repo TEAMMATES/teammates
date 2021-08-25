@@ -26,7 +26,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     /**
      * Validates comment doesn't exist of corresponding response.
      */
-    void verifyCommentNotExist(String feedbackResponseId) {
+    void verifyCommentNotExist(String feedbackResponseId) throws InvalidOperationException {
         FeedbackResponseCommentAttributes comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 

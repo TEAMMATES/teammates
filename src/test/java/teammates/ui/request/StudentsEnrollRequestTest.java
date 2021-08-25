@@ -13,7 +13,7 @@ import teammates.test.BaseTestCase;
 public class StudentsEnrollRequestTest extends BaseTestCase {
 
     @Test
-    public void testValidate_withValidRequest_shouldPass() {
+    public void testValidate_withValidRequest_shouldPass() throws Exception {
         StudentsEnrollRequest request = new StudentsEnrollRequest(Arrays.asList(getTypicalStudentEnrollRequest(0)));
         request.validate();
     }

@@ -31,7 +31,7 @@ class UpdateStudentProfileAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
 

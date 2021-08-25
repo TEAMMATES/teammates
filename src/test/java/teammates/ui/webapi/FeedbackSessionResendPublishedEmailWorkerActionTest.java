@@ -38,7 +38,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
 
     @Override
     @Test
-    public void testExecute() {
+    public void testExecute() throws Exception {
 
         ______TS("Resend feedback session results published email");
 

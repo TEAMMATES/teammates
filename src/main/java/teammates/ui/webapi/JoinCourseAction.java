@@ -28,7 +28,7 @@ class JoinCourseAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidOperationException {
         String regKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
         String entityType = getNonNullRequestParamValue(Const.ParamsNames.ENTITY_TYPE);
         switch (entityType) {
@@ -46,7 +46,7 @@ class JoinCourseAction extends Action {
         }
     }
 
-    private JsonResult joinCourseForStudent(String regkey) {
+    private JsonResult joinCourseForStudent(String regkey) throws InvalidOperationException {
         StudentAttributes student;
 
         try {
@@ -64,7 +64,7 @@ class JoinCourseAction extends Action {
         return new JsonResult("Student successfully joined course", HttpStatus.SC_OK);
     }
 
-    private JsonResult joinCourseForInstructor(String regkey, String institute) {
+    private JsonResult joinCourseForInstructor(String regkey, String institute) throws InvalidOperationException {
         InstructorAttributes instructor;
 
         try {
