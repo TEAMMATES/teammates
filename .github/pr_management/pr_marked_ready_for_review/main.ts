@@ -26,10 +26,6 @@ async function run() {
 
     const { didChecksRunSuccessfully, errMessage } = await validateChecksOnPrHead();
 
-    // todo remove debugging
-    log.info(hasOngoingLabel(prLabels), "hasOngoingLabel");
-    log.info(hasToReviewLabel(prLabels), "hasToReviewLabel");
-
     if (didChecksRunSuccessfully) {
         if (hasToReviewLabel(prLabels)) {
             core.info("already has review label and checks are passing, nothing to be done here. exiting...")
@@ -51,9 +47,7 @@ async function run() {
         await addToReviewLabel();
         
     } else { 
-        // for prs labelled as ongoing, for all other event types except on synchronise, 
-        // we can be sure that the author hasn't been notified of the failing checks by the bot
-        if (hasOngoingLabel(prLabels) && isOnSynchronise() && await wasAuthorLinkedToFailingChecks()) {
+        if (hasOngoingLabel(prLabels) && await wasAuthorLinkedToFailingChecks()) {
             core.info("PR has the ongoing label and author has been notified, exiting...")
             return;
         } 

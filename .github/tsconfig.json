@@ -5,7 +5,7 @@
       "outDir": "./lib",
       "rootDir": "./",
       "strict": false,
-      // "noImplicitAny": true,
+      "skipLibCheck": true, // skips node_modules
       "esModuleInterop": true,
       "moduleResolution": "Node", // needed for ncc to find the @actions modules
       "checkJs": false,

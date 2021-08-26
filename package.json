@@ -13,7 +13,7 @@
     "lint": "npm-run-all lint:* -c",
     "actions:tsc": "cd .github && tsc",
     "actions:minify": "ncc build .github/pr_management/pr_marked_draft/main.ts -o .github/pr_management/pr_marked_draft/ -m --license licenses.txt && ncc build .github/pr_management/pr_marked_ready_for_review/main.ts -o .github/pr_management/pr_marked_ready_for_review/ -m --license licenses.txt && ncc build .github/pr_management/ready_for_review_comment/main.js -o .github/pr_management/ready_for_review_comment/ -m --license licenses.txt",
-    "actions:build": "npm-run-all actions:*"
+    "actions": "npm-run-all actions:*"
   },
   "private": true,
   "dependencies": {

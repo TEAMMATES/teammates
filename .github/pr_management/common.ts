@@ -17,38 +17,17 @@ export const toReviewLabel = "s.ToReview";
 //// variables to configure
 const usualTimeForChecksToRun = 10 * 60 * 1000; // min * sec * ms
 
-/* this list of names of excluded checks is to prevent cyclical checking when checking for passing runs. 
+/* this list of names of excluded checks is to prevent cyclical checking when checking for workflow statuses. 
 note: each string needs to match the jobs.<id>.name property in yaml files */ 
-const excludedChecksNames = {
-    "Handle PR that may be draft": 1,
-    "Handle PR that may be ready for review": 1,
-};
+const draftPr = "Handle PR that may be draft";
+const readyForReviewPr = "Handle PR that may be ready for review";
+const issueComment = "PR Comment";
 
-export async function wereReviewCommentsAdded(pr, sinceTimeStamp: string) {
-    validateTimeStamp(sinceTimeStamp);
-
-    const comments = await octokit.rest.pulls.listReviewComments({
-        owner,
-        repo,
-        pull_number: pr.number,
-        since: sinceTimeStamp, 
-    }).then(res => {
-        core.info("these comments were retrieved\n" + res);
-        return res;
-    }).catch(err => {
-        throw err;
-    });
-
-    return comments.data.length > 0;
-}
-
-function validateTimeStamp(timeStamp: string) {
-    try {
-        Date.parse(timeStamp);
-    } catch (err) {
-        throw new Error(`the sinceTimeStamp argument passed is an invalid timestamp`);
-    }
-}
+const excludedChecksNames = [
+    draftPr,
+    readyForReviewPr,
+    issueComment
+];
 
 //// abstractions for adding and dropping labels
 
@@ -75,15 +54,14 @@ export async function dropOngoingLabel() {
 }
 
 async function addLabel(labelName: string) {
-    await octokit.rest.issues
-        .addLabels({
-            owner,
-            repo,
-            issue_number,
-            labels: [labelName],
-        })
-        .then(res => log.info(res.status, `added ${labelName} label with status`))
-        .catch(err => log.info(err, "error adding label"));
+    await octokit.rest.issues.addLabels({
+        owner,
+        repo,
+        issue_number,
+        labels: [labelName],
+    })
+    .then(res => log.info(res.status, `added ${labelName} label with status`))
+    .catch(err => log.info(err, "error adding label"));
 }
 
 async function removeLabel(labelName: string) {
@@ -141,25 +119,31 @@ export async function validateChecksOnPrHead() {
     return await validateChecks(sha);
 }
 
+function doesArrInclude(arr : Array<any>, element) : boolean {
+    return arr.findIndex(x => x == element) !== -1;
+}
+
 async function validateChecks(validateForRef: string)
 : Promise<{ didChecksRunSuccessfully: boolean; errMessage: string }> {
 
     core.info(`validating checks on ref: ${validateForRef}...`);
 
     let areChecksOngoing = true;
-    let listChecks;
+    let checkRunsArr;
 
     // wait for the checks to complete before proceeding
     while (areChecksOngoing) {
         // https://octokit.github.io/rest.js/v18#checks-list-for-ref
-        listChecks = await octokit.rest.checks.listForRef({
+        checkRunsArr = await octokit.rest.checks.listForRef({
             owner,
             repo,
             ref: validateForRef,
-        });
-
-        // array of check runs, may include the workflow that is running the current file
-        const checkRunsArr = listChecks.data.check_runs;
+        })
+        .then(res => {
+            core.info(`received the list of checks with response ${res.status}`);
+            return res.data.check_runs;
+        })
+        .catch(err => {throw err});
 
         checkRunsArr.forEach(checkRun => {
             core.info(`current status for "${checkRun.name}": ${checkRun.status}`);
@@ -167,8 +151,9 @@ async function validateChecks(validateForRef: string)
 
         // find checks that are not completed and sleep while waiting for completion
         const res = checkRunsArr.find(
-            checkRun => checkRun.status !== "completed" && !(checkRun.name in excludedChecksNames)
+            checkRun => checkRun.status !== "completed" && !(doesArrInclude(excludedChecksNames, checkRun.name))
         );
+        
         if (res !== undefined) {
             await sleep(usualTimeForChecksToRun);
             continue;
@@ -177,12 +162,10 @@ async function validateChecks(validateForRef: string)
         areChecksOngoing = false;
     }
 
-    const checkRunsArr = listChecks.data.check_runs;
-
     // format the conclusions of the check runs
     let conclusionsDetails = "";
 
-    listChecks.data.check_runs.forEach(checkRun => {
+    checkRunsArr.forEach(checkRun => {
         if (checkRun.status !== "completed") {
             conclusionsDetails += `${checkRun.name}'s completion status was ignored because this check is found in the excluded checks list\n`;
         } else {
@@ -191,7 +174,7 @@ async function validateChecks(validateForRef: string)
     });
 
     const didChecksRunSuccessfully = !checkRunsArr.find(
-        checkRun => checkRun.conclusion !== "success" && !(checkRun.name in excludedChecksNames)
+        checkRun => checkRun.conclusion !== "success" && !(doesArrInclude(excludedChecksNames, checkRun.name))
     );
     const errMessage = `There were failing checks found. \n${conclusionsDetails}`;
 
@@ -201,7 +184,7 @@ async function validateChecks(validateForRef: string)
     return { didChecksRunSuccessfully, errMessage };
 }
 
-// event payload that triggers this pull request does not contain this info about the PR, so must use rest api again
+// when event payload that triggers this pull request does not contain sha info about the PR, this function can be used
 async function getPRHeadShaForIssueNumber(pull_number) {
     const pr = await octokit.rest.pulls.get({
         owner,
@@ -210,6 +193,7 @@ async function getPRHeadShaForIssueNumber(pull_number) {
     }).catch(err => {throw err;});
 
     const sha = pr.data.head.sha;
-    log.info(sha, "sha");
+    core.info(`PR head sha obtained for pr #${pull_number}: ${sha}`)
+
     return sha;
 }
