@@ -3,6 +3,7 @@ package teammates.common.util;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.common.reflect.TypeToken;
 
 import teammates.common.datatransfer.logs.ExceptionLogDetails;
+import teammates.common.datatransfer.logs.InstanceLogDetails;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
@@ -56,6 +58,46 @@ public final class Logger {
     }
 
     /**
+     * Logs an instance startup event.
+     */
+    public void startup() {
+        instance("STARTUP");
+    }
+
+    /**
+     * Logs an instance shutdown event.
+     */
+    public void shutdown() {
+        instance("SHUTDOWN");
+    }
+
+    @SuppressWarnings("PMD.SystemPrintln")
+    private void instance(String instanceEvent) {
+        String instanceId = Config.getInstanceId();
+        String shortenedInstanceId = instanceId;
+        if (shortenedInstanceId.length() > 32) {
+            shortenedInstanceId = shortenedInstanceId.substring(0, 32);
+        }
+
+        InstanceLogDetails details = new InstanceLogDetails();
+        details.setInstanceId(instanceId);
+        details.setInstanceEvent(instanceEvent);
+
+        String message = "Instance " + instanceEvent.toLowerCase() + ": " + shortenedInstanceId;
+
+        Map<String, Object> payload = new HashMap<>();
+        payload.put("message", message);
+        payload.put("severity", LogSeverity.INFO);
+
+        Map<String, Object> detailsSpecificPayload =
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+        payload.putAll(detailsSpecificPayload);
+
+        // Need to use println as the logger is disabled when the instance is shutting down
+        System.out.println(JsonUtils.toCompactJson(payload));
+    }
+
+    /**
      * Logs an HTTP request.
      */
     public void request(HttpServletRequest request, int statusCode, String message) {
@@ -76,6 +118,9 @@ public final class Logger {
         details.setRequestMethod(method);
         details.setRequestUrl(requestUrl);
         details.setUserAgent(request.getHeader("User-Agent"));
+        details.setWebVersion(request.getHeader(Const.HeaderNames.WEB_VERSION));
+        details.setReferrer(request.getHeader("referer"));
+        details.setInstanceId(Config.getInstanceId());
         details.setRequestParams(HttpRequestHelper.getRequestParameters(request));
         details.setRequestHeaders(HttpRequestHelper.getRequestHeaders(request));
 
@@ -141,54 +186,70 @@ public final class Logger {
     }
 
     private String getLogMessageWithStackTrace(String message, Throwable t, LogSeverity severity) {
-        String logMessage;
         if (Config.isDevServer()) {
             StringWriter sw = new StringWriter();
             try (PrintWriter pw = new PrintWriter(sw)) {
                 t.printStackTrace(pw);
             }
 
-            logMessage = formatLogMessageForHumanDisplay(message) + " stack_trace: "
+            return formatLogMessageForHumanDisplay(message) + " stack_trace: "
                     + System.lineSeparator() + sw.toString();
-        } else {
-            StackTraceElement tSource = t.getStackTrace()[0];
+        }
+
+        Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
+
+        List<String> exceptionClasses = new ArrayList<>();
+        List<List<String>> exceptionStackTraces = new ArrayList<>();
+        List<String> exceptionMessages = new ArrayList<>();
+
+        Throwable currentT = t;
+        while (currentT != null) {
+            exceptionClasses.add(currentT.getClass().getName());
+            exceptionStackTraces.add(getStackTraceToDisplay(currentT));
+            exceptionMessages.add(currentT.getMessage());
+
+            currentT = currentT.getCause();
+        }
+
+        ExceptionLogDetails details = new ExceptionLogDetails();
+        details.setExceptionClass(t.getClass().getSimpleName());
+        details.setExceptionClasses(exceptionClasses);
+        details.setExceptionStackTraces(exceptionStackTraces);
+        details.setExceptionMessages(exceptionMessages);
+
+        StackTraceElement tSource = getFirstInternalStackTrace(t);
+        if (tSource != null) {
             SourceLocation tSourceLocation = new SourceLocation(
                     tSource.getClassName(), (long) tSource.getLineNumber(), tSource.getMethodName());
-
-            List<String> exceptionClasses = new ArrayList<>();
-            List<List<String>> exceptionStackTraces = new ArrayList<>();
-            List<String> exceptionMessages = new ArrayList<>();
-
-            Throwable currentT = t;
-            while (currentT != null) {
-                exceptionClasses.add(currentT.getClass().getName());
-                exceptionStackTraces.add(getStackTraceToDisplay(currentT));
-                exceptionMessages.add(currentT.getMessage());
-
-                currentT = currentT.getCause();
-            }
-
-            Map<String, Object> payload = getBaseCloudLoggingPayload(message, severity);
 
             // Replace the source location with the Throwable's source location instead
             SourceLocation loggerSourceLocation = (SourceLocation) payload.get("logging.googleapis.com/sourceLocation");
             payload.put("logging.googleapis.com/sourceLocation", tSourceLocation);
 
-            ExceptionLogDetails details = new ExceptionLogDetails();
             details.setLoggerSourceLocation(loggerSourceLocation);
-            details.setExceptionClass(t.getClass().getSimpleName());
-            details.setExceptionClasses(exceptionClasses);
-            details.setExceptionStackTraces(exceptionStackTraces);
-            details.setExceptionMessages(exceptionMessages);
-
-            Map<String, Object> detailsSpecificPayload =
-                    JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
-            payload.putAll(detailsSpecificPayload);
-
-            logMessage = JsonUtils.toCompactJson(payload);
         }
 
-        return logMessage;
+        Map<String, Object> detailsSpecificPayload =
+                JsonUtils.fromJson(JsonUtils.toCompactJson(details), new TypeToken<Map<String, Object>>(){}.getType());
+        payload.putAll(detailsSpecificPayload);
+
+        return JsonUtils.toCompactJson(payload);
+    }
+
+    /**
+     * Returns the first stack trace for the throwable that originates from an internal class
+     * (i.e. package name starting with teammates).
+     * If no such stack trace is found, return the first element of the stack trace list.
+     */
+    private StackTraceElement getFirstInternalStackTrace(Throwable t) {
+        StackTraceElement[] stackTraces = t.getStackTrace();
+        if (stackTraces.length == 0) {
+            return null;
+        }
+        return Arrays.stream(stackTraces)
+                .filter(ste -> ste.getClassName().startsWith("teammates"))
+                .findFirst()
+                .orElse(stackTraces[0]);
     }
 
     private List<String> getStackTraceToDisplay(Throwable t) {

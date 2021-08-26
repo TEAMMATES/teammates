@@ -25,6 +25,8 @@ public final class Const {
 
     public static final String DEFAULT_SECTION = "None";
 
+    public static final String UNKNOWN_INSTITUTION = "Unknown Institution";
+
     public static final ZoneId DEFAULT_TIME_ZONE = ZoneId.of("UTC");
     public static final String ENCODING = "UTF8";
 
@@ -170,6 +172,16 @@ public final class Const {
     }
 
     /**
+     * Represents custom header names used by the system.
+     */
+    public static class HeaderNames {
+        public static final String BACKDOOR_KEY = "Backdoor-Key";
+        public static final String CSRF_KEY = "CSRF-Key";
+        public static final String WEB_VERSION = "X-WEB-VERSION";
+        public static final String CSRF_TOKEN = "X-CSRF-TOKEN";
+    }
+
+    /**
      * The course status respect to the instructor's point of view.
      * This parameter is used to get a course list for instructor.
      */
@@ -196,7 +208,6 @@ public final class Const {
      */
     public static class SecurityConfig {
 
-        public static final String CSRF_HEADER_NAME = "X-CSRF-TOKEN";
         public static final String CSRF_COOKIE_NAME = "CSRF-TOKEN";
         public static final String AUTH_COOKIE_NAME = "AUTH-TOKEN";
 
@@ -338,6 +349,8 @@ public final class Const {
 
         public static final String AUTOMATED_LOG_COMPILATION = URI_PREFIX + "/compileLogs";
         public static final String AUTOMATED_DATASTORE_BACKUP = URI_PREFIX + "/datastoreBackup";
+        public static final String AUTOMATED_FEEDBACK_OPENING_SOON_REMINDERS =
+                URI_PREFIX + "/feedbackSessionOpeningSoonReminders";
         public static final String AUTOMATED_FEEDBACK_OPENING_REMINDERS =
                 URI_PREFIX + "/feedbackSessionOpeningReminders";
         public static final String AUTOMATED_FEEDBACK_CLOSED_REMINDERS =

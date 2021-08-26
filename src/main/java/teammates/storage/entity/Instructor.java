@@ -10,6 +10,8 @@ import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
+import teammates.common.util.StringHelper;
+
 /**
  * An association class that represents the association Account
  * --> [is an instructor for] --> Course.
@@ -35,7 +37,7 @@ public class Instructor extends BaseEntity {
     private String courseId;
 
     /** Whether the associated course is archived. */
-    private Boolean isArchived;
+    private boolean isArchived;
 
     /** The instructor's name used for this course. */
     private String name;
@@ -131,11 +133,6 @@ public class Instructor extends BaseEntity {
      * Gets the archived status of the instructor.
      */
     public boolean getIsArchived() {
-        if (isArchived == null) {
-            // the legacy data corresponding to isArchived is stored as a null value (not a missing value)
-            // in the database
-            return false;
-        }
         return isArchived;
     }
 
@@ -175,7 +172,7 @@ public class Instructor extends BaseEntity {
         String uniqueId = getUniqueId();
         SecureRandom prng = new SecureRandom();
 
-        return uniqueId + prng.nextInt();
+        return StringHelper.encrypt(uniqueId + prng.nextInt());
     }
 
     public String getRole() {

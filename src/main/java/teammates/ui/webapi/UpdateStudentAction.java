@@ -9,6 +9,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
@@ -93,13 +94,14 @@ class UpdateStudentAction extends Action {
                     return new JsonResult(statusMessage);
                 }
             }
-        } catch (EnrollException | InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (EnrollException e) {
+            throw new InvalidOperationException(e);
+        } catch (InvalidParametersException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         } catch (EntityDoesNotExistException ednee) {
             return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("Trying to update to an email that is already in use",
-                    HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException("Trying to update to an email that is already in use", e);
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);

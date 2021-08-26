@@ -12,6 +12,7 @@ exports[`InstructorCourseDetailsPageComponent should snap when students are stil
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
+  sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -56,6 +57,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
+  sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -233,6 +235,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with a course with one
   isStudentsLoading="false"
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
+  sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}
@@ -639,6 +642,7 @@ exports[`InstructorCourseDetailsPageComponent should snap with default fields 1`
   isStudentsLoading={[Function Boolean]}
   ngbModal={[Function NgbModal]}
   route={[Function ActivatedRoute]}
+  sectionsLoaded="0"
   simpleModalService={[Function SimpleModalService]}
   statusMessageService={[Function StatusMessageService]}
   studentService={[Function StudentService]}

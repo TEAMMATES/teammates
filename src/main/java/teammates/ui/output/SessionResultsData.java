@@ -31,7 +31,6 @@ public class SessionResultsData extends ApiOutput {
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
     final List<QuestionOutput> questions = new ArrayList<>();
-    FeedbackSessionData feedbackSession;
 
     SessionResultsData() {
         // use factory method instead
@@ -42,7 +41,6 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
-        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -71,8 +69,6 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForStudent(SessionResultsBundle bundle, StudentAttributes student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
-        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
-        sessionResultsData.feedbackSession.hideInformationForStudent();
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
@@ -86,8 +82,14 @@ public class SessionResultsData extends ApiOutput {
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponseAttributes response : responses) {
-                    boolean isUserGiver = student.getEmail().equals(response.getGiver());
-                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
+                    boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
+
+                    boolean isUserGiver = student.getEmail().equals(response.getGiver())
+                            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+                            && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
 
                     if (isUserRecipient) {
@@ -119,9 +121,12 @@ public class SessionResultsData extends ApiOutput {
     private static ResponseOutput buildSingleResponseForStudent(
             FeedbackResponseAttributes response, SessionResultsBundle bundle, StudentAttributes student) {
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
+        boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
 
         // process giver
-        boolean isUserGiver = student.getEmail().equals(response.getGiver());
+        boolean isUserGiver = student.getEmail().equals(response.getGiver())
+                && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
@@ -138,7 +143,9 @@ public class SessionResultsData extends ApiOutput {
         }
 
         // process recipient
-        boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
+        boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+                && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
@@ -291,12 +298,7 @@ public class SessionResultsData extends ApiOutput {
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();
         String lastName = userInfo.getLastName();
-        if (question.getGiverType() == FeedbackParticipantType.TEAMS
-                && bundle.getRoster().isStudentInCourse(response.getGiver())) {
-            // user gives responses on behalf of the team (legacy implementation), the name should be the team name instead
-            name = userInfo.getTeamName();
-            lastName = userInfo.getTeamName();
-        }
+
         if (!bundle.isResponseGiverVisible(response)) {
             name = SessionResultsBundle.getAnonName(participantType, name);
             lastName = null;

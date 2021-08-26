@@ -19,9 +19,9 @@ import com.google.gson.reflect.TypeToken;
 
 import teammates.common.datatransfer.UserInfoCookie;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.HttpRequest;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
 /**
@@ -29,12 +29,10 @@ import teammates.common.util.StringHelper;
  */
 public class OAuth2CallbackServlet extends AuthServlet {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if (Config.isDevServer()) {
-            return;
-        }
-
         StringBuffer buf = req.getRequestURL();
         if (req.getQueryString() != null) {
             buf.append('?').append(req.getQueryString());
@@ -42,15 +40,13 @@ public class OAuth2CallbackServlet extends AuthServlet {
         AuthorizationCodeResponseUrl responseUrl =
                 new AuthorizationCodeResponseUrl(buf.toString().replaceFirst("^http://", "https://"));
         if (responseUrl.getError() != null) {
-            resp.setStatus(HttpStatus.SC_INTERNAL_SERVER_ERROR);
-            resp.getWriter().print(responseUrl.getError());
+            logAndPrintError(req, resp, HttpStatus.SC_INTERNAL_SERVER_ERROR, responseUrl.getError());
             return;
         }
         String code = responseUrl.getCode();
         String state = responseUrl.getState();
         if (code == null || state == null) {
-            resp.setStatus(HttpStatus.SC_BAD_REQUEST);
-            resp.getWriter().print("Missing authorization code");
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Missing authorization code");
             return;
         }
 
@@ -63,13 +59,11 @@ public class OAuth2CallbackServlet extends AuthServlet {
             String sessionId = authState.getSessionId();
             if (!sessionId.equals(req.getSession().getId())) {
                 // Invalid session ID
-                resp.setStatus(HttpStatus.SC_BAD_REQUEST);
-                resp.getWriter().print("Invalid authorization code");
+                logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
                 return;
             }
         } catch (JsonParseException | InvalidParametersException e) {
-            resp.setStatus(HttpStatus.SC_BAD_REQUEST);
-            resp.getWriter().print("Invalid authorization code");
+            logAndPrintError(req, resp, HttpStatus.SC_BAD_REQUEST, "Invalid authorization code");
             return;
         }
 
@@ -89,6 +83,7 @@ public class OAuth2CallbackServlet extends AuthServlet {
             }
         } catch (URISyntaxException | IOException | JsonSyntaxException e) {
             // if any of the operation fail, googleId is kept at null
+            log.warning("Failed to get Google ID", e);
         }
 
         Cookie cookie;
@@ -102,8 +97,20 @@ public class OAuth2CallbackServlet extends AuthServlet {
             cookie = getLoginCookie(uic);
         }
 
+        log.info("Going to redirect to: " + nextUrl);
+
+        log.request(req, HttpStatus.SC_MOVED_TEMPORARILY, "Login successful");
+
         resp.addCookie(cookie);
         resp.sendRedirect(nextUrl);
+    }
+
+    private void logAndPrintError(HttpServletRequest req, HttpServletResponse resp, int status, String message)
+            throws IOException {
+        resp.setStatus(status);
+        resp.getWriter().print(message);
+
+        log.request(req, status, message);
     }
 
 }

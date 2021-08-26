@@ -153,7 +153,7 @@ public class FeedbackQuestion extends BaseEntity {
         this.courseId = courseId;
     }
 
-    public String getQuestionMetaData() {
+    public String getQuestionText() {
         return questionText;
     }
 

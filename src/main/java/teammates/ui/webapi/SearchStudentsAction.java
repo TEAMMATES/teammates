@@ -43,7 +43,7 @@ class SearchStudentsAction extends Action {
             return null;
         }
 
-        return StringHelper.isEmpty(account.getInstitute()) ? "None" : account.getInstitute();
+        return StringHelper.isEmpty(account.getInstitute()) ? Const.UNKNOWN_INSTITUTION : account.getInstitute();
     }
 
     /**
@@ -96,7 +96,7 @@ class SearchStudentsAction extends Action {
 
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
-                        StringHelper.encrypt(s.getKey()),
+                        s.getEncryptedKey(),
                         getInstituteFromCourseId(s.getCourse()),
                         s.getGoogleId()
                 );
