@@ -19,7 +19,6 @@ import { ErrorReportComponent } from "./components/error-report/error-report.com
 })
 export class UserCreateAccountPageComponent implements OnInit {
   isLoading: boolean = true;
-  isCreatingAccount: boolean = false;
   hasJoined: boolean = false;
   validUrl: boolean = true;
   key: string = "";
@@ -51,10 +50,10 @@ export class UserCreateAccountPageComponent implements OnInit {
   }
 
   createAccount(): void {
-    this.isCreatingAccount = true;
+    this.isLoading = true;
     this.accountService
       .createAccount(this.key)
-      .pipe(finalize(() => (this.isCreatingAccount = false)))
+      .pipe(finalize(() => (this.isLoading = false)))
       .subscribe(
         (_resp) => {
           this.navigationService.navigateByURL(this.router, `/web/instructor`);

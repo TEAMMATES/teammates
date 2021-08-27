@@ -1,4 +1,4 @@
-<div *ngIf="!isLoading">
+<div *tmIsLoading="isLoading">
   <div class="card bg-light mx-auto" style="max-width: 800px;" *ngIf="!hasJoined && !userId && validUrl">
     <div class="card-header bg-warning">
       <h3 style="margin-bottom: 0;">Not logged in</h3>
