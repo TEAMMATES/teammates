@@ -38,7 +38,6 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .build();
 
         accountRequestsDb.createOrUpdateAccountRequest(duplicateAccount);
-        assertEquals(getAccountRequest(duplicateAccount), duplicateAccount);
 
         ______TS("failure case: invalid parameter");
 
