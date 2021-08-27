@@ -1398,10 +1398,10 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
-    public void deleteAccountRequest(String registrationKey) {
-        assert registrationKey != null;
+    public void deleteAccountRequest(String email) {
+        assert email != null;
 
-        accountRequestsLogic.deleteAccountRequest(registrationKey);
+        accountRequestsLogic.deleteAccountRequest(email);
     }
 
     /**

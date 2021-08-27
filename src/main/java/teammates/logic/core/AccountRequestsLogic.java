@@ -43,12 +43,12 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes the account request associated with the {@code registrationKey}.
+     * Deletes the account request associated with the {@code email}.
      *
      * <p>Fails silently if the account request doesn't exist.</p>
      */
-    public void deleteAccountRequest(String registrationKey) {
-        accountRequestsDb.deleteAccountRequest(registrationKey);
+    public void deleteAccountRequest(String email) {
+        accountRequestsDb.deleteAccountRequest(email);
     }
 
     /**
