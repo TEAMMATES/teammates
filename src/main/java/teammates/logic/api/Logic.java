@@ -10,6 +10,7 @@ import javax.annotation.Nullable;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -24,6 +25,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
+import teammates.logic.core.AccountRequestsLogic;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.CoursesLogic;
 import teammates.logic.core.DataBundleLogic;
@@ -45,6 +47,7 @@ public class Logic {
     private static final Logic instance = new Logic();
 
     final AccountsLogic accountsLogic = AccountsLogic.inst();
+    final AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
     final StudentsLogic studentsLogic = StudentsLogic.inst();
     final InstructorsLogic instructorsLogic = InstructorsLogic.inst();
     final CoursesLogic coursesLogic = CoursesLogic.inst();
@@ -1371,5 +1374,47 @@ public class Logic {
         assert student1Email != null;
         assert student2Email != null;
         return studentsLogic.isStudentsInSameTeam(courseId, student1Email, student2Email);
+    }
+
+    /**
+     * Creates or updates an account request.
+     *
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     *
+     * @return the created/updated account request
+     * @throws InvalidParametersException if the account request is not valid
+     */
+    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
+            throws InvalidParametersException {
+        assert accountRequestToAdd != null;
+        
+        return accountRequestsLogic.createOrUpdateAccountRequest(accountRequestToAdd);
+    }
+
+    /**
+     * Deletes an account request.
+     * 
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     */
+    public void deleteAccountRequest(String registrationKey) {
+        assert registrationKey != null;
+
+        accountRequestsLogic.deleteAccountRequest(registrationKey);
+    }
+
+    /**
+     * Gets an account request by unique constraint registrationKey.
+     * 
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * 
+     * @return the account request or null if no match found
+     */
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
+        assert registrationKey != null;
+
+        return accountRequestsLogic.getAccountRequestForRegistrationKey(registrationKey);
     }
 }

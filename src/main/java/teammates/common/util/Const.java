@@ -245,6 +245,7 @@ public final class Const {
         private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
         private static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
+        public static final String CREATE_ACCOUNT_PAGE = URI_PREFIX + "/createaccount";
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";
@@ -297,6 +298,7 @@ public final class Const {
         public static final String ACCOUNT = URI_PREFIX + "/account";
         public static final String ACCOUNT_RESET = URI_PREFIX + "/account/reset";
         public static final String ACCOUNT_DOWNGRADE = URI_PREFIX + "/account/downgrade";
+        public static final String ACCOUNT_REQUEST = URI_PREFIX + "/account/request";
         public static final String RESPONSE_COMMENT = URI_PREFIX + "/responsecomment";
         public static final String COURSE = URI_PREFIX + "/course";
         public static final String COURSE_ARCHIVE = URI_PREFIX + "/course/archive";

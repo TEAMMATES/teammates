@@ -5,31 +5,54 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.exception.EntityAlreadyExistsException;
+import teammates.common.exception.EntityDoesNotExistException;
+import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Config;
 import teammates.common.util.Const;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
-import teammates.ui.output.JoinLinkData;
-import teammates.ui.request.AccountCreateRequest;
 
 /**
  * Creates a new instructor account with sample courses.
  */
-class CreateAccountAction extends AdminOnlyAction {
+class CreateAccountAction extends Action {
+
+    @Override
+    AuthType getMinAuthLevel() {
+        return AuthType.LOGGED_IN;
+    }
+
+    @Override
+    void checkSpecificAccessControl() {
+        // Any user can create instructor account as long as the registration key is valid.
+    }
 
     @Override
     public JsonResult execute() {
-        AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
+        String registrationKey;
+        
+        try {
+            registrationKey = StringHelper.decrypt(getNonNullRequestParamValue(Const.ParamsNames.REGKEY));
+        } catch (InvalidParametersException e) {
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+        }
 
-        String instructorName = createRequest.getInstructorName().trim();
-        String instructorEmail = createRequest.getInstructorEmail().trim();
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
+        
+        if (accountRequestAttributes == null) {
+            return new JsonResult("Invalid registration key", HttpStatus.SC_BAD_REQUEST);
+        }
+
+        String instructorEmail = accountRequestAttributes.getEmail();
+        String instructorName = accountRequestAttributes.getName();
+        String instructorInstitution = accountRequestAttributes.getInstitute();
+
         String courseId;
 
         try {
@@ -37,19 +60,24 @@ class CreateAccountAction extends AdminOnlyAction {
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
+        
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructorList.get(0).getEncryptedKey())
-                .withInstructorInstitution(instructorInstitution)
-                .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-        EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-                instructorList.get(0).getEmail(), instructorName, joinLink);
-        emailSender.sendEmail(email);
+        
+        try {
+            logic.joinCourseForInstructor(instructorList.get(0).getEncryptedKey(), userInfo.id, instructorInstitution,
+                    StringHelper.generateSignature(instructorInstitution));
+        } catch (EntityDoesNotExistException ednee) {
+            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+        } catch (EntityAlreadyExistsException eaee) {
+            throw new InvalidOperationException(eaee);
+        } catch (InvalidParametersException ipe) {
+            return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        }
 
-        JoinLinkData output = new JoinLinkData(joinLink);
-        return new JsonResult(output);
+        // Delete account request as it is no longer needed
+        logic.deleteAccountRequest(registrationKey);
+
+        return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }
 
     /**

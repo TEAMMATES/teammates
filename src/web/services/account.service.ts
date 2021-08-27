@@ -18,8 +18,18 @@ export class AccountService {
   /**
    * Creates an account by calling API.
    */
-  createAccount(request: AccountCreateRequest): Observable<JoinLink> {
-    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT, {}, request);
+  createAccount(key: string): Observable<JoinLink> {
+    const paramMap: Record<string, string> = {
+      key: key
+    };
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT, paramMap);
+  }
+
+  /**
+   * Creates an account request by calling API.
+   */
+  createAccountRequest(request: AccountCreateRequest): Observable<JoinLink> {
+    return this.httpRequestService.post(ResourceEndpoints.ACCOUNT_REQUEST, {}, request);
   }
 
   /**
