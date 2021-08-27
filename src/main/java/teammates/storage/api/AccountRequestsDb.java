@@ -2,7 +2,6 @@ package teammates.storage.api;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
-import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,6 +9,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.InvalidParametersException;
 import teammates.storage.entity.AccountRequest;
 
 /**
@@ -39,6 +39,10 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         return makeAttributesOrNull(getAccountRequestEntity(email));
     }
 
+    private AccountRequest getAccountRequestEntity(String email) {
+        return load().id(email).now();
+    }
+
     /**
      * Deletes an accountRequest.
      */
@@ -59,10 +63,6 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
-    private AccountRequest getAccountRequestEntity(String email) {
-        return load().id(email).now();
-    }
-
     @Override
     AccountRequestAttributes makeAttributes(AccountRequest entity) {
         assert entity != null;
@@ -77,10 +77,14 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
      * @throws InvalidParametersException if attributes to update are not valid
      */
     public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd) 
-            throws InvalidParameterException {
+            throws InvalidParametersException {
         assert accountRequestToAdd != null;
         
         accountRequestToAdd.sanitizeForSaving();
+        if (!accountRequestToAdd.isValid()) {
+            throw new InvalidParametersException(accountRequestToAdd.getInvalidityInfo());
+        }
+
         AccountRequest accountRequest = accountRequestToAdd.toEntity();
         saveEntity(accountRequest);
 

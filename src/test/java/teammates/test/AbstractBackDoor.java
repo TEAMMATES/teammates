@@ -34,6 +34,7 @@ import org.apache.http.message.BasicNameValuePair;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -45,6 +46,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.AccountData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.output.FeedbackQuestionData;
@@ -738,5 +740,44 @@ public abstract class AbstractBackDoor {
             this.responseCode = responseCode;
         }
 
+    }
+
+    /**
+     * Gets account request data from the database.
+     */
+    public AccountRequestData getAccountRequestData(String email) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.EMAIL, email);
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+        return JsonUtils.fromJson(response.responseBody, AccountData.class);
+    }
+
+    /**
+     * Get account request from database.
+     */
+    public AccountRequestAttributes getAccountRequest(String email) {
+        AccountRequestData accountRequestData = getAccountRequestData(email);
+        if (accountRequestData == null) {
+            return null;
+        }
+        AccountRequestAttributes.Builder builder = 
+                AccountRequestAttributes.builder(accountRequestData.getEmail());
+
+        if (accountRequestData.getName() != null) {
+            builder.withName(accountRequestData.getName());
+        }
+        if (accountRequestData.getRegistrationKey() != null) {
+            builder.withRegistrationKey(accountRequestData.getRegistrationKey());
+        }
+        if (accountRequestData.getInstitute() != null) {
+            builder.withInstitute(accountRequestData.getInstitute());
+        }
+
+        AccountRequestAttributes accountRequest = builder.build();
+    
+        return accountRequest;
     }
 }

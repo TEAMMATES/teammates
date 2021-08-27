@@ -58,4 +58,11 @@ public final class AccountRequestsLogic {
         return accountRequestsDb.getAccountRequestForRegistrationKey(registrationKey);
     }
 
+    /**
+     * Gets an account request by email address.
+     */
+    public AccountRequestAttributes getAccountRequest(String email) {
+        return accountRequestsDb.getAccountRequest(email);
+    }
+
 }

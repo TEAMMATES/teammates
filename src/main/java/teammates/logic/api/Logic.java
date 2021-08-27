@@ -1417,4 +1417,19 @@ public class Logic {
 
         return accountRequestsLogic.getAccountRequestForRegistrationKey(registrationKey);
     }
+
+    /**
+     * Gets an account request by email address.
+     * 
+     * <p>Preconditions:</p>
+     * * All parameters are non-null.
+     * 
+     * @return the account request or null if no match found
+     */
+    public AccountRequestAttributes getAccountRequest(String email) {
+        assert email != null;
+
+        return accountRequestsLogic.getAccountRequest(email);
+    }
+    
 }
