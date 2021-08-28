@@ -39,7 +39,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
-        
+
         ______TS("Null parameters");
 
         Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
@@ -78,7 +78,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(accountRequestAttributes.getRegistrationKey()))
                 .toAbsoluteString();
-        
+
         JoinLinkData output = (JoinLinkData) r.getOutput();
         assertEquals(joinLink, output.getJoinLink());
 

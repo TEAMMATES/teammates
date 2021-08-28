@@ -26,12 +26,6 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Gets account request associated with the {@code registrationKey}.
-     *
-     * @return null if no match found.
-     */
-
-    /**
      * Creates or updates an account request.
      *
      * @return the created/updated account request

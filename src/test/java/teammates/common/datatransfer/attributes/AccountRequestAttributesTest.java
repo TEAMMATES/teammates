@@ -17,7 +17,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
     @Test
     public void testValueOf_withTypicalData_shouldGenerateAttributesCorrectly() {
         Instant typicalInstant = Instant.now();
-        AccountRequest accountRequest = 
+        AccountRequest accountRequest =
                 new AccountRequest("valid@test.com", "registrationkey", "Valid Name",
                          "Valid Institute", typicalInstant, typicalInstant);
 
@@ -55,7 +55,7 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValues() {
-        AccountRequestAttributes accountRequestAttributes = 
+        AccountRequestAttributes accountRequestAttributes =
                 AccountRequestAttributes.builder("valid@test.com").build();
 
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
@@ -141,10 +141,10 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testEquals() {
-        AccountRequestAttributes accountRequest =  generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes accountRequest = generateValidAccountRequestAttributesObject();
 
         // When the two account requests have same values
-        AccountRequestAttributes similarAccountRequest =  generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes similarAccountRequest = generateValidAccountRequestAttributesObject();
 
         assertTrue(accountRequest.equals(similarAccountRequest));
 

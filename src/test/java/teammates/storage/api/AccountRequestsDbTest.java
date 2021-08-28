@@ -52,7 +52,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
-        assertThrows(AssertionError.class, 
+        assertThrows(AssertionError.class,
                 () -> accountRequestsDb.createOrUpdateAccountRequest(null));
     }
 
@@ -100,19 +100,19 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes accountRequestAttributes = 
+        AccountRequestAttributes accountRequestAttributes =
                 accountRequestsDb.getAccountRequestForRegistrationKey(a.getRegistrationKey());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes = 
+        AccountRequestAttributes notFoundRequestAttributes =
                 accountRequestsDb.getAccountRequestForRegistrationKey("not-found");
         assertNull(notFoundRequestAttributes);
 
         ______TS("failure null parameter");
 
-        assertThrows(AssertionError.class, 
+        assertThrows(AssertionError.class,
                 () -> accountRequestsDb.getAccountRequestForRegistrationKey(null));
     }
 
@@ -128,19 +128,19 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes accountRequestAttributes = 
+        AccountRequestAttributes accountRequestAttributes =
                 accountRequestsDb.getAccountRequest(a.getEmail());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes = 
+        AccountRequestAttributes notFoundRequestAttributes =
                 accountRequestsDb.getAccountRequest("not-found@test.com");
         assertNull(notFoundRequestAttributes);
 
         ______TS("failure null parameter");
 
-        assertThrows(AssertionError.class, 
+        assertThrows(AssertionError.class,
                 () -> accountRequestsDb.getAccountRequest(null));
     }
 

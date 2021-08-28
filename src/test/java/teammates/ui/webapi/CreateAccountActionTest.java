@@ -14,8 +14,6 @@ import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
-import teammates.storage.api.AccountRequestsDb;
-import teammates.ui.request.AccountCreateRequest;
 
 /**
  * SUT: {@link CreateAccountAction}.
@@ -40,19 +38,16 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String institute = "TEAMMATES Test Institute 1";
         String regKey = "validregkey123";
 
-        AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
-        accountRequestsDb.createEntity(AccountRequestAttributes.builder(email).withName(name)
+        logic.createOrUpdateAccountRequest(AccountRequestAttributes.builder(email).withName(name)
                 .withInstitute(institute).withRegistrationKey(regKey).build());
 
         ______TS("Not enough parameters");
 
         verifyHttpParameterFailure();
-        
+
         ______TS("Null parameters");
 
-        String[] nullParams = new String[] {
-            Const.ParamsNames.REGKEY, null,
-        };
+        String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
         Exception ex = assertThrows(NullHttpParameterException.class,
                 () -> getAction(nullParams).execute());
         assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
@@ -61,9 +56,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Normal case");
 
-        String[] params = new String[] {
-            Const.ParamsNames.REGKEY, StringHelper.encrypt(regKey),
-        };
+        String[] params = new String[] { Const.ParamsNames.REGKEY, StringHelper.encrypt(regKey), };
         CreateAccountAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 

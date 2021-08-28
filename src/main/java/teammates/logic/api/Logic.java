@@ -1388,13 +1388,13 @@ public class Logic {
     public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
             throws InvalidParametersException {
         assert accountRequestToAdd != null;
-        
+
         return accountRequestsLogic.createOrUpdateAccountRequest(accountRequestToAdd);
     }
 
     /**
      * Deletes an account request.
-     * 
+     *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
@@ -1406,10 +1406,10 @@ public class Logic {
 
     /**
      * Gets an account request by unique constraint registrationKey.
-     * 
+     *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
-     * 
+     *
      * @return the account request or null if no match found
      */
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
@@ -1420,10 +1420,10 @@ public class Logic {
 
     /**
      * Gets an account request by email address.
-     * 
+     *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
-     * 
+     *
      * @return the account request or null if no match found
      */
     public AccountRequestAttributes getAccountRequest(String email) {
@@ -1431,5 +1431,5 @@ public class Logic {
 
         return accountRequestsLogic.getAccountRequest(email);
     }
-    
+
 }

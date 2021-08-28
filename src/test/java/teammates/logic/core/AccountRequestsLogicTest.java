@@ -66,7 +66,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
                 ipe.getMessage());
 
         ______TS("failure: null parameter");
-        assertThrows(AssertionError.class, 
+        assertThrows(AssertionError.class,
                 () -> accountRequestsLogic.createOrUpdateAccountRequest(null));
     }
 
@@ -114,19 +114,19 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes accountRequestAttributes = 
+        AccountRequestAttributes accountRequestAttributes =
                 accountRequestsLogic.getAccountRequestForRegistrationKey(a.getRegistrationKey());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes = 
+        AccountRequestAttributes notFoundRequestAttributes =
                 accountRequestsLogic.getAccountRequestForRegistrationKey("not-found");
         assertNull(notFoundRequestAttributes);
 
         ______TS("failure null parameter");
 
-        assertThrows(AssertionError.class, 
+        assertThrows(AssertionError.class,
                 () -> accountRequestsLogic.getAccountRequestForRegistrationKey(null));
     }
 
@@ -142,19 +142,19 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes accountRequestAttributes = 
+        AccountRequestAttributes accountRequestAttributes =
                 accountRequestsLogic.getAccountRequest(a.getEmail());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes = 
+        AccountRequestAttributes notFoundRequestAttributes =
                 accountRequestsLogic.getAccountRequest("not-found@test.com");
         assertNull(notFoundRequestAttributes);
 
         ______TS("failure null parameter");
 
-        assertThrows(AssertionError.class, 
+        assertThrows(AssertionError.class,
                 () -> accountRequestsLogic.getAccountRequest(null));
     }
 

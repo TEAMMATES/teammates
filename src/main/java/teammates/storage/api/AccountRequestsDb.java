@@ -76,10 +76,10 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
      * @return updated account request
      * @throws InvalidParametersException if attributes to update are not valid
      */
-    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd) 
+    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
             throws InvalidParametersException {
         assert accountRequestToAdd != null;
-        
+
         accountRequestToAdd.sanitizeForSaving();
         if (!accountRequestToAdd.isValid()) {
             throw new InvalidParametersException(accountRequestToAdd.getInvalidityInfo());
@@ -97,12 +97,8 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
         assert registrationKey != null;
 
-        AccountRequestAttributes accountRequest = makeAttributesOrNull(
-                getAccountRequestEntityForRegistrationKey(registrationKey.trim()));
-
-        return accountRequest;
+        return makeAttributesOrNull(getAccountRequestEntityForRegistrationKey(registrationKey.trim()));
     }
-
 
     private AccountRequest getAccountRequestEntityForRegistrationKey(String key) {
         List<AccountRequest> accountRequestList = load().filter("registrationKey =", key).list();

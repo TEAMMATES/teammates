@@ -730,18 +730,6 @@ public abstract class AbstractBackDoor {
         executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
-    private static final class ResponseBodyAndCode {
-
-        String responseBody;
-        int responseCode;
-
-        ResponseBodyAndCode(String responseBody, int responseCode) {
-            this.responseBody = responseBody;
-            this.responseCode = responseCode;
-        }
-
-    }
-
     /**
      * Gets account request data from the database.
      */
@@ -763,7 +751,7 @@ public abstract class AbstractBackDoor {
         if (accountRequestData == null) {
             return null;
         }
-        AccountRequestAttributes.Builder builder = 
+        AccountRequestAttributes.Builder builder =
                 AccountRequestAttributes.builder(accountRequestData.getEmail());
 
         if (accountRequestData.getName() != null) {
@@ -776,8 +764,20 @@ public abstract class AbstractBackDoor {
             builder.withInstitute(accountRequestData.getInstitute());
         }
 
-        AccountRequestAttributes accountRequest = builder.build();
-    
-        return accountRequest;
+        return builder.build();
+
     }
+
+    private static final class ResponseBodyAndCode {
+
+        String responseBody;
+        int responseCode;
+
+        ResponseBodyAndCode(String responseBody, int responseCode) {
+            this.responseBody = responseBody;
+            this.responseCode = responseCode;
+        }
+
+    }
+
 }

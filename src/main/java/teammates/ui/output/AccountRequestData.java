@@ -29,7 +29,6 @@ public class AccountRequestData extends ApiOutput {
         return email;
     }
 
-
     public long getCreatedAtTimeStamp() {
         return createdAtTimeStamp;
     }

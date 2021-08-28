@@ -36,7 +36,7 @@ class CreateAccountAction extends Action {
     @Override
     public JsonResult execute() {
         String registrationKey;
-        
+
         try {
             registrationKey = StringHelper.decrypt(getNonNullRequestParamValue(Const.ParamsNames.REGKEY));
         } catch (InvalidParametersException e) {
@@ -44,7 +44,7 @@ class CreateAccountAction extends Action {
         }
 
         AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
-        
+
         if (accountRequestAttributes == null) {
             return new JsonResult("Invalid registration key", HttpStatus.SC_BAD_REQUEST);
         }
@@ -60,9 +60,9 @@ class CreateAccountAction extends Action {
         } catch (InvalidParametersException e) {
             return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
         }
-        
+
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
-        
+
         try {
             logic.joinCourseForInstructor(instructorList.get(0).getEncryptedKey(), userInfo.id, instructorInstitution,
                     StringHelper.generateSignature(instructorInstitution));
@@ -76,7 +76,7 @@ class CreateAccountAction extends Action {
 
         // Delete account request as it is no longer needed
         logic.deleteAccountRequest(instructorEmail);
-        
+
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }
 

@@ -113,12 +113,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public AccountRequest toEntity() {
-        return new AccountRequest(getEmail(), getRegistrationKey(), getName(), getInstitute(), getCreatedAt(), getDeletedAt());
+        return new AccountRequest(getEmail(), getRegistrationKey(), getName(),
+                getInstitute(), getCreatedAt(), getDeletedAt());
     }
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: " + getEmail() 
+        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: " + getEmail()
                 + "registrationKey: " + getRegistrationKey()
                 + " name: " + getName() + " institute: " + getInstitute();
     }
@@ -148,6 +149,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     @Override
     public void sanitizeForSaving() {
         this.institute = SanitizationHelper.sanitizeTitle(institute);
+        this.name = SanitizationHelper.sanitizeName(name);
+        this.email = SanitizationHelper.sanitizeEmail(email);
     }
 
     /**

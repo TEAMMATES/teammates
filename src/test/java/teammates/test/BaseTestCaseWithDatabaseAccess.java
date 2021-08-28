@@ -151,7 +151,7 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
             StudentAttributes actualStudent = (StudentAttributes) actual;
             equalizeIrrelevantData(expectedStudent, actualStudent);
             assertEquals(JsonUtils.toJson(expectedStudent), JsonUtils.toJson(actualStudent));
-        
+
         } else if (expected instanceof AccountRequestAttributes) {
             AccountRequestAttributes expectedAccountRequest = (AccountRequestAttributes) expected;
             AccountRequestAttributes actualAccountRequest = (AccountRequestAttributes) actual;

@@ -43,9 +43,9 @@ class CreateAccountRequestAction extends AdminOnlyAction {
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)
                 .withRegistrationKey(StringHelper.encrypt(registrationKey))
                 .toAbsoluteString();
-                
+
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(
-            instructorEmail, instructorName, joinLink);
+                instructorEmail, instructorName, joinLink);
         emailSender.sendEmail(email);
 
         JoinLinkData output = new JoinLinkData(joinLink);
