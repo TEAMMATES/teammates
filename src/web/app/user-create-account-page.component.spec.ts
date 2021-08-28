@@ -120,27 +120,4 @@ describe('UserCreateAccountPageComponent', () => {
     expect(navSpy.calls.count()).toEqual(1);
     expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/instructor');
   });
-
-  it('should stop loading if user is not logged in', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(of({}));
-
-    component.ngOnInit();
-
-    expect(component.isLoading).toBeFalsy();
-  });
-
-  it('should stop loading if user does not have an account', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(
-      of({
-        user: {
-          id: 'user',
-          isInstructor: false,
-        },
-      }),
-    );
-
-    component.ngOnInit();
-
-    expect(component.isLoading).toBeFalsy();
-  });
 });

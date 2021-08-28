@@ -301,7 +301,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        assert false: "This method has no implementation";
+        assert false : "This method has no implementation";
 
         return null;
     }

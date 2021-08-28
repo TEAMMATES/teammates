@@ -26,8 +26,7 @@ public class InstructorCreateAccountConfirmationPageE2ETest extends BaseE2ETestC
         ______TS("Invalid Join Link");
 
         AppUrl joinLink = createUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE);
-        CreateAccountConfirmationPage errorPage =
-            getNewPageInstance(joinLink, CreateAccountConfirmationPage.class);
+        CreateAccountConfirmationPage errorPage = getNewPageInstance(joinLink, CreateAccountConfirmationPage.class);
 
         assertTrue(errorPage.isInvalidLinkMessageShowing());
 

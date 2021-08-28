@@ -4,6 +4,7 @@ exports[`UserCreateAccountPageComponent should snap if user has not created an a
 <tm-user-create-account-page
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
+  backendUrl={[Function String]}
   hasJoined="false"
   isLoading="false"
   key={[Function String]}
@@ -45,6 +46,7 @@ exports[`UserCreateAccountPageComponent should snap with default fields 1`] = `
 <tm-user-create-account-page
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
+  backendUrl={[Function String]}
   hasJoined="false"
   isLoading={[Function Boolean]}
   key={[Function String]}
@@ -77,6 +79,7 @@ exports[`UserCreateAccountPageComponent should snap with invalid url 1`] = `
 <tm-user-create-account-page
   accountService={[Function AccountService]}
   authService={[Function AuthService]}
+  backendUrl={[Function String]}
   hasJoined="false"
   isLoading="false"
   key={[Function String]}

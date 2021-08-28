@@ -48,11 +48,11 @@ export class UserCreateAccountPageComponent implements OnInit {
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((resp: AuthInfo) => {
+        this.userId = resp.user?.id || '';
+
         if (!resp.user) {
           window.location.href = `${this.backendUrl}${resp.instructorLoginUrl}`;
         }
-
-        this.userId = resp.user?.id || '';
 
         if (resp.user?.isInstructor) {
           // User already has instructor account
