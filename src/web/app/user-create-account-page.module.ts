@@ -24,7 +24,7 @@ const routes: Routes = [
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    LoadingSpinnerModule
+    LoadingSpinnerModule,
   ],
 })
 export class UserCreateAccountPageModule { }

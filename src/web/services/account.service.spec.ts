@@ -42,7 +42,7 @@ describe('AccountService', () => {
   });
 
   it('should execute POST on account endpoint', () => {
-    const testKey = 'testKey';
+    const testKey: string = 'testKey';
     const paramMap: Record<string, string> = {
       key: testKey,
     };
