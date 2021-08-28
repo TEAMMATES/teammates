@@ -17,7 +17,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private String email;
     private String name;
     private String institute;
-    private transient String registrationKey;
+    private String registrationKey;
     private transient Instant createdAt;
     private transient Instant deletedAt;
 

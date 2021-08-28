@@ -369,6 +369,9 @@ public final class DataBundleLogic {
         dataBundle.profiles.values().forEach(profile -> {
             profilesDb.deleteStudentProfile(profile.getGoogleId());
         });
+        dataBundle.accountRequests.values().forEach(accountRequest -> {
+            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail());
+        });
     }
 
     private void deleteCourses(Collection<CourseAttributes> courses) {

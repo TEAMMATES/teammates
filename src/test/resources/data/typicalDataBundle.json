@@ -1709,9 +1709,10 @@
   "accountRequests": {
     "accountRequest1": {
       "email": "typical@gmail.tmt",
+      "registrationKey": "typical@gmail.tmt123",
       "institute": "TEAMMATES Test Institute 1",
-      "registrationKey": "typical@gmail.tmt12345",
-      "name": "Typical Instructor Name"
+      "name": "Typical Instructor Name",
+      "createdAt": "2026-03-01T23:59:00Z"
     }
   }
 }

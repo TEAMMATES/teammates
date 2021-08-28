@@ -72,13 +72,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testDeleteAccountRequest() throws Exception {
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid2@test.com")
-                .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey2")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .build();
-
-        accountRequestsDb.createEntity(a);
+        AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
 
         ______TS("silent deletion of non-existent account");
 
@@ -104,13 +98,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testgetAccountRequestForRegistrationKey() throws Exception {
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid3@test.com")
-                .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey3")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .build();
-
-        accountRequestsDb.createEntity(a);
+        AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
 
         ______TS("typical success case");
 
@@ -132,13 +120,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
     @Test
     public void testGetAccountRequest() throws Exception {
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid4@test.com")
-                .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey4")
-                .withInstitute("TEAMMATES Test Institute 1")
-                .build();
-
-        accountRequestsDb.createEntity(a);
+        AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
 
         ______TS("typical success case");
 
