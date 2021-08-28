@@ -6,7 +6,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
-import teammates.storage.api.AccountRequestsDb;
 import teammates.test.AssertHelper;
 
 /**
@@ -15,7 +14,6 @@ import teammates.test.AssertHelper;
 public class AccountRequestsLogicTest extends BaseLogicTest {
 
     private final AccountRequestsLogic accountRequestsLogic = AccountRequestsLogic.inst();
-    private final AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
 
     @Override
     protected void prepareTestData() {
