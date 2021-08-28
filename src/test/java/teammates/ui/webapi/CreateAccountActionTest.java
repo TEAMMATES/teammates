@@ -5,18 +5,16 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.util.Config;
+import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
-import teammates.common.util.EmailType;
-import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
-import teammates.ui.output.JoinLinkData;
+import teammates.storage.api.AccountRequestsDb;
 import teammates.ui.request.AccountCreateRequest;
 
 /**
@@ -36,36 +34,37 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
     @Override
     @Test
-    protected void testExecute() {
-        loginAsAdmin();
+    protected void testExecute() throws Exception {
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
+        String regKey = "validregkey123";
+
+        AccountRequestsDb accountRequestsDb = AccountRequestsDb.inst();
+        accountRequestsDb.createEntity(AccountRequestAttributes.builder(email).withName(name)
+                .withInstitute(institute).withRegistrationKey(regKey).build());
 
         ______TS("Not enough parameters");
 
-        Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(null, institute, email)).execute());
-        assertEquals("name cannot be null", ex.getMessage());
+        verifyHttpParameterFailure();
+        
+        ______TS("Null parameters");
 
-        ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(name, null, email)).execute());
-        assertEquals("institute cannot be null", ex.getMessage());
-
-        ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(name, institute, null)).execute());
-        assertEquals("email cannot be null", ex.getMessage());
+        String[] nullParams = new String[] {
+            Const.ParamsNames.REGKEY, null,
+        };
+        Exception ex = assertThrows(NullHttpParameterException.class,
+                () -> getAction(nullParams).execute());
+        assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
 
         verifyNoTasksAdded();
 
         ______TS("Normal case");
 
-        String nameWithSpaces = "   " + name + "   ";
-        String emailWithSpaces = "   " + email + "   ";
-        String instituteWithSpaces = "   " + institute + "   ";
-
-        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
-        CreateAccountAction a = getAction(req);
+        String[] params = new String[] {
+            Const.ParamsNames.REGKEY, StringHelper.encrypt(regKey),
+        };
+        CreateAccountAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
@@ -78,50 +77,27 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         assertEquals(institute, course.getInstitute());
 
         InstructorAttributes instructor = logic.getInstructorForEmail(courseId, email);
-
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor.getEncryptedKey())
-                .withInstructorInstitution(institute)
-                .withInstitutionMac(StringHelper.generateSignature(institute))
-                .withEntityType(Const.EntityType.INSTRUCTOR)
-                .toAbsoluteString();
-        JoinLinkData output = (JoinLinkData) r.getOutput();
-        assertEquals(joinLink, output.getJoinLink());
-
-        verifyNumberOfEmailsSent(1);
-
-        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
-        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
-                emailSent.getSubject());
-        assertEquals(email, emailSent.getRecipient());
+        assertEquals(email, instructor.getEmail());
+        assertEquals(name, instructor.getName());
 
         List<StudentAttributes> studentList = logic.getStudentsForCourse(courseId);
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
-        ______TS("Error: invalid parameter");
+        ______TS("Error: reg key not found");
 
-        String invalidName = "James%20Bond99";
+        a = getAction(params);
+        r = getJsonResult(a);
+        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
 
-        req = buildCreateRequest(invalidName, institute, emailWithSpaces);
-
-        final CreateAccountAction finalA = getAction(req);
-
-        ex = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
-        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
-                + "it contains invalid characters. A/An person name must start with an "
-                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
-                ex.getMessage());
-
-        verifyNoEmailsSent();
         verifyNoTasksAdded();
     }
 
     @Override
     @Test
     protected void testAccessControl() {
-        verifyOnlyAdminCanAccess();
+        verifyAnyLoggedInUserCanAccess();
     }
 
     @Test
@@ -170,13 +146,4 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         return a.generateNextDemoCourseId(instructorEmailOrProposedCourseId, maximumIdLength);
     }
 
-    private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {
-        AccountCreateRequest req = new AccountCreateRequest();
-
-        req.setInstructorName(name);
-        req.setInstructorInstitution(institution);
-        req.setInstructorEmail(email);
-
-        return req;
-    }
 }

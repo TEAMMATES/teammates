@@ -76,12 +76,6 @@ class CreateAccountAction extends Action {
 
         // Delete account request as it is no longer needed
         logic.deleteAccountRequest(instructorEmail);
-
-        if (logic.getAccountRequestForRegistrationKey(registrationKey) == null) {
-            System.out.println("YESSSS");
-        } else {
-            System.out.println("NOOOOOO");
-        }
         
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }

@@ -1,0 +1,127 @@
+package teammates.ui.webapi;
+
+import org.apache.http.HttpStatus;
+import org.testng.annotations.Test;
+
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.InvalidHttpRequestBodyException;
+import teammates.common.util.Config;
+import teammates.common.util.Const;
+import teammates.common.util.EmailType;
+import teammates.common.util.EmailWrapper;
+import teammates.common.util.StringHelper;
+import teammates.ui.output.JoinLinkData;
+import teammates.ui.request.AccountCreateRequest;
+
+/**
+ * SUT: {@link CreateAccountRequestAction}.
+ */
+public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccountRequestAction> {
+
+    @Override
+    protected String getActionUri() {
+        return Const.ResourceURIs.ACCOUNT_REQUEST;
+    }
+
+    @Override
+    protected String getRequestMethod() {
+        return POST;
+    }
+
+    @Override
+    @Test
+    protected void testExecute() throws Exception {
+        loginAsAdmin();
+        String name = "JamesBond";
+        String email = "jamesbond89@gmail.tmt";
+        String institute = "TEAMMATES Test Institute 1";
+
+        ______TS("Not enough parameters");
+
+        verifyHttpParameterFailure();
+        
+        ______TS("Null parameters");
+
+        Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(null, institute, email)).execute());
+        assertEquals("name cannot be null", ex.getMessage());
+
+        ex = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(name, null, email)).execute());
+        assertEquals("institute cannot be null", ex.getMessage());
+
+        ex = assertThrows(InvalidHttpRequestBodyException.class,
+                () -> getAction(buildCreateRequest(name, institute, null)).execute());
+        assertEquals("email cannot be null", ex.getMessage());
+
+        verifyNoTasksAdded();
+
+        ______TS("Normal case");
+
+        String nameWithSpaces = "   " + name + "   ";
+        String emailWithSpaces = "   " + email + "   ";
+        String instituteWithSpaces = "   " + institute + "   ";
+
+        AccountCreateRequest req = buildCreateRequest(nameWithSpaces, instituteWithSpaces, emailWithSpaces);
+        CreateAccountRequestAction a = getAction(req);
+        JsonResult r = getJsonResult(a);
+
+        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+
+        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequest(email);
+
+        assertEquals(name, accountRequestAttributes.getName());
+        assertEquals(email, accountRequestAttributes.getEmail());
+        assertEquals(institute, accountRequestAttributes.getInstitute());
+        assertNotNull(accountRequestAttributes.getRegistrationKey());
+
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)
+                .withRegistrationKey(StringHelper.encrypt(accountRequestAttributes.getRegistrationKey()))
+                .toAbsoluteString();
+        
+        JoinLinkData output = (JoinLinkData) r.getOutput();
+        assertEquals(joinLink, output.getJoinLink());
+
+        verifyNumberOfEmailsSent(1);
+
+        EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
+        assertEquals(String.format(EmailType.NEW_INSTRUCTOR_ACCOUNT.getSubject(), name),
+                emailSent.getSubject());
+        assertEquals(email, emailSent.getRecipient());
+
+        ______TS("Error: invalid parameter");
+
+        String invalidName = "James%20Bond99";
+
+        req = buildCreateRequest(invalidName, institute, emailWithSpaces);
+
+        final CreateAccountRequestAction finalA = getAction(req);
+
+        ex = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
+        assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
+                + "it contains invalid characters. A/An person name must start with an "
+                + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",
+                ex.getMessage());
+
+        verifyNoEmailsSent();
+        verifyNoTasksAdded();
+
+    }
+
+    @Override
+    @Test
+    protected void testAccessControl() {
+        verifyOnlyAdminCanAccess();
+    }
+
+    private AccountCreateRequest buildCreateRequest(String name, String institution, String email) {
+        AccountCreateRequest req = new AccountCreateRequest();
+
+        req.setInstructorName(name);
+        req.setInstructorInstitution(institution);
+        req.setInstructorEmail(email);
+
+        return req;
+    }
+
+}
