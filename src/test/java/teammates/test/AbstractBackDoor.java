@@ -730,44 +730,6 @@ public abstract class AbstractBackDoor {
         executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
-    /**
-     * Gets account request data from the database.
-     */
-    public AccountRequestData getAccountRequestData(String email) {
-        Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.EMAIL, email);
-        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
-        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
-            return null;
-        }
-        return JsonUtils.fromJson(response.responseBody, AccountData.class);
-    }
-
-    /**
-     * Get account request from database.
-     */
-    public AccountRequestAttributes getAccountRequest(String email) {
-        AccountRequestData accountRequestData = getAccountRequestData(email);
-        if (accountRequestData == null) {
-            return null;
-        }
-        AccountRequestAttributes.Builder builder =
-                AccountRequestAttributes.builder(accountRequestData.getEmail());
-
-        if (accountRequestData.getName() != null) {
-            builder.withName(accountRequestData.getName());
-        }
-        if (accountRequestData.getRegistrationKey() != null) {
-            builder.withRegistrationKey(accountRequestData.getRegistrationKey());
-        }
-        if (accountRequestData.getInstitute() != null) {
-            builder.withInstitute(accountRequestData.getInstitute());
-        }
-
-        return builder.build();
-
-    }
-
     private static final class ResponseBodyAndCode {
 
         String responseBody;

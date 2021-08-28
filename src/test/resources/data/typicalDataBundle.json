@@ -1705,5 +1705,13 @@
       "gender": "OTHER",
       "moreInfo": "I am just a student :P<script> alert('hi!'); </script>"
     }
+  },
+  "accountRequests": {
+    "accountRequest1": {
+      "email": "typical@gmail.tmt",
+      "institute": "TEAMMATES Test Institute 1",
+      "registrationKey": "typical@gmail.tmt12345",
+      "name": "Typical Instructor Name"
+    }
   }
 }
