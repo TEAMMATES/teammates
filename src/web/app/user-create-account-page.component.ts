@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { finalize } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 import { AccountService } from '../services/account.service';
 import { AuthService } from '../services/auth.service';
 import { NavigationService } from '../services/navigation.service';
@@ -24,6 +25,8 @@ export class UserCreateAccountPageComponent implements OnInit {
   key: string = '';
   userId: string = '';
 
+  private backendUrl: string = environment.backendUrl;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -43,7 +46,12 @@ export class UserCreateAccountPageComponent implements OnInit {
         return;
       }
 
-      this.authService.getAuthUser().subscribe((resp: AuthInfo) => {
+      const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
+      this.authService.getAuthUser(undefined, nextUrl).subscribe((resp: AuthInfo) => {
+        if (!resp.user) {
+          window.location.href = `${this.backendUrl}${resp.instructorLoginUrl}`;
+        }
+
         this.userId = resp.user?.id || '';
 
         if (resp.user?.isInstructor) {
