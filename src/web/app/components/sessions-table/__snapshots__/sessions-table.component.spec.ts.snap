@@ -26,7 +26,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
-  viewSessionResultEvent={[Function EventEmitter]}
 >
   <div
     class="row"
@@ -234,7 +233,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -386,7 +392,14 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable disabled"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -465,7 +478,6 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
-  viewSessionResultEvent={[Function EventEmitter]}
 >
   <div
     class="row"
@@ -651,7 +663,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%208%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%208%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -794,7 +813,14 @@ exports[`SessionsTableComponent should snap like in sessions page with 2 session
                     href="/web/instructor/sessions/result?courseid=GOT&fsname=Season%207%20Review"
                     tmrouterlink="/web/instructor/sessions/result"
                   >
-                    View Results
+                    View Results (from/to me)
+                  </a>
+                  <a
+                    class="btn dropdown-item clickable disabled"
+                    href="/web/instructor/sessions/report?courseid=GOT&fsname=Season%207%20Review"
+                    tmrouterlink="/web/instructor/sessions/report"
+                  >
+                    View Results (course-wide)
                   </a>
                   
                   <button
@@ -873,7 +899,6 @@ exports[`SessionsTableComponent should snap with default fields 1`] = `
   sortSessionsTableRowModelsEvent={[Function EventEmitter]}
   submitSessionAsInstructorEvent={[Function EventEmitter]}
   unpublishSessionEvent={[Function EventEmitter]}
-  viewSessionResultEvent={[Function EventEmitter]}
 >
   <div
     class="no-session-message"

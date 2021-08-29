@@ -372,13 +372,6 @@ export class InstructorHomePageComponent extends InstructorSessionModalPageCompo
   }
 
   /**
-   * Views the result of a feedback session.
-   */
-  viewSessionResultEventHandler(tabIndex: number, rowIndex: number): void {
-    this.viewSessionResult(this.courseTabModels[tabIndex].sessionsTableRowModels[rowIndex]);
-  }
-
-  /**
    * Publishes a feedback session.
    */
   publishSessionEventHandler(tabIndex: number, rowIndex: number): void {

@@ -28,9 +28,9 @@ import teammates.e2e.util.TestProperties;
 import teammates.test.ThreadHelper;
 
 /**
- * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_RESULTS_PAGE}.
+ * SUT: {@link Const.WebPageURIs#INSTRUCTOR_SESSION_REPORT_PAGE}.
  */
-public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
+public class InstructorFeedbackReportPageE2ETest extends BaseE2ETestCase {
     private InstructorAttributes instructor;
     private String fileName;
     private StudentAttributes studentToEmail;
@@ -69,12 +69,12 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
 
     @Override
     protected void prepareTestData() {
-        testData = loadDataBundle("/InstructorFeedbackResultsPageE2ETest.json");
+        testData = loadDataBundle("/InstructorFeedbackReportPageE2ETest.json");
         studentToEmail = testData.students.get("Emily");
         studentToEmail.setEmail(TestProperties.TEST_EMAIL);
         removeAndRestoreDataBundle(testData);
 
-        instructor = testData.instructors.get("tm.e2e.IFRes.instr");
+        instructor = testData.instructors.get("tm.e2e.IFRep.instr");
         FeedbackSessionAttributes fileSession = testData.feedbackSessions.get("Open Session 2");
         fileName = "/" + fileSession.getCourseId() + "_" + fileSession.getFeedbackSessionName() + "_result.csv";
 
@@ -86,10 +86,10 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     public void classSetup() {
         deleteDownloadsFile(fileName);
 
-        CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2104");
+        CourseAttributes course = testData.courses.get("tm.e2e.IFRep.CS2104");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session");
 
-        resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+        resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
 
@@ -322,10 +322,10 @@ public class InstructorFeedbackResultsPageE2ETest extends BaseE2ETestCase {
     public void testActions() {
         logout();
 
-        CourseAttributes course = testData.courses.get("tm.e2e.IFRes.CS2103");
+        CourseAttributes course = testData.courses.get("tm.e2e.IFRep.CS2103");
         FeedbackSessionAttributes feedbackSession = testData.feedbackSessions.get("Open Session 2");
 
-        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_RESULTS_PAGE)
+        AppUrl resultsUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_REPORT_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
         resultsPage = loginToPage(resultsUrl, InstructorFeedbackResultsPage.class, instructor.getGoogleId());

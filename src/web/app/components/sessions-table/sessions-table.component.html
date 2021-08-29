@@ -87,9 +87,11 @@
             <button id="btn-results-{{ idx }}" class="btn btn-light btn-sm" ngbDropdownToggle>Results</button>
             <div ngbDropdownMenu>
               <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
-                      (click)="viewSessionResultEvent.emit(idx)"
                       tmRouterLink="/web/instructor/sessions/result"
-                      [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results</a>
+                      [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results (from/to me)</a>
+              <a class="btn dropdown-item clickable" [ngClass]="{disabled: !sessionsTableRowModel.instructorPrivilege.canViewSessionInSections}"
+                      tmRouterLink="/web/instructor/sessions/report"
+                      [queryParams]="{ courseid: sessionsTableRowModel.feedbackSession.courseId, fsname: sessionsTableRowModel.feedbackSession.feedbackSessionName }">View Results (course-wide)</a>
               <button id="btn-unpublish-{{ idx }}" class="btn dropdown-item clickable" ngbTooltip="Make responses no longer visible" placement="left" container="body"
                       *ngIf="![FeedbackSessionSubmissionStatus.NOT_VISIBLE, FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN].includes(sessionsTableRowModel.feedbackSession.submissionStatus)
                         && sessionsTableRowModel.feedbackSession.publishStatus === FeedbackSessionPublishStatus.PUBLISHED; else publishButton"

@@ -113,6 +113,13 @@
       </div>
     </div>
   </div>
+
+  <div class="card bg-light" style="margin-bottom: 20px;" *ngIf="!isFeedbackSessionLoading">
+    <div class="card-body">
+      If you wish to view only the feedback responses you submitted or received, <a href="javascript:;" (click)="navigateToIndividualSessionResultPage(); $event.preventDefault()">click here</a>.
+    </div>
+  </div>
+
   <div *tmIsLoading="!isSectionsLoaded || !isQuestionsLoaded">
     <div class="top-padded offset-md-10 margin-vertical-20px">
       <button id="btn-expand-all" class="btn expand-btn btn-light" (click)="toggleExpandAllHandler()">
