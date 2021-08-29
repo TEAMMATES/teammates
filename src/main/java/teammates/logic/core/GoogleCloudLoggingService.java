@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,7 +11,6 @@ import com.google.api.gax.paging.Page;
 import com.google.appengine.logging.v1.LogLine;
 import com.google.appengine.logging.v1.RequestLog;
 import com.google.appengine.logging.v1.SourceReference;
-import com.google.cloud.MonitoredResource;
 import com.google.cloud.logging.LogEntry;
 import com.google.cloud.logging.Logging;
 import com.google.cloud.logging.Logging.EntryListOption;
@@ -20,7 +18,6 @@ import com.google.cloud.logging.Logging.SortingField;
 import com.google.cloud.logging.Logging.SortingOrder;
 import com.google.cloud.logging.LoggingOptions;
 import com.google.cloud.logging.Payload;
-import com.google.cloud.logging.Payload.StringPayload;
 import com.google.cloud.logging.Severity;
 import com.google.protobuf.Any;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -202,28 +199,10 @@ public class GoogleCloudLoggingService implements LogService {
     }
 
     @Override
-    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType)
-            throws LogServiceException {
-        String payload = "Feedback session log: course ID=" + courseId + ", email=" + email
-                + ", feedback session name=" + fsName + ", log type=" + fslType;
-        LogEntry entry = LogEntry.newBuilder(StringPayload.of(payload))
-                .setLogName(FEEDBACK_SESSION_LOG_NAME)
-                .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
-                .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
-                .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName)
-                .addLabel(FEEDBACK_SESSION_LOG_TYPE_LABEL, fslType)
-                .setResource(MonitoredResource.newBuilder("global").build())
-                .build();
-        createLogEntry(entry);
-    }
-
-    private void createLogEntry(LogEntry entry) throws LogServiceException {
-        try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
-            logging.write(Collections.singleton(entry));
-        } catch (Exception e) {
-            log.severe("Error while creating log entry", e);
-            throw new LogServiceException(e);
-        }
+    public void createFeedbackSessionLog(String courseId, String email, String fsName, String fslType) {
+        // This method is not necessary for production usage because a feedback session log
+        // is already separately created through the standardized logging infrastructure.
+        // However, this method is not removed as it is necessary to assist in local testing.
     }
 
     @Override
