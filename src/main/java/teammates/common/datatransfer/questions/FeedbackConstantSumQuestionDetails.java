@@ -226,18 +226,16 @@ public class FeedbackConstantSumQuestionDetails extends FeedbackQuestionDetails 
         return "";
     }
 
-
-
-    public List<String> getConstSumOptions() {
-        return constSumOptions;
-    }
-
     public void setConstSumOptions(List<String> constSumOptions) {
         this.constSumOptions = constSumOptions;
     }
 
     public boolean isDistributeToRecipients() {
         return distributeToRecipients;
+    }
+
+    public List<String> getConstSumOptions() {
+        return constSumOptions;
     }
 
     public void setDistributeToRecipients(boolean distributeToRecipients) {

@@ -208,7 +208,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
         this.rubricWeightsForEachCell = rubricWeightsForEachCell;
     }
 
-
     public List<String> getRubricChoices() {
         return rubricChoices;
     }
@@ -216,7 +215,6 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
     public void setRubricChoices(List<String> rubricChoices) {
         this.rubricChoices = rubricChoices;
     }
-
 
     public List<String> getRubricSubQuestions() {
         return rubricSubQuestions;
