@@ -26,10 +26,7 @@ import com.google.protobuf.util.JsonFormat;
 import teammates.common.datatransfer.ErrorLogEntry;
 import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
-import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
-import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
-import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
 import teammates.common.datatransfer.logs.LogEvent;
@@ -59,9 +56,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String ASCENDING_ORDER = "asc";
 
     private static final String TRACE_PREFIX = String.format("projects/%s/traces/", Config.APP_ID);
-
-    private final StudentsLogic studentsLogic = StudentsLogic.inst();
-    private final FeedbackSessionsLogic fsLogic = FeedbackSessionsLogic.inst();
 
     @Override
     public List<ErrorLogEntry> getRecentErrorLogs() {
@@ -243,22 +237,8 @@ public class GoogleCloudLoggingService implements LogService {
                 continue;
             }
 
-            String fslType = details.getAccessType();
-            String entryEmail = details.getStudentEmail();
-            String entryFsName = details.getFeedbackSessionName();
-            StudentAttributes student = studentsLogic.getStudentForEmail(courseId, entryEmail);
-            FeedbackSessionAttributes fs = fsLogic.getFeedbackSession(entryFsName, courseId);
-            if (student == null || fs == null) {
-                // If the student email or feedback session retrieved from the logs are invalid, discard it
-                continue;
-            }
-            FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
-            if (convertedFslType == null) {
-                // If the feedback session log type retrieved from the logs is invalid, discard it
-                continue;
-            }
-
-            FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(student, fs, fslType, timestamp);
+            FeedbackSessionLogEntry fslEntry = new FeedbackSessionLogEntry(details.getStudentEmail(),
+                    details.getFeedbackSessionName(), details.getAccessType(), timestamp);
             fsLogEntries.add(fslEntry);
         }
 
