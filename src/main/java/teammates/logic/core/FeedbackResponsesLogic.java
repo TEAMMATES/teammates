@@ -917,9 +917,10 @@ public final class FeedbackResponsesLogic {
             );
         }
 
-        // Add responses that user is a receiver of when response is visible to receiver
+        // Add responses that user is a receiver of when response is visible to receiver or instructors
         if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
-                && question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)) {
+                && (question.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
+                || question.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS))) {
             viewableResponses.addNewResponses(
                     getFeedbackResponsesForReceiverForQuestion(question.getFeedbackQuestionId(), instructor.getEmail())
             );
