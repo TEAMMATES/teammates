@@ -11,8 +11,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
-import teammates.test.ThreadHelper;
-
 /**
  * Represents the instructor audit logs page of the website.
  */
@@ -54,7 +52,7 @@ public class InstructorAuditLogsPage extends AppPage {
 
     public void startSearching() {
         click(searchButton);
-        ThreadHelper.waitFor(3000);
+        waitForPageToLoad();
         logsOutput
                 .findElements(By.className("card"))
                 .forEach(card -> {

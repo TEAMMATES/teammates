@@ -11,13 +11,15 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
+import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Const;
+import teammates.e2e.pageobjects.FeedbackSubmitPage;
 import teammates.e2e.pageobjects.InstructorAuditLogsPage;
-import teammates.e2e.pageobjects.StudentFeedbackSubmissionPage;
 
 /**
  * SUT: {@link Const.WebPageURIs#INSTRUCTOR_AUDIT_LOGS_PAGE}.
@@ -76,10 +78,19 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         AppUrl studentSubmissionPageUrl = createUrl(Const.WebPageURIs.STUDENT_SESSION_SUBMISSION_PAGE)
                 .withCourseId(course.getId())
                 .withSessionName(feedbackSession.getFeedbackSessionName());
-        StudentFeedbackSubmissionPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
-                StudentFeedbackSubmissionPage.class, student.getGoogleId());
-        studentSubmissionPage.populateResponse();
-        studentSubmissionPage.submit();
+        FeedbackSubmitPage studentSubmissionPage = loginToPage(studentSubmissionPageUrl,
+                FeedbackSubmitPage.class, student.getGoogleId());
+
+        StudentAttributes receiver = testData.students.get("benny.tmms@IAuditLogs.CS2104");
+        FeedbackQuestionAttributes question = testData.feedbackQuestions.get("qn1");
+        String questionId = getFeedbackQuestion(question).getId();
+        FeedbackTextResponseDetails details = new FeedbackTextResponseDetails("Response");
+        FeedbackResponseAttributes response =
+                FeedbackResponseAttributes.builder(questionId, student.getEmail(), instructor.getEmail())
+                        .withResponseDetails(details)
+                        .build();
+
+        studentSubmissionPage.submitTextResponse(1, receiver.getName(), response);
 
         logout();
         auditLogsPage = loginToPage(url, InstructorAuditLogsPage.class, instructor.getGoogleId());
