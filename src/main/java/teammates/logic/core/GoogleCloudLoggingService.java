@@ -28,9 +28,11 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.QueryLogsResults;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.FeedbackSessionAuditLogDetails;
 import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.datatransfer.logs.GeneralLogEntry;
 import teammates.common.datatransfer.logs.LogDetails;
+import teammates.common.datatransfer.logs.LogEvent;
 import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.SourceLocation;
@@ -50,12 +52,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
     private static final String REQUEST_LOG_MODULE_ID_LABEL = "module_id";
     private static final String REQUEST_LOG_MODULE_ID_LABEL_VALUE = "default";
-
-    private static final String FEEDBACK_SESSION_LOG_NAME = "feedback-session-logs";
-    private static final String FEEDBACK_SESSION_LOG_COURSE_ID_LABEL = "courseId";
-    private static final String FEEDBACK_SESSION_LOG_EMAIL_LABEL = "email";
-    private static final String FEEDBACK_SESSION_LOG_NAME_LABEL = "fsName";
-    private static final String FEEDBACK_SESSION_LOG_TYPE_LABEL = "fslType";
 
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
@@ -208,13 +204,23 @@ public class GoogleCloudLoggingService implements LogService {
     @Override
     public List<FeedbackSessionLogEntry> getFeedbackSessionLogs(String courseId, String email,
             long startTime, long endTime, String fsName) throws LogServiceException {
+        List<String> filters = new ArrayList<>();
+        if (courseId != null) {
+            filters.add("jsonPayload.courseId=\"" + courseId + "\"");
+        }
+        if (email != null) {
+            filters.add("jsonPayload.studentEmail=\"" + email + "\"");
+        }
+        if (fsName != null) {
+            filters.add("jsonPayload.feedbackSessionName=\"" + fsName + "\"");
+        }
         QueryLogsParams queryLogsParams = QueryLogsParams.builder(startTime, endTime)
+                .withLogEvent(LogEvent.FEEDBACK_SESSION_AUDIT.name())
+                .withSeverityLevel(LogSeverity.INFO)
+                .withExtraFilters(String.join("\n", filters))
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(FEEDBACK_SESSION_LOG_NAME)
-                .addLabel(FEEDBACK_SESSION_LOG_COURSE_ID_LABEL, courseId)
-                .addLabel(FEEDBACK_SESSION_LOG_EMAIL_LABEL, email)
-                .addLabel(FEEDBACK_SESSION_LOG_NAME_LABEL, fsName);
+                .addLogName(STDOUT_LOG_NAME);
         Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
         List<LogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : entries.iterateAll()) {
@@ -223,10 +229,23 @@ public class GoogleCloudLoggingService implements LogService {
 
         List<FeedbackSessionLogEntry> fsLogEntries = new ArrayList<>();
         for (LogEntry entry : logEntries) {
-            String fslType = entry.getLabels().get(FEEDBACK_SESSION_LOG_TYPE_LABEL);
             long timestamp = entry.getTimestamp();
-            String entryEmail = entry.getLabels().get(FEEDBACK_SESSION_LOG_EMAIL_LABEL);
-            String entryFsName = entry.getLabels().get(FEEDBACK_SESSION_LOG_NAME_LABEL);
+            Payload<?> payload = entry.getPayload();
+            FeedbackSessionAuditLogDetails details;
+            if (payload.getType() == Payload.Type.JSON) {
+                Map<String, Object> jsonPayloadMap = ((Payload.JsonPayload) payload).getDataAsMap();
+                LogDetails logDetails = JsonUtils.fromJson(JsonUtils.toCompactJson(jsonPayloadMap), LogDetails.class);
+                if (!(logDetails instanceof FeedbackSessionAuditLogDetails)) {
+                    continue;
+                }
+                details = (FeedbackSessionAuditLogDetails) logDetails;
+            } else {
+                continue;
+            }
+
+            String fslType = details.getAccessType();
+            String entryEmail = details.getStudentEmail();
+            String entryFsName = details.getFeedbackSessionName();
             StudentAttributes student = studentsLogic.getStudentForEmail(courseId, entryEmail);
             FeedbackSessionAttributes fs = fsLogic.getFeedbackSession(entryFsName, courseId);
             if (student == null || fs == null) {
@@ -311,9 +330,6 @@ public class GoogleCloudLoggingService implements LogService {
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
         }
-        for (Map.Entry<String, String> entry : s.labels.entrySet()) {
-            logFilters.add("labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
-        }
         for (Map.Entry<String, String> entry : s.resourceLabels.entrySet()) {
             logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
         }
@@ -357,7 +373,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static class LogSearchParams {
         private List<String> logName = new ArrayList<>();
         private String resourceType;
-        private Map<String, String> labels = new HashMap<>();
         private Map<String, String> resourceLabels = new HashMap<>();
         private QueryLogsParams queryLogsParams;
 
@@ -377,13 +392,6 @@ public class GoogleCloudLoggingService implements LogService {
 
         private LogSearchParams setQueryLogsParams(QueryLogsParams queryLogsParams) {
             this.queryLogsParams = queryLogsParams;
-            return this;
-        }
-
-        private LogSearchParams addLabel(String key, String value) {
-            if (key != null && value != null) {
-                this.labels.put(key, value);
-            }
             return this;
         }
 
