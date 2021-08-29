@@ -3,9 +3,6 @@ package teammates.e2e.cases;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.testng.annotations.Test;
 
@@ -63,15 +60,6 @@ public class InstructorAuditLogsPageE2ETest extends BaseE2ETestCase {
         assertEquals(currentLogsToDate, auditLogsPage.getLogsToDate());
         assertEquals(currentLogsFromTime, "23:59H");
         assertEquals(currentLogsToTime, "23:59H");
-
-        ______TS("verify empty logs output");
-        auditLogsPage.setCourseId(course.getId());
-        auditLogsPage.startSearching();
-
-        List<String> sessions = new ArrayList<>(Arrays.asList(feedbackSession.getFeedbackSessionName()));
-        for (String sessionName : sessions) {
-            assertFalse(auditLogsPage.isLogPresentForSession(sessionName));
-        }
 
         ______TS("verify logs output");
         logout();
