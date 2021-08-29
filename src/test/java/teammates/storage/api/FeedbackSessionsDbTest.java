@@ -308,6 +308,28 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
     }
 
     @Test
+    public void testGetFeedbackSessionsPossiblyNeedingOpeningSoonEmail() throws Exception {
+        ______TS("standard success case");
+
+        List<FeedbackSessionAttributes> fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+
+        assertEquals(1, fsaList.size());
+        for (FeedbackSessionAttributes fsa : fsaList) {
+            assertFalse(fsa.isSentOpeningSoonEmail());
+            assertFalse(fsa.isSessionDeleted());
+        }
+
+        ______TS("soft-deleted session should not appear");
+
+        // soft delete a feedback session now
+        FeedbackSessionAttributes feedbackSession = fsaList.get(0);
+        fsDb.softDeleteFeedbackSession(feedbackSession.getFeedbackSessionName(), feedbackSession.getCourseId());
+
+        fsaList = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        assertEquals(0, fsaList.size());
+    }
+
+    @Test
     public void testGetFeedbackSessionsPossiblyNeedingOpenEmail() throws Exception {
 
         ______TS("standard success case");
@@ -570,6 +592,16 @@ public class FeedbackSessionsDbTest extends BaseTestCaseWithLocalDatabaseAccess 
         actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
         assertEquals(10, updatedFs.getGracePeriodMinutes());
         assertEquals(10, actualFs.getGracePeriodMinutes());
+
+        assertFalse(actualFs.isSentOpeningSoonEmail());
+        updatedFs = fsDb.updateFeedbackSession(
+                FeedbackSessionAttributes
+                        .updateOptionsBuilder(typicalFs.getFeedbackSessionName(), typicalFs.getCourseId())
+                        .withSentOpeningSoonEmail(true)
+                        .build());
+        actualFs = fsDb.getFeedbackSession(typicalFs.getCourseId(), typicalFs.getFeedbackSessionName());
+        assertTrue(updatedFs.isSentOpeningSoonEmail());
+        assertTrue(actualFs.isSentOpeningSoonEmail());
 
         assertFalse(actualFs.isSentOpenEmail());
         updatedFs = fsDb.updateFeedbackSession(

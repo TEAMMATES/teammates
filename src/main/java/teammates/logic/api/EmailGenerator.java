@@ -99,6 +99,60 @@ public final class EmailGenerator {
     }
 
     /**
+     * Generate email to notify course co-owners that the feedback session is opening soon,
+     * in case the feedback session opening info was set wrongly.
+     */
+    public List<EmailWrapper> generateFeedbackSessionOpeningSoonEmails(FeedbackSessionAttributes session) {
+        CourseAttributes course = coursesLogic.getCourse(session.getCourseId());
+
+        // notify only course co-owners
+        List<InstructorAttributes> coOwners = instructorsLogic.getCoOwnersForCourse(session.getCourseId());
+        List<EmailWrapper> emails = new ArrayList<>();
+
+        for (InstructorAttributes coOwner : coOwners) {
+            String editUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.INSTRUCTOR_SESSION_EDIT_PAGE)
+                    .withCourseId(course.getId())
+                    .withSessionName(session.getFeedbackSessionName())
+                    .toAbsoluteString();
+
+            emails.add(generateFeedbackSessionOpeningSoonEmailBase(course, session, coOwner,
+                    EmailType.FEEDBACK_OPENING_SOON, editUrl));
+        }
+
+        return emails;
+    }
+
+    /**
+     * Creates an email for a co-owner, reminding them that a session is opening soon.
+     * @return
+     */
+    private EmailWrapper generateFeedbackSessionOpeningSoonEmailBase(
+            CourseAttributes course, FeedbackSessionAttributes session,
+            InstructorAttributes coOwner, EmailType type, String editUrl) {
+
+        String emailBody = Templates.populateTemplate(EmailTemplates.OWNER_FEEDBACK_SESSION_OPENING_SOON,
+                "${userName}", SanitizationHelper.sanitizeForHtml(coOwner.getName()),
+                "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
+                "${courseId}", SanitizationHelper.sanitizeForHtml(course.getId()),
+                "${feedbackSessionName}", SanitizationHelper.sanitizeForHtml(session.getFeedbackSessionName()),
+                "${deadline}", SanitizationHelper.sanitizeForHtml(
+                        TimeHelper.formatInstant(session.getEndTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                "${instructorFragment}", "",
+                "${sessionInstructions}", session.getInstructionsString(),
+                "${startTime}", SanitizationHelper.sanitizeForHtml(TimeHelper.formatInstant(
+                        session.getStartTime(), session.getTimeZone(), DATETIME_DISPLAY_FORMAT)),
+                "${sessionEditUrl}", editUrl,
+                "${additionalNotes}", "",
+                "${additionalContactInformation}", "");
+
+        EmailWrapper email = getEmptyEmailAddressedToEmail(coOwner.getEmail());
+        email.setType(type);
+        email.setSubjectFromType(course.getName(), session.getFeedbackSessionName());
+        email.setContent(emailBody);
+        return email;
+    }
+
+    /**
      * Generates the feedback session reminder emails for the given {@code session} for {@code students}
      * and {@code instructorsToRemind}. In addition, the emails will also be forwarded to {@code instructorsToNotify}.
      */
