@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { LogService } from './log.service';
 import moment from 'moment-timezone';
 import { SortBy, SortOrder } from '../types/sort-properties';
+import { LogService } from './log.service';
 
 /**
  * Handles comparison logic between sortable table elements

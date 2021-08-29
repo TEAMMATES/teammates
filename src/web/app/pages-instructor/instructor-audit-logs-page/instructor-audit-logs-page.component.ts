@@ -182,7 +182,8 @@ export class InstructorAuditLogsPageComponent implements OnInit {
             !== 'VIEW_RESULT')
         .map((entry: FeedbackSessionLogEntry) => {
           return [
-            { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, LogService.LOG_DATE_TIME_FORMAT),
+            { value: this.timezoneService.formatToString(
+                entry.timestamp, log.feedbackSessionData.timeZone, LogService.LOG_DATE_TIME_FORMAT),
               style: 'font-family:monospace;'},
             { value: entry.studentData.name },
             { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
