@@ -17,6 +17,7 @@ import { HttpRequestService } from './http-request.service';
   providedIn: 'root',
 })
 export class LogService {
+  static readonly LOG_DATE_TIME_FORMAT: string = 'ddd, DD MMM YYYY hh:mm:ss A';
 
   constructor(private httpRequestService: HttpRequestService) { }
 
