@@ -336,7 +336,7 @@ public class FeedbackSubmitPage extends AppPage {
 
         int totalPoints = questionDetails.getPoints();
         if (questionDetails.isPointsPerOption()) {
-            totalPoints *= questionDetails.getNumOfConstSumOptions();
+            totalPoints *= questionDetails.getConstSumOptions().size();
         }
         assertEquals(getQuestionForm(qnNumber).findElement(By.id("total-points-message")).getText(),
                 "Total points distributed should add up to " + totalPoints + ".");

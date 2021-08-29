@@ -66,7 +66,6 @@ public enum QuestionTypeStructures {
         FeedbackConstantSumQuestionDetails details = new FeedbackConstantSumQuestionDetails("");
         details.setQuestionType(FeedbackQuestionType.CONSTSUM_OPTIONS);
         details.setConstSumOptions(Arrays.asList("", ""));
-        details.setNumOfConstSumOptions(2);
         return details;
     }
 

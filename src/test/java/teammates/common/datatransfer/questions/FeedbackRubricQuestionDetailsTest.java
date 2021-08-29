@@ -26,8 +26,6 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_invalidWeightListSize_errorReturned() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        rubricDetails.setNumOfRubricChoices(2);
-        rubricDetails.setNumOfRubricSubQuestions(2);
         rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("", ""), Arrays.asList("", "")));
         rubricDetails.setHasAssignedWeights(true);
         rubricDetails.setRubricSubQuestions(Arrays.asList("SubQn-1", "SubQn-2"));
@@ -42,8 +40,6 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
     @Test
     public void testValidateQuestionDetails_validWeightListSize_errorListShouldBeEmpty() {
         FeedbackRubricQuestionDetails rubricDetails = new FeedbackRubricQuestionDetails();
-        rubricDetails.setNumOfRubricChoices(2);
-        rubricDetails.setNumOfRubricSubQuestions(2);
         rubricDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("", ""), Arrays.asList("", "")));
         rubricDetails.setHasAssignedWeights(true);
         rubricDetails.setRubricSubQuestions(Arrays.asList("SubQn-1", "SubQn-2"));
@@ -59,8 +55,6 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricQuestionDetails rubricQuestionDetails = new FeedbackRubricQuestionDetails();
         rubricQuestionDetails.setHasAssignedWeights(false);
         rubricQuestionDetails.setRubricWeightsForEachCell(new ArrayList<>());
-        rubricQuestionDetails.setNumOfRubricChoices(2);
-        rubricQuestionDetails.setNumOfRubricSubQuestions(2);
         rubricQuestionDetails.setRubricChoices(Arrays.asList("a", "b"));
         rubricQuestionDetails.setRubricSubQuestions(Arrays.asList("q1", "q2"));
         rubricQuestionDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("d1", "d2"), Arrays.asList("d3", "d4")));
@@ -82,8 +76,6 @@ public class FeedbackRubricQuestionDetailsTest extends BaseTestCase {
         FeedbackRubricQuestionDetails rubricQuestionDetails = new FeedbackRubricQuestionDetails();
         rubricQuestionDetails.setHasAssignedWeights(false);
         rubricQuestionDetails.setRubricWeightsForEachCell(new ArrayList<>());
-        rubricQuestionDetails.setNumOfRubricChoices(2);
-        rubricQuestionDetails.setNumOfRubricSubQuestions(2);
         rubricQuestionDetails.setRubricChoices(Arrays.asList("a", "b"));
         rubricQuestionDetails.setRubricSubQuestions(Arrays.asList("q1", "q2"));
         rubricQuestionDetails.setRubricDescriptions(Arrays.asList(Arrays.asList("d1", "d2"), Arrays.asList("d3", "d4")));
