@@ -6,13 +6,12 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.TaskWrapper;
 import teammates.ui.output.InstructorData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateInstructorAction}.
@@ -90,16 +89,11 @@ public class CreateInstructorActionTest extends BaseActionTest<CreateInstructorA
                 Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 null, false);
 
-        createInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(createInstructorAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
-
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, newInvalidInstructorEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                 FieldValidator.EMAIL_MAX_LENGTH),
-                msg.getMessage());
+                ihrbe.getMessage());
 
         verifyNoTasksAdded();
 

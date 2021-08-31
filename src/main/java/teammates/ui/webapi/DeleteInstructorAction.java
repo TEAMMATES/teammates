@@ -5,9 +5,6 @@ import java.util.List;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidOperationException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -38,7 +35,7 @@ class DeleteInstructorAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidOperationException {
         String instructorId = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_ID);
         String instructorEmail = getRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

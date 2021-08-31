@@ -30,7 +30,7 @@ class CreateFeedbackSessionLogAction extends Action {
         String fslType = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE);
         FeedbackSessionLogType convertedFslType = FeedbackSessionLogType.valueOfLabel(fslType);
         if (convertedFslType == null) {
-            return new JsonResult("Invalid log type", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid log type");
         }
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);

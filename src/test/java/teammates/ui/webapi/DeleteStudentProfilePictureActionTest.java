@@ -65,12 +65,8 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
         String[] submissionParams = {
                 Const.ParamsNames.STUDENT_ID, "invalidGoogleId",
         };
-        DeleteStudentProfilePictureAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput messageOutput = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals(messageOutput.getMessage(), "Invalid student profile");
+        EntityNotFoundException enfe = verifyEntityNotFound(submissionParams);
+        assertEquals("Invalid student profile", enfe.getMessage());
     }
 
     @Test

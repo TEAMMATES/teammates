@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseData;
 
@@ -99,8 +98,7 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
 
         assertNull(logic.getCourse("fake-course"));
 
-        EntityNotFoundException e = assertThrows(EntityNotFoundException.class, () ->
-                getAction(submissionParams).execute());
+        EntityNotFoundException e = verifyEntityNotFound(submissionParams);
         assertEquals("Trying to update non-existent Entity: ", e.getMessage());
     }
 

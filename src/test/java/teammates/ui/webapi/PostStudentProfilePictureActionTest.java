@@ -4,8 +4,8 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link PostStudentProfilePictureAction}.

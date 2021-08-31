@@ -17,6 +17,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
@@ -24,7 +25,7 @@ import teammates.ui.request.AccountCreateRequest;
 class CreateAccountAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
@@ -35,7 +36,8 @@ class CreateAccountAction extends AdminOnlyAction {
         try {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            // There should not be any invalid parameter here
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)

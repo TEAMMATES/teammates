@@ -25,7 +25,7 @@ class FeedbackResponseCommentBasicRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(commentText != null, "Comment Text can't be null");
     }
 

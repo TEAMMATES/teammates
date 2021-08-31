@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.OngoingSession;
 import teammates.ui.output.OngoingSessionsData;
@@ -28,9 +27,13 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         long startTime;
         try {
             startTime = Long.parseLong(startTimeString);
-            //test for bounds
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException("Invalid startTime parameter", e);
+        }
+        try {
+            // test for bounds
             Instant.ofEpochMilli(startTime).minus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (NumberFormatException | ArithmeticException e) {
+        } catch (ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid startTime parameter", e);
         }
 
@@ -38,9 +41,13 @@ class GetOngoingSessionsAction extends AdminOnlyAction {
         long endTime;
         try {
             endTime = Long.parseLong(endTimeString);
-            //test for bounds
+        } catch (NumberFormatException e) {
+            throw new InvalidHttpParameterException("Invalid endTime parameter", e);
+        }
+        try {
+            // test for bounds
             Instant.ofEpochMilli(endTime).plus(Const.FEEDBACK_SESSIONS_SEARCH_WINDOW).toEpochMilli();
-        } catch (NumberFormatException | ArithmeticException e) {
+        } catch (ArithmeticException e) {
             throw new InvalidHttpParameterException("Invalid endTime parameter", e);
         }
 
