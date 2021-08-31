@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -39,8 +38,6 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
 
         GetSessionResponseStatsAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         FeedbackSessionStatsData output = (FeedbackSessionStatsData) r.getOutput();
         assertEquals(10, output.getExpectedTotal());

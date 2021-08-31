@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -34,9 +33,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         };
 
         DeleteStudentsAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(action);
 
         ______TS("fails silently if random course given");
         submissionParams = new String[] {
@@ -44,9 +41,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         };
 
         action = getAction(submissionParams);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(action);
 
         ______TS("failure: invalid params");
 

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -164,7 +163,6 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
     private CoursesData getValidCourses(String... params) {
         GetCoursesAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         return (CoursesData) result.getOutput();
     }
 

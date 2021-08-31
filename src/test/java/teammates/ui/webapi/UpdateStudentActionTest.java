@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -73,7 +72,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
         JsonResult actionOutput = getJsonResult(updateAction);
 
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(1);
@@ -101,7 +99,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
         JsonResult outputToBeTrimmed = getJsonResult(actionToBeTrimmed);
 
-        assertEquals(HttpStatus.SC_OK, outputToBeTrimmed.getStatusCode());
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
         verifyNoEmailsSent();
@@ -263,7 +260,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
         JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
 
-        assertEquals(HttpStatus.SC_OK, emptySectionActionOutput.getStatusCode());
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
         assertEquals("Student has been updated", emptySectionMsgOutput.getMessage());
         verifyNoEmailsSent();

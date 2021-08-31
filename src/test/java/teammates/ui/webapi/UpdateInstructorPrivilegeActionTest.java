@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -70,7 +69,6 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         UpdateInstructorPrivilegeAction action = getAction(reqBody, submissionParams);
 
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
         assertFalse(response.isCanModifyCourse());
@@ -134,7 +132,6 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         UpdateInstructorPrivilegeAction action = getAction(reqBody, submissionParams);
 
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
         assertFalse(response.isCanModifyCourse());
@@ -175,7 +172,6 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         UpdateInstructorPrivilegeAction action = getAction(reqBody, submissionParams);
 
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
         assertFalse(response.isCanModifyCourse());
@@ -215,7 +211,6 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         UpdateInstructorPrivilegeAction action = getAction(reqBody, submissionParams);
 
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
         assertTrue(response.isCanModifyCourse());
@@ -269,7 +264,6 @@ public class UpdateInstructorPrivilegeActionTest extends BaseActionTest<UpdateIn
         UpdateInstructorPrivilegeAction action = getAction(reqBody, submissionParams);
 
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         InstructorPrivilegeData response = (InstructorPrivilegeData) result.getOutput();
         assertTrue(response.isCanModifyCourse());

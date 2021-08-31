@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -116,9 +115,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         ______TS(caseDescription);
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(action);
     }
 
     private void testActionInMasqueradeMode(AccountAttributes student) {
@@ -130,9 +127,8 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         StudentProfileUpdateRequest req = createValidRequestForProfile();
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
+        getJsonResult(action);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
     }
 
     private String[] createValidParamsForMasqueradeMode(String googleId) {

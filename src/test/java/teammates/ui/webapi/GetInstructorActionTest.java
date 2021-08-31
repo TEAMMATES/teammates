@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -51,7 +50,6 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         GetInstructorAction getInstructorAction = getAction(params);
         JsonResult actionOutput = getJsonResult(getInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         InstructorData response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor1OfCourse1.getName(), response.getName());
         assertNull(response.getGoogleId());
@@ -66,7 +64,6 @@ public class GetInstructorActionTest extends BaseActionTest<GetInstructorAction>
         getInstructorAction = getAction(params);
         actionOutput = getJsonResult(getInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         response = (InstructorData) actionOutput.getOutput();
         assertEquals(instructor1OfCourse1.getName(), response.getName());
 

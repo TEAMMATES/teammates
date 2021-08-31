@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -61,7 +60,6 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
@@ -119,9 +117,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(10);
 
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
 
         assertEquals(10, typicalQuestion.getNumberOfEntitiesToGiveFeedbackTo());
@@ -147,9 +144,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
 
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -179,9 +175,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
 
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -219,9 +214,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         // All existing responses should remain
         assertFalse(logic.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());

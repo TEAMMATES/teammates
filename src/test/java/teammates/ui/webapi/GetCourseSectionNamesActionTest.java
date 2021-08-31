@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -44,8 +43,6 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         };
         GetCourseSectionNamesAction getCourseSectionNamesAction = getAction(params);
         JsonResult response = getJsonResult(getCourseSectionNamesAction);
-
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
 
         CourseSectionNamesData courseSectionNamesData = (CourseSectionNamesData) response.getOutput();
         assertEquals(expectedSectionNames, courseSectionNamesData.getSectionNames());
