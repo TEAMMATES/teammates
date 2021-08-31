@@ -90,7 +90,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries);
             return new JsonResult(fslData);
         } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_GATEWAY);
         }
     }
 

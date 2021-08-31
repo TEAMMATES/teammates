@@ -40,11 +40,14 @@ import teammates.common.datatransfer.logs.SourceLocation;
 import teammates.common.exception.LogServiceException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 
 /**
  * Holds functions for operations related to Google Cloud Logging.
  */
 public class GoogleCloudLoggingService implements LogService {
+
+    private static final Logger log = Logger.getLogger();
 
     private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
     private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
@@ -218,6 +221,7 @@ public class GoogleCloudLoggingService implements LogService {
         try (Logging logging = LoggingOptions.getDefaultInstance().getService()) {
             logging.write(Collections.singleton(entry));
         } catch (Exception e) {
+            log.severe("Error while creating log entry", e);
             throw new LogServiceException(e);
         }
     }
@@ -362,6 +366,7 @@ public class GoogleCloudLoggingService implements LogService {
 
             entries = logging.listLogEntries(entryListOptionsArray);
         } catch (Exception e) {
+            log.severe("Error while fetching logs", e);
             throw new LogServiceException(e);
         }
         return entries;
