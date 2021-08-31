@@ -283,7 +283,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         // Malicious api call using course Id of the student to bypass the check
         submissionParams[1] = typicalCourse1.getId();
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

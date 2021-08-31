@@ -68,7 +68,7 @@ public class BinFeedbackSessionActionTest extends BaseActionTest<BinFeedbackSess
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("other verifications");
 
