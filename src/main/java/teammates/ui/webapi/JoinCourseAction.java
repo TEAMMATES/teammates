@@ -10,12 +10,15 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 
 /**
  * Action: joins a course for a student/instructor.
  */
 class JoinCourseAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -56,6 +59,8 @@ class JoinCourseAction extends Action {
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
+            // There should not be any invalid parameter here
+            log.severe("Unexpected error", ipe);
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 
@@ -74,6 +79,8 @@ class JoinCourseAction extends Action {
         } catch (EntityAlreadyExistsException eaee) {
             throw new InvalidOperationException(eaee);
         } catch (InvalidParametersException ipe) {
+            // There should not be any invalid parameter here
+            log.severe("Unexpected error", ipe);
             return new JsonResult(ipe.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 

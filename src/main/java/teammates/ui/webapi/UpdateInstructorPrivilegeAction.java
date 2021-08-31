@@ -9,6 +9,7 @@ import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InstructorUpdateException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.InstructorPrivilegeUpdateRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -17,6 +18,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Update instructor privilege by instructors with instructor modify permission.
  */
 class UpdateInstructorPrivilegeAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -74,6 +77,7 @@ class UpdateInstructorPrivilegeAction extends Action {
                             .build());
         } catch (InstructorUpdateException | InvalidParametersException e) {
             // Should not happen as only privilege is updated
+            log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
