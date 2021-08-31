@@ -61,7 +61,7 @@ class JoinCourseAction extends Action {
 
         sendJoinEmail(student.getCourse(), student.getName(), student.getEmail(), false);
 
-        return new JsonResult("Student successfully joined course", HttpStatus.SC_OK);
+        return new JsonResult("Student successfully joined course");
     }
 
     private JsonResult joinCourseForInstructor(String regkey, String institute) throws InvalidOperationException {
@@ -79,7 +79,7 @@ class JoinCourseAction extends Action {
 
         sendJoinEmail(instructor.getCourseId(), instructor.getName(), instructor.getEmail(), true);
 
-        return new JsonResult("Instructor successfully joined course", HttpStatus.SC_OK);
+        return new JsonResult("Instructor successfully joined course");
     }
 
     private void sendJoinEmail(String courseId, String userName, String userEmail, boolean isInstructor) {

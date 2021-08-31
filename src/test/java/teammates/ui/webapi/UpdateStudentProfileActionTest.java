@@ -118,7 +118,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
-        assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
     }
 
     private void testActionInMasqueradeMode(AccountAttributes student) {
@@ -132,7 +132,7 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         UpdateStudentProfileAction action = getAction(req, submissionParams);
         JsonResult result = getJsonResult(action);
 
-        assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
+        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
     }
 
     private String[] createValidParamsForMasqueradeMode(String googleId) {
