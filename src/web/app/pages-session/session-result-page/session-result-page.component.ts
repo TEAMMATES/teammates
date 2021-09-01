@@ -66,8 +66,8 @@ export class SessionResultPageComponent implements OnInit {
 
   intent: Intent = Intent.STUDENT_RESULT;
   RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
-    FeedbackQuestionType.CONTRIB
-  ]
+    FeedbackQuestionType.CONTRIB,
+  ];
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
