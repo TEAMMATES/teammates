@@ -2,6 +2,7 @@
 
 exports[`SessionResultPageComponent should snap when session results failed to load 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -173,6 +174,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
 
 exports[`SessionResultPageComponent should snap with an open feedback session with no questions 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -332,6 +334,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
 
 exports[`SessionResultPageComponent should snap with default fields 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -491,6 +494,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
 
 exports[`SessionResultPageComponent should snap with feedback session with questions 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -1156,6 +1160,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 
 exports[`SessionResultPageComponent should snap with feedback session with questions of anonymous responses 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -1667,6 +1672,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
 
 exports[`SessionResultPageComponent should snap with session results are loading 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -1837,6 +1843,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
 
 exports[`SessionResultPageComponent should snap with user that is logged in and using session link 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
@@ -1997,6 +2004,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
 
 exports[`SessionResultPageComponent should snap with user that is not logged in and using session link 1`] = `
 <tm-session-result-page
+  RESPONSE_HIDDEN_QUESTIONS={[Function Array]}
   authService={[Function AuthService]}
   backendUrl={[Function String]}
   courseId={[Function String]}
