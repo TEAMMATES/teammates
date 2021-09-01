@@ -13,7 +13,6 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
@@ -78,8 +77,6 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(instructor.getKey())
-                .withInstructorInstitution(institute)
-                .withInstitutionMac(StringHelper.generateSignature(institute))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         JoinLinkData output = (JoinLinkData) r.getOutput();

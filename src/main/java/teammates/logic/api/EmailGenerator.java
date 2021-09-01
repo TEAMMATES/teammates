@@ -15,7 +15,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -797,10 +796,10 @@ public final class EmailGenerator {
      * Generates the course re-join email for the given {@code instructor} in {@code course}.
      */
     public EmailWrapper generateInstructorCourseRejoinEmailAfterGoogleIdReset(
-            InstructorAttributes instructor, CourseAttributes course, String institute) {
+            InstructorAttributes instructor, CourseAttributes course) {
 
         String emailBody = Templates.populateTemplate(
-                fillUpInstructorRejoinAfterGoogleIdResetFragment(instructor, institute),
+                fillUpInstructorRejoinAfterGoogleIdResetFragment(instructor),
                 "${userName}", SanitizationHelper.sanitizeForHtml(instructor.getName()),
                 "${courseName}", SanitizationHelper.sanitizeForHtml(course.getName()),
                 "${supportEmail}", Config.SUPPORT_EMAIL);
@@ -865,15 +864,11 @@ public final class EmailGenerator {
                 "${joinUrl}", getInstructorCourseJoinUrl(instructor));
     }
 
-    private String fillUpInstructorRejoinAfterGoogleIdResetFragment(
-            InstructorAttributes instructor, String institute) {
-        AppUrl url = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+    private String fillUpInstructorRejoinAfterGoogleIdResetFragment(InstructorAttributes instructor) {
+        String joinUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                 .withRegistrationKey(instructor.getKey())
-                .withEntityType(Const.EntityType.INSTRUCTOR);
-        if (institute != null) {
-            url = url.withInstructorInstitution(institute);
-        }
-        String joinUrl = url.toAbsoluteString();
+                .withEntityType(Const.EntityType.INSTRUCTOR)
+                .toAbsoluteString();
 
         return Templates.populateTemplate(EmailTemplates.USER_COURSE_JOIN,
                 "${joinFragment}", EmailTemplates.FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET,
