@@ -30,9 +30,9 @@ public class FeedbackRubricQuestionDetails extends FeedbackQuestionDetails {
 
     private boolean hasAssignedWeights;
     private List<List<Double>> rubricWeightsForEachCell;
-    private int numOfRubricChoices;
+    private int RubricChoices.size();
     private List<String> rubricChoices;
-    private int numOfRubricSubQuestions;
+    private int RubricSubQuestions.size();
     private List<String> rubricSubQuestions;
     private List<List<String>> rubricDescriptions;
 
