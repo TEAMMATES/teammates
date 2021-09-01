@@ -58,6 +58,8 @@ public class FeedbackSession extends BaseEntity {
     @Unindex
     private long gracePeriod;
 
+    private boolean sentOpeningSoonEmail;
+
     private boolean sentOpenEmail;
 
     private boolean sentClosingEmail;
@@ -80,9 +82,9 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpenEmail, boolean sentClosingEmail,
-            boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
+            boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
@@ -95,6 +97,7 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
         this.sentOpenEmail = sentOpenEmail;
         this.sentClosingEmail = sentClosingEmail;
         this.sentClosedEmail = sentClosedEmail;
@@ -209,6 +212,14 @@ public class FeedbackSession extends BaseEntity {
         this.gracePeriod = gracePeriod;
     }
 
+    public boolean isSentOpeningSoonEmail() {
+        return sentOpeningSoonEmail;
+    }
+
+    public void setSentOpeningSoonEmail(boolean sentOpeningSoonEmail) {
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
+    }
+
     public boolean isSentOpenEmail() {
         return sentOpenEmail;
     }
@@ -275,11 +286,15 @@ public class FeedbackSession extends BaseEntity {
                 + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod
+                + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                 + ", sentOpenEmail=" + sentOpenEmail
+                + ", sentClosingEmail=" + sentClosingEmail
+                + ", sentClosedEmail=" + sentClosedEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + "]";
     }
 
 }

@@ -16,10 +16,6 @@ import teammates.ui.output.RegenerateStudentCourseLinksData;
  */
 class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
 
-    /** Message indicating that the email parameter value is not a valid email address. */
-    static final String STUDENT_NOT_FOUND =
-            "The student with the email %s could not be found for the course with ID [%s].";
-
     private static final String SUCCESSFUL_REGENERATION =
             "Student's links for this course have been successfully regenerated,";
 
@@ -43,8 +39,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
         try {
             updatedStudent = logic.regenerateStudentRegistrationKey(courseId, studentEmailAddress);
         } catch (EntityDoesNotExistException ex) {
-            return new JsonResult(
-                    String.format(STUDENT_NOT_FOUND, studentEmailAddress, courseId), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ex);
         } catch (EntityAlreadyExistsException ex) {
             return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }

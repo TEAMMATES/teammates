@@ -6,8 +6,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseSectionNamesData;
 
@@ -63,10 +61,8 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "dummy-course",
         };
-        assertThrows(EntityDoesNotExistException.class, () -> logic.getSectionNamesForCourse("dummy-course"));
 
-        GetCourseSectionNamesAction getCourseSectionNamesAction = getAction(params);
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getCourseSectionNamesAction));
+        verifyEntityNotFound(params);
     }
 
     @Test

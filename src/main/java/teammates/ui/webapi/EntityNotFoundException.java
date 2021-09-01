@@ -1,13 +1,18 @@
-package teammates.common.exception;
+package teammates.ui.webapi;
+
+import teammates.common.exception.EntityDoesNotExistException;
 
 /**
  * Runtime exception wrapper for {@link EntityDoesNotExistException}.
  */
-@SuppressWarnings("serial")
 public class EntityNotFoundException extends RuntimeException {
 
     public EntityNotFoundException(EntityDoesNotExistException e) {
-        super(e.getMessage());
+        super(e.getMessage(), e);
+    }
+
+    public EntityNotFoundException(String message) {
+        super(message);
     }
 
 }

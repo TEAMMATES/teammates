@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 

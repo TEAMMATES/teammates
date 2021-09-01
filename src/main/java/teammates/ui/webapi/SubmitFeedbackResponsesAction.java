@@ -15,18 +15,14 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.Logger;
 import teammates.ui.output.FeedbackResponsesData;
 import teammates.ui.request.FeedbackResponsesRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Submits a list of feedback responses to a feedback question.
@@ -48,7 +44,7 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
+            throw new EntityNotFoundException("The feedback question does not exist.");
         }
         FeedbackSessionAttributes feedbackSession =
                 getNonNullFeedbackSession(feedbackQuestion.getFeedbackSessionName(), feedbackQuestion.getCourseId());
@@ -78,11 +74,11 @@ class SubmitFeedbackResponsesAction extends BasicFeedbackSubmissionAction {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String feedbackQuestionId = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_QUESTION_ID);
         FeedbackQuestionAttributes feedbackQuestion = logic.getFeedbackQuestion(feedbackQuestionId);
         if (feedbackQuestion == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("The feedback question does not exist."));
+            throw new EntityNotFoundException("The feedback question does not exist.");
         }
 
         List<FeedbackResponseAttributes> existingResponses;
