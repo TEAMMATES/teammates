@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.FileHelper;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetStudentProfilePictureAction}.
@@ -131,12 +130,8 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent@student.com",
         };
 
-        action = getAction(submissionParams);
-        JsonResult jsonResult = getJsonResult(action);
-        MessageOutput message = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No student found", message.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(submissionParams);
+        assertEquals("No student found", enfe.getMessage());
 
         deleteFile(student1InCourse1.getGoogleId());
     }

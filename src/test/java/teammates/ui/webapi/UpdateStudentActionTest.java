@@ -7,13 +7,13 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
 /**
@@ -120,16 +120,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
-        UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
-        JsonResult invalidEmailOutput = getJsonResult(invalidEmailAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, invalidEmailOutput.getStatusCode());
-        MessageOutput invalidParamsOutput = (MessageOutput) invalidEmailOutput.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.EMAIL_MAX_LENGTH),
-                invalidParamsOutput.getMessage());
+                ihrbe.getMessage());
 
         verifyNoTasksAdded();
 
@@ -166,13 +162,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
         };
 
-        UpdateStudentAction nonExistentStudentAction = getAction(updateRequest, submissionParams);
-        JsonResult nonExistentStudentOuput = getJsonResult(nonExistentStudentAction);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, nonExistentStudentOuput.getStatusCode());
-        invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
-
-        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, invalidParamsOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
+        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, enfe.getMessage());
 
         verifyNoTasksAdded();
     }

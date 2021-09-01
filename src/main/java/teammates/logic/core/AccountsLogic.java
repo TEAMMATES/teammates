@@ -130,9 +130,9 @@ public final class AccountsLogic {
      * Joins the user as an instructor and sets the institute if it is not null.
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String key, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String key, String googleId, String institute)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        InstructorAttributes instructor = validateInstructorJoinRequest(key, googleId, institute, mac);
+        InstructorAttributes instructor = validateInstructorJoinRequest(key, googleId);
 
         // Register the instructor
         instructor.setGoogleId(googleId);
@@ -192,16 +192,8 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private InstructorAttributes validateInstructorJoinRequest(String registrationKey,
-                                                               String googleId,
-                                                               String institute,
-                                                               String mac)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
-
-        if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
-            throw new InvalidParametersException("Institute authentication failed.");
-        }
-
+    private InstructorAttributes validateInstructorJoinRequest(String registrationKey, String googleId)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
         InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {

@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -57,7 +56,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
                 Const.ParamsNames.INSTRUCTOR_ID, "invalid-google-id",
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getAction(invalidParams)));
+        verifyEntityNotFound(invalidParams);
 
         ______TS("Failure: Tries to downgrade a student account");
 
@@ -65,7 +64,7 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
                 Const.ParamsNames.INSTRUCTOR_ID, student1InCourse1.getId(),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getAction(paramsStudent)));
+        verifyEntityNotFound(paramsStudent);
     }
 
     @Override
