@@ -13,6 +13,7 @@ import { StudentService } from '../../../services/student.service';
 import { TimezoneService } from '../../../services/timezone.service';
 import {
   AuthInfo,
+  FeedbackQuestionType,
   FeedbackSession, FeedbackSessionLogType,
   FeedbackSessionPublishStatus, FeedbackSessionSubmissionStatus,
   Instructor,
@@ -64,6 +65,9 @@ export class SessionResultPageComponent implements OnInit {
   visibilityRecipient: FeedbackVisibilityType = FeedbackVisibilityType.RECIPIENT;
 
   intent: Intent = Intent.STUDENT_RESULT;
+  RESPONSE_HIDDEN_QUESTIONS: FeedbackQuestionType[] = [
+    FeedbackQuestionType.CONTRIB
+  ]
 
   isFeedbackSessionResultsLoading: boolean = false;
   hasFeedbackSessionResultsLoadingFailed: boolean = false;
