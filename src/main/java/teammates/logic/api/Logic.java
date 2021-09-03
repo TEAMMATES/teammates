@@ -74,7 +74,7 @@ public class Logic {
     }
 
     public String getCourseInstitute(String courseId) {
-        return accountsLogic.getCourseInstitute(courseId);
+        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**

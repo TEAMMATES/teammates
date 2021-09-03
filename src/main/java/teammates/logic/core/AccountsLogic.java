@@ -3,7 +3,6 @@ package teammates.logic.core;
 import java.util.List;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
-import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
@@ -72,34 +71,6 @@ public final class AccountsLogic {
     }
 
     /**
-     * Gets the institute associated with the course.
-     *
-     * <p>The institute of a course is determined by the account of an instructor associated to it.
-     */
-    public String getCourseInstitute(String courseId) {
-        CourseAttributes cd = coursesLogic.getCourse(courseId);
-        assert cd != null : "Trying to getCourseInstitute for inexistent course with id " + courseId;
-        List<InstructorAttributes> instructorList = instructorsLogic.getInstructorsForCourse(cd.getId());
-
-        assert !instructorList.isEmpty() : "Course has no instructors: " + cd.getId();
-        // Retrieve institute field from one of the instructors of the course
-        String institute = "";
-        for (InstructorAttributes instructor : instructorList) {
-            String instructorGoogleId = instructor.getGoogleId();
-            if (instructorGoogleId == null) {
-                continue;
-            }
-            AccountAttributes instructorAcc = accountsDb.getAccount(instructorGoogleId);
-            if (instructorAcc != null) {
-                institute = instructorAcc.getInstitute();
-                break;
-            }
-        }
-        assert !StringHelper.isEmpty(institute) : "No institute found for the course";
-        return institute;
-    }
-
-    /**
      * Joins the user as a student.
      */
     public StudentAttributes joinCourseForStudent(String registrationKey, String googleId)
@@ -146,7 +117,7 @@ public final class AccountsLogic {
         }
 
         AccountAttributes account = accountsDb.getAccount(googleId);
-        String instituteToSave = getCourseInstitute(instructor.getCourseId());
+        String instituteToSave = coursesLogic.getCourseInstitute(instructor.getCourseId());
 
         if (account == null) {
             try {
@@ -300,7 +271,7 @@ public final class AccountsLogic {
                 .withEmail(student.getEmail())
                 .withName(student.getName())
                 .withIsInstructor(false)
-                .withInstitute(getCourseInstitute(student.getCourse()))
+                .withInstitute(coursesLogic.getCourseInstitute(student.getCourse()))
                 .build();
 
         accountsDb.createEntity(account);
