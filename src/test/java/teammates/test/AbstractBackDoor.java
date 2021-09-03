@@ -338,6 +338,7 @@ public abstract class AbstractBackDoor {
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
@@ -381,6 +382,7 @@ public abstract class AbstractBackDoor {
         return CourseAttributes.builder(courseData.getCourseId())
                 .withName(courseData.getCourseName())
                 .withTimezone(ZoneId.of(courseData.getTimeZone()))
+                .withInstitute(courseData.getInstitute())
                 .build();
     }
 
