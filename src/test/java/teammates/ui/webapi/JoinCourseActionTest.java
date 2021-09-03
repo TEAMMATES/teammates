@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -46,12 +45,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        JoinCourseAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        verifyEntityNotFound(params);
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
         ______TS("Failure case: student is already registered");
 
@@ -80,8 +76,8 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        JoinCourseAction a = getAction(params);
+        JsonResult r = getJsonResult(a);
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
@@ -100,12 +96,9 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        verifyEntityNotFound(params);
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
         ______TS("Failure case: instructor is already registered");
 
@@ -152,12 +145,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, "unknown",
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
-
-        verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        verifyHttpParameterFailure(params);
 
     }
 

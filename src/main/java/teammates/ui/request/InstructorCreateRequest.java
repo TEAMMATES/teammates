@@ -30,7 +30,7 @@ public class InstructorCreateRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(name != null, "name cannot be null");
         assertTrue(email != null, "email cannot be null");
         assertTrue(role != null, "role name cannot be null");

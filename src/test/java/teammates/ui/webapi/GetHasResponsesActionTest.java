@@ -12,10 +12,8 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.HasResponsesData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetHasResponsesAction}.
@@ -62,12 +60,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         assertNull(logic.getCourse("fake-course"));
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No course with id: fake-course", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No course with id: fake-course", enfe.getMessage());
     }
 
     @Test
@@ -82,12 +76,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No feedback question with id: fake-question-id", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No feedback question with id: fake-question-id", enfe.getMessage());
     }
 
     @Test
@@ -225,8 +215,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getHasResponsesAction));
+        verifyEntityNotFound(params);
     }
 
     @Test

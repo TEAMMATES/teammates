@@ -10,8 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -157,7 +155,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomresponseid"),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getAction(nonExistentResponseSubmissionParams).execute());
+        verifyEntityNotFound(nonExistentResponseSubmissionParams);
     }
 
     @Override
@@ -198,8 +196,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(studentInvalidIntentParams).checkSpecificAccessControl());
+        verifyHttpParameterFailureAcl(studentInvalidIntentParams);
 
         ______TS("invalid intent as instructor_result");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -207,8 +204,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(instructorInvalidIntentParams).checkSpecificAccessControl());
+        verifyHttpParameterFailureAcl(instructorInvalidIntentParams);
     }
 
     @Test
@@ -220,7 +216,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("responseIdOfNonExistingResponse"),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

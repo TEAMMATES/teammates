@@ -37,7 +37,7 @@ public class InstructorPrivilegeUpdateRequest extends BasicRequest {
     private Boolean canSubmitSessionInSections;
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         if (feedbackSessionName != null) {
             assertTrue(sectionName != null, "session must comes with a section");
         }

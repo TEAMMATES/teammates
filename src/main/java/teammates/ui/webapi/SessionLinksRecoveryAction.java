@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import static teammates.common.util.FieldValidator.REGEX_EMAIL;
 
-import com.google.api.client.http.HttpStatusCodes;
-
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -30,8 +28,7 @@ class SessionLinksRecoveryAction extends Action {
         String recoveryEmailAddress = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         if (!StringHelper.isMatching(recoveryEmailAddress, REGEX_EMAIL)) {
-            return new JsonResult("Invalid email address: " + recoveryEmailAddress,
-                                    HttpStatusCodes.STATUS_CODE_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid email address: " + recoveryEmailAddress);
         }
 
         String userCaptchaResponse = getRequestParamValue(Const.ParamsNames.USER_CAPTCHA_RESPONSE);
