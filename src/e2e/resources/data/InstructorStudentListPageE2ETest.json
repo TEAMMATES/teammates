@@ -19,6 +19,7 @@
     "course1": {
       "id": "tm.e2e.ISList.course1",
       "name": "Name of Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "course2": {
