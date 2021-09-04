@@ -99,13 +99,17 @@ public class WebApiServlet extends HttpServlet {
                     "The server encountered an error when processing your request.");
         } finally {
             RequestLogUser userInfo = new RequestLogUser();
+            String requestBody = null;
             String actionClass = null;
             if (action != null) {
+                if (action.hasDefinedRequestBody()) {
+                    requestBody = action.getRequestBody();
+                }
                 actionClass = action.getClass().getSimpleName();
                 userInfo = action.getUserInfoForLogging();
             }
 
-            log.request(req, statusCode, actionClass, userInfo, actionClass);
+            log.request(req, statusCode, actionClass, userInfo, requestBody, actionClass);
         }
     }
 

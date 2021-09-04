@@ -21,6 +21,8 @@ public class RequestLogDetails extends LogDetails {
     private Map<String, Object> requestParams;
     @Nullable
     private Map<String, Object> requestHeaders;
+    @Nullable // TODO remove nullable annotation 30 days after release of V8.2.1
+    private String requestBody;
     @Nullable
     private String actionClass;
     @Nullable
@@ -110,6 +112,14 @@ public class RequestLogDetails extends LogDetails {
         this.requestHeaders = requestHeaders;
     }
 
+    public String getRequestBody() {
+        return requestBody;
+    }
+
+    public void setRequestBody(String requestBody) {
+        this.requestBody = requestBody;
+    }
+
     public String getActionClass() {
         return actionClass;
     }
@@ -130,6 +140,7 @@ public class RequestLogDetails extends LogDetails {
     public void hideSensitiveInformation() {
         requestHeaders = null;
         requestParams = null;
+        requestBody = null;
         userInfo = null;
 
         if (referrer != null) {
