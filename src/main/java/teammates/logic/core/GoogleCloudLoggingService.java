@@ -2,7 +2,6 @@ package teammates.logic.core;
 
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,11 +44,9 @@ public class GoogleCloudLoggingService implements LogService {
 
     private static final Logger log = Logger.getLogger();
 
-    private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
-    private static final String REQUEST_LOG_RESOURCE_TYPE = "gae_app";
-    private static final String REQUEST_LOG_MODULE_ID_LABEL = "module_id";
-    private static final String REQUEST_LOG_MODULE_ID_LABEL_VALUE = "default";
+    private static final String RESOURCE_TYPE_GAE_APP = "gae_app";
 
+    private static final String REQUEST_LOG_NAME = "appengine.googleapis.com%2Frequest_log";
     private static final String STDOUT_LOG_NAME = "stdout";
     private static final String STDERR_LOG_NAME = "stderr";
 
@@ -69,8 +66,7 @@ public class GoogleCloudLoggingService implements LogService {
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(REQUEST_LOG_NAME)
-                .setResourceType(REQUEST_LOG_RESOURCE_TYPE)
-                .addResourceLabel(REQUEST_LOG_MODULE_ID_LABEL, REQUEST_LOG_MODULE_ID_LABEL_VALUE);
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         List<LogEntry> logEntries = new ArrayList<>();
         List<ErrorLogEntry> errorLogs = new ArrayList<>();
@@ -129,7 +125,8 @@ public class GoogleCloudLoggingService implements LogService {
 
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
                 .addLogName(STDOUT_LOG_NAME)
-                .addLogName(STDERR_LOG_NAME);
+                .addLogName(STDERR_LOG_NAME)
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
 
         Page<LogEntry> logEntriesInPage = getLogEntries(logSearchParams, queryLogsParams.getPageSize());
         List<GeneralLogEntry> logEntries = new ArrayList<>();
@@ -214,7 +211,8 @@ public class GoogleCloudLoggingService implements LogService {
                 .withExtraFilters(String.join("\n", filters))
                 .build();
         LogSearchParams logSearchParams = LogSearchParams.from(queryLogsParams)
-                .addLogName(STDOUT_LOG_NAME);
+                .addLogName(STDOUT_LOG_NAME)
+                .setResourceType(RESOURCE_TYPE_GAE_APP);
         Page<LogEntry> entries = getLogEntries(logSearchParams, 0);
         List<LogEntry> logEntries = new ArrayList<>();
         for (LogEntry entry : entries.iterateAll()) {
@@ -310,9 +308,6 @@ public class GoogleCloudLoggingService implements LogService {
         if (q.getExtraFilters() != null) {
             logFilters.add(q.getExtraFilters());
         }
-        for (Map.Entry<String, String> entry : s.resourceLabels.entrySet()) {
-            logFilters.add("resource.labels." + entry.getKey() + "=\"" + entry.getValue() + "\"");
-        }
         String logFilter = logFilters.stream().collect(Collectors.joining("\n"));
 
         Page<LogEntry> entries;
@@ -353,7 +348,6 @@ public class GoogleCloudLoggingService implements LogService {
     private static class LogSearchParams {
         private List<String> logName = new ArrayList<>();
         private String resourceType;
-        private Map<String, String> resourceLabels = new HashMap<>();
         private QueryLogsParams queryLogsParams;
 
         private static LogSearchParams from(QueryLogsParams queryLogsParams) {
@@ -372,13 +366,6 @@ public class GoogleCloudLoggingService implements LogService {
 
         private LogSearchParams setQueryLogsParams(QueryLogsParams queryLogsParams) {
             this.queryLogsParams = queryLogsParams;
-            return this;
-        }
-
-        private LogSearchParams addResourceLabel(String key, String value) {
-            if (key != null && value != null) {
-                this.resourceLabels.put(key, value);
-            }
             return this;
         }
     }
