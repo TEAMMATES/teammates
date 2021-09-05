@@ -71,8 +71,8 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   }
 
   /**
-  * Set row number of button clicked.
-  */
+   * Set row number of button clicked.
+   */
   setRowClicked(rowIndex: number): void {
     this.rowClicked = rowIndex;
   }
