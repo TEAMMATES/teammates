@@ -108,8 +108,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         ______TS("download student list");
         detailsPage.downloadStudentList();
         String status = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
-        String lastName = student.getName().split(" ")[1];
-        String[] studentInfo = { student.getTeam(), student.getName(), lastName, status, student.getEmail() };
+        String[] studentInfo = { student.getTeam(), student.getName(), status, student.getEmail() };
         List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),
                 "Course Name," + course.getName(), String.join(",", studentInfo));
         verifyDownloadedFile(fileName, expectedContent);

@@ -56,7 +56,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes
         }
 
         return isSanitizedHtml(student.getComments())
-                || isSanitizedHtml(student.getLastName())
                 || isSanitizedHtml(student.getName());
     }
 
@@ -64,7 +63,6 @@ public class DataMigrationForSanitizedDataInStudentAttributes
     protected void migrateEntity(CourseStudent student) {
         student.setComments(desanitizeIfHtmlSanitized(student.getComments()));
         student.setName(desanitizeIfHtmlSanitized(student.getName()));
-        student.setLastName(desanitizeIfHtmlSanitized(student.getLastName()));
 
         saveEntityDeferred(student);
     }
