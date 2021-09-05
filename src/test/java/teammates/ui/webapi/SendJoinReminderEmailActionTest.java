@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -51,8 +50,6 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         SendJoinReminderEmailAction sendJoinReminderEmailAction = getAction(submissionParams);
         JsonResult result = getJsonResult(sendJoinReminderEmailAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         MessageOutput msg = (MessageOutput) result.getOutput();
         assertEquals("An email has been sent to " + anotherInstructorOfCourse1.getEmail(), msg.getMessage());
 
@@ -73,8 +70,6 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
 
         sendJoinReminderEmailAction = getAction(submissionParams);
         result = getJsonResult(sendJoinReminderEmailAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         msg = (MessageOutput) result.getOutput();
         assertEquals("An email has been sent to " + student1InCourse1.getEmail(), msg.getMessage());
@@ -116,8 +111,6 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         sendJoinReminderEmailAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(sendJoinReminderEmailAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         msg = (MessageOutput) result.getOutput();
         assertEquals("Emails have been sent to unregistered students.", msg.getMessage());
 
@@ -140,8 +133,6 @@ public class SendJoinReminderEmailActionTest extends BaseActionTest<SendJoinRemi
         };
         sendJoinReminderEmailAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(sendJoinReminderEmailAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         msg = (MessageOutput) result.getOutput();
         assertEquals("Emails have been sent to unregistered students.", msg.getMessage());

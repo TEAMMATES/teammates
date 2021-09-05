@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -68,7 +66,7 @@ class SendJoinReminderEmailAction extends Action {
                 throw new EntityNotFoundException(
                         "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
             }
-            statusMsg = new JsonResult("An email has been sent to " + studentEmail, HttpStatus.SC_OK);
+            statusMsg = new JsonResult("An email has been sent to " + studentEmail);
 
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id,
@@ -79,14 +77,14 @@ class SendJoinReminderEmailAction extends Action {
                 throw new EntityNotFoundException(
                         "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
-            statusMsg = new JsonResult("An email has been sent to " + instructorEmail, HttpStatus.SC_OK);
+            statusMsg = new JsonResult("An email has been sent to " + instructorEmail);
 
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
             }
-            statusMsg = new JsonResult("Emails have been sent to unregistered students.", HttpStatus.SC_OK);
+            statusMsg = new JsonResult("Emails have been sent to unregistered students.");
         }
 
         return statusMsg;

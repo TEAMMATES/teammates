@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -100,7 +99,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         JsonResult result = getJsonResult(action);
         StudentData outputData = (StudentData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertStudentDataMatches(outputData, unregStudent, false);
 
         ______TS("Failure Case: Student - Logged In with no params");
@@ -130,7 +128,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         result = getJsonResult(action);
         outputData = (StudentData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertStudentDataMatches(outputData, student1InCourse1, false);
 
         ______TS("Failure Case: Instructor - Incomplete Params");
@@ -158,7 +155,6 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
         result = getJsonResult(action);
         outputData = (StudentData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertStudentDataMatches(outputData, student1InCourse1, true);
 
         ______TS("Failure Case: Instructor - Random Student Email Given");

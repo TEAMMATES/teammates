@@ -13,6 +13,7 @@ import teammates.common.util.Const;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
+import teammates.common.util.Logger;
 import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.JoinLinkData;
@@ -23,6 +24,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Creates a new instructor account with sample courses.
  */
 class CreateAccountAction extends AdminOnlyAction {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException {
@@ -37,6 +40,7 @@ class CreateAccountAction extends AdminOnlyAction {
             courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
+            log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);

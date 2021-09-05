@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -266,7 +265,6 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     private FeedbackResponsesData getFeedbackResponse(String[] params) {
         GetFeedbackResponsesAction a = getAction(params);
         JsonResult actualResult = getJsonResult(a);
-        assertEquals(HttpStatus.SC_OK, actualResult.getStatusCode());
         return (FeedbackResponsesData) actualResult.getOutput();
     }
 

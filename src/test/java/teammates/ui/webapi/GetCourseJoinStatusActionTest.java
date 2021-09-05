@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -50,8 +49,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction getCourseJoinStatusAction = getAction(params);
         JsonResult result = getJsonResult(getCourseJoinStatusAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         JoinStatus output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
         assertEquals("unreg.user", output.getUserId());
@@ -68,8 +65,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         getCourseJoinStatusAction = getAction(params);
         result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
@@ -97,8 +92,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         getCourseJoinStatusAction = getAction(params);
         result = getJsonResult(getCourseJoinStatusAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
         assertEquals("unreg.user", output.getUserId());
@@ -115,8 +108,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         getCourseJoinStatusAction = getAction(params);
         result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());

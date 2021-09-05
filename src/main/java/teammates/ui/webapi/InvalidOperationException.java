@@ -7,6 +7,8 @@ import teammates.common.exception.InstructorUpdateException;
 /**
  * Exception thrown when a normally valid operation is not valid due to factors outside of the operation itself,
  * e.g. when trying to insert duplicate entry into the database.
+ *
+ * <p>This corresponds to HTTP 409 error.
  */
 public class InvalidOperationException extends Exception {
 
