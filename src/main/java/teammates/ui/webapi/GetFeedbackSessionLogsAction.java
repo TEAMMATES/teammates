@@ -11,11 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -39,7 +35,7 @@ public class GetFeedbackSessionLogsAction extends Action {
         CourseAttributes courseAttributes = logic.getCourse(courseId);
 
         if (courseAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Course is not found"));
+            throw new EntityNotFoundException("Course is not found");
         }
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
@@ -52,15 +48,15 @@ public class GetFeedbackSessionLogsAction extends Action {
     public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (logic.getCourse(courseId) == null) {
-            return new JsonResult("Course not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Course not found");
         }
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         if (email != null && logic.getStudentForEmail(courseId, email) == null) {
-            return new JsonResult("Student not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Student not found");
         }
         String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
-            return new JsonResult("Feedback session not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Feedback session not found");
         }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
@@ -70,7 +66,7 @@ public class GetFeedbackSessionLogsAction extends Action {
             startTime = Long.parseLong(startTimeStr);
             endTime = Long.parseLong(endTimeStr);
         } catch (NumberFormatException e) {
-            return new JsonResult("Invalid start or end time", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid start or end time", e);
         }
         // TODO: we might want to impose limits on the time range from startTime to endTime
 

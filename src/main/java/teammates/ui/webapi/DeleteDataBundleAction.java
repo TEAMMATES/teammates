@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import org.apache.http.HttpStatus;
 
 import teammates.common.datatransfer.DataBundle;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Config;
 import teammates.common.util.JsonUtils;
 

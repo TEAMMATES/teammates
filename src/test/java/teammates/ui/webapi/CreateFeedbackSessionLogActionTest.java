@@ -55,8 +55,7 @@ public class CreateFeedbackSessionLogActionTest extends BaseActionTest<CreateFee
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_TYPE, "invalid log type",
                 Const.ParamsNames.STUDENT_EMAIL, student1.getEmail(),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid);
 
         ______TS("Success case: typical access");
         String[] paramsSuccessfulAccess = {

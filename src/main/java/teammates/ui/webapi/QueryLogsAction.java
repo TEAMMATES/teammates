@@ -10,9 +10,7 @@ import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
@@ -79,6 +77,10 @@ public class QueryLogsAction extends AdminOnlyAction {
             } catch (IllegalArgumentException e) {
                 throw new InvalidHttpParameterException("Invalid log minimum severity.", e);
             }
+        }
+        if (severity == null && minSeverity == null) {
+            // default to logs with INFO level or higher
+            minSeverity = LogSeverity.INFO;
         }
         String traceId = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_TRACE);
         String actionClass = getRequestParamValue(Const.ParamsNames.QUERY_LOGS_ACTION_CLASS);

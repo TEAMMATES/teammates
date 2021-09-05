@@ -5,15 +5,14 @@ import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityAlreadyExistsException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
 import teammates.common.util.SanitizationHelper;
 import teammates.ui.output.FeedbackSessionData;
 import teammates.ui.output.InstructorPrivilegeData;
 import teammates.ui.request.FeedbackSessionCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a feedback session.
@@ -38,7 +37,7 @@ class CreateFeedbackSessionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
@@ -66,8 +65,10 @@ class CreateFeedbackSessionAction extends Action {
 
         try {
             logic.createFeedbackSession(fs);
-        } catch (EntityAlreadyExistsException | InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+        } catch (EntityAlreadyExistsException e) {
+            throw new InvalidOperationException(e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         if (createRequest.getToCopyCourseId() != null) {

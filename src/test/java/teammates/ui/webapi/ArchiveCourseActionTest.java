@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
@@ -41,9 +40,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(submissionParams);
-        ArchiveCourseAction archiveCourseActionWithoutParam = getAction(courseArchiveRequest);
-        assertThrows(NullHttpParameterException.class, () -> getJsonResult(archiveCourseActionWithoutParam));
+        verifyHttpRequestBodyFailure(null, submissionParams);
+        verifyHttpParameterFailure(courseArchiveRequest);
 
         ______TS("Typical case: archive a course");
 

@@ -2,19 +2,17 @@ package teammates.ui.webapi;
 
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.exception.EnrollException;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Templates;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
 /**
@@ -46,13 +44,13 @@ class UpdateStudentAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String studentEmail = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
 
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
         if (student == null) {
-            return new JsonResult(STUDENT_NOT_FOUND_FOR_EDIT, HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(STUDENT_NOT_FOUND_FOR_EDIT);
         }
 
         StudentUpdateRequest updateRequest = getAndValidateRequestBody(StudentUpdateRequest.class);
@@ -93,13 +91,14 @@ class UpdateStudentAction extends Action {
                     return new JsonResult(statusMessage);
                 }
             }
-        } catch (EnrollException | InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+        } catch (EnrollException e) {
+            throw new InvalidOperationException(e);
+        } catch (InvalidParametersException e) {
+            throw new InvalidHttpRequestBodyException(e);
         } catch (EntityDoesNotExistException ednee) {
-            return new JsonResult(ednee.getMessage(), HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException e) {
-            return new JsonResult("Trying to update to an email that is already in use",
-                    HttpStatus.SC_CONFLICT);
+            throw new InvalidOperationException("Trying to update to an email that is already in use", e);
         }
 
         return new JsonResult(SUCCESSFUL_UPDATE);

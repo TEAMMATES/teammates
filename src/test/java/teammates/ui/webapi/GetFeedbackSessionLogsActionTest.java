@@ -78,8 +78,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid1));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid1);
 
         ______TS("Failure case: invalid student email");
         String[] paramsInvalid2 = {
@@ -88,8 +87,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid2));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid2);
 
         ______TS("Failure case: invalid start or end times");
         String[] paramsInvalid3 = {
@@ -97,16 +95,14 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid3));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid3);
 
         String[] paramsInvalid4 = {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid4));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid4);
 
         ______TS("Failure case: start time is before earliest search time");
         verifyHttpParameterFailure(

@@ -18,7 +18,6 @@ import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
@@ -162,7 +161,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid1)));
+        verifyHttpParameterFailure(paramsInvalid1);
 
         ______TS("Failure case: invalid search start time");
         String[] paramsInvalid2 = {
@@ -170,7 +169,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, "abc",
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid2)));
+        verifyHttpParameterFailure(paramsInvalid2);
 
         ______TS("Failure case: invalid search end time");
         String[] paramsInvalid3 = {
@@ -178,7 +177,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, " ",
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid3)));
+        verifyHttpParameterFailure(paramsInvalid3);
 
         ______TS("Success case: all HTTP parameters are valid; filter by minimum severity level");
         String[] paramsMinSeverity = {
@@ -315,7 +314,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
         assertEquals(warningLogJsonPayLoad1.getMessage(), details3.getMessage());
         assertNull(details3.getRequestParams());
         assertNull(details3.getRequestHeaders());
-        assertNull(details3.getUserAgent());
+        assertNull(details3.getUserInfo());
         assertNull(entry3.getMessage());
 
         assertEquals(warningLogJsonPayLoad2.getEmailStatusMessage(), details4.getEmailStatusMessage());

@@ -39,7 +39,21 @@ indexes:
     name: resultsVisibleFromTime
 - kind: FeedbackSession
   properties:
+    - direction: asc
+      name: courseId
+    - direction: asc
+      name: startTime
+- kind: FeedbackSession
+  properties:
   - direction: asc
-    name: courseId
+    name: isPublishedEmailEnabled
+  - direction: asc
+    name: sentPublishedEmail
+  - direction: asc
+    name: resultsVisibleFromTime
+- kind: FeedbackSession
+  properties:
+  - direction: asc
+    name: sentOpeningSoonEmail
   - direction: asc
     name: startTime

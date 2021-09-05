@@ -194,7 +194,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFound(params);
+        verifyEntityNotFoundAcl(params);
 
         ______TS("only instructors of the same course can access");
 

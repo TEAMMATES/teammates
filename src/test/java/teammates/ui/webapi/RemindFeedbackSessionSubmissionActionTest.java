@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 
 /**
@@ -60,13 +59,11 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
         remindRequest.setUsersToRemind(usersToRemind);
 
-        RemindFeedbackSessionSubmissionAction action = getAction(remindRequest, paramsFeedbackSessionNotOpen);
-        JsonResult result = getJsonResult(action);
-        MessageOutput message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        InvalidOperationException ioe = verifyInvalidOperation(remindRequest, paramsFeedbackSessionNotOpen);
         assertEquals("Reminder email could not be sent out "
-                + "as the feedback session is not open for submissions.", message.getMessage());
+                + "as the feedback session is not open for submissions.", ioe.getMessage());
+
+        verifyNoTasksAdded();
 
         ______TS("Successful case: Typical case");
 
@@ -76,8 +73,8 @@ public class RemindFeedbackSessionSubmissionActionTest extends BaseActionTest<Re
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        action = getAction(remindRequest, paramsTypical);
-        result = getJsonResult(action);
+        RemindFeedbackSessionSubmissionAction validAction = getAction(remindRequest, paramsTypical);
+        JsonResult result = getJsonResult(validAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_REMIND_PARTICULAR_USERS_EMAIL_QUEUE_NAME, 1);

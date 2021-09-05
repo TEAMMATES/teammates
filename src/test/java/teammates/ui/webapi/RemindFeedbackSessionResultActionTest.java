@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackSessionRespondentRemindRequest;
 
 /**
@@ -52,7 +51,7 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         ______TS("Unsuccessful case: Feedback session not published, warning message generated");
 
         fs = typicalBundle.feedbackSessions.get("session1InCourse1");
-        String[] paramsFeedbackSessionNotPublshed = new String[] {
+        String[] paramsFeedbackSessionNotPublished = new String[] {
                 Const.ParamsNames.COURSE_ID, fs.getCourseId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
@@ -60,13 +59,10 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
         FeedbackSessionRespondentRemindRequest remindRequest = new FeedbackSessionRespondentRemindRequest();
         remindRequest.setUsersToRemind(usersToRemind);
 
-        RemindFeedbackSessionResultAction action = getAction(remindRequest, paramsFeedbackSessionNotPublshed);
-        JsonResult result = getJsonResult(action);
-        MessageOutput message = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        InvalidOperationException ioe = verifyInvalidOperation(remindRequest, paramsFeedbackSessionNotPublished);
         assertEquals("Published email could not be resent "
-                + "as the feedback session is not published.", message.getMessage());
+                + "as the feedback session is not published.", ioe.getMessage());
+
         verifyNoTasksAdded();
 
         ______TS("Successful case: Typical case");
@@ -77,8 +73,8 @@ public class RemindFeedbackSessionResultActionTest extends BaseActionTest<Remind
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, fs.getFeedbackSessionName(),
         };
 
-        action = getAction(remindRequest, paramsTypical);
-        result = getJsonResult(action);
+        RemindFeedbackSessionResultAction validAction = getAction(remindRequest, paramsTypical);
+        JsonResult result = getJsonResult(validAction);
 
         assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifySpecifiedTasksAdded(Const.TaskQueue.FEEDBACK_SESSION_RESEND_PUBLISHED_EMAIL_QUEUE_NAME, 1);

@@ -3,33 +3,19 @@ package teammates.logic.core;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import javax.annotation.Nullable;
-
 import teammates.common.datatransfer.AttributesDeletionQuery;
-import teammates.common.datatransfer.CourseRoster;
-import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
-import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.RequestTracer;
 import teammates.common.util.TimeHelper;
 import teammates.storage.api.FeedbackSessionsDb;
 
@@ -52,6 +38,7 @@ public final class FeedbackSessionsLogic {
                                                              + "Session has already been unpublished.";
 
     private static final int NUMBER_OF_HOURS_BEFORE_CLOSING_ALERT = 24;
+    private static final int NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT = 24;
 
     private static final FeedbackSessionsLogic instance = new FeedbackSessionsLogic();
 
@@ -311,6 +298,11 @@ public final class FeedbackSessionsLogic {
         // now, or else leave it as sent if so.
         if (oldSession.isSentOpenEmail()) {
             newUpdateOptions.withSentOpenEmail(newSession.isOpened());
+
+            // also reset sentOpeningSoonEmail
+            newUpdateOptions.withSentOpeningSoonEmail(
+                    newSession.isOpened()
+                            || newSession.isOpeningInHours(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT));
         }
 
         // reset sentClosedEmail if the session has closed but is being un-closed
@@ -403,6 +395,27 @@ public final class FeedbackSessionsLogic {
                         .updateOptionsBuilder(sessionToUnpublish.getFeedbackSessionName(), sessionToUnpublish.getCourseId())
                         .withResultsVisibleFromTime(Const.TIME_REPRESENTS_LATER)
                         .build());
+    }
+
+    /**
+     * Returns returns a list of sessions that are going to open in 24 hours.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsOpeningWithinTimeLimit() {
+        List<FeedbackSessionAttributes> requiredSessions = new ArrayList<>();
+
+        List<FeedbackSessionAttributes> sessions = fsDb.getFeedbackSessionsPossiblyNeedingOpeningSoonEmail();
+        log.info(String.format("Number of sessions under consideration: %d", sessions.size()));
+
+        for (FeedbackSessionAttributes session : sessions) {
+            if (session.isOpeningWithinTimeLimit(NUMBER_OF_HOURS_BEFORE_OPENING_SOON_ALERT)
+                    && !coursesLogic.getCourse(session.getCourseId()).isCourseDeleted()) {
+                requiredSessions.add(session);
+            }
+        }
+
+        log.info(String.format("Number of sessions under consideration after filtering: %d",
+                requiredSessions.size()));
+        return requiredSessions;
     }
 
     /**
@@ -518,348 +531,6 @@ public final class FeedbackSessionsLogic {
      */
     public int getActualTotalSubmission(FeedbackSessionAttributes fsa) {
         return frLogic.getGiverSetThatAnswerFeedbackSession(fsa.getCourseId(), fsa.getFeedbackSessionName()).size();
-    }
-
-    /**
-     * Gets the session result for a feedback session.
-     *
-     * @param feedbackSessionName the feedback session name
-     * @param courseId the ID of the course
-     * @param userEmail the user viewing the feedback session
-     * @param isInstructor true if the user is an instructor
-     * @param questionId if not null, will only return partial bundle for the question
-     * @param section if not null, will only return partial bundle for the section
-     * @return the session result bundle
-     */
-    public SessionResultsBundle getSessionResultsForUser(
-            String feedbackSessionName, String courseId, String userEmail, boolean isInstructor,
-            @Nullable String questionId, @Nullable String section) {
-        CourseRoster roster = new CourseRoster(
-                studentsLogic.getStudentsForCourse(courseId),
-                instructorsLogic.getInstructorsForCourse(courseId));
-
-        // load question(s)
-        List<FeedbackQuestionAttributes> allQuestions;
-        Map<String, FeedbackQuestionAttributes> allQuestionsMap = new HashMap<>();
-        if (questionId == null) {
-            allQuestions = fqLogic.getFeedbackQuestionsForSession(feedbackSessionName, courseId);
-        } else {
-            FeedbackQuestionAttributes fqa = fqLogic.getFeedbackQuestion(questionId);
-            if (fqa == null) {
-                allQuestions = Collections.emptyList();
-            } else {
-                allQuestions = Collections.singletonList(fqa);
-            }
-        }
-        for (FeedbackQuestionAttributes qn : allQuestions) {
-            allQuestionsMap.put(qn.getId(), qn);
-        }
-        RequestTracer.checkRemainingTime();
-
-        // load response(s)
-        StudentAttributes student = getStudent(courseId, userEmail, isInstructor);
-        List<FeedbackResponseAttributes> allResponses;
-        if (isInstructor) {
-            // load all response for instructors and passively filter them later
-            if (questionId == null) {
-                allResponses = frLogic.getFeedbackResponsesForSessionInSection(feedbackSessionName, courseId, section);
-            } else {
-                allResponses = frLogic.getFeedbackResponsesForQuestionInSection(questionId, section);
-            }
-        } else {
-            if (section != null) {
-                throw new UnsupportedOperationException("Specify section filtering is not supported for student result");
-            }
-            allResponses = new ArrayList<>();
-            // load viewable responses for students proactively
-            // this is cost-effective as in most of time responses for the whole session will not be viewable to students
-            for (FeedbackQuestionAttributes question : allQuestions) {
-                List<FeedbackResponseAttributes> viewableResponses =
-                        frLogic.getViewableFeedbackResponsesForStudentForQuestion(question, student, roster);
-                allResponses.addAll(viewableResponses);
-            }
-        }
-        RequestTracer.checkRemainingTime();
-
-        // load comment(s)
-        List<FeedbackResponseCommentAttributes> allComments;
-        if (questionId == null) {
-            allComments = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, feedbackSessionName, section);
-        } else {
-            allComments = frcLogic.getFeedbackResponseCommentForQuestionInSection(questionId, section);
-        }
-        RequestTracer.checkRemainingTime();
-
-        // related questions, responses, and comment
-        Map<String, FeedbackQuestionAttributes> relatedQuestionsMap = new HashMap<>();
-        Map<String, FeedbackResponseAttributes> relatedResponsesMap = new HashMap<>();
-        Map<String, List<FeedbackResponseCommentAttributes>> relatedCommentsMap = new HashMap<>();
-        // student will have no related question at the beginning
-        if (isInstructor) {
-            // all questions are related questions for instructor
-            for (FeedbackQuestionAttributes qn : allQuestions) {
-                relatedQuestionsMap.put(qn.getId(), qn);
-            }
-        }
-
-        // consider the current viewing user
-        Set<String> studentsEmailInTeam = getTeammateEmails(student, roster);
-        InstructorAttributes instructor = getInstructor(courseId, userEmail, isInstructor);
-
-        // visibility table for each response and comment
-        Map<String, Boolean> responseGiverVisibilityTable = new HashMap<>();
-        Map<String, Boolean> responseRecipientVisibilityTable = new HashMap<>();
-        Map<Long, Boolean> commentVisibilityTable = new HashMap<>();
-
-        // build response
-        for (FeedbackResponseAttributes response : allResponses) {
-            FeedbackQuestionAttributes correspondingQuestion = allQuestionsMap.get(response.getFeedbackQuestionId());
-            if (correspondingQuestion == null) {
-                // orphan response without corresponding question, ignore it
-                continue;
-            }
-            // check visibility of response
-            boolean isVisibleResponse = isResponseVisibleForUser(
-                    userEmail, isInstructor, student, studentsEmailInTeam, response, correspondingQuestion, instructor);
-            if (!isVisibleResponse) {
-                continue;
-            }
-
-            // only if there are viewable responses, the corresponding question becomes related.
-            // this operation is redundant for instructor but necessary for student
-            relatedQuestionsMap.put(response.getFeedbackQuestionId(), correspondingQuestion);
-            relatedResponsesMap.put(response.getId(), response);
-            // generate giver/recipient name visibility table
-            responseGiverVisibilityTable.put(response.getId(),
-                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, isInstructor, true, roster));
-            responseRecipientVisibilityTable.put(response.getId(),
-                    frLogic.isNameVisibleToUser(correspondingQuestion, response, userEmail, isInstructor, false, roster));
-        }
-        RequestTracer.checkRemainingTime();
-
-        // build comment
-        for (FeedbackResponseCommentAttributes frc : allComments) {
-            FeedbackResponseAttributes relatedResponse = relatedResponsesMap.get(frc.getFeedbackResponseId());
-            FeedbackQuestionAttributes relatedQuestion = relatedQuestionsMap.get(frc.getFeedbackQuestionId());
-            // the comment needs to be relevant to the question and response
-            if (relatedQuestion == null || relatedResponse == null) {
-                continue;
-            }
-            // check visibility of comment
-            boolean isVisibleResponseComment = frcLogic.isResponseCommentVisibleForUser(
-                    userEmail, isInstructor, student, studentsEmailInTeam, relatedResponse, relatedQuestion, frc);
-            if (!isVisibleResponseComment) {
-                continue;
-            }
-
-            relatedCommentsMap.computeIfAbsent(relatedResponse.getId(), key -> new ArrayList<>()).add(frc);
-            // generate comment giver name visibility table
-            commentVisibilityTable.put(frc.getId(), frcLogic.isNameVisibleToUser(frc, relatedResponse, userEmail, roster));
-        }
-        RequestTracer.checkRemainingTime();
-
-        List<FeedbackResponseAttributes> existingResponses = new ArrayList<>(relatedResponsesMap.values());
-        List<FeedbackResponseAttributes> missingResponses = Collections.emptyList();
-        FeedbackSessionAttributes session = fsDb.getFeedbackSession(courseId, feedbackSessionName);
-        if (isInstructor) {
-            missingResponses = buildMissingResponses(
-                    instructor, responseGiverVisibilityTable, responseRecipientVisibilityTable, session,
-                    relatedQuestionsMap, existingResponses, roster, section);
-        }
-        RequestTracer.checkRemainingTime();
-
-        return new SessionResultsBundle(session, relatedQuestionsMap, existingResponses, missingResponses,
-                responseGiverVisibilityTable, responseRecipientVisibilityTable, relatedCommentsMap,
-                commentVisibilityTable, roster);
-    }
-
-    /**
-     * Builds viewable missing responses for the session for instructor.
-     *
-     * @param instructor the instructor
-     * @param responseGiverVisibilityTable
-     *         the giver visibility table which will be updated with the visibility of missing responses
-     * @param responseRecipientVisibilityTable
-     *         the recipient visibility table which will be updated with the visibility of missing responses
-     * @param feedbackSession the feedback sessions
-     * @param relatedQuestionsMap the relevant questions
-     * @param existingResponses existing responses
-     * @param courseRoster the course roster
-     * @param section if not null, will only build missing responses for the section
-     * @return a list of missing responses for the session.
-     */
-    private List<FeedbackResponseAttributes> buildMissingResponses(
-            InstructorAttributes instructor,
-            Map<String, Boolean> responseGiverVisibilityTable, Map<String, Boolean> responseRecipientVisibilityTable,
-            FeedbackSessionAttributes feedbackSession, Map<String, FeedbackQuestionAttributes> relatedQuestionsMap,
-            List<FeedbackResponseAttributes> existingResponses, CourseRoster courseRoster, @Nullable String section) {
-
-        // first get all possible giver recipient pairs
-        Map<String, Map<String, Set<String>>> questionCompleteGiverRecipientMap = new HashMap<>();
-        for (FeedbackQuestionAttributes feedbackQuestion : relatedQuestionsMap.values()) {
-            if (feedbackQuestion.getQuestionDetailsCopy().shouldGenerateMissingResponses(feedbackQuestion)) {
-                questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(),
-                        fqLogic.buildCompleteGiverRecipientMap(feedbackSession, feedbackQuestion, courseRoster));
-            } else {
-                questionCompleteGiverRecipientMap.put(feedbackQuestion.getId(), new HashMap<>());
-            }
-        }
-
-        // remove the existing responses in those pairs
-        for (FeedbackResponseAttributes existingResponse : existingResponses) {
-            Map<String, Set<String>> currGiverRecipientMap =
-                    questionCompleteGiverRecipientMap.get(existingResponse.getFeedbackQuestionId());
-            if (!currGiverRecipientMap.containsKey(existingResponse.getGiver())) {
-                continue;
-            }
-            currGiverRecipientMap.get(existingResponse.getGiver()).remove(existingResponse.getRecipient());
-        }
-
-        List<FeedbackResponseAttributes> missingResponses = new ArrayList<>();
-        // build dummy responses
-        for (Map.Entry<String, Map<String, Set<String>>> currGiverRecipientMapEntry
-                : questionCompleteGiverRecipientMap.entrySet()) {
-            FeedbackQuestionAttributes correspondingQuestion =
-                    relatedQuestionsMap.get(currGiverRecipientMapEntry.getKey());
-            String questionId = correspondingQuestion.getId();
-
-            for (Map.Entry<String, Set<String>> giverRecipientEntry
-                    : currGiverRecipientMapEntry.getValue().entrySet()) {
-                // giver
-                String giverIdentifier = giverRecipientEntry.getKey();
-                CourseRoster.ParticipantInfo giverInfo = courseRoster.getInfoForIdentifier(giverIdentifier);
-
-                for (String recipientIdentifier : giverRecipientEntry.getValue()) {
-                    // recipient
-                    CourseRoster.ParticipantInfo recipientInfo = courseRoster.getInfoForIdentifier(recipientIdentifier);
-
-                    // skip responses not in current section
-                    if (section != null
-                            && !giverInfo.getSectionName().equals(section)
-                                    && !recipientInfo.getSectionName().equals(section)) {
-                        continue;
-                    }
-
-                    FeedbackResponseAttributes missingResponse =
-                            FeedbackResponseAttributes.builder(questionId, giverIdentifier, recipientIdentifier)
-                                    .withCourseId(feedbackSession.getCourseId())
-                                    .withFeedbackSessionName(feedbackSession.getFeedbackSessionName())
-                                    .withGiverSection(giverInfo.getSectionName())
-                                    .withRecipientSection(recipientInfo.getSectionName())
-                                    .withResponseDetails(new FeedbackTextResponseDetails("No Response"))
-                                    .build();
-
-                    // check visibility of the missing response
-                    boolean isVisibleResponse = isResponseVisibleForUser(
-                            instructor.getEmail(), true, null, Collections.emptySet(),
-                            missingResponse, correspondingQuestion, instructor);
-                    if (!isVisibleResponse) {
-                        continue;
-                    }
-
-                    // generate giver/recipient name visibility table
-                    responseGiverVisibilityTable.put(missingResponse.getId(),
-                            frLogic.isNameVisibleToUser(correspondingQuestion, missingResponse,
-                                    instructor.getEmail(), true, true, courseRoster));
-                    responseRecipientVisibilityTable.put(missingResponse.getId(),
-                            frLogic.isNameVisibleToUser(correspondingQuestion, missingResponse,
-                                    instructor.getEmail(), true, false, courseRoster));
-                    missingResponses.add(missingResponse);
-                }
-            }
-        }
-
-        return missingResponses;
-    }
-
-    /**
-     * Gets the associated instructor if {@code isInstructor} is true.
-     *
-     * <p>Returns null if it is not an instructor or the instructor cannot be found.
-     */
-    private InstructorAttributes getInstructor(String courseId, String userEmail, boolean isInstructor) {
-        if (isInstructor) {
-            return instructorsLogic.getInstructorForEmail(courseId, userEmail);
-        }
-        return null;
-    }
-
-    /**
-     * Gets emails of student's teammates if student is not null, else returns an empty set.
-     */
-    private Set<String> getTeammateEmails(StudentAttributes student, CourseRoster roster) {
-        if (student == null) {
-            return Collections.emptySet();
-        }
-        Set<String> studentsEmailInTeam = new HashSet<>();
-        List<StudentAttributes> studentsInTeam =
-                roster.getTeamToMembersTable().getOrDefault(student.getTeam(), Collections.emptyList());
-        for (StudentAttributes teammates : studentsInTeam) {
-            studentsEmailInTeam.add(teammates.getEmail());
-        }
-        return studentsEmailInTeam;
-    }
-
-    /**
-     * Gets the associated student if {@code isInstructor} is false.
-     *
-     * <p>Returns null if it is not a student or the student cannot be found.
-     */
-    private StudentAttributes getStudent(String courseId, String userEmail, boolean isInstructor) {
-        if (!isInstructor) {
-            return studentsLogic.getStudentForEmail(courseId, userEmail);
-        }
-        return null;
-    }
-
-    private boolean isResponseVisibleForUser(String userEmail,
-            boolean isInstructor, StudentAttributes student,
-            Set<String> studentsEmailInTeam,
-            FeedbackResponseAttributes response,
-            FeedbackQuestionAttributes relatedQuestion, InstructorAttributes instructor) {
-
-        boolean isVisibleResponse = false;
-        if (isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.INSTRUCTORS)
-                || response.getRecipient().equals(userEmail)
-                        && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                || response.getGiver().equals(userEmail)
-                || !isInstructor && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.STUDENTS)) {
-            isVisibleResponse = true;
-        } else if (studentsEmailInTeam != null && !isInstructor) {
-            if (relatedQuestion.getRecipientType() == FeedbackParticipantType.TEAMS
-                    && relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER)
-                    && response.getRecipient().equals(student.getTeam())) {
-                isVisibleResponse = true;
-            } else if (relatedQuestion.getGiverType() == FeedbackParticipantType.TEAMS
-                       && response.getGiver().equals(student.getTeam())) {
-                isVisibleResponse = true;
-            } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.OWN_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.getGiver())) {
-                isVisibleResponse = true;
-            } else if (relatedQuestion.isResponseVisibleTo(FeedbackParticipantType.RECEIVER_TEAM_MEMBERS)
-                       && studentsEmailInTeam.contains(response.getRecipient())) {
-                isVisibleResponse = true;
-            }
-        }
-        if (isVisibleResponse && instructor != null) {
-            boolean isGiverSectionRestricted =
-                    !instructor.isAllowedForPrivilege(response.getGiverSection(),
-                            response.getFeedbackSessionName(),
-                                                      Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-            // If instructors are not restricted to view the giver's section,
-            // they are allowed to view responses to GENERAL, subject to visibility options
-            boolean isRecipientSectionRestricted =
-                    relatedQuestion.getRecipientType() != FeedbackParticipantType.NONE
-                    && !instructor.isAllowedForPrivilege(response.getRecipientSection(),
-                            response.getFeedbackSessionName(),
-                                                         Const.InstructorPermissions.CAN_VIEW_SESSION_IN_SECTIONS);
-
-            boolean isNotAllowedForInstructor = isGiverSectionRestricted || isRecipientSectionRestricted;
-            if (isNotAllowedForInstructor) {
-                isVisibleResponse = false;
-            }
-        }
-        return isVisibleResponse;
     }
 
     private List<FeedbackSessionAttributes> getFeedbackSessionsListForCourse(String courseId) {

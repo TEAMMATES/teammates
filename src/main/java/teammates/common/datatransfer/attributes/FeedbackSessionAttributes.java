@@ -30,6 +30,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     private Instant resultsVisibleFromTime;
     private ZoneId timeZone;
     private Duration gracePeriod;
+    private boolean sentOpeningSoonEmail;
     private boolean sentOpenEmail;
     private boolean sentClosingEmail;
     private boolean sentClosedEmail;
@@ -73,6 +74,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         feedbackSessionAttributes.resultsVisibleFromTime = fs.getResultsVisibleFromTime();
         feedbackSessionAttributes.timeZone = ZoneId.of(fs.getTimeZone());
         feedbackSessionAttributes.gracePeriod = Duration.ofMinutes(fs.getGracePeriod());
+        feedbackSessionAttributes.sentOpeningSoonEmail = fs.isSentOpeningSoonEmail();
         feedbackSessionAttributes.sentOpenEmail = fs.isSentOpenEmail();
         feedbackSessionAttributes.sentClosingEmail = fs.isSentClosingEmail();
         feedbackSessionAttributes.sentClosedEmail = fs.isSentClosedEmail();
@@ -122,7 +124,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return new FeedbackSession(feedbackSessionName, courseId, creatorEmail, instructions,
                 createdTime, deletedTime, startTime, endTime, sessionVisibleFromTime, resultsVisibleFromTime,
                 timeZone.getId(), getGracePeriodMinutes(),
-                sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
+                sentOpeningSoonEmail, sentOpenEmail, sentClosingEmail, sentClosedEmail, sentPublishedEmail,
                 isOpeningEmailEnabled, isClosingEmailEnabled, isPublishedEmailEnabled);
     }
 
@@ -192,6 +194,15 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
     }
 
     /**
+     * Returns true if session's start time is opening from now to anytime before
+     * now() + the specific number of {@param hours} supplied in the argument.
+     */
+    public boolean isOpeningInHours(long hours) {
+        return startTime.isAfter(Instant.now())
+                && Instant.now().plus(Duration.ofHours(hours)).isAfter(startTime);
+    }
+
+    /**
      * Returns true if the feedback session is closed after the number of specified hours.
      */
     public boolean isClosedAfter(long hours) {
@@ -210,6 +221,18 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return now.isAfter(startTime)
                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
                && difference.compareTo(Duration.ofHours(hours)) < 0;
+    }
+
+    /**
+     * Returns true if the feedback session opens after the number of specified hours.
+     */
+    public boolean isOpeningWithinTimeLimit(long hours) {
+        Instant now = Instant.now();
+        Duration difference = Duration.between(now, startTime);
+
+        return now.isBefore(startTime)
+                && difference.compareTo(Duration.ofHours(hours - 1)) >= 0
+                && difference.compareTo(Duration.ofHours(hours)) < 0;
     }
 
     /**
@@ -308,16 +331,21 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         return "FeedbackSessionAttributes [feedbackSessionName="
                + feedbackSessionName + ", courseId=" + courseId
                + ", creatorEmail=" + creatorEmail + ", instructions=" + instructions
+               + ", createdTime=" + createdTime + ", deletedTime=" + deletedTime
                + ", startTime=" + startTime
                + ", endTime=" + endTime + ", sessionVisibleFromTime="
                + sessionVisibleFromTime + ", resultsVisibleFromTime="
                + resultsVisibleFromTime + ", timeZone=" + timeZone
                + ", gracePeriod=" + getGracePeriodMinutes() + "min"
+               + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                + ", sentOpenEmail=" + sentOpenEmail
+               + ", sentClosingEmail=" + sentClosingEmail
+               + ", sentClosedEmail=" + sentClosedEmail
                + ", sentPublishedEmail=" + sentPublishedEmail
                + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+               + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+               + "]";
     }
 
     @Override
@@ -437,6 +465,14 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         this.gracePeriod = Duration.ofMinutes(gracePeriodMinutes);
     }
 
+    public boolean isSentOpeningSoonEmail() {
+        return sentOpeningSoonEmail;
+    }
+
+    public void setSentOpeningSoonEmail(boolean sentOpeningSoonEmail) {
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
+    }
+
     public boolean isSentOpenEmail() {
         return sentOpenEmail;
     }
@@ -504,6 +540,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         updateOptions.resultsVisibleFromTimeOption.ifPresent(s -> resultsVisibleFromTime = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
         updateOptions.gracePeriodOption.ifPresent(s -> gracePeriod = s);
+        updateOptions.sentOpeningSoonEmailOption.ifPresent(s -> sentOpeningSoonEmail = s);
         updateOptions.sentOpenEmailOption.ifPresent(s -> sentOpenEmail = s);
         updateOptions.sentClosingEmailOption.ifPresent(s -> sentClosingEmail = s);
         updateOptions.sentClosedEmailOption.ifPresent(s -> sentClosedEmail = s);
@@ -569,6 +606,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
         private UpdateOption<Instant> resultsVisibleFromTimeOption = UpdateOption.empty();
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
         private UpdateOption<Duration> gracePeriodOption = UpdateOption.empty();
+        private UpdateOption<Boolean> sentOpeningSoonEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentOpenEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentClosingEmailOption = UpdateOption.empty();
         private UpdateOption<Boolean> sentClosedEmailOption = UpdateOption.empty();
@@ -604,6 +642,7 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
                     + ", resultsVisibleFromTime = " + resultsVisibleFromTimeOption
                     + ", timeZone = " + timeZoneOption
                     + ", gracePeriod = " + gracePeriodOption
+                    + ", sentOpeningSoonEmail = " + sentOpeningSoonEmailOption
                     + ", sentOpenEmail = " + sentOpenEmailOption
                     + ", sentClosingEmail = " + sentClosingEmailOption
                     + ", sentClosedEmail = " + sentClosedEmailOption
@@ -627,6 +666,11 @@ public class FeedbackSessionAttributes extends EntityAttributes<FeedbackSession>
             private Builder(String feedbackSessionName, String courseId) {
                 super(new UpdateOptions(feedbackSessionName, courseId));
                 thisBuilder = this;
+            }
+
+            public Builder withSentOpeningSoonEmail(boolean sentOpeningSoonEmailOption) {
+                updateOptions.sentOpeningSoonEmailOption = UpdateOption.of(sentOpeningSoonEmailOption);
+                return this;
             }
 
             public Builder withSentOpenEmail(boolean sentOpenEmail) {

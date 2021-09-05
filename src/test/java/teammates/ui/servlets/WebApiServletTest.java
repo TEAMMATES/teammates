@@ -12,13 +12,13 @@ import org.testng.annotations.Test;
 
 import com.google.cloud.datastore.DatastoreException;
 
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.test.BaseTestCase;
 import teammates.test.MockHttpServletRequest;
 import teammates.test.MockHttpServletResponse;
+import teammates.ui.webapi.EntityNotFoundException;
+import teammates.ui.webapi.InvalidHttpParameterException;
+import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
  * SUT: {@link WebApiServlet}.

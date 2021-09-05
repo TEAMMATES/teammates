@@ -5,7 +5,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionStatsData;
 
@@ -55,10 +54,7 @@ public class GetSessionResponseStatsActionTest extends BaseActionTest<GetSession
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
         };
 
-        a = getAction(submissionParams);
-        GetSessionResponseStatsAction finalA = a;
-
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(finalA));
+        verifyEntityNotFound(submissionParams);
 
     }
 

@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelperExtension;
 import teammates.ui.output.FeedbackSessionData;
@@ -102,26 +101,19 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         ______TS("Error: try to add the same session again");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(getAction(getTypicalCreateRequest(), params));
-        });
+        verifyInvalidOperation(getTypicalCreateRequest(), params);
 
         ______TS("Error: Invalid parameters (invalid session name > 64 characters)");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackSessionCreateRequest request = getTypicalCreateRequest();
-            request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
-            getJsonResult(getAction(request, params));
-        });
+        FeedbackSessionCreateRequest request = getTypicalCreateRequest();
+        request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
+        verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Unsuccessful case: test null session name");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackSessionCreateRequest request = getTypicalCreateRequest();
-            request.setFeedbackSessionName(null);
-
-            getJsonResult(getAction(request, params));
-        });
+        request = getTypicalCreateRequest();
+        request.setFeedbackSessionName(null);
+        verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Add course with extra space (in middle and trailing)");
 

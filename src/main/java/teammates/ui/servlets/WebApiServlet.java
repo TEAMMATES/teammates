@@ -12,18 +12,19 @@ import org.apache.http.HttpStatus;
 import com.google.cloud.datastore.DatastoreException;
 
 import teammates.common.datatransfer.logs.RequestLogUser;
-import teammates.common.exception.ActionMappingException;
 import teammates.common.exception.DeadlineExceededException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Logger;
 import teammates.common.util.TimeHelper;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
+import teammates.ui.webapi.ActionMappingException;
 import teammates.ui.webapi.ActionResult;
+import teammates.ui.webapi.EntityNotFoundException;
+import teammates.ui.webapi.InvalidHttpParameterException;
+import teammates.ui.webapi.InvalidOperationException;
 import teammates.ui.webapi.JsonResult;
+import teammates.ui.webapi.UnauthorizedAccessException;
 
 /**
  * Servlet that handles all requests from the web application.
@@ -85,6 +86,10 @@ public class WebApiServlet extends HttpServlet {
             statusCode = HttpStatus.SC_NOT_FOUND;
             log.warning(enfe.getClass().getSimpleName() + " caught by WebApiServlet", enfe);
             throwError(resp, statusCode, enfe.getMessage());
+        } catch (InvalidOperationException ioe) {
+            statusCode = HttpStatus.SC_CONFLICT;
+            log.warning(ioe.getClass().getSimpleName() + " caught by WebApiServlet", ioe);
+            throwError(resp, statusCode, ioe.getMessage());
         } catch (DeadlineExceededException dee) {
             statusCode = HttpStatus.SC_GATEWAY_TIMEOUT;
             log.severe(dee.getClass().getSimpleName() + " caught by WebApiServlet", dee);

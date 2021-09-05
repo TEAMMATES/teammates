@@ -17,6 +17,7 @@ import teammates.common.util.StringHelper;
 import teammates.common.util.Templates;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new instructor account with sample courses.
@@ -24,22 +25,23 @@ import teammates.ui.request.AccountCreateRequest;
 class CreateAccountAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
         String instructorEmail = createRequest.getInstructorEmail().trim();
-        String courseId = null;
+        String instructorInstitution = createRequest.getInstructorInstitution().trim();
+        String courseId;
 
         try {
-            courseId = importDemoData(instructorEmail, instructorName);
+            courseId = importDemoData(instructorEmail, instructorName, instructorInstitution);
         } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            // There should not be any invalid parameter here
+            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
-        String instructorInstitution = createRequest.getInstructorInstitution().trim();
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(instructorList.get(0).getKey()))
+                .withRegistrationKey(instructorList.get(0).getEncryptedKey())
                 .withInstructorInstitution(instructorInstitution)
                 .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
                 .withEntityType(Const.EntityType.INSTRUCTOR)
@@ -57,7 +59,7 @@ class CreateAccountAction extends AdminOnlyAction {
      *
      * @return the ID of demo course
      */
-    private String importDemoData(String instructorEmail, String instructorName)
+    private String importDemoData(String instructorEmail, String instructorName, String instructorInstitute)
             throws InvalidParametersException {
 
         String courseId = generateDemoCourseId(instructorEmail);
@@ -68,7 +70,9 @@ class CreateAccountAction extends AdminOnlyAction {
                 // replace name
                 "Demo_Instructor", instructorName,
                 // replace course
-                "demo.course", courseId);
+                "demo.course", courseId,
+                // replace institute
+                "demo.institute", instructorInstitute);
 
         DataBundle data = JsonUtils.fromJson(jsonString, DataBundle.class);
 
