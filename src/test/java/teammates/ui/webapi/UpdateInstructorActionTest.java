@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -51,7 +50,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
@@ -104,8 +102,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
-
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         response = (InstructorData) actionOutput.getOutput();
 

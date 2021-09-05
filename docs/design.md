@@ -127,6 +127,16 @@ On data exchange between front-end and back-end:
   - Some important constants (including API endpoints information) are synced to `api-const.ts`.
   - The schemas of the DTOs defined in `output` and `request` packages are synced to `api-output.ts` and `api-request.ts` in the frontend.
 
+On handling exceptions:
+
+- The UI component is responsible for catching all exceptions and transforming them to properly formed, user-friendly output format. It includes the status message shown to user as well as the HTTP status code.
+  - As a consequence, the UI component cannot throw any exception, because there is no layer which will catch those exceptions if it does.
+- In order to streamline the process, custom runtime exception classes which correspond to different HTTP status codes are used. For example, there is `EntityNotFoundException` which corresponds to HTTP 404, `UnauthorizedAccessException` which corresponds to HTTP 403, etc.
+  - It is highly preferred to throw these custom exceptions instead of setting the HTTP status manually in the action class, as the API layer has been configured to automatically log the exception and assign the correct status code to the HTTP response.
+- All `4XX` responses must be accompanied with logging at `warning` level or above. `5XX` responses must be accompanied with `severe` level logging.
+  - `502` (Bad Gateway) responses may skip the `severe` level logging if the upstream components (where the error happened) already did the `severe` level logging.
+- We use the HTTP status codes as close to their standard definition in [RFC7231](https://tools.ietf.org/html/rfc7231) as possible.
+
 ## Logic Component
 
 The `Logic` component handles the business logic of TEAMMATES. In particular, it is responsible for:

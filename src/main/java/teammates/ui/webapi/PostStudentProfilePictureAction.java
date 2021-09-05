@@ -8,6 +8,7 @@ import javax.servlet.http.Part;
 
 import org.apache.http.HttpStatus;
 
+import teammates.common.util.Logger;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
@@ -15,6 +16,7 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 class PostStudentProfilePictureAction extends Action {
 
+    private static final Logger log = Logger.getLogger();
     private static final int MAX_PROFILE_PIC_SIZE = 5000000;
 
     @Override
@@ -51,6 +53,7 @@ class PostStudentProfilePictureAction extends Action {
             fileStorage.create(userInfo.id, imageData, image.getContentType());
             return new JsonResult("Your profile picture is updated successfully.");
         } catch (ServletException | IOException e) {
+            log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }

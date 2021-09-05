@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -97,7 +96,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Course with 0 respondents");
@@ -116,7 +114,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.getHasResponses());
     }
 
@@ -142,7 +139,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Question with 0 responses");
@@ -168,7 +164,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.getHasResponses());
     }
 
@@ -197,7 +192,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.getHasResponses());
     }
 
@@ -241,7 +235,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
     }
 
@@ -259,8 +252,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         GetHasResponsesAction getHasResponsesAction = getAction(params);
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         Map<String, Boolean> responseStats = hasResponsesData.getHasResponsesBySessions();
 

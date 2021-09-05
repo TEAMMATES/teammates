@@ -145,8 +145,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response2ForQ4.getId()),
         };
         GetFeedbackResponseCommentAction action = getAction(submissionParams);
-        JsonResult actualResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_NO_CONTENT, actualResult.getStatusCode());
+        getJsonResult(action, HttpStatus.SC_NO_CONTENT);
 
         ______TS("non-existent response, should return 404");
 
@@ -245,7 +244,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     private FeedbackResponseCommentData getFeedbackResponseComments(String[] params) {
         GetFeedbackResponseCommentAction action = getAction(params);
         JsonResult actualResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, actualResult.getStatusCode());
         return (FeedbackResponseCommentData) actualResult.getOutput();
     }
 

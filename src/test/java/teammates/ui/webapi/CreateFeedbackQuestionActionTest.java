@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -83,7 +82,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
@@ -104,7 +102,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
@@ -134,7 +131,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
@@ -172,7 +168,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
         assertEquals(FeedbackQuestionType.CONTRIB, questionResponse.getQuestionType());
         assertNotNull(questionResponse.getFeedbackQuestionId());

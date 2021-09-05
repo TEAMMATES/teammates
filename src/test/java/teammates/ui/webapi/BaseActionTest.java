@@ -11,6 +11,7 @@ import java.util.Map;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.Part;
 
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -573,13 +574,24 @@ public abstract class BaseActionTest<T extends Action> extends BaseTestCaseWithL
     // The next few methods are for parsing results
 
     /**
-     * Executes the action and returns the result.
+     * Executes the action, verifies the status code as 200 OK, and returns the result.
      *
      * <p>Assumption: The action returns a {@link JsonResult}.
      */
     protected JsonResult getJsonResult(Action a) {
+        return getJsonResult(a, HttpStatus.SC_OK);
+    }
+
+    /**
+     * Executes the action, verifies the status code, and returns the result.
+     *
+     * <p>Assumption: The action returns a {@link JsonResult}.
+     */
+    protected JsonResult getJsonResult(Action a, int statusCode) {
         try {
-            return (JsonResult) a.execute();
+            ActionResult r = a.execute();
+            assertEquals(statusCode, r.getStatusCode());
+            return (JsonResult) r;
         } catch (InvalidOperationException | InvalidHttpRequestBodyException e) {
             throw new RuntimeException(e);
         }

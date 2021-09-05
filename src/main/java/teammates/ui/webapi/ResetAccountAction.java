@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
@@ -63,7 +61,7 @@ class ResetAccountAction extends AdminOnlyAction {
             logic.deleteAccountCascade(wrongGoogleId);
         }
 
-        return new JsonResult("Account is successfully reset.", HttpStatus.SC_OK);
+        return new JsonResult("Account is successfully reset.");
     }
 
 }
