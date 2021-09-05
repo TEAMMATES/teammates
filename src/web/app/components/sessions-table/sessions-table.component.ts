@@ -31,6 +31,7 @@ export class SessionsTableComponent implements OnInit {
   FeedbackSessionPublishStatus: typeof FeedbackSessionPublishStatus = FeedbackSessionPublishStatus;
   SessionsTableHeaderColorScheme: typeof SessionsTableHeaderColorScheme = SessionsTableHeaderColorScheme;
 
+  // variable
   rowClicked: Number = -1;
 
   @Input()

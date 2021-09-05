@@ -19,3 +19,29 @@
 .actions-cell button {
   margin-right: var(--btn-margin);
 }
+
+.align-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.loading {
+  margin-left: 6px;
+  margin-top: 3px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid transparent;
+  border-top-color: black;
+  border-radius: 50%;
+  animation: loading-spinner 1s ease infinite;
+}
+
+@keyframes loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}

@@ -108,7 +108,7 @@
             <button id="btn-remind-{{ idx }}" class="btn btn-light btn-sm align-row" (click)="sendRemindersToStudents(idx); setRowClicked(idx)"
                     [disabled]="sessionsTableRowModel.feedbackSession.submissionStatus !== FeedbackSessionSubmissionStatus.OPEN ||
                           !sessionsTableRowModel.instructorPrivilege.canModifySession">
-              <span class="button__text">Remind</span>
+              <span>Remind</span>
               <div [ngClass]="{ 'loading': isSendReminderLoading && rowClicked === idx }"></div>
             </button>
           </div>
