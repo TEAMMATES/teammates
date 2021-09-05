@@ -69,7 +69,7 @@ public class CoursesLogicTest extends BaseLogicTest {
 
         List<FeedbackSessionAttributes> sessionsOutsideRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
                 typicalCourse1.getId(), typicalCourse1.getCreatedAt().plus(Duration.ofDays(1)));
-        assertEquals(sessionsOutsideRecoveryRange.size(), sessionsOfCourse.size()-1);
+        assertEquals(sessionsOutsideRecoveryRange.size(), sessionsOfCourse.size() - 1);
     }
 
     @Test
