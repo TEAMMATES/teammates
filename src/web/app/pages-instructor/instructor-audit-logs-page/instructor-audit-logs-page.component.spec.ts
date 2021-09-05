@@ -273,12 +273,13 @@ describe('InstructorAuditLogsPageComponent', () => {
       component.formModel.logsDateFrom,
       component.formModel.logsTimeFrom,
       testCourse1.timeZone,
+      true,
     );
     expect(logSpy).toHaveBeenCalled();
     expect(logSpy).toHaveBeenCalledWith({
       courseId: testCourse1.courseId,
-      searchFrom: (new Date('2020-12-30T23:59+00:00').getTime() - tzOffset * 60 * 1000).toString(),
-      searchUntil: (new Date('2020-12-31T23:59+00:00').getTime() - tzOffset * 60 * 1000).toString(),
+      searchFrom: (new Date('2020-12-31T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
+      searchUntil: (new Date('2021-01-01T00:00+00:00').getTime() - tzOffset * 60 * 1000).toString(),
       studentEmail: testStudent.email,
     });
 
