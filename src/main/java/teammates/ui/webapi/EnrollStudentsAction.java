@@ -103,10 +103,11 @@ class EnrollStudentsAction extends Action {
         }
 
         // Batch process new students.
-        enrolledStudents.addAll(logic.createStudents(studentsToCreateInBatch));
-        for (StudentAttributes newStudent : enrolledStudents) {
+        List<StudentAttributes> studentsCreated = logic.createStudents(studentsToCreateInBatch);
+        for (StudentAttributes newStudent : studentsCreated) {
             taskQueuer.scheduleStudentForSearchIndexing(newStudent.getCourse(), newStudent.getEmail());
         }
+        enrolledStudents.addAll(studentsCreated);
         logic.getFailedStudentUpdatesInfo(studentsToCreateInBatch).forEach((studentEmail, error) ->
                 failToEnrollStudents.add(new EnrollStudentsData.EnrollErrorResults(studentEmail, error)));
 
