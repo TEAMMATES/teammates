@@ -210,10 +210,9 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
         SearchStudentsAction a = getAction(params);
-        JsonResult result = getJsonResult(a);
+        JsonResult result = getJsonResult(a, HttpStatus.SC_NOT_IMPLEMENTED);
         MessageOutput output = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
         assertEquals("Full-text search is not available.", output.getMessage());
 
         loginAsAdmin();
@@ -223,10 +222,9 @@ public class SearchStudentsActionTest extends BaseActionTest<SearchStudentsActio
         };
 
         a = getAction(params);
-        result = getJsonResult(a);
+        result = getJsonResult(a, HttpStatus.SC_NOT_IMPLEMENTED);
         output = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_NOT_IMPLEMENTED, result.getStatusCode());
         assertEquals("Full-text search is not available.", output.getMessage());
     }
 

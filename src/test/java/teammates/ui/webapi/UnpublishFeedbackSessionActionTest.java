@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -49,9 +48,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         };
 
         UnpublishFeedbackSessionAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         // session is unpublished
         assertFalse(logic.getFeedbackSession(sessionPublishedInCourse1.getFeedbackSessionName(),
@@ -69,9 +66,7 @@ public class UnpublishFeedbackSessionActionTest extends BaseActionTest<Unpublish
         };
 
         a = getAction(params);
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         // session is still unpublished
         assertFalse(logic.getFeedbackSession(sessionPublishedInCourse1.getFeedbackSessionName(),

@@ -131,7 +131,7 @@ public class QueryLogsAction extends AdminOnlyAction {
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_GATEWAY);
         }
     }
 

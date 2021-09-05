@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
@@ -52,7 +50,7 @@ class DeleteStudentAction extends Action {
             logic.deleteStudentCascade(courseId, studentEmail);
         }
 
-        return new JsonResult("Student is successfully deleted.", HttpStatus.SC_OK);
+        return new JsonResult("Student is successfully deleted.");
     }
 
 }

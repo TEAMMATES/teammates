@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.logs.EmailSentLogDetails;
@@ -186,7 +185,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
         actionOutput = getJsonResult(getAction(paramsMinSeverity));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         List<GeneralLogEntry> logEntries = generalLogsData.getLogEntries();
@@ -239,7 +237,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
         actionOutput = getJsonResult(getAction(paramsForAdmin));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         logEntries = generalLogsData.getLogEntries();
@@ -269,7 +266,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
         actionOutput = getJsonResult(getAction(paramsForMaintainer));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         logEntries = generalLogsData.getLogEntries();

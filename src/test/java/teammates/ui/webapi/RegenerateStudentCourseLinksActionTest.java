@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -99,7 +98,6 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
         RegenerateStudentCourseLinksData output = (RegenerateStudentCourseLinksData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(RegenerateStudentCourseLinksAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, output.getMessage());
         assertNotEquals(student1InCourse1.getKey(), output.getNewRegistrationKey());
 

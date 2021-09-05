@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.ZoneId;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -55,7 +54,6 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         JsonResult result = getJsonResult(binCourseAction);
         CourseData courseData = (CourseData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyCourseData(courseData, courseToBeDeleted.getId(), courseToBeDeleted.getName(),
                 courseToBeDeleted.getTimeZone().getId());
 
@@ -77,7 +75,6 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         binCourseAction = getAction(addUserIdToParams(instructorId, submissionParams));
         result = getJsonResult(binCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         courseData = (CourseData) result.getOutput();
 
         verifyCourseData(courseData, "icdct.tpa.id1", "New course", "UTC");
@@ -121,7 +118,6 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         JsonResult result = getJsonResult(binCourseAction);
         CourseData courseData = (CourseData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         verifyCourseData(courseData, courseInformation.getId(), courseInformation.getName(),
                 courseInformation.getTimeZone().getId());
     }

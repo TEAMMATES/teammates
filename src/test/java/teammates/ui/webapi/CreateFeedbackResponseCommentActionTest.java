@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -130,7 +129,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                         Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         JsonResult r = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
         assertEquals("Comment to first response", commentData.getFeedbackCommentText());
 
