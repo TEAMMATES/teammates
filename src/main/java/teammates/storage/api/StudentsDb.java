@@ -4,8 +4,8 @@ import static com.googlecode.objectify.ObjectifyService.ofy;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -117,16 +117,6 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
      */
     public void deleteDocumentByStudentId(String studentUniqueId) {
         getSearchManager().deleteDocuments(Collections.singletonList(studentUniqueId));
-    }
-
-    /**
-     * Creates a batch of students.
-     *
-     * @return the created students
-     */
-    @Override
-    public List<StudentAttributes> createEntitiesSilent(Collection<StudentAttributes> students) {
-        return super.createEntitiesSilent(students);
     }
 
     /**

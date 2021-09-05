@@ -73,6 +73,9 @@ public final class StudentsLogic {
         return studentsDb.createEntitiesSilent(students);
     }
 
+    /**
+     * Gets a map of students failed to be updated and their info.
+     */
     public Map<String, String> getFailedStudentUpdatesInfo(List<StudentAttributes> students) {
         return studentsDb.getFailedStudentUpdatesInfo(students);
     }
