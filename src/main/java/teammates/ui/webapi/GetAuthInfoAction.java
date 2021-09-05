@@ -29,7 +29,7 @@ class GetAuthInfoAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String frontendUrl = getRequestParamValue("frontendUrl");
         String nextUrl = getRequestParamValue("nextUrl");
         if (frontendUrl == null) {
@@ -40,15 +40,17 @@ class GetAuthInfoAction extends Action {
         if (userInfo == null) {
             if (nextUrl == null) {
                 output = new AuthInfo(
-                        userProvision.getLoginUrl(frontendUrl + Const.WebPageURIs.STUDENT_HOME_PAGE),
-                        userProvision.getLoginUrl(frontendUrl + Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
-                        userProvision.getLoginUrl(frontendUrl + Const.WebPageURIs.ADMIN_HOME_PAGE)
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.STUDENT_HOME_PAGE),
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.INSTRUCTOR_HOME_PAGE),
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.ADMIN_HOME_PAGE),
+                        createLoginUrl(frontendUrl, Const.WebPageURIs.MAINTAINER_HOME_PAGE)
                 );
             } else {
                 output = new AuthInfo(
-                        userProvision.getLoginUrl(frontendUrl + nextUrl),
-                        userProvision.getLoginUrl(frontendUrl + nextUrl),
-                        userProvision.getLoginUrl(frontendUrl + nextUrl)
+                        createLoginUrl(frontendUrl, nextUrl),
+                        createLoginUrl(frontendUrl, nextUrl),
+                        createLoginUrl(frontendUrl, nextUrl),
+                        createLoginUrl(frontendUrl, nextUrl)
                 );
             }
         } else {
@@ -59,14 +61,18 @@ class GetAuthInfoAction extends Action {
         }
 
         String csrfToken = StringHelper.encrypt(req.getSession().getId());
-        String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.CsrfConfig.TOKEN_COOKIE_NAME);
+        String existingCsrfToken = HttpRequestHelper.getCookieValueFromRequest(req, Const.SecurityConfig.CSRF_COOKIE_NAME);
         if (csrfToken != null && csrfToken.equals(existingCsrfToken)) {
             return new JsonResult(output);
         }
-        Cookie csrfTokenCookie = new Cookie(Const.CsrfConfig.TOKEN_COOKIE_NAME, csrfToken);
+        Cookie csrfTokenCookie = new Cookie(Const.SecurityConfig.CSRF_COOKIE_NAME, csrfToken);
         csrfTokenCookie.setPath("/");
         List<Cookie> cookieList = Collections.singletonList(csrfTokenCookie);
         return new JsonResult(output, cookieList);
+    }
+
+    String createLoginUrl(String frontendUrl, String nextUrl) {
+        return Const.WebPageURIs.LOGIN + "?nextUrl=" + frontendUrl + nextUrl;
     }
 
 }

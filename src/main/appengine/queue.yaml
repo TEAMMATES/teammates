@@ -1,0 +1,66 @@
+# Reference: https://cloud.google.com/appengine/docs/standard/java/config/queueref-yaml
+# Reference: https://cloud.google.com/tasks/docs/queue-yaml
+# Although the usage of queue.yaml is somewhat deprecated, we continue to use it for now
+# as it is more practical for us compared to managing task queue within code.
+
+queue:
+- name: feedback-session-published-email-queue
+  mode: push
+  rate: 1/s
+  bucket_size: 1
+- name: feedback-session-resend-published-email-queue
+  mode: push
+  rate: 5/s
+  bucket_size: 5
+  retry_parameters:
+    task_retry_limit: 2
+- name: feedback-session-remind-email-queue
+  mode: push
+  rate: 5/s
+  bucket_size: 5
+  retry_parameters:
+    task_retry_limit: 2
+- name: feedback-session-remind-particular-users-email-queue
+  mode: push
+  rate: 5/s
+  bucket_size: 5
+  retry_parameters:
+    task_retry_limit: 2
+- name: feedback-session-unpublished-email-queue
+  mode: push
+  rate: 1/s
+  bucket_size: 1
+- name: instructor-course-join-email-queue
+  mode: push
+  rate: 5/s
+  bucket_size: 20
+  retry_parameters:
+    task_retry_limit: 3
+    min_backoff_seconds: 5
+    max_backoff_seconds: 40
+    max_doublings: 2
+- name: send-email-queue
+  mode: push
+  rate: 10/s
+  bucket_size: 20
+  retry_parameters:
+    task_retry_limit: 5
+    task_age_limit: 1d
+    min_backoff_seconds: 30
+    max_backoff_seconds: 300
+    max_doublings: 0
+- name: student-course-join-email-queue
+  mode: push
+  rate: 5/s
+  bucket_size: 20
+  retry_parameters:
+    task_retry_limit: 3
+    min_backoff_seconds: 5
+    max_backoff_seconds: 40
+    max_doublings: 2
+- name: search-indexing-queue
+  mode: push
+  rate: 50/s
+  bucket_size: 10
+  retry_parameters:
+    min_backoff_seconds: 1

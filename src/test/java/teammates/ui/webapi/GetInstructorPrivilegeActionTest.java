@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -11,7 +10,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorPermissionRole;
 import teammates.ui.output.InstructorPrivilegeData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetInstructorPrivilegeAction}.
@@ -36,7 +34,7 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
         String section1 = dataBundle.students.get("student1InCourse1").getSection();
         String session1 = dataBundle.feedbackSessions.get("session1InCourse1").getFeedbackSessionName();
-        InstructorPrivileges privileges = instructor1ofCourse1.privileges;
+        InstructorPrivileges privileges = instructor1ofCourse1.getPrivileges();
         // update section privilege for testing purpose.
 
         // course level privilege
@@ -66,15 +64,15 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
         privileges.updatePrivilege(section1, session1,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS, true);
 
-        instructor1ofCourse1.privileges = privileges;
+        instructor1ofCourse1.setPrivileges(privileges);
 
-        instructor1ofCourse1.role = Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM;
+        instructor1ofCourse1.setRole(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_CUSTOM);
         dataBundle.instructors.put("instructor1OfCourse1", instructor1ofCourse1);
         removeAndRestoreDataBundle(dataBundle);
     }
 
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests.
     }
 
@@ -89,12 +87,8 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.INSTRUCTOR_ID, "invalidid",
         };
 
-        GetInstructorPrivilegeAction a = getAction(invalidInstructorParams);
-        JsonResult result = getJsonResult(a);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
-        assertEquals("Instructor does not exist.", output.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(invalidInstructorParams);
+        assertEquals("Instructor does not exist.", enfe.getMessage());
     }
 
     @Test
@@ -388,17 +382,13 @@ public class GetInstructorPrivilegeActionTest extends BaseActionTest<GetInstruct
                 Const.ParamsNames.INSTRUCTOR_ROLE_NAME, "invalid role",
         };
 
-        GetInstructorPrivilegeAction a = getAction(invalidRoleParams);
-        JsonResult result = getJsonResult(a);
-
-        MessageOutput output = (MessageOutput) result.getOutput();
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals("Invalid instructor role.", output.getMessage());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailure(invalidRoleParams);
+        assertEquals("Invalid instructor role.", ihpe.getMessage());
     }
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = {

@@ -4,4 +4,7 @@ Disallow: /webapi/
 Disallow: /web/admin/
 Disallow: /web/student/
 Disallow: /web/instructor/
+Disallow: /login
+Disallow: /logout
+Disallow: /oauth2callback/*
 Sitemap: http://teammatesv4.appspot.com/sitemap.xml

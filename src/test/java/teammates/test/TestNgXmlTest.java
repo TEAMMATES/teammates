@@ -1,7 +1,6 @@
 package teammates.test;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,7 +12,7 @@ import org.testng.annotations.Test;
 public class TestNgXmlTest extends BaseTestCase {
 
     @Test
-    public void checkTestsInTestNg() throws IOException {
+    public void checkTestsInTestNg() throws Exception {
         String testNgXml = FileHelper.readFile("./src/test/resources/testng-component.xml");
 
         // <class name, package name>

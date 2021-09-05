@@ -6,7 +6,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 
 /**
@@ -265,18 +264,30 @@ public final class InstructorPrivileges {
         return isAllowedInSessionLevelAnySection(sessionName, privilegeName);
     }
 
+    /**
+     * Returns true if co-owner privilege exists.
+     */
     public boolean hasCoownerPrivileges() {
         return hasSamePrivileges(PRIVILEGES_COOWNER);
     }
 
+    /**
+     * Returns true if manager privilege exists.
+     */
     public boolean hasManagerPrivileges() {
         return hasSamePrivileges(PRIVILEGES_MANAGER);
     }
 
+    /**
+     * Returns true if observer privilege exists.
+     */
     public boolean hasObserverPrivileges() {
         return hasSamePrivileges(PRIVILEGES_OBSERVER);
     }
 
+    /**
+     * Returns true if tutor privilege exists.
+     */
     public boolean hasTutorPrivileges() {
         return hasSamePrivileges(PRIVILEGES_TUTOR);
     }
@@ -294,14 +305,14 @@ public final class InstructorPrivileges {
 
     private boolean isAllowedInCourseLevel(String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         return this.courseLevel.getOrDefault(privilegeName, false);
     }
 
     private boolean isAllowedInSectionLevel(String sectionName, String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         if (!this.sectionLevel.containsKey(sectionName)) {
             return isAllowedInCourseLevel(privilegeName);
@@ -312,7 +323,7 @@ public final class InstructorPrivileges {
 
     private boolean isAllowedInSessionLevel(String sectionName, String sessionName, String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         if (!this.sessionLevel.containsKey(sectionName)
                 || !this.sessionLevel.get(sectionName).containsKey(sessionName)) {
@@ -324,7 +335,7 @@ public final class InstructorPrivileges {
 
     private boolean isAllowedInSessionLevelAnySection(String sessionName, String privilegeName) {
 
-        Assumption.assertTrue(isPrivilegeNameValid(privilegeName));
+        assert isPrivilegeNameValid(privilegeName);
 
         Set<String> sections = new LinkedHashSet<>(this.sessionLevel.keySet());
         sections.addAll(this.sectionLevel.keySet());
@@ -367,12 +378,18 @@ public final class InstructorPrivileges {
         return new LinkedHashMap<>(courseLevel);
     }
 
+    /**
+     * Returns the section level privileges of the instructor.
+     */
     public Map<String, Map<String, Boolean>> getSectionLevelPrivileges() {
         Map<String, Map<String, Boolean>> copy = new LinkedHashMap<>();
         sectionLevel.forEach((key, value) -> copy.put(key, new LinkedHashMap<>(value)));
         return copy;
     }
 
+    /**
+     * Returns the session level privileges of the instructor.
+     */
     public Map<String, Map<String, Map<String, Boolean>>> getSessionLevelPrivileges() {
         Map<String, Map<String, Map<String, Boolean>>> copy = new LinkedHashMap<>();
         sessionLevel.forEach((sessionLevelKey, sessionLevelValue) -> {

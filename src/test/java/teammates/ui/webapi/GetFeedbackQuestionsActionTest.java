@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -38,11 +37,11 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes feedbackSessionAttributes = typicalBundle.feedbackSessions.get("session1InCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -63,7 +62,6 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
         List<FeedbackQuestionData> questions = feedbackQuestionsResponse.getQuestions();
@@ -77,10 +75,10 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         assertNotNull(typicalResponse.getFeedbackQuestionId());
         assertEquals(expected.getFeedbackQuestionId(), typicalResponse.getFeedbackQuestionId());
         assertEquals(expected.getQuestionNumber(), typicalResponse.getQuestionNumber());
-        assertEquals(expected.getQuestionDetails().getQuestionText(), typicalResponse.getQuestionBrief());
+        assertEquals(expected.getQuestionDetailsCopy().getQuestionText(), typicalResponse.getQuestionBrief());
         assertEquals(expected.getQuestionDescription(), typicalResponse.getQuestionDescription());
 
-        assertEquals(JsonUtils.toJson(expected.getQuestionDetails()),
+        assertEquals(JsonUtils.toJson(expected.getQuestionDetailsCopy()),
                 JsonUtils.toJson(typicalResponse.getQuestionDetails()));
 
         assertEquals(expected.getQuestionType(), typicalResponse.getQuestionType());
@@ -131,7 +129,6 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
@@ -171,7 +168,6 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
@@ -193,8 +189,8 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyEntityNotFound(params);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        verifyEntityNotFoundAcl(params);
 
         ______TS("only instructors of the same course can access");
 

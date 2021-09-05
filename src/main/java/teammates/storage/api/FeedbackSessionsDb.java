@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
-import com.googlecode.objectify.VoidWork;
 import com.googlecode.objectify.cmd.LoadType;
 import com.googlecode.objectify.cmd.Query;
 
@@ -17,7 +16,6 @@ import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.storage.entity.FeedbackSession;
@@ -28,7 +26,17 @@ import teammates.storage.entity.FeedbackSession;
  * @see FeedbackSession
  * @see FeedbackSessionAttributes
  */
-public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+public final class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSessionAttributes> {
+
+    private static final FeedbackSessionsDb instance = new FeedbackSessionsDb();
+
+    private FeedbackSessionsDb() {
+        // prevent initialization
+    }
+
+    public static FeedbackSessionsDb inst() {
+        return instance;
+    }
 
     /**
      * Gets a list of feedback sessions that is ongoing, i.e. starting before {@code rangeEnd}
@@ -71,8 +79,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * @return null if not found or soft-deleted.
      */
     public FeedbackSessionAttributes getFeedbackSession(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         FeedbackSessionAttributes feedbackSession =
                 makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
@@ -124,8 +132,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * @return null if not found or not soft-deleted.
      */
     public FeedbackSessionAttributes getSoftDeletedFeedbackSession(String courseId, String feedbackSessionName) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         FeedbackSessionAttributes feedbackSession =
                 makeAttributesOrNull(getFeedbackSessionEntity(feedbackSessionName, courseId));
@@ -142,7 +150,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Gets a list of all sessions for the given course except those are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getFeedbackSessionsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
                 .filter(session -> !session.isSessionDeleted())
@@ -153,7 +161,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Gets a list of sessions for the given course that are soft-deleted.
      */
     public List<FeedbackSessionAttributes> getSoftDeletedFeedbackSessionsForCourse(String courseId) {
-        Assumption.assertNotNull(courseId);
+        assert courseId != null;
 
         return makeAttributes(getFeedbackSessionEntitiesForCourse(courseId)).stream()
                 .filter(FeedbackSessionAttributes::isSessionDeleted)
@@ -191,6 +199,16 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     }
 
     /**
+     * Gets a list of undeleted feedback sessions which open in the future
+     * and possibly need a opening soon email to be sent.
+     */
+    public List<FeedbackSessionAttributes> getFeedbackSessionsPossiblyNeedingOpeningSoonEmail() {
+        return makeAttributes(getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail()).stream()
+                .filter(session -> !session.isSessionDeleted())
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Gets a list of undeleted published feedback sessions which possibly need a published email
      * to be sent.
      */
@@ -203,102 +221,79 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
     /**
      * Update a feedback session by {@link FeedbackSessionAttributes.UpdateOptions}.
      *
-     * <p>The update will be done in a transaction.
-     *
      * @return updated feedback session
      * @throws InvalidParametersException if attributes to update are not valid
      * @throws EntityDoesNotExistException if the feedback session cannot be found
      */
-    @SuppressWarnings("PMD.AvoidThrowingRawExceptionTypes")
-    // The objectify library does not support throwing checked exceptions inside transactions
     public FeedbackSessionAttributes updateFeedbackSession(FeedbackSessionAttributes.UpdateOptions updateOptions)
             throws InvalidParametersException, EntityDoesNotExistException {
-        Assumption.assertNotNull(updateOptions);
+        assert updateOptions != null;
 
-        FeedbackSessionAttributes[] newAttributesFinal = new FeedbackSessionAttributes[] { null };
-        try {
-            FeedbackSessionsDb thisDb = this;
-            ofy().transact(new VoidWork() {
-                @Override
-                public void vrun() {
-                    FeedbackSession feedbackSession =
-                            getFeedbackSessionEntity(updateOptions.getFeedbackSessionName(), updateOptions.getCourseId());
-                    if (feedbackSession == null) {
-                        throw new RuntimeException(
-                                new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions));
-                    }
-
-                    newAttributesFinal[0] = makeAttributes(feedbackSession);
-                    FeedbackSessionAttributes newAttributes = newAttributesFinal[0];
-                    newAttributes.update(updateOptions);
-
-                    newAttributes.sanitizeForSaving();
-                    if (!newAttributes.isValid()) {
-                        throw new RuntimeException(
-                                new InvalidParametersException(newAttributes.getInvalidityInfo()));
-                    }
-
-                    // update only if change
-                    boolean hasSameAttributes =
-                            thisDb.<String>hasSameValue(feedbackSession.getInstructions(), newAttributes.getInstructions())
-                            && thisDb.<Instant>hasSameValue(feedbackSession.getStartTime(), newAttributes.getStartTime())
-                            && thisDb.<Instant>hasSameValue(feedbackSession.getEndTime(), newAttributes.getEndTime())
-                            && thisDb.<Instant>hasSameValue(
-                                    feedbackSession.getSessionVisibleFromTime(), newAttributes.getSessionVisibleFromTime())
-                            && thisDb.<Instant>hasSameValue(
-                                    feedbackSession.getResultsVisibleFromTime(), newAttributes.getResultsVisibleFromTime())
-                            && thisDb.<String>hasSameValue(
-                                    feedbackSession.getTimeZone(), newAttributes.getTimeZone().getId())
-                            && thisDb.<Long>hasSameValue(
-                                    feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentClosedEmail(), newAttributes.isSentClosedEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
-                            && thisDb.<Boolean>hasSameValue(
-                                    feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
-                    if (hasSameAttributes) {
-                        log.info(String.format(
-                                OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
-                        newAttributesFinal[0] = makeAttributes(feedbackSession);
-                        return;
-                    }
-
-                    feedbackSession.setInstructions(newAttributes.getInstructions());
-                    feedbackSession.setStartTime(newAttributes.getStartTime());
-                    feedbackSession.setEndTime(newAttributes.getEndTime());
-                    feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
-                    feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
-                    feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
-                    feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
-                    feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
-                    feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
-                    feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
-                    feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
-                    feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
-                    feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
-
-                    saveEntity(feedbackSession);
-
-                    newAttributesFinal[0] = makeAttributes(feedbackSession);
-                }
-            });
-        } catch (RuntimeException e) {
-            if (e.getCause() instanceof EntityDoesNotExistException) {
-                throw (EntityDoesNotExistException) e.getCause();
-            } else if (e.getCause() instanceof InvalidParametersException) {
-                throw (InvalidParametersException) e.getCause();
-            } else {
-                throw e;
-            }
+        FeedbackSession feedbackSession =
+                getFeedbackSessionEntity(updateOptions.getFeedbackSessionName(), updateOptions.getCourseId());
+        if (feedbackSession == null) {
+            throw new EntityDoesNotExistException(ERROR_UPDATE_NON_EXISTENT + updateOptions);
         }
-        return newAttributesFinal[0];
+
+        FeedbackSessionAttributes newAttributes = makeAttributes(feedbackSession);
+        newAttributes.update(updateOptions);
+
+        newAttributes.sanitizeForSaving();
+        if (!newAttributes.isValid()) {
+            throw new InvalidParametersException(newAttributes.getInvalidityInfo());
+        }
+
+        // update only if change
+        boolean hasSameAttributes =
+                this.<String>hasSameValue(feedbackSession.getInstructions(), newAttributes.getInstructions())
+                && this.<Instant>hasSameValue(feedbackSession.getStartTime(), newAttributes.getStartTime())
+                && this.<Instant>hasSameValue(feedbackSession.getEndTime(), newAttributes.getEndTime())
+                && this.<Instant>hasSameValue(
+                        feedbackSession.getSessionVisibleFromTime(), newAttributes.getSessionVisibleFromTime())
+                && this.<Instant>hasSameValue(
+                        feedbackSession.getResultsVisibleFromTime(), newAttributes.getResultsVisibleFromTime())
+                && this.<String>hasSameValue(
+                        feedbackSession.getTimeZone(), newAttributes.getTimeZone().getId())
+                && this.<Long>hasSameValue(
+                        feedbackSession.getGracePeriod(), newAttributes.getGracePeriodMinutes())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentOpeningSoonEmail(), newAttributes.isSentOpeningSoonEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentOpenEmail(), newAttributes.isSentOpenEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentClosingEmail(), newAttributes.isSentClosingEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentClosedEmail(), newAttributes.isSentClosedEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isSentPublishedEmail(), newAttributes.isSentPublishedEmail())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isClosingEmailEnabled(), newAttributes.isClosingEmailEnabled())
+                && this.<Boolean>hasSameValue(
+                        feedbackSession.isPublishedEmailEnabled(), newAttributes.isPublishedEmailEnabled());
+        if (hasSameAttributes) {
+            log.info(String.format(
+                    OPTIMIZED_SAVING_POLICY_APPLIED, FeedbackSession.class.getSimpleName(), updateOptions));
+            return makeAttributes(feedbackSession);
+        }
+
+        feedbackSession.setInstructions(newAttributes.getInstructions());
+        feedbackSession.setStartTime(newAttributes.getStartTime());
+        feedbackSession.setEndTime(newAttributes.getEndTime());
+        feedbackSession.setSessionVisibleFromTime(newAttributes.getSessionVisibleFromTime());
+        feedbackSession.setResultsVisibleFromTime(newAttributes.getResultsVisibleFromTime());
+        feedbackSession.setTimeZone(newAttributes.getTimeZone().getId());
+        feedbackSession.setGracePeriod(newAttributes.getGracePeriodMinutes());
+        feedbackSession.setSentOpeningSoonEmail(newAttributes.isSentOpeningSoonEmail());
+        feedbackSession.setSentOpenEmail(newAttributes.isSentOpenEmail());
+        feedbackSession.setSentClosingEmail(newAttributes.isSentClosingEmail());
+        feedbackSession.setSentClosedEmail(newAttributes.isSentClosedEmail());
+        feedbackSession.setSentPublishedEmail(newAttributes.isSentPublishedEmail());
+        feedbackSession.setSendClosingEmail(newAttributes.isClosingEmailEnabled());
+        feedbackSession.setSendPublishedEmail(newAttributes.isPublishedEmailEnabled());
+
+        saveEntity(feedbackSession);
+
+        return makeAttributes(feedbackSession);
     }
 
     /**
@@ -308,8 +303,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public Instant softDeleteFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
 
@@ -328,8 +323,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      */
     public void restoreDeletedFeedbackSession(String feedbackSessionName, String courseId)
             throws EntityDoesNotExistException {
-        Assumption.assertNotNull(courseId);
-        Assumption.assertNotNull(feedbackSessionName);
+        assert courseId != null;
+        assert feedbackSessionName != null;
 
         FeedbackSession sessionEntity = getFeedbackSessionEntity(feedbackSessionName, courseId);
 
@@ -345,8 +340,8 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Deletes a feedback session.
      */
     public void deleteFeedbackSession(String feedbackSessionName, String courseId) {
-        Assumption.assertNotNull(feedbackSessionName);
-        Assumption.assertNotNull(courseId);
+        assert feedbackSessionName != null;
+        assert courseId != null;
 
         deleteEntity(Key.create(FeedbackSession.class, FeedbackSession.generateId(feedbackSessionName, courseId)));
     }
@@ -355,18 +350,25 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
      * Deletes sessions using {@link AttributesDeletionQuery}.
      */
     public void deleteFeedbackSessions(AttributesDeletionQuery query) {
-        Assumption.assertNotNull(query);
+        assert query != null;
 
         Query<FeedbackSession> entitiesToDelete = load().project();
         if (query.isCourseIdPresent()) {
             entitiesToDelete = entitiesToDelete.filter("courseId =", query.getCourseId());
         }
 
-        deleteEntity(entitiesToDelete.keys().list().toArray(new Key<?>[0]));
+        deleteEntity(entitiesToDelete.keys().list());
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesForCourse(String courseId) {
         return load().filter("courseId =", courseId).list();
+    }
+
+    private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpeningSoonEmail() {
+        return load()
+                .filter("startTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
+                .filter("sentOpeningSoonEmail =", false)
+                .list();
     }
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingOpenEmail() {
@@ -394,6 +396,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     private List<FeedbackSession> getFeedbackSessionEntitiesPossiblyNeedingPublishedEmail() {
         return load()
+                .filter("resultsVisibleFromTime >", TimeHelper.getInstantDaysOffsetFromNow(-2))
                 .filter("sentPublishedEmail =", false)
                 .filter("isPublishedEmailEnabled =", true)
                 .list();
@@ -419,7 +422,7 @@ public class FeedbackSessionsDb extends EntitiesDb<FeedbackSession, FeedbackSess
 
     @Override
     FeedbackSessionAttributes makeAttributes(FeedbackSession entity) {
-        Assumption.assertNotNull(entity);
+        assert entity != null;
 
         return FeedbackSessionAttributes.valueOf(entity);
     }

@@ -25,6 +25,9 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "btn-add-course")
     private WebElement addCourseButton;
 
+    @FindBy(id = "btn-confirm-copy-course")
+    private WebElement copyCourseButton;
+
     @FindBy(id = "new-course-id")
     private WebElement courseIdTextBox;
 
@@ -34,23 +37,17 @@ public class InstructorCoursesPage extends AppPage {
     @FindBy(id = "new-time-zone")
     private WebElement timeZoneDropdown;
 
+    @FindBy(id = "copy-course-id")
+    private WebElement copyCourseIdTextBox;
+
+    @FindBy(id = "copy-course-name")
+    private WebElement copyCourseNameTextBox;
+
+    @FindBy(id = "copy-time-zone")
+    private WebElement copyTimeZoneDropdown;
+
     @FindBy(id = "btn-save-course")
     private WebElement submitButton;
-
-    @FindBy(id = "active-courses-table")
-    private WebElement activeCoursesTable;
-
-    @FindBy (id = "archived-courses-table")
-    private WebElement archivedCoursesTable;
-
-    @FindBy (id = "deleted-courses-table")
-    private WebElement deletedCoursesTable;
-
-    @FindBy(id = "deleted-table-heading")
-    private WebElement deleteTableHeading;
-
-    @FindBy(id = "archived-table-heading")
-    private WebElement archiveTableHeading;
 
     public InstructorCoursesPage(Browser browser) {
         super(browser);
@@ -61,10 +58,22 @@ public class InstructorCoursesPage extends AppPage {
         return getPageTitle().contains("Courses");
     }
 
+    private WebElement getActiveCoursesTable() {
+        return browser.driver.findElement(By.id("active-courses-table"));
+    }
+
+    private WebElement getArchivedCoursesTable() {
+        return browser.driver.findElement(By.id("archived-courses-table"));
+    }
+
+    private WebElement getDeletedCoursesTable() {
+        return browser.driver.findElement(By.id("deleted-courses-table"));
+    }
+
     public void verifyActiveCoursesDetails(CourseAttributes[] courses) {
         String[][] courseDetails = getCourseDetails(courses);
         // use verifyTableBodyValues as active courses are sorted
-        verifyTableBodyValues(activeCoursesTable, courseDetails);
+        verifyTableBodyValues(getActiveCoursesTable(), courseDetails);
     }
 
     public void verifyActiveCourseStatistics(CourseAttributes course, String numSections, String numTeams,
@@ -148,6 +157,20 @@ public class InstructorCoursesPage extends AppPage {
         waitUntilAnimationFinish();
     }
 
+    public void copyCourse(String courseId, CourseAttributes newCourse) {
+        WebElement otherActionButton = getOtherActionsButton(courseId);
+        click(otherActionButton);
+        click(getCopyButton(courseId));
+        waitForPageToLoad();
+
+        fillTextBox(copyCourseIdTextBox, newCourse.getId());
+        fillTextBox(copyCourseNameTextBox, newCourse.getName());
+        selectCopyTimeZone(newCourse.getTimeZone().toString());
+        click(copyCourseButton);
+
+        waitUntilAnimationFinish();
+    }
+
     public void moveCourseToRecycleBin(String courseId) {
         WebElement otherActionButton = getOtherActionsButton(courseId);
         click(otherActionButton);
@@ -172,13 +195,13 @@ public class InstructorCoursesPage extends AppPage {
 
     public void showDeleteTable() {
         if (!isElementVisible(By.id("deleted-course-id-0"))) {
-            click(deleteTableHeading);
+            click(By.id("deleted-table-heading"));
         }
     }
 
     public void showArchiveTable() {
         if (!isElementVisible(By.id("archived-course-id-0"))) {
-            click(archiveTableHeading);
+            click(By.id("archived-table-heading"));
         }
     }
 
@@ -220,17 +243,17 @@ public class InstructorCoursesPage extends AppPage {
 
     private WebElement getActiveTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
-        return activeCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
+        return getActiveCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private WebElement getArchivedTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfArchivedCourse(courseId);
-        return archivedCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
+        return getArchivedCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private WebElement getDeletedTableRow(String courseId) {
         int courseRowNumber = getRowNumberOfDeletedCourse(courseId);
-        return deletedCoursesTable.findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
+        return getDeletedCoursesTable().findElements(By.cssSelector("tbody tr")).get(courseRowNumber);
     }
 
     private String[][] getCourseDetails(CourseAttributes[] courses) {
@@ -273,6 +296,11 @@ public class InstructorCoursesPage extends AppPage {
         dropdown.selectByValue(timeZone);
     }
 
+    private void selectCopyTimeZone(String timeZone) {
+        Select dropdown = new Select(copyTimeZoneDropdown);
+        dropdown.selectByValue(timeZone);
+    }
+
     private WebElement getShowStatisticsLink(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getShowStatisticsLinkInRow(courseRowNumber);
@@ -286,6 +314,11 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getArchiveButton(String courseId) {
         int courseRowNumber = getRowNumberOfCourse(courseId);
         return getArchiveButtonInRow(courseRowNumber);
+    }
+
+    private WebElement getCopyButton(String courseId) {
+        int courseRowNumber = getRowNumberOfCourse(courseId);
+        return getCopyButtonInRow(courseRowNumber);
     }
 
     private WebElement getMoveToRecycleBinButton(String courseId) {
@@ -317,7 +350,7 @@ public class InstructorCoursesPage extends AppPage {
 
     private int getCourseCount() {
         try {
-            return activeCoursesTable.findElements(By.cssSelector("tbody tr")).size();
+            return getActiveCoursesTable().findElements(By.cssSelector("tbody tr")).size();
         } catch (NoSuchElementException e) {
             return 0;
         }
@@ -325,7 +358,7 @@ public class InstructorCoursesPage extends AppPage {
 
     private int getArchivedCourseCount() {
         try {
-            return archivedCoursesTable.findElements(By.cssSelector("tbody tr")).size();
+            return getArchivedCoursesTable().findElements(By.cssSelector("tbody tr")).size();
         } catch (NoSuchElementException e) {
             return 0;
         }
@@ -333,7 +366,7 @@ public class InstructorCoursesPage extends AppPage {
 
     private int getDeletedCourseCount() {
         try {
-            return deletedCoursesTable.findElements(By.cssSelector("tbody tr")).size();
+            return getDeletedCoursesTable().findElements(By.cssSelector("tbody tr")).size();
         } catch (NoSuchElementException e) {
             return 0;
         }
@@ -391,6 +424,11 @@ public class InstructorCoursesPage extends AppPage {
     private WebElement getArchiveButtonInRow(int rowId) {
         By archiveButton = By.id("btn-archive-" + rowId);
         return browser.driver.findElement(archiveButton);
+    }
+
+    private WebElement getCopyButtonInRow(int rowId) {
+        By copyButton = By.id("btn-copy-" + rowId);
+        return browser.driver.findElement(copyButton);
     }
 
     private WebElement getMoveToRecycleBinButtonInRow(int rowId) {

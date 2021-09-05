@@ -16,7 +16,7 @@ class GetFeedbackSessionSubmittedGiverSetAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -27,7 +27,7 @@ class GetFeedbackSessionSubmittedGiverSetAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
 
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);

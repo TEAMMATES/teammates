@@ -6,8 +6,10 @@ import java.util.List;
 import javax.annotation.Nullable;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
-import teammates.common.util.Assumption;
 
+/**
+ * Contains specific structure and processing logic for text feedback questions.
+ */
 public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     static final String TEXT_ERROR_INVALID_RECOMMENDED_LENGTH = "Recommended length must be 1 or greater";
@@ -29,7 +31,7 @@ public class FeedbackTextQuestionDetails extends FeedbackQuestionDetails {
 
     @Override
     public boolean shouldChangesRequireResponseDeletion(FeedbackQuestionDetails newDetails) {
-        Assumption.assertTrue(newDetails instanceof FeedbackTextQuestionDetails);
+        assert newDetails instanceof FeedbackTextQuestionDetails;
 
         // delete the existing response upon change from rich text allowed to disallowed
         // due to the effort to cleanup of HTML tags from the respondents

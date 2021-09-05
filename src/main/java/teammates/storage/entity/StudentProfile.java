@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
@@ -36,11 +35,11 @@ public class StudentProfile extends BaseEntity {
 
     private String nationality;
 
-    /* only accepts "male", "female" or "other" */
+    // only accepts "male", "female" or "other"
     private String gender;
 
     @Unindex
-    private Text moreInfo;
+    private String moreInfo;
 
     @Index
     @Translate(InstantTranslatorFactory.class)
@@ -147,11 +146,11 @@ public class StudentProfile extends BaseEntity {
     }
 
     public String getMoreInfo() {
-        return this.moreInfo == null ? null : this.moreInfo.getValue();
+        return moreInfo;
     }
 
     public void setMoreInfo(String moreInfo) {
-        this.moreInfo = moreInfo == null ? null : new Text(moreInfo);
+        this.moreInfo = moreInfo;
     }
 
     public Instant getModifiedDate() {

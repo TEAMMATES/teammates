@@ -8,16 +8,17 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicLong;
 
-import com.google.appengine.api.datastore.Cursor;
-import com.google.appengine.api.datastore.QueryResultIterator;
+import com.google.cloud.datastore.Cursor;
+import com.google.cloud.datastore.QueryResults;
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
-import teammates.client.remoteapi.RemoteApiClient;
+import teammates.client.connector.DatastoreClient;
 import teammates.storage.entity.BaseEntity;
 import teammates.test.FileHelper;
 
@@ -33,7 +34,7 @@ import teammates.test.FileHelper;
  *
  * @param <T> The entity type to be migrated by the script.
  */
-public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends RemoteApiClient {
+public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> extends DatastoreClient {
 
     // the folder where the cursor position and console output is saved as a file
     private static final String BASE_LOG_URI = "src/client/java/teammates/client/scripts/log/";
@@ -44,16 +45,14 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     // see https://stackoverflow.com/questions/41499505/objectify-queries-setting-limit-above-300-does-not-work
     private static final int BATCH_SIZE = 100;
 
-    /*
-     * Creates the folder that will contain the stored log.
-     */
+    // Creates the folder that will contain the stored log.
     static {
         new File(BASE_LOG_URI).mkdir();
     }
 
-    protected AtomicLong numberOfScannedKey;
-    protected AtomicLong numberOfAffectedEntities;
-    protected AtomicLong numberOfUpdatedEntities;
+    AtomicLong numberOfScannedKey;
+    AtomicLong numberOfAffectedEntities;
+    AtomicLong numberOfUpdatedEntities;
 
     // buffer of entities to save
     private List<T> entitiesSavingBuffer;
@@ -81,7 +80,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
      *
      * <p>Causation: this method might be called in multiple threads if using transaction.</p>
      */
-    protected abstract boolean isMigrationNeeded(T entity) throws Exception;
+    protected abstract boolean isMigrationNeeded(T entity);
 
     /**
      * Migrates the entity.
@@ -96,8 +95,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
      * <p>Transaction is useful for data consistency. However, there are some limitations on operations
      * inside a transaction. In addition, the performance of the script will also be affected.
      *
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/datastore/transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
-     * @see <a href="https://cloud.google.com/appengine/docs/standard/java/tools/remoteapi#transaction-efficiency">Transactions are less efficient</a>
+     * @see <a href="https://cloud.google.com/datastore/docs/concepts/cloud-datastore-transactions#what_can_be_done_in_a_transaction">What can be done in a transaction</a>
      */
     protected boolean shouldUseTransaction() {
         return false;
@@ -156,7 +154,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         if (cursor == null) {
             log("Start from the beginning");
         } else {
-            log("Start from cursor position: " + cursor.toWebSafeString());
+            log("Start from cursor position: " + cursor.toUrlSafe());
         }
 
         boolean shouldContinue = true;
@@ -166,7 +164,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             if (cursor != null) {
                 filterQueryKeys = filterQueryKeys.startAt(cursor);
             }
-            QueryResultIterator<?> iterator;
+            QueryResults<?> iterator;
             if (shouldUseTransaction()) {
                 iterator = filterQueryKeys.keys().iterator();
             } else {
@@ -187,10 +185,10 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
             }
 
             if (shouldContinue) {
-                cursor = iterator.getCursor();
+                cursor = iterator.getCursorAfter();
                 flushEntitiesSavingBuffer();
                 savePositionOfCursorToFile(cursor);
-                log(String.format("Cursor Position: %s", cursor.toWebSafeString()));
+                log(String.format("Cursor Position: %s", cursor.toUrlSafe()));
                 log(String.format("Number Of Entity Key Scanned: %d", numberOfScannedKey.get()));
                 log(String.format("Number Of Entity affected: %d", numberOfAffectedEntities.get()));
                 log(String.format("Number Of Entity updated: %d", numberOfUpdatedEntities.get()));
@@ -231,7 +229,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
     private void savePositionOfCursorToFile(Cursor cursor) {
         try {
             FileHelper.saveFile(
-                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toWebSafeString());
+                    BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor", cursor.toUrlSafe());
         } catch (IOException e) {
             logError("Fail to save cursor position " + e.getMessage());
         }
@@ -246,7 +244,7 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
         try {
             String cursorPosition =
                     FileHelper.readFile(BASE_LOG_URI + this.getClass().getSimpleName() + ".cursor");
-            return Optional.of(Cursor.fromWebSafeString(cursorPosition));
+            return Optional.of(Cursor.fromUrlSafe(cursorPosition));
         } catch (IOException | IllegalArgumentException e) {
             return Optional.empty();
         }
@@ -283,4 +281,64 @@ public abstract class DataMigrationEntitiesBaseScript<T extends BaseEntity> exte
 
         log("[ERROR]" + logLine);
     }
+
+    /**
+     * Returns true if {@code text} contains at least one of the {@code strings} or if {@code strings} is empty.
+     * If {@code text} is null, false is returned.
+     */
+    private static boolean isTextContainingAny(String text, List<String> strings) {
+        if (text == null) {
+            return false;
+        }
+
+        if (strings.isEmpty()) {
+            return true;
+        }
+
+        return strings.stream().anyMatch(s -> text.contains(s));
+    }
+
+    /**
+     * Returns true if the {@code string} has evidence of having been sanitized.
+     * A string is considered sanitized if it does not contain any of the chars '<', '>', '/', '\"', '\'',
+     * and contains at least one of their sanitized equivalents or the sanitized equivalent of '&'.
+     *
+     * <p>Eg. "No special characters", "{@code <p>&quot;with quotes&quot;</p>}" are considered to be not sanitized.<br>
+     *     "{@code &lt;p&gt; a p tag &lt;&#x2f;p&gt;}" is considered to be sanitized.
+     * </p>
+     */
+    static boolean isSanitizedHtml(String string) {
+        return string != null
+                && !isTextContainingAny(string, Arrays.asList("<", ">", "\"", "/", "\'"))
+                && isTextContainingAny(string, Arrays.asList("&lt;", "&gt;", "&quot;", "&#x2f;", "&#39;", "&amp;"));
+    }
+
+    /**
+     * Returns the desanitized {@code string} if it is sanitized, otherwise returns the unchanged string.
+     */
+    static String desanitizeIfHtmlSanitized(String string) {
+        return isSanitizedHtml(string) ? desanitizeFromHtml(string) : string;
+    }
+
+    /**
+     * Recovers a html-sanitized string using {@link #sanitizeForHtml}
+     * to original encoding for appropriate display.<br>
+     * It restores encoding for < > \ / ' &  <br>
+     * The method should only be used once on sanitized html
+     *
+     * @return recovered string
+     */
+    private static String desanitizeFromHtml(String sanitizedString) {
+        if (sanitizedString == null) {
+            return null;
+        }
+
+        return sanitizedString.replace("&lt;", "<")
+                .replace("&gt;", ">")
+                .replace("&quot;", "\"")
+                .replace("&#x2f;", "/")
+                .replace("&#39;", "'")
+                .replace("&amp;", "&");
+    }
+
 }

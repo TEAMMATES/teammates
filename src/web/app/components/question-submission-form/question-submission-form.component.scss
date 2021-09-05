@@ -10,8 +10,16 @@
   margin-top: 15px;
 }
 
+.margin-top-20px {
+  margin-top: 20px;
+}
+
 .margin-bottom-20px {
   margin-bottom: 20px;
+}
+
+.margin-bottom-0px {
+  margin-bottom: 0;
 }
 
 .constraint-margins {
@@ -22,6 +30,13 @@
 .evaluee-col {
   padding-left: 50px;
   padding-right: 50px;
+}
+
+@media (max-width: 768px) {
+  .evaluee-col {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }
 
 .evaluee-select {
@@ -35,4 +50,8 @@
 
 .indent {
   margin-left: 1%;
+}
+
+.font-bold {
+  font-weight: bold;
 }

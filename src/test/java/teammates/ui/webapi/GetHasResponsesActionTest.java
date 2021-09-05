@@ -1,8 +1,9 @@
 package teammates.ui.webapi;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -10,10 +11,8 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.HasResponsesData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetHasResponsesAction}.
@@ -32,14 +31,14 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         //set test cases below
     }
 
     @Test
     protected void testExecute_notEnoughParameters_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -49,7 +48,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     @Test
     protected void testExecute_asInstructorWithFakeCourse_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Get respondents for fake course");
 
@@ -60,19 +59,15 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         assertNull(logic.getCourse("fake-course"));
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No course with id: fake-course", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No course with id: fake-course", enfe.getMessage());
     }
 
     @Test
     protected void testExecute_asInstructorWithFakeQuestion_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         assertNull(logic.getFeedbackQuestion("fake-question-id"));
 
         String[] params = new String[] {
@@ -80,24 +75,20 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No feedback question with id: fake-question-id", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No feedback question with id: fake-question-id", enfe.getMessage());
     }
 
     @Test
     protected void testExecute_asInstructorGetRespondentsInCourse_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("At least 1 respondent");
         assertTrue(logic.hasResponsesForCourse(instructor1OfCourse1.getCourseId()));
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
@@ -105,18 +96,17 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertTrue(hasResponsesData.hasResponses());
+        assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Course with 0 respondents");
 
         InstructorAttributes instructor1OfCourse4 = typicalBundle.instructors.get("instructor1OfCourse4");
-        loginAsInstructor(instructor1OfCourse4.googleId);
+        loginAsInstructor(instructor1OfCourse4.getGoogleId());
 
         assertFalse(logic.hasResponsesForCourse(instructor1OfCourse4.getCourseId()));
 
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse4.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse4.getCourseId(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
@@ -124,8 +114,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertFalse(hasResponsesData.hasResponses());
+        assertFalse(hasResponsesData.getHasResponses());
     }
 
     @Test
@@ -136,9 +125,9 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession1InCourse1");
         fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
-                fQuestion.questionNumber);
+                fQuestion.getQuestionNumber());
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         assertTrue(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
 
         String[] params = new String[] {
@@ -150,8 +139,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertTrue(hasResponsesData.hasResponses());
+        assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Question with 0 responses");
 
@@ -160,11 +148,11 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
         fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
-                fQuestion.questionNumber);
+                fQuestion.getQuestionNumber());
 
         InstructorAttributes currentInstructor = instructors.get(0);
 
-        loginAsInstructor(currentInstructor.googleId);
+        loginAsInstructor(currentInstructor.getGoogleId());
         assertFalse(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
 
         params = new String[] {
@@ -176,8 +164,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertFalse(hasResponsesData.hasResponses());
+        assertFalse(hasResponsesData.getHasResponses());
     }
 
     @Test
@@ -186,18 +173,18 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         List<InstructorAttributes> instructors = logic.getInstructorsForCourse(feedbackSessionAttributes.getCourseId());
         FeedbackQuestionAttributes fQuestion = typicalBundle.feedbackQuestions.get("qn1InSession4InCourse1");
         fQuestion = logic.getFeedbackQuestion(fQuestion.getFeedbackSessionName(), fQuestion.getCourseId(),
-                fQuestion.questionNumber);
+                fQuestion.getQuestionNumber());
 
         InstructorAttributes currentInstructor = instructors.get(0);
 
-        loginAsInstructor(currentInstructor.googleId);
+        loginAsInstructor(currentInstructor.getGoogleId());
         //Different results for question and course
         assertFalse(logic.areThereResponsesForQuestion(fQuestion.getFeedbackQuestionId()));
-        assertTrue(logic.hasResponsesForCourse(currentInstructor.courseId));
+        assertTrue(logic.hasResponsesForCourse(currentInstructor.getCourseId()));
 
         String[] params = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fQuestion.getFeedbackQuestionId(),
-                Const.ParamsNames.COURSE_ID, currentInstructor.courseId,
+                Const.ParamsNames.COURSE_ID, currentInstructor.getCourseId(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
@@ -205,33 +192,31 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertFalse(hasResponsesData.hasResponses());
+        assertFalse(hasResponsesData.getHasResponses());
     }
 
     @Test
     protected void testExecute_asStudentWithFakeFeedbackSessionName_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
-        assertNull(logic.getFeedbackSession("fake-session-name", student1InCourse1.course));
+        assertNull(logic.getFeedbackSession("fake-session-name", student1InCourse1.getCourse()));
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "fake-session-name",
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getHasResponsesAction));
+        verifyEntityNotFound(params);
     }
 
     @Test
     protected void testExecute_asStudentGetHasRespondedForSession_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
 
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
 
         FeedbackSessionAttributes feedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -241,7 +226,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         assertEquals(feedbackResponse.getGiver(), student1InCourse1.getEmail());
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
@@ -250,18 +235,51 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
-        assertTrue(hasResponsesData.hasResponses());
+        assertTrue(hasResponsesData.getHasResponses());
+    }
+
+    @Test
+    protected void testExecute_asStudentGetHasRespondedForSessionWithoutFsParam_shouldPass() {
+        StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
+
+        loginAsStudent(student1InCourse1.getGoogleId());
+
+        String[] params = new String[] {
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
+                Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
+        };
+
+        GetHasResponsesAction getHasResponsesAction = getAction(params);
+        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
+        HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
+
+        Map<String, Boolean> responseStats = hasResponsesData.getHasResponsesBySessions();
+
+        // we gathered expected from typical bundle
+        Map<String, Boolean> expectedResponseStats = new HashMap<>();
+
+        // student has responded here
+        expectedResponseStats.put("First feedback session", true);
+        expectedResponseStats.put("Second feedback session", true);
+
+        // no questions here for student
+        expectedResponseStats.put("Closed Session", true);
+        expectedResponseStats.put("Empty session", true);
+
+        // no response here
+        expectedResponseStats.put("Grace Period Session", false);
+
+        assertEquals(expectedResponseStats, responseStats);
     }
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         ______TS("Only instructors of the course can check if there are responses.");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
@@ -286,7 +304,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         FeedbackSessionAttributes accessibleFeedbackSession = typicalBundle.feedbackSessions.get("session1InCourse1");
         params = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
@@ -297,7 +315,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     @Test
     public void testAccessControl_notEnoughParameters_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("Not enough parameters");
 
@@ -307,12 +325,12 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
     @Test
     public void testAccessControl_wrongEntityType_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("wrong entity type");
 
         String[] params = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.ENTITY_TYPE, "wrongtype",
         };
 

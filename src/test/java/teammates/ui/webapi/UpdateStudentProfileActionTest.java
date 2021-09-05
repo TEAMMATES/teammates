@@ -3,14 +3,13 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.SanitizationHelper;
-import teammates.ui.output.MessageOutput;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentProfileUpdateRequest;
 
 /**
@@ -45,19 +44,15 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
     }
 
     private void testActionWithInvalidParameters(AccountAttributes student) throws Exception {
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
         ______TS("Failure case: invalid parameters");
 
-        String[] submissionParams = createValidParam(student.googleId);
+        String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createInvalidUpdateRequest();
 
-        UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(result.getStatusCode(), HttpStatus.SC_BAD_REQUEST);
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(req, submissionParams);
 
         List<String> expectedErrorMessages = new ArrayList<>();
-        MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE, req.getShortName(),
@@ -73,23 +68,19 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         SanitizationHelper.sanitizeForHtml(req.getNationality())));
 
-        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
+        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), ihrbe.getMessage());
     }
 
     private void testActionWithScriptInjection(AccountAttributes student) throws Exception {
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
         ______TS("Failure case: invalid parameters with attempted script injection");
 
-        String[] submissionParams = createValidParam(student.googleId);
+        String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createInvalidUpdateRequestForProfileWithScriptInjection();
 
-        UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(req, submissionParams);
 
         List<String> expectedErrorMessages = new ArrayList<>();
-        MessageOutput invalidOutput = (MessageOutput) result.getOutput();
 
         expectedErrorMessages.add(
                 getPopulatedErrorMessage(FieldValidator.INVALID_NAME_ERROR_MESSAGE,
@@ -113,20 +104,18 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
                 String.format(FieldValidator.NATIONALITY_ERROR_MESSAGE,
                         req.getNationality()));
 
-        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), invalidOutput.getMessage());
+        assertEquals(String.join(System.lineSeparator(), expectedErrorMessages), ihrbe.getMessage());
     }
 
     private void testActionSuccess(AccountAttributes student, String caseDescription) {
-        String[] submissionParams = createValidParam(student.googleId);
+        String[] submissionParams = createValidParam(student.getGoogleId());
         StudentProfileUpdateRequest req = createValidRequestForProfile();
-        loginAsStudent(student.googleId);
+        loginAsStudent(student.getGoogleId());
 
         ______TS(caseDescription);
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
+        getJsonResult(action);
     }
 
     private void testActionInMasqueradeMode(AccountAttributes student) {
@@ -134,13 +123,12 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         ______TS("Typical case: masquerade mode");
         loginAsAdmin();
 
-        String[] submissionParams = createValidParamsForMasqueradeMode(student.googleId);
+        String[] submissionParams = createValidParamsForMasqueradeMode(student.getGoogleId());
         StudentProfileUpdateRequest req = createValidRequestForProfile();
 
         UpdateStudentProfileAction action = getAction(req, submissionParams);
-        JsonResult result = getJsonResult(action);
+        getJsonResult(action);
 
-        assertEquals(result.getStatusCode(), HttpStatus.SC_ACCEPTED);
     }
 
     private String[] createValidParamsForMasqueradeMode(String googleId) {
@@ -207,11 +195,11 @@ public class UpdateStudentProfileActionTest extends BaseActionTest<UpdateStudent
         AccountAttributes student1 = typicalBundle.accounts.get("student1InCourse1");
         AccountAttributes student2 = typicalBundle.accounts.get("student2InCourse1");
 
-        loginAsStudent(student2.googleId);
+        loginAsStudent(student2.getGoogleId());
 
         ______TS("Forbidden case: updating another student's profile");
 
-        String[] submissionParams = createValidParam(student1.googleId);
+        String[] submissionParams = createValidParam(student1.getGoogleId());
         verifyCannotAccess(submissionParams);
     }
 }

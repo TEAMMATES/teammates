@@ -2,12 +2,9 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseSectionNamesData;
 
@@ -28,7 +25,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // See test cases below
     }
 
@@ -37,7 +34,7 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         List<String> expectedSectionNames = logic.getSectionNamesForCourse(instructor1OfCourse1.getCourseId());
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("typical success case for instructor");
 
@@ -47,36 +44,32 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         GetCourseSectionNamesAction getCourseSectionNamesAction = getAction(params);
         JsonResult response = getJsonResult(getCourseSectionNamesAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
-
         CourseSectionNamesData courseSectionNamesData = (CourseSectionNamesData) response.getOutput();
         assertEquals(expectedSectionNames, courseSectionNamesData.getSectionNames());
     }
 
     @Test
-    protected void testExecute_nonExistCourse_shouldFail() throws Exception {
+    protected void testExecute_nonExistCourse_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         ______TS("failed case for non-existent course");
 
         String[] params = {
                 Const.ParamsNames.COURSE_ID, "dummy-course",
         };
-        assertThrows(EntityDoesNotExistException.class, () -> logic.getSectionNamesForCourse("dummy-course"));
 
-        GetCourseSectionNamesAction getCourseSectionNamesAction = getAction(params);
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getCourseSectionNamesAction));
+        verifyEntityNotFound(params);
     }
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // See test cases below
     }
 
     @Test
-    protected void testAccessControl_testInvalidAccess_shouldPass() throws Exception {
+    protected void testAccessControl_testInvalidAccess_shouldPass() {
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] instructorLoginParams = new String[] {
@@ -96,12 +89,12 @@ public class GetCourseSectionNamesActionTest extends BaseActionTest<GetCourseSec
         verifyInaccessibleForUnregisteredUsers(instructorParams);
 
         ______TS("Login as instructor, then can access");
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(instructorParams);
     }
 
     @Test
-    protected void testAccessControl_testInstructorAccess_shouldPass() throws Exception {
+    protected void testAccessControl_testInstructorAccess_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {

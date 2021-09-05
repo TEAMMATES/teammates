@@ -40,8 +40,7 @@ More information can be found at [this documentation](https://help.github.com/ar
 
 These tools are necessary regardless of whether you are developing front-end or back-end:
 
-1. Install JDK 1.8.
-1. Install Python 3 (recommended) or Python 2.7.
+1. Install Java JDK 11.
 
 If you want to develop front-end, you need to install the following:
 
@@ -72,7 +71,7 @@ If you want to develop front-end, you need to install the following:
    **Verification:** A folder named `node_modules` should be added to the project root directory.
 
 **Q:** Can I set up the project in IDEs, e.g. Eclipse, IntelliJ?<br>
-**A:** You are welcome to; the core team have been using IntelliJ to a varying degree of success, but IDE-based development (even with IntelliJ) is not actively supported/maintained by the team.
+**A:** You are welcome to; the core team have been using IntelliJ to a varying degree of success, and it is expected that any IDE that support Gradle-based Java project will work. However, IDE-based development (even with IntelliJ) is not actively supported/maintained by the team.
 
 ## Step 4: Start developing
 

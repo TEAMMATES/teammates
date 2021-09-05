@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
@@ -27,7 +26,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
 import teammates.common.exception.HttpRequestFailedException;
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
@@ -73,11 +71,6 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
             return testData;
         }
         testData = new LNPTestData() {
-            @Override
-            protected Map<String, AccountAttributes> generateAccounts() {
-                return new HashMap<>();
-            }
-
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
@@ -183,7 +176,6 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("enrollData");
 
@@ -198,16 +190,15 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
                 dataBundle.instructors.forEach((key, instructor) -> {
                     List<String> csvRow = new ArrayList<>();
 
-                    csvRow.add(instructor.googleId);
-                    csvRow.add("yes");
-                    csvRow.add(instructor.courseId);
+                    csvRow.add(instructor.getGoogleId());
+                    csvRow.add(instructor.getCourseId());
 
                     // Create and add student enrollment data with a team number corresponding to each section number
                     List<StudentsEnrollRequest.StudentEnrollRequest> enrollRequests = new ArrayList<>();
                     int startIndex = csvTestDataIndex * NUM_STUDENTS_PER_SECTION;
 
                     for (int i = startIndex; i < startIndex + NUM_STUDENTS_PER_SECTION; i++) {
-                        String name = instructor.name + ".Student" + (NUM_STUDENTS - i);
+                        String name = instructor.getName() + ".Student" + (NUM_STUDENTS - i);
                         String email = STUDENT_NAME_PREFIX + i + STUDENT_EMAIL_SUBFIX;
                         String team = String.valueOf((NUM_STUDENTS - i) / NUM_STUDENTS_PER_SECTION);
                         String section = String.valueOf((NUM_STUDENTS - i) / NUM_STUDENTS_PER_SECTION);
@@ -233,7 +224,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     private Map<String, String> getRequestHeaders() {
         Map<String, String> headers = new HashMap<>();
 
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put(Const.HeaderNames.CSRF_TOKEN, "${csrfToken}");
         headers.put("Content-Type", "text/csv");
 
         return headers;
@@ -244,14 +235,10 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @Override
-    protected void createTestData() {
+    protected void createTestData() throws IOException, HttpRequestFailedException {
         LNPTestData testData = getTestData();
-        try {
-            createJsonDataFile(testData);
-            persistTestData();
-        } catch (IOException | HttpRequestFailedException ex) {
-            log.severe(TeammatesException.toStringWithStackTrace(ex));
-        }
+        createJsonDataFile(testData);
+        persistTestData();
     }
 
     @Override
@@ -320,7 +307,7 @@ public class InstructorStudentCascadingUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

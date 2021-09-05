@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import teammates.common.exception.UnauthorizedAccessException;
-
 /**
  * An action that is permitted only for administrators.
  */
@@ -13,7 +11,7 @@ abstract class AdminOnlyAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isAdmin) {
             throw new UnauthorizedAccessException("Admin privilege is required to access this resource.");
         }

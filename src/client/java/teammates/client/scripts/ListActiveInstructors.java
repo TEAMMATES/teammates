@@ -6,13 +6,13 @@ import java.time.ZoneOffset;
 import java.util.HashSet;
 import java.util.Set;
 
-import teammates.client.remoteapi.RemoteApiClient;
+import teammates.client.connector.DatastoreClient;
 import teammates.storage.entity.FeedbackSession;
 
 /**
  * Script to generate emails of active instructors within a period.
  */
-public class ListActiveInstructors extends RemoteApiClient {
+public class ListActiveInstructors extends DatastoreClient {
     @Override
     protected void doOperation() {
         //2010/01/01
@@ -46,7 +46,7 @@ public class ListActiveInstructors extends RemoteApiClient {
         System.out.println(results.toString());
     }
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         new ListActiveInstructors().doOperationRemotely();
     }
 }

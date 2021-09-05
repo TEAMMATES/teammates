@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -14,8 +13,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.FeedbackQuestionData;
@@ -40,7 +37,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
         FeedbackQuestionAttributes typicalQuestion =
@@ -63,15 +60,14 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData response = (FeedbackQuestionData) r.getOutput();
 
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
         assertEquals(typicalQuestion.getQuestionNumber(), response.getQuestionNumber());
         assertEquals(2, typicalQuestion.getQuestionNumber());
 
-        assertEquals(typicalQuestion.getQuestionDetails().getQuestionText(), response.getQuestionBrief());
-        assertEquals("this is the brief", typicalQuestion.getQuestionDetails().getQuestionText());
+        assertEquals(typicalQuestion.getQuestionDetailsCopy().getQuestionText(), response.getQuestionBrief());
+        assertEquals("this is the brief", typicalQuestion.getQuestionDetailsCopy().getQuestionText());
 
         assertEquals(typicalQuestion.getQuestionDescription(), response.getQuestionDescription());
         assertEquals("this is the description", typicalQuestion.getQuestionDescription());
@@ -79,10 +75,10 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         assertEquals(typicalQuestion.getQuestionType(), response.getQuestionType());
         assertEquals(FeedbackQuestionType.TEXT, typicalQuestion.getQuestionType());
 
-        assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetails()),
+        assertEquals(JsonUtils.toJson(typicalQuestion.getQuestionDetailsCopy()),
                 JsonUtils.toJson(response.getQuestionDetails()));
         assertEquals(800, ((FeedbackTextQuestionDetails)
-                typicalQuestion.getQuestionDetails()).getRecommendedLength().intValue());
+                typicalQuestion.getQuestionDetailsCopy()).getRecommendedLength().intValue());
 
         assertEquals(typicalQuestion.getGiverType(), typicalQuestion.getGiverType());
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -121,9 +117,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setCustomNumberOfEntitiesToGiveFeedbackTo(10);
 
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
 
         assertEquals(10, typicalQuestion.getNumberOfEntitiesToGiveFeedbackTo());
@@ -149,9 +144,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
 
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -181,9 +175,8 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setShowRecipientNameTo(Arrays.asList(FeedbackVisibilityType.RECIPIENT));
 
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         typicalQuestion = logic.getFeedbackQuestion(typicalQuestion.getId());
 
         assertEquals(FeedbackParticipantType.STUDENTS, typicalQuestion.getGiverType());
@@ -200,7 +193,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         InstructorAttributes instructor1ofCourse1 = dataBundle.instructors.get("instructor1OfCourse1");
 
-        loginAsInstructor(instructor1ofCourse1.googleId);
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         FeedbackSessionAttributes fs = dataBundle.feedbackSessions.get("contribSession");
         FeedbackQuestionAttributes fq =
@@ -215,27 +208,23 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setQuestionNumber(fq.getQuestionNumber());
         updateRequest.setGiverType(fq.getGiverType());
         updateRequest.setRecipientType(fq.getRecipientType());
-        updateRequest.setQuestionDetails(fq.getQuestionDetails());
+        updateRequest.setQuestionDetails(fq.getQuestionDetailsCopy());
 
         String[] param = new String[] {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, fq.getFeedbackQuestionId(),
         };
         UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         // All existing responses should remain
         assertFalse(logic.getFeedbackResponsesForQuestion(fq.getId()).isEmpty());
 
         ______TS("Edit: Invalid recipient type");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionUpdateRequest request = getTypicalContributionQuestionUpdateRequest();
-            request.setQuestionNumber(fq.getQuestionNumber());
-            request.setRecipientType(FeedbackParticipantType.STUDENTS);
-            getJsonResult(getAction(request, param));
-        });
+        FeedbackQuestionUpdateRequest request = getTypicalContributionQuestionUpdateRequest();
+        request.setQuestionNumber(fq.getQuestionNumber());
+        request.setRecipientType(FeedbackParticipantType.STUDENTS);
+        verifyHttpRequestBodyFailure(request, param);
     }
 
     @Test
@@ -253,11 +242,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         FeedbackQuestionUpdateRequest updateRequest = getTypicalTextQuestionUpdateRequest();
         updateRequest.setQuestionNumber(-1);
 
-        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(a);
-        });
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),
@@ -283,16 +268,15 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         // set recommended length as a negative integer
         textQuestionDetails.setRecommendedLength(-1);
         updateRequest.setQuestionDetails(textQuestionDetails);
-        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> getJsonResult(a));
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),
                 logic.getFeedbackQuestion(typicalQuestion.getId()).getQuestionDescription());
 
         // recommended length does not change
-        assertNull(((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetails()).getRecommendedLength());
+        assertNull(((FeedbackTextQuestionDetails) typicalQuestion.getQuestionDetailsCopy()).getRecommendedLength());
     }
 
     @Test
@@ -311,11 +295,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         updateRequest.setGiverType(FeedbackParticipantType.TEAMS);
         updateRequest.setRecipientType(FeedbackParticipantType.OWN_TEAM_MEMBERS);
 
-        UpdateFeedbackQuestionAction a = getAction(updateRequest, param);
-
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            getJsonResult(a);
-        });
+        verifyHttpRequestBodyFailure(updateRequest, param);
 
         // question is not updated
         assertEquals(typicalQuestion.getQuestionDescription(),
@@ -323,7 +303,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
     }
 
     @Test
-    public void testExecute_differentScenarios_shouldUpdateResponseRateCorrectly() throws Exception {
+    public void testExecute_differentScenarios_shouldUpdateResponseRateCorrectly() {
         InstructorAttributes instructor1ofCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes fs = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -333,7 +313,7 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
         int totalStudents = 5;
         int totalInstructors = 5;
 
-        loginAsInstructor(instructor1ofCourse1.googleId);
+        loginAsInstructor(instructor1ofCourse1.getGoogleId());
 
         ______TS("Check response rate before editing question 1");
 
@@ -466,11 +446,9 @@ public class UpdateFeedbackQuestionActionTest extends BaseActionTest<UpdateFeedb
 
         ______TS("non-existent feedback question");
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
-        assertThrows(EntityNotFoundException.class, () -> {
-            getAction(new String[] {Const.ParamsNames.FEEDBACK_QUESTION_ID, "random"}).checkSpecificAccessControl();
-        });
+        verifyEntityNotFoundAcl(Const.ParamsNames.FEEDBACK_QUESTION_ID, "random");
 
         ______TS("accessible only for instructor with ModifySessionPrivilege");
 

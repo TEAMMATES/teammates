@@ -29,7 +29,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertNull(instructor.getGoogleId());
         assertNull(instructor.getKey());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructor.getRole());
-        assertEquals(InstructorAttributes.DEFAULT_DISPLAY_NAME, instructor.getDisplayedName());
+        assertEquals(Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, instructor.getDisplayedName());
         assertFalse(instructor.isArchived());
         assertTrue(instructor.isDisplayedToStudents());
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
@@ -134,6 +134,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(instructor.getDisplayedName(), instructorAttributes.getDisplayedName());
         assertEquals(instructor.getInstructorPrivilegesAsText(),
                 JsonUtils.toJson(instructorAttributes.getPrivileges(), InstructorPrivileges.class));
+        assertEquals(instructor.getCreatedAt(), instructorAttributes.getCreatedAt());
+        assertEquals(instructor.getUpdatedAt(), instructorAttributes.getUpdatedAt());
     }
 
     @Test
@@ -151,7 +153,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
         assertEquals(instructor.getRegistrationKey(), instructorAttributes.getKey());
         assertEquals(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER, instructorAttributes.getRole());
         assertEquals(instructor.isDisplayedToStudents(), instructorAttributes.isDisplayedToStudents());
-        assertEquals(InstructorAttributes.DEFAULT_DISPLAY_NAME, instructorAttributes.getDisplayedName());
+        assertEquals(Const.DEFAULT_DISPLAY_NAME_FOR_INSTRUCTOR, instructorAttributes.getDisplayedName());
         assertEquals(new InstructorPrivileges(Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER),
                 instructorAttributes.getPrivileges());
     }
@@ -166,7 +168,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertTrue(instructor.isRegistered());
 
-        instructor.googleId = null;
+        instructor.setGoogleId(null);
         assertFalse(instructor.isRegistered());
     }
 
@@ -189,7 +191,7 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .withPrivileges(privileges)
                 .build();
         String key = "randomKey";
-        instructor.key = key;
+        instructor.setKey(key);
 
         Instructor entity = instructor.toEntity();
 
@@ -208,16 +210,16 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertTrue(i.isValid());
 
-        i.googleId = "invalid@google@id";
-        i.name = "";
-        i.email = "invalid email";
-        i.courseId = "";
-        i.role = "invalidRole";
+        i.setGoogleId("invalid@google@id");
+        i.setName("");
+        i.setEmail("invalid email");
+        i.setCourseId("");
+        i.setRole("invalidRole");
 
         assertFalse("invalid value", i.isValid());
         String errorMessage =
                 getPopulatedErrorMessage(
-                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.googleId,
+                    FieldValidator.GOOGLE_ID_ERROR_MESSAGE, i.getGoogleId(),
                     FieldValidator.GOOGLE_ID_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                     FieldValidator.GOOGLE_ID_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedEmptyStringErrorMessage(
@@ -227,13 +229,13 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                       FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
-                      FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                      FieldValidator.EMAIL_ERROR_MESSAGE, i.getEmail(),
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                       FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
-                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role);
+                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.getRole());
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
 
-        i.googleId = null;
+        i.setGoogleId(null);
 
         assertFalse("invalid value", i.isValid());
         errorMessage =
@@ -244,10 +246,10 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                       FieldValidator.SIZE_CAPPED_NON_EMPTY_STRING_ERROR_MESSAGE_EMPTY_STRING,
                       FieldValidator.PERSON_NAME_FIELD_NAME, FieldValidator.PERSON_NAME_MAX_LENGTH) + System.lineSeparator()
                 + getPopulatedErrorMessage(
-                      FieldValidator.EMAIL_ERROR_MESSAGE, i.email,
+                      FieldValidator.EMAIL_ERROR_MESSAGE, i.getEmail(),
                       FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_INCORRECT_FORMAT,
                       FieldValidator.EMAIL_MAX_LENGTH) + System.lineSeparator()
-                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.role);
+                + String.format(FieldValidator.ROLE_ERROR_MESSAGE, i.getRole());
         assertEquals("invalid value", errorMessage, StringHelper.toString(i.getInvalidityInfo()));
     }
 
@@ -270,17 +272,17 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .build();
 
         instructor.sanitizeForSaving();
-        assertEquals(privileges, instructor.privileges);
-        assertEquals(SanitizationHelper.sanitizeGoogleId(googleId), instructor.googleId);
-        assertEquals(SanitizationHelper.sanitizeTitle(courseId), instructor.courseId);
-        assertEquals(SanitizationHelper.sanitizeName(name), instructor.name);
-        assertEquals(SanitizationHelper.sanitizeEmail(email), instructor.email);
+        assertEquals(privileges, instructor.getPrivileges());
+        assertEquals(SanitizationHelper.sanitizeGoogleId(googleId), instructor.getGoogleId());
+        assertEquals(SanitizationHelper.sanitizeTitle(courseId), instructor.getCourseId());
+        assertEquals(SanitizationHelper.sanitizeName(name), instructor.getName());
+        assertEquals(SanitizationHelper.sanitizeEmail(email), instructor.getEmail());
 
-        instructor.role = null;
-        instructor.displayedName = null;
-        instructor.privileges = null;
+        instructor.setRole(null);
+        instructor.setDisplayedName(null);
+        instructor.setPrivileges(null);
         instructor.sanitizeForSaving();
-        assertEquals(privileges, instructor.privileges);
+        assertEquals(privileges, instructor.getPrivileges());
     }
 
     @Test
@@ -302,14 +304,14 @@ public class InstructorAttributesTest extends BaseAttributesTest {
                 .build();
 
         assertFalse(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
-        instructor.privileges = null;
+        instructor.setPrivileges(null);
         assertTrue(instructor.isAllowedForPrivilege(Const.InstructorPermissions.CAN_MODIFY_COURSE));
 
         String sectionId = "sectionId";
         String sessionId = "sessionId";
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
-        instructor.privileges = null;
+        instructor.setPrivileges(null);
         assertTrue(instructor.isAllowedForPrivilege(sectionId, sessionId,
                 Const.InstructorPermissions.CAN_MODIFY_SESSION_COMMENT_IN_SECTIONS));
     }
@@ -347,8 +349,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertEquals("test", instructorAttributes.getName());
         assertEquals("Instructor", instructorAttributes.getDisplayedName());
-        assertFalse(instructorAttributes.isArchived);
-        assertTrue(instructorAttributes.privileges.hasManagerPrivileges());
+        assertFalse(instructorAttributes.isArchived());
+        assertTrue(instructorAttributes.getPrivileges().hasManagerPrivileges());
         assertFalse(instructorAttributes.isDisplayedToStudents());
         assertEquals("googleId", instructorAttributes.getGoogleId());
         assertEquals(instructorAttributes.getRole(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);
@@ -387,8 +389,8 @@ public class InstructorAttributesTest extends BaseAttributesTest {
 
         assertEquals("test", instructorAttributes.getName());
         assertEquals("Instructor", instructorAttributes.getDisplayedName());
-        assertFalse(instructorAttributes.isArchived);
-        assertTrue(instructorAttributes.privileges.hasManagerPrivileges());
+        assertFalse(instructorAttributes.isArchived());
+        assertTrue(instructorAttributes.getPrivileges().hasManagerPrivileges());
         assertFalse(instructorAttributes.isDisplayedToStudents());
         assertEquals("test@email.com", instructorAttributes.getEmail());
         assertEquals(instructorAttributes.getRole(), Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_MANAGER);

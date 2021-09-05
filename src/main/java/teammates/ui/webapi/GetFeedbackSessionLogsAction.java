@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,11 +11,7 @@ import teammates.common.datatransfer.FeedbackSessionLogEntry;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.TimeHelper;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -31,7 +26,7 @@ public class GetFeedbackSessionLogsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to access this resource.");
         }
@@ -40,41 +35,48 @@ public class GetFeedbackSessionLogsAction extends Action {
         CourseAttributes courseAttributes = logic.getCourse(courseId);
 
         if (courseAttributes == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("Course is not found"));
+            throw new EntityNotFoundException("Course is not found");
         }
 
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.getId());
-        gateKeeper.verifyAccessible(instructor, courseAttributes);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_STUDENT);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_SESSION);
+        gateKeeper.verifyAccessible(instructor, courseAttributes, Const.InstructorPermissions.CAN_MODIFY_INSTRUCTOR);
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         if (logic.getCourse(courseId) == null) {
-            return new JsonResult("Course not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Course not found");
         }
         String email = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
         if (email != null && logic.getStudentForEmail(courseId, email) == null) {
-            return new JsonResult("Student not found", HttpStatus.SC_NOT_FOUND);
+            throw new EntityNotFoundException("Student not found");
+        }
+        String feedbackSessionName = getRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
+        if (feedbackSessionName != null && logic.getFeedbackSession(feedbackSessionName, courseId) == null) {
+            throw new EntityNotFoundException("Feedback session not found");
         }
         String startTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME);
         String endTimeStr = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME);
-        Instant startTime;
-        Instant endTime;
+        long startTime;
+        long endTime;
         try {
-            startTime = Instant.ofEpochMilli(Long.parseLong(startTimeStr));
-            endTime = Instant.ofEpochMilli(Long.parseLong(endTimeStr));
+            startTime = Long.parseLong(startTimeStr);
+            endTime = Long.parseLong(endTimeStr);
         } catch (NumberFormatException e) {
-            return new JsonResult("Invalid start or end time", HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpParameterException("Invalid start or end time", e);
         }
         // TODO: we might want to impose limits on the time range from startTime to endTime
 
-        if (endTime.toEpochMilli() < startTime.toEpochMilli()) {
+        if (endTime < startTime) {
             throw new InvalidHttpParameterException("The end time should be after the start time.");
         }
 
-        Instant earliestSearchTime = TimeHelper.getInstantDaysOffsetBeforeNow(Const.LOGS_RETENTION_PERIOD.toDays());
-        if (startTime.isBefore(earliestSearchTime) || endTime.isBefore(earliestSearchTime)) {
+        long earliestSearchTime = TimeHelper.getInstantDaysOffsetBeforeNow(Const.LOGS_RETENTION_PERIOD.toDays())
+                .toEpochMilli();
+        if (startTime < earliestSearchTime) {
             throw new InvalidHttpParameterException(
                     "The earliest date you can search for is " + Const.LOGS_RETENTION_PERIOD.toDays() + " days before today."
             );
@@ -82,13 +84,13 @@ public class GetFeedbackSessionLogsAction extends Action {
 
         try {
             List<FeedbackSessionLogEntry> fsLogEntries =
-                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime);
+                    logsProcessor.getFeedbackSessionLogs(courseId, email, startTime, endTime, feedbackSessionName);
             Map<FeedbackSessionAttributes, List<FeedbackSessionLogEntry>> groupedEntries =
                     groupFeedbackSessionLogEntries(courseId, fsLogEntries);
             FeedbackSessionLogsData fslData = new FeedbackSessionLogsData(groupedEntries);
             return new JsonResult(fslData);
         } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_GATEWAY);
         }
     }
 

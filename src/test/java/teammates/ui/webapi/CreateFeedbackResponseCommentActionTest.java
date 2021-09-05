@@ -5,10 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.datatransfer.AttributesDeletionQuery;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -17,15 +15,13 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.AssertHelper;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.FeedbackResponseCommentData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateFeedbackResponseCommentAction}.
@@ -99,7 +95,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         //see individual test cases.
     }
 
@@ -133,7 +129,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                         Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         JsonResult r = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
         assertEquals("Comment to first response", commentData.getFeedbackCommentText());
 
@@ -141,10 +136,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 getInstructorComments(response1ForQ1.getId(), "Comment to first response");
         assertEquals(1, frcList.size());
         FeedbackResponseCommentAttributes frc = frcList.get(0);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals(instructor1OfCourse1.getEmail(), frc.commentGiver);
-        assertFalse(frc.isCommentFromFeedbackParticipant);
-        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals(instructor1OfCourse1.getEmail(), frc.getCommentGiver());
+        assertFalse(frc.isCommentFromFeedbackParticipant());
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion());
     }
 
     @Test
@@ -255,10 +250,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 "Comment to first response, published session");
         assertEquals(1, frcList.size());
         FeedbackResponseCommentAttributes frc = frcList.get(0);
-        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.commentGiverType);
-        assertEquals("instructor1@course1.tmt", frc.commentGiver);
-        assertFalse(frc.isCommentFromFeedbackParticipant);
-        assertFalse(frc.isVisibilityFollowingFeedbackQuestion);
+        assertEquals(FeedbackParticipantType.INSTRUCTORS, frc.getCommentGiverType());
+        assertEquals("instructor1@course1.tmt", frc.getCommentGiver());
+        assertFalse(frc.isCommentFromFeedbackParticipant());
+        assertFalse(frc.isVisibilityFollowingFeedbackQuestion());
     }
 
     @Test
@@ -272,22 +267,18 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("",
                 new ArrayList<>(), new ArrayList<>());
-        CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, submissionParams);
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, ihrbe.getMessage());
     }
 
     @Test
     protected void testExecute_typicalCaseForSubmission_shouldPass() {
         // clean any existing comments.
-        logic.deleteFeedbackResponseComments(
-                AttributesDeletionQuery.builder().withResponseId(response1ForQ3.getId()).build());
+        logic.getFeedbackResponseCommentForResponse(response1ForQ3.getId())
+                .forEach(frc -> logic.deleteFeedbackResponseComment(frc.getId()));
         assertNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId()));
-        logic.deleteFeedbackResponseComments(
-                AttributesDeletionQuery.builder().withResponseId(response1ForQ1.getId()).build());
+        logic.getFeedbackResponseCommentForResponse(response1ForQ1.getId())
+                .forEach(frc -> logic.deleteFeedbackResponseComment(frc.getId()));
         assertNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ1.getId()));
 
         ______TS("Successful case: student submission");
@@ -307,8 +298,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId());
         assertEquals(comment.getCommentText(), "Student submission comment");
         assertEquals(student1InCourse1.getEmail(), comment.getCommentGiver());
-        assertTrue(comment.isCommentFromFeedbackParticipant);
-        assertTrue(comment.isVisibilityFollowingFeedbackQuestion);
+        assertTrue(comment.isCommentFromFeedbackParticipant());
+        assertTrue(comment.isVisibilityFollowingFeedbackQuestion());
         assertEquals(FeedbackParticipantType.STUDENTS, comment.getCommentGiverType());
 
         ______TS("Successful case: instructor submission");
@@ -327,32 +318,34 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         comment = logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ1.getId());
         assertEquals(comment.getCommentText(), "Instructor submission comment");
         assertEquals(instructor1OfCourse1.getEmail(), comment.getCommentGiver());
-        assertTrue(comment.isCommentFromFeedbackParticipant);
-        assertTrue(comment.isVisibilityFollowingFeedbackQuestion);
+        assertTrue(comment.isCommentFromFeedbackParticipant());
+        assertTrue(comment.isVisibilityFollowingFeedbackQuestion());
         assertEquals(FeedbackParticipantType.INSTRUCTORS, comment.getCommentGiverType());
     }
 
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("text",
+                new ArrayList<>(), new ArrayList<>());
 
         ______TS("invalid intent STUDENT_RESULT");
         String[] invalidIntent1 = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        verifyHttpParameterFailure(invalidIntent1);
+        verifyHttpParameterFailure(requestBody, invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        verifyHttpParameterFailure(invalidIntent2);
+        verifyHttpParameterFailure(requestBody, invalidIntent2);
     }
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 
@@ -364,8 +357,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+        verifyHttpParameterFailureAcl(submissionParamsInstructor);
     }
 
     @Test
@@ -387,13 +379,12 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         loginAsInstructor(instructorAttributes.getGoogleId());
-        InvalidHttpParameterException exception = assertThrows(
-                InvalidHttpParameterException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
-        AssertHelper.assertContains("Invalid question type for instructor comment", exception.getMessage());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailureAcl(submissionParams);
+        assertEquals("Invalid question type for instructor comment", ihpe.getMessage());
     }
 
     @Test
-    protected void testAccessControl_commentAlreadyExist_shouldNotCreateAgain() {
+    protected void testExecute_commentAlreadyExist_shouldNotCreateAgain() {
         ______TS("students give a comment already exists");
 
         assertNotNull(logic.getFeedbackResponseCommentForResponseFromParticipant(response1ForQ3.getId()));
@@ -403,9 +394,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.STUDENT_SUBMISSION.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("New comment",
+                Arrays.asList(CommentVisibilityType.GIVER), new ArrayList<>());
 
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsStudent).checkSpecificAccessControl());
+        verifyInvalidOperation(requestBody, submissionParamsStudent);
 
         ______TS("instructors give a comment already exists");
 
@@ -417,8 +409,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
 
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+        verifyInvalidOperation(requestBody, submissionParamsInstructor);
     }
 
     @Test
@@ -474,14 +465,14 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent1).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent2).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent2);
     }
 
     @Test
@@ -554,10 +545,10 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A", "Section B"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCanAccess(submissionParams);
 
-        verifyCanMasquerade(instructor.googleId, submissionParams);
+        verifyCanMasquerade(instructor.getGoogleId(), submissionParams);
     }
 
     @Test
@@ -569,7 +560,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.InstructorPermissions.CAN_SUBMIT_SESSION_IN_SECTIONS,
                 new String[] {"Section A"});
 
-        loginAsInstructor(instructor.googleId);
+        loginAsInstructor(instructor.getGoogleId());
         verifyCannotAccess(submissionParams);
 
         grantInstructorWithSectionPrivilege(instructor,
@@ -597,7 +588,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
     private List<FeedbackResponseCommentAttributes> getInstructorComments(String responseId, String commentText) {
         return logic.getFeedbackResponseCommentForResponse(responseId)
                 .stream()
-                .filter(comment -> comment.commentText.equals(commentText))
+                .filter(comment -> comment.getCommentText().equals(commentText))
                 .collect(Collectors.toList());
     }
 

@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.ThreadHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * Page Object Model for instructor student list page.
@@ -25,7 +25,7 @@ public class InstructorStudentListPage extends AppPage {
 
     @Override
     protected boolean containsExpectedPageContents() {
-        return getPageSource().contains("Student List");
+        return getPageSource().contains("Students");
     }
 
     private List<WebElement> getCoursesTabs() {

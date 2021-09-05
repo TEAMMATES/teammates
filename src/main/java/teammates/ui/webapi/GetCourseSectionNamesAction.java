@@ -5,7 +5,6 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseSectionNamesData;
 
@@ -20,7 +19,7 @@ class GetCourseSectionNamesAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
         InstructorAttributes instructor = logic.getInstructorForGoogleId(courseId, userInfo.id);
@@ -28,7 +27,7 @@ class GetCourseSectionNamesAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         try {
             List<String> sectionNames = logic.getSectionNamesForCourse(courseId);

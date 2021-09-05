@@ -1,0 +1,504 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`CopyCourseModalComponent should snap when copying from other sessions 1`] = `
+<tm-copy-course-modal
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
+  activeCourses={[Function Array]}
+  activeModal={[Function NgbActiveModal]}
+  allCourses={[Function Array]}
+  courseToFeedbackSession={[Function Object]}
+  fetchFeedbackSessionsEvent={[Function EventEmitter]}
+  isCopyFromOtherSession={[Function Boolean]}
+  newCourseId=""
+  newCourseIdIsConflicting="false"
+  newCourseName=""
+  newTimezone={[Function String]}
+  oldCourseId=""
+  oldCourseName=""
+  selectedFeedbackSessions={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy course
+      </div>
+      
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-course-modal"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div>
+          <label>
+            <b>
+              New Course
+            </b>
+          </label>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            Course ID:
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-id"
+            maxlength="64"
+            placeholder="e.g. CS3215-2013Semester1"
+            type="text"
+          />
+          <span>
+            64 characters left
+          </span>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            Course Name:
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-name"
+            maxlength="80"
+            placeholder="e.g. Software Engineering"
+            type="text"
+          />
+          <span>
+            80 characters left
+          </span>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            <span
+              ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+            to match the current time offset in your area, including clock changes due to daylight saving time."
+            >
+              Time Zone:
+            </span>
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="copy-time-zone"
+            >
+              
+              <option
+                value="Asia/Singapore"
+              >
+                Asia/Singapore (UTC +08:00)
+              </option>
+              <option
+                value="UTC"
+              >
+                UTC (UTC)
+              </option>
+            </select>
+            <span
+              class="input-group-btn"
+              style="margin-left: 5px;"
+            >
+              <button
+                class="btn btn-primary btn-margin-left"
+              >
+                Auto Detect
+              </button>
+            </span>
+          </div>
+        </div>
+        
+        <div
+          class="form-group"
+        >
+          <label>
+            Course to copy from:
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="course-to-copy-from"
+            >
+              
+            </select>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-course"
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-course-modal>
+`;
+
+exports[`CopyCourseModalComponent should snap with default fields 1`] = `
+<tm-copy-course-modal
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
+  activeCourses={[Function Array]}
+  activeModal={[Function NgbActiveModal]}
+  allCourses={[Function Array]}
+  courseToFeedbackSession={[Function Object]}
+  fetchFeedbackSessionsEvent={[Function EventEmitter]}
+  isCopyFromOtherSession="false"
+  newCourseId=""
+  newCourseIdIsConflicting="false"
+  newCourseName=""
+  newTimezone={[Function String]}
+  oldCourseId=""
+  oldCourseName=""
+  selectedFeedbackSessions={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy course
+      </div>
+      
+      <small>
+        Copy from: [] 
+        <b>
+          
+        </b>
+      </small>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-course-modal"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div>
+          <label>
+            <b>
+              New Course
+            </b>
+          </label>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            Course ID:
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-id"
+            maxlength="64"
+            placeholder="e.g. CS3215-2013Semester1"
+            type="text"
+          />
+          <span>
+            64 characters left
+          </span>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            Course Name:
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-name"
+            maxlength="80"
+            placeholder="e.g. Software Engineering"
+            type="text"
+          />
+          <span>
+            80 characters left
+          </span>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            <span
+              ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+            to match the current time offset in your area, including clock changes due to daylight saving time."
+            >
+              Time Zone:
+            </span>
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="copy-time-zone"
+            >
+              
+              <option
+                value="Asia/Singapore"
+              >
+                Asia/Singapore (UTC +08:00)
+              </option>
+              <option
+                value="UTC"
+              >
+                UTC (UTC)
+              </option>
+            </select>
+            <span
+              class="input-group-btn"
+              style="margin-left: 5px;"
+            >
+              <button
+                class="btn btn-primary btn-margin-left"
+              >
+                Auto Detect
+              </button>
+            </span>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-course"
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-course-modal>
+`;
+
+exports[`CopyCourseModalComponent should snap with some course id 1`] = `
+<tm-copy-course-modal
+  COURSE_ID_MAX_LENGTH={[Function Number]}
+  COURSE_NAME_MAX_LENGTH={[Function Number]}
+  activeCourses={[Function Array]}
+  activeModal={[Function NgbActiveModal]}
+  allCourses={[Function Array]}
+  courseToFeedbackSession={[Function Object]}
+  fetchFeedbackSessionsEvent={[Function EventEmitter]}
+  isCopyFromOtherSession="false"
+  newCourseId={[Function String]}
+  newCourseIdIsConflicting="false"
+  newCourseName=""
+  newTimezone={[Function String]}
+  oldCourseId=""
+  oldCourseName=""
+  selectedFeedbackSessions={[Function Set]}
+  statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <div
+    class="modal-header"
+  >
+    <h5
+      class="modal-title"
+    >
+      <div>
+        Copy course
+      </div>
+      
+      <small>
+        Copy from: [] 
+        <b>
+          
+        </b>
+      </small>
+    </h5>
+    <button
+      class="close"
+      type="button"
+    >
+      <i
+        class="fas fa-times"
+      />
+    </button>
+  </div><div
+    class="modal-body"
+    id="copy-course-modal"
+  >
+    <div
+      class="row"
+    >
+      <div
+        class="col-12"
+      >
+        <div>
+          <label>
+            <b>
+              New Course
+            </b>
+          </label>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            Course ID:
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-id"
+            maxlength="64"
+            placeholder="e.g. CS3215-2013Semester1"
+            type="text"
+          />
+          <span>
+            58 characters left
+          </span>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            Course Name:
+          </label>
+          <input
+            class="form-control ng-untouched ng-pristine ng-valid"
+            id="copy-course-name"
+            maxlength="80"
+            placeholder="e.g. Software Engineering"
+            type="text"
+          />
+          <span>
+            80 characters left
+          </span>
+        </div>
+        <div
+          class="form-group"
+        >
+          <label>
+            <span
+              ngbtooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+            to match the current time offset in your area, including clock changes due to daylight saving time."
+            >
+              Time Zone:
+            </span>
+          </label>
+          <div
+            class="input-group"
+          >
+            <select
+              class="form-control ng-untouched ng-pristine ng-valid"
+              id="copy-time-zone"
+            >
+              
+              <option
+                value="Asia/Singapore"
+              >
+                Asia/Singapore (UTC +08:00)
+              </option>
+              <option
+                value="UTC"
+              >
+                UTC (UTC)
+              </option>
+            </select>
+            <span
+              class="input-group-btn"
+              style="margin-left: 5px;"
+            >
+              <button
+                class="btn btn-primary btn-margin-left"
+              >
+                Auto Detect
+              </button>
+            </span>
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div><div
+    class="modal-footer"
+  >
+    <button
+      class="btn btn-light"
+      type="button"
+    >
+      Cancel
+    </button>
+    <button
+      class="btn btn-primary"
+      disabled=""
+      id="btn-confirm-copy-course"
+      type="button"
+    >
+      Copy
+    </button>
+  </div>
+</tm-copy-course-modal>
+`;

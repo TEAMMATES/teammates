@@ -1,11 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 
 /**
@@ -29,16 +26,14 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         ______TS("success: delete all students");
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         DeleteStudentsAction action = getAction(submissionParams);
-        JsonResult result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(action);
 
         ______TS("fails silently if random course given");
         submissionParams = new String[] {
@@ -46,9 +41,7 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
         };
 
         action = getAction(submissionParams);
-        result = getJsonResult(action);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(action);
 
         ______TS("failure: invalid params");
 
@@ -57,11 +50,11 @@ public class DeleteStudentsActionTest extends BaseActionTest<DeleteStudentsActio
 
     @Override
     @Test
-    protected void testAccessControl() throws InvalidParametersException, EntityDoesNotExistException {
+    protected void testAccessControl() throws Exception {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseWithCorrectCoursePrivilegeCanAccess(

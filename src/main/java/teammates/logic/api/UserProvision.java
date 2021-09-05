@@ -1,10 +1,8 @@
 package teammates.logic.api;
 
-import com.google.appengine.api.users.User;
-import com.google.appengine.api.users.UserService;
-import com.google.appengine.api.users.UserServiceFactory;
-
 import teammates.common.datatransfer.UserInfo;
+import teammates.common.datatransfer.UserInfoCookie;
+import teammates.common.util.Config;
 import teammates.logic.core.AccountsLogic;
 import teammates.logic.core.StudentsLogic;
 
@@ -13,55 +11,43 @@ import teammates.logic.core.StudentsLogic;
  */
 public class UserProvision {
 
-    private static UserService userService = UserServiceFactory.getUserService();
+    private static final UserProvision instance = new UserProvision();
 
-    private static final AccountsLogic accountsLogic = AccountsLogic.inst();
-    private static final StudentsLogic studentsLogic = StudentsLogic.inst();
+    private final AccountsLogic accountsLogic = AccountsLogic.inst();
+    private final StudentsLogic studentsLogic = StudentsLogic.inst();
+
+    UserProvision() {
+        // prevent initialization
+    }
+
+    public static UserProvision inst() {
+        return instance;
+    }
 
     /**
      * Gets the information of the current logged in user.
      */
-    public UserInfo getCurrentUser() {
-        UserInfo user = getCurrentLoggedInUser();
+    public UserInfo getCurrentUser(UserInfoCookie uic) {
+        UserInfo user = getCurrentLoggedInUser(uic);
 
         if (user == null) {
             return null;
         }
 
         String userId = user.id;
+        user.isAdmin = Config.APP_ADMINS.contains(userId);
         user.isInstructor = accountsLogic.isAccountAnInstructor(userId);
         user.isStudent = studentsLogic.isStudentInAnyCourse(userId);
+        user.isMaintainer = Config.APP_MAINTAINERS.contains(user.getId());
         return user;
     }
 
-    /**
-     * Gets the login URL with the specified page as the redirect after logging in (if successful).
-     */
-    public String getLoginUrl(String redirectPage) {
-        UserInfo user = getCurrentLoggedInUser();
-
-        if (user == null) {
-            return userService.createLoginURL(redirectPage);
-        }
-        return redirectPage;
-    }
-
-    /**
-     * Gets the logout URL with the specified page as the redirect after logging out.
-     */
-    public String getLogoutUrl(String redirectPage) {
-        return userService.createLogoutURL(redirectPage);
-    }
-
-    protected UserInfo getCurrentLoggedInUser() {
-        User user = userService.getCurrentUser();
-        if (user == null) {
+    UserInfo getCurrentLoggedInUser(UserInfoCookie uic) {
+        if (uic == null || !uic.isValid()) {
             return null;
         }
 
-        UserInfo userInfo = new UserInfo(user.getNickname());
-        userInfo.isAdmin = userService.isUserAdmin();
-        return userInfo;
+        return new UserInfo(uic.getUserId());
     }
 
     /**
@@ -72,6 +58,7 @@ public class UserProvision {
         userInfo.isAdmin = false;
         userInfo.isInstructor = accountsLogic.isAccountAnInstructor(googleId);
         userInfo.isStudent = studentsLogic.isStudentInAnyCourse(googleId);
+        userInfo.isMaintainer = Config.APP_MAINTAINERS.contains(googleId);
         return userInfo;
     }
 

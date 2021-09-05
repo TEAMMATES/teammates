@@ -4,13 +4,12 @@ import java.util.List;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.datatransfer.questions.FeedbackMsqQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a feedback question.
@@ -23,7 +22,7 @@ class CreateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
         InstructorAttributes instructorDetailForCourse = logic.getInstructorForGoogleId(courseId, userInfo.getId());
@@ -34,7 +33,7 @@ class CreateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -54,19 +53,12 @@ class CreateFeedbackQuestionAction extends Action {
                 .build();
 
         // validate questions (giver & recipient)
-        String err = attributes.getQuestionDetails().validateGiverRecipientVisibility(attributes);
+        String err = attributes.getQuestionDetailsCopy().validateGiverRecipientVisibility(attributes);
         if (!err.isEmpty()) {
             throw new InvalidHttpRequestBodyException(err);
         }
         // validate questions (question details)
-        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetails();
-        if (questionDetails instanceof FeedbackMsqQuestionDetails) {
-            FeedbackMsqQuestionDetails msqQuestionDetails = (FeedbackMsqQuestionDetails) questionDetails;
-            int numOfGeneratedMsqChoices = logic.getNumOfGeneratedChoicesForParticipantType(
-                    attributes.getCourseId(), msqQuestionDetails.getGenerateOptionsFor());
-            msqQuestionDetails.setNumOfGeneratedMsqChoices(numOfGeneratedMsqChoices);
-            questionDetails = msqQuestionDetails;
-        }
+        FeedbackQuestionDetails questionDetails = attributes.getQuestionDetailsCopy();
         List<String> questionDetailsErrors = questionDetails.validateQuestionDetails();
         if (!questionDetailsErrors.isEmpty()) {
             throw new InvalidHttpRequestBodyException(questionDetailsErrors.toString());
@@ -75,7 +67,7 @@ class CreateFeedbackQuestionAction extends Action {
         try {
             attributes = logic.createFeedbackQuestion(attributes);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new FeedbackQuestionData(attributes));

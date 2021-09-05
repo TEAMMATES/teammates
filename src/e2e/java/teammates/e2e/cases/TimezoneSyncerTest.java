@@ -6,7 +6,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import teammates.common.util.AppUrl;
@@ -21,6 +20,7 @@ import teammates.e2e.pageobjects.IanaTimezonePage;
  */
 public class TimezoneSyncerTest extends BaseE2ETestCase {
 
+    private static final String IANA_TIMEZONE_DATABASE_URL = "https://www.iana.org/time-zones";
     private static final int DAYS_TO_UPDATE_TZ = 120;
 
     @Override
@@ -28,21 +28,21 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         // no test data used in this test
     }
 
-    @BeforeClass
-    public void classSetup() {
-        loginAdmin();
-    }
-
     @Test
     @Override
     public void testAll() {
-        AdminTimezonePage timezonePage = getNewPageInstance(
+        AdminTimezonePage timezonePage = loginAdminToPage(
                 createUrl(Const.WebPageURIs.ADMIN_TIMEZONE_PAGE), AdminTimezonePage.class);
 
         ______TS("ensure the front-end and the back-end have the same timezone database version");
         String javaOffsets = timezonePage.getJavaTimezoneOffsets();
         String momentOffsets = timezonePage.getMomentTimezoneOffsets();
-        assertEquals(timezonePage.getJavaTimezoneVersion(), timezonePage.getMomentTimezoneVersion());
+        assertEquals(
+                "The timezone database versions are not in sync. For information on updating the timezone databases, "
+                + "see the maintainer guide in the TEAMMATES ops repository.",
+                timezonePage.getJavaTimezoneVersion(),
+                timezonePage.getMomentTimezoneVersion()
+        );
         if (!javaOffsets.equals(momentOffsets)) {
             // Show diff when running test in Gradle
             assertEquals("<expected>" + System.lineSeparator() + javaOffsets + "</expected>",
@@ -52,8 +52,7 @@ public class TimezoneSyncerTest extends BaseE2ETestCase {
         ______TS("ensure the timezone databases are up-to-date");
         String currentTzVersion = timezonePage.getMomentTimezoneVersion();
         IanaTimezonePage ianaPage = getNewPageInstance(
-                new AppUrl(IanaTimezonePage.IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
-        ianaPage.waitForPageToLoad();
+                new AppUrl(IANA_TIMEZONE_DATABASE_URL), IanaTimezonePage.class);
         String latestTzVersion = ianaPage.getVersion();
 
         if (!currentTzVersion.equals(latestTzVersion)) {

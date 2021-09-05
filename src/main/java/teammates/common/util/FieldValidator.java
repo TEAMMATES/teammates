@@ -29,10 +29,10 @@ public final class FieldValidator {
     public static final String NATIONALITY_FIELD_NAME = "nationality";
 
     public static final String COURSE_NAME_FIELD_NAME = "course name";
-    public static final int COURSE_NAME_MAX_LENGTH = 64;
+    public static final int COURSE_NAME_MAX_LENGTH = 80;
 
     public static final String FEEDBACK_SESSION_NAME_FIELD_NAME = "feedback session name";
-    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 38;
+    public static final int FEEDBACK_SESSION_NAME_MAX_LENGTH = 64;
 
     public static final String TEAM_NAME_FIELD_NAME = "team name";
     public static final int TEAM_NAME_MAX_LENGTH = 60;
@@ -71,7 +71,7 @@ public final class FieldValidator {
      * TODO: make case insensitive
      */
     public static final String COURSE_ID_FIELD_NAME = "course ID";
-    public static final int COURSE_ID_MAX_LENGTH = 40;
+    public static final int COURSE_ID_MAX_LENGTH = 64;
 
     public static final String SESSION_START_TIME_FIELD_NAME = "start time";
     public static final String SESSION_END_TIME_FIELD_NAME = "end time";
@@ -246,7 +246,7 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForEmail(String email) {
 
-        Assumption.assertNotNull("Non-null value expected", email);
+        assert email != null;
 
         if (email.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(EMAIL_ERROR_MESSAGE_EMPTY_STRING, EMAIL_FIELD_NAME,
@@ -284,9 +284,9 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForGoogleId(String googleId) {
 
-        Assumption.assertNotNull("Non-null value expected", googleId);
-        Assumption.assertTrue("\"" + googleId + "\"" + "is not expected to be a gmail address.",
-                !googleId.toLowerCase().endsWith("@gmail.com"));
+        assert googleId != null;
+        assert !googleId.toLowerCase().endsWith("@gmail.com")
+                : "\"" + googleId + "\"" + "is not expected to be a gmail address.";
 
         boolean isValidFullEmail = isValidEmailAddress(googleId);
         boolean isValidEmailWithoutDomain = StringHelper.isMatching(googleId, REGEX_GOOGLE_ID_NON_EMAIL);
@@ -314,7 +314,7 @@ public final class FieldValidator {
      */
     public static String getInvalidityInfoForCourseId(String courseId) {
 
-        Assumption.assertNotNull("Non-null value expected", courseId);
+        assert courseId != null;
 
         if (courseId.isEmpty()) {
             return getPopulatedEmptyStringErrorMessage(COURSE_ID_ERROR_MESSAGE_EMPTY_STRING,
@@ -408,7 +408,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code nationality} is acceptable.
      */
     public static String getInvalidityInfoForNationality(String nationality) {
-        Assumption.assertNotNull("Non-null value expected", nationality);
+        assert nationality != null;
         if (!NationalityHelper.getNationalities().contains(nationality)) {
             return String.format(NATIONALITY_ERROR_MESSAGE, nationality);
         }
@@ -443,7 +443,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code timeZoneValue} is acceptable.
      */
     public static String getInvalidityInfoForTimeZone(String timeZoneValue) {
-        Assumption.assertNotNull("Non-null value expected", timeZoneValue);
+        assert timeZoneValue != null;
         if (!ZoneId.getAvailableZoneIds().contains(timeZoneValue)) {
             return getPopulatedErrorMessage(TIME_ZONE_ERROR_MESSAGE,
                     timeZoneValue, TIME_ZONE_FIELD_NAME, REASON_UNAVAILABLE_AS_CHOICE);
@@ -458,7 +458,7 @@ public final class FieldValidator {
      *         Returns an empty string if the {@code role} is acceptable.
      */
     public static String getInvalidityInfoForRole(String role) {
-        Assumption.assertNotNull("Non-null value expected", role);
+        assert role != null;
 
         if (!ROLE_ACCEPTED_VALUES.contains(role)) {
             return String.format(ROLE_ERROR_MESSAGE, role);
@@ -482,7 +482,7 @@ public final class FieldValidator {
      */
     static String getValidityInfoForAllowedName(String fieldName, int maxLength, String value) {
 
-        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
+        assert value != null : "Non-null value expected for " + fieldName;
 
         if (value.isEmpty()) {
             if (fieldName.equals(FEEDBACK_SESSION_NAME_FIELD_NAME)) {
@@ -534,7 +534,7 @@ public final class FieldValidator {
      *         Returns an empty string "" if the {@code value} is acceptable.
      */
     static String getValidityInfoForSizeCappedPossiblyEmptyString(String fieldName, int maxLength, String value) {
-        Assumption.assertNotNull("Non-null value expected for " + fieldName, value);
+        assert value != null : "Non-null value expected for " + fieldName;
 
         if (isUntrimmed(value)) {
             return WHITESPACE_ONLY_OR_EXTRA_WHITESPACE_ERROR_MESSAGE.replace("${fieldName}", fieldName);
@@ -580,8 +580,8 @@ public final class FieldValidator {
 
     private static String getInvalidityInfoForFirstTimeIsBeforeSecondTime(
             Instant earlierTime, Instant laterTime, String earlierTimeFieldName, String laterTimeFieldName) {
-        Assumption.assertNotNull("Non-null value expected", earlierTime);
-        Assumption.assertNotNull("Non-null value expected", laterTime);
+        assert earlierTime != null;
+        assert laterTime != null;
         if (TimeHelper.isSpecialTime(earlierTime) || TimeHelper.isSpecialTime(laterTime)) {
             return "";
         }
@@ -591,11 +591,18 @@ public final class FieldValidator {
         return "";
     }
 
+    /**
+     * Checks if both the giver type and recipient type for the feedback question is valid.
+     *
+     * @param giverType feedback question giver type to be checked.
+     * @param recipientType feedback question recipient type to be checked.
+     * @return Error string if either type is invalid, otherwise empty string.
+     */
     public static List<String> getValidityInfoForFeedbackParticipantType(
             FeedbackParticipantType giverType, FeedbackParticipantType recipientType) {
 
-        Assumption.assertNotNull("Non-null value expected", giverType);
-        Assumption.assertNotNull("Non-null value expected", recipientType);
+        assert giverType != null;
+        assert recipientType != null;
 
         List<String> errors = new LinkedList<>();
         if (!giverType.isValidGiver()) {
@@ -624,7 +631,7 @@ public final class FieldValidator {
      * @return Error string if type is invalid, otherwise empty string.
      */
     public static String getInvalidityInfoForCommentGiverType(FeedbackParticipantType commentGiverType) {
-        Assumption.assertNotNull("Non-null value expected", commentGiverType);
+        assert commentGiverType != null;
         if (!commentGiverType.equals(FeedbackParticipantType.STUDENTS)
                    && !commentGiverType.equals(FeedbackParticipantType.INSTRUCTORS)
                    && !commentGiverType.equals(FeedbackParticipantType.TEAMS)) {
@@ -649,17 +656,26 @@ public final class FieldValidator {
         return "";
     }
 
+    /**
+     * Checks if all the given participant types are valid for the purpose of
+     * showing different fields of a feedback response.
+     *
+     * @param showResponsesTo the list of participant types to whom responses can be shown
+     * @param showGiverNameTo the list of participant types to whom giver name can be shown
+     * @param showRecipientNameTo the list of participant types to whom recipient name can be shown
+     * @return Error string if any type in any list is invalid, otherwise empty string.
+     */
     public static List<String> getValidityInfoForFeedbackResponseVisibility(
             List<FeedbackParticipantType> showResponsesTo,
             List<FeedbackParticipantType> showGiverNameTo,
             List<FeedbackParticipantType> showRecipientNameTo) {
 
-        Assumption.assertNotNull("Non-null value expected", showResponsesTo);
-        Assumption.assertNotNull("Non-null value expected", showGiverNameTo);
-        Assumption.assertNotNull("Non-null value expected", showRecipientNameTo);
-        Assumption.assertTrue("Non-null value expected", !showResponsesTo.contains(null));
-        Assumption.assertTrue("Non-null value expected", !showGiverNameTo.contains(null));
-        Assumption.assertTrue("Non-null value expected", !showRecipientNameTo.contains(null));
+        assert showResponsesTo != null;
+        assert showGiverNameTo != null;
+        assert showRecipientNameTo != null;
+        assert !showResponsesTo.contains(null);
+        assert !showGiverNameTo.contains(null);
+        assert !showRecipientNameTo.contains(null);
 
         List<String> errors = new LinkedList<>();
 
@@ -697,12 +713,18 @@ public final class FieldValidator {
         return errors;
     }
 
+    /**
+     * Checks if the given {@code value} has no HTML code.
+     */
     static String getValidityInfoForNonHtmlField(String fieldName, String value) {
         String sanitizedValue = SanitizationHelper.sanitizeForHtml(value);
         //Fails if sanitized value is not same as value
         return value.equals(sanitizedValue) ? "" : NON_HTML_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName);
     }
 
+    /**
+     * Checks if the given {@code value} is not null.
+     */
     public static String getValidityInfoForNonNullField(String fieldName, Object value) {
         return value == null ? NON_NULL_FIELD_ERROR_MESSAGE.replace("${fieldName}", fieldName) : "";
     }
@@ -743,7 +765,7 @@ public final class FieldValidator {
                               .replace("${reason}", errorReason);
     }
 
-    public static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
+    private static String getPopulatedEmptyStringErrorMessage(String messageTemplate,
             String fieldName, int maxLength) {
         return messageTemplate.replace("${fieldName}", fieldName)
                               .replace("${maxLength}", String.valueOf(maxLength));

@@ -14,11 +14,13 @@ exports[`InstructorHomePageComponent should snap when courses are still loading 
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -80,11 +82,13 @@ exports[`InstructorHomePageComponent should snap with default fields 1`] = `
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -146,11 +150,13 @@ exports[`InstructorHomePageComponent should snap with one course with error load
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -231,6 +237,7 @@ exports[`InstructorHomePageComponent should snap with one course with error load
             id="course-tab-header"
           >
             <b
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
@@ -300,11 +307,13 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -385,13 +394,14 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
             id="course-tab-header"
           >
             <b
+              class="text-break"
               id="course-details"
             >
               [CS1231]: Discrete Structures
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -633,7 +643,9 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                         
                         <tr>
                           
-                          <td>
+                          <td
+                            class="text-break"
+                          >
                             First Session
                           </td>
                           
@@ -726,6 +738,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                             
                             <div
                               class="d-inline-block dropdown"
+                              container="body"
                               ngbdropdown=""
                             >
                               <button
@@ -824,11 +837,13 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -909,13 +924,14 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
             id="course-tab-header"
           >
             <b
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -1140,7 +1156,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         
                         <tr>
                           
-                          <td>
+                          <td
+                            class="text-break"
+                          >
                             First Session
                           </td>
                           
@@ -1224,6 +1242,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             
                             <div
                               class="d-inline-block dropdown"
+                              container="body"
                               ngbdropdown=""
                             >
                               <button
@@ -1293,7 +1312,9 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                         </tr>
                         <tr>
                           
-                          <td>
+                          <td
+                            class="text-break"
+                          >
                             Second Session
                           </td>
                           
@@ -1377,6 +1398,7 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                             
                             <div
                               class="d-inline-block dropdown"
+                              container="body"
                               ngbdropdown=""
                             >
                               <button
@@ -1477,11 +1499,13 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -1562,13 +1586,14 @@ exports[`InstructorHomePageComponent should snap with one course with unexpanded
             id="course-tab-header"
           >
             <b
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -1738,11 +1763,13 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -1823,13 +1850,14 @@ exports[`InstructorHomePageComponent should snap with one course with unpopulate
             id="course-tab-header"
           >
             <b
+              class="text-break"
               id="course-details"
             >
               [CS3281]: Thematic Systems I
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"
@@ -2027,11 +2055,13 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
   hasCoursesLoadingFailed="false"
   instructorCoursesSortBy={[Function Number]}
   instructorService={[Function InstructorService]}
+  isCopyLoading="false"
   isNewUser="false"
   isResultActionLoading="false"
   isSendReminderLoading="false"
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  progressBarService={[Function ProgressBarService]}
   publishUnpublishRetryAttempts={[Function Number]}
   router={[Function Router]}
   simpleModalService={[Function SimpleModalService]}
@@ -2112,13 +2142,14 @@ exports[`InstructorHomePageComponent should snap with one course without feedbac
             id="course-tab-header"
           >
             <b
+              class="text-break"
               id="course-details"
             >
               [CS1231]: Discrete Structures
             </b>
             
             <div
-              class="card-header-btn-toolbar"
+              class="card-header-btn-toolbar flex-lg-shrink-0"
             >
               <span
                 class="dropdown"

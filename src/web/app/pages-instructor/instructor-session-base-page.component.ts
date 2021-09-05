@@ -1,12 +1,14 @@
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { saveAs } from 'file-saver';
-import { from, Observable, of } from 'rxjs';
-import { catchError, concatMap, finalize, last, switchMap } from 'rxjs/operators';
+import { concat, Observable, of } from 'rxjs';
+import { catchError, finalize, switchMap, takeWhile } from 'rxjs/operators';
 import { FeedbackQuestionsService } from '../../services/feedback-questions.service';
 import { FeedbackSessionsService } from '../../services/feedback-sessions.service';
 import { InstructorService } from '../../services/instructor.service';
 import { NavigationService } from '../../services/navigation.service';
+import { ProgressBarService } from '../../services/progress-bar.service';
+import { SimpleModalService } from '../../services/simple-modal.service';
 import { StatusMessageService } from '../../services/status-message.service';
 import { TableComparatorService } from '../../services/table-comparator.service';
 import {
@@ -21,6 +23,7 @@ import { SortBy, SortOrder } from '../../types/sort-properties';
 import { CopySessionModalResult } from '../components/copy-session-modal/copy-session-modal-model';
 import { ErrorReportComponent } from '../components/error-report/error-report.component';
 import { CopySessionResult, SessionsTableRowModel } from '../components/sessions-table/sessions-table-model';
+import { SimpleModalType } from '../components/simple-modal/simple-modal-type';
 import { ErrorMessageOutput } from '../error-message-output';
 
 /**
@@ -41,17 +44,20 @@ export abstract class InstructorSessionBasePageComponent {
                         protected feedbackSessionsService: FeedbackSessionsService,
                         protected feedbackQuestionsService: FeedbackQuestionsService,
                         protected tableComparatorService: TableComparatorService,
-                        protected ngbModal: NgbModal) { }
+                        protected ngbModal: NgbModal,
+                        protected simpleModalService: SimpleModalService,
+                        protected progressBarService: ProgressBarService) { }
 
   /**
    * Copies a feedback session.
    */
-  protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string):
-      Observable<FeedbackSession> {
-    let createdFeedbackSession!: FeedbackSession;
+  protected copyFeedbackSession(fromFeedbackSession: FeedbackSession, newSessionName: string, newCourseId: string,
+      oldCourseId: string): Observable<FeedbackSession> {
     return this.feedbackSessionsService.createFeedbackSession(newCourseId, {
       feedbackSessionName: newSessionName,
       instructions: fromFeedbackSession.instructions,
+      toCopySessionName: fromFeedbackSession.feedbackSessionName,
+      toCopyCourseId: oldCourseId,
 
       submissionStartTimestamp: fromFeedbackSession.submissionStartTimestamp,
       submissionEndTimestamp: fromFeedbackSession.submissionEndTimestamp,
@@ -65,50 +71,7 @@ export abstract class InstructorSessionBasePageComponent {
 
       isClosingEmailEnabled: fromFeedbackSession.isClosingEmailEnabled,
       isPublishedEmailEnabled: fromFeedbackSession.isPublishedEmailEnabled,
-    }).pipe(
-        switchMap((feedbackSession: FeedbackSession) => {
-          createdFeedbackSession = feedbackSession;
-
-          // copy questions
-          return this.feedbackQuestionsService.getFeedbackQuestions({
-            courseId: fromFeedbackSession.courseId,
-            feedbackSessionName: fromFeedbackSession.feedbackSessionName,
-            intent: Intent.FULL_DETAIL,
-          },
-          );
-        }),
-        switchMap((response: FeedbackQuestions) => {
-          if (response.questions.length === 0) {
-            // no questions to copy
-            return of(createdFeedbackSession);
-          }
-          return from(response.questions).pipe(
-              concatMap((feedbackQuestion: FeedbackQuestion) => {
-                return this.feedbackQuestionsService.createFeedbackQuestion(
-                    createdFeedbackSession.courseId, createdFeedbackSession.feedbackSessionName, {
-                      questionNumber: feedbackQuestion.questionNumber,
-                      questionBrief: feedbackQuestion.questionBrief,
-                      questionDescription: feedbackQuestion.questionDescription,
-
-                      questionDetails: feedbackQuestion.questionDetails,
-                      questionType: feedbackQuestion.questionType,
-
-                      giverType: feedbackQuestion.giverType,
-                      recipientType: feedbackQuestion.recipientType,
-
-                      numberOfEntitiesToGiveFeedbackToSetting: feedbackQuestion.numberOfEntitiesToGiveFeedbackToSetting,
-                      customNumberOfEntitiesToGiveFeedbackTo: feedbackQuestion.customNumberOfEntitiesToGiveFeedbackTo,
-
-                      showResponsesTo: feedbackQuestion.showResponsesTo,
-                      showGiverNameTo: feedbackQuestion.showGiverNameTo,
-                      showRecipientNameTo: feedbackQuestion.showRecipientNameTo,
-                    });
-              }),
-              last(),
-              switchMap(() => of(createdFeedbackSession)),
-          );
-        }),
-    );
+    });
   }
 
   /**
@@ -168,16 +131,6 @@ export abstract class InstructorSessionBasePageComponent {
   }
 
   /**
-   * Edits the feedback session.
-   */
-  editSession(model: SessionsTableRowModel): void {
-    this.navigationService.navigateByURLWithParamEncoding(
-        this.router,
-        '/web/instructor/sessions/edit',
-        { courseid: model.feedbackSession.courseId, fsname: model.feedbackSession.feedbackSessionName });
-  }
-
-  /**
    * Creates list of copy session requests from params
    * @param model the source session model
    * @param result the result of the copy session modal
@@ -188,7 +141,8 @@ export abstract class InstructorSessionBasePageComponent {
     const copySessionRequests: Observable<FeedbackSession>[] = [];
     result.copyToCourseList.forEach((copyToCourseId: string) => {
       copySessionRequests.push(
-          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId)
+          this.copyFeedbackSession(model.feedbackSession, result.newFeedbackSessionName, copyToCourseId,
+            result.sessionToCopyCourseId)
               .pipe(catchError((err: any) => {
                 this.failedToCopySessions[copyToCourseId] = err.error.message;
                 return of(err);
@@ -215,7 +169,8 @@ export abstract class InstructorSessionBasePageComponent {
         intent: Intent.FULL_DETAIL,
       }).pipe(
           switchMap((feedbackSession: FeedbackSession) =>
-              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId)),
+              this.copyFeedbackSession(feedbackSession, result.newFeedbackSessionName, copyToCourseId,
+                result.sessionToCopyCourseId)),
           catchError((err: any) => {
             this.failedToCopySessions[copyToCourseId] = err.error.message;
             return of(err);
@@ -278,23 +233,68 @@ export abstract class InstructorSessionBasePageComponent {
    * Downloads the result of a feedback session in csv.
    */
   downloadSessionResult(model: SessionsTableRowModel): void {
+    this.feedbackQuestionsService.getFeedbackQuestions({
+      courseId: model.feedbackSession.courseId,
+      feedbackSessionName: model.feedbackSession.feedbackSessionName,
+      intent: Intent.INSTRUCTOR_RESULT,
+    }).subscribe((feedbackQuestions: FeedbackQuestions) => {
+      const questions: FeedbackQuestion[] = feedbackQuestions.questions;
+      this.downloadSessionResultHelper(questions, model);
+    });
+  }
+
+  downloadSessionResultHelper(questions: FeedbackQuestion[], model: SessionsTableRowModel): void {
     this.isResultActionLoading = true;
     const filename: string =
         `${model.feedbackSession.courseId}_${model.feedbackSession.feedbackSessionName}_result.csv`;
     let blob: any;
+    let downloadAborted: boolean = false;
+    const outputData: string[] = [];
 
-    this.feedbackSessionsService.downloadSessionResults(
-      model.feedbackSession.courseId,
-      model.feedbackSession.feedbackSessionName,
-      Intent.INSTRUCTOR_RESULT,
-      true,
-      true,
-    ) .pipe(finalize(() => this.isResultActionLoading = false))
-      .subscribe((resp: string) => {
-        blob = new Blob([resp], { type: 'text/csv' });
-        saveAs(blob, filename);
-      }, (resp: ErrorMessageOutput) => {
-        this.statusMessageService.showErrorToast(resp.error.message);
+    const modalContent: string = 'Downloading the results of your feedback session...';
+    const loadingModal: NgbModalRef = this.simpleModalService.openLoadingModal(
+        'Download Progress', SimpleModalType.LOAD, modalContent);
+    loadingModal.result.then(() => {
+      this.isResultActionLoading = false;
+      downloadAborted = true;
+    });
+
+    outputData.push(`Course,${model.feedbackSession.courseId}\n`);
+    outputData.push(`Session Name,${model.feedbackSession.feedbackSessionName}\n`);
+
+    concat(
+      ...questions.map((question: FeedbackQuestion) =>
+        this.feedbackSessionsService.downloadSessionResults(
+            model.feedbackSession.courseId,
+            model.feedbackSession.feedbackSessionName,
+            Intent.FULL_DETAIL,
+            true,
+            true,
+            question.feedbackQuestionId,
+        ),
+      ),
+    ).pipe(finalize(() => this.isResultActionLoading = false))
+      .pipe(takeWhile(() => this.isResultActionLoading && !downloadAborted))
+      .subscribe({
+        next: (resp: string) => {
+          outputData.push(resp);
+          const numberOfQuestionsDownloaded: number = outputData.length;
+          const totalNumberOfQuestions: number = questions.length;
+          const progressPercentage: number = Math.round(100 * numberOfQuestionsDownloaded / totalNumberOfQuestions);
+          this.progressBarService.updateProgress(progressPercentage);
+        },
+        complete: () => {
+          if (downloadAborted) {
+            return;
+          }
+          loadingModal.close();
+          blob = new Blob(outputData, { type: 'text/csv' });
+          saveAs(blob, filename);
+        },
+        error: (resp: ErrorMessageOutput) => {
+          this.statusMessageService.showErrorToast(resp.error.message);
+          loadingModal.close();
+        },
       });
   }
 

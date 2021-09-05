@@ -5,7 +5,7 @@
 
 <tm-loading-retry [shouldShowRetry]="hasLoadingFeedbackQuestionsFailed" [message]="'Failed to load feedback questions'" (retryEvent)="loadFeedbackQuestions()">
   <div *ngIf="!isLoadingFeedbackQuestions" class="offset-md-10 margin-vertical-20px">
-    <button class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
+    <button id="btn-collapse-expand" class="btn expand-btn btn-light margin-top-30px" (click)="isAllCollapsed ? expandAll() : collapseAll()">
       {{isAllCollapsed ? "Expand" : "Collapse" }} All
     </button>
   </div>
@@ -21,6 +21,7 @@
                              [(formModel)]="questionEditFormModels[i]"></tm-question-edit-form>
     </div>
   </div>
+  <div *tmIsLoading="isAddingFromTemplate"></div>
   <br/>
   <div class="card" *ngIf="!isLoadingFeedbackQuestions && !isAddingQuestionPanelExpanded">
     <div class="card-body background-color-light-blue text-center">

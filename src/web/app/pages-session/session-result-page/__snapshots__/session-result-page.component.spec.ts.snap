@@ -10,10 +10,14 @@ exports[`SessionResultPageComponent should snap when session results failed to l
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed={[Function Boolean]}
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName=""
   questions={[Function Array]}
   regKey={[Function String]}
@@ -69,7 +73,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -87,7 +91,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -105,7 +109,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -123,7 +127,7 @@ exports[`SessionResultPageComponent should snap when session results failed to l
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -166,10 +170,14 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName=""
   questions={[Function Array]}
   regKey={[Function String]}
@@ -225,7 +233,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           CS3281
@@ -243,7 +251,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           Peer Review 1
@@ -261,7 +269,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -279,7 +287,7 @@ exports[`SessionResultPageComponent should snap with an open feedback session wi
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -309,10 +317,14 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName=""
   questions={[Function Array]}
   regKey={[Function String]}
@@ -368,7 +380,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -386,7 +398,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -404,7 +416,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -422,7 +434,7 @@ exports[`SessionResultPageComponent should snap with default fields 1`] = `
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -452,10 +464,14 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName=""
   questions={[Function Array]}
   regKey={[Function String]}
@@ -511,7 +527,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           CS1231
@@ -529,7 +545,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           First Session
@@ -547,7 +563,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -565,7 +581,7 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -618,33 +634,14 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </span>
             
           </tm-question-text-with-info>
-          <tm-single-statistics>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <tm-mcq-question-statistics>
-              
-            </tm-mcq-question-statistics>
-          </tm-single-statistics>
           
-          
-          <div>
-            
-          </div>
           
           <div
             class="mt-4"
             id="given-responses"
           >
             <strong>
-              Your own responses (to others):
+              Your own responses:
             </strong>
             
             <div>
@@ -751,219 +748,14 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </span>
             
           </tm-question-text-with-info>
-          <tm-single-statistics>
-            
-            <tm-contribution-question-statistics>
-              
-              <div>
-                <div
-                  class="card"
-                  style="margin-top: 20px;"
-                >
-                  <div
-                    class="card-header bg-primary text-white"
-                  >
-                     Comparison of Work Distribution 
-                  </div>
-                  <div
-                    class="card-body"
-                  >
-                    <div
-                      class="row"
-                      style="margin-bottom: 5px;"
-                    >
-                      <div
-                        class="col-sm-2"
-                      >
-                        <span
-                          class="ngb-tooltip-class"
-                          ngbtooltip="Compare 'My view' with 'Team's view' to see if your perception is similar to your team's perception"
-                        >
-                          <strong>
-                            My view:
-                          </strong>
-                        </span>
-                      </div>
-                      <div
-                        class="col-sm-2"
-                        id="own-view-me"
-                      >
-                        <strong>
-                          of me:
-                        </strong>
-                         
-                        <tm-contribution>
-                          
-                          
-                          <span>
-                            
-                            
-                            
-                            <span
-                              class="negative"
-                            >
-                              E -100%
-                            </span>
-                            
-                          </span>
-                        </tm-contribution>
-                      </div>
-                      <div
-                        class="col-sm-8"
-                        id="own-view-others"
-                      >
-                        <strong>
-                          of others:
-                        </strong>
-                          
-                        
-                          
-                        <a
-                          href="/"
-                          queryparamshandling="preserve"
-                        >
-                          <i
-                            class="fas fa-info-circle"
-                          />
-                        </a>
-                      </div>
-                    </div>
-                    <div
-                      class="row"
-                    >
-                      <div
-                        class="col-sm-2"
-                      >
-                        <strong>
-                          Team view:
-                        </strong>
-                      </div>
-                      <div
-                        class="col-sm-2"
-                        id="team-view-me"
-                      >
-                        <span
-                          class="ngb-tooltip-class"
-                          ngbtooltip="The average contribution the other members of your team attributed to you"
-                        >
-                          <strong>
-                            of me: 
-                          </strong>
-                        </span>
-                        <tm-contribution>
-                          
-                          
-                          <span>
-                            
-                            
-                            
-                            <span
-                              class="negative"
-                            >
-                              E -100%
-                            </span>
-                            
-                          </span>
-                        </tm-contribution>
-                      </div>
-                      <div
-                        class="col-sm-8"
-                        id="team-view-others"
-                      >
-                        <strong>
-                          of others:
-                        </strong>
-                          
-                        
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              
-            </tm-contribution-question-statistics>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-          </tm-single-statistics>
           
-          <tm-student-view-responses>
-            <div
-              class="card border-primary mt-4"
-            >
-              <div
-                class="card-header bg-primary text-white"
-              >
-                <span
-                  id="response-recipient"
-                >
-                  <b>
-                    To:
-                  </b>
-                   giver1
-                </span>
-              </div>
-              <div
-                class="card-body"
-                style="padding: 0;"
-              >
-                <table
-                  class="table"
-                >
-                  <tbody>
-                    
-                    
-                    <tr>
-                      <td
-                        id="response-giver"
-                      >
-                        <strong>
-                          From:
-                        </strong>
-                         giver1 
-                      </td>
-                    </tr>
-                    <tr>
-                      <td>
-                        <tm-single-response>
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                          
-                        </tm-single-response>
-                      </td>
-                    </tr>
-                    
-                    
-                    
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </tm-student-view-responses>
-          
-          <div>
-            
-          </div>
           
           <div
             class="mt-4"
             id="given-responses"
           >
             <strong>
-              Your own responses (to others):
+              Your own responses:
             </strong>
             
             <div>
@@ -1131,174 +923,14 @@ exports[`SessionResultPageComponent should snap with feedback session with quest
             </span>
             
           </tm-question-text-with-info>
-          <tm-single-statistics>
-            
-            
-            
-            
-            
-            
-            <tm-rubric-question-statistics>
-              <div>
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-sm-4 text-color-gray mt-2"
-                  >
-                    <strong>
-                       Response Summary 
-                      
-                      <span>
-                        (of received responses)
-                      </span>
-                    </strong>
-                    <span
-                      class="fa fa-info-circle"
-                      container="body"
-                    />
-                  </div>
-                  <div
-                    class="col-sm-8"
-                    style="text-align: right;"
-                  >
-                    <label
-                      class="form-check-label"
-                    >
-                      <input
-                        class="form-check-input ng-untouched ng-pristine ng-valid"
-                        id="exclude-self-checkbox"
-                        type="checkbox"
-                      />
-                      <span
-                        class="ngb-tooltip-class"
-                        container="body"
-                        ngbtooltip="Excludes giver's responses to himself/herself from statistics"
-                      >
-                        Exclude self evaluation
-                      </span>
-                    </label>
-                  </div>
-                </div>
-                <div
-                  class="row"
-                >
-                  <div
-                    class="col-sm-12 table-responsive"
-                    id="rubric-statistics"
-                  >
-                    <tm-sortable-table>
-                      <table
-                        class="table table-bordered table-striped margin-bottom-20px"
-                      >
-                        <thead>
-                          <tr>
-                            
-                            <th
-                              class="sortable-header"
-                            >
-                              <span
-                                container="body"
-                              >
-                                Question
-                              </span>
-                              
-                              <span
-                                class="fa-stack"
-                              >
-                                <i
-                                  class="fas fa-sort"
-                                />
-                                
-                                
-                              </span>
-                            </th>
-                            <th
-                              class="sortable-header"
-                            >
-                              <span
-                                container="body"
-                              >
-                                Poor
-                              </span>
-                              
-                              <span
-                                class="fa-stack"
-                              >
-                                <i
-                                  class="fas fa-sort"
-                                />
-                                
-                                
-                              </span>
-                            </th>
-                            <th
-                              class="sortable-header"
-                            >
-                              <span
-                                container="body"
-                              >
-                                Average
-                              </span>
-                              
-                              <span
-                                class="fa-stack"
-                              >
-                                <i
-                                  class="fas fa-sort"
-                                />
-                                
-                                
-                              </span>
-                            </th>
-                            <th
-                              class="sortable-header"
-                            >
-                              <span
-                                container="body"
-                              >
-                                Good
-                              </span>
-                              
-                              <span
-                                class="fa-stack"
-                              >
-                                <i
-                                  class="fas fa-sort"
-                                />
-                                
-                                
-                              </span>
-                            </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          
-                        </tbody>
-                      </table>
-                    </tm-sortable-table>
-                  </div>
-                </div>
-                
-              </div>
-            </tm-rubric-question-statistics>
-            
-            
-            
-            
-          </tm-single-statistics>
           
-          
-          <div>
-            
-          </div>
           
           <div
             class="mt-4"
             id="given-responses"
           >
             <strong>
-              Your own responses (to others):
+              Your own responses:
             </strong>
             
             <div>
@@ -1458,10 +1090,14 @@ exports[`SessionResultPageComponent should snap with session results are loading
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading={[Function Boolean]}
+  logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName=""
   questions={[Function Array]}
   regKey={[Function String]}
@@ -1517,7 +1153,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -1535,7 +1171,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -1553,7 +1189,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -1571,7 +1207,7 @@ exports[`SessionResultPageComponent should snap with session results are loading
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -1613,10 +1249,14 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
   loggedInUser={[Function String]}
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
@@ -1673,7 +1313,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -1691,7 +1331,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -1709,7 +1349,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -1727,7 +1367,7 @@ exports[`SessionResultPageComponent should snap with user that is logged in and 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           
@@ -1757,10 +1397,14 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
   formattedSessionClosingTime=""
   formattedSessionOpeningTime=""
   hasFeedbackSessionResultsLoadingFailed="false"
+  instructorService={[Function InstructorService]}
+  intent={[Function String]}
   isFeedbackSessionResultsLoading="false"
+  logService={[Function LogService]}
   loggedInUser=""
   navigationService={[Function NavigationService]}
   ngbModal={[Function NgbModal]}
+  personEmail=""
   personName={[Function String]}
   questions={[Function Array]}
   regKey={[Function String]}
@@ -1816,7 +1460,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="course-id"
         >
           
@@ -1834,7 +1478,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="session-name"
         >
           
@@ -1852,7 +1496,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="opening-time"
         >
           
@@ -1870,7 +1514,7 @@ exports[`SessionResultPageComponent should snap with user that is not logged in 
           </b>
         </div>
         <div
-          class="col-md-5 text-md-left"
+          class="col-md-7 text-md-left"
           id="closing-time"
         >
           

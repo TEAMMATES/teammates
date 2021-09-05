@@ -277,7 +277,7 @@ describe('StudentHomePageComponent', () => {
         TeammatesRouterModule,
       ],
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -311,16 +311,33 @@ describe('StudentHomePageComponent', () => {
           isPublishedEmailEnabled: true,
           createdAtTimestamp: 0,
         },
+        {
+          feedbackSessionName: 'Second Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 1,
+          submissionEndTimestamp: 1549095331000, // Saturday, 2 February 2019 16:15:31 GMT+08:00
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
       ],
     };
 
     const hasRes: HasResponses = {
       hasResponses: false,
+      hasResponsesBySession: { 'First Session': false, 'Second Session': true },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -331,14 +348,71 @@ describe('StudentHomePageComponent', () => {
     expect(component.isCoursesLoading).toBeFalsy();
   });
 
+  it('should load the courses and feedback sessions but fail if sessions are not loaded correctly', () => {
+    const studentFeedbackSessions1: FeedbackSessions = {
+      feedbackSessions: [
+        {
+          feedbackSessionName: 'First Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 0,
+          submissionEndTimestamp: 1549095330000, // Saturday, 2 February 2019 16:15:30 GMT+08:00
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+        {
+          feedbackSessionName: 'Second Session',
+          courseId: 'CS1231',
+          timeZone: 'Asia/Singapore',
+          instructions: '',
+          submissionStartTimestamp: 1,
+          submissionEndTimestamp: 1549095331000, // Saturday, 2 February 2019 16:15:31 GMT+08:00
+          gracePeriod: 0,
+          sessionVisibleSetting: SessionVisibleSetting.AT_OPEN,
+          responseVisibleSetting: ResponseVisibleSetting.AT_VISIBLE,
+          submissionStatus: FeedbackSessionSubmissionStatus.OPEN,
+          publishStatus: FeedbackSessionPublishStatus.PUBLISHED,
+          isClosingEmailEnabled: true,
+          isPublishedEmailEnabled: true,
+          createdAtTimestamp: 0,
+        },
+      ],
+    };
+
+    const hasRes: HasResponses = {
+      hasResponses: false,
+      hasResponsesBySession: { 'First Session': false },
+    };
+
+    spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
+    spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions1));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
+
+    component.loadStudentCourses();
+
+    expect(component.hasCoursesLoadingFailed).toBeTruthy();
+  });
+
   it('should sort feedback sessions first by createdAtTimestamp upon loading', () => {
     const hasRes: HasResponses = {
       hasResponses: false,
+      hasResponsesBySession: {
+        'Orientation Session': false,
+        'Welcome Tea Session': false,
+        'Latest update Session': false,
+      },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
 
     component.loadStudentCourses();
 
@@ -352,11 +426,16 @@ describe('StudentHomePageComponent', () => {
   it('should sort feedback sessions by submissionEndTimestamp, when createdAtTimestamps are equal', () => {
     const hasRes: HasResponses = {
       hasResponses: false,
+      hasResponsesBySession: {
+        'Orientation Session': false,
+        'Welcome Tea Session': false,
+        'Latest update Session': false,
+      },
     };
 
     spyOn(courseService, 'getAllCoursesAsStudent').and.returnValue(of(studentCourses));
     spyOn(feedbackSessionsService, 'getFeedbackSessionsForStudent').and.returnValue(of(studentFeedbackSessions));
-    spyOn(feedbackSessionsService, 'hasStudentResponseForFeedbackSession').and.returnValue(of(hasRes));
+    spyOn(feedbackSessionsService, 'hasStudentResponseForAllFeedbackSessionsInCourse').and.returnValue(of(hasRes));
 
     component.loadStudentCourses();
 

@@ -1,0 +1,132 @@
+# This template supports the app.yaml format for both App Engine Standard and Flexible environment.
+# In order to deploy to one kind of runtime, the configuration for the other kind must be completely removed/commented out.
+
+###########################################################################
+# App Engine Standard (Java 11) configuration
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref
+###########################################################################
+
+# Run/deploy with Java 11 runtime.
+runtime: java11
+
+# Command to run the application as how it would be done in command line.
+entrypoint: >
+  java -ea -Djava.util.logging.config.file=WEB-INF/logging.properties
+  -Djava.time.zone.DefaultZoneRulesProvider=teammates.common.util.TzdbResourceZoneRulesProvider
+  -cp "WEB-INF/lib/*:WEB-INF/classes/." teammates.main.Application
+
+# GAE instance class that determines compute resources available to the application.
+instance_class: F1
+
+# VPC Access Connector is required in order to connect to VMs in Compute Engine, e.g. the search service.
+# For details on how to set this up, refer to the guide in teammates-ops repo or GCP's official documentation.
+# vpc_access_connector:
+#   name: projects/teammates-john/locations/us-central1/connectors/connector-name
+
+# Defines environment variables.
+# The following example enables Google Cloud Profiler agent to ingest application performance data.
+# env_variables:
+#   JAVA_TOOL_OPTIONS: "-agentpath:/opt/cprof/profiler_java_agent.so=-cprof_enable_heap_sampling=true"
+
+handlers:
+  # These are the handlers for static files. By specifying them as static files, requests pointing to these URLs will not add up to instance load.
+  # Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref#handlers_element
+
+  # Assets and front-end files
+  - url: /assets
+    static_dir: assets
+    expiration: 90d
+  - url: /(.*\.(js|css))$
+    static_files: \1
+    upload: .*\.(js|css)$
+    expiration: 90d
+
+  # Progressive web app files
+  - url: /manifest.webmanifest
+    static_files: manifest.webmanifest
+    upload: manifest.webmanifest
+    expiration: 10m
+  - url: /ngsw.json
+    static_files: ngsw.json
+    upload: ngsw.json
+    expiration: 1d
+
+  # Crawler-related files
+  # - url: /sitemap.xml
+  #   static_files: sitemap.xml
+  #   upload: sitemap.xml
+  #   expiration: 1d
+  # - url: /robots.txt
+  #   static_files: robots.txt
+  #   upload: robots.txt
+  #   expiration: 1d
+
+  # Webmaster files
+  # - url: /BingSiteAuth.xml
+  #   static_files: BingSiteAuth.xml
+  #   upload: BingSiteAuth.xml
+  #   expiration: 1d
+  # - url: /google8c7ef1e995031e09.html
+  #   static_files: google8c7ef1e995031e09.html
+  #   upload: google8c7ef1e995031e09.html
+  #   expiration: 1d
+
+  # All incoming requests will be redirected to HTTPS.
+  - url: /.*
+    secure: always
+    redirect_http_response_code: 301
+    script: auto
+
+# Defines policy for automatic scaling (instance class F*).
+# If the application uses instance class B*, this part is not relevant.
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/config/appref#scaling_elements
+automatic_scaling:
+  # max_instances: 0
+  # min_instances: 0
+  # max_idle_instances: automatic
+  # min_idle_instances: 0
+  # max_pending_latency: automatic
+  # min_pending_latency: 0
+  max_concurrent_requests: 10
+  target_cpu_utilization: 0.6
+  target_throughput_utilization: 0.6
+
+# Enable warmup request to reduce latency when new instances are created.
+# Reference: https://cloud.google.com/appengine/docs/standard/java11/configuring-warmup-requests
+inbound_services:
+  - warmup
+
+###########################################################################
+# App Engine Flexible (custom runtime) configuration
+# Reference: https://cloud.google.com/appengine/docs/flexible/custom-runtimes/configuring-your-app-with-app-yaml
+###########################################################################
+
+# Defines custom runtime for App Engine flexible environment
+# runtime: custom
+# env: flex
+
+# resources:
+#   cpu: 1
+#   memory_gb: 1
+#   disk_size_gb: 10
+
+# automatic_scaling:
+#   # min_num_instances: 1
+#   # max_num_instances: 8
+#   # cool_down_period_sec: 120
+#   cpu_utilization:
+#     target_utilization: 0.6
+
+# liveness_check:
+#   path: /ping
+#   check_interval_sec: 5
+#   timeout_sec: 5
+#   failure_threshold: 4
+#   success_threshold: 2
+
+# readiness_check:
+#   path: /ping
+#   check_interval_sec: 5
+#   timeout_sec: 5
+#   failure_threshold: 4
+#   success_threshold: 2

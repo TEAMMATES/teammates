@@ -9,6 +9,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.Map;
 
@@ -28,13 +29,12 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
-import teammates.common.util.ThreadHelper;
-import teammates.common.util.Url;
-import teammates.common.util.retry.MaximumRetriesExceededException;
-import teammates.common.util.retry.RetryManager;
-import teammates.common.util.retry.RetryableTask;
+import teammates.e2e.util.MaximumRetriesExceededException;
+import teammates.e2e.util.RetryManager;
+import teammates.e2e.util.Retryable;
 import teammates.e2e.util.TestProperties;
 import teammates.test.FileHelper;
+import teammates.test.ThreadHelper;
 
 /**
  * An abstract class that represents a browser-loaded page of the app and
@@ -49,12 +49,16 @@ public abstract class AppPage {
 
     private static final String CLEAR_ELEMENT_SCRIPT;
     private static final String SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT;
+    private static final String READ_TINYMCE_CONTENT_SCRIPT;
+    private static final String WRITE_TO_TINYMCE_SCRIPT;
 
     static {
         try {
             CLEAR_ELEMENT_SCRIPT = FileHelper.readFile("src/e2e/resources/scripts/clearElementWithoutEvents.js");
             SCROLL_ELEMENT_TO_CENTER_AND_CLICK_SCRIPT = FileHelper
                     .readFile("src/e2e/resources/scripts/scrollElementToCenterAndClick.js");
+            READ_TINYMCE_CONTENT_SCRIPT = FileHelper.readFile("src/e2e/resources/scripts/readTinyMCEContent.js");
+            WRITE_TO_TINYMCE_SCRIPT = FileHelper.readFile("src/e2e/resources/scripts/writeToTinyMCE.js");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -105,26 +109,25 @@ public abstract class AppPage {
     }
 
     /**
-     * Fails if the new page content does not match content expected in a page of
-     * the type indicated by the parameter {@code typeOfPage}.
-     */
-    public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Url url, Class<T> typeOfPage) {
-        currentBrowser.goToUrl(url.toAbsoluteString());
-        waitUntilAnimationFinish(currentBrowser);
-        return getNewPageInstance(currentBrowser, typeOfPage);
-    }
-
-    /**
-     * Fails if the new page content does not match content expected in a page of
+     * Gets a new page object representation of the currently open web page in the browser.
+     *
+     * <p>Fails if the new page content does not match content expected in a page of
      * the type indicated by the parameter {@code typeOfPage}.
      */
     public static <T extends AppPage> T getNewPageInstance(Browser currentBrowser, Class<T> typeOfPage) {
+        waitUntilAnimationFinish(currentBrowser);
         try {
             Constructor<T> constructor = typeOfPage.getConstructor(Browser.class);
             T page = constructor.newInstance(currentBrowser);
             PageFactory.initElements(currentBrowser.driver, page);
+            page.waitForPageToLoad();
             return page;
-        } catch (Exception e) {
+        } catch (InvocationTargetException e) {
+            if (e.getCause() instanceof IllegalStateException) {
+                throw (IllegalStateException) e.getCause();
+            }
+            throw new RuntimeException(e);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException e) {
             throw new RuntimeException(e);
         }
     }
@@ -347,13 +350,9 @@ public abstract class AppPage {
      */
     protected String getEditorRichText(WebElement editor) {
         waitForElementPresence(By.tagName("iframe"));
-        browser.driver.switchTo().frame(editor.findElement(By.tagName("iframe")));
-
-        String innerHtml = browser.driver.findElement(By.id("tinymce")).getAttribute("innerHTML");
-        // check if editor is empty
-        innerHtml = innerHtml.contains("data-mce-bogus") ? "" : innerHtml;
-        browser.driver.switchTo().defaultContent();
-        return innerHtml;
+        String id = editor.findElement(By.tagName("textarea")).getAttribute("id");
+        return (String) ((JavascriptExecutor) browser.driver)
+                .executeAsyncScript(READ_TINYMCE_CONTENT_SCRIPT, id);
     }
 
     /**
@@ -362,8 +361,7 @@ public abstract class AppPage {
     protected void writeToRichTextEditor(WebElement editor, String text) {
         waitForElementPresence(By.tagName("iframe"));
         String id = editor.findElement(By.tagName("textarea")).getAttribute("id");
-        executeScript(String.format("tinyMCE.get('%s').setContent('%s');"
-                + " tinyMCE.get('%s').save()", id, text, id));
+        ((JavascriptExecutor) browser.driver).executeAsyncScript(WRITE_TO_TINYMCE_SCRIPT, id, text);
     }
 
     /**
@@ -394,7 +392,7 @@ public abstract class AppPage {
     protected String getSelectedDropdownOptionText(WebElement dropdown) {
         Select select = new Select(dropdown);
         try {
-            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Wait for dropdown text to load") {
+            uiRetryManager.runUntilNoRecognizedException(new Retryable("Wait for dropdown text to load") {
                 @Override
                 public void run() {
                     String txt = select.getFirstSelectedOption().getText();
@@ -571,7 +569,7 @@ public abstract class AppPage {
     public void verifyStatusMessageWithLinks(String expectedMessage, String[] expectedLinks) {
         WebElement[] statusMessage = new WebElement[1];
         try {
-            uiRetryManager.runUntilNoRecognizedException(new RetryableTask("Verify status to user") {
+            uiRetryManager.runUntilNoRecognizedException(new Retryable("Verify status to user") {
                 @Override
                 public void run() {
                     statusMessage[0] = waitForElementPresence(By.className("toast-body"));

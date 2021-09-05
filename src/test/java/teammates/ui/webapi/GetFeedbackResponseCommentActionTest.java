@@ -10,8 +10,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackResponseCommentData;
@@ -128,10 +126,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
         ______TS("typical successful case as instructor_submission");
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        assertEquals(2, logic.getFeedbackResponseCommentForGiver(
-                instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail()).size());
-        // there are two comments given by the instructor, one is his explanation for his response and one
-        // is his comment on the response
 
         submissionParams = new String[] {
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
@@ -151,8 +145,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response2ForQ4.getId()),
         };
         GetFeedbackResponseCommentAction action = getAction(submissionParams);
-        JsonResult actualResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_NO_CONTENT, actualResult.getStatusCode());
+        getJsonResult(action, HttpStatus.SC_NO_CONTENT);
 
         ______TS("non-existent response, should return 404");
 
@@ -161,12 +154,12 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("randomresponseid"),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getAction(nonExistentResponseSubmissionParams).execute());
+        verifyEntityNotFound(nonExistentResponseSubmissionParams);
     }
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // see individual test cases
     }
 
@@ -202,8 +195,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(studentInvalidIntentParams).checkSpecificAccessControl());
+        verifyHttpParameterFailureAcl(studentInvalidIntentParams);
 
         ______TS("invalid intent as instructor_result");
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
@@ -211,8 +203,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(instructorInvalidIntentParams).checkSpecificAccessControl());
+        verifyHttpParameterFailureAcl(instructorInvalidIntentParams);
     }
 
     @Test
@@ -224,7 +215,7 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt("responseIdOfNonExistingResponse"),
         };
 
-        assertThrows(EntityNotFoundException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test
@@ -253,7 +244,6 @@ public class GetFeedbackResponseCommentActionTest extends BaseActionTest<GetFeed
     private FeedbackResponseCommentData getFeedbackResponseComments(String[] params) {
         GetFeedbackResponseCommentAction action = getAction(params);
         JsonResult actualResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, actualResult.getStatusCode());
         return (FeedbackResponseCommentData) actualResult.getOutput();
     }
 

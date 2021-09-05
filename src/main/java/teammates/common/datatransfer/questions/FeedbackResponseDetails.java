@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.questions;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.JsonUtils;
 
 /**
@@ -18,20 +17,28 @@ public abstract class FeedbackResponseDetails {
         this.questionType = questionType;
     }
 
+    /**
+     * Returns a string representation of the response.
+     */
     public abstract String getAnswerString();
 
+    /**
+     * Returns a JSON string representation of the response details.
+     */
     public String getJsonString() {
-        Assumption.assertNotNull(questionType);
+        assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
             // For Text questions, the answer simply contains the response text, not a JSON
-            // This is due to legacy data in the data store before there were multiple question types
             return getAnswerString();
         }
         return JsonUtils.toJson(this, questionType.getResponseDetailsClass());
     }
 
+    /**
+     * Returns a deep copy of the response details.
+     */
     public FeedbackResponseDetails getDeepCopy() {
-        Assumption.assertNotNull(questionType);
+        assert questionType != null;
         if (questionType == FeedbackQuestionType.TEXT) {
             return new FeedbackTextResponseDetails(getAnswerString());
         }

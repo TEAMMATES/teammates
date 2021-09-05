@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.time.Instant;
 
 import com.google.cloud.tasks.v2.AppEngineHttpRequest;
+import com.google.cloud.tasks.v2.AppEngineRouting;
 import com.google.cloud.tasks.v2.CloudTasksClient;
 import com.google.cloud.tasks.v2.HttpMethod;
 import com.google.cloud.tasks.v2.QueueName;
@@ -12,7 +13,6 @@ import com.google.cloud.tasks.v2.Task;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.Timestamp;
 
-import teammates.common.exception.TeammatesException;
 import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
@@ -34,6 +34,9 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
             AppEngineHttpRequest.Builder requestBuilder =
                     AppEngineHttpRequest.newBuilder()
+                            .setAppEngineRouting(AppEngineRouting.newBuilder()
+                                    .setVersion(Config.APP_VERSION)
+                                    .build())
                             .setHttpMethod(HttpMethod.POST);
 
             if (task.getRequestBody() == null) {
@@ -58,7 +61,7 @@ public class GoogleCloudTasksService implements TaskQueueService {
 
             client.createTask(queuePath, taskBuilder.build());
         } catch (IOException e) {
-            log.severe("Cannot create Cloud Tasks client: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Cannot create Cloud Tasks client", e);
         }
     }
 

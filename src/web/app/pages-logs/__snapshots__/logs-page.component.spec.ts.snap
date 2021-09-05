@@ -1,0 +1,580 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LogsPageComponent should snap when page is still loading 1`] = `
+<tm-logs-page
+  ACTION_CLASSES={[Function Array]}
+  EVENTS={[Function Array]}
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  SEVERITIES={[Function Array]}
+  activatedRoute={[Function ActivatedRoute]}
+  dateToday={[Function Object]}
+  earliestLogTimestampRetrieved={[Function Number]}
+  earliestSearchDate={[Function Object]}
+  filterType={[Function String]}
+  formModel={[Function Object]}
+  hasNextPage="false"
+  hasPreviousPage={[Function Boolean]}
+  hasResult="false"
+  histogramResult={[Function Array]}
+  isAdmin="undefined"
+  isFiltersExpanded="false"
+  isLoading={[Function Boolean]}
+  isSearching="false"
+  isTableView={[Function Boolean]}
+  latestLogTimestampRetrieved="0"
+  logService={[Function LogService]}
+  logsMap={[Function Map]}
+  queryParams={[Function Object]}
+  searchEndTime="0"
+  searchResults={[Function Array]}
+  searchStartTime="0"
+  statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Logs
+  </h1><p>
+    This page allows you to view the logs in the past 30 days.
+  </p><button
+    class="btn btn-info"
+  >
+    Switch to histogram view
+  </button><hr /><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div>
+    
+    
+    <div
+      class="center mb-4"
+    >
+      
+    </div>
+    
+    
+    <div
+      class="center mb-4"
+    >
+      
+    </div>
+    
+  </div>
+</tm-logs-page>
+`;
+
+exports[`LogsPageComponent should snap when searching for details in search form 1`] = `
+<tm-logs-page
+  ACTION_CLASSES={[Function Array]}
+  EVENTS={[Function Array]}
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  SEVERITIES={[Function Array]}
+  activatedRoute={[Function ActivatedRoute]}
+  dateToday={[Function Object]}
+  earliestLogTimestampRetrieved={[Function Number]}
+  earliestSearchDate={[Function Object]}
+  filterType={[Function String]}
+  formModel={[Function Object]}
+  hasNextPage="false"
+  hasPreviousPage={[Function Boolean]}
+  hasResult="false"
+  histogramResult={[Function Array]}
+  isAdmin="undefined"
+  isFiltersExpanded="false"
+  isLoading="false"
+  isSearching={[Function Boolean]}
+  isTableView={[Function Boolean]}
+  latestLogTimestampRetrieved="0"
+  logService={[Function LogService]}
+  logsMap={[Function Map]}
+  queryParams={[Function Object]}
+  searchEndTime="0"
+  searchResults={[Function Array]}
+  searchStartTime="0"
+  statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Logs
+  </h1><p>
+    This page allows you to view the logs in the past 30 days.
+  </p><button
+    class="btn btn-info"
+  >
+    Switch to histogram view
+  </button><hr /><div
+    class="card bg-form no-border"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-6"
+        >
+          <div
+            class="col-12 mb-1"
+          >
+            <label
+              class="font-weight-bold"
+              for="logs-from-datepicker"
+            >
+              Search period from
+            </label>
+          </div>
+          <div
+            class="input-group"
+          >
+            <div
+              class="col-md-6 input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="logs-from-datepicker"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+            <div
+              class="col-md-3"
+              id="logs-from-timepicker"
+            >
+              <ngb-timepicker
+                class="ng-untouched ng-pristine ng-valid"
+              >
+                <fieldset>
+                  <div
+                    class="ngb-tp"
+                  >
+                    <div
+                      class="ngb-tp-input-container ngb-tp-hour"
+                    >
+                      
+                      <input
+                        aria-label="Hours"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="HH"
+                        type="text"
+                      />
+                      
+                    </div>
+                    <div
+                      class="ngb-tp-spacer"
+                    >
+                      :
+                    </div>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-minute"
+                    >
+                      
+                      <input
+                        aria-label="Minutes"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="MM"
+                        type="text"
+                      />
+                      
+                    </div>
+                    
+                    
+                    
+                    
+                  </div>
+                </fieldset>
+              </ngb-timepicker>
+            </div>
+          </div>
+          <div
+            class="col-12 mb-1 mt-4"
+          >
+            <label
+              class="font-weight-bold"
+              for="logs-to-datepicker"
+            >
+              Search period until
+            </label>
+          </div>
+          <div
+            class="input-group"
+          >
+            <div
+              class="col-md-6 input-group"
+            >
+              <input
+                class="form-control ng-untouched ng-pristine ng-valid"
+                id="logs-to-datepicker"
+                ngbdatepicker=""
+                type="text"
+              />
+              <button
+                class="btn btn-light"
+                type="button"
+              >
+                <i
+                  class="fas fa-calendar-alt"
+                />
+              </button>
+            </div>
+            <div
+              class="col-md-3"
+              id="logs-to-timepicker"
+            >
+              <ngb-timepicker
+                class="ng-untouched ng-pristine ng-valid"
+              >
+                <fieldset>
+                  <div
+                    class="ngb-tp"
+                  >
+                    <div
+                      class="ngb-tp-input-container ngb-tp-hour"
+                    >
+                      
+                      <input
+                        aria-label="Hours"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="HH"
+                        type="text"
+                      />
+                      
+                    </div>
+                    <div
+                      class="ngb-tp-spacer"
+                    >
+                      :
+                    </div>
+                    <div
+                      class="ngb-tp-input-container ngb-tp-minute"
+                    >
+                      
+                      <input
+                        aria-label="Minutes"
+                        class="ngb-tp-input form-control"
+                        inputmode="numeric"
+                        maxlength="2"
+                        placeholder="MM"
+                        type="text"
+                      />
+                      
+                    </div>
+                    
+                    
+                    
+                    
+                  </div>
+                </fieldset>
+              </ngb-timepicker>
+            </div>
+          </div>
+        </div>
+        
+        <div
+          class="col-4"
+        >
+          <div
+            class="col-12"
+          >
+            <label
+              class="font-weight-bold"
+              for="log-severity-radio"
+            >
+              Log severity level / event
+            </label>
+          </div>
+          <div
+            class="form-check"
+          >
+            <label
+              class="form-check-label"
+              id="log-severity-radio"
+            >
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="severity"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="severity"
+                >
+                  severity = 
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="INFO"
+                  >
+                    INFO
+                  </option>
+                  <option
+                    value="WARNING"
+                  >
+                    WARNING
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    ERROR
+                  </option>
+                </select>
+              </div>
+              <br />
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="min-severity"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="min-severity"
+                >
+                  severity &gt;= 
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="INFO"
+                  >
+                    INFO
+                  </option>
+                  <option
+                    value="WARNING"
+                  >
+                    WARNING
+                  </option>
+                  <option
+                    value="ERROR"
+                  >
+                    ERROR
+                  </option>
+                </select>
+              </div>
+              <br />
+              <div>
+                <input
+                  class="form-check-input mt-3 ng-untouched ng-pristine ng-valid"
+                  id="event"
+                  name="severity"
+                  type="radio"
+                />
+                <label
+                  for="event"
+                >
+                  All event logs  
+                </label>
+                <select
+                  class="form-control inline ng-untouched ng-pristine ng-valid"
+                >
+                  
+                  <option
+                    value="REQUEST_LOG"
+                  >
+                    REQUEST_LOG
+                  </option>
+                  <option
+                    value="EXCEPTION_LOG"
+                  >
+                    EXCEPTION_LOG
+                  </option>
+                  <option
+                    value="EMAIL_SENT"
+                  >
+                    EMAIL_SENT
+                  </option>
+                  <option
+                    value="FEEDBACK_SESSION_AUDIT"
+                  >
+                    FEEDBACK_SESSION_AUDIT
+                  </option>
+                  <option
+                    value="INSTANCE_LOG"
+                  >
+                    INSTANCE_LOG
+                  </option>
+                </select>
+              </div>
+              <br />
+            </label>
+          </div>
+        </div>
+        <div
+          class="col-1 mt-4"
+        >
+          <button
+            class="float-right btn btn-primary"
+            id="query-button"
+          >
+            Query
+          </button>
+        </div>
+      </div>
+      
+      <div
+        class="row form-group"
+      >
+        <div
+          class="col-12"
+        >
+          <div
+            class="col-12 mb-1 mt-2"
+          >
+            <button
+              class="btn btn-success"
+            >
+              <i
+                class="fas fa-plus"
+              />
+               Advanced filters 
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div><div>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    
+  </div>
+</tm-logs-page>
+`;
+
+exports[`LogsPageComponent should snap with default fields 1`] = `
+<tm-logs-page
+  ACTION_CLASSES={[Function Array]}
+  EVENTS={[Function Array]}
+  LOGS_RETENTION_PERIOD_IN_DAYS={[Function Number]}
+  LOGS_RETENTION_PERIOD_IN_MILLISECONDS={[Function Number]}
+  SEVERITIES={[Function Array]}
+  activatedRoute={[Function ActivatedRoute]}
+  dateToday={[Function Object]}
+  earliestLogTimestampRetrieved={[Function Number]}
+  earliestSearchDate={[Function Object]}
+  filterType={[Function String]}
+  formModel={[Function Object]}
+  hasNextPage="false"
+  hasPreviousPage={[Function Boolean]}
+  hasResult="false"
+  histogramResult={[Function Array]}
+  isAdmin="undefined"
+  isFiltersExpanded="false"
+  isLoading={[Function Boolean]}
+  isSearching="false"
+  isTableView={[Function Boolean]}
+  latestLogTimestampRetrieved="0"
+  logService={[Function LogService]}
+  logsMap={[Function Map]}
+  queryParams={[Function Object]}
+  searchEndTime="0"
+  searchResults={[Function Array]}
+  searchStartTime="0"
+  statusMessageService={[Function StatusMessageService]}
+  timezoneService={[Function TimezoneService]}
+>
+  <h1>
+    Logs
+  </h1><p>
+    This page allows you to view the logs in the past 30 days.
+  </p><button
+    class="btn btn-info"
+  >
+    Switch to histogram view
+  </button><hr /><tm-loading-spinner>
+    <div
+      class="loading-container"
+    >
+      <div
+        class="row spinner-border text-primary"
+        role="status"
+      />
+      <div
+        class="row text-secondary"
+      >
+        Loading...
+      </div>
+    </div>
+  </tm-loading-spinner><div>
+    
+    
+    <div
+      class="center mb-4"
+    >
+      
+    </div>
+    
+    
+    <div
+      class="center mb-4"
+    >
+      
+    </div>
+    
+  </div>
+</tm-logs-page>
+`;

@@ -1,0 +1,75 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <div>Copy course</div>
+    <small *ngIf="!isCopyFromOtherSession">Copy from: [{{oldCourseId}}] <b>{{oldCourseName}}</b></small>
+  </h5>
+  <button type="button" class="close" (click)="activeModal.dismiss()">
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<div id="copy-course-modal" class="modal-body">
+  <div class="row">
+    <div class="col-12">
+      <div>
+        <label><b>New Course</b></label>
+      </div>
+      <div class="form-group">
+        <label>Course ID:</label>
+        <input [class.invalid]="newCourseIdIsConflicting" id="copy-course-id" type="text" class="form-control" placeholder="e.g. CS3215-2013Semester1"
+          [(ngModel)]="newCourseId" [maxlength]="COURSE_ID_MAX_LENGTH" (focus)="this.newCourseIdIsConflicting = false">
+        <span>{{ COURSE_ID_MAX_LENGTH - newCourseId.length }} characters left</span>
+      </div>
+      <div class="form-group">
+        <label>Course Name:</label>
+        <input id="copy-course-name" class="form-control" type="text" placeholder="e.g. Software Engineering" [(ngModel)]="newCourseName"
+          [maxlength]="COURSE_NAME_MAX_LENGTH"/>
+        <span>{{ COURSE_NAME_MAX_LENGTH - newCourseName.length }} characters left</span>
+      </div>
+      <div class="form-group">
+        <label><span ngbTooltip="You should not need to change this as it is auto-detected based on your device settings. TEAMMATES automatically adjusts
+          to match the current time offset in your area, including clock changes due to daylight saving time.">Time Zone:</span></label>
+        <div class="input-group">
+          <select id="copy-time-zone" class="form-control" [(ngModel)]="newTimezone">
+            <option *ngFor="let timezone of timezones" [value]="timezone.id">{{ timezone.id }} ({{ timezone.offset }})</option>
+          </select>
+          <span class="input-group-btn" style="margin-left: 5px;">
+            <button class="btn btn-primary btn-margin-left" (click)="onAutoDetectTimezone()">Auto Detect</button>
+          </span>
+        </div>
+      </div>
+      <div class="form-group" *ngIf="isCopyFromOtherSession">
+        <label>Course to copy from:</label>
+        <div class="input-group">
+          <select id="course-to-copy-from" class="form-control" (change)="onSelectCourseChange()" [(ngModel)]="oldCourseId">
+            <option *ngFor="let course of activeCourses" [value]="course.courseId">{{ course.courseId }}</option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="oldCourseId">
+        <div *ngIf="courseToFeedbackSession[oldCourseId]?.length > 0; else noSessionsTemplate">
+          <div class="form-check">
+            <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
+              [checked]="selectedFeedbackSessions.size == courseToFeedbackSession[oldCourseId].length" (click)="toggleSelectionForAll()">
+            <span><b>Sessions to copy:</b></span>
+          </div>
+          <hr class="solid-divider">
+          <div class="form-check" *ngFor="let session of courseToFeedbackSession[oldCourseId]">
+            <label class="form-check-label">
+              <input type="checkbox" name="copyCourseChooseSessions" class="form-check-input"
+                [checked]="selectedFeedbackSessions.has(session)" (click)="toggleSelection(session)">
+              <span>{{ session.feedbackSessionName }}</span>
+            </label>
+          </div>
+        </div>
+        <ng-template #noSessionsTemplate>
+          <i>This course has no feedback sessions</i>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+  <button id="btn-confirm-copy-course" type="button" class="btn btn-primary" (click)="copy()"
+    [disabled]="!newCourseId || !newCourseName">Copy</button>
+</div>

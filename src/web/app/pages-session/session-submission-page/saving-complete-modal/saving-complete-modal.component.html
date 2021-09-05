@@ -5,7 +5,7 @@
           <i class="fas fa-check-circle"></i> All responses submitted successfully!
         </span>
     <span *ngIf="hasFailToSaveQuestions">
-          <i class="fas fa-exclamation-circle"></i> Some questions were not saved!
+          <i class="fas fa-exclamation-circle"></i> Some response submissions failed!
         </span>
   </h5>
   <button type="button" class="close" (click)="activeModal.dismiss()">
@@ -18,26 +18,30 @@
     They are: {{ notYetAnsweredQuestions.join(', ') }}.
   </p>
   <div *ngIf="hasFailToSaveQuestions" class="text-danger" style="margin-bottom: 10px;">
-    <i class="fas fa-exclamation"></i> Some answers to questions are not saved due to errors.
+    <i class="fas fa-exclamation"></i> ERROR! The response submissions to the following questions failed.
     <ul>
       <li *ngFor="let question of failToSaveQuestions | keyvalue">
         Question {{ question.key }}:  {{ question.value }}
       </li>
     </ul>
   </div>
+  <p *ngIf="hasFailToSaveQuestions">
+    Please try to submit your responses again.
+  </p>
   <p *ngIf="!hasFailToSaveQuestions">
     All your responses have been successfully recorded!
   </p>
   <p>
     Note that you can change your responses and submit them again any time before the session closes.
   </p>
-  <p>
+  <p *ngIf="!hasFailToSaveQuestions">
     You are encouraged to download the proof of submission, which will also contain your latest responses.
   </p>
 </div>
 <div class="modal-footer">
   <button type="button" class="btn btn-info"
-          (click)="downloadProofOfSubmission()">Download proof of submission</button>
+          (click)="downloadProofOfSubmission()"
+          [disabled]="isAllQuestionSavingFailed">Download proof of submission</button>
   <button type="button" class="btn modal-btn-ok"
           [ngClass]="
                 {'btn-danger': hasFailToSaveQuestions, 'btn-success': !hasFailToSaveQuestions}"

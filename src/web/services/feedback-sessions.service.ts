@@ -161,17 +161,17 @@ export class FeedbackSessionsService {
   /**
    * Gets all sessions for the student by calling API.
    */
-  getFeedbackSessionsForStudent(courseId?: string): Observable<FeedbackSessions> {
+  getFeedbackSessionsForStudent(entityType: string, courseId?: string): Observable<FeedbackSessions> {
 
     let paramMap: Record<string, string>;
     if (courseId != null) {
       paramMap = {
-        entitytype: 'student',
+        entitytype: entityType,
         courseid: courseId,
       };
     } else {
       paramMap = {
-        entitytype: 'student',
+        entitytype: entityType,
       };
     }
 
@@ -199,6 +199,18 @@ export class FeedbackSessionsService {
       fsname: feedbackSessionName,
 
     };
+    return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
+  }
+
+  /**
+   * Checks if there is response of a student for an array of feedback sessions (request sent by student).
+   */
+  hasStudentResponseForAllFeedbackSessionsInCourse(courseId: string): Observable<HasResponses> {
+    const paramMap: Record<string, string> = {
+      entitytype: 'student',
+      courseid: courseId,
+    };
+
     return this.httpRequestService.get(ResourceEndpoints.HAS_RESPONSES, paramMap);
   }
 
@@ -379,6 +391,14 @@ export class FeedbackSessionsService {
   isFeedbackSessionOpen(feedbackSession: FeedbackSession): boolean {
     const date: number = Date.now();
     return date >= feedbackSession.submissionStartTimestamp && date < feedbackSession.submissionEndTimestamp;
+  }
+
+  /**
+   * Checks if a given feedback session is awaiting.
+   */
+  isFeedbackSessionAwaiting(feedbackSession: FeedbackSession): boolean {
+    const date: number = Date.now();
+    return date < feedbackSession.submissionStartTimestamp;
   }
 
   /**

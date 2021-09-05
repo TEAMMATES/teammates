@@ -1,10 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
@@ -26,14 +24,14 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
 
         loginAsInstructor(instructorId);
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
 
         CourseArchiveRequest courseArchiveRequest = new CourseArchiveRequest();
@@ -41,9 +39,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
 
         ______TS("Not enough parameters");
         verifyHttpParameterFailure();
-        verifyHttpParameterFailure(submissionParams);
-        ArchiveCourseAction archiveCourseActionWithoutParam = getAction(courseArchiveRequest);
-        assertThrows(NullHttpParameterException.class, () -> getJsonResult(archiveCourseActionWithoutParam));
+        verifyHttpRequestBodyFailure(null, submissionParams);
+        verifyHttpParameterFailure(courseArchiveRequest);
 
         ______TS("Typical case: archive a course");
 
@@ -54,9 +51,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         InstructorAttributes theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertTrue(theInstructor.isArchived);
-        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, true);
+        assertTrue(theInstructor.isArchived());
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), true);
 
         ______TS("Rare case: archive an already archived course");
 
@@ -69,9 +65,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertTrue(theInstructor.isArchived);
-        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, true);
+        assertTrue(theInstructor.isArchived());
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), true);
 
         ______TS("Typical case: unarchive a course");
 
@@ -84,9 +79,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(instructor1OfCourse1.getCourseId(),
                 instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertFalse(theInstructor.isArchived);
-        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, false);
+        assertFalse(theInstructor.isArchived());
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), false);
 
         ______TS("Rare case: unarchive an active course");
 
@@ -99,9 +93,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertFalse(theInstructor.isArchived);
-        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, false);
+        assertFalse(theInstructor.isArchived());
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), false);
 
         ______TS("Masquerade mode: archive course");
 
@@ -115,9 +108,8 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
         theInstructor = logic.getInstructorForGoogleId(
                 instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getGoogleId());
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-        assertTrue(theInstructor.isArchived);
-        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.courseId, true);
+        assertTrue(theInstructor.isArchived());
+        verifyCourseArchive(courseArchiveData, instructor1OfCourse1.getCourseId(), true);
     }
 
     private void verifyCourseArchive(CourseArchiveData courseArchiveData, String courseId, boolean isArchived) {
@@ -129,7 +121,7 @@ public class ArchiveCourseActionTest extends BaseActionTest<ArchiveCourseAction>
     @Test
     protected void testAccessControl() {
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").courseId,
+                Const.ParamsNames.COURSE_ID, typicalBundle.instructors.get("instructor1OfCourse1").getCourseId(),
         };
 
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);

@@ -1,0 +1,148 @@
+{
+  "responses": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 5,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 2,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 1,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    }
+  ],
+  "responsesAtZero": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 0,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 0,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 0,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    }
+  ],
+  "responsesWithSelf": [
+    {
+      "giver": "Alice",
+      "giverTeam": "Team 1",
+      "giverEmail": "alice@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 2,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Bob",
+      "giverTeam": "Team 2",
+      "giverEmail": "bob@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 3,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Charles",
+      "giverTeam": "Team 1",
+      "giverEmail": "charles@gmail.com",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 4,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    },
+    {
+      "giver": "Instructor",
+      "giverTeam": "Instructors",
+      "giverEmail": "",
+      "giverSection": "",
+      "recipient": "Instructor",
+      "recipientTeam": "Instructors",
+      "recipientEmail": "",
+      "recipientSection": "",
+      "responseDetails": {
+        "answer": 5,
+        "questionType": "FeedbackQuestionType.NUMSCALE"
+      }
+    }
+  ]
+}

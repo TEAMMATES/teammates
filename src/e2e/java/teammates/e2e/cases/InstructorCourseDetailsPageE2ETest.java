@@ -32,7 +32,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     protected void prepareTestData() {
         testData = loadDataBundle("/InstructorCourseDetailsPageE2ETest.json");
         student = testData.students.get("charlie.tmms@ICDet.CS2104");
-        student.email = TestProperties.TEST_EMAIL;
+        student.setEmail(TestProperties.TEST_EMAIL);
 
         removeAndRestoreDataBundle(testData);
         course = testData.courses.get("ICDet.CS2104");
@@ -48,9 +48,9 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
     @Override
     public void testAll() {
         AppUrl detailsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_COURSE_DETAILS_PAGE)
-                .withUserId(testData.instructors.get("ICDet.instr").googleId)
                 .withCourseId(course.getId());
-        InstructorCourseDetailsPage detailsPage = loginAdminToPage(detailsPageUrl, InstructorCourseDetailsPage.class);
+        InstructorCourseDetailsPage detailsPage = loginToPage(detailsPageUrl, InstructorCourseDetailsPage.class,
+                testData.instructors.get("ICDet.instr").getGoogleId());
 
         ______TS("verify loaded details");
         InstructorAttributes[] instructors = {
@@ -107,7 +107,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
 
         ______TS("download student list");
         detailsPage.downloadStudentList();
-        String status = student.googleId.isEmpty() ? "Yet to Join" : "Joined";
+        String status = student.getGoogleId().isEmpty() ? "Yet to Join" : "Joined";
         String lastName = student.getName().split(" ")[1];
         String[] studentInfo = { student.getTeam(), student.getName(), lastName, status, student.getEmail() };
         List<String> expectedContent = Arrays.asList("Course ID," + course.getId(),
@@ -124,7 +124,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
                 + course.getId() + "\"");
         detailsPage.verifyNumStudents(studentsAfterDelete.length);
         detailsPage.verifyStudentDetails(studentsAfterDelete);
-        verifyAbsentInDatastore(student);
+        verifyAbsentInDatabase(student);
 
         ______TS("delete all students");
         detailsPage.deleteAllStudents();
@@ -132,7 +132,7 @@ public class InstructorCourseDetailsPageE2ETest extends BaseE2ETestCase {
         detailsPage.verifyStatusMessage("All the students have been removed from the course");
         detailsPage.verifyNumStudents(0);
         for (StudentAttributes student : studentsAfterDelete) {
-            verifyAbsentInDatastore(student);
+            verifyAbsentInDatabase(student);
         }
     }
 

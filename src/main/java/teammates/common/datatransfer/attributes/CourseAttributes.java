@@ -8,33 +8,37 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.Logger;
+import teammates.common.util.SanitizationHelper;
 import teammates.storage.entity.Course;
 
 /**
- * The data transfer object for Course entities.
+ * The data transfer object for {@link Course} entities.
  */
 public class CourseAttributes extends EntityAttributes<Course> implements Comparable<CourseAttributes> {
 
     private static final Logger log = Logger.getLogger();
 
-    public Instant createdAt;
-    public Instant deletedAt;
+    private Instant createdAt;
+    private Instant deletedAt;
     private String name;
     private ZoneId timeZone;
-
     private String id;
+    private String institute;
 
     private CourseAttributes(String courseId) {
         this.id = courseId;
         this.timeZone = Const.DEFAULT_TIME_ZONE;
+        this.institute = null;
         this.createdAt = Instant.now();
         this.deletedAt = null;
     }
 
+    /**
+     * Gets the {@link CourseAttributes} instance of the given {@link Course}.
+     */
     public static CourseAttributes valueOf(Course course) {
         CourseAttributes courseAttributes = new CourseAttributes(course.getUniqueId());
 
@@ -49,6 +53,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
             courseTimeZone = Const.DEFAULT_TIME_ZONE;
         }
         courseAttributes.timeZone = courseTimeZone;
+        courseAttributes.institute = course.getInstitute();
 
         if (course.getCreatedAt() != null) {
             courseAttributes.createdAt = course.getCreatedAt();
@@ -81,20 +86,32 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return timeZone;
     }
 
+    public void setTimeZone(ZoneId timeZone) {
+        this.timeZone = timeZone;
+    }
+
+    public String getInstitute() {
+        return institute;
+    }
+
     public Instant getCreatedAt() {
         return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Instant getDeletedAt() {
         return deletedAt;
     }
 
-    public boolean isCourseDeleted() {
-        return this.deletedAt != null;
+    public void setDeletedAt(Instant deletedAt) {
+        this.deletedAt = deletedAt;
     }
 
-    public void setTimeZone(ZoneId timeZone) {
-        this.timeZone = timeZone;
+    public boolean isCourseDeleted() {
+        return this.deletedAt != null;
     }
 
     @Override
@@ -106,25 +123,28 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForCourseName(getName()), errors);
 
+        // TODO remove condition check after data migration
+        if (getInstitute() != null) {
+            addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
+        }
+
         return errors;
     }
 
     @Override
     public Course toEntity() {
-        return new Course(getId(), getName(), getTimeZone().getId(), createdAt, deletedAt);
+        return new Course(getId(), getName(), getTimeZone().getId(), getInstitute(), createdAt, deletedAt);
     }
 
     @Override
     public String toString() {
         return "[" + CourseAttributes.class.getSimpleName() + "] id: " + getId() + " name: " + getName()
-               + " timeZone: " + getTimeZone();
+               + " institute: " + getInstitute() + " timeZone: " + getTimeZone();
     }
 
     @Override
     public int hashCode() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.id).append(this.name);
-        return stringBuilder.toString().hashCode();
+        return (this.id + this.name + this.institute).hashCode();
     }
 
     @Override
@@ -136,6 +156,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         } else if (this.getClass() == other.getClass()) {
             CourseAttributes otherCourse = (CourseAttributes) other;
             return Objects.equals(this.id, otherCourse.id)
+                    && Objects.equals(this.institute, otherCourse.institute)
                     && Objects.equals(this.name, otherCourse.name);
         } else {
             return false;
@@ -144,7 +165,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
     @Override
     public void sanitizeForSaving() {
-        // no additional sanitization required
+        this.institute = SanitizationHelper.sanitizeTitle(institute);
     }
 
     @Override
@@ -155,6 +176,9 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         return o.createdAt.compareTo(createdAt);
     }
 
+    /**
+     * Sorts the list of courses by the course ID.
+     */
     public static void sortById(List<CourseAttributes> courses) {
         courses.sort(Comparator.comparing(CourseAttributes::getId));
     }
@@ -165,6 +189,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     public void update(UpdateOptions updateOptions) {
         updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.timeZoneOption.ifPresent(s -> timeZone = s);
+        updateOptions.instituteOption.ifPresent(s -> institute = s);
     }
 
     /**
@@ -204,9 +229,10 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<ZoneId> timeZoneOption = UpdateOption.empty();
+        private UpdateOption<String> instituteOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId) {
-            Assumption.assertNotNull(courseId);
+            assert courseId != null;
 
             this.courseId = courseId;
         }
@@ -221,6 +247,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
                     + "courseId = " + courseId
                     + ", name = " + nameOption
                     + ", timezone = " + timeZoneOption
+                    + ", institute = " + instituteOption
                     + "]";
         }
 
@@ -259,16 +286,23 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withTimezone(ZoneId timezone) {
-            Assumption.assertNotNull(timezone);
+            assert timezone != null;
 
             updateOptions.timeZoneOption = UpdateOption.of(timezone);
+            return thisBuilder;
+        }
+
+        public B withInstitute(String institute) {
+            assert institute != null;
+
+            updateOptions.instituteOption = UpdateOption.of(institute);
             return thisBuilder;
         }
 

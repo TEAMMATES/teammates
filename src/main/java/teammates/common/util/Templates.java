@@ -1,5 +1,8 @@
 package teammates.common.util;
 
+/**
+ * Contains utility methods for creating strings from given templates.
+ */
 public final class Templates {
 
     public static final String INSTRUCTOR_SAMPLE_DATA = FileHelper.readResourceFile("InstructorSampleData.json");
@@ -17,8 +20,7 @@ public final class Templates {
      * @return The populated template
      */
     public static String populateTemplate(String template, String... keyValuePairs) {
-        Assumption.assertTrue("The number of elements in keyValuePairs passed in must be even",
-                keyValuePairs.length % 2 == 0);
+        assert keyValuePairs.length % 2 == 0 : "The number of elements in keyValuePairs passed in must be even";
         String populatedTemplate = template;
         for (int i = 0; i < keyValuePairs.length; i += 2) {
             populatedTemplate = populatedTemplate.replace(keyValuePairs[i], keyValuePairs[i + 1]);
@@ -40,6 +42,8 @@ public final class Templates {
                 FileHelper.readResourceFile("studentEmailFragment-googleIdReset.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN =
                 FileHelper.readResourceFile("instructorEmailFragment-courseJoin.html");
+        public static final String FRAGMENT_INSTRUCTOR_COURSE_JOIN_REMINDER =
+                FileHelper.readResourceFile("instructorEmailFragment-reminderToJoinCourseBeforeSubmittingResponse.html");
         public static final String FRAGMENT_INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET =
                 FileHelper.readResourceFile("instructorEmailFragment-googleIdReset.html");
         public static final String USER_FEEDBACK_SESSION =
@@ -70,6 +74,8 @@ public final class Templates {
                 FileHelper.readResourceFile("newInstructorAccountWelcome.html");
         public static final String FRAGMENT_SESSION_ADDITIONAL_CONTACT_INFORMATION =
                 FileHelper.readResourceFile("userEmailFragment-sessionAdditionalContactInformationFragment.html");
+        public static final String OWNER_FEEDBACK_SESSION_OPENING_SOON =
+                FileHelper.readResourceFile("ownerEmailTemplate-sessionOpeningSoon.html");
     }
 
 }

@@ -32,13 +32,13 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
 
     @Override
     @Test
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         verifyOnlyAdminCanAccess();
     }
 
     @Override
     @Test
-    public void testExecute() {
+    public void testExecute() throws Exception {
 
         ______TS("Resend feedback session results published email");
 
@@ -47,7 +47,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
         InstructorAttributes instructor1 = typicalBundle.instructors.get("instructor1OfCourse1");
 
         String[] usersToRemind = new String[] {
-                student1.email, instructor1.email, "non-existent",
+                student1.getEmail(), instructor1.getEmail(), "non-existent",
         };
 
         FeedbackSessionRemindRequest remindRequest = new FeedbackSessionRemindRequest(publishedSession.getCourseId(),
@@ -67,7 +67,7 @@ public class FeedbackSessionResendPublishedEmailWorkerActionTest
             assertEquals(String.format(EmailType.FEEDBACK_PUBLISHED.getSubject(), courseName,
                     publishedSession.getFeedbackSessionName()), email.getSubject());
             String recipient = email.getRecipient();
-            assertTrue(recipient.equals(student1.email) || recipient.equals(instructor1.email));
+            assertTrue(recipient.equals(student1.getEmail()) || recipient.equals(instructor1.getEmail()));
         }
     }
 

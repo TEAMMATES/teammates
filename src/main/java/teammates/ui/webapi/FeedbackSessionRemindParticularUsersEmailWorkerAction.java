@@ -6,11 +6,10 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.TeammatesException;
-import teammates.common.util.Assumption;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.Logger;
 import teammates.ui.request.FeedbackSessionRemindRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Task queue worker action: sends feedback session reminder email to particular students of a course.
@@ -20,13 +19,15 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
     private static final Logger log = Logger.getLogger();
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         FeedbackSessionRemindRequest remindRequest = getAndValidateRequestBody(FeedbackSessionRemindRequest.class);
+        String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
+        if (googleIdOfInstructorToNotify == null) {
+            throw new InvalidHttpRequestBodyException("Instructor to notify cannot be null.");
+        }
         String feedbackSessionName = remindRequest.getFeedbackSessionName();
         String courseId = remindRequest.getCourseId();
         String[] usersToRemind = remindRequest.getUsersToRemind();
-        String googleIdOfInstructorToNotify = remindRequest.getRequestingInstructorId();
-        Assumption.assertNotNull(googleIdOfInstructorToNotify);
 
         try {
             FeedbackSessionAttributes session = logic.getFeedbackSession(feedbackSessionName, courseId);
@@ -51,7 +52,7 @@ class FeedbackSessionRemindParticularUsersEmailWorkerAction extends AdminOnlyAct
                     session, studentsToRemindList, instructorsToRemindList, instructorToNotify);
             taskQueuer.scheduleEmailsForSending(emails);
         } catch (Exception e) {
-            log.severe("Unexpected error while sending emails: " + TeammatesException.toStringWithStackTrace(e));
+            log.severe("Unexpected error while sending emails", e);
         }
         return new JsonResult("Successful");
     }

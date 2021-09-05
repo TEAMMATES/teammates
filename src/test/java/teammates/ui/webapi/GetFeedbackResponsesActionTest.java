@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -13,9 +12,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.StringHelper;
@@ -63,7 +59,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // See independent test cases
     }
 
@@ -88,7 +84,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    protected void testExecute_studentSubmission_shouldGetResponseSuccessfully() throws InvalidParametersException {
+    protected void testExecute_studentSubmission_shouldGetResponseSuccessfully() throws Exception {
         loginAsStudent(student1InCourse1.getGoogleId());
 
         String[] params = {
@@ -107,7 +103,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    protected void testExecute_instructorSubmission_shouldGetResponseSuccessfully() throws InvalidParametersException {
+    protected void testExecute_instructorSubmission_shouldGetResponseSuccessfully() throws Exception {
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
 
         String[] params = {
@@ -127,7 +123,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     }
 
     @Test
-    protected void testExecute_commentSubmission_shouldGetCommentsSuccessfully() throws InvalidParametersException {
+    protected void testExecute_commentSubmission_shouldGetCommentsSuccessfully() throws Exception {
         DataBundle dataBundle = loadDataBundle("/FeedbackResponseCommentCRUDTest.json");
         removeAndRestoreDataBundle(dataBundle);
         StudentAttributes student1InCourse1 = dataBundle.students.get("student1InCourse1");
@@ -151,7 +147,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         //see independent test cases
     }
 
@@ -186,24 +182,21 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(unauthorizedIntentFullDetail).checkAccessControl());
+        verifyHttpParameterFailureAcl(unauthorizedIntentFullDetail);
 
         ______TS("Unauthorized Intent Instructor Result");
         String[] unauthorizedIntentInstructorResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(unauthorizedIntentInstructorResult).checkAccessControl());
+        verifyHttpParameterFailureAcl(unauthorizedIntentInstructorResult);
 
         ______TS("Unauthorized Intent Student Result");
         String[] unauthorizedIntentStudentResult = {
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, qn2InGracePeriodInCourse1.getId(),
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.toString(),
         };
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(unauthorizedIntentStudentResult).checkAccessControl());
+        verifyHttpParameterFailureAcl(unauthorizedIntentStudentResult);
     }
 
     @Test
@@ -236,8 +229,7 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
                 Const.ParamsNames.FEEDBACK_QUESTION_ID, "randomNonExistId",
                 Const.ParamsNames.INTENT, Intent.INSTRUCTOR_SUBMISSION.toString(),
         };
-        assertThrows(EntityNotFoundException.class,
-                () -> getAction(nonExistParams).checkAccessControl());
+        verifyEntityNotFoundAcl(nonExistParams);
     }
 
     @Test
@@ -273,18 +265,17 @@ public class GetFeedbackResponsesActionTest extends BaseActionTest<GetFeedbackRe
     private FeedbackResponsesData getFeedbackResponse(String[] params) {
         GetFeedbackResponsesAction a = getAction(params);
         JsonResult actualResult = getJsonResult(a);
-        assertEquals(HttpStatus.SC_OK, actualResult.getStatusCode());
         return (FeedbackResponsesData) actualResult.getOutput();
     }
 
     private void verifyFeedbackResponseEquals(FeedbackResponseAttributes expected, FeedbackResponseData actual)
-            throws InvalidParametersException {
+            throws Exception {
         assertEquals(expected.getId(), StringHelper.decrypt(actual.getFeedbackResponseId()));
         assertEquals(expected.getGiver(), actual.getGiverIdentifier());
         assertEquals(expected.getRecipient(), actual.getRecipientIdentifier());
-        assertEquals(expected.getResponseDetails().getAnswerString(), actual.getResponseDetails().getAnswerString());
-        assertEquals(expected.getResponseDetails().getQuestionType(), actual.getResponseDetails().getQuestionType());
-        assertEquals(JsonUtils.toJson(expected.getResponseDetails()),
+        assertEquals(expected.getResponseDetailsCopy().getAnswerString(), actual.getResponseDetails().getAnswerString());
+        assertEquals(expected.getResponseDetailsCopy().getQuestionType(), actual.getResponseDetails().getQuestionType());
+        assertEquals(JsonUtils.toJson(expected.getResponseDetailsCopy()),
                 JsonUtils.toJson(actual.getResponseDetails()));
     }
 

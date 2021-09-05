@@ -34,6 +34,18 @@ test-output/*
 *.iml
 out/
 
+# VSCode
+.vscode/
+*.code-workspace
+.history/
+
+# Netbeans
+nbproject/
+nbbuild/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
 # JMeter
 jmeter.log
 src/lnp/resources/data/*
@@ -47,19 +59,18 @@ build.properties
 test.properties
 client.properties
 config.ts
-appengine-web.xml
-appengine-generated
+app.yaml
 geckodriver*
 chromedriver*
 api-output.ts
 api-request.ts
 api-const.ts
-src/main/webapp/*
-!src/main/webapp/WEB-INF
 src/client/java/teammates/client/scripts/statistics/data/
 src/client/java/teammates/client/scripts/log/
 src/e2e/resources/gmail-api/
 src/e2e/resources/downloads/
+src/web/dist/*
 filestorage-dev/*
+datastore-dev/datastore/*
 
 !.gitkeep

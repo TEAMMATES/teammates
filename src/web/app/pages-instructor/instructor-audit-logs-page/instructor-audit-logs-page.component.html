@@ -1,5 +1,5 @@
 <h1>Student Activity Logs</h1>
-<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
+<p>This page allows you to find when your students have accessed or submitted a particular feedback session for a given course. Note that you can only view student logs if you have <b>owner or manager privileges</b> for the course. The earliest date you can search for is <b>{{this.LOGS_RETENTION_PERIOD}} days</b> before today.</p>
 <hr/>
 
 <div *tmIsLoading="isLoading" class="card bg-form no-border">
@@ -10,7 +10,7 @@
           <label for="course-id-dropdown" class="font-weight-bold">Course ID</label>
         </div>
         <div class="col-12">
-          <select id="course-id-dropdown" class="form-control col-8" [(ngModel)]="formModel.courseId">
+          <select id="course-id-dropdown" class="form-control col-12" [(ngModel)]="formModel.courseId">
             <option value="" disabled selected hidden>Select Course ID</option>
             <option *ngFor="let course of courses">
               {{course.courseId}}
@@ -29,8 +29,8 @@
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
-          <div class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeFrom"></tm-time-picker>
+          <div id="logs-from-timepicker" class="col-md-3">
+            <tm-timepicker [(time)]="formModel.logsTimeFrom"></tm-timepicker>
           </div>
         </div>
       </div>
@@ -41,9 +41,9 @@
           <label for="student-name-dropdown" class="font-weight-bold">Student Name (Optional)</label>
         </div>
         <div class="col-12">
-          <select id="student-name-dropdown" class="form-control col-8" [(ngModel)]="formModel.studentName">
-            <option *ngFor="let student of courseToStudents[formModel.courseId]">
-              {{student.name}}
+          <select id="student-name-dropdown" class="form-control col-12" [(ngModel)]="formModel.studentEmail">
+            <option *ngFor="let student of courseToStudents[formModel.courseId]" [value]="student.email">
+              {{student.name}} {{student.email ? '&lt;' + student.email + '&gt;' : ''}}
             </option>
           </select>
         </div>
@@ -59,34 +59,37 @@
               <i class="fas fa-calendar-alt"></i>
             </button>
           </div>
-          <div class="col-md-3">
-            <tm-time-picker [(time)]="formModel.logsTimeTo"></tm-time-picker>
+          <div id="logs-to-timepicker" class="col-md-3">
+            <tm-timepicker [(time)]="formModel.logsTimeTo"></tm-timepicker>
           </div>
           <div class="col-md-2">
-            <button class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
+            <button id="search-button" class="float-right btn btn-primary" (click)="search()" [disabled]="!formModel.courseId || isSearching">Search</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-<div *tmIsLoading="isSearching">
-  <div *ngFor="let results of searchResults">
-    <div class="card mb-3 alert-success-border">
-      <div class="card-header alert-success cursor-pointer" (click)="results.isTabExpanded = !results.isTabExpanded">
-        {{results.feedbackSessionName}}
-        <div class="card-header-btn-toolbar">
-          <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
+<div id="logs-output">
+  <div *tmIsLoading="isSearching">
+    <div *ngFor="let results of searchResults">
+      <div [ngClass]="{ 'alert-success-border': results.logRowsData.length, 'alert-failure-border': !results.logRowsData.length }" class="card mb-3">
+        <div [ngClass]="{ 'alert-success': results.logRowsData.length, 'alert-failure': !results.logRowsData.length}" class="card-header cursor-pointer text-break" (click)="results.isTabExpanded = !results.isTabExpanded">
+          {{results.feedbackSessionName}}
+          <div class="card-header-btn-toolbar">
+            <tm-panel-chevron [isExpanded]="results.isTabExpanded"></tm-panel-chevron>
+          </div>
         </div>
-      </div>
-      <div *ngIf="results.isTabExpanded">
-        <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
-          <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+        <div *ngIf="results.isTabExpanded">
+          <div *ngIf="results.logRowsData[0]; else noActivityTemplate" class="card-body">
+            <tm-sortable-table [rows]="results.logRowsData" [columns]="results.logColumnsData" [initialSortBy]="SortBy.GIVER_NAME"></tm-sortable-table>
+          </div>
+          <ng-template #noActivityTemplate>
+            <div class="no-activity-body">
+              <i>No activity for this feedback session in selected search period</i>
+            </div>
+          </ng-template>
         </div>
-        <ng-template #noActivityTemplate>
-          <i>No activity for this feedback session in selected search period</i>
-        </ng-template>
       </div>
     </div>
   </div>

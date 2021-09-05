@@ -3,15 +3,14 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
+import teammates.common.datatransfer.logs.FeedbackSessionLogType;
 import teammates.common.util.Const;
-import teammates.ui.constants.LogType;
 import teammates.ui.output.FeedbackSessionLogData;
 import teammates.ui.output.FeedbackSessionLogEntryData;
 import teammates.ui.output.FeedbackSessionLogsData;
@@ -32,7 +31,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
     @Test
     @Override
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         JsonResult actionOutput;
 
         CourseAttributes course = typicalBundle.courses.get("typicalCourse1");
@@ -48,15 +47,15 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
         long invalidStartTime = endTime - (Const.LOGS_RETENTION_PERIOD.toDays() + 1) * 24 * 60 * 60 * 1000;
 
         mockLogsProcessor.insertFeedbackSessionLog(student1, fsa1,
-                Const.FeedbackSessionLogTypes.ACCESS, startTime);
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime);
         mockLogsProcessor.insertFeedbackSessionLog(student1, fsa2,
-                Const.FeedbackSessionLogTypes.ACCESS, startTime + 1000);
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime + 1000);
         mockLogsProcessor.insertFeedbackSessionLog(student1, fsa2,
-                Const.FeedbackSessionLogTypes.SUBMISSION, startTime + 2000);
+                FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 2000);
         mockLogsProcessor.insertFeedbackSessionLog(student2, fsa1,
-                Const.FeedbackSessionLogTypes.ACCESS, startTime + 3000);
+                FeedbackSessionLogType.ACCESS.getLabel(), startTime + 3000);
         mockLogsProcessor.insertFeedbackSessionLog(student2, fsa1,
-                Const.FeedbackSessionLogTypes.SUBMISSION, startTime + 4000);
+                FeedbackSessionLogType.SUBMISSION.getLabel(), startTime + 4000);
 
         ______TS("Failure case: not enough parameters");
         verifyHttpParameterFailure(
@@ -78,8 +77,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid1));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid1);
 
         ______TS("Failure case: invalid student email");
         String[] paramsInvalid2 = {
@@ -88,8 +86,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid2));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid2);
 
         ______TS("Failure case: invalid start or end times");
         String[] paramsInvalid3 = {
@@ -97,16 +94,14 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid3));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid3);
 
         String[] paramsInvalid4 = {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid4));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid4);
 
         ______TS("Failure case: start time is before earliest search time");
         verifyHttpParameterFailure(
@@ -122,7 +117,6 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         // The filtering by the logs processor cannot be tested directly, assume that it filters correctly
         // Here, it simply returns all log entries
@@ -141,17 +135,17 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
         assertEquals(fsLogEntries1.size(), 3);
         assertEquals(fsLogEntries1.get(0).getStudentData().getEmail(), student1Email);
-        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), LogType.FEEDBACK_SESSION_ACCESS);
+        assertEquals(fsLogEntries1.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
         assertEquals(fsLogEntries1.get(1).getStudentData().getEmail(), student2Email);
-        assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), LogType.FEEDBACK_SESSION_ACCESS);
+        assertEquals(fsLogEntries1.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
         assertEquals(fsLogEntries1.get(2).getStudentData().getEmail(), student2Email);
-        assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), LogType.FEEDBACK_SESSION_SUBMISSION);
+        assertEquals(fsLogEntries1.get(2).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         assertEquals(fsLogEntries2.size(), 2);
         assertEquals(fsLogEntries2.get(0).getStudentData().getEmail(), student1Email);
-        assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), LogType.FEEDBACK_SESSION_ACCESS);
+        assertEquals(fsLogEntries2.get(0).getFeedbackSessionLogType(), FeedbackSessionLogType.ACCESS);
         assertEquals(fsLogEntries2.get(1).getStudentData().getEmail(), student1Email);
-        assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), LogType.FEEDBACK_SESSION_SUBMISSION);
+        assertEquals(fsLogEntries2.get(1).getFeedbackSessionLogType(), FeedbackSessionLogType.SUBMISSION);
 
         ______TS("Success case: should accept optional email");
         String[] paramsSuccessful2 = {
@@ -160,8 +154,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsSuccessful2));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsSuccessful2));
         // No need to check output again here, it will be exactly the same as the previous case
 
         // TODO: if we restrict the range from start to end time, it should be tested here as well
@@ -169,8 +162,9 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
-        InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
+    protected void testAccessControl() {
+        InstructorAttributes instructor = typicalBundle.instructors.get("instructor2OfCourse1");
+        InstructorAttributes helper = typicalBundle.instructors.get("helperOfCourse1");
         String courseId = instructor.getCourseId();
 
         ______TS("Only instructors of the same course can access");
@@ -178,6 +172,19 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.COURSE_ID, courseId,
         };
         verifyOnlyInstructorsOfTheSameCourseCanAccess(submissionParams);
+
+        ______TS("Only instructors with modify student, session and instructor privilege can access");
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, courseId,
+        };
+
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(helper.getGoogleId());
+        verifyCannotAccess(submissionParams);
+
+        loginAsInstructor(instructor.getGoogleId());
+        verifyCanAccess(submissionParams);
     }
 
 }

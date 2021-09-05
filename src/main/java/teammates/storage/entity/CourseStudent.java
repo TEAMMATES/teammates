@@ -10,7 +10,6 @@ import com.googlecode.objectify.annotation.OnSave;
 import com.googlecode.objectify.annotation.Translate;
 import com.googlecode.objectify.annotation.Unindex;
 
-import teammates.common.util.Assumption;
 import teammates.common.util.StringHelper;
 
 /**
@@ -77,7 +76,7 @@ public class CourseStudent extends BaseEntity {
         setCreatedAt(Instant.now());
 
         this.id = generateId(getEmail(), getCourseId());
-        registrationKey = generateRegistrationKey();
+        setRegistrationKey(generateRegistrationKey());
     }
 
     /**
@@ -168,6 +167,10 @@ public class CourseStudent extends BaseEntity {
         return registrationKey;
     }
 
+    public void setRegistrationKey(String registrationKey) {
+        this.registrationKey = registrationKey;
+    }
+
     public String getCourseId() {
         return courseId;
     }
@@ -205,9 +208,10 @@ public class CourseStudent extends BaseEntity {
      */
     private String generateRegistrationKey() {
         String uniqueId = getUniqueId();
-        Assumption.assertNotNull(uniqueId);
+        assert uniqueId != null;
 
         SecureRandom prng = new SecureRandom();
-        return uniqueId + "%" + prng.nextInt();
+
+        return StringHelper.encrypt(uniqueId + "%" + prng.nextInt());
     }
 }

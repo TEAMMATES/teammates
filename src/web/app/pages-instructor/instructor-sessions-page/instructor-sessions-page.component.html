@@ -30,7 +30,7 @@
                          [courseCandidates]="courseCandidates" [columnsToShow]="[ SessionsTableColumn.COURSE_ID ]"
                          [headerColorScheme]="SessionsTableHeaderColorScheme.BLUE"
                          (sortSessionsTableRowModelsEvent)="sortSessionsTableRowModelsEvent($event)"
-                         (loadResponseRateEvent)="loadResponseRateEventHandler($event)" (editSessionEvent)="editSessionEventHandler($event)"
+                         (loadResponseRateEvent)="loadResponseRateEventHandler($event)"
                          (moveSessionToRecycleBinEvent)="moveSessionToRecycleBinEventHandler($event)" (copySessionEvent)="copySessionEventHandler($event)"
                          (submitSessionAsInstructorEvent)="submitSessionAsInstructorEventHandler($event)" (viewSessionResultEvent)="viewSessionResultEventHandler($event)"
                          (publishSessionEvent)="publishSessionEventHandler($event)" (unpublishSessionEvent)="unpublishSessionEventHandler($event)"
@@ -44,7 +44,7 @@
   <div class="row">
     <div class="col-12 text-muted">
       <p>
-        Note: The table above doesn't contain sessions from archived courses and soft-deleted courses.
+        Note: The table above doesn't contain sessions from archived courses and courses in recycle bin.
         To view sessions from an archived course, unarchive the course first; to view sessions from a course in recycle bin, restore the course first.
       </p>
     </div>

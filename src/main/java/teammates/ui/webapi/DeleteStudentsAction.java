@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -17,7 +14,7 @@ class DeleteStudentsAction extends Action {
     }
 
     @Override
-    void checkSpecificAccessControl() {
+    void checkSpecificAccessControl() throws UnauthorizedAccessException {
         if (!userInfo.isInstructor) {
             throw new UnauthorizedAccessException("Instructor privilege is required to delete students from course.");
         }
@@ -28,11 +25,11 @@ class DeleteStudentsAction extends Action {
     }
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
 
         logic.deleteStudentsInCourseCascade(courseId);
 
-        return new JsonResult("All the students have been removed from the course", HttpStatus.SC_OK);
+        return new JsonResult("All the students have been removed from the course");
     }
 }

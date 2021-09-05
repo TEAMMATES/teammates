@@ -2,7 +2,6 @@ package teammates.storage.entity;
 
 import java.time.Instant;
 
-import com.google.appengine.api.datastore.Text;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -34,9 +33,8 @@ public class FeedbackSession extends BaseEntity {
     private String creatorEmail;
 
     @Unindex
-    private Text instructions;
+    private String instructions;
 
-    @Unindex
     @Translate(InstantTranslatorFactory.class)
     private Instant createdTime;
 
@@ -49,11 +47,9 @@ public class FeedbackSession extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant endTime;
 
-    @Unindex
     @Translate(InstantTranslatorFactory.class)
     private Instant sessionVisibleFromTime;
 
-    @Unindex
     @Translate(InstantTranslatorFactory.class)
     private Instant resultsVisibleFromTime;
 
@@ -61,6 +57,8 @@ public class FeedbackSession extends BaseEntity {
 
     @Unindex
     private long gracePeriod;
+
+    private boolean sentOpeningSoonEmail;
 
     private boolean sentOpenEmail;
 
@@ -84,13 +82,13 @@ public class FeedbackSession extends BaseEntity {
     public FeedbackSession(String feedbackSessionName, String courseId, String creatorEmail,
             String instructions, Instant createdTime, Instant deletedTime, Instant startTime, Instant endTime,
             Instant sessionVisibleFromTime, Instant resultsVisibleFromTime, String timeZone, long gracePeriod,
-            boolean sentOpenEmail, boolean sentClosingEmail,
-            boolean sentClosedEmail, boolean sentPublishedEmail,
-            boolean isOpeningEmailEnabled, boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
+            boolean sentOpeningSoonEmail, boolean sentOpenEmail, boolean sentClosingEmail,
+            boolean sentClosedEmail, boolean sentPublishedEmail, boolean isOpeningEmailEnabled,
+            boolean isClosingEmailEnabled, boolean isPublishedEmailEnabled) {
         this.feedbackSessionName = feedbackSessionName;
         this.courseId = courseId;
         this.creatorEmail = creatorEmail;
-        setInstructions(instructions);
+        this.instructions = instructions;
         this.createdTime = createdTime;
         this.deletedTime = deletedTime;
         this.startTime = startTime;
@@ -99,6 +97,7 @@ public class FeedbackSession extends BaseEntity {
         this.resultsVisibleFromTime = resultsVisibleFromTime;
         this.timeZone = timeZone;
         this.gracePeriod = gracePeriod;
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
         this.sentOpenEmail = sentOpenEmail;
         this.sentClosingEmail = sentClosingEmail;
         this.sentClosedEmail = sentClosedEmail;
@@ -142,11 +141,11 @@ public class FeedbackSession extends BaseEntity {
     }
 
     public String getInstructions() {
-        return instructions == null ? null : instructions.getValue();
+        return instructions;
     }
 
     public void setInstructions(String instructions) {
-        this.instructions = instructions == null ? null : new Text(instructions);
+        this.instructions = instructions;
     }
 
     public Instant getCreatedTime() {
@@ -211,6 +210,14 @@ public class FeedbackSession extends BaseEntity {
 
     public void setGracePeriod(long gracePeriod) {
         this.gracePeriod = gracePeriod;
+    }
+
+    public boolean isSentOpeningSoonEmail() {
+        return sentOpeningSoonEmail;
+    }
+
+    public void setSentOpeningSoonEmail(boolean sentOpeningSoonEmail) {
+        this.sentOpeningSoonEmail = sentOpeningSoonEmail;
     }
 
     public boolean isSentOpenEmail() {
@@ -279,11 +286,15 @@ public class FeedbackSession extends BaseEntity {
                 + sessionVisibleFromTime + ", resultsVisibleFromTime="
                 + resultsVisibleFromTime + ", timeZone=" + timeZone
                 + ", gracePeriod=" + gracePeriod
+                + ", sentOpeningSoonEmail=" + sentOpeningSoonEmail
                 + ", sentOpenEmail=" + sentOpenEmail
+                + ", sentClosingEmail=" + sentClosingEmail
+                + ", sentClosedEmail=" + sentClosedEmail
                 + ", sentPublishedEmail=" + sentPublishedEmail
                 + ", isOpeningEmailEnabled=" + isOpeningEmailEnabled
                 + ", isClosingEmailEnabled=" + isClosingEmailEnabled
-                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled + "]";
+                + ", isPublishedEmailEnabled=" + isPublishedEmailEnabled
+                + "]";
     }
 
 }

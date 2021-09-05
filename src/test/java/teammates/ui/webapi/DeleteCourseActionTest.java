@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -33,8 +32,8 @@ public class DeleteCourseActionTest
         verifyHttpParameterFailure();
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         ______TS("Typical case, delete a soft-deleted course in Recycle Bin");
 
@@ -53,16 +52,15 @@ public class DeleteCourseActionTest
         JsonResult result = getJsonResult(deleteCourseAction);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("OK", messageOutput.getMessage());
-        assertNull(logic.getCourse(instructor1OfCourse1.courseId));
+        assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()));
     }
 
     @Test
-    public void testExecute_notInRecycleBin_shouldPass() throws Exception {
+    public void testExecute_notInRecycleBin_shouldPass() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String instructorId = instructor1OfCourse1.googleId;
-        String courseId = instructor1OfCourse1.courseId;
+        String instructorId = instructor1OfCourse1.getGoogleId();
+        String courseId = instructor1OfCourse1.getCourseId();
 
         ______TS("delete a course not in Recycle Bin");
 
@@ -70,17 +68,16 @@ public class DeleteCourseActionTest
                 Const.ParamsNames.COURSE_ID, courseId,
         };
 
-        CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.courseId);
-        assertNull(courseToBeDeleted.deletedAt);
+        CourseAttributes courseToBeDeleted = logic.getCourse(instructor1OfCourse1.getCourseId());
+        assertNull(courseToBeDeleted.getDeletedAt());
         loginAsInstructor(instructorId);
 
         DeleteCourseAction deleteCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(deleteCourseAction);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("OK", messageOutput.getMessage());
-        assertNull(logic.getCourse(instructor1OfCourse1.courseId));
+        assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()));
     }
 
     @Override

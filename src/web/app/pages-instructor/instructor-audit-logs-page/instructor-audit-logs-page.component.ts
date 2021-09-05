@@ -1,27 +1,25 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
-import moment from 'moment-timezone';
-import { forkJoin, Observable } from 'rxjs';
-import { concatMap, finalize, map, mergeAll } from 'rxjs/operators';
+import { concatMap, finalize, mergeAll } from 'rxjs/operators';
 import { CourseService } from '../../../services/course.service';
 import { LogService } from '../../../services/log.service';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { StudentService } from '../../../services/student.service';
-import { LOCAL_DATE_TIME_FORMAT, TimeResolvingResult, TimezoneService } from '../../../services/timezone.service';
+import { TimezoneService } from '../../../services/timezone.service';
 import { ApiConst } from '../../../types/api-const';
 import {
   Course,
   Courses,
   FeedbackSessionLog, FeedbackSessionLogEntry,
-  FeedbackSessionLogs, LogType,
+  FeedbackSessionLogs, FeedbackSessionLogType,
   Student,
   Students,
 } from '../../../types/api-output';
 import { SortBy } from '../../../types/sort-properties';
+import { DateFormat } from '../../components/datepicker/datepicker.component';
 import { SessionEditFormDatePickerFormatter } from '../../components/session-edit-form/session-edit-form-datepicker-formatter';
-import { DateFormat } from '../../components/session-edit-form/session-edit-form-model';
-import { TimeFormat } from '../../components/session-edit-form/time-picker/time-picker.component';
 import { ColumnData, SortableTableCellData } from '../../components/sortable-table/sortable-table.component';
+import { TimeFormat } from '../../components/timepicker/timepicker.component';
 import { ErrorMessageOutput } from '../../error-message-output';
 
 /**
@@ -33,7 +31,7 @@ interface SearchLogsFormModel {
   logsTimeFrom: TimeFormat;
   logsTimeTo: TimeFormat;
   courseId: string;
-  studentName: string;
+  studentEmail: string;
 }
 
 /**
@@ -67,7 +65,7 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     logsDateTo: { year: 0, month: 0, day: 0 },
     logsTimeTo: { hour: 0, minute: 0 },
     courseId: '',
-    studentName: '',
+    studentEmail: '',
   };
   dateToday: DateFormat = { year: 0, month: 0, day: 0 };
   earliestSearchDate: DateFormat = { year: 0, month: 0, day: 0 };
@@ -94,7 +92,14 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.earliestSearchDate.month = earliestSearchDate.getMonth() + 1;
     this.earliestSearchDate.day = earliestSearchDate.getDate();
 
-    this.formModel.logsDateFrom = { ...this.dateToday, day: today.getDate() - 1 };
+    const fromDate: Date = new Date();
+    fromDate.setDate(today.getDate() - 1);
+
+    this.formModel.logsDateFrom = {
+      year: fromDate.getFullYear(),
+      month: fromDate.getMonth() + 1,
+      day: fromDate.getDate(),
+    };
     this.formModel.logsDateTo = { ...this.dateToday };
     this.formModel.logsTimeFrom = { hour: 23, minute: 59 };
     this.formModel.logsTimeTo = { hour: 23, minute: 59 };
@@ -107,36 +112,27 @@ export class InstructorAuditLogsPageComponent implements OnInit {
   search(): void {
     this.isSearching = true;
     this.searchResults = [];
-    const localDateTime: Observable<number>[] = [
-      this.resolveLocalDateTime(this.formModel.logsDateFrom, this.formModel.logsTimeFrom, 'Search period from'),
-      this.resolveLocalDateTime(this.formModel.logsDateTo, this.formModel.logsTimeTo, 'Search period until'),
-    ];
+    const selectedCourse: Course | undefined =
+      this.courses.find((course: Course) => course.courseId === this.formModel.courseId);
+    const timeZone: string = selectedCourse ? selectedCourse.timeZone : this.timezoneService.guessTimezone();
+    const searchFrom: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateFrom, this.formModel.logsTimeFrom, timeZone);
+    const searchUntil: number = this.timezoneService.resolveLocalDateTime(
+        this.formModel.logsDateTo, this.formModel.logsTimeTo, timeZone);
 
-    let email: string = '';
-    if (this.formModel.studentName) {
-      const students: Student[] = this.courseToStudents[this.formModel.courseId];
-      const selectedStudent: Student | undefined =
-          students.find((student: Student) => student.name === this.formModel.studentName);
-      if (selectedStudent) {
-        email = selectedStudent.email;
-      }
-    }
-
-    forkJoin(localDateTime)
-        .pipe(
-            concatMap((timestamp: number[]) => {
-              return this.logsService.searchFeedbackSessionLog({
-                courseId: this.formModel.courseId,
-                searchFrom: timestamp[0].toString(),
-                searchUntil: timestamp[1].toString(),
-                studentEmail: email,
-              });
-            }),
-            finalize(() => this.isSearching = false))
-        .subscribe((logs: FeedbackSessionLogs) => {
-          logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
-              this.searchResults.push(this.toFeedbackSessionLogModel(log)));
-        }, (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
+    this.logsService.searchFeedbackSessionLog({
+      courseId: this.formModel.courseId,
+      searchFrom: searchFrom.toString(),
+      searchUntil: searchUntil.toString(),
+      studentEmail: this.formModel.studentEmail,
+    }).pipe(
+        finalize(() => this.isSearching = false),
+    ).subscribe((logs: FeedbackSessionLogs) => {
+      logs.feedbackSessionLogs.map((log: FeedbackSessionLog) =>
+          this.searchResults.push(this.toFeedbackSessionLogModel(log)));
+    }, (e: ErrorMessageOutput) => {
+      this.statusMessageService.showErrorToast(e.error.message);
+    });
   }
 
   /**
@@ -149,34 +145,28 @@ export class InstructorAuditLogsPageComponent implements OnInit {
     this.courseService
         .getAllCoursesAsInstructor('active')
         .pipe(
-            concatMap((courses: Courses) => courses.courses.map((course: Course) => {
-              this.courses.push(course);
-              return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
-            })),
+            concatMap((courses: Courses) => courses.courses
+                .filter((course: Course) =>
+                    course.privileges?.canModifyStudent
+                    && course.privileges?.canModifySession
+                    && course.privileges?.canModifySession)
+                .map((course: Course) => {
+                  this.courses.push(course);
+                  return this.studentService.getStudentsFromCourse({ courseId: course.courseId });
+                })),
             mergeAll(),
             finalize(() => this.isLoading = false))
-        .subscribe(((student: Students) =>
-                // Student with no name is selectable to search for all students since the field is optional
-                this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students]),
+        .subscribe(((student: Students) => {
+          student.students.sort((a: Student, b: Student): number => a.name.localeCompare(b.name));
+          // Student with no name is selectable to search for all students since the field is optional
+          this.courseToStudents[student.students[0].courseId] = [emptyStudent, ...student.students];
+        }),
             (e: ErrorMessageOutput) => this.statusMessageService.showErrorToast(e.error.message));
-  }
-
-  private resolveLocalDateTime(date: DateFormat, time: TimeFormat, fieldName: string): Observable<number> {
-    const inst: any = moment();
-    inst.set('year', date.year);
-    inst.set('month', date.month - 1); // moment month is from 0-11
-    inst.set('date', date.day);
-    inst.set('hour', time.hour);
-    inst.set('minute', time.minute);
-    const localDateTime: string = inst.format(LOCAL_DATE_TIME_FORMAT);
-
-    return this.timezoneService.getResolvedTimestamp(localDateTime, this.timezoneService.guessTimezone(), fieldName)
-        .pipe(map((result: TimeResolvingResult) => result.timestamp));
   }
 
   private toFeedbackSessionLogModel(log: FeedbackSessionLog): FeedbackSessionLogModel {
     return {
-      isTabExpanded: false,
+      isTabExpanded: log.feedbackSessionLogEntries.length === 0,
       feedbackSessionName: log.feedbackSessionData.feedbackSessionName,
       logColumnsData: [
         { header: 'Time', sortBy: SortBy.LOG_DATE },
@@ -186,17 +176,22 @@ export class InstructorAuditLogsPageComponent implements OnInit {
         { header: 'Section', sortBy: SortBy.SECTION_NAME },
         { header: 'Team', sortBy: SortBy.TEAM_NAME },
       ],
-      logRowsData: log.feedbackSessionLogEntries.map((entry: FeedbackSessionLogEntry) => {
-        return [
-          { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A') },
-          { value: entry.studentData.name },
-          { value: LogType[entry.feedbackSessionLogType.toString() as keyof typeof LogType]
-            === LogType.FEEDBACK_SESSION_ACCESS ? 'Viewed the submission page' : 'Submitted responses' },
-          { value: entry.studentData.email },
-          { value: entry.studentData.sectionName },
-          { value: entry.studentData.teamName },
-        ];
-      }),
+      logRowsData: log.feedbackSessionLogEntries
+        .filter((entry: FeedbackSessionLogEntry) =>
+            entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+            !== 'VIEW_RESULT')
+        .map((entry: FeedbackSessionLogEntry) => {
+          return [
+            { value: this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM, YYYY hh:mm:ss A'),
+              style: 'font-family:monospace;'},
+            { value: entry.studentData.name },
+            { value: entry.feedbackSessionLogType.toString() as keyof typeof FeedbackSessionLogType
+              === 'ACCESS' ? 'Viewed the submission page' : 'Submitted responses' },
+            { value: entry.studentData.email },
+            { value: entry.studentData.sectionName },
+            { value: entry.studentData.teamName },
+          ];
+        }),
     };
   }
 }

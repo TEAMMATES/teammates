@@ -30,16 +30,16 @@ public class InstructorStudentRecordsPageE2ETest extends BaseE2ETestCase {
         StudentAttributes student = testData.students.get("benny.c.tmms@ISR.CS2104");
         StudentProfileAttributes studentProfile = testData.profiles.get("benny.c.tmms@ISR.CS2104");
 
-        String instructorId = instructor.googleId;
-        String courseId = instructor.courseId;
-        String studentEmail = student.email;
+        String instructorId = instructor.getGoogleId();
+        String courseId = instructor.getCourseId();
+        String studentEmail = student.getEmail();
 
         AppUrl recordsPageUrl = createUrl(Const.WebPageURIs.INSTRUCTOR_STUDENT_RECORDS_PAGE)
-                .withUserId(instructorId)
                 .withCourseId(courseId)
                 .withStudentEmail(studentEmail);
 
-        InstructorStudentRecordsPage recordsPage = loginAdminToPage(recordsPageUrl, InstructorStudentRecordsPage.class);
+        InstructorStudentRecordsPage recordsPage =
+                loginToPage(recordsPageUrl, InstructorStudentRecordsPage.class, instructorId);
 
         recordsPage.verifyStudentDetails(studentProfile, student);
 

@@ -6,7 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.util.Assumption;
+import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -14,19 +14,20 @@ import teammates.common.util.SanitizationHelper;
 import teammates.common.util.StringHelper;
 import teammates.storage.entity.CourseStudent;
 
+/**
+ * The data transfer object for {@link CourseStudent} entities.
+ */
 public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
-    public String email;
-    public String course;
-
-    public String name;
-    public String googleId;
-    public String lastName;
-    public String comments;
-    public String team;
-    public String section;
-    public String key;
-
+    private String email;
+    private String course;
+    private String name;
+    private String googleId;
+    private String lastName;
+    private String comments;
+    private String team;
+    private String section;
+    private transient String key;
     private transient Instant createdAt;
     private transient Instant updatedAt;
 
@@ -40,6 +41,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         this.updatedAt = Const.TIME_REPRESENTS_DEFAULT_TIMESTAMP;
     }
 
+    /**
+     * Gets the {@link StudentAttributes} instance of the given {@link CourseStudent}.
+     */
     public static StudentAttributes valueOf(CourseStudent student) {
         StudentAttributes studentAttributes = new StudentAttributes(student.getCourseId(), student.getEmail());
         studentAttributes.name = student.getName();
@@ -70,6 +74,9 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return new Builder(courseId, email);
     }
 
+    /**
+     * Gets a deep copy of this object.
+     */
     public StudentAttributes getCopy() {
         StudentAttributes studentAttributes = new StudentAttributes(course, email);
 
@@ -92,7 +99,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(key))
+                .withRegistrationKey(getEncryptedKey())
                 .withStudentEmail(email)
                 .withCourseId(course)
                 .withEntityType(Const.EntityType.STUDENT)
@@ -103,24 +110,64 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getLastName() {
         return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
         return email;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getCourse() {
         return course;
+    }
+
+    public void setCourse(String course) {
+        this.course = course;
     }
 
     public String getGoogleId() {
         return googleId;
     }
 
+    public void setGoogleId(String googleId) {
+        this.googleId = googleId;
+    }
+
+    /**
+     * Returns the encrypted version of the key. If the key stored in the DB is not already encrypted,
+     * it will be encrypted before returned.
+     */
+    // TODO remove after data migration
+    @Deprecated
+    public String getEncryptedKey() {
+        try {
+            StringHelper.decrypt(key);
+            // If key can be decrypted, it means it is already encrypted and can be returned immediately
+            return key;
+        } catch (InvalidParametersException e) {
+            return StringHelper.encrypt(key);
+        }
+    }
+
     public String getKey() {
         return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     /**
@@ -134,12 +181,24 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return section;
     }
 
+    public void setSection(String section) {
+        this.section = section;
+    }
+
     public String getTeam() {
         return team;
     }
 
+    public void setTeam(String team) {
+        this.team = team;
+    }
+
     public String getComments() {
         return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     @Override
@@ -165,8 +224,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
     @Override
     public List<String> getInvalidityInfo() {
         // id is allowed to be null when the student is not registered
-        Assumption.assertNotNull(team);
-        Assumption.assertNotNull(comments);
+        assert team != null;
+        assert comments != null;
 
         List<String> errors = new ArrayList<>();
 
@@ -189,12 +248,18 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         return errors;
     }
 
+    /**
+     * Sorts the list of students by the section name, then team name, then name.
+     */
     public static void sortBySectionName(List<StudentAttributes> students) {
         students.sort(Comparator.comparing((StudentAttributes student) -> student.section)
                 .thenComparing(student -> student.team)
                 .thenComparing(student -> student.name));
     }
 
+    /**
+     * Sorts the list of students by the team name, then name.
+     */
     public static void sortByTeamName(List<StudentAttributes> students) {
         students.sort(Comparator.comparing((StudentAttributes student) -> student.team)
                 .thenComparing(student -> student.name));
@@ -302,8 +367,8 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         private UpdateOption<String> sectionNameOption = UpdateOption.empty();
 
         private UpdateOptions(String courseId, String email) {
-            Assumption.assertNotNull(courseId);
-            Assumption.assertNotNull(email);
+            assert courseId != null;
+            assert email != null;
 
             this.courseId = courseId;
             this.email = email;
@@ -343,7 +408,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
             }
 
             public Builder withNewEmail(String email) {
-                Assumption.assertNotNull(email);
+                assert email != null;
 
                 updateOptions.newEmailOption = UpdateOption.of(email);
                 return thisBuilder;
@@ -374,21 +439,21 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public B withName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             updateOptions.nameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withLastName(String name) {
-            Assumption.assertNotNull(name);
+            assert name != null;
 
             updateOptions.lastNameOption = UpdateOption.of(name);
             return thisBuilder;
         }
 
         public B withComment(String comment) {
-            Assumption.assertNotNull(comment);
+            assert comment != null;
 
             updateOptions.commentOption = UpdateOption.of(comment);
             return thisBuilder;
@@ -401,14 +466,14 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
         }
 
         public B withTeamName(String teamName) {
-            Assumption.assertNotNull(teamName);
+            assert teamName != null;
 
             updateOptions.teamNameOption = UpdateOption.of(teamName);
             return thisBuilder;
         }
 
         public B withSectionName(String sectionName) {
-            Assumption.assertNotNull(sectionName);
+            assert sectionName != null;
 
             updateOptions.sectionNameOption = UpdateOption.of(sectionName);
             return thisBuilder;

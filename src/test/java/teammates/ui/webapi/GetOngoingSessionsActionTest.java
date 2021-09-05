@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -44,7 +43,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         ______TS("Typical use case; one ongoing session, should be returned");
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        String courseId = instructor1OfCourse1.courseId;
+        String courseId = instructor1OfCourse1.getCourseId();
         String feedbackSessionName = "new-session";
 
         Instant startTime = Instant.now();
@@ -52,7 +51,7 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
 
         logic.createFeedbackSession(
                 FeedbackSessionAttributes.builder(feedbackSessionName, courseId)
-                        .withCreatorEmail(instructor1OfCourse1.email)
+                        .withCreatorEmail(instructor1OfCourse1.getEmail())
                         .withStartTime(startTime)
                         .withEndTime(endTime)
                         .withSessionVisibleFromTime(startTime)
@@ -67,7 +66,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
         getOngoingSessionsAction = getAction(params);
         r = getJsonResult(getOngoingSessionsAction);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
         assertEquals(0, response.getTotalAwaitingSessions());
@@ -116,7 +114,6 @@ public class GetOngoingSessionsActionTest extends BaseActionTest<GetOngoingSessi
     }
 
     private void verifyNoExistingSession(JsonResult r) {
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         OngoingSessionsData response = (OngoingSessionsData) r.getOutput();
 
         assertEquals(0, response.getTotalAwaitingSessions());

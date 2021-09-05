@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -13,7 +12,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackContributionQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackQuestionType;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.output.FeedbackVisibilityType;
@@ -37,7 +35,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         FeedbackSessionAttributes session = typicalBundle.feedbackSessions.get("session1InCourse1");
 
@@ -56,47 +54,34 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
 
         ______TS("null question type");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
-            createRequest.setQuestionType(null);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
+        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest.setQuestionType(null);
+        verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Invalid questionNumber");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
-            createRequest.setQuestionNumber(0);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
+        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest.setQuestionNumber(0);
+        verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Failure: Invalid giverType");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
-            createRequest.setGiverType(FeedbackParticipantType.NONE);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
+        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest.setGiverType(FeedbackParticipantType.NONE);
+        verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Failure: empty question brief");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
-            createRequest.setQuestionBrief("");
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
+        createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest.setQuestionBrief("");
+        verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Typical case");
 
-        FeedbackQuestionCreateRequest createRequest = getTypicalTextQuestionCreateRequest();
+        createRequest = getTypicalTextQuestionCreateRequest();
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
@@ -117,7 +102,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals(100, questionResponse.getCustomNumberOfEntitiesToGiveFeedbackTo().intValue());
@@ -131,7 +115,7 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
     }
 
     @Test
-    protected void testExecute_masqueradeMode_shouldCreateQuestionSuccessfully() throws Exception {
+    protected void testExecute_masqueradeMode_shouldCreateQuestionSuccessfully() {
         loginAsAdmin();
 
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
@@ -147,7 +131,6 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
 
         assertEquals("this is the description", questionResponse.getQuestionDescription());
@@ -174,22 +157,17 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
         ______TS("Failure: Invalid feedback path");
 
         // contribution question cannot have students -> students feedback path
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackQuestionCreateRequest createRequest = getTypicalContributionQuestionCreateRequest();
-            createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
-            createRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
-            Action a = getAction(createRequest, params);
-            a.execute();
-        });
+        FeedbackQuestionCreateRequest createRequest = getTypicalContributionQuestionCreateRequest();
+        createRequest.setGiverType(FeedbackParticipantType.STUDENTS);
+        createRequest.setRecipientType(FeedbackParticipantType.STUDENTS);
+        verifyHttpRequestBodyFailure(createRequest, params);
 
         ______TS("Typical case");
 
-        FeedbackQuestionCreateRequest createRequest =
-                getTypicalContributionQuestionCreateRequest();
+        createRequest = getTypicalContributionQuestionCreateRequest();
         CreateFeedbackQuestionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionData questionResponse = (FeedbackQuestionData) r.getOutput();
         assertEquals(FeedbackQuestionType.CONTRIB, questionResponse.getQuestionType());
         assertNotNull(questionResponse.getFeedbackQuestionId());
@@ -253,8 +231,8 @@ public class CreateFeedbackQuestionActionTest extends BaseActionTest<CreateFeedb
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, "abcRandomSession",
         };
 
-        loginAsInstructor(instructor1OfCourse1.googleId);
-        verifyEntityNotFound(submissionParams);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("inaccessible without ModifySessionPrivilege");
 

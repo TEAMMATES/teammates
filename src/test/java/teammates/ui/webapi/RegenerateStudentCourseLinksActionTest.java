@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -8,7 +7,6 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.output.RegenerateStudentCourseLinksData;
 
 /**
@@ -42,13 +40,13 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
         //null student email
         String[] invalidParams = new String[] {
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
         verifyHttpParameterFailure(invalidParams);
 
         //null course id
         invalidParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
         verifyHttpParameterFailure(invalidParams);
     }
@@ -60,21 +58,13 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
         ______TS("course does not exist");
 
         String[] nonExistingParams = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, "non-existent-course",
         };
 
         assertNull(logic.getCourse("non-existent-course"));
 
-        RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
-        JsonResult result = getJsonResult(a);
-
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(String.format(RegenerateStudentCourseLinksAction.STUDENT_NOT_FOUND,
-                                student1InCourse1.email, "non-existent-course"),
-                     output.getMessage());
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(nonExistingParams);
     }
 
     @Test
@@ -85,20 +75,12 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
         String[] nonExistingParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent-student@abc.com",
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
 
-        assertNull(logic.getStudentForEmail(student1InCourse1.course, "non-existent-student@abc.com"));
+        assertNull(logic.getStudentForEmail(student1InCourse1.getCourse(), "non-existent-student@abc.com"));
 
-        RegenerateStudentCourseLinksAction a = getAction(nonExistingParams);
-        JsonResult result = getJsonResult(a);
-
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(String.format(RegenerateStudentCourseLinksAction.STUDENT_NOT_FOUND,
-                                "non-existent-student@abc.com", student1InCourse1.course),
-                     output.getMessage());
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(nonExistingParams);
     }
 
     @Test
@@ -107,8 +89,8 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
         ______TS("Successfully sent regenerated links email");
 
         String[] param = new String[] {
-                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.email,
-                Const.ParamsNames.COURSE_ID, student1InCourse1.course,
+                Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
+                Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
 
         RegenerateStudentCourseLinksAction a = getAction(param);
@@ -116,22 +98,21 @@ public class RegenerateStudentCourseLinksActionTest extends BaseActionTest<Regen
 
         RegenerateStudentCourseLinksData output = (RegenerateStudentCourseLinksData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(RegenerateStudentCourseLinksAction.SUCCESSFUL_REGENERATION_WITH_EMAIL_SENT, output.getMessage());
-        assertNotEquals(student1InCourse1.key, output.getNewRegistrationKey());
+        assertNotEquals(student1InCourse1.getKey(), output.getNewRegistrationKey());
 
         verifyNumberOfEmailsSent(1);
 
         EmailWrapper emailSent = mockEmailSender.getEmailsSent().get(0);
         assertEquals(String.format(EmailType.STUDENT_COURSE_LINKS_REGENERATED.getSubject(),
-                                    typicalBundle.courses.get("typicalCourse1").getName(), student1InCourse1.course),
+                                    typicalBundle.courses.get("typicalCourse1").getName(), student1InCourse1.getCourse()),
                      emailSent.getSubject());
         assertEquals(student1InCourse1.getEmail(), emailSent.getRecipient());
     }
 
     @Override
     @Test
-    protected void testExecute() throws Exception {
+    protected void testExecute() {
         // see individual tests
     }
 

@@ -19,7 +19,6 @@ import org.testng.annotations.Test;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -30,6 +29,7 @@ import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextQuestionDetails;
 import teammates.common.datatransfer.questions.FeedbackTextResponseDetails;
+import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.lnp.util.JMeterElements;
@@ -56,8 +56,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
 
     private static final String UPDATE_INSTRUCTOR_EMAIL = "update.test@gmail.tmt";
 
-    private static final String HAS_ADMIN_PRIVILEGE = "no";
-
     private static final String STUDENT_ID = "LnPStudent.tmms";
     private static final String STUDENT_NAME = "LnPStudent";
     private static final String STUDENT_EMAIL = "studentEmail@gmail.tmt";
@@ -81,11 +79,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
     @Override
     protected LNPTestData getTestData() {
         return new LNPTestData() {
-            @Override
-            protected Map<String, AccountAttributes> generateAccounts() {
-                return new HashMap<>();
-            }
-
             @Override
             protected Map<String, CourseAttributes> generateCourses() {
                 Map<String, CourseAttributes> courses = new HashMap<>();
@@ -142,7 +135,7 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                 FeedbackSessionAttributes session = FeedbackSessionAttributes
                         .builder(FEEDBACK_SESSION_NAME, COURSE_ID)
                         .withCreatorEmail(INSTRUCTOR_EMAIL)
-                        .withStartTime(Instant.now())
+                        .withStartTime(Instant.now().plusMillis(100))
                         .withEndTime(Instant.now().plusSeconds(500))
                         .withSessionVisibleFromTime(Instant.now())
                         .withResultsVisibleFromTime(Instant.now())
@@ -245,7 +238,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                 List<String> headers = new ArrayList<>();
 
                 headers.add("loginId");
-                headers.add("isAdmin");
                 headers.add("courseId");
                 headers.add("updateData");
 
@@ -261,7 +253,6 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
                     List<String> csvRow = new ArrayList<>();
 
                     csvRow.add(INSTRUCTOR_ID);
-                    csvRow.add(HAS_ADMIN_PRIVILEGE);
                     csvRow.add(COURSE_ID);
 
                     InstructorCreateRequest instructorCreateRequest =
@@ -286,7 +277,7 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
     private Map<String, String> getRequestHeaders() {
         Map<String, String> headers = new HashMap<>();
 
-        headers.put("X-CSRF-TOKEN", "${csrfToken}");
+        headers.put(Const.HeaderNames.CSRF_TOKEN, "${csrfToken}");
         headers.put("Content-Type", "application/json");
 
         return headers;
@@ -327,7 +318,7 @@ public class InstructorUpdateLNPTest extends BaseLNPTestCase {
     }
 
     @BeforeClass
-    public void classSetup() {
+    public void classSetup() throws IOException, HttpRequestFailedException {
         generateTimeStamp();
         createTestData();
         setupSpecification();

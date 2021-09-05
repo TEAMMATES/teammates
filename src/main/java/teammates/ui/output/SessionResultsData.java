@@ -31,7 +31,6 @@ public class SessionResultsData extends ApiOutput {
     private static final String REGEX_ANONYMOUS_PARTICIPANT_HASH = "[0-9]{1,10}";
 
     final List<QuestionOutput> questions = new ArrayList<>();
-    FeedbackSessionData feedbackSession;
 
     SessionResultsData() {
         // use factory method instead
@@ -42,14 +41,13 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForInstructor(SessionResultsBundle bundle) {
         SessionResultsData sessionResultsData = new SessionResultsData();
-        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
 
         questionsWithResponses.forEach((questionId, responses) -> {
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
-            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, null, bundle));
             // put normal responses
@@ -71,34 +69,44 @@ public class SessionResultsData extends ApiOutput {
      */
     public static SessionResultsData initForStudent(SessionResultsBundle bundle, StudentAttributes student) {
         SessionResultsData sessionResultsData = new SessionResultsData();
-        sessionResultsData.feedbackSession = new FeedbackSessionData(bundle.getFeedbackSession());
-        sessionResultsData.feedbackSession.hideInformationForStudent();
 
         Map<String, List<FeedbackResponseAttributes>> questionsWithResponses =
                 bundle.getQuestionResponseMap();
 
         questionsWithResponses.forEach((questionId, responses) -> {
             FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(questionId);
-            FeedbackQuestionDetails questionDetails = question.getQuestionDetails();
+            FeedbackQuestionDetails questionDetails = question.getQuestionDetailsCopy();
             QuestionOutput qnOutput = new QuestionOutput(question,
                     questionDetails.getQuestionResultStatisticsJson(question, student.getEmail(), bundle));
             Map<String, List<ResponseOutput>> otherResponsesMap = new HashMap<>();
 
             if (questionDetails.isIndividualResponsesShownToStudents()) {
                 for (FeedbackResponseAttributes response : responses) {
-                    boolean isUserGiver = student.getEmail().equals(response.getGiver());
-                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
+                    boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
+
+                    boolean isUserGiver = student.getEmail().equals(response.getGiver())
+                            && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                            || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+                    boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+                            && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                            || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
                     ResponseOutput responseOutput = buildSingleResponseForStudent(response, bundle, student);
+
                     if (isUserRecipient) {
                         qnOutput.responsesToSelf.add(responseOutput);
-                    } else if (isUserGiver) {
+                    }
+
+                    if (isUserGiver) {
                         qnOutput.responsesFromSelf.add(responseOutput);
-                    } else {
+                    }
+
+                    if (!isUserRecipient && !isUserGiver) {
                         // we don't need care about the keys of the map here
                         // as only the values of the map will be used
                         otherResponsesMap.computeIfAbsent(response.getRecipient(), k -> new ArrayList<>())
                                 .add(responseOutput);
                     }
+
                     qnOutput.allResponses.add(responseOutput);
                 }
             }
@@ -113,10 +121,13 @@ public class SessionResultsData extends ApiOutput {
     private static ResponseOutput buildSingleResponseForStudent(
             FeedbackResponseAttributes response, SessionResultsBundle bundle, StudentAttributes student) {
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
+        boolean isUserInstructor = Const.USER_TEAM_FOR_INSTRUCTOR.equals(student.getTeam());
 
         // process giver
-        boolean isUserGiver = student.getEmail().equals(response.getGiver());
-        boolean isUserTeamGiver = question.giverType == FeedbackParticipantType.TEAMS
+        boolean isUserGiver = student.getEmail().equals(response.getGiver())
+                && (isUserInstructor && question.getGiverType() == FeedbackParticipantType.INSTRUCTORS
+                || !isUserInstructor && question.getGiverType() != FeedbackParticipantType.INSTRUCTORS);
+        boolean isUserTeamGiver = question.getGiverType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getGiver());
         String giverName = "";
         String giverTeam = "";
@@ -125,21 +136,23 @@ public class SessionResultsData extends ApiOutput {
             giverTeam = response.getGiver();
         } else if (isUserGiver) {
             giverName = "You";
-            giverTeam = student.team;
+            giverTeam = student.getTeam();
         } else {
             // we don't want student to figure out who is who by using the hash
             giverName = removeAnonymousHash(getGiverNameOfResponse(response, bundle).getName());
         }
 
         // process recipient
-        boolean isUserRecipient = student.getEmail().equals(response.getRecipient());
+        boolean isUserRecipient = student.getEmail().equals(response.getRecipient())
+                && (isUserInstructor && question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS
+                || !isUserInstructor && question.getRecipientType() != FeedbackParticipantType.INSTRUCTORS);
         boolean isUserTeamRecipient = question.getRecipientType() == FeedbackParticipantType.TEAMS
                 && student.getTeam().equals(response.getRecipient());
         String recipientName = "";
         String recipientTeam = "";
         if (isUserRecipient) {
             recipientName = "You";
-            recipientTeam = student.team;
+            recipientTeam = student.getTeam();
         } else if (isUserTeamRecipient) {
             recipientName = String.format("Your Team (%s)", response.getRecipient());
             recipientTeam = response.getRecipient();
@@ -169,7 +182,7 @@ public class SessionResultsData extends ApiOutput {
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(null)
                 .withRecipientSection(response.getRecipientSection())
-                .withResponseDetails(response.getResponseDetails())
+                .withResponseDetails(response.getResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
                 .build();
@@ -213,7 +226,7 @@ public class SessionResultsData extends ApiOutput {
         String giverTeam = bundle.getRoster().getInfoForIdentifier(response.getGiver()).getTeamName();
         String giverSection = response.getGiverSection();
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
-        if (question.giverType == FeedbackParticipantType.INSTRUCTORS) {
+        if (question.getGiverType() == FeedbackParticipantType.INSTRUCTORS) {
             InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(response.getGiver());
             giverName = instructor.getName();
             giverLastName = StringHelper.splitName(giverName)[1]; // get the last name from full name
@@ -229,7 +242,7 @@ public class SessionResultsData extends ApiOutput {
         String recipientTeam =
                 bundle.getRoster().getInfoForIdentifier(response.getRecipient()).getTeamName();
         String recipientSection = response.getRecipientSection();
-        if (question.recipientType == FeedbackParticipantType.INSTRUCTORS) {
+        if (question.getRecipientType() == FeedbackParticipantType.INSTRUCTORS) {
             InstructorAttributes instructor = bundle.getRoster().getInstructorForEmail(response.getRecipient());
             recipientName = instructor.getName();
             recipientLastName = StringHelper.splitName(giverName)[1]; // get the last name from full name
@@ -267,7 +280,7 @@ public class SessionResultsData extends ApiOutput {
                 .withRecipientTeam(recipientTeam)
                 .withRecipientEmail(recipientEmail)
                 .withRecipientSection(recipientSection)
-                .withResponseDetails(response.getResponseDetails())
+                .withResponseDetails(response.getResponseDetailsCopy())
                 .withParticipantComment(comments.poll())
                 .withInstructorComments(new ArrayList<>(comments))
                 .build();
@@ -280,17 +293,12 @@ public class SessionResultsData extends ApiOutput {
      */
     private static NameInfo getGiverNameOfResponse(FeedbackResponseAttributes response, SessionResultsBundle bundle) {
         FeedbackQuestionAttributes question = bundle.getQuestionsMap().get(response.getFeedbackQuestionId());
-        FeedbackParticipantType participantType = question.giverType;
+        FeedbackParticipantType participantType = question.getGiverType();
 
         CourseRoster.ParticipantInfo userInfo = bundle.getRoster().getInfoForIdentifier(response.getGiver());
         String name = userInfo.getName();
         String lastName = userInfo.getLastName();
-        if (question.getGiverType() == FeedbackParticipantType.TEAMS
-                && bundle.getRoster().isStudentInCourse(response.getGiver())) {
-            // user gives responses on behalf of the team (legacy implementation), the name should be the team name instead
-            name = userInfo.getTeamName();
-            lastName = userInfo.getTeamName();
-        }
+
         if (!bundle.isResponseGiverVisible(response)) {
             name = SessionResultsBundle.getAnonName(participantType, name);
             lastName = null;
@@ -411,13 +419,6 @@ public class SessionResultsData extends ApiOutput {
         private QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes, String questionStatistics) {
             this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
             this.questionStatistics = questionStatistics;
-        }
-
-        QuestionOutput(FeedbackQuestionAttributes feedbackQuestionAttributes,
-                       List<ResponseOutput> allResponses) {
-            this.questionStatistics = null;
-            this.feedbackQuestion = new FeedbackQuestionData(feedbackQuestionAttributes);
-            this.allResponses.addAll(allResponses);
         }
 
         public FeedbackQuestionData getFeedbackQuestion() {
@@ -573,7 +574,6 @@ public class SessionResultsData extends ApiOutput {
                 responseOutput = new ResponseOutput();
             }
 
-            //CHECKSTYLE.OFF:MissingJavadocMethod
             private Builder withIsMissingResponse(boolean isMissingResponse) {
                 responseOutput.isMissingResponse = isMissingResponse;
                 return this;
@@ -657,7 +657,6 @@ public class SessionResultsData extends ApiOutput {
             ResponseOutput build() {
                 return responseOutput;
             }
-            //CHECKSTYLE.ON:MissingJavadocMethod
         }
     }
 
@@ -703,7 +702,6 @@ public class SessionResultsData extends ApiOutput {
                 commentOutput = new CommentOutput(frc);
             }
 
-            //CHECKSTYLE.OFF:MissingJavadocMethod
             Builder withCommentGiver(@Nullable String commentGiver) {
                 commentOutput.commentGiver = commentGiver;
                 return this;
@@ -727,7 +725,6 @@ public class SessionResultsData extends ApiOutput {
             CommentOutput build() {
                 return commentOutput;
             }
-            //CHECKSTYLE.ON:MissingJavadocMethod
         }
     }
 

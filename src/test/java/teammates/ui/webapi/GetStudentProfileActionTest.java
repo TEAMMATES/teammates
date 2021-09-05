@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -27,7 +26,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
     @Override
     @Test
-    public void testExecute() throws Exception {
+    public void testExecute() {
         // See test cases below.
     }
 
@@ -35,8 +34,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testExecute_withExistingProfileAndNoParameter_shouldReturnOwnProfile() {
         AccountAttributes student1InCourse1 = typicalBundle.accounts.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        String expectedName = student1InCourse1.name;
-        loginAsStudent(student1InCourse1.googleId);
+        String expectedName = student1InCourse1.getName();
+        loginAsStudent(student1InCourse1.getGoogleId());
         testGetCorrectProfile(expectedProfile, expectedName);
     }
 
@@ -44,8 +43,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testExecute_withMissingCourseId_shouldReturnOwnProfile() {
         AccountAttributes student1InCourse1 = typicalBundle.accounts.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        String expectedName = student1InCourse1.name;
-        loginAsStudent(student1InCourse1.googleId);
+        String expectedName = student1InCourse1.getName();
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
@@ -56,8 +55,8 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testExecute_withMissingStudentEmail_shouldReturnOwnProfile() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        String expectedName = typicalBundle.accounts.get("student1InCourse1").name;
-        loginAsStudent(student1InCourse1.googleId);
+        String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
         };
@@ -69,10 +68,10 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes student2InCourse1 = typicalBundle.students.get("student2InCourse1");
         StudentProfileAttributes expectedProfile = typicalBundle.profiles.get("student1InCourse1");
-        expectedProfile.email = null;
-        expectedProfile.shortName = null;
-        String expectedName = typicalBundle.accounts.get("student1InCourse1").name;
-        loginAsStudent(student2InCourse1.googleId);
+        expectedProfile.setEmail(null);
+        expectedProfile.setShortName(null);
+        String expectedName = typicalBundle.accounts.get("student1InCourse1").getName();
+        loginAsStudent(student2InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
@@ -83,9 +82,9 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     public void testExecute_withProfileNotYetCreated_shouldReturnEmptyProfile() {
         AccountAttributes student2InCourse1 = typicalBundle.accounts.get("student2InCourse1");
-        String expectedName = student2InCourse1.name;
-        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student2InCourse1.googleId).build();
-        loginAsStudent(student2InCourse1.googleId);
+        String expectedName = student2InCourse1.getName();
+        StudentProfileAttributes expectedProfile = StudentProfileAttributes.builder(student2InCourse1.getGoogleId()).build();
+        loginAsStudent(student2InCourse1.getGoogleId());
         testGetCorrectProfile(expectedProfile, expectedName);
     }
 
@@ -111,35 +110,33 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
 
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
         assertEquals("unregistered student in course 1", actualProfile.getName());
         assertNull(actualProfile.getEmail());
-        assertNull(expectedProfile.shortName, actualProfile.getShortName());
-        assertEquals(expectedProfile.institute, actualProfile.getInstitute());
-        assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
-        assertEquals(expectedProfile.nationality, actualProfile.getNationality());
-        assertEquals(expectedProfile.gender, actualProfile.getGender());
+        assertNull(expectedProfile.getShortName(), actualProfile.getShortName());
+        assertEquals(expectedProfile.getInstitute(), actualProfile.getInstitute());
+        assertEquals(expectedProfile.getMoreInfo(), actualProfile.getMoreInfo());
+        assertEquals(expectedProfile.getNationality(), actualProfile.getNationality());
+        assertEquals(expectedProfile.getGender(), actualProfile.getGender());
     }
 
     private void testGetCorrectProfile(StudentProfileAttributes expectedProfile,
                                        String expectedName, String... submissionParams) {
         GetStudentProfileAction action = getAction(submissionParams);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         StudentProfileData actualProfile = (StudentProfileData) result.getOutput();
         assertEquals(expectedName, actualProfile.getName());
-        assertEquals(expectedProfile.email, actualProfile.getEmail());
-        assertEquals(expectedProfile.shortName, actualProfile.getShortName());
-        assertEquals(expectedProfile.institute, actualProfile.getInstitute());
-        assertEquals(expectedProfile.moreInfo, actualProfile.getMoreInfo());
-        assertEquals(expectedProfile.nationality, actualProfile.getNationality());
-        assertEquals(expectedProfile.gender, actualProfile.getGender());
+        assertEquals(expectedProfile.getEmail(), actualProfile.getEmail());
+        assertEquals(expectedProfile.getShortName(), actualProfile.getShortName());
+        assertEquals(expectedProfile.getInstitute(), actualProfile.getInstitute());
+        assertEquals(expectedProfile.getMoreInfo(), actualProfile.getMoreInfo());
+        assertEquals(expectedProfile.getNationality(), actualProfile.getNationality());
+        assertEquals(expectedProfile.getGender(), actualProfile.getGender());
     }
 
     @Test
     @Override
-    protected void testAccessControl() throws Exception {
+    protected void testAccessControl() {
         // See test cases below.
     }
 
@@ -169,7 +166,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     @Test
     public void testAccessControl_studentAccessHisOwnProfile_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         verifyCanAccess();
     }
 
@@ -177,7 +174,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_studentAccessHisTeammateProfile_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes teammate = typicalBundle.students.get("student2InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, teammate.getEmail(),
@@ -189,7 +186,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_studentAccessHisClassmateButNotTeammateProfile_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes classmate = typicalBundle.students.get("student5InCourse1");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, classmate.getEmail(),
@@ -201,7 +198,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_studentAccessStudentInOtherCourse_shouldFail() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         StudentAttributes studentNotInCourse1 = typicalBundle.students.get("student1InCourse2");
-        loginAsStudent(student1InCourse1.googleId);
+        loginAsStudent(student1InCourse1.getGoogleId());
         String[] submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, student1InCourse1.getCourse(),
                 Const.ParamsNames.STUDENT_EMAIL, studentNotInCourse1.getEmail(),
@@ -213,7 +210,7 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_instructorAccessProfileWithMissingStudentEmail_shouldFail() {
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
         };
         verifyInaccessibleForInstructors(submissionParams);
     }
@@ -232,10 +229,10 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
-        loginAsInstructor(instructor1OfCourse1.googleId);
+        loginAsInstructor(instructor1OfCourse1.getGoogleId());
         verifyCanAccess(submissionParams);
     }
 
@@ -243,18 +240,18 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_instructorWithoutViewStudentInSectionPrivilege_shouldFail() throws Exception {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         InstructorAttributes instructor1OfCourse1 = typicalBundle.instructors.get("instructor1OfCourse1");
-        instructor1OfCourse1.privileges
+        instructor1OfCourse1.getPrivileges()
                 .updatePrivilege(Const.InstructorPermissions.CAN_VIEW_STUDENT_IN_SECTIONS, false);
         InstructorAttributes.UpdateOptionsWithEmail updateOptions =
                 InstructorAttributes
                         .updateOptionsWithEmailBuilder(instructor1OfCourse1.getCourseId(), instructor1OfCourse1.getEmail())
-                        .withPrivileges(instructor1OfCourse1.privileges)
+                        .withPrivileges(instructor1OfCourse1.getPrivileges())
                         .build();
         logic.updateInstructor(updateOptions);
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
         String[] submissionParams = new String[] {
-                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.courseId,
+                Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
         verifyCannotAccess(submissionParams);
@@ -274,6 +271,6 @@ public class GetStudentProfileActionTest extends BaseActionTest<GetStudentProfil
     public void testAccessControl_withMasqueradeMode_shouldPass() {
         StudentAttributes student1InCourse1 = typicalBundle.students.get("student1InCourse1");
         loginAsAdmin();
-        verifyCanMasquerade(student1InCourse1.googleId);
+        verifyCanMasquerade(student1InCourse1.getGoogleId());
     }
 }

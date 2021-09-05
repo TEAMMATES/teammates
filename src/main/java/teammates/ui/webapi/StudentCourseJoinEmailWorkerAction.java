@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.util.Assumption;
 import teammates.common.util.Const.ParamsNames;
 import teammates.common.util.EmailWrapper;
 
@@ -12,17 +11,20 @@ import teammates.common.util.EmailWrapper;
 class StudentCourseJoinEmailWorkerAction extends AdminOnlyAction {
 
     @Override
-    JsonResult execute() {
+    public JsonResult execute() {
         String courseId = getNonNullRequestParamValue(ParamsNames.COURSE_ID);
-        String studentEmail = getNonNullRequestParamValue(ParamsNames.STUDENT_EMAIL);
-        boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
-
         CourseAttributes course = logic.getCourse(courseId);
-        Assumption.assertNotNull(course);
+        if (course == null) {
+            throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
+        }
 
+        String studentEmail = getNonNullRequestParamValue(ParamsNames.STUDENT_EMAIL);
         StudentAttributes student = logic.getStudentForEmail(courseId, studentEmail);
-        Assumption.assertNotNull(student);
+        if (student == null) {
+            throw new EntityNotFoundException("Student does not exist.");
+        }
 
+        boolean isRejoin = getBooleanRequestParamValue(ParamsNames.IS_STUDENT_REJOINING);
         EmailWrapper email = isRejoin
                 ? emailGenerator.generateStudentCourseRejoinEmailAfterGoogleIdReset(course, student)
                 : emailGenerator.generateStudentCourseJoinEmail(course, student);

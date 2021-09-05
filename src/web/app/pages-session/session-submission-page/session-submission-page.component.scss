@@ -5,12 +5,8 @@
   box-shadow: 0 0 0 0;
 }
 
-@media (min-width: 768px) {
-  .col-md-3 {
-    text-align: right;
-  }
-
-  .col-md-6 {
-    text-align: left;
+@media (max-width: 768px) {
+  .mobile-invisible {
+    display: none;
   }
 }

@@ -1,0 +1,569 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InstructorCourseEditPageComponent should snap when editing course details 1`] = `
+<tm-instructor-course-edit-page
+  CoursesSectionQuestions={[Function Object]}
+  EditMode={[Function Object]}
+  FormValidator={[Function Object]}
+  Sections={[Function Object]}
+  allSections={[Function Array]}
+  allSessions={[Function Array]}
+  authService={[Function AuthService]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorGoogleId=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form="undefined"
+  hasCourseLoadingFailed="false"
+  hasInstructorsLoadingFailed="false"
+  instructorDetailPanels={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddingNewInstructor="false"
+  isCourseLoading={[Function Boolean]}
+  isEditingCourse={[Function Boolean]}
+  isInstructorsLoading="false"
+  isSavingCourseEdit="false"
+  isSavingNewInstructor="false"
+  navigationService={[Function NavigationService]}
+  newInstructorPanel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  originalCourse={[Function Object]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <div
+      class="right top-padded"
+    >
+      <a
+        class="small"
+        href="/web/instructor/help?questionId=course-instructor-access&section=courses"
+        rel="noopener noreferrer"
+        target="_blank"
+        tmrouterlink="/web/instructor/help"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-info-circle"
+        />
+         More about configuring access permissions 
+      </a>
+    </div>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry><div
+    class="text-center"
+  >
+    <button
+      class="btn btn-success"
+      id="btn-add-instructor"
+      tabindex="6"
+      type="button"
+    >
+       Add New Instructor 
+    </button>
+  </div>
+</tm-instructor-course-edit-page>
+`;
+
+exports[`InstructorCourseEditPageComponent should snap with course details 1`] = `
+<tm-instructor-course-edit-page
+  CoursesSectionQuestions={[Function Object]}
+  EditMode={[Function Object]}
+  FormValidator={[Function Object]}
+  Sections={[Function Object]}
+  allSections={[Function Array]}
+  allSessions={[Function Array]}
+  authService={[Function AuthService]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorGoogleId=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form="undefined"
+  hasCourseLoadingFailed="false"
+  hasInstructorsLoadingFailed="false"
+  instructorDetailPanels={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddingNewInstructor="false"
+  isCourseLoading={[Function Boolean]}
+  isEditingCourse="false"
+  isInstructorsLoading="false"
+  isSavingCourseEdit="false"
+  isSavingNewInstructor="false"
+  navigationService={[Function NavigationService]}
+  newInstructorPanel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  originalCourse={[Function Object]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <div
+      class="right top-padded"
+    >
+      <a
+        class="small"
+        href="/web/instructor/help?questionId=course-instructor-access&section=courses"
+        rel="noopener noreferrer"
+        target="_blank"
+        tmrouterlink="/web/instructor/help"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-info-circle"
+        />
+         More about configuring access permissions 
+      </a>
+    </div>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry><div
+    class="text-center"
+  >
+    <button
+      class="btn btn-success"
+      id="btn-add-instructor"
+      tabindex="6"
+      type="button"
+    >
+       Add New Instructor 
+    </button>
+  </div>
+</tm-instructor-course-edit-page>
+`;
+
+exports[`InstructorCourseEditPageComponent should snap with default fields 1`] = `
+<tm-instructor-course-edit-page
+  CoursesSectionQuestions={[Function Object]}
+  EditMode={[Function Object]}
+  FormValidator={[Function Object]}
+  Sections={[Function Object]}
+  allSections={[Function Array]}
+  allSessions={[Function Array]}
+  authService={[Function AuthService]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorGoogleId=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form="undefined"
+  hasCourseLoadingFailed="false"
+  hasInstructorsLoadingFailed="false"
+  instructorDetailPanels={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddingNewInstructor="false"
+  isCourseLoading={[Function Boolean]}
+  isEditingCourse="false"
+  isInstructorsLoading="false"
+  isSavingCourseEdit="false"
+  isSavingNewInstructor="false"
+  navigationService={[Function NavigationService]}
+  newInstructorPanel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  originalCourse={[Function Object]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <div
+      class="right top-padded"
+    >
+      <a
+        class="small"
+        href="/web/instructor/help?questionId=course-instructor-access&section=courses"
+        rel="noopener noreferrer"
+        target="_blank"
+        tmrouterlink="/web/instructor/help"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-info-circle"
+        />
+         More about configuring access permissions 
+      </a>
+    </div>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    <div>
+      
+    </div>
+    
+    
+  </tm-loading-retry><div
+    class="text-center"
+  >
+    <button
+      class="btn btn-success"
+      id="btn-add-instructor"
+      tabindex="6"
+      type="button"
+    >
+       Add New Instructor 
+    </button>
+  </div>
+</tm-instructor-course-edit-page>
+`;
+
+exports[`InstructorCourseEditPageComponent should snap with some instructor details 1`] = `
+<tm-instructor-course-edit-page
+  CoursesSectionQuestions={[Function Object]}
+  EditMode={[Function Object]}
+  FormValidator={[Function Object]}
+  Sections={[Function Object]}
+  allSections={[Function Array]}
+  allSessions={[Function Array]}
+  authService={[Function AuthService]}
+  course={[Function Object]}
+  courseId="undefined"
+  courseService={[Function CourseService]}
+  currInstructorCoursePrivilege={[Function Object]}
+  currInstructorGoogleId=""
+  feedbackSessionsService={[Function FeedbackSessionsService]}
+  form="undefined"
+  hasCourseLoadingFailed="false"
+  hasInstructorsLoadingFailed="false"
+  instructorDetailPanels={[Function Array]}
+  instructorService={[Function InstructorService]}
+  isAddingNewInstructor="false"
+  isCourseLoading={[Function Boolean]}
+  isEditingCourse="false"
+  isInstructorsLoading="false"
+  isSavingCourseEdit="false"
+  isSavingNewInstructor="false"
+  navigationService={[Function NavigationService]}
+  newInstructorPanel={[Function Object]}
+  ngbModal={[Function NgbModal]}
+  originalCourse={[Function Object]}
+  route={[Function ActivatedRoute]}
+  router={[Function Router]}
+  simpleModalService={[Function SimpleModalService]}
+  statusMessageService={[Function StatusMessageService]}
+  studentService={[Function StudentService]}
+  timezoneService={[Function TimezoneService]}
+  timezones={[Function Array]}
+>
+  <tm-loading-retry>
+    
+    
+    <tm-loading-spinner>
+      <div
+        class="loading-container"
+      >
+        <div
+          class="row spinner-border text-primary"
+          role="status"
+        />
+        <div
+          class="row text-secondary"
+        >
+          Loading...
+        </div>
+      </div>
+    </tm-loading-spinner>
+    <div
+      class="right top-padded"
+    >
+      <a
+        class="small"
+        href="/web/instructor/help?questionId=course-instructor-access&section=courses"
+        rel="noopener noreferrer"
+        target="_blank"
+        tmrouterlink="/web/instructor/help"
+      >
+        <i
+          aria-hidden="true"
+          class="fa fa-info-circle"
+        />
+         More about configuring access permissions 
+      </a>
+    </div>
+    
+    
+  </tm-loading-retry><tm-loading-retry>
+    
+    
+    <div>
+      
+      
+      <tm-instructor-edit-panel>
+        <div
+          class="card bg-light top-padded"
+        >
+          <div
+            class="card-header bg-primary text-white text-center"
+          >
+            <strong>
+              Instructor 1
+            </strong>
+            <div
+              class="card-header-btn-toolbar"
+            >
+              
+              
+              <button
+                class="btn btn-primary btn-sm"
+                id="btn-edit-instructor-1"
+              >
+                
+                <i
+                  aria-hidden="true"
+                  class="fa fa-pen"
+                />
+                 Edit 
+              </button>
+              
+              
+              <button
+                class="btn btn-primary btn-sm"
+                id="btn-delete-instructor-1"
+                ngbtooltip="Delete the instructor from the course"
+                placement="top-right"
+              >
+                <i
+                  aria-hidden="true"
+                  class="fa fa-trash"
+                />
+                 Delete 
+              </button>
+              
+            </div>
+          </div>
+          <div
+            class="card-body text-center"
+          >
+            
+            <div
+              class="form-row form-group"
+            >
+              <label
+                class="col-sm-2 control-label"
+              >
+                 Google ID: 
+              </label>
+              
+              <div
+                class="col-sm-9"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  disabled=""
+                  id="google-id-instructor-1"
+                  maxlength="254"
+                  tabindex="3"
+                />
+              </div>
+              
+            </div>
+            <div
+              class="form-row form-group"
+            >
+              <label
+                class="col-sm-2 control-label"
+              >
+                 Name: 
+              </label>
+              <div
+                class="col-sm-9"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="name-instructor-1"
+                  maxlength="100"
+                  tabindex="4"
+                />
+              </div>
+            </div>
+            <div
+              class="form-row form-group"
+            >
+              <label
+                class="col-sm-2 control-label"
+              >
+                 Email: 
+              </label>
+              <div
+                class="col-sm-9"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="email-instructor-1"
+                  maxlength="254"
+                  tabindex="5"
+                />
+              </div>
+            </div>
+            <div
+              class="form-row form-group"
+            >
+              <label
+                class="col-sm-2 control-label"
+              >
+                <input
+                  checked=""
+                  class="ng-untouched ng-pristine ng-valid"
+                  id="checkbox-display-instructor-1"
+                  type="checkbox"
+                />
+                   
+                <span
+                  class="ngb-tooltip-class"
+                  ngbtooltip="If this is unselected, the instructor will be completely invisible to students. E.g. to give access to a colleague for ‘auditing’ your course"
+                >
+                  Display to students as:
+                </span>
+              </label>
+              <div
+                class="col-sm-9"
+              >
+                <input
+                  class="form-control ng-untouched ng-pristine ng-valid"
+                  id="displayed-name-instructor-1"
+                  placeholder="E.g. Co-lecturer, Teaching Assistant (default: Instructor)"
+                  type="text"
+                  value="Instructor"
+                />
+              </div>
+            </div>
+            <div
+              class="form-row form-group align-items-start text-left"
+            >
+              <label
+                class="col-sm-2 control-label text-center text-md-right"
+              >
+                 Access Level: 
+              </label>
+              <div
+                class="col-sm-9"
+                id="access-levels-instructor-1"
+              >
+                
+                
+                
+                <span
+                  id="role-instructor-1"
+                >
+                  Custom: No access by default. Any access needs to be granted explicitly.
+                </span>
+                
+                <button
+                  class="btn btn-link padding-0"
+                  type="button"
+                >
+                  View Details
+                </button>
+                
+              </div>
+            </div>
+            
+            
+          </div>
+        </div>
+      </tm-instructor-edit-panel>
+      <br />
+    </div>
+    
+    
+  </tm-loading-retry><div
+    class="text-center"
+  >
+    <button
+      class="btn btn-success"
+      id="btn-add-instructor"
+      tabindex="6"
+      type="button"
+    >
+       Add New Instructor 
+    </button>
+  </div>
+</tm-instructor-course-edit-page>
+`;

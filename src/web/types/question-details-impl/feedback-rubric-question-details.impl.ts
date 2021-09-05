@@ -80,7 +80,7 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
     }
 
     // generate per recipient stats
-    statsRows.push([], ['Per Recipient Statistics']);
+    statsRows.push([], ['Per Recipient Statistics (Per Criterion)']);
 
     statsRows.push([
       'Team',
@@ -112,6 +112,30 @@ ${ statsCalculation.hasWeights ? `[${ statsCalculation.weights[questionIndex][ch
             ]);
           });
         });
+
+    // generate overall recipient stats
+    statsRows.push([], ['Per Recipient Statistics (Overall)']);
+
+    statsRows.push([
+      'Team',
+      'Recipient Name',
+      "Recipient's Email",
+      'Average',
+      'Breakdown',
+    ]);
+
+    Object.values(statsCalculation.perRecipientStatsMap)
+      .sort((a: PerRecipientStats, b: PerRecipientStats) =>
+        a.recipientTeam.localeCompare(b.recipientTeam) || a.recipientName.localeCompare(b.recipientName))
+      .forEach((perRecipientStats: PerRecipientStats) => {
+        statsRows.push([
+          perRecipientStats.recipientTeam,
+          perRecipientStats.recipientName,
+          perRecipientStats.recipientEmail ? perRecipientStats.recipientEmail : '',
+          String(perRecipientStats.weightAverage),
+          perRecipientStats.subQuestionWeightAverage.toString(),
+        ]);
+      });
 
     return statsRows;
   }

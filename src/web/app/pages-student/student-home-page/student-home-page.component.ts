@@ -46,14 +46,17 @@ export class StudentHomePageComponent implements OnInit {
 
   // Tooltip messages
   studentFeedbackSessionStatusPublished: string =
-      'The responses for the session have been published and can now be viewed.';
+    'The responses for the session have been published and can now be viewed.';
   studentFeedbackSessionStatusNotPublished: string =
-      'The responses for the session have not yet been published and cannot be viewed.';
+    'The responses for the session have not yet been published and cannot be viewed.';
   studentFeedbackSessionStatusAwaiting: string =
-      'The session is not open for submission at this time. It is expected to open later.';
+    'The session is not open for submission at this time. It is expected to open later.';
   studentFeedbackSessionStatusPending: string = 'The feedback session is yet to be completed by you.';
   studentFeedbackSessionStatusSubmitted: string = 'You have submitted your feedback for this session.';
   studentFeedbackSessionStatusClosed: string = ' The session is now closed for submissions.';
+
+  // Error messages
+  allStudentFeedbackSessionsNotReturned: string = 'Something went wrong with fetching responses for all Feedback Sessions.';
 
   courses: StudentCourse[] = [];
   isCoursesLoading: boolean = false;
@@ -62,11 +65,11 @@ export class StudentHomePageComponent implements OnInit {
   sortBy: SortBy = SortBy.NONE;
 
   constructor(private route: ActivatedRoute,
-              private courseService: CourseService,
-              private statusMessageService: StatusMessageService,
-              private feedbackSessionsService: FeedbackSessionsService,
-              private timezoneService: TimezoneService,
-              private tableComparatorService: TableComparatorService) {
+    private courseService: CourseService,
+    private statusMessageService: StatusMessageService,
+    private feedbackSessionsService: FeedbackSessionsService,
+    private timezoneService: TimezoneService,
+    private tableComparatorService: TableComparatorService) {
     this.timezoneService.getTzVersion();
   }
 
@@ -88,28 +91,46 @@ export class StudentHomePageComponent implements OnInit {
         this.isCoursesLoading = false;
       }
       for (const course of resp.courses) {
-        this.feedbackSessionsService.getFeedbackSessionsForStudent(course.courseId)
+        this.feedbackSessionsService.getFeedbackSessionsForStudent('student', course.courseId)
           .pipe(finalize(() => this.isCoursesLoading = false))
           .subscribe((fss: FeedbackSessions) => {
             const sortedFss: FeedbackSession[] = this.sortFeedbackSessions(fss);
 
             const studentSessions: StudentSession[] = [];
-            for (const fs of sortedFss) {
-              const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
-              const isWaitingToOpen: boolean =
-                fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
-              const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
-              this.feedbackSessionsService.hasStudentResponseForFeedbackSession(course.courseId,
-                fs.feedbackSessionName)
-                .subscribe((hasRes: HasResponses) => {
-                  const isSubmitted: boolean = hasRes.hasResponses;
+            this.feedbackSessionsService.hasStudentResponseForAllFeedbackSessionsInCourse(course.courseId)
+              .subscribe((hasRes: HasResponses) => {
+                if (!hasRes.hasResponsesBySession) {
+                  this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
+                  this.hasCoursesLoadingFailed = true;
+                  return;
+                }
+
+                const sessionsReturned: Set<string> = new Set(Object.keys(hasRes.hasResponsesBySession));
+                const isAllSessionsPresent: boolean =
+                  sortedFss.filter((fs: FeedbackSession) =>
+                    sessionsReturned.has(fs.feedbackSessionName)).length
+                    === sortedFss.length;
+
+                if (!isAllSessionsPresent) {
+                  this.statusMessageService.showErrorToast(this.allStudentFeedbackSessionsNotReturned);
+                  this.hasCoursesLoadingFailed = true;
+                  return;
+                }
+
+                for (const fs of sortedFss) {
+                  const isOpened: boolean = fs.submissionStatus === FeedbackSessionSubmissionStatus.OPEN;
+                  const isWaitingToOpen: boolean =
+                    fs.submissionStatus === FeedbackSessionSubmissionStatus.VISIBLE_NOT_OPEN;
+                  const isPublished: boolean = fs.publishStatus === FeedbackSessionPublishStatus.PUBLISHED;
+
+                  const isSubmitted: boolean = hasRes.hasResponsesBySession[fs.feedbackSessionName];
                   studentSessions.push(Object.assign({},
                     { isOpened, isWaitingToOpen, isPublished, isSubmitted, session: fs }));
-                }, (error: ErrorMessageOutput) => {
-                  this.hasCoursesLoadingFailed = true;
-                  this.statusMessageService.showErrorToast(error.error.message);
-                });
-            }
+                }
+              }, (error: ErrorMessageOutput) => {
+                this.hasCoursesLoadingFailed = true;
+                this.statusMessageService.showErrorToast(error.error.message);
+              });
 
             this.courses.push(Object.assign({}, { course, feedbackSessions: studentSessions }));
             this.courses.sort((a: StudentCourse, b: StudentCourse) =>
@@ -159,10 +180,10 @@ export class StudentHomePageComponent implements OnInit {
    */
   sortFeedbackSessions(fss: FeedbackSessions): FeedbackSession[] {
     return fss.feedbackSessions
-        .map((fs: FeedbackSession) => Object.assign({}, fs))
-        .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
-            b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
-            ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
+      .map((fs: FeedbackSession) => Object.assign({}, fs))
+      .sort((a: FeedbackSession, b: FeedbackSession) => (a.createdAtTimestamp >
+        b.createdAtTimestamp) ? 1 : (a.createdAtTimestamp === b.createdAtTimestamp) ?
+        ((a.submissionEndTimestamp > b.submissionEndTimestamp) ? 1 : -1) : -1);
   }
 
   sortCoursesBy(by: SortBy): void {
