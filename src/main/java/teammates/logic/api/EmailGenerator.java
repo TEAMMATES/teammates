@@ -55,7 +55,7 @@ public final class EmailGenerator {
 
     private static final String DATETIME_DISPLAY_FORMAT = "EEE, dd MMM yyyy, hh:mm a z";
 
-    private static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(180);
+    public static final Duration SESSION_LINK_RECOVERY_DURATION = Duration.ofDays(180);
 
     private static final EmailGenerator instance = new EmailGenerator();
 
@@ -350,7 +350,7 @@ public final class EmailGenerator {
             studentName = student.getName();
 
             for (FeedbackSessionAttributes session
-                    : fsLogic.getFeedbackSessionsForCourseAfter(courseId, searchStartTime)) {
+                    : fsLogic.getFeedbackSessionsForCourseStartingAfter(courseId, searchStartTime)) {
                 String submitUrlHtml = "";
                 String reportUrlHtml = "";
 

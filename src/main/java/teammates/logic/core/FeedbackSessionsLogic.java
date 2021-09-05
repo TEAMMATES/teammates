@@ -115,8 +115,8 @@ public final class FeedbackSessionsLogic {
     /**
      * Gets all feedback sessions of a course started after time.
      */
-    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourseAfter(String courseId, Instant after) {
-        return fsDb.getFeedbackSessionsForCourseAfter(courseId, after);
+    public List<FeedbackSessionAttributes> getFeedbackSessionsForCourseStartingAfter(String courseId, Instant after) {
+        return fsDb.getFeedbackSessionsForCourseStartingAfter(courseId, after);
     }
 
     /**

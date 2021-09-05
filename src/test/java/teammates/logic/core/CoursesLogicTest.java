@@ -1,5 +1,6 @@
 package teammates.logic.core;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.storage.api.CoursesDb;
 import teammates.test.AssertHelper;
+import static teammates.logic.api.EmailGenerator.SESSION_LINK_RECOVERY_DURATION;
 
 /**
  * SUT: {@link CoursesLogic}.
@@ -61,6 +63,15 @@ public class CoursesLogicTest extends BaseLogicTest {
         List<FeedbackSessionAttributes> sessionsOfCourse = fsLogic.getFeedbackSessionsForCourse(typicalCourse1.getId());
         assertFalse(sessionsOfCourse.isEmpty());
         assertTrue(sessionsOfCourse.stream().allMatch(s -> s.getTimeZone().equals(ZoneId.of("UTC"))));
+
+        List<FeedbackSessionAttributes> sessionsWithinRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
+                typicalCourse1.getId(), typicalCourse1.getCreatedAt());
+        assertEquals(sessionsWithinRecoveryRange.size(), sessionsOfCourse.size());
+
+        List<FeedbackSessionAttributes> sessionsOutsideRecoveryRange = fsLogic.getFeedbackSessionsForCourseStartingAfter(
+                typicalCourse1.getId(),
+                typicalCourse1.getCreatedAt().plus(SESSION_LINK_RECOVERY_DURATION.plus(Duration.ofDays(1))));
+        assertEquals(sessionsOutsideRecoveryRange.size(), sessionsOfCourse.size()-1);
     }
 
     @Test
