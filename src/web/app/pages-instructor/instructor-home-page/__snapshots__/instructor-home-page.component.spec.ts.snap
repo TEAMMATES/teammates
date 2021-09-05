@@ -800,7 +800,7 @@ exports[`InstructorHomePageComponent should snap with one course with one feedba
                                 id="btn-remind-0"
                               >
                                 <span>
-                                 Remind
+                                  Remind
                                 </span>
                                 <div />
                               </button>
@@ -1308,10 +1308,10 @@ exports[`InstructorHomePageComponent should snap with one course with two feedba
                                 disabled=""
                                 id="btn-remind-0"
                               >
-                               <span>
-                                 Remind
-                               </span>
-                               <div />
+                                <span>
+                                  Remind
+                                </span>
+                                <div />
                               </button>
                             </div>
                           </td>

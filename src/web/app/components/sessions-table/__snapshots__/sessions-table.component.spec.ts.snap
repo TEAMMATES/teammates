@@ -268,7 +268,6 @@ exports[`SessionsTableComponent should snap like in home page with 2 sessions so
                   class="btn btn-light btn-sm align-row"
                   id="btn-remind-0"
                 >
-                  Remind
                   <span>
                     Remind
                   </span>
