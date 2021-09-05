@@ -31,7 +31,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
     private CourseAttributes(String courseId) {
         this.id = courseId;
         this.timeZone = Const.DEFAULT_TIME_ZONE;
-        this.institute = null;
+        this.institute = Const.UNKNOWN_INSTITUTION;
         this.createdAt = Instant.now();
         this.deletedAt = null;
     }
