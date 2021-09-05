@@ -27,7 +27,10 @@
             <h5 class="text-md-right">Or: </h5>
           </div>
           <div class="col-md-9 text-md-left">
-            <button id="btn-copy-session" type="button" class="btn btn-info" (click)="copyOthersHandler()">Copy from previous feedback sessions</button>
+            <button id="btn-copy-session" type="button" class="btn btn-info align-row" (click)="copyOthersHandler()">
+              <span>Copy from previous feedback sessions</span>
+              <div [ngClass]="{ 'loading': isCopyOtherSessionLoading}"></div>
+            </button>
           </div>
         </div>
       </div>
