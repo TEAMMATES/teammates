@@ -123,10 +123,7 @@ public class CourseAttributes extends EntityAttributes<Course> implements Compar
 
         addNonEmptyError(FieldValidator.getInvalidityInfoForCourseName(getName()), errors);
 
-        // TODO remove condition check after data migration
-        if (getInstitute() != null) {
-            addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
-        }
+        addNonEmptyError(FieldValidator.getInvalidityInfoForInstituteName(getInstitute()), errors);
 
         return errors;
     }

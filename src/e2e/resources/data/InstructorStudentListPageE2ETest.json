@@ -25,11 +25,13 @@
     "course2": {
       "id": "tm.e2e.ISList.course2",
       "name": "Name of Course 2",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "course3": {
       "id": "tm.e2e.ISList.course3",
       "name": "Name of Course 3",
+      "institute": "TEAMMATES Test Institute 5",
       "timeZone": "UTC"
     }
   },

@@ -216,6 +216,7 @@ public class InstructorsLogicTest extends BaseLogicTest {
                 CourseAttributes.builder(courseId)
                         .withName("New course")
                         .withTimezone(ZoneId.of("UTC"))
+                        .withInstitute("Test institute")
                         .build());
 
         instructors = instructorsLogic.getInstructorsForCourse(courseId);
