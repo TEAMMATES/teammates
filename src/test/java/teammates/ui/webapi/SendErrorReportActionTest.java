@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -33,7 +32,7 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
         ______TS("Normal case: valid report with all fields populated");
         ErrorReportRequest report = new ErrorReportRequest(REQUEST_ID, SUBJECT, CONTENT);
         SendErrorReportAction action = getAction(report, PARAMS);
-        JsonResult jsonResult = getJsonResult(action);
+        getJsonResult(action);
 
         String expectedLogMessage = "====== USER FEEDBACK ABOUT ERROR ======" + System.lineSeparator()
                 + "USER: Non-logged in user" + System.lineSeparator()
@@ -41,7 +40,6 @@ public class SendErrorReportActionTest extends BaseActionTest<SendErrorReportAct
                 + "SUBJECT: " + SUBJECT + System.lineSeparator()
                 + "CONTENT: " + CONTENT;
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertEquals(expectedLogMessage, action.getUserErrorReportLogMessage(report));
 
         ______TS("Failure: Invalid report with null requestId");

@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -64,8 +63,6 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
         UpdateCourseAction updateCourseAction = getAction(courseUpdateRequest, submissionParams);
         JsonResult result = getJsonResult(updateCourseAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         CourseData courseData = (CourseData) result.getOutput();
         verifyCourseData(courseData, courseId, courseName, courseTimeZone);
 
@@ -80,8 +77,6 @@ public class UpdateCourseActionTest extends BaseActionTest<UpdateCourseAction> {
 
         updateCourseAction = getAction(courseUpdateRequest, submissionParams);
         result = getJsonResult(updateCourseAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         courseData = (CourseData) result.getOutput();
         verifyCourseData(courseData, courseId, courseNameWithValidCharacters, courseTimeZone);

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -53,7 +52,6 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         FeedbackSessionAttributes createdSession =
@@ -123,7 +121,6 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         response = (FeedbackSessionData) r.getOutput();
 
         assertEquals("Name with extra space", response.getFeedbackSessionName());
@@ -134,7 +131,6 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         response = (FeedbackSessionData) r.getOutput();
 
         FeedbackSessionAttributes copiedSession =
@@ -201,9 +197,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
     }
 
     private FeedbackSessionCreateRequest getTypicalCreateRequest() {

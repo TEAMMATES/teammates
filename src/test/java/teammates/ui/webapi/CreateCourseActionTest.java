@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -57,8 +56,6 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         assertEquals(courseData.getCourseId(), "new-course");
         assertEquals(courseData.getCourseName(), "New Course");
         assertEquals(courseData.getTimeZone(), "UTC");
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         CourseAttributes createdCourse = logic.getCourse("new-course");
         assertNotNull(createdCourse);
