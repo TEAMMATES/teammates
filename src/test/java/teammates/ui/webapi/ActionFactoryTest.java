@@ -4,7 +4,6 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.ActionMappingException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.test.BaseTestCase;

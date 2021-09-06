@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -52,7 +51,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         String[] params = new String[] { Const.ParamsNames.ENTITY_TYPE, "invalid_entity_type" };
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        assertBadRequest(params);
+        verifyHttpParameterFailure(params);
     }
 
     @Test
@@ -72,7 +71,7 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
 
         InstructorAttributes instructor = testData.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        assertBadRequest(params);
+        verifyHttpParameterFailure(params);
     }
 
     @Test
@@ -161,16 +160,9 @@ public class GetCoursesActionTest extends BaseActionTest<GetCoursesAction> {
         assertEquals(actualCourse.getTimeZone(), expectedCourse.getTimeZone().getId());
     }
 
-    private void assertBadRequest(String... params) {
-        GetCoursesAction action = getAction(params);
-        JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-    }
-
     private CoursesData getValidCourses(String... params) {
         GetCoursesAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         return (CoursesData) result.getOutput();
     }
 

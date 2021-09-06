@@ -2,8 +2,6 @@ package teammates.ui.webapi;
 
 import java.security.SecureRandom;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
@@ -12,6 +10,7 @@ import teammates.common.util.EmailWrapper;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Creates a new account request.
@@ -19,7 +18,7 @@ import teammates.ui.request.AccountCreateRequest;
 class CreateAccountRequestAction extends AdminOnlyAction {
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         AccountCreateRequest createRequest = getAndValidateRequestBody(AccountCreateRequest.class);
 
         String instructorName = createRequest.getInstructorName().trim();
@@ -36,8 +35,8 @@ class CreateAccountRequestAction extends AdminOnlyAction {
 
         try {
             logic.createOrUpdateAccountRequest(accountRequestAttributes);
-        } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
+        } catch (InvalidParametersException ipe) {
+            throw new InvalidHttpRequestBodyException(ipe);
         }
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)

@@ -1,13 +1,11 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelperExtension;
 import teammates.ui.output.FeedbackSessionData;
@@ -54,7 +52,6 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         CreateFeedbackSessionAction a = getAction(createRequest, params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         FeedbackSessionAttributes createdSession =
@@ -106,20 +103,15 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
 
         ______TS("Error: Invalid parameters (invalid session name > 64 characters)");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackSessionCreateRequest request = getTypicalCreateRequest();
-            request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
-            getJsonResult(getAction(request, params));
-        });
+        FeedbackSessionCreateRequest request = getTypicalCreateRequest();
+        request.setFeedbackSessionName(StringHelperExtension.generateStringOfLength(65));
+        verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Unsuccessful case: test null session name");
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            FeedbackSessionCreateRequest request = getTypicalCreateRequest();
-            request.setFeedbackSessionName(null);
-
-            getJsonResult(getAction(request, params));
-        });
+        request = getTypicalCreateRequest();
+        request.setFeedbackSessionName(null);
+        verifyHttpRequestBodyFailure(request, params);
 
         ______TS("Add course with extra space (in middle and trailing)");
 
@@ -129,7 +121,6 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         response = (FeedbackSessionData) r.getOutput();
 
         assertEquals("Name with extra space", response.getFeedbackSessionName());
@@ -140,7 +131,6 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         a = getAction(createRequest, params);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         response = (FeedbackSessionData) r.getOutput();
 
         FeedbackSessionAttributes copiedSession =
@@ -207,9 +197,7 @@ public class CreateFeedbackSessionActionTest extends BaseActionTest<CreateFeedba
         FeedbackSessionCreateRequest createRequest = getTypicalCreateRequest();
 
         CreateFeedbackSessionAction a = getAction(createRequest, params);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
     }
 
     private FeedbackSessionCreateRequest getTypicalCreateRequest() {

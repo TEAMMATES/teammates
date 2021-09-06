@@ -4,7 +4,6 @@ import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
@@ -36,22 +35,16 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
 
-        ______TS("Not enough parameters");
-
-        verifyHttpParameterFailure();
-
         ______TS("Null parameters");
 
-        Exception ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(null, institute, email)).execute());
+        Exception ex = verifyHttpRequestBodyFailure(buildCreateRequest(null, institute, email));
         assertEquals("name cannot be null", ex.getMessage());
 
-        ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(name, null, email)).execute());
+        ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, null, email));
         assertEquals("institute cannot be null", ex.getMessage());
 
-        ex = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> getAction(buildCreateRequest(name, institute, null)).execute());
+        ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, institute, null));
+        
         assertEquals("email cannot be null", ex.getMessage());
 
         verifyNoTasksAdded();
@@ -97,7 +90,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         final CreateAccountRequestAction finalA = getAction(req);
 
-        ex = assertThrows(InvalidHttpRequestBodyException.class, finalA::execute);
+        ex = verifyHttpRequestBodyFailure(req);
         assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
                 + "it contains invalid characters. A/An person name must start with an "
                 + "alphanumeric character, and cannot contain any vertical bar (|) or percent sign (%).",

@@ -9,7 +9,6 @@ import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelper;
@@ -48,8 +47,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         ______TS("Null parameters");
 
         String[] nullParams = new String[] { Const.ParamsNames.REGKEY, null, };
-        Exception ex = assertThrows(NullHttpParameterException.class,
-                () -> getAction(nullParams).execute());
+        Exception ex = verifyHttpParameterFailure(nullParams);
         assertEquals("The [key] HTTP parameter is null.", ex.getMessage());
 
         verifyNoTasksAdded();
@@ -59,8 +57,6 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String[] params = new String[] { Const.ParamsNames.REGKEY, StringHelper.encrypt(regKey), };
         CreateAccountAction a = getAction(params);
         JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
@@ -81,8 +77,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         ______TS("Error: reg key not found");
 
         a = getAction(params);
-        r = getJsonResult(a);
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        r = getJsonResult(a, HttpStatus.SC_BAD_REQUEST);
 
         verifyNoTasksAdded();
     }

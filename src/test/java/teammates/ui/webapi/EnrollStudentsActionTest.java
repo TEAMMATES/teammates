@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.util.Const;
 import teammates.ui.output.EnrollStudentsData;
 import teammates.ui.output.StudentData;
@@ -37,7 +35,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withNewStudent_shouldBeAddedToDatabase() {
+    public void testExecute_withNewStudent_shouldBeAddedToDatabase() throws Exception {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes newStudent = getTypicalNewStudent(courseId);
         StudentsEnrollRequest req = prepareRequest(Arrays.asList(newStudent));
@@ -54,7 +52,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withNewStudentWithEmptySectionName_shouldBeAddedToDatabaseWithDefaultSectionName() {
+    public void testExecute_withNewStudentWithEmptySectionName_shouldBeAddedToDatabaseWithDefaultSectionName()
+            throws Exception {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes newStudent = getTypicalNewStudent(courseId);
         newStudent.setSection("");
@@ -86,7 +85,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withExistingStudent_shouldBeUpdatedToDatabase() {
+    public void testExecute_withExistingStudent_shouldBeUpdatedToDatabase() throws Exception {
         StudentAttributes studentToUpdate = typicalBundle.students.get("student1InCourse1");
         String courseId = studentToUpdate.getCourse();
         studentToUpdate.setName("new name");
@@ -104,7 +103,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withSectionFieldChanged_shouldBeUpdatedToDatabase() {
+    public void testExecute_withSectionFieldChanged_shouldBeUpdatedToDatabase() throws Exception {
         StudentAttributes studentToUpdate = typicalBundle.students.get("student5InCourse1");
         String courseId = studentToUpdate.getCourse();
 
@@ -127,7 +126,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withEmailFieldChanged_shouldCreateNewStudent() {
+    public void testExecute_withEmailFieldChanged_shouldCreateNewStudent() throws Exception {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes originalStudent = typicalBundle.students.get("student1InCourse1");
         StudentAttributes newStudent = originalStudent.getCopy();
@@ -144,7 +143,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withInvalidEnrollRequests_shouldNotBeEnrolled() {
+    public void testExecute_withInvalidEnrollRequests_shouldNotBeEnrolled() throws Exception {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         StudentAttributes validNewStudent = getTypicalNewStudent(courseId);
         StudentAttributes invalidNewStudent = getTypicalNewStudent(courseId);
@@ -204,7 +203,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
     }
 
     @Test
-    public void testExecute_withNumberOfStudentsMoreThanSectionLimit_shouldThrowInvalidHttpRequestBodyException() {
+    public void testExecute_withNumberOfStudentsMoreThanSectionLimit_shouldThrowInvalidHttpRequestBodyException()
+            throws Exception {
         String courseId = typicalBundle.students.get("student1InCourse1").getCourse();
         String randomSectionName = "randomSectionName";
         List<StudentAttributes> studentList = new ArrayList<>();
@@ -238,10 +238,8 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
                 .build();
 
         req = prepareRequest(Arrays.asList(oneMoreStudentToGoBeyondLimit));
-        EnrollStudentsAction action = getAction(req, params);
 
-        InvalidHttpRequestBodyException ee = assertThrows(InvalidHttpRequestBodyException.class,
-                () -> action.execute());
+        InvalidOperationException ee = verifyInvalidOperation(req, params);
 
         String expectedErrorMessage = String.format(
                 "You are trying enroll more than %d students in section \"%s\".",
@@ -270,9 +268,7 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
-        EnrollStudentsAction action = getAction(req, params);
-        InvalidHttpRequestBodyException actualException =
-                assertThrows(InvalidHttpRequestBodyException.class, () -> action.execute());
+        InvalidOperationException actualException = verifyInvalidOperation(req, params);
         assertEquals(actualException.getMessage(),
                 String.format(expectedMessage, expectedTeam, expectedSectionOne, expectedSectionTwo));
     }
@@ -288,13 +284,12 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         return new StudentsEnrollRequest(requestList);
     }
 
-    private List<StudentData> executeActionAndReturnResults(String courseId, StudentsEnrollRequest req) {
+    private List<StudentData> executeActionAndReturnResults(String courseId, StudentsEnrollRequest req) throws Exception {
         String[] params = new String[] {
                 Const.ParamsNames.COURSE_ID, courseId,
         };
         EnrollStudentsAction action = getAction(req, params);
         JsonResult result = action.execute();
-        assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
         return ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
     }
