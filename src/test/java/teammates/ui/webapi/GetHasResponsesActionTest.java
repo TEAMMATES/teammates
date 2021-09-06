@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
@@ -12,10 +11,8 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 import teammates.ui.output.HasResponsesData;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetHasResponsesAction}.
@@ -62,12 +59,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
 
         assertNull(logic.getCourse("fake-course"));
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No course with id: fake-course", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No course with id: fake-course", enfe.getMessage());
     }
 
     @Test
@@ -82,12 +75,8 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        JsonResult jsonResult = getJsonResult(getHasResponsesAction);
-        MessageOutput messageOutput = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No feedback question with id: fake-question-id", messageOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(params);
+        assertEquals("No feedback question with id: fake-question-id", enfe.getMessage());
     }
 
     @Test
@@ -107,7 +96,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Course with 0 respondents");
@@ -126,7 +114,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.getHasResponses());
     }
 
@@ -152,7 +139,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
 
         ______TS("Question with 0 responses");
@@ -178,7 +164,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         jsonResult = getJsonResult(getHasResponsesAction);
         hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.getHasResponses());
     }
 
@@ -207,7 +192,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertFalse(hasResponsesData.getHasResponses());
     }
 
@@ -225,8 +209,7 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        GetHasResponsesAction getHasResponsesAction = getAction(params);
-        assertThrows(EntityNotFoundException.class, () -> getJsonResult(getHasResponsesAction));
+        verifyEntityNotFound(params);
     }
 
     @Test
@@ -252,7 +235,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
         assertTrue(hasResponsesData.getHasResponses());
     }
 
@@ -270,8 +252,6 @@ public class GetHasResponsesActionTest extends BaseActionTest<GetHasResponsesAct
         GetHasResponsesAction getHasResponsesAction = getAction(params);
         JsonResult jsonResult = getJsonResult(getHasResponsesAction);
         HasResponsesData hasResponsesData = (HasResponsesData) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         Map<String, Boolean> responseStats = hasResponsesData.getHasResponsesBySessions();
 

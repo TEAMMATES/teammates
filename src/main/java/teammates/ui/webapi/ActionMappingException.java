@@ -1,9 +1,10 @@
-package teammates.common.exception;
+package teammates.ui.webapi;
 
 /**
  * Exception thrown when a controller class is failed to be instantiated from a given resource URL.
+ *
+ * <p>This corresponds to either HTTP 404 or 405 error.
  */
-@SuppressWarnings("serial")
 public class ActionMappingException extends Exception {
 
     private final int statusCode;

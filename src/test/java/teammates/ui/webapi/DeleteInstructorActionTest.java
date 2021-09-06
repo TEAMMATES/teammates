@@ -1,10 +1,8 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.ui.output.MessageOutput;
 
@@ -46,8 +44,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
-
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
@@ -68,8 +64,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         deleteInstructorAction = getAction(submissionParams);
         response = getJsonResult(deleteInstructorAction);
-
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
 
         msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
@@ -95,8 +89,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
-
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
@@ -121,8 +113,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
-
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
 
@@ -144,8 +134,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
-
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
 
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
@@ -217,7 +205,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
                 getAction(addUserIdToParams(instructorToDelete.getGoogleId(), submissionParams));
         JsonResult response = getJsonResult(deleteInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
         MessageOutput messageOutput = (MessageOutput) response.getOutput();
 
         assertEquals("Instructor is successfully deleted.", messageOutput.getMessage());
@@ -278,8 +265,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
-
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
     }
@@ -296,8 +281,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
-
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
 
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());
@@ -319,8 +302,6 @@ public class DeleteInstructorActionTest extends BaseActionTest<DeleteInstructorA
 
         DeleteInstructorAction deleteInstructorAction = getAction(submissionParams);
         JsonResult response = getJsonResult(deleteInstructorAction);
-
-        assertEquals(HttpStatus.SC_OK, response.getStatusCode());
 
         MessageOutput msg = (MessageOutput) response.getOutput();
         assertEquals("Instructor is successfully deleted.", msg.getMessage());

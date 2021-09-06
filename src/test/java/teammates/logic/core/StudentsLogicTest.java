@@ -270,8 +270,9 @@ public class StudentsLogicTest extends BaseLogicTest {
 
         EntityDoesNotExistException ednee = assertThrows(EntityDoesNotExistException.class,
                 () -> studentsLogic.regenerateStudentRegistrationKey(student1InCourse1.getCourse(), nonExistentEmail));
-        assertEquals("Student does not exist: [" + student1InCourse1.getCourse() + "/" + nonExistentEmail + "]",
-                      ednee.getMessage());
+        assertEquals("The student with the email " + nonExistentEmail + " could not be found for the course "
+                        + "with ID [" + student1InCourse1.getCourse() + "].",
+                ednee.getMessage());
     }
 
     private void testGetStudentForEmail() {

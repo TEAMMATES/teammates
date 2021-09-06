@@ -2,6 +2,7 @@ package teammates.logic.core;
 
 import java.io.IOException;
 
+import org.apache.http.HttpStatus;
 import org.jsoup.Jsoup;
 
 import com.sendgrid.Method;
@@ -13,6 +14,7 @@ import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.sendgrid.helpers.mail.objects.Personalization;
 
+import teammates.common.exception.EmailSendingException;
 import teammates.common.util.Config;
 import teammates.common.util.EmailSendingStatus;
 import teammates.common.util.EmailWrapper;
@@ -52,15 +54,19 @@ public class SendgridService implements EmailSenderService {
     }
 
     @Override
-    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws IOException {
+    public EmailSendingStatus sendEmail(EmailWrapper wrapper) throws EmailSendingException {
         Mail email = parseToEmail(wrapper);
         SendGrid sendgrid = new SendGrid(Config.SENDGRID_APIKEY);
         Request request = new Request();
         request.setMethod(Method.POST);
         request.setEndpoint("mail/send");
-        request.setBody(email.build());
-        Response response = sendgrid.api(request);
-        return new EmailSendingStatus(response.getStatusCode(), response.getBody());
+        try {
+            request.setBody(email.build());
+            Response response = sendgrid.api(request);
+            return new EmailSendingStatus(response.getStatusCode(), response.getBody());
+        } catch (IOException e) {
+            throw new EmailSendingException(e, HttpStatus.SC_BAD_GATEWAY);
+        }
     }
 
 }
