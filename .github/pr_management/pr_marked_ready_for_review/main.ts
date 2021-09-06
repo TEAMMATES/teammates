@@ -1,6 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
-import { log, postComment, validateChecksOnPrHead, addOngoingLabel, dropOngoingLabel, toReviewLabel, ongoingLabel, removeLabel, finalReviewLabel, getSortedListOfEventsOnIssue, addLabel, toMergeLabel, getSortedListOfComments, addAppropriateReviewLabel } from "../common";
+import { log, postComment, validateChecksOnPrHead, addOngoingLabel, dropOngoingLabel, toReviewLabel, ongoingLabel, removeLabel, finalReviewLabel, getSortedListOfEventsOnIssue, toMergeLabel, getSortedListOfComments, addAppropriateReviewLabel, errMessagePreamble, reviewKeywords } from "../common";
 
 const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
@@ -10,7 +10,7 @@ const owner = github.context.repo.owner;
 const repo = github.context.repo.repo;
 const issue_number = github.context.issue.number;
 
-const furtherInstructions = "Please comment `@bot ready for review` when you've passed all checks, resolved merge conflicts and are ready to request a review."
+const furtherInstructions = `Please comment \`${reviewKeywords}\` (case sensitive) when you've passed all checks, resolved merge conflicts and are ready to request a review.`
 
 async function run() {
     if (await isPrDraft()) return; // needed because synchronise event triggers this workflow on even draft PRs
@@ -110,7 +110,7 @@ async function wasAuthorLinkedToFailingChecks() : Promise<boolean> {
 
     const comments = await getSortedListOfComments(labelEvent.created_at);
 
-    const checksFailedComment = comments.find(c => c.body.search("There were failing checks found"));
+    const checksFailedComment = comments.find(c => c.body.search(errMessagePreamble));
 
     log.info(checksFailedComment, "checksFailedComment");
 

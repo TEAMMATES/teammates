@@ -18,6 +18,8 @@ export const toMergeLabel = "s.ToMerge";
 
 //// variables to configure
 const usualTimeForChecksToRun = 10 * 60 * 1000; // min * sec * ms
+export const errMessagePreamble = "There were failing checks found.";
+export const reviewKeywords = "PR ready for review";
 
 /* this list of names of excluded checks is to prevent cyclical checking when checking for workflow statuses. 
 note: each string needs to match the jobs.<id>.name property in yaml files */ 
@@ -96,7 +98,7 @@ export async function postComment(message) {
         issue_number,
         body: commentBody,
     })
-    .then(res => core.info(`Commented:\n ${res.data.body}\n with status ${res.status}`))
+    .then(res => core.info(`Commented:\n${res.data.body}\n with status ${res.status}`))
     .catch(err => core.error(err))
 }
 
@@ -164,7 +166,8 @@ async function validateChecks(validateForRef: string)
     const didChecksRunSuccessfully = !checkRunsArr.find(
         checkRun => checkRun.conclusion !== "success" && !(doesArrInclude(excludedChecksNames, checkRun.name))
     );
-    const errMessage = `There were failing checks found. \n${conclusionsDetails}`;
+
+    const errMessage = `${errMessagePreamble}\n${conclusionsDetails}`;
 
     log.info(didChecksRunSuccessfully, "didChecksRunSuccessfully");
     log.info(conclusionsDetails, "conclusions of checks\n");

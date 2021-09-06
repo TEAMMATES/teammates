@@ -1,7 +1,6 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
-import { log, postComment, validateChecksOnPrHead, dropOngoingLabel, addAppropriateReviewLabel } from "../common"
-const reviewKeywords = "@bot ready for review";
+import { postComment, validateChecksOnPrHead, dropOngoingLabel, addAppropriateReviewLabel, reviewKeywords } from "../common"
 
 // params to set for api requests
 // check https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts to figure out what's being responded
@@ -57,7 +56,7 @@ async function validate() : Promise<boolean> {
 
 
 function validatePRStatus() {
-    // nothing stops this github bot from running on comments on closed PRs or PR of specific labels
+    // nothing stops this workflow from running on PRs of specific labels
     core.warning("No pr validation has been set");
     return true;
 }
