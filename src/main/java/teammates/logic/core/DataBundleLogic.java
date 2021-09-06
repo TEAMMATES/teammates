@@ -370,7 +370,7 @@ public final class DataBundleLogic {
             profilesDb.deleteStudentProfile(profile.getGoogleId());
         });
         dataBundle.accountRequests.values().forEach(accountRequest -> {
-            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail());
+            accountRequestsDb.deleteAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
         });
     }
 

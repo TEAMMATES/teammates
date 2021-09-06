@@ -1,11 +1,14 @@
 package teammates.storage.entity;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Translate;
+
+import teammates.common.util.StringHelper;
 
 /**
  * Represents an AccountRequest entity.
@@ -15,9 +18,11 @@ import com.googlecode.objectify.annotation.Translate;
 public class AccountRequest extends BaseEntity {
 
     @Id
-    private String email;
+    private String id;
 
     private String registrationKey;
+
+    private String email;
 
     private String name;
 
@@ -26,27 +31,26 @@ public class AccountRequest extends BaseEntity {
     @Translate(InstantTranslatorFactory.class)
     private Instant createdAt;
 
-    @Translate(InstantTranslatorFactory.class)
-    private Instant deletedAt;
-
     @SuppressWarnings("unused")
     private AccountRequest() {
         // required by Objectify
     }
 
-    public AccountRequest(String email, String registrationKey, String name, String institute,
-            Instant createdAt, Instant deletedAt) {
+    public AccountRequest(String email, String name, String institute) {
         this.setEmail(email);
-        this.setRegistrationKey(registrationKey);
         this.setName(name);
         this.setInstitute(institute);
+        this.setId(generateId(email, institute));
+        this.setRegistrationKey(generateRegistrationKey());
+        this.setCreatedAt(Instant.now());
+    }
 
-        if (createdAt == null) {
-            this.setCreatedAt(Instant.now());
-        } else {
-            this.setCreatedAt(createdAt);
-        }
-        this.setDeletedAt(deletedAt);
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id.trim();
     }
 
     public String getRegistrationKey() {
@@ -89,12 +93,22 @@ public class AccountRequest extends BaseEntity {
         this.createdAt = createdAt;
     }
 
-    public Instant getDeletedAt() {
-        return deletedAt;
+    /**
+     * Generates an unique ID for the account request.
+     */
+    public static String generateId(String email, String institute) {
+        // Format: email%institute e.g., adam@gmail.com%TEAMMATES_TEST_INSTITUTE
+        return email + '%' + institute;
     }
 
-    public void setDeletedAt(Instant deletedAt) {
-        this.deletedAt = deletedAt;
-    }
+    /**
+     * Generate unique registration key for the account request.
+     * The key contains random elements to avoid being guessed.
+     */
+    private String generateRegistrationKey() {
+        String uniqueId = getId();
+        SecureRandom prng = new SecureRandom();
 
+        return StringHelper.encrypt(uniqueId + prng.nextInt());
+    }
 }

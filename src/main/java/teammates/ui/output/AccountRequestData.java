@@ -11,14 +11,12 @@ public class AccountRequestData extends ApiOutput {
     private final String name;
     private final String institute;
     private final String registrationKey;
-    private final long createdAtTimeStamp;
 
     public AccountRequestData(AccountRequestAttributes accountRequestInfo) {
         this.name = accountRequestInfo.getName();
         this.email = accountRequestInfo.getEmail();
         this.institute = accountRequestInfo.getInstitute();
         this.registrationKey = accountRequestInfo.getRegistrationKey();
-        this.createdAtTimeStamp = accountRequestInfo.getCreatedAt().toEpochMilli();
     }
 
     public String getInstitute() {
@@ -27,10 +25,6 @@ public class AccountRequestData extends ApiOutput {
 
     public String getEmail() {
         return email;
-    }
-
-    public long getCreatedAtTimeStamp() {
-        return createdAtTimeStamp;
     }
 
     public String getName() {

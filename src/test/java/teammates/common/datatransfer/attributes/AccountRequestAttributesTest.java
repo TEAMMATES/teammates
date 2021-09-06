@@ -1,7 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
-
 import org.testng.annotations.Test;
 
 import teammates.common.util.FieldValidator;
@@ -16,19 +14,15 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testValueOf_withTypicalData_shouldGenerateAttributesCorrectly() {
-        Instant typicalInstant = Instant.now();
         AccountRequest accountRequest =
-                new AccountRequest("valid@test.com", "registrationkey", "Valid Name",
-                         "Valid Institute", typicalInstant, typicalInstant);
+                new AccountRequest("valid@test.com", "Valid Name", "Valid Institute");
 
         AccountRequestAttributes accountRequestAttributes = AccountRequestAttributes.valueOf(accountRequest);
 
-        assertEquals("registrationkey", accountRequestAttributes.getRegistrationKey());
+        assertNotNull(accountRequestAttributes.getRegistrationKey());
         assertEquals("Valid Name", accountRequestAttributes.getName());
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
         assertEquals("Valid Institute", accountRequestAttributes.getInstitute());
-        assertEquals(typicalInstant, accountRequestAttributes.getCreatedAt());
-        assertEquals(typicalInstant, accountRequestAttributes.getDeletedAt());
     }
 
     @Test
@@ -39,14 +33,11 @@ public class AccountRequestAttributesTest extends BaseTestCase {
         String validRegKey = "validRegKey123";
 
         AccountRequestAttributes accountRequestAttributes = AccountRequestAttributes
-                .builder(validEmail)
+                .builder(validEmail, validInstitute)
                 .withName(validName)
-                .withInstitute(validInstitute)
                 .withRegistrationKey(validRegKey)
                 .build();
 
-        assertNotNull(accountRequestAttributes.getCreatedAt());
-        assertNull(accountRequestAttributes.getDeletedAt());
         assertEquals(validEmail, accountRequestAttributes.getEmail());
         assertEquals(validName, accountRequestAttributes.getName());
         assertEquals(validRegKey, accountRequestAttributes.getRegistrationKey());
@@ -56,58 +47,49 @@ public class AccountRequestAttributesTest extends BaseTestCase {
     @Test
     public void testBuilder_buildNothing_shouldUseDefaultValues() {
         AccountRequestAttributes accountRequestAttributes =
-                AccountRequestAttributes.builder("valid@test.com").build();
+                AccountRequestAttributes.builder("valid@test.com", "valid institute").build();
 
         assertEquals("valid@test.com", accountRequestAttributes.getEmail());
+        assertEquals("valid institute", accountRequestAttributes.getInstitute());
         assertNull(accountRequestAttributes.getName());
-        assertNull(accountRequestAttributes.getInstitute());
         assertNull(accountRequestAttributes.getRegistrationKey());
-        assertNotNull(accountRequestAttributes.getCreatedAt());
-        assertNull(accountRequestAttributes.getDeletedAt());
     }
 
     @Test
     public void testBuilder_withNullArguments_shouldThrowException() {
         assertThrows(AssertionError.class, () -> {
             AccountRequestAttributes
-                    .builder(null)
+                    .builder(null, null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             AccountRequestAttributes
-                    .builder("valid@test.com")
+                    .builder("valid@test.com", "valid institute")
                     .withName(null)
                     .build();
         });
 
         assertThrows(AssertionError.class, () -> {
             AccountRequestAttributes
-                    .builder("valid@test.com")
+                    .builder("valid@test.com", "valid institute")
                     .withRegistrationKey(null)
                     .build();
         });
 
-        assertThrows(AssertionError.class, () -> {
-            AccountRequestAttributes
-                    .builder("valid@test.com")
-                    .withInstitute(null)
-                    .build();
-        });
     }
 
     @Test
     public void testValidate() throws Exception {
-        AccountRequestAttributes validAccountRequest = generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes validAccountRequest = getValidAccountRequestAttributesObject();
 
         assertTrue("valid value", validAccountRequest.isValid());
 
         String invalidEmail = "invalid-email";
         String emptyName = "";
         AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
-                .builder(invalidEmail)
+                .builder(invalidEmail, "institute")
                 .withName(emptyName)
-                .withInstitute("institute")
                 .build();
 
         assertFalse("invalid value", invalidAccountRequest.isValid());
@@ -134,24 +116,23 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testToString() {
-        AccountRequestAttributes a = generateValidAccountRequestAttributesObject();
-        assertEquals("[AccountRequestAttributes] email: valid@test.comregistrationKey: "
-                + "valid123 name: valid-name institute: valid-institute", a.toString());
+        AccountRequestAttributes a = getValidAccountRequestAttributesObject();
+        assertEquals("[AccountRequestAttributes] registrationKey: valid123 email: valid@test.com "
+                + "name: valid-name institute: valid-institute", a.toString());
     }
 
     @Test
     public void testEquals() {
-        AccountRequestAttributes accountRequest = generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes accountRequest = getValidAccountRequestAttributesObject();
 
         // When the two account requests have same values
-        AccountRequestAttributes similarAccountRequest = generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes similarAccountRequest = getValidAccountRequestAttributesObject();
 
         assertTrue(accountRequest.equals(similarAccountRequest));
 
         // When the two account requests are different
-        AccountRequestAttributes differentAccountRequest = AccountRequestAttributes.builder("test@test.com")
-                .withName("Another Name")
-                .build();
+        AccountRequestAttributes differentAccountRequest =
+                AccountRequestAttributes.builder("test@test.com", "test-institute").withName("Another Name").build();
 
         assertFalse(accountRequest.equals(differentAccountRequest));
 
@@ -161,26 +142,24 @@ public class AccountRequestAttributesTest extends BaseTestCase {
 
     @Test
     public void testHashCode() {
-        AccountRequestAttributes accountRequest = generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes accountRequest = getValidAccountRequestAttributesObject();
 
         // When the two account requests have same values, they should have the same hash code
-        AccountRequestAttributes accountRequestSimilar = generateValidAccountRequestAttributesObject();
+        AccountRequestAttributes accountRequestSimilar = getValidAccountRequestAttributesObject();
 
         assertTrue(accountRequest.hashCode() == accountRequestSimilar.hashCode());
 
         // When the two account requests are different, they should have different hash code
-        AccountRequestAttributes accountRequestDifferent = AccountRequestAttributes.builder("test@test.com")
-                .withName("Another Name")
-                .build();
+        AccountRequestAttributes accountRequestDifferent =
+                AccountRequestAttributes.builder("test@test.com", "test-institute").withName("Another Name").build();
 
         assertFalse(accountRequest.hashCode() == accountRequestDifferent.hashCode());
     }
 
-    private static AccountRequestAttributes generateValidAccountRequestAttributesObject() {
-        return AccountRequestAttributes.builder("valid@test.com")
+    private static AccountRequestAttributes getValidAccountRequestAttributesObject() {
+        return AccountRequestAttributes.builder("valid@test.com", "valid-institute")
                 .withName("valid-name")
                 .withRegistrationKey("valid123")
-                .withInstitute("valid-institute")
                 .build();
     }
 

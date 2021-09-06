@@ -8,7 +8,6 @@ import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.JoinLinkData;
 import teammates.ui.request.AccountCreateRequest;
 
@@ -61,7 +60,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
-        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequest(email);
+        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequest(email, institute);
 
         assertEquals(name, accountRequestAttributes.getName());
         assertEquals(email, accountRequestAttributes.getEmail());
@@ -69,7 +68,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertNotNull(accountRequestAttributes.getRegistrationKey());
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(accountRequestAttributes.getRegistrationKey()))
+                .withRegistrationKey(accountRequestAttributes.getRegistrationKey())
                 .toAbsoluteString();
 
         JoinLinkData output = (JoinLinkData) r.getOutput();

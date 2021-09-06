@@ -1,6 +1,5 @@
 package teammates.common.datatransfer.attributes;
 
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -18,32 +17,24 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     private String name;
     private String institute;
     private String registrationKey;
-    private transient Instant createdAt;
-    private transient Instant deletedAt;
 
-    private AccountRequestAttributes(String email) {
+    private AccountRequestAttributes(String email, String institute) {
         this.email = email;
-        this.registrationKey = null;
-        this.institute = null;
+        this.institute = institute;
+
         this.name = null;
-        this.createdAt = Instant.now();
-        this.deletedAt = null;
+        this.registrationKey = null;
     }
 
     /**
      * Gets the {@link AccountRequestAttributes} instance of the given {@link AccountRequest}.
      */
     public static AccountRequestAttributes valueOf(AccountRequest accountRequest) {
-        AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getEmail());
+        AccountRequestAttributes accountRequestAttributes = new AccountRequestAttributes(accountRequest.getEmail(),
+                accountRequest.getInstitute());
 
         accountRequestAttributes.registrationKey = accountRequest.getRegistrationKey();
         accountRequestAttributes.name = accountRequest.getName();
-        accountRequestAttributes.institute = accountRequest.getInstitute();
-
-        if (accountRequest.getCreatedAt() != null) {
-            accountRequestAttributes.createdAt = accountRequest.getCreatedAt();
-        }
-        accountRequestAttributes.deletedAt = accountRequest.getDeletedAt();
 
         return accountRequestAttributes;
     }
@@ -51,8 +42,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     /**
      * Returns a builder for {@link AccountRequestAttributes}.
      */
-    public static Builder builder(String email) {
-        return new Builder(email);
+    public static Builder builder(String email, String institute) {
+        return new Builder(email, institute);
     }
 
     public String getRegistrationKey() {
@@ -63,40 +54,12 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getInstitute() {
         return institute;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getDeletedAt() {
-        return deletedAt;
-    }
-
-    public void setDeletedAt(Instant deletedAt) {
-        this.deletedAt = deletedAt;
-    }
-
-    public boolean isAccountRequestDeleted() {
-        return this.deletedAt != null;
     }
 
     @Override
@@ -113,20 +76,18 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public AccountRequest toEntity() {
-        return new AccountRequest(getEmail(), getRegistrationKey(), getName(),
-                getInstitute(), getCreatedAt(), getDeletedAt());
+        return new AccountRequest(getEmail(), getName(), getInstitute());
     }
 
     @Override
     public String toString() {
-        return "[" + AccountRequestAttributes.class.getSimpleName() + "] email: " + getEmail()
-                + "registrationKey: " + getRegistrationKey()
-                + " name: " + getName() + " institute: " + getInstitute();
+        return "[" + AccountRequestAttributes.class.getSimpleName() + "] registrationKey: " + getRegistrationKey()
+                + " email: " + getEmail() + " name: " + getName() + " institute: " + getInstitute();
     }
 
     @Override
     public int hashCode() {
-        return (this.email + this.registrationKey + this.name + this.institute).hashCode();
+        return (this.email + this.name + this.institute).hashCode();
     }
 
     @Override
@@ -137,8 +98,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return true;
         } else if (this.getClass() == other.getClass()) {
             AccountRequestAttributes otherCourse = (AccountRequestAttributes) other;
-            return Objects.equals(this.registrationKey, otherCourse.registrationKey)
-                    && Objects.equals(this.email, otherCourse.email)
+            return Objects.equals(this.email, otherCourse.email)
                     && Objects.equals(this.institute, otherCourse.institute)
                     && Objects.equals(this.name, otherCourse.name);
         } else {
@@ -157,16 +117,15 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      * Updates with {@link UpdateOptions}.
      */
     public void update(UpdateOptions updateOptions) {
-        updateOptions.nameOption.ifPresent(s -> name = s);
         updateOptions.registrationKeyOption.ifPresent(s -> registrationKey = s);
-        updateOptions.instituteOption.ifPresent(s -> institute = s);
+        updateOptions.nameOption.ifPresent(s -> name = s);
     }
 
     /**
      * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a accountRequest.
      */
-    public static UpdateOptions.Builder updateOptionsBuilder(String email) {
-        return new UpdateOptions.Builder(email);
+    public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute) {
+        return new UpdateOptions.Builder(email, institute);
     }
 
     /**
@@ -176,11 +135,11 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
         private final AccountRequestAttributes accountRequestAttributes;
 
-        private Builder(String email) {
-            super(new UpdateOptions(email));
+        private Builder(String email, String institute) {
+            super(new UpdateOptions(email, institute));
             thisBuilder = this;
 
-            accountRequestAttributes = new AccountRequestAttributes(email);
+            accountRequestAttributes = new AccountRequestAttributes(email, institute);
         }
 
         @Override
@@ -196,28 +155,26 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
      */
     public static class UpdateOptions {
         private String email;
+        private String institute;
 
         private UpdateOption<String> nameOption = UpdateOption.empty();
         private UpdateOption<String> registrationKeyOption = UpdateOption.empty();
-        private UpdateOption<String> instituteOption = UpdateOption.empty();
 
-        private UpdateOptions(String email) {
+        private UpdateOptions(String email, String institute) {
             assert email != null;
+            assert institute != null;
 
             this.email = email;
-        }
-
-        public String getEmail() {
-            return email;
+            this.institute = institute;
         }
 
         @Override
         public String toString() {
             return "AccountRequestAttributes.UpdateOptions ["
-                    + "email = " + email
+                    + ", email = " + email
+                    + ", institute = " + institute
                     + ", name = " + nameOption
                     + ", registrationKey = " + registrationKeyOption
-                    + ", institute = " + instituteOption
                     + "]";
         }
 
@@ -226,8 +183,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
          */
         public static class Builder extends BasicBuilder<UpdateOptions, Builder> {
 
-            private Builder(String email) {
-                super(new UpdateOptions(email));
+            private Builder(String email, String institute) {
+                super(new UpdateOptions(email, institute));
                 thisBuilder = this;
             }
 
@@ -262,17 +219,10 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             return thisBuilder;
         }
 
-        public B withRegistrationKey(String registrationKey) {
-            assert registrationKey != null;
+        public B withRegistrationKey(String registationKey) {
+            assert registationKey != null;
 
-            updateOptions.registrationKeyOption = UpdateOption.of(registrationKey);
-            return thisBuilder;
-        }
-
-        public B withInstitute(String institute) {
-            assert institute != null;
-
-            updateOptions.instituteOption = UpdateOption.of(institute);
+            updateOptions.registrationKeyOption = UpdateOption.of(registationKey);
             return thisBuilder;
         }
 

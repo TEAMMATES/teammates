@@ -1,6 +1,7 @@
 package teammates.logic.core;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.storage.api.AccountRequestsDb;
 
@@ -28,7 +29,7 @@ public final class AccountRequestsLogic {
     /**
      * Creates or updates an account request.
      *
-     * @return the created/updated account request
+     * @return the created account request
      * @throws InvalidParametersException if the account request is not valid
      */
     public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
@@ -37,26 +38,40 @@ public final class AccountRequestsLogic {
     }
 
     /**
-     * Deletes the account request associated with the {@code email}.
+     * Deletes the account request associated with the {@code id}.
      *
      * <p>Fails silently if the account request doesn't exist.</p>
      */
-    public void deleteAccountRequest(String email) {
-        accountRequestsDb.deleteAccountRequest(email);
+    public void deleteAccountRequest(String email, String institute) {
+        accountRequestsDb.deleteAccountRequest(email, institute);
     }
 
     /**
-     * Gets an account request by unique constraint registrationKey.
+     * Gets an account request by email address and institute.
+     *
+     * @return the account request or null if no match found
      */
-    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
-        return accountRequestsDb.getAccountRequestForRegistrationKey(registrationKey);
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+        return accountRequestsDb.getAccountRequest(email, institute);
     }
 
     /**
-     * Gets an account request by email address.
+     * Gets an account request by unique constraint {@code registrationKey}.
+     *
+     * @return the account request
+     * @throws EntityDoesNotExistException if account request does not exist
      */
-    public AccountRequestAttributes getAccountRequest(String email) {
-        return accountRequestsDb.getAccountRequest(email);
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey)
+            throws EntityDoesNotExistException {
+        AccountRequestAttributes accountRequest = accountRequestsDb
+                .getAccountRequestForRegistrationKey(registrationKey);
+
+        if (accountRequest == null) {
+            throw new EntityDoesNotExistException(
+                    "Account request with registration key " + registrationKey + " does not exist");
+        }
+
+        return accountRequest;
     }
 
 }

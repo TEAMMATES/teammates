@@ -31,25 +31,70 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
     }
 
     /**
-     * Gets an account request.
+     * Gets an account request by email and institute.
      */
-    public AccountRequestAttributes getAccountRequest(String email) {
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
         assert email != null;
+        assert institute != null;
 
-        return makeAttributesOrNull(getAccountRequestEntity(email));
+        return makeAttributesOrNull(getAccountRequestEntity(AccountRequest.generateId(email, institute)));
     }
 
-    private AccountRequest getAccountRequestEntity(String email) {
-        return load().id(email).now();
+    /**
+     * Creates or updates an account request.
+     *
+     * @return the created account request
+     * @throws InvalidParametersException if the account request is not valid
+     */
+    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
+            throws InvalidParametersException {
+        assert accountRequestToAdd != null;
+        accountRequestToAdd.sanitizeForSaving();
+
+        if (!accountRequestToAdd.isValid()) {
+            throw new InvalidParametersException(accountRequestToAdd.getInvalidityInfo());
+        }
+
+        AccountRequest accountRequest = accountRequestToAdd.toEntity();
+        saveEntity(accountRequest);
+
+        return makeAttributes(accountRequest);
+    }
+
+    /**
+     * Gets an account request by unique constraint {@code registrationKey}.
+     *
+     * @return the account request or null if no match found
+     */
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
+        assert registrationKey != null;
+
+        List<AccountRequest> accountRequestList = load().filter("registrationKey =", registrationKey).list();
+
+        if (accountRequestList.size() > 1) {
+            log.severe("Duplicate registration keys detected for: "
+                    + accountRequestList.stream().map(i -> i.getId()).collect(Collectors.joining(", ")));
+        }
+
+        if (accountRequestList.isEmpty()) {
+            return null;
+        }
+
+        return makeAttributes(accountRequestList.get(0));
+    }
+
+    private AccountRequest getAccountRequestEntity(String id) {
+        return load().id(id).now();
     }
 
     /**
      * Deletes an accountRequest.
      */
-    public void deleteAccountRequest(String email) {
+    public void deleteAccountRequest(String email, String institute) {
         assert email != null;
+        assert institute != null;
 
-        deleteEntity(Key.create(AccountRequest.class, email));
+        deleteEntity(Key.create(AccountRequest.class, AccountRequest.generateId(email, institute)));
     }
 
     @Override
@@ -59,7 +104,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
 
     @Override
     boolean hasExistingEntities(AccountRequestAttributes entityToCreate) {
-        Key<AccountRequest> keyToFind = Key.create(AccountRequest.class, entityToCreate.getEmail());
+        Key<AccountRequest> keyToFind = Key.create(AccountRequest.class, entityToCreate.getRegistrationKey());
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
 
@@ -68,52 +113,6 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
         assert entity != null;
 
         return AccountRequestAttributes.valueOf(entity);
-    }
-
-    /**
-     * Creates or updates the account request using {@link AccountRequestAttributes.UpdateOptions}.
-     *
-     * @return updated account request
-     * @throws InvalidParametersException if attributes to update are not valid
-     */
-    public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
-            throws InvalidParametersException {
-        assert accountRequestToAdd != null;
-
-        accountRequestToAdd.sanitizeForSaving();
-        if (!accountRequestToAdd.isValid()) {
-            throw new InvalidParametersException(accountRequestToAdd.getInvalidityInfo());
-        }
-
-        AccountRequest accountRequest = accountRequestToAdd.toEntity();
-        saveEntity(accountRequest);
-
-        return accountRequestToAdd;
-    }
-
-    /**
-     * Gets an account request by unique constraint registrationKey.
-     */
-    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
-        assert registrationKey != null;
-
-        return makeAttributesOrNull(getAccountRequestEntityForRegistrationKey(registrationKey.trim()));
-    }
-
-    private AccountRequest getAccountRequestEntityForRegistrationKey(String key) {
-        List<AccountRequest> accountRequestList = load().filter("registrationKey =", key).list();
-
-        // If registration key detected is not unique, something is wrong
-        if (accountRequestList.size() > 1) {
-            log.severe("Duplicate registration keys detected for: "
-                    + accountRequestList.stream().map(i -> i.getEmail()).collect(Collectors.joining(", ")));
-        }
-
-        if (accountRequestList.isEmpty()) {
-            return null;
-        }
-
-        return accountRequestList.get(0);
     }
 
 }

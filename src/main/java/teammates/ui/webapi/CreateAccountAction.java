@@ -38,18 +38,14 @@ class CreateAccountAction extends Action {
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {
-        String registrationKey;
+        String registrationKey = getNonNullRequestParamValue(Const.ParamsNames.REGKEY);
+
+        AccountRequestAttributes accountRequestAttributes;
 
         try {
-            registrationKey = StringHelper.decrypt(getNonNullRequestParamValue(Const.ParamsNames.REGKEY));
-        } catch (InvalidParametersException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_REQUEST);
-        }
-
-        AccountRequestAttributes accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
-
-        if (accountRequestAttributes == null) {
-            return new JsonResult("Invalid registration key", HttpStatus.SC_BAD_REQUEST);
+            accountRequestAttributes = logic.getAccountRequestForRegistrationKey(registrationKey);
+        } catch (EntityDoesNotExistException ednee) {
+            throw new EntityNotFoundException(ednee);
         }
 
         String instructorEmail = accountRequestAttributes.getEmail();
@@ -79,7 +75,7 @@ class CreateAccountAction extends Action {
         }
 
         // Delete account request as it is no longer needed
-        logic.deleteAccountRequest(instructorEmail);
+        logic.deleteAccountRequest(instructorEmail, instructorInstitution);
 
         return new JsonResult("Account successfully created", HttpStatus.SC_OK);
     }

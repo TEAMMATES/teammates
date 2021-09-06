@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
@@ -11,7 +10,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
-import teammates.common.util.StringHelper;
 import teammates.common.util.StringHelperExtension;
 
 /**
@@ -35,10 +33,13 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         String name = "JamesBond";
         String email = "jamesbond89@gmail.tmt";
         String institute = "TEAMMATES Test Institute 1";
-        String regKey = "validregkey123";
 
-        logic.createOrUpdateAccountRequest(AccountRequestAttributes.builder(email).withName(name)
-                .withInstitute(institute).withRegistrationKey(regKey).build());
+        AccountRequestAttributes accountRequest = AccountRequestAttributes
+                .builder(email, institute)
+                .withName(name)
+                .build();
+
+        accountRequest = logic.createOrUpdateAccountRequest(accountRequest);
 
         ______TS("Not enough parameters");
 
@@ -54,7 +55,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Normal case");
 
-        String[] params = new String[] { Const.ParamsNames.REGKEY, StringHelper.encrypt(regKey), };
+        String[] params = new String[] { Const.ParamsNames.REGKEY, accountRequest.getRegistrationKey(), };
         CreateAccountAction a = getAction(params);
         getJsonResult(a);
 
@@ -76,9 +77,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         ______TS("Error: reg key not found");
 
-        a = getAction(params);
-        getJsonResult(a, HttpStatus.SC_BAD_REQUEST);
-
+        verifyEntityNotFound(params);
         verifyNoTasksAdded();
     }
 

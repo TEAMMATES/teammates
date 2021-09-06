@@ -1382,7 +1382,7 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
-     * @return the created/updated account request
+     * @return the created account request
      * @throws InvalidParametersException if the account request is not valid
      */
     public AccountRequestAttributes createOrUpdateAccountRequest(AccountRequestAttributes accountRequestToAdd)
@@ -1398,38 +1398,41 @@ public class Logic {
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      */
-    public void deleteAccountRequest(String email) {
+    public void deleteAccountRequest(String email, String institute) {
         assert email != null;
 
-        accountRequestsLogic.deleteAccountRequest(email);
+        accountRequestsLogic.deleteAccountRequest(email, institute);
     }
 
     /**
-     * Gets an account request by unique constraint registrationKey.
+     * Gets an account request by unique constraint {@code registrationKey}.
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
      * @return the account request or null if no match found
+     * @throws EntityDoesNotExistException if the account request does not exist
      */
-    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey) {
+    public AccountRequestAttributes getAccountRequestForRegistrationKey(String registrationKey)
+            throws EntityDoesNotExistException {
         assert registrationKey != null;
 
         return accountRequestsLogic.getAccountRequestForRegistrationKey(registrationKey);
     }
 
     /**
-     * Gets an account request by email address.
+     * Gets an account request by email address and institute.
      *
      * <p>Preconditions:</p>
      * * All parameters are non-null.
      *
      * @return the account request or null if no match found
      */
-    public AccountRequestAttributes getAccountRequest(String email) {
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
         assert email != null;
+        assert institute != null;
 
-        return accountRequestsLogic.getAccountRequest(email);
+        return accountRequestsLogic.getAccountRequest(email, institute);
     }
 
 }

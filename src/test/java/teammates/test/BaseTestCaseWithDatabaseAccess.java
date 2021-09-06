@@ -155,7 +155,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         } else if (expected instanceof AccountRequestAttributes) {
             AccountRequestAttributes expectedAccountRequest = (AccountRequestAttributes) expected;
             AccountRequestAttributes actualAccountRequest = (AccountRequestAttributes) actual;
-            equalizeIrrelevantData(expectedAccountRequest, actualAccountRequest);
             assertEquals(JsonUtils.toJson(expectedAccountRequest), JsonUtils.toJson(actualAccountRequest));
 
         } else {
@@ -218,11 +217,6 @@ public abstract class BaseTestCaseWithDatabaseAccess extends BaseTestCase {
         }
 
         expected.setLastName(StringHelper.splitName(expected.getName())[1]);
-    }
-
-    private void equalizeIrrelevantData(AccountRequestAttributes expected, AccountRequestAttributes actual) {
-        // Ignore time field as it is stamped at the time of creation in testing
-        expected.setCreatedAt(actual.getCreatedAt());
     }
 
     protected abstract StudentProfileAttributes getStudentProfile(StudentProfileAttributes studentProfileAttributes);

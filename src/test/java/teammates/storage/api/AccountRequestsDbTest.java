@@ -20,30 +20,33 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid@test.com")
+        AccountRequestAttributes accountRequest = AccountRequestAttributes
+                .builder("valid@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        accountRequestsDb.createOrUpdateAccountRequest(a);
-        verifyPresentInDatabase(a);
+        accountRequest = accountRequestsDb.createOrUpdateAccountRequest(accountRequest);
+        verifyPresentInDatabase(accountRequest);
 
         ______TS("duplicate account, account request updated");
 
-        AccountRequestAttributes duplicateAccount = AccountRequestAttributes.builder("valid@test.com")
+        AccountRequestAttributes duplicateAccount = AccountRequestAttributes
+                .builder("valid@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name 2")
-                .withRegistrationKey("ValidRegistrationKey2")
-                .withInstitute("TEAMMATES Test Institute 2")
                 .build();
 
-        accountRequestsDb.createOrUpdateAccountRequest(duplicateAccount);
+        duplicateAccount = accountRequestsDb.createOrUpdateAccountRequest(duplicateAccount);
+        verifyPresentInDatabase(duplicateAccount);
 
         ______TS("failure case: invalid parameter");
 
-        a.setEmail("invalid email");
+        AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
+                .builder("invalid email", "TEAMMATES Test Institute 1")
+                .withName("Test account Name")
+                .build();
+
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountRequestsDb.createOrUpdateAccountRequest(a));
+                () -> accountRequestsDb.createOrUpdateAccountRequest(invalidAccountRequest));
         AssertHelper.assertContains(
                 getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
@@ -58,45 +61,42 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testDeleteAccountRequest() throws Exception {
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid2@test.com")
+        AccountRequestAttributes a = AccountRequestAttributes
+                .builder("valid2@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey2")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        accountRequestsDb.createEntity(a);
+        accountRequestsDb.saveEntity(a.toEntity());
+        a = accountRequestsDb.getAccountRequest("valid2@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("silent deletion of non-existent account");
 
-        accountRequestsDb.deleteAccountRequest("not_exist");
+        accountRequestsDb.deleteAccountRequest("not_exist", "not_exist");
 
         ______TS("typical success case");
 
         verifyPresentInDatabase(a);
-
-        accountRequestsDb.deleteAccountRequest(a.getEmail());
-
+        accountRequestsDb.deleteAccountRequest(a.getEmail(), a.getInstitute());
         verifyAbsentInDatabase(a);
 
         ______TS("silent deletion of same account");
 
-        accountRequestsDb.deleteAccountRequest(a.getEmail());
+        accountRequestsDb.deleteAccountRequest(a.getEmail(), a.getInstitute());
 
         ______TS("failure null parameter");
 
         assertThrows(AssertionError.class,
-                () -> accountRequestsDb.deleteAccountRequest(null));
+                () -> accountRequestsDb.deleteAccountRequest(null, null));
     }
 
     @Test
     public void testGetAccountRequestForRegistrationKey() throws Exception {
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid3@test.com")
+        AccountRequestAttributes a = AccountRequestAttributes.builder("valid3@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey3")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        accountRequestsDb.createEntity(a);
+        accountRequestsDb.saveEntity(a.toEntity());
+        a = accountRequestsDb.getAccountRequest("valid3@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("typical success case");
 
@@ -118,30 +118,29 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
     @Test
     public void testGetAccountRequest() throws Exception {
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid4@test.com")
+        AccountRequestAttributes a = AccountRequestAttributes.builder("valid4@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey4")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        accountRequestsDb.createEntity(a);
+        accountRequestsDb.saveEntity(a.toEntity());
+        a = accountRequestsDb.getAccountRequest("valid4@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequestAttributes =
-                accountRequestsDb.getAccountRequest(a.getEmail());
+                accountRequestsDb.getAccountRequest(a.getEmail(), a.getInstitute());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");
 
         AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsDb.getAccountRequest("not-found@test.com");
+                accountRequestsDb.getAccountRequest("not-found@test.com", "not found");
         assertNull(notFoundRequestAttributes);
 
         ______TS("failure null parameter");
 
         assertThrows(AssertionError.class,
-                () -> accountRequestsDb.getAccountRequest(null));
+                () -> accountRequestsDb.getAccountRequest(null, null));
     }
 
 }

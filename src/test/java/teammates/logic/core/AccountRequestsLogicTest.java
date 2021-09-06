@@ -4,6 +4,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountRequestAttributes;
+import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.FieldValidator;
 import teammates.test.AssertHelper;
@@ -31,31 +32,39 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("typical success case");
 
-        AccountRequestAttributes a = AccountRequestAttributes.builder("valid@test.com")
+        AccountRequestAttributes accountRequest = AccountRequestAttributes
+                .builder("valid@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
-                .withRegistrationKey("ValidRegistrationKey")
-                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
-        accountRequestsLogic.createOrUpdateAccountRequest(a);
-        verifyPresentInDatabase(a);
+        AccountRequestAttributes createdAccountRequest =
+                accountRequestsLogic.createOrUpdateAccountRequest(accountRequest);
+        verifyPresentInDatabase(createdAccountRequest);
+
+        assertEquals(accountRequest.getEmail(), createdAccountRequest.getEmail());
+        assertEquals(accountRequest.getName(), createdAccountRequest.getName());
+        assertEquals(accountRequest.getInstitute(), createdAccountRequest.getInstitute());
+        assertNotNull(createdAccountRequest.getRegistrationKey());
 
         ______TS("duplicate account, account request updated");
 
-        AccountRequestAttributes duplicateAccount = AccountRequestAttributes.builder("valid@test.com")
+        AccountRequestAttributes duplicateAccount = AccountRequestAttributes
+                .builder("valid@test.com", "TEAMMATES Test Institute 2")
                 .withName("Test account Name 2")
-                .withRegistrationKey("ValidRegistrationKey2")
-                .withInstitute("TEAMMATES Test Institute 2")
                 .build();
 
-        accountRequestsLogic.createOrUpdateAccountRequest(duplicateAccount);
-        assertEquals(getAccountRequest(duplicateAccount), duplicateAccount);
+        duplicateAccount = accountRequestsLogic.createOrUpdateAccountRequest(duplicateAccount);
+        verifyPresentInDatabase(duplicateAccount);
 
         ______TS("failure case: invalid parameter");
 
-        a.setEmail("invalid email");
+        AccountRequestAttributes invalidAccountRequest = AccountRequestAttributes
+                .builder("invalid email", "TEAMMATES Test Institute 1")
+                .withName("Test account Name")
+                .build();
+
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
-                () -> accountRequestsLogic.createOrUpdateAccountRequest(a));
+                () -> accountRequestsLogic.createOrUpdateAccountRequest(invalidAccountRequest));
         AssertHelper.assertContains(
                 getPopulatedErrorMessage(
                         FieldValidator.EMAIL_ERROR_MESSAGE, "invalid email",
@@ -71,32 +80,34 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testDeleteAccountRequest() throws Exception {
         AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
+        a = getAccountRequest(a);
 
         ______TS("silent deletion of non-existent account");
 
-        accountRequestsLogic.deleteAccountRequest("not_exist");
+        accountRequestsLogic.deleteAccountRequest("not_exist", "not_exist");
 
         ______TS("typical success case");
 
         verifyPresentInDatabase(a);
 
-        accountRequestsLogic.deleteAccountRequest(a.getEmail());
+        accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getInstitute());
 
         verifyAbsentInDatabase(a);
 
         ______TS("silent deletion of same account");
 
-        accountRequestsLogic.deleteAccountRequest(a.getEmail());
+        accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getInstitute());
 
         ______TS("failure null parameter");
 
         assertThrows(AssertionError.class,
-                () -> accountRequestsLogic.deleteAccountRequest(null));
+                () -> accountRequestsLogic.deleteAccountRequest(null, null));
     }
 
     @Test
-    public void testgetAccountRequestForRegistrationKey() throws Exception {
+    public void testGetAccountRequestForRegistrationKey() throws Exception {
         AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
+        a = getAccountRequest(a);
 
         ______TS("typical success case");
 
@@ -106,9 +117,8 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         ______TS("account request not found");
 
-        AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsLogic.getAccountRequestForRegistrationKey("not-found");
-        assertNull(notFoundRequestAttributes);
+        assertThrows(EntityDoesNotExistException.class,
+                () -> accountRequestsLogic.getAccountRequestForRegistrationKey("not-found"));
 
         ______TS("failure null parameter");
 
@@ -123,19 +133,19 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         ______TS("typical success case");
 
         AccountRequestAttributes accountRequestAttributes =
-                accountRequestsLogic.getAccountRequest(a.getEmail());
+                accountRequestsLogic.getAccountRequest(a.getEmail(), a.getInstitute());
         assertEquals(a, accountRequestAttributes);
 
         ______TS("account request not found");
 
         AccountRequestAttributes notFoundRequestAttributes =
-                accountRequestsLogic.getAccountRequest("not-found@test.com");
+                accountRequestsLogic.getAccountRequest("not-found@test.com", "not-found");
         assertNull(notFoundRequestAttributes);
 
         ______TS("failure null parameter");
 
         assertThrows(AssertionError.class,
-                () -> accountRequestsLogic.getAccountRequest(null));
+                () -> accountRequestsLogic.getAccountRequest(null, null));
     }
 
 }
