@@ -13,6 +13,8 @@ const actor = github.context.actor;
 
 export const ongoingLabel = "s.Ongoing";
 export const toReviewLabel = "s.ToReview";
+export const finalReviewLabel = "s.FinalReview";
+export const toMergeLabel = "s.ToMerge";
 
 //// variables to configure
 const usualTimeForChecksToRun = 10 * 60 * 1000; // min * sec * ms
@@ -35,25 +37,11 @@ export async function addOngoingLabel() {
     await addLabel(ongoingLabel);
 }
 
-export async function addToReviewLabel() {
-    await addLabel(toReviewLabel);
-}
-
-export async function dropOngoingLabelAndAddToReview() {
-    await removeLabel(ongoingLabel);
-    await addLabel(toReviewLabel);
-}
-
-export async function dropToReviewLabelAndAddOngoing() {
-    await removeLabel(toReviewLabel);
-    await addLabel(ongoingLabel);
-}
-
 export async function dropOngoingLabel() {
     await removeLabel(ongoingLabel);
 }
 
-async function addLabel(labelName: string) {
+export async function addLabel(labelName: string) {
     await octokit.rest.issues.addLabels({
         owner,
         repo,
@@ -64,7 +52,7 @@ async function addLabel(labelName: string) {
     .catch(err => log.info(err, "error adding label"));
 }
 
-async function removeLabel(labelName: string) {
+export async function removeLabel(labelName: string) {
     await octokit.rest.issues.removeLabel({
         owner,
         repo,
@@ -112,7 +100,7 @@ export async function postComment(message) {
     .catch(err => core.error(err))
 }
 
-//// check runs related functions
+//// functions related to checks that run on commits
 
 export async function validateChecksOnPrHead() {
     const sha = await getPRHeadShaForIssueNumber(issue_number);
@@ -196,4 +184,72 @@ async function getPRHeadShaForIssueNumber(pull_number) {
     core.info(`PR head sha obtained for pr #${pull_number}: ${sha}`)
 
     return sha;
+}
+
+
+////// repetitive api requests
+
+const sortByLastCreated = (a, b) => {
+    if (!a.created_at || !b.created_at) return 1; // move back if created_at property is missing
+    return Date.parse(b.created_at) - Date.parse(a.created_at)
+}
+
+/**
+ * returns an array of all the events on this issue, sorted in descending order of the created_at property 
+ * https://octokit.github.io/rest.js/v18#issues-list-events
+ */
+export async function getSortedListOfEventsOnIssue() {
+    return await octokit.rest.issues.listEvents({
+        owner,
+        repo,
+        issue_number,
+    })
+    .then(res => res.data.sort(sortByLastCreated))
+    .catch(err => {
+        throw err;
+    });
+}
+
+/**
+ * returns an array of events for the current issue, sorted in descending order of the created_at property 
+ * https://octokit.github.io/rest.js/v18#issues-list-events
+ */ 
+export async function getSortedListOfComments(sinceTimeStamp : string) {
+    return await octokit.rest.issues.listComments({
+        owner,
+        repo,
+        issue_number,
+        since: sinceTimeStamp
+    })
+    .then(res => res.data.sort(sortByLastCreated))
+    .catch(err => {
+        throw err;
+    });
+}
+
+/**
+ * Adds the last review label that was added to the pr, if any is found, else adds the toReviewLabel.
+ */
+export async function addAppropriateReviewLabel() {
+    const eventsArr = await getSortedListOfEventsOnIssue();
+
+    // if a previous review label was found, re-add that label
+    for (const e of eventsArr) {
+        if (e.event !== "labeled") continue;
+
+        if (e.label?.name == finalReviewLabel) {
+            await addLabel(finalReviewLabel);
+            core.info(`${finalReviewLabel} was the last found review label on this PR, so adding it back.`);
+            return;
+        }
+
+        if (e.label?.name == toReviewLabel) {
+            await addLabel(toReviewLabel);
+            core.info(`${finalReviewLabel} was the last found review label on this PR, so adding it back.`);
+            return;
+        }   
+    };
+
+    // if no previous review label was found, add toReviewLabel
+    await addLabel(toReviewLabel);
 }
