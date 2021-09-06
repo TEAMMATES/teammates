@@ -56,7 +56,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
 
         String[] params = new String[] { Const.ParamsNames.REGKEY, StringHelper.encrypt(regKey), };
         CreateAccountAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
         String courseId = generateNextDemoCourseId(email, FieldValidator.COURSE_ID_MAX_LENGTH);
 
@@ -77,7 +77,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         ______TS("Error: reg key not found");
 
         a = getAction(params);
-        r = getJsonResult(a, HttpStatus.SC_BAD_REQUEST);
+        getJsonResult(a, HttpStatus.SC_BAD_REQUEST);
 
         verifyNoTasksAdded();
     }

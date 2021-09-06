@@ -24,6 +24,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  */
 class CreateAccountAction extends Action {
 
+    private static final Logger log = Logger.getLogger();
+
     @Override
     AuthType getMinAuthLevel() {
         return AuthType.LOGGED_IN;
@@ -33,8 +35,6 @@ class CreateAccountAction extends Action {
     void checkSpecificAccessControl() {
         // Any user can create instructor account as long as the registration key is valid.
     }
-
-    private static final Logger log = Logger.getLogger();
 
     @Override
     public JsonResult execute() throws InvalidHttpRequestBodyException, InvalidOperationException {

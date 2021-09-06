@@ -44,7 +44,7 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals("institute cannot be null", ex.getMessage());
 
         ex = verifyHttpRequestBodyFailure(buildCreateRequest(name, institute, null));
-        
+
         assertEquals("email cannot be null", ex.getMessage());
 
         verifyNoTasksAdded();
@@ -87,8 +87,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         String invalidName = "James%20Bond99";
 
         req = buildCreateRequest(invalidName, institute, emailWithSpaces);
-
-        final CreateAccountRequestAction finalA = getAction(req);
 
         ex = verifyHttpRequestBodyFailure(req);
         assertEquals("\"" + invalidName + "\" is not acceptable to TEAMMATES as a/an person name because "
