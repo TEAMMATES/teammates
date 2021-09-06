@@ -69,7 +69,7 @@ export class AdminSearchPageComponent {
       this.hideAllStudentsLinks();
       if (this.instructors.length + this.students.length >= this.maxResultsToShow) {
         this.statusMessageService.showWarningToast(`${this.maxResultsToShow} results have been shown on this page
-            but there may be more results not shown. Consider searching with more specific termss.`);
+            but there may be more results not shown. Consider searching with more specific terms.`);
       }
     }, (resp: ErrorMessageOutput) => {
       this.instructors = [];
