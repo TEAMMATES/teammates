@@ -47,11 +47,6 @@ let routes: Routes = [
         loadChildren: () => import('./user-join-page.module').then((m: any) => m.UserJoinPageModule),
       },
       {
-        path: 'createaccount',
-        component: PublicPageComponent,
-        loadChildren: () => import('./user-create-account-page.module').then((m: any) => m.UserCreateAccountPageModule),
-      },
-      {
         path: 'sessions',
         component: PublicPageComponent,
         children: [

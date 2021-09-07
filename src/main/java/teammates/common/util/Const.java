@@ -109,6 +109,7 @@ public final class Const {
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
         public static final String INSTITUTION_MAC = "mac";
+        public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
 
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";
 
@@ -246,7 +247,6 @@ public final class Const {
         private static final String MAINTAINER_PAGE = URI_PREFIX + "/" + EntityType.MAINTAINER;
         private static final String FRONT_PAGE = URI_PREFIX + "/front";
         public static final String JOIN_PAGE = URI_PREFIX + "/join";
-        public static final String CREATE_ACCOUNT_PAGE = URI_PREFIX + "/createaccount";
 
         public static final String ADMIN_HOME_PAGE = ADMIN_PAGE + "/home";
         public static final String ADMIN_ACCOUNTS_PAGE = ADMIN_PAGE + "/accounts";

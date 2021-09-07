@@ -33,7 +33,8 @@ class CreateAccountRequestAction extends AdminOnlyAction {
             throw new InvalidHttpRequestBodyException(ipe);
         }
 
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount(String.valueOf(true))
                 .withRegistrationKey(accountRequestAttributes.getRegistrationKey())
                 .toAbsoluteString();
 

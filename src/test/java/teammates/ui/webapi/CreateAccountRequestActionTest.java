@@ -67,7 +67,8 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
         assertEquals(institute, accountRequestAttributes.getInstitute());
         assertNotNull(accountRequestAttributes.getRegistrationKey());
 
-        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.CREATE_ACCOUNT_PAGE)
+        String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+                .withIsCreatingAccount(String.valueOf(true))
                 .withRegistrationKey(accountRequestAttributes.getRegistrationKey())
                 .toAbsoluteString();
 
