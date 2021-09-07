@@ -41,7 +41,7 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   recycleBinFeedbackSessionRowModelsSortOrder: SortOrder = SortOrder.ASC;
 
   @Input()
-  isPermanentDeleteLoading: Boolean = false;
+  isPermanentDeleteLoading: boolean = false;
 
   @Output()
   restoreSessionEvent: EventEmitter<RecycleBinFeedbackSessionRowModel> = new EventEmitter();

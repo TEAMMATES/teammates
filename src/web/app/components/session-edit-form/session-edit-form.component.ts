@@ -89,7 +89,7 @@ export class SessionEditFormComponent implements OnInit {
   templateSessions: TemplateSession[] = [];
 
   @Input()
-  isCopyOtherSessionLoading: Boolean = false;
+  isCopyOtherSessionLoading: boolean = false;
 
   // event emission
   @Output()
