@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -291,7 +290,6 @@ public class EnrollStudentsActionTest extends BaseActionTest<EnrollStudentsActio
         };
         EnrollStudentsAction action = getAction(req, params);
         JsonResult result = action.execute();
-        assertEquals(result.getStatusCode(), HttpStatus.SC_OK);
 
         return ((EnrollStudentsData) result.getOutput()).getStudentsData().getStudents();
     }

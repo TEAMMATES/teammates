@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -38,9 +37,7 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         };
 
         DeleteStudentAction deleteStudentAction = getAction(submissionParams);
-        JsonResult result = getJsonResult(deleteStudentAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(deleteStudentAction);
 
         ______TS("success: delete a student by id");
         submissionParams = new String[] {
@@ -49,31 +46,25 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
         };
 
         deleteStudentAction = getAction(submissionParams);
-        result = getJsonResult(deleteStudentAction);
+        getJsonResult(deleteStudentAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        ______TS("failure: course does not exist");
+        ______TS("silent failure: course does not exist");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, "RANDOM_COURSE",
                 Const.ParamsNames.STUDENT_ID, student2InCourse1.getGoogleId(),
         };
 
         deleteStudentAction = getAction(submissionParams);
-        result = getJsonResult(deleteStudentAction);
+        getJsonResult(deleteStudentAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
-        ______TS("failure: student does not exist");
+        ______TS("silent failure: student does not exist");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_ID, "RANDOM_STUDENT",
         };
 
         deleteStudentAction = getAction(submissionParams);
-        result = getJsonResult(deleteStudentAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
+        getJsonResult(deleteStudentAction);
 
         ______TS("failure: incomplete params given");
 
@@ -97,16 +88,14 @@ public class DeleteStudentActionTest extends BaseActionTest<DeleteStudentAction>
 
         verifyHttpParameterFailure(submissionParams);
 
-        ______TS("failure: random email given - fails silently");
+        ______TS("silent failure: random email given");
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, instructor1OfCourse1.getCourseId(),
                 Const.ParamsNames.STUDENT_EMAIL, "RANDOM_EMAIL",
         };
 
         deleteStudentAction = getAction(submissionParams);
-        result = getJsonResult(deleteStudentAction);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
+        getJsonResult(deleteStudentAction);
     }
 
     @Override

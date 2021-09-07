@@ -41,6 +41,7 @@ class RegenerateStudentCourseLinksAction extends AdminOnlyAction {
         } catch (EntityDoesNotExistException ex) {
             throw new EntityNotFoundException(ex);
         } catch (EntityAlreadyExistsException ex) {
+            // No logging here as severe logging is done at the origin of the error
             return new JsonResult(UNSUCCESSFUL_REGENERATION, HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
 

@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -80,7 +79,6 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         ResetAccountAction a = getAction(paramsInstructor);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         MessageOutput response = (MessageOutput) r.getOutput();
 
         InstructorAttributes instructor = logic.getInstructorForEmail(instructor1OfCourse1.getCourseId(),
@@ -101,7 +99,6 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         a = getAction(paramsStudent);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         response = (MessageOutput) r.getOutput();
 
         assertEquals(response.getMessage(), "Account is successfully reset.");
@@ -115,7 +112,6 @@ public class ResetAccountActionTest extends BaseActionTest<ResetAccountAction> {
         a = getAction(paramsStudent);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         response = (MessageOutput) r.getOutput();
 
         assertEquals(response.getMessage(), "Account is successfully reset.");

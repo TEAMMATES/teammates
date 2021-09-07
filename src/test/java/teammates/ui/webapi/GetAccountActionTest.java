@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -51,7 +50,6 @@ public class GetAccountActionTest extends BaseActionTest<GetAccountAction> {
         GetAccountAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         AccountData response = (AccountData) r.getOutput();
 
         assertEquals(response.getGoogleId(), instructor1OfCourse1.getGoogleId());

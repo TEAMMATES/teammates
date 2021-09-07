@@ -5,6 +5,7 @@ import org.apache.http.HttpStatus;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.output.CourseArchiveData;
 import teammates.ui.request.CourseArchiveRequest;
 import teammates.ui.request.InvalidHttpRequestBodyException;
@@ -13,6 +14,8 @@ import teammates.ui.request.InvalidHttpRequestBodyException;
  * Changes the archive status of a course.
  */
 class ArchiveCourseAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -38,6 +41,7 @@ class ArchiveCourseAction extends Action {
             logic.setArchiveStatusOfInstructor(userInfo.id, idOfCourseToArchive, isArchive);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
+            log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         } catch (EntityDoesNotExistException e) {
             throw new EntityNotFoundException(e);
