@@ -1,17 +1,13 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.InvalidHttpRequestBodyException;
-import teammates.common.exception.InvalidOperationException;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.ui.output.InstructorData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.InstructorCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link UpdateInstructorAction}.
@@ -54,7 +50,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         UpdateInstructorAction updateInstructorAction = getAction(reqBody, submissionParams);
         JsonResult actionOutput = getJsonResult(updateInstructorAction);
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         InstructorData response = (InstructorData) actionOutput.getOutput();
 
@@ -77,14 +72,9 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
                 invalidEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
 
-        updateInstructorAction = getAction(reqBody, submissionParams);
-        actionOutput = getJsonResult(updateInstructorAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
-
-        MessageOutput msg = (MessageOutput) actionOutput.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(reqBody, submissionParams);
         String expectedErrorMessage = FieldValidator.getInvalidityInfoForEmail(invalidEmail);
-        assertEquals(expectedErrorMessage, msg.getMessage());
+        assertEquals(expectedErrorMessage, ihrbe.getMessage());
 
         verifyNoTasksAdded();
 
@@ -113,8 +103,6 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
         updateInstructorAction = getAction(reqBody, submissionParams);
         actionOutput = getJsonResult(updateInstructorAction);
 
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
-
         response = (InstructorData) actionOutput.getOutput();
 
         editedInstructor = logic.getInstructorForGoogleId(courseId, instructorId);
@@ -130,41 +118,32 @@ public class UpdateInstructorActionTest extends BaseActionTest<UpdateInstructorA
 
         ______TS("Unsuccessful case: test null course id parameter");
 
-        final String[] emptySubmissionParams = new String[0];
-        final InstructorCreateRequest newReqBody = new InstructorCreateRequest(instructorId, newInstructorName,
+        String[] emptySubmissionParams = new String[0];
+        InstructorCreateRequest newReqBody = new InstructorCreateRequest(instructorId, newInstructorName,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
 
-        assertThrows(NullHttpParameterException.class, () -> {
-            UpdateInstructorAction illegalAction = getAction(newReqBody, emptySubmissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpParameterFailure(newReqBody, emptySubmissionParams);
 
         verifyNoTasksAdded();
 
         ______TS("Unsuccessful case: test null instructor name parameter");
 
-        final InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
+        InstructorCreateRequest nullNameReq = new InstructorCreateRequest(instructorId, null,
                 newInstructorEmail, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorAction illegalAction = getAction(nullNameReq, submissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpRequestBodyFailure(nullNameReq, submissionParams);
 
         verifyNoTasksAdded();
 
         ______TS("Unsuccessful case: test null instructor email parameter");
 
-        final InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
+        InstructorCreateRequest nullEmailReq = new InstructorCreateRequest(instructorId, newInstructorName,
                 null, Const.InstructorPermissionRoleNames.INSTRUCTOR_PERMISSION_ROLE_COOWNER,
                 instructorDisplayName, true);
 
-        assertThrows(InvalidHttpRequestBodyException.class, () -> {
-            UpdateInstructorAction illegalAction = getAction(nullEmailReq, submissionParams);
-            getJsonResult(illegalAction);
-        });
+        verifyHttpRequestBodyFailure(nullEmailReq, submissionParams);
 
         verifyNoTasksAdded();
     }

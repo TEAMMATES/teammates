@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -9,7 +8,6 @@ import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.FeedbackQuestionRecipientsData;
 import teammates.ui.request.Intent;
 
@@ -218,7 +216,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 logic.getStudentForEmail(student3InCourse1.getCourse(), student3InCourse1.getEmail());
         String[] unregisteredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        StringHelper.encrypt(unregisteredStudent.getKey()), "", "");
+                        unregisteredStudent.getEncryptedKey(), "", "");
         verifyAccessibleWithoutLogin(unregisteredStudentSubmissionParams);
 
         ______TS("Access with correct but used regKey, should not be accessible by anyone");
@@ -226,7 +224,7 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
                 logic.getStudentForEmail(student1InCourse1.getCourse(), student1InCourse1.getEmail());
         String[] registeredStudentSubmissionParams =
                 generateParameters(firstSessionInCourse1, 2, Intent.STUDENT_SUBMISSION,
-                        StringHelper.encrypt(registeredStudent.getKey()), "", "");
+                        registeredStudent.getEncryptedKey(), "", "");
         verifyCannotAccess(registeredStudentSubmissionParams);
 
         logoutUser();
@@ -331,7 +329,6 @@ public class GetFeedbackQuestionRecipientsActionTest extends BaseActionTest<GetF
     private FeedbackQuestionRecipientsData getRecipients(String[] params) {
         GetFeedbackQuestionRecipientsAction action = getAction(params);
         JsonResult result = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         return (FeedbackQuestionRecipientsData) result.getOutput();
     }
 

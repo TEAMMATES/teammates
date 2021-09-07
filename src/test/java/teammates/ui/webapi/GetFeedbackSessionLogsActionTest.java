@@ -3,7 +3,6 @@ package teammates.ui.webapi;
 import java.time.Instant;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -78,8 +77,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid1));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid1);
 
         ______TS("Failure case: invalid student email");
         String[] paramsInvalid2 = {
@@ -88,8 +86,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid2));
-        assertEquals(HttpStatus.SC_NOT_FOUND, actionOutput.getStatusCode());
+        verifyEntityNotFound(paramsInvalid2);
 
         ______TS("Failure case: invalid start or end times");
         String[] paramsInvalid3 = {
@@ -97,16 +94,14 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, "abc",
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid3));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid3);
 
         String[] paramsInvalid4 = {
                 Const.ParamsNames.COURSE_ID, courseId,
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, " ",
         };
-        actionOutput = getJsonResult(getAction(paramsInvalid4));
-        assertEquals(HttpStatus.SC_BAD_REQUEST, actionOutput.getStatusCode());
+        verifyHttpParameterFailure(paramsInvalid4);
 
         ______TS("Failure case: start time is before earliest search time");
         verifyHttpParameterFailure(
@@ -122,7 +117,6 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
         actionOutput = getJsonResult(getAction(paramsSuccessful1));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         // The filtering by the logs processor cannot be tested directly, assume that it filters correctly
         // Here, it simply returns all log entries
@@ -160,8 +154,7 @@ public class GetFeedbackSessionLogsActionTest extends BaseActionTest<GetFeedback
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_STARTTIME, String.valueOf(startTime),
                 Const.ParamsNames.FEEDBACK_SESSION_LOG_ENDTIME, String.valueOf(endTime),
         };
-        actionOutput = getJsonResult(getAction(paramsSuccessful2));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
+        getJsonResult(getAction(paramsSuccessful2));
         // No need to check output again here, it will be exactly the same as the previous case
 
         // TODO: if we restrict the range from start to end time, it should be tested here as well

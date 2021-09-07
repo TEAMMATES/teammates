@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { StatusMessageService } from '../../../services/status-message.service';
 import { TimezoneService } from '../../../services/timezone.service';
@@ -32,6 +32,8 @@ export class CopyCourseModalComponent implements OnInit {
 
   @Input()
   allCourses: Course[] = [];
+
+  fetchFeedbackSessionsEvent: EventEmitter<string> = new EventEmitter<string>();
 
   isCopyFromOtherSession: boolean = false;
   newCourseIdIsConflicting: boolean = false;
@@ -100,8 +102,8 @@ export class CopyCourseModalComponent implements OnInit {
    * Select all sessions or clear all sessions
    */
   toggleSelectionForAll(): void {
-    this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId].length
-      ? this.clearSelectedFeedbackSession()
+    this.selectedFeedbackSessions.size === this.courseToFeedbackSession[this.oldCourseId]?.length
+      ? this.selectedFeedbackSessions.clear()
       : this.selectedFeedbackSessions = new Set(this.courseToFeedbackSession[this.oldCourseId]);
   }
 
@@ -113,10 +115,14 @@ export class CopyCourseModalComponent implements OnInit {
   }
 
   /**
-   * Clears all selected feedback sessions.
+   * Clears all selected feedback sessions of previously chosen course.
    */
-  clearSelectedFeedbackSession(): void {
+  onSelectCourseChange(): void {
     this.selectedFeedbackSessions.clear();
+
+    if (!this.courseToFeedbackSession[this.oldCourseId]) {
+      this.fetchFeedbackSessionsEvent.emit(this.oldCourseId);
+    }
   }
 }
 

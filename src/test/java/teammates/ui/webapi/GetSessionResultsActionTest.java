@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -11,7 +10,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.SessionResultsData;
 import teammates.ui.request.Intent;
 
@@ -42,21 +40,19 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         String[] submissionParams = new String[] {
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, accessibleFeedbackSession.getFeedbackSessionName(),
                 Const.ParamsNames.COURSE_ID, accessibleFeedbackSession.getCourseId(),
-                Const.ParamsNames.INTENT, Intent.INSTRUCTOR_RESULT.name(),
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.name(),
         };
 
         GetSessionResultsAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         SessionResultsData output = (SessionResultsData) r.getOutput();
 
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
-                logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
+                logic.getSessionResultsForCourse(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         instructorAttributes.getEmail(),
-                        true, null, null));
+                        null, null));
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
 
@@ -74,14 +70,12 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         a = getAction(submissionParams);
         r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
                 logic.getSessionResultsForUser(accessibleFeedbackSession.getFeedbackSessionName(),
                         accessibleFeedbackSession.getCourseId(),
                         studentAttributes.getEmail(),
-                        false, null, null),
+                        false, null),
                 studentAttributes);
 
         assertTrue(isSessionResultsDataEqual(expectedResults, output));
@@ -196,7 +190,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, StringHelper.encrypt(student1.getKey()),
+                Const.ParamsNames.REGKEY, student1.getEncryptedKey(),
         };
 
         logic.publishFeedbackSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
@@ -284,7 +278,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         // Malicious api call using course Id of the student to bypass the check
         submissionParams[1] = typicalCourse1.getId();
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

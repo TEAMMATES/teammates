@@ -495,17 +495,15 @@ public final class FeedbackQuestionsLogic {
     /**
      * Builds a complete giver to recipient map for a {@code relatedQuestion}.
      *
-     * @param feedbackSession The feedback session that contains the question
      * @param relatedQuestion The question to be considered
      * @param courseRoster the roster in the course
      * @return a map from giver to recipient for the question.
      */
     public Map<String, Set<String>> buildCompleteGiverRecipientMap(
-            FeedbackSessionAttributes feedbackSession, FeedbackQuestionAttributes relatedQuestion,
-            CourseRoster courseRoster) {
+            FeedbackQuestionAttributes relatedQuestion, CourseRoster courseRoster) {
         Map<String, Set<String>> completeGiverRecipientMap = new HashMap<>();
 
-        List<String> possibleGivers = getPossibleGivers(feedbackSession, relatedQuestion, courseRoster);
+        List<String> possibleGivers = getPossibleGivers(relatedQuestion, courseRoster);
         for (String possibleGiver : possibleGivers) {
             switch (relatedQuestion.getGiverType()) {
             case STUDENTS:
@@ -548,7 +546,6 @@ public final class FeedbackQuestionsLogic {
      * @return a list of giver identifier
      */
     private List<String> getPossibleGivers(
-            FeedbackSessionAttributes feedbackSession,
             FeedbackQuestionAttributes fqa, CourseRoster courseRoster) {
         FeedbackParticipantType giverType = fqa.getGiverType();
         List<String> possibleGivers = new ArrayList<>();
@@ -570,6 +567,8 @@ public final class FeedbackQuestionsLogic {
             possibleGivers = new ArrayList<>(courseRoster.getTeamToMembersTable().keySet());
             break;
         case SELF:
+            FeedbackSessionAttributes feedbackSession =
+                    fsLogic.getFeedbackSession(fqa.getFeedbackSessionName(), fqa.getCourseId());
             possibleGivers = Collections.singletonList(feedbackSession.getCreatorEmail());
             break;
         default:

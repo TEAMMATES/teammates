@@ -6,9 +6,7 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.AccountAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
 import teammates.ui.output.StudentData;
@@ -96,7 +94,7 @@ class SearchStudentsAction extends Action {
 
             if (userInfo.isAdmin && entity.equals(Const.EntityType.ADMIN)) {
                 studentData.addAdditionalInformationForAdminSearch(
-                        StringHelper.encrypt(s.getKey()),
+                        s.getEncryptedKey(),
                         getInstituteFromCourseId(s.getCourse()),
                         s.getGoogleId()
                 );

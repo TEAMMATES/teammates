@@ -130,9 +130,9 @@ public final class AccountsLogic {
      * Joins the user as an instructor and sets the institute if it is not null.
      * If the given institute is null, the instructor is given the institute of an existing instructor of the same course.
      */
-    public InstructorAttributes joinCourseForInstructor(String encryptedKey, String googleId, String institute, String mac)
+    public InstructorAttributes joinCourseForInstructor(String key, String googleId, String institute)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
-        InstructorAttributes instructor = validateInstructorJoinRequest(encryptedKey, googleId, institute, mac);
+        InstructorAttributes instructor = validateInstructorJoinRequest(key, googleId);
 
         // Register the instructor
         instructor.setGoogleId(googleId);
@@ -192,20 +192,12 @@ public final class AccountsLogic {
         return instructor;
     }
 
-    private InstructorAttributes validateInstructorJoinRequest(String encryptedKey,
-                                                               String googleId,
-                                                               String institute,
-                                                               String mac)
-            throws EntityDoesNotExistException, EntityAlreadyExistsException, InvalidParametersException {
-
-        if (institute != null && !StringHelper.isCorrectSignature(institute, mac)) {
-            throw new InvalidParametersException("Institute authentication failed.");
-        }
-
-        InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(encryptedKey);
+    private InstructorAttributes validateInstructorJoinRequest(String registrationKey, String googleId)
+            throws EntityDoesNotExistException, EntityAlreadyExistsException {
+        InstructorAttributes instructorForKey = instructorsLogic.getInstructorForRegistrationKey(registrationKey);
 
         if (instructorForKey == null) {
-            throw new EntityDoesNotExistException("No instructor with given registration key: " + encryptedKey);
+            throw new EntityDoesNotExistException("No instructor with given registration key: " + registrationKey);
         }
 
         if (instructorForKey.isRegistered()) {
@@ -230,13 +222,13 @@ public final class AccountsLogic {
         return instructorForKey;
     }
 
-    private StudentAttributes validateStudentJoinRequest(String encryptedKey, String googleId)
+    private StudentAttributes validateStudentJoinRequest(String registrationKey, String googleId)
             throws EntityDoesNotExistException, EntityAlreadyExistsException {
 
-        StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(encryptedKey);
+        StudentAttributes studentRole = studentsLogic.getStudentForRegistrationKey(registrationKey);
 
         if (studentRole == null) {
-            throw new EntityDoesNotExistException("No student with given registration key: " + encryptedKey);
+            throw new EntityDoesNotExistException("No student with given registration key: " + registrationKey);
         }
 
         if (studentRole.isRegistered()) {

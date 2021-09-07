@@ -6,12 +6,7 @@ import java.util.stream.Collectors;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
-import teammates.common.util.StringHelper;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorsData;
 import teammates.ui.request.Intent;
@@ -35,7 +30,7 @@ class GetInstructorsAction extends Action {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
-            throw new EntityNotFoundException(new EntityDoesNotExistException("course not found"));
+            throw new EntityNotFoundException("course not found");
         }
 
         String intentStr = getRequestParamValue(Const.ParamsNames.INTENT);
@@ -87,7 +82,7 @@ class GetInstructorsAction extends Action {
                     InstructorData instructorData = new InstructorData(instructor);
                     instructorData.setGoogleId(instructor.getGoogleId());
                     if (userInfo.isAdmin) {
-                        instructorData.setKey(StringHelper.encrypt(instructor.getKey()));
+                        instructorData.setKey(instructor.getEncryptedKey());
                     }
                     data.getInstructors().add(instructorData);
                 }

@@ -5,12 +5,11 @@ import java.util.List;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.questions.FeedbackQuestionDetails;
-import teammates.common.exception.InvalidHttpRequestBodyException;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackQuestionData;
 import teammates.ui.request.FeedbackQuestionCreateRequest;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * Create a feedback question.
@@ -34,7 +33,7 @@ class CreateFeedbackQuestionAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String courseId = getNonNullRequestParamValue(Const.ParamsNames.COURSE_ID);
         String feedbackSessionName = getNonNullRequestParamValue(Const.ParamsNames.FEEDBACK_SESSION_NAME);
 
@@ -68,7 +67,7 @@ class CreateFeedbackQuestionAction extends Action {
         try {
             attributes = logic.createFeedbackQuestion(attributes);
         } catch (InvalidParametersException e) {
-            throw new InvalidHttpRequestBodyException(e.getMessage(), e);
+            throw new InvalidHttpRequestBodyException(e);
         }
 
         return new JsonResult(new FeedbackQuestionData(attributes));
