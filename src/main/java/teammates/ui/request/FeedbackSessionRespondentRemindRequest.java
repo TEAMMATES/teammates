@@ -15,7 +15,7 @@ public class FeedbackSessionRespondentRemindRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
 
         assertTrue(usersToRemind != null, "List of users to remind cannot be null");
         assertTrue(usersToRemind.length != 0, "List of users to remind cannot be empty");

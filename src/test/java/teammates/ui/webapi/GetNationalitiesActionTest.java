@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -31,7 +30,6 @@ public class GetNationalitiesActionTest extends BaseActionTest<GetNationalitiesA
 
         NationalitiesData output = (NationalitiesData) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(NationalityHelper.getNationalities().toString(), output.getNationalities().toString());
     }
 

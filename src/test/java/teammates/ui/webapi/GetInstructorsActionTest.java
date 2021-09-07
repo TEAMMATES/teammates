@@ -2,13 +2,10 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.InstructorData;
 import teammates.ui.output.InstructorPermissionRole;
@@ -42,15 +39,12 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         verifyHttpParameterFailure();
 
         ______TS("unknown intent");
-        assertThrows(InvalidHttpParameterException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                    Const.ParamsNames.INTENT, "Unknown",
-            };
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, "Unknown",
+        };
 
-            GetInstructorsAction action = getAction(submissionParams);
-            getJsonResult(action);
-        });
+        verifyHttpParameterFailure(submissionParams);
     }
 
     @Test
@@ -64,7 +58,6 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         };
         GetInstructorsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         InstructorsData output = (InstructorsData) jsonResult.getOutput();
         List<InstructorData> instructors = output.getInstructors();
@@ -96,7 +89,6 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
         GetInstructorsAction action = getAction(submissionParams);
         JsonResult jsonResult = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, jsonResult.getStatusCode());
 
         InstructorsData output = (InstructorsData) jsonResult.getOutput();
         List<InstructorData> instructors = output.getInstructors();
@@ -122,24 +114,18 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
         ______TS("course not exist");
         InstructorAttributes instructor = typicalBundle.instructors.get("instructor1OfCourse1");
         loginAsInstructor(instructor.getGoogleId());
-        assertThrows(EntityNotFoundException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, "randomId",
-                    Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
-            };
-            GetInstructorsAction action = getAction(submissionParams);
-            action.checkAccessControl();
-        });
+        String[] submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "randomId",
+                Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
+        };
+        verifyEntityNotFoundAcl(submissionParams);
 
         StudentAttributes studentAttributes = typicalBundle.students.get("student1InCourse1");
         loginAsStudent(studentAttributes.getGoogleId());
-        assertThrows(EntityNotFoundException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, "randomId",
-            };
-            GetInstructorsAction action = getAction(submissionParams);
-            action.checkAccessControl();
-        });
+        submissionParams = new String[] {
+                Const.ParamsNames.COURSE_ID, "randomId",
+        };
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("unknown login entity");
         loginAsUnregistered("unregistered");
@@ -156,15 +142,11 @@ public class GetInstructorsActionTest extends BaseActionTest<GetInstructorsActio
 
         ______TS("unknown intent");
         loginAsInstructor(instructor.getGoogleId());
-        assertThrows(InvalidHttpParameterException.class, () -> {
-            String[] submissionParams = new String[] {
-                    Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
-                    Const.ParamsNames.INTENT, "Unknown",
-            };
-
-            GetInstructorsAction action = getAction(submissionParams);
-            action.checkAccessControl();
-        });
+        params = new String[] {
+                Const.ParamsNames.COURSE_ID, instructor.getCourseId(),
+                Const.ParamsNames.INTENT, "Unknown",
+        };
+        verifyHttpParameterFailureAcl(params);
     }
 
     @Test

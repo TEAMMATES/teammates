@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
@@ -58,7 +57,6 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         GetFeedbackSessionAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
         assertEquals(feedbackSessionAttributes.getCourseId(), response.getCourseId());
         assertEquals(feedbackSessionAttributes.getFeedbackSessionName(), response.getFeedbackSessionName());
@@ -102,7 +100,7 @@ public class GetFeedbackSessionActionTest extends BaseActionTest<GetFeedbackSess
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFoundAcl(submissionParams);
 
         ______TS("only instructors of the same course can access full detail");
 

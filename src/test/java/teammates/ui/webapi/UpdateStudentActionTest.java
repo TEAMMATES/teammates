@@ -2,18 +2,17 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.StringHelperExtension;
 import teammates.ui.output.MessageOutput;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentUpdateRequest;
 
 /**
@@ -73,7 +72,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction updateAction = getAction(updateRequest, submissionParams);
         JsonResult actionOutput = getJsonResult(updateAction);
 
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
         MessageOutput msgOutput = (MessageOutput) actionOutput.getOutput();
         assertEquals("Student has been updated and email sent", msgOutput.getMessage());
         verifyNumberOfEmailsSent(1);
@@ -101,7 +99,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
         UpdateStudentAction actionToBeTrimmed = getAction(updateRequest, submissionParamsToBeTrimmed);
         JsonResult outputToBeTrimmed = getJsonResult(actionToBeTrimmed);
 
-        assertEquals(HttpStatus.SC_OK, outputToBeTrimmed.getStatusCode());
         MessageOutput msgTrimmedOutput = (MessageOutput) outputToBeTrimmed.getOutput();
         assertEquals("Student has been updated", msgTrimmedOutput.getMessage());
         verifyNoEmailsSent();
@@ -120,16 +117,12 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, newStudentEmail,
         };
 
-        UpdateStudentAction invalidEmailAction = getAction(updateRequest, submissionParams);
-        JsonResult invalidEmailOutput = getJsonResult(invalidEmailAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, invalidEmailOutput.getStatusCode());
-        MessageOutput invalidParamsOutput = (MessageOutput) invalidEmailOutput.getOutput();
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(updateRequest, submissionParams);
 
         assertEquals(getPopulatedErrorMessage(FieldValidator.EMAIL_ERROR_MESSAGE, invalidStudentEmail,
                 FieldValidator.EMAIL_FIELD_NAME, FieldValidator.REASON_TOO_LONG,
                 FieldValidator.EMAIL_MAX_LENGTH),
-                invalidParamsOutput.getMessage());
+                ihrbe.getMessage());
 
         verifyNoTasksAdded();
 
@@ -166,13 +159,8 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 Const.ParamsNames.STUDENT_EMAIL, nonExistentEmailForStudent,
         };
 
-        UpdateStudentAction nonExistentStudentAction = getAction(updateRequest, submissionParams);
-        JsonResult nonExistentStudentOuput = getJsonResult(nonExistentStudentAction);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, nonExistentStudentOuput.getStatusCode());
-        invalidParamsOutput = (MessageOutput) nonExistentStudentOuput.getOutput();
-
-        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, invalidParamsOutput.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(updateRequest, submissionParams);
+        assertEquals(UpdateStudentAction.STUDENT_NOT_FOUND_FOR_EDIT, enfe.getMessage());
 
         verifyNoTasksAdded();
     }
@@ -272,7 +260,6 @@ public class UpdateStudentActionTest extends BaseActionTest<UpdateStudentAction>
                 getAction(emptySectionUpdateRequest, emptySectionSubmissionParams);
         JsonResult emptySectionActionOutput = getJsonResult(updateEmptySectionAction);
 
-        assertEquals(HttpStatus.SC_OK, emptySectionActionOutput.getStatusCode());
         MessageOutput emptySectionMsgOutput = (MessageOutput) emptySectionActionOutput.getOutput();
         assertEquals("Student has been updated", emptySectionMsgOutput.getMessage());
         verifyNoEmailsSent();

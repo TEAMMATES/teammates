@@ -1,6 +1,7 @@
 package teammates.main;
 
 import java.io.File;
+import java.time.zone.ZoneRulesProvider;
 
 import org.eclipse.jetty.annotations.AnnotationConfiguration;
 import org.eclipse.jetty.server.Server;
@@ -43,7 +44,7 @@ public final class Application {
         webapp.setWar(warPath);
         ClassList classlist = ClassList.setServerDefault(server);
 
-        if (Config.isDevServer()) {
+        if (Config.isDevServerLoginEnabled()) {
             // For dev server, we dynamically add servlet to serve the dev server login page.
 
             ServletHolder devServerLoginServlet =
@@ -66,7 +67,7 @@ public final class Application {
 
             @Override
             public void lifeCycleStarted(LifeCycle event) {
-                // do nothing
+                log.info("Using zone rules version " + ZoneRulesProvider.getVersions("UTC").firstKey());
             }
 
             @Override

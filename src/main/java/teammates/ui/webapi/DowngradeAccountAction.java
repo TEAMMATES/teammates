@@ -1,9 +1,6 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
 import teammates.common.util.Const;
 
 /**
@@ -21,7 +18,7 @@ class DowngradeAccountAction extends AdminOnlyAction {
             throw new EntityNotFoundException(e);
         }
 
-        return new JsonResult("Instructor account is successfully downgraded to student.", HttpStatus.SC_OK);
+        return new JsonResult("Instructor account is successfully downgraded to student.");
     }
 
 }

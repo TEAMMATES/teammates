@@ -6,9 +6,6 @@ import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
-import teammates.common.exception.InvalidOperationException;
-import teammates.common.exception.UnauthorizedAccessException;
 
 /**
  * Basic action class for feedback response comment related operation.
@@ -29,7 +26,7 @@ abstract class BasicCommentSubmissionAction extends BasicFeedbackSubmissionActio
     /**
      * Validates comment doesn't exist of corresponding response.
      */
-    void verifyCommentNotExist(String feedbackResponseId) {
+    void verifyCommentNotExist(String feedbackResponseId) throws InvalidOperationException {
         FeedbackResponseCommentAttributes comment =
                 logic.getFeedbackResponseCommentForResponseFromParticipant(feedbackResponseId);
 
