@@ -76,7 +76,13 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public AccountRequest toEntity() {
-        return new AccountRequest(getEmail(), getName(), getInstitute());
+        AccountRequest accountRequest = new AccountRequest(getEmail(), getName(), getInstitute());
+
+        if (this.getRegistrationKey() != null) {
+            accountRequest.setRegistrationKey(getRegistrationKey());
+        }
+
+        return accountRequest;
     }
 
     @Override

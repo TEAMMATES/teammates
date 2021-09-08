@@ -64,10 +64,10 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         AccountRequestAttributes a = AccountRequestAttributes
                 .builder("valid2@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
+                .withRegistrationKey("123456")
                 .build();
 
         accountRequestsDb.saveEntity(a.toEntity());
-        a = accountRequestsDb.getAccountRequest("valid2@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("silent deletion of non-existent account");
 
@@ -93,10 +93,10 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     public void testGetAccountRequestForRegistrationKey() throws Exception {
         AccountRequestAttributes a = AccountRequestAttributes.builder("valid3@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
+                .withRegistrationKey("123456")
                 .build();
 
         accountRequestsDb.saveEntity(a.toEntity());
-        a = accountRequestsDb.getAccountRequest("valid3@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("typical success case");
 
@@ -120,10 +120,10 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
     public void testGetAccountRequest() throws Exception {
         AccountRequestAttributes a = AccountRequestAttributes.builder("valid4@test.com", "TEAMMATES Test Institute 1")
                 .withName("Test account Name")
+                .withRegistrationKey("123456")
                 .build();
 
         accountRequestsDb.saveEntity(a.toEntity());
-        a = accountRequestsDb.getAccountRequest("valid4@test.com", "TEAMMATES Test Institute 1");
 
         ______TS("typical success case");
 

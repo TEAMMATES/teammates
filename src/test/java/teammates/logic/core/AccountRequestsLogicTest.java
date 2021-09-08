@@ -80,7 +80,6 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testDeleteAccountRequest() throws Exception {
         AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
-        a = getAccountRequest(a);
 
         ______TS("silent deletion of non-existent account");
 
@@ -107,7 +106,6 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     @Test
     public void testGetAccountRequestForRegistrationKey() throws Exception {
         AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
-        a = getAccountRequest(a);
 
         ______TS("typical success case");
 
