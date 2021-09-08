@@ -1,12 +1,10 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.request.StudentProfileUpdateRequest;
 
 /**
@@ -31,7 +29,7 @@ class UpdateStudentProfileAction extends Action {
     }
 
     @Override
-    public JsonResult execute() {
+    public JsonResult execute() throws InvalidHttpRequestBodyException {
         String studentId = getNonNullRequestParamValue(Const.ParamsNames.STUDENT_ID);
         StudentProfileUpdateRequest updateRequest = getAndValidateRequestBody(StudentProfileUpdateRequest.class);
 
@@ -46,9 +44,9 @@ class UpdateStudentProfileAction extends Action {
                             .withInstitute(studentProfile.getInstitute())
                             .withMoreInfo(studentProfile.getMoreInfo())
                             .build());
-            return new JsonResult("Your profile has been edited successfully", HttpStatus.SC_ACCEPTED);
+            return new JsonResult("Your profile has been edited successfully");
         } catch (InvalidParametersException ipe) {
-            return new JsonResult(ipe.getMessage(), HttpStatus.SC_BAD_REQUEST);
+            throw new InvalidHttpRequestBodyException(ipe);
         }
     }
 

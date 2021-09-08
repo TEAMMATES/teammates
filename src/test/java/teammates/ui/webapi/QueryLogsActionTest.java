@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.logs.EmailSentLogDetails;
@@ -18,7 +17,6 @@ import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.RequestLogDetails;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
@@ -162,7 +160,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid1)));
+        verifyHttpParameterFailure(paramsInvalid1);
 
         ______TS("Failure case: invalid search start time");
         String[] paramsInvalid2 = {
@@ -170,7 +168,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, "abc",
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForFailCases),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid2)));
+        verifyHttpParameterFailure(paramsInvalid2);
 
         ______TS("Failure case: invalid search end time");
         String[] paramsInvalid3 = {
@@ -178,7 +176,7 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_STARTTIME, String.valueOf(startTimeForFailCases),
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, " ",
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getJsonResult(getAction(paramsInvalid3)));
+        verifyHttpParameterFailure(paramsInvalid3);
 
         ______TS("Success case: all HTTP parameters are valid; filter by minimum severity level");
         String[] paramsMinSeverity = {
@@ -187,7 +185,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
         actionOutput = getJsonResult(getAction(paramsMinSeverity));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         GeneralLogsData generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         List<GeneralLogEntry> logEntries = generalLogsData.getLogEntries();
@@ -240,7 +237,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
         actionOutput = getJsonResult(getAction(paramsForAdmin));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         logEntries = generalLogsData.getLogEntries();
@@ -270,7 +266,6 @@ public class QueryLogsActionTest extends BaseActionTest<QueryLogsAction> {
                 Const.ParamsNames.QUERY_LOGS_ENDTIME, String.valueOf(endTimeForSuccessCases),
         };
         actionOutput = getJsonResult(getAction(paramsForMaintainer));
-        assertEquals(HttpStatus.SC_OK, actionOutput.getStatusCode());
 
         generalLogsData = (GeneralLogsData) actionOutput.getOutput();
         logEntries = generalLogsData.getLogEntries();
