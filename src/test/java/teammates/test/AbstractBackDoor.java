@@ -728,6 +728,16 @@ public abstract class AbstractBackDoor {
         executeDeleteRequest(Const.ResourceURIs.COURSE, params);
     }
 
+    /**
+     * Deletes an account request from the database.
+     */
+    public void deleteAccountRequest(String email, String institute) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+        executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+    }
+
     private static final class ResponseBodyAndCode {
 
         String responseBody;

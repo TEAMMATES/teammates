@@ -31,7 +31,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         verifyHttpParameterFailure();
 
-        ______TS("Typical case, delete an existing account request request");
+        ______TS("Typical case, delete an existing account request");
 
         String[] submissionParams = new String[] {
                 Const.ParamsNames.EMAIL, accountRequest.getEmail(),

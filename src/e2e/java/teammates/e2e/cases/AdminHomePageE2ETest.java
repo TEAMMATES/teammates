@@ -42,6 +42,7 @@ public class AdminHomePageE2ETest extends BaseE2ETestCase {
         assertTrue(failureMessage.contains(
                 "\"invalidemail\" is not acceptable to TEAMMATES as a/an email because it is not in the correct format."));
 
+        BACKDOOR.deleteAccountRequest(email, institute);
     }
 
 }
