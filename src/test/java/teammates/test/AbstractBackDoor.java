@@ -34,6 +34,7 @@ import org.apache.http.message.BasicNameValuePair;
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.FeedbackParticipantType;
 import teammates.common.datatransfer.attributes.AccountAttributes;
+import teammates.common.datatransfer.attributes.AccountRequestAttributes;
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.FeedbackQuestionAttributes;
 import teammates.common.datatransfer.attributes.FeedbackResponseAttributes;
@@ -45,6 +46,7 @@ import teammates.common.exception.HttpRequestFailedException;
 import teammates.common.util.Const;
 import teammates.common.util.JsonUtils;
 import teammates.ui.output.AccountData;
+import teammates.ui.output.AccountRequestData;
 import teammates.ui.output.CourseData;
 import teammates.ui.output.CoursesData;
 import teammates.ui.output.FeedbackQuestionData;
@@ -726,6 +728,26 @@ public abstract class AbstractBackDoor {
         Map<String, String> params = new HashMap<>();
         params.put(Const.ParamsNames.COURSE_ID, courseId);
         executeDeleteRequest(Const.ResourceURIs.COURSE, params);
+    }
+
+    /**
+     * Gets an account request from the database.
+     */
+    public AccountRequestAttributes getAccountRequest(String email, String institute) {
+        Map<String, String> params = new HashMap<>();
+        params.put(Const.ParamsNames.EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
+
+        ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
+        if (response.responseCode == HttpStatus.SC_NOT_FOUND) {
+            return null;
+        }
+
+        AccountRequestData accountRequestData = JsonUtils.fromJson(response.responseBody, AccountRequestData.class);
+        return AccountRequestAttributes.builder(accountRequestData.getEmail(), accountRequestData.getInstitute())
+                .withName(accountRequestData.getName())
+                .withRegistrationKey(accountRequestData.getRegistrationKey())
+                .build();
     }
 
     /**

@@ -301,9 +301,7 @@ public abstract class BaseE2ETestCase extends BaseTestCaseWithDatabaseAccess {
 
     @Override
     protected AccountRequestAttributes getAccountRequest(AccountRequestAttributes accountRequest) {
-        assert false : "This method has no implementation";
-
-        return null;
+        return BACKDOOR.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute());
     }
 
     @Override
