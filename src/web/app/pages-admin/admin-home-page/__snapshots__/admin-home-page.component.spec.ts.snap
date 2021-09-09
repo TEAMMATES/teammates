@@ -554,7 +554,7 @@ exports[`AdminHomePageComponent should snap with some instructors details 1`] = 
                 >
                    Instructor "Instructor B" has been successfully created. [
                   <a
-                    href="http://localhost:4200/web/createaccount"
+                    href="http://localhost:4200/web/join"
                   >
                     join link
                   </a>

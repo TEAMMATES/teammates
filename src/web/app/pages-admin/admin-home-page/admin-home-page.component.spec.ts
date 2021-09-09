@@ -157,7 +157,7 @@ describe('AdminHomePageComponent', () => {
       },
     ];
     spyOn(service, 'createAccountRequest').and.returnValue(of({
-      joinLink: 'http://localhost:4200/web/createaccount',
+      joinLink: 'http://localhost:4200/web/join',
     }));
     fixture.detectChanges();
 
@@ -165,7 +165,7 @@ describe('AdminHomePageComponent', () => {
     button.click();
 
     expect(component.instructorsConsolidated[0].status).toEqual('SUCCESS');
-    expect(component.instructorsConsolidated[0].joinLink).toEqual('http://localhost:4200/web/createaccount');
+    expect(component.instructorsConsolidated[0].joinLink).toEqual('http://localhost:4200/web/join');
     expect(component.activeRequests).toEqual(0);
   });
 
@@ -210,7 +210,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
-        joinLink: 'http://localhost:4200/web/createaccount',
+        joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
       },
       {
@@ -254,7 +254,7 @@ describe('AdminHomePageComponent', () => {
         email: 'instructorb@example.com',
         institution: 'Sample Institution B',
         status: 'SUCCESS',
-        joinLink: 'http://localhost:4200/web/createaccount',
+        joinLink: 'http://localhost:4200/web/join',
         message: 'This should not be displayed',
       },
       {

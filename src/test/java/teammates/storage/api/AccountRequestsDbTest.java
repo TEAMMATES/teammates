@@ -28,7 +28,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         accountRequest = accountRequestsDb.createOrUpdateAccountRequest(accountRequest);
         verifyPresentInDatabase(accountRequest);
 
-        ______TS("duplicate account, account request updated");
+        ______TS("duplicate account request, account request updated");
 
         AccountRequestAttributes duplicateAccount = AccountRequestAttributes
                 .builder("valid@test.com", "TEAMMATES Test Institute 1")
@@ -69,7 +69,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
 
         accountRequestsDb.saveEntity(a.toEntity());
 
-        ______TS("silent deletion of non-existent account");
+        ______TS("silent deletion of non-existent account request");
 
         accountRequestsDb.deleteAccountRequest("not_exist", "not_exist");
 
@@ -79,7 +79,7 @@ public class AccountRequestsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         accountRequestsDb.deleteAccountRequest(a.getEmail(), a.getInstitute());
         verifyAbsentInDatabase(a);
 
-        ______TS("silent deletion of same account");
+        ______TS("silent deletion of same account request");
 
         accountRequestsDb.deleteAccountRequest(a.getEmail(), a.getInstitute());
 

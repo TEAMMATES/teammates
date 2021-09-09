@@ -75,7 +75,7 @@ public class CreateAccountActionTest extends BaseActionTest<CreateAccountAction>
         verifySpecifiedTasksAdded(Const.TaskQueue.SEARCH_INDEXING_QUEUE_NAME,
                 studentList.size() + instructorList.size());
 
-        ______TS("Error: reg key not found");
+        ______TS("Error: account request not found");
 
         verifyEntityNotFound(params);
         verifyNoTasksAdded();

@@ -43,7 +43,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
 
         MessageOutput msg = (MessageOutput) result.getOutput();
 
-        assertEquals(msg.getMessage(), "Account request is successfully deleted.");
+        assertEquals(msg.getMessage(), "Account request successfully deleted.");
 
         assertNull(logic.getAccountRequest(accountRequest.getEmail(), accountRequest.getInstitute()));
 
@@ -54,7 +54,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         msg = (MessageOutput) result.getOutput();
 
         // should fail silently.
-        assertEquals(msg.getMessage(), "Account request is successfully deleted.");
+        assertEquals(msg.getMessage(), "Account request successfully deleted.");
 
     }
 

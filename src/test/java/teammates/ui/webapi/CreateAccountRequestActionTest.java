@@ -96,7 +96,6 @@ public class CreateAccountRequestActionTest extends BaseActionTest<CreateAccount
 
         verifyNoEmailsSent();
         verifyNoTasksAdded();
-
     }
 
     @Override

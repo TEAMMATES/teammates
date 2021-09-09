@@ -74,7 +74,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        this.email = email.trim();
     }
 
     public String getInstitute() {
@@ -82,7 +82,7 @@ public class AccountRequest extends BaseEntity {
     }
 
     public void setInstitute(String institute) {
-        this.institute = institute;
+        this.institute = institute.trim();
     }
 
     public Instant getCreatedAt() {

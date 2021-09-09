@@ -46,7 +46,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
         assertEquals(accountRequest.getInstitute(), createdAccountRequest.getInstitute());
         assertNotNull(createdAccountRequest.getRegistrationKey());
 
-        ______TS("duplicate account, account request updated");
+        ______TS("duplicate account request, account request updated");
 
         AccountRequestAttributes duplicateAccount = AccountRequestAttributes
                 .builder("valid@test.com", "TEAMMATES Test Institute 2")
@@ -81,7 +81,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
     public void testDeleteAccountRequest() throws Exception {
         AccountRequestAttributes a = dataBundle.accountRequests.get("accountRequest1");
 
-        ______TS("silent deletion of non-existent account");
+        ______TS("silent deletion of non-existent account request");
 
         accountRequestsLogic.deleteAccountRequest("not_exist", "not_exist");
 
@@ -93,7 +93,7 @@ public class AccountRequestsLogicTest extends BaseLogicTest {
 
         verifyAbsentInDatabase(a);
 
-        ______TS("silent deletion of same account");
+        ______TS("silent deletion of same account request");
 
         accountRequestsLogic.deleteAccountRequest(a.getEmail(), a.getInstitute());
 

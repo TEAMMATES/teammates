@@ -12,7 +12,7 @@ class DeleteAccountRequestAction extends AdminOnlyAction {
         String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         logic.deleteAccountRequest(email, institute);
-        return new JsonResult("Account request is successfully deleted.");
+        return new JsonResult("Account request successfully deleted.");
     }
 
 }
