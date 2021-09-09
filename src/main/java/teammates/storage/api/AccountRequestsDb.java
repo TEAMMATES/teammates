@@ -104,7 +104,7 @@ public final class AccountRequestsDb extends EntitiesDb<AccountRequest, AccountR
 
     @Override
     boolean hasExistingEntities(AccountRequestAttributes entityToCreate) {
-        Key<AccountRequest> keyToFind = Key.create(AccountRequest.class, 
+        Key<AccountRequest> keyToFind = Key.create(AccountRequest.class,
                 AccountRequest.generateId(entityToCreate.getEmail(), entityToCreate.getInstitute()));
         return !load().filterKey(keyToFind).keys().list().isEmpty();
     }
