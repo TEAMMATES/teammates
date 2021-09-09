@@ -34,7 +34,7 @@ public class DeleteAccountRequestActionTest extends BaseActionTest<DeleteAccount
         ______TS("Typical case, delete an existing account request");
 
         String[] submissionParams = new String[] {
-                Const.ParamsNames.EMAIL, accountRequest.getEmail(),
+                Const.ParamsNames.INSTRUCTOR_EMAIL, accountRequest.getEmail(),
                 Const.ParamsNames.INSTRUCTOR_INSTITUTION, accountRequest.getInstitute(),
         };
 

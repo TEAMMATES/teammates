@@ -9,7 +9,7 @@ class DeleteAccountRequestAction extends AdminOnlyAction {
 
     @Override
     public JsonResult execute() {
-        String email = getNonNullRequestParamValue(Const.ParamsNames.EMAIL);
+        String email = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_EMAIL);
         String institute = getNonNullRequestParamValue(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
         logic.deleteAccountRequest(email, institute);
         return new JsonResult("Account request is successfully deleted.");

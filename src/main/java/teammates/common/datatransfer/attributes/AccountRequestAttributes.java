@@ -93,7 +93,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
 
     @Override
     public int hashCode() {
-        return (this.email + this.name + this.institute).hashCode();
+        return (this.email + this.name + this.institute + this.registrationKey).hashCode();
     }
 
     @Override
@@ -106,7 +106,8 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
             AccountRequestAttributes otherCourse = (AccountRequestAttributes) other;
             return Objects.equals(this.email, otherCourse.email)
                     && Objects.equals(this.institute, otherCourse.institute)
-                    && Objects.equals(this.name, otherCourse.name);
+                    && Objects.equals(this.name, otherCourse.name)
+                    && Objects.equals(this.registrationKey, otherCourse.registrationKey);
         } else {
             return false;
         }
@@ -128,7 +129,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     }
 
     /**
-     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for a accountRequest.
+     * Returns a {@link UpdateOptions.Builder} to build {@link UpdateOptions} for an accountRequest.
      */
     public static UpdateOptions.Builder updateOptionsBuilder(String email, String institute) {
         return new UpdateOptions.Builder(email, institute);
@@ -157,7 +158,7 @@ public class AccountRequestAttributes extends EntityAttributes<AccountRequest> {
     }
 
     /**
-     * Helper class to specific the fields to update in {@link AccountAttributes}.
+     * Helper class to specific the fields to update in {@link AccountRequestAttributes}.
      */
     public static class UpdateOptions {
         private String email;

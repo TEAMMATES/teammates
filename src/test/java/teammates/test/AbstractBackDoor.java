@@ -735,7 +735,7 @@ public abstract class AbstractBackDoor {
      */
     public AccountRequestAttributes getAccountRequest(String email, String institute) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
         params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
 
         ResponseBodyAndCode response = executeGetRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
@@ -755,7 +755,7 @@ public abstract class AbstractBackDoor {
      */
     public void deleteAccountRequest(String email, String institute) {
         Map<String, String> params = new HashMap<>();
-        params.put(Const.ParamsNames.EMAIL, email);
+        params.put(Const.ParamsNames.INSTRUCTOR_EMAIL, email);
         params.put(Const.ParamsNames.INSTRUCTOR_INSTITUTION, institute);
         executeDeleteRequest(Const.ResourceURIs.ACCOUNT_REQUEST, params);
     }

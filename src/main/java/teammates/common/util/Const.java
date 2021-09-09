@@ -148,7 +148,6 @@ public final class Const {
 
         public static final String USER_CAPTCHA_RESPONSE = "captcharesponse";
 
-        public static final String EMAIL = "email";
         public static final String EMAIL_TYPE = "emailtype";
 
         public static final String ENTITY_TYPE = "entitytype";
