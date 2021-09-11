@@ -41,6 +41,10 @@ export class InstructorPageComponent implements OnInit {
       display: 'Search',
     },
     {
+      url: '/web/instructor/track-result-view',
+      display: 'Result Tracking',
+    },
+    {
       url: '/web/instructor/help',
       display: 'Help',
     },
