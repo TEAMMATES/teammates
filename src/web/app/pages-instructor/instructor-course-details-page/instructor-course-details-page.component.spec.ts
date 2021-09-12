@@ -11,6 +11,7 @@ const course: Course = {
   courseId: 'CS101',
   courseName: 'Introduction to CS',
   timeZone: '',
+  institute: 'Test Institute',
   creationTimestamp: 0,
   deletionTimestamp: 0,
 };

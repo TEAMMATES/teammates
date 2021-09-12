@@ -68,11 +68,13 @@
     "typicalCourse1": {
       "id": "FSRTest.idOfTypicalCourse1",
       "name": "Typical Course 1",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "course.no.sessions": {
       "id": "FSRTest.idOfNoSessionsCourse",
       "name": "No Sessions Course",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

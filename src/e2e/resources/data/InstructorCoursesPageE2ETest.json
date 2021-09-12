@@ -5,7 +5,7 @@
       "name": "Teammates Demo Instr",
       "isInstructor": true,
       "email": "ICs.instructor@gmail.tmt",
-      "institute": "TEAMMATES Test Institute"
+      "institute": "TEAMMATES Test Institute 1"
     }
   },
   "courses": {
@@ -13,18 +13,21 @@
       "createdAt": "2012-04-02T12:00:00Z",
       "id": "tm.e2e.ICs.CS1101",
       "name": "Programming Methodology",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "CS1231": {
       "createdAt": "2012-04-02T12:00:00Z",
       "id": "tm.e2e.ICs.CS1231",
       "name": "Discrete Structures",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "CS2104": {
       "createdAt": "2013-04-02T12:00:00Z",
       "id": "tm.e2e.ICs.CS2104",
       "name": "Programming Language Concept",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "CS2105": {
@@ -32,6 +35,7 @@
       "deletedAt": "2014-04-12T12:00:00Z",
       "id": "tm.e2e.ICs.CS2105",
       "name": "Computer Networks",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

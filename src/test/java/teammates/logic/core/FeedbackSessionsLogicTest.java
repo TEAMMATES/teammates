@@ -225,6 +225,7 @@ public class FeedbackSessionsLogicTest extends BaseLogicTest {
                 CourseAttributes.builder(session.getCourseId())
                         .withName("Test Course")
                         .withTimezone(ZoneId.of("UTC"))
+                        .withInstitute("Test institute")
                         .build());
 
         // wait for very briefly so that the above session will be within the time limit

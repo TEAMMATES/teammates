@@ -56,6 +56,7 @@ public class CreateCourseActionTest extends BaseActionTest<CreateCourseAction> {
         assertEquals(courseData.getCourseId(), "new-course");
         assertEquals(courseData.getCourseName(), "New Course");
         assertEquals(courseData.getTimeZone(), "UTC");
+        assertEquals(courseData.getInstitute(), "TEAMMATES Test Institute 1");
 
         CourseAttributes createdCourse = logic.getCourse("new-course");
         assertNotNull(createdCourse);
