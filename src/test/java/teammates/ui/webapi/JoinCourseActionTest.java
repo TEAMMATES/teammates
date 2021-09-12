@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -77,15 +76,13 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
 
         JoinCourseAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        getJsonResult(a);
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
         assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Unregistered Course", "idOfUnregisteredCourse"),
                 email.getSubject());
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         loginAsUnregistered("unreg.user0");
 
@@ -127,7 +124,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
 
         a = getAction(params);
-        r = getJsonResult(a);
+        getJsonResult(a);
 
         verifyNumberOfEmailsSent(1);
         email = mockEmailSender.getEmailsSent().get(0);
@@ -135,8 +132,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(),
                         "Typical Course 1 with 2 Evals", "idOfTypicalCourse1"),
                 email.getSubject());
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         ______TS("Failure case: invalid entity type");
 

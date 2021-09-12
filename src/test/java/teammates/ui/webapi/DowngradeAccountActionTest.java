@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.InstructorAttributes;
@@ -46,7 +45,6 @@ public class DowngradeAccountActionTest extends BaseActionTest<DowngradeAccountA
 
         MessageOutput response = (MessageOutput) r.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         assertEquals("Instructor account is successfully downgraded to student.", response.getMessage());
         assertFalse(logic.getAccount(instructor1ofCourse1.getGoogleId()).isInstructor());
 

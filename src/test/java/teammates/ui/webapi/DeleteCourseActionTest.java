@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -53,7 +52,6 @@ public class DeleteCourseActionTest
         JsonResult result = getJsonResult(deleteCourseAction);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("OK", messageOutput.getMessage());
         assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()));
     }
@@ -78,7 +76,6 @@ public class DeleteCourseActionTest
         JsonResult result = getJsonResult(deleteCourseAction);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals("OK", messageOutput.getMessage());
         assertNull(logic.getCourse(instructor1OfCourse1.getCourseId()));
     }

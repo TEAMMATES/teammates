@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.StudentProfileAttributes;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
@@ -46,7 +44,7 @@ class UpdateStudentProfileAction extends Action {
                             .withInstitute(studentProfile.getInstitute())
                             .withMoreInfo(studentProfile.getMoreInfo())
                             .build());
-            return new JsonResult("Your profile has been edited successfully", HttpStatus.SC_ACCEPTED);
+            return new JsonResult("Your profile has been edited successfully");
         } catch (InvalidParametersException ipe) {
             throw new InvalidHttpRequestBodyException(ipe);
         }

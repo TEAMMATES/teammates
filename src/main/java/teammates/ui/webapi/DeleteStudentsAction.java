@@ -1,7 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.util.Const;
 
@@ -32,6 +30,6 @@ class DeleteStudentsAction extends Action {
 
         logic.deleteStudentsInCourseCascade(courseId);
 
-        return new JsonResult("All the students have been removed from the course", HttpStatus.SC_OK);
+        return new JsonResult("All the students have been removed from the course");
     }
 }

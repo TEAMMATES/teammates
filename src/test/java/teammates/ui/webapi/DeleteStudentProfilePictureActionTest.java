@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -52,7 +51,6 @@ public class DeleteStudentProfilePictureActionTest extends BaseActionTest<Delete
         JsonResult result = getJsonResult(action);
         MessageOutput messageOutput = (MessageOutput) result.getOutput();
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(messageOutput.getMessage(), "Your profile picture has been deleted successfully");
 
         assertFalse(doesFileExist(account.getGoogleId()));

@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.time.ZoneId;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -55,7 +54,6 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackSessionData response = (FeedbackSessionData) r.getOutput();
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
@@ -145,9 +143,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(Const.TIME_REPRESENTS_FOLLOW_OPENING, session.getSessionVisibleFromTime());
@@ -168,9 +164,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setSessionVisibleSetting(SessionVisibleSetting.AT_OPEN);
 
         a = getAction(updateRequest, param);
-        r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
 
         session = logic.getFeedbackSession(session.getFeedbackSessionName(), session.getCourseId());
         assertEquals(Const.TIME_REPRESENTS_FOLLOW_OPENING, session.getSessionVisibleFromTime());
@@ -193,9 +187,7 @@ public class UpdateFeedbackSessionActionTest extends BaseActionTest<UpdateFeedba
         updateRequest.setResponseVisibleSetting(ResponseVisibleSetting.LATER);
 
         UpdateFeedbackSessionAction a = getAction(updateRequest, param);
-        JsonResult r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
+        getJsonResult(a);
     }
 
     @Test

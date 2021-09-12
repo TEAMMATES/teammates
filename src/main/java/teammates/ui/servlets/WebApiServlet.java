@@ -14,7 +14,6 @@ import com.google.cloud.datastore.DatastoreException;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.exception.DeadlineExceededException;
 import teammates.common.util.Logger;
-import teammates.common.util.TimeHelper;
 import teammates.ui.request.InvalidHttpRequestBodyException;
 import teammates.ui.webapi.Action;
 import teammates.ui.webapi.ActionFactory;
@@ -33,11 +32,6 @@ import teammates.ui.webapi.UnauthorizedAccessException;
 public class WebApiServlet extends HttpServlet {
 
     private static final Logger log = Logger.getLogger();
-
-    @Override
-    public void init() {
-        TimeHelper.registerResourceZoneRules();
-    }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {

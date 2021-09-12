@@ -7,12 +7,15 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
+import teammates.common.util.Logger;
 import teammates.ui.output.FeedbackSessionData;
 
 /**
  * Publish a feedback session.
  */
 class PublishFeedbackSessionAction extends Action {
+
+    private static final Logger log = Logger.getLogger();
 
     @Override
     AuthType getMinAuthLevel() {
@@ -54,6 +57,7 @@ class PublishFeedbackSessionAction extends Action {
             throw new EntityNotFoundException(e);
         } catch (InvalidParametersException e) {
             // There should not be any invalid parameter here
+            log.severe("Unexpected error", e);
             return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
         }
     }
