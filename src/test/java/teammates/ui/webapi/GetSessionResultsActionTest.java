@@ -190,7 +190,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, student1.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, student1.getKey(),
         };
 
         logic.publishFeedbackSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());

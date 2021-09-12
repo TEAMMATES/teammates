@@ -33,6 +33,7 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     }
   },

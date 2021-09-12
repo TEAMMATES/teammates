@@ -83,12 +83,14 @@
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTypicalCourse1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "Africa/Johannesburg"
     },
     "typicalCourse2": {
       "createdAt": "2012-04-01T23:59:00Z",
       "id": "idOfTypicalCourse2",
       "name": "Typical Course 2 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse3": {
@@ -96,24 +98,28 @@
       "deletedAt": "2012-04-12T23:58:00Z",
       "id": "idOfTypicalCourse3",
       "name": "Typical Course 3 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse4": {
       "createdAt": "2012-04-02T23:58:00Z",
       "id": "idOfTypicalCourse4",
       "name": "Typical Course 4 with 1 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "testingNoEmailsSentCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingNoEmailsSentCourse",
       "name": "Course with sessions with no emails sent",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "testingSanitizationCourse": {
       "createdAt": "2012-04-01T23:58:00Z",
       "id": "idOfTestingSanitizationCourse",
       "name": "Testing<script> alert('hi!'); </script>",
+      "institute": "inst<script> alert('hi!'); </script>",
       "timeZone": "UTC"
     }
   },

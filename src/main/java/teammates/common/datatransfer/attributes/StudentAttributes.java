@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
@@ -99,7 +98,7 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public String getRegistrationUrl() {
         return Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(getEncryptedKey())
+                .withRegistrationKey(key)
                 .withStudentEmail(email)
                 .withCourseId(course)
                 .withEntityType(Const.EntityType.STUDENT)
@@ -144,22 +143,6 @@ public class StudentAttributes extends EntityAttributes<CourseStudent> {
 
     public void setGoogleId(String googleId) {
         this.googleId = googleId;
-    }
-
-    /**
-     * Returns the encrypted version of the key. If the key stored in the DB is not already encrypted,
-     * it will be encrypted before returned.
-     */
-    // TODO remove after data migration
-    @Deprecated
-    public String getEncryptedKey() {
-        try {
-            StringHelper.decrypt(key);
-            // If key can be decrypted, it means it is already encrypted and can be returned immediately
-            return key;
-        } catch (InvalidParametersException e) {
-            return StringHelper.encrypt(key);
-        }
     }
 
     public String getKey() {

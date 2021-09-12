@@ -12,6 +12,7 @@
     "SCDet.CS2104": {
       "id": "tm.e2e.SCDet.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC",
       "createdAt": "2012-04-02T11:00:00Z"
     }
