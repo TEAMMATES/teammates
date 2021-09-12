@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment-timezone';
 import { SortBy, SortOrder } from '../types/sort-properties';
-import { LogService } from './log.service';
 
 /**
  * Handles comparison logic between sortable table elements
@@ -19,9 +18,9 @@ export class TableComparatorService {
    * If either string cannot be parsed into a date, it will be seen as 'smaller'.
    * If both strings cannot be parsed into dates, strA will always be seen as 'larger'.
    */
-  compareChronologically(strA: string, strB: string, order: SortOrder): number {
-    const dateA: moment.Moment = moment(strA, LogService.LOG_DATE_TIME_FORMAT);
-    const dateB: moment.Moment = moment(strB, LogService.LOG_DATE_TIME_FORMAT);
+  compareChronologically(strA: string, strB: string, order: SortOrder, dateTimeFormat: string): number {
+    const dateA: moment.Moment = moment(strA, dateTimeFormat);
+    const dateB: moment.Moment = moment(strB, dateTimeFormat);
 
     if (!dateA.isValid()) {
       return 1;
@@ -31,42 +30,45 @@ export class TableComparatorService {
       return -1;
     }
 
-    switch (order) {
-      case SortOrder.ASC:
-        return dateA.diff(dateB);
-      case SortOrder.DESC:
-        return dateB.diff(dateA);
-      default:
-        return 0;
+    if (order === SortOrder.ASC) {
+      return dateA.diff(dateB);
     }
+
+    if (order === SortOrder.DESC) {
+      return dateB.diff(dateA);
+    }
+
+    return 0;
   }
 
   /**
    * Compares two strings lexicographically depending on order given.
    */
   compareLexicographically(strA: string, strB: string, order: SortOrder): number {
-    switch (order) {
-      case SortOrder.ASC:
-        return strA.localeCompare(strB);
-      case SortOrder.DESC:
-        return strB.localeCompare(strA);
-      default:
-        return 0;
+    if (order === SortOrder.ASC) {
+      return strA.localeCompare(strB);
     }
+
+    if (order === SortOrder.DESC) {
+      return strB.localeCompare(strA);
+    }
+
+    return 0;
   }
 
   /**
    * Compares two strings naturally depending on the order given.
    */
   compareNaturally(strA: string, strB: string, order: SortOrder): number {
-    switch (order) {
-      case SortOrder.ASC:
-        return strA.localeCompare(strB, undefined, { numeric: true });
-      case SortOrder.DESC:
-        return strB.localeCompare(strA, undefined, { numeric: true });
-      default:
-        return 0;
+    if (order === SortOrder.ASC) {
+      return strA.localeCompare(strB, undefined, { numeric: true });
     }
+
+    if (order === SortOrder.DESC) {
+      return strB.localeCompare(strA, undefined, { numeric: true });
+    }
+
+    return 0;
   }
 
   /**
@@ -77,6 +79,7 @@ export class TableComparatorService {
   compareNumbers(strA: string, strB: string, order: SortOrder): number {
     const numA: number = Number(strA);
     const numB: number = Number(strB);
+
     if (Number.isNaN(numA)) {
       return 1;
     }
@@ -166,7 +169,7 @@ export class TableComparatorService {
       case SortBy.MSQ_WEIGHT_AVERAGE:
         return this.compareNumbers(strA, strB, order);
       case SortBy.LOG_DATE:
-        return this.compareChronologically(strA, strB, order);
+        return this.compareChronologically(strA, strB, order, 'ddd, DD MMM YYYY hh:mm:ss A');
       default:
         return 0;
     }

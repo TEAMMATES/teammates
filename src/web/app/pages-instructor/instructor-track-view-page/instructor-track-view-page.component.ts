@@ -260,7 +260,7 @@ export class InstructorTrackViewPageComponent implements OnInit {
       courseId: this.formModel.courseId,
       feedbackSessionName: this.formModel.feedbackSessionName,
       publishedDate: this.timezoneService.formatToString(
-          this.publishedTime, log.feedbackSessionData.timeZone, LogService.LOG_DATE_TIME_FORMAT),
+          this.publishedTime, log.feedbackSessionData.timeZone, 'ddd, DD MMM YYYY hh:mm:ss A'),
       logColumnsData: [
         { header: 'Status', sortBy: SortBy.RESULT_VIEW_STATUS },
         { header: 'Name', sortBy: SortBy.GIVER_NAME },
@@ -274,9 +274,9 @@ export class InstructorTrackViewPageComponent implements OnInit {
           let dataStyle: string = 'font-family:monospace; white-space:pre;';
           if (student.email in this.studentToLog) {
             const entry: FeedbackSessionLogEntry = this.studentToLog[student.email];
-            status = `Viewed last at   ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, LogService.LOG_DATE_TIME_FORMAT)}`;
+            status = `Viewed last at   ${this.timezoneService.formatToString(entry.timestamp, log.feedbackSessionData.timeZone, 'ddd, DD MMM YYYY hh:mm:ss A')}`;
           } else {
-            status = `Not viewed since ${this.timezoneService.formatToString(this.notViewedSince, log.feedbackSessionData.timeZone, LogService.LOG_DATE_TIME_FORMAT)}`;
+            status = `Not viewed since ${this.timezoneService.formatToString(this.notViewedSince, log.feedbackSessionData.timeZone, 'ddd, DD MMM YYYY hh:mm:ss A')}`;
             dataStyle += 'color:red;';
           }
           return [
