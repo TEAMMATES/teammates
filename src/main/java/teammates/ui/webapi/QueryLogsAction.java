@@ -10,9 +10,7 @@ import teammates.common.datatransfer.logs.LogSeverity;
 import teammates.common.datatransfer.logs.QueryLogsParams;
 import teammates.common.datatransfer.logs.RequestLogUser;
 import teammates.common.datatransfer.logs.SourceLocation;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.exception.LogServiceException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 import teammates.ui.output.GeneralLogsData;
 
@@ -133,7 +131,7 @@ public class QueryLogsAction extends AdminOnlyAction {
             GeneralLogsData generalLogsData = new GeneralLogsData(queryResults);
             return new JsonResult(generalLogsData);
         } catch (LogServiceException e) {
-            return new JsonResult(e.getMessage(), HttpStatus.SC_INTERNAL_SERVER_ERROR);
+            return new JsonResult(e.getMessage(), HttpStatus.SC_BAD_GATEWAY);
         }
     }
 

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.FeedbackParticipantType;
@@ -63,7 +62,6 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
         List<FeedbackQuestionData> questions = feedbackQuestionsResponse.getQuestions();
@@ -131,7 +129,6 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
@@ -171,7 +168,6 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         GetFeedbackQuestionsAction a = getAction(params);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackQuestionsData feedbackQuestionsResponse = (FeedbackQuestionsData) r.getOutput();
 
         assertEquals(Arrays.asList("Team 1.1</td></div>'\"", "Team 1.2"),
@@ -194,7 +190,7 @@ public class GetFeedbackQuestionsActionTest extends BaseActionTest<GetFeedbackQu
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        verifyEntityNotFound(params);
+        verifyEntityNotFoundAcl(params);
 
         ______TS("only instructors of the same course can access");
 

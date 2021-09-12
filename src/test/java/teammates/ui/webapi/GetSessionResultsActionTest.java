@@ -2,7 +2,6 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.CourseAttributes;
@@ -47,8 +46,6 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
         GetSessionResultsAction a = getAction(submissionParams);
         JsonResult r = getJsonResult(a);
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         SessionResultsData output = (SessionResultsData) r.getOutput();
 
         SessionResultsData expectedResults = SessionResultsData.initForInstructor(
@@ -72,8 +69,6 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         a = getAction(submissionParams);
         r = getJsonResult(a);
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         output = (SessionResultsData) r.getOutput();
         expectedResults = SessionResultsData.initForStudent(
@@ -195,7 +190,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
                 Const.ParamsNames.COURSE_ID, typicalCourse1.getId(),
                 Const.ParamsNames.FEEDBACK_SESSION_NAME, feedbackSessionAttributes.getFeedbackSessionName(),
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
-                Const.ParamsNames.REGKEY, student1.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, student1.getKey(),
         };
 
         logic.publishFeedbackSession(feedbackSessionAttributes.getFeedbackSessionName(), typicalCourse1.getId());
@@ -283,7 +278,7 @@ public class GetSessionResultsActionTest extends BaseActionTest<GetSessionResult
 
         // Malicious api call using course Id of the student to bypass the check
         submissionParams[1] = typicalCourse1.getId();
-        verifyEntityNotFound(submissionParams);
+        verifyEntityNotFoundAcl(submissionParams);
     }
 
     @Test

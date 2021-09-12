@@ -2,14 +2,9 @@ package teammates.ui.webapi;
 
 import java.util.List;
 
-import org.apache.http.HttpStatus;
-
 import teammates.common.datatransfer.attributes.CourseAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.EntityDoesNotExistException;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.UnauthorizedAccessException;
 import teammates.common.util.Const;
 
 /**
@@ -28,9 +23,7 @@ class SendJoinReminderEmailAction extends Action {
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!")
-            );
+            throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -56,8 +49,7 @@ class SendJoinReminderEmailAction extends Action {
 
         CourseAttributes course = logic.getCourse(courseId);
         if (course == null) {
-            throw new EntityNotFoundException(
-                    new EntityDoesNotExistException("Course with ID " + courseId + " does not exist!"));
+            throw new EntityNotFoundException("Course with ID " + courseId + " does not exist!");
         }
 
         String studentEmail = getRequestParamValue(Const.ParamsNames.STUDENT_EMAIL);
@@ -72,29 +64,27 @@ class SendJoinReminderEmailAction extends Action {
             StudentAttributes studentData = logic.getStudentForEmail(courseId, studentEmail);
             if (studentData == null) {
                 throw new EntityNotFoundException(
-                        new EntityDoesNotExistException("Student with email " + studentEmail + " does not exist "
-                        + "in course " + courseId + "!"));
+                        "Student with email " + studentEmail + " does not exist in course " + courseId + "!");
             }
-            statusMsg = new JsonResult("An email has been sent to " + studentEmail, HttpStatus.SC_OK);
+            statusMsg = new JsonResult("An email has been sent to " + studentEmail);
 
         } else if (isSendingToInstructor) {
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(userInfo.id,
-                    instructorEmail, courseId, null, false);
+                    instructorEmail, courseId, false);
 
             InstructorAttributes instructorData = logic.getInstructorForEmail(courseId, instructorEmail);
             if (instructorData == null) {
                 throw new EntityNotFoundException(
-                        new EntityDoesNotExistException("Instructor with email " + instructorEmail + " does not exist "
-                        + "in course " + courseId + "!"));
+                        "Instructor with email " + instructorEmail + " does not exist in course " + courseId + "!");
             }
-            statusMsg = new JsonResult("An email has been sent to " + instructorEmail, HttpStatus.SC_OK);
+            statusMsg = new JsonResult("An email has been sent to " + instructorEmail);
 
         } else {
             List<StudentAttributes> studentDataList = logic.getUnregisteredStudentsForCourse(courseId);
             for (StudentAttributes student : studentDataList) {
                 taskQueuer.scheduleCourseRegistrationInviteToStudent(course.getId(), student.getEmail(), false);
             }
-            statusMsg = new JsonResult("Emails have been sent to unregistered students.", HttpStatus.SC_OK);
+            statusMsg = new JsonResult("Emails have been sent to unregistered students.");
         }
 
         return statusMsg;

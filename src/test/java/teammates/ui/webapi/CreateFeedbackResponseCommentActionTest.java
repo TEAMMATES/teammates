@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.DataBundle;
@@ -16,15 +15,13 @@ import teammates.common.datatransfer.attributes.FeedbackResponseCommentAttribute
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
-import teammates.common.exception.InvalidHttpParameterException;
 import teammates.common.util.Const;
 import teammates.common.util.StringHelper;
-import teammates.test.AssertHelper;
 import teammates.ui.output.CommentVisibilityType;
 import teammates.ui.output.FeedbackResponseCommentData;
-import teammates.ui.output.MessageOutput;
 import teammates.ui.request.FeedbackResponseCommentCreateRequest;
 import teammates.ui.request.Intent;
+import teammates.ui.request.InvalidHttpRequestBodyException;
 
 /**
  * SUT: {@link CreateFeedbackResponseCommentAction}.
@@ -132,7 +129,6 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                         Arrays.asList(CommentVisibilityType.INSTRUCTORS, CommentVisibilityType.GIVER));
         CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
         JsonResult r = getJsonResult(action);
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
         FeedbackResponseCommentData commentData = (FeedbackResponseCommentData) r.getOutput();
         assertEquals("Comment to first response", commentData.getFeedbackCommentText());
 
@@ -271,12 +267,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
         FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("",
                 new ArrayList<>(), new ArrayList<>());
-        CreateFeedbackResponseCommentAction action = getAction(requestBody, submissionParams);
-        JsonResult result = getJsonResult(action);
-        MessageOutput output = (MessageOutput) result.getOutput();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
-        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, output.getMessage());
+        InvalidHttpRequestBodyException ihrbe = verifyHttpRequestBodyFailure(requestBody, submissionParams);
+        assertEquals(BasicCommentSubmissionAction.FEEDBACK_RESPONSE_COMMENT_EMPTY, ihrbe.getMessage());
     }
 
     @Test
@@ -333,20 +325,22 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
 
     @Test
     protected void testExecute_invalidIntent_shouldFail() {
+        FeedbackResponseCommentCreateRequest requestBody = new FeedbackResponseCommentCreateRequest("text",
+                new ArrayList<>(), new ArrayList<>());
 
         ______TS("invalid intent STUDENT_RESULT");
         String[] invalidIntent1 = new String[] {
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        verifyHttpParameterFailure(invalidIntent1);
+        verifyHttpParameterFailure(requestBody, invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        verifyHttpParameterFailure(invalidIntent2);
+        verifyHttpParameterFailure(requestBody, invalidIntent2);
     }
 
     @Override
@@ -363,8 +357,7 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         loginAsInstructor(instructor1OfCourse1.getGoogleId());
-        assertThrows(InvalidHttpParameterException.class,
-                () -> getAction(submissionParamsInstructor).checkSpecificAccessControl());
+        verifyHttpParameterFailureAcl(submissionParamsInstructor);
     }
 
     @Test
@@ -386,9 +379,8 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
         };
 
         loginAsInstructor(instructorAttributes.getGoogleId());
-        InvalidHttpParameterException exception = assertThrows(
-                InvalidHttpParameterException.class, () -> getAction(submissionParams).checkSpecificAccessControl());
-        AssertHelper.assertContains("Invalid question type for instructor comment", exception.getMessage());
+        InvalidHttpParameterException ihpe = verifyHttpParameterFailureAcl(submissionParams);
+        assertEquals("Invalid question type for instructor comment", ihpe.getMessage());
     }
 
     @Test
@@ -473,14 +465,14 @@ public class CreateFeedbackResponseCommentActionTest extends BaseActionTest<Crea
                 Const.ParamsNames.INTENT, Intent.STUDENT_RESULT.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ3.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent1).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent1);
 
         ______TS("invalid intent FULL_DETAIL");
         String[] invalidIntent2 = new String[] {
                 Const.ParamsNames.INTENT, Intent.FULL_DETAIL.toString(),
                 Const.ParamsNames.FEEDBACK_RESPONSE_ID, StringHelper.encrypt(response1ForQ1.getId()),
         };
-        assertThrows(InvalidHttpParameterException.class, () -> getAction(invalidIntent2).checkAccessControl());
+        verifyHttpParameterFailureAcl(invalidIntent2);
     }
 
     @Test

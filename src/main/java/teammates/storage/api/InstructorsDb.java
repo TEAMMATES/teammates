@@ -16,7 +16,6 @@ import teammates.common.exception.EntityAlreadyExistsException;
 import teammates.common.exception.EntityDoesNotExistException;
 import teammates.common.exception.InvalidParametersException;
 import teammates.common.exception.SearchServiceException;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 import teammates.storage.search.InstructorSearchManager;
 import teammates.storage.search.SearchManagerFactory;
@@ -112,20 +111,7 @@ public final class InstructorsDb extends EntitiesDb<Instructor, InstructorAttrib
     public InstructorAttributes getInstructorForRegistrationKey(String registrationKey) {
         assert registrationKey != null;
 
-        InstructorAttributes instructor = makeAttributesOrNull(
-                getInstructorEntityForRegistrationKey(registrationKey.trim()));
-        if (instructor != null) {
-            return instructor;
-        }
-
-        // Try to find instructor whose key is not yet encrypted
-        // TODO remove this block after data migration
-        try {
-            String decryptedKey = StringHelper.decrypt(registrationKey.trim());
-            return makeAttributesOrNull(getInstructorEntityForRegistrationKey(decryptedKey));
-        } catch (InvalidParametersException e) {
-            return null;
-        }
+        return makeAttributesOrNull(getInstructorEntityForRegistrationKey(registrationKey.trim()));
     }
 
     /**

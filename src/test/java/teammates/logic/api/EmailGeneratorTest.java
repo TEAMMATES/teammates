@@ -364,7 +364,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         String instructorEmail = "instructor@email.tmt";
         String instructorName = "Instr";
-        String regkey = "skxxxxxxxxxks";
+        String regkey = StringHelper.encrypt("skxxxxxxxxxks");
 
         InstructorAttributes instructor = InstructorAttributes
                 .builder("courseId", instructorEmail)
@@ -379,8 +379,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 .build();
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt(regkey))
-                .withInstructorInstitution("Test Institute")
+                .withRegistrationKey(regkey)
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
@@ -444,8 +443,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 instructorsLogic.getInstructorForEmail("idOfTestingSanitizationCourse", "instructor1@sanitization.tmt");
 
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructor1.getEncryptedKey())
-                .withInstructorInstitution("Test Institute")
+                .withRegistrationKey(instructor1.getKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
 
@@ -469,7 +467,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
 
         ______TS("instructor course join email after Google ID reset");
 
-        email = emailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, null);
+        email = emailGenerator.generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
 
@@ -479,7 +477,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
         ______TS("instructor course join email after Google ID reset (with institute name set)");
 
         email = emailGenerator
-                .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course, "Test Institute");
+                .generateInstructorCourseRejoinEmailAfterGoogleIdReset(instructor1, course);
         subject = String.format(EmailType.INSTRUCTOR_COURSE_REJOIN_AFTER_GOOGLE_ID_RESET.getSubject(),
                 course.getName(), course.getId());
 
@@ -502,7 +500,7 @@ public class EmailGeneratorTest extends BaseLogicTest {
                 StudentAttributes.builder("", "student@email.tmt")
                         .withName("Student Name")
                         .build();
-        student.setKey("skxxxxxxxxxks");
+        student.setKey(StringHelper.encrypt("skxxxxxxxxxks"));
 
         EmailWrapper email = emailGenerator.generateStudentCourseJoinEmail(course, student);
         String subject = String.format(EmailType.STUDENT_COURSE_JOIN.getSubject(), course.getName(), course.getId());

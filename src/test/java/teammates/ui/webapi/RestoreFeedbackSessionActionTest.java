@@ -1,12 +1,9 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.attributes.FeedbackSessionAttributes;
 import teammates.common.datatransfer.attributes.InstructorAttributes;
-import teammates.common.exception.EntityNotFoundException;
-import teammates.common.exception.NullHttpParameterException;
 import teammates.common.util.Const;
 import teammates.ui.output.FeedbackSessionData;
 
@@ -50,7 +47,6 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
         FeedbackSessionData feedbackSessionMessage = (FeedbackSessionData) result.getOutput();
 
         // Verify response
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
         assertEquals(courseId, feedbackSessionMessage.getCourseId());
         assertEquals(feedbackSessionName, feedbackSessionMessage.getFeedbackSessionName());
 
@@ -61,11 +57,8 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     @Test
     protected void testExecute_withSessionNotInBin_shouldFail() {
         loginAsInstructor(instructorId);
-        RestoreFeedbackSessionAction notFoundAction = getAction(submissionParams);
 
-        EntityNotFoundException notFoundException = assertThrows(EntityNotFoundException.class, () -> {
-            getJsonResult(notFoundAction);
-        });
+        EntityNotFoundException notFoundException = verifyEntityNotFound(submissionParams);
         assertEquals("Feedback session is not in recycle bin", notFoundException.getMessage());
     }
 
@@ -73,10 +66,7 @@ public class RestoreFeedbackSessionActionTest extends BaseActionTest<RestoreFeed
     protected void testExecute_withEmptyParameters_shouldFail() {
         loginAsInstructor(instructorId);
 
-        assertThrows(NullHttpParameterException.class, () -> {
-            RestoreFeedbackSessionAction emptyParamsAction = getAction();
-            getJsonResult(emptyParamsAction);
-        });
+        verifyHttpParameterFailure();
     }
 
     @Test

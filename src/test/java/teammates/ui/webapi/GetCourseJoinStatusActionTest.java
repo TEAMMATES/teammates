@@ -1,6 +1,5 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
 import teammates.common.util.Const;
@@ -40,7 +39,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getEncryptedKey();
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         String[] params = new String[] {
                 Const.ParamsNames.REGKEY, registeredStudentKey,
@@ -50,8 +49,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         GetCourseJoinStatusAction getCourseJoinStatusAction = getAction(params);
         JsonResult result = getJsonResult(getCourseJoinStatusAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         JoinStatus output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
         assertEquals("unreg.user", output.getUserId());
@@ -59,8 +56,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt")
-                        .getEncryptedKey();
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
@@ -69,8 +65,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         getCourseJoinStatusAction = getAction(params);
         result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
@@ -83,15 +77,12 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(params);
 
         ______TS("Normal case: instructor is already registered");
 
         String registeredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredInstructorKey,
@@ -101,8 +92,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         getCourseJoinStatusAction = getAction(params);
         result = getJsonResult(getCourseJoinStatusAction);
 
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
-
         output = (JoinStatus) result.getOutput();
         assertTrue(output.getHasJoined());
         assertEquals("unreg.user", output.getUserId());
@@ -110,8 +99,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt")
-                        .getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,
@@ -120,8 +108,6 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
 
         getCourseJoinStatusAction = getAction(params);
         result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_OK, result.getStatusCode());
 
         output = (JoinStatus) result.getOutput();
         assertFalse(output.getHasJoined());
@@ -134,10 +120,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, result.getStatusCode());
+        verifyEntityNotFound(params);
 
         ______TS("Failure case: invalid entity type");
 
@@ -146,10 +129,7 @@ public class GetCourseJoinStatusActionTest extends BaseActionTest<GetCourseJoinS
                 Const.ParamsNames.ENTITY_TYPE, "unknown",
         };
 
-        getCourseJoinStatusAction = getAction(params);
-        result = getJsonResult(getCourseJoinStatusAction);
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, result.getStatusCode());
+        verifyHttpParameterFailure(params);
 
     }
 

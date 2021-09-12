@@ -42,11 +42,13 @@ public class InstructorCoursesPageE2ETest extends BaseE2ETestCase {
         newCourse = CourseAttributes.builder("tm.e2e.ICs.CS4100")
                 .withName("New Course")
                 .withTimezone(ZoneId.of("Asia/Singapore"))
+                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
         copyCourse = CourseAttributes.builder("tm.e2e.ICs.CS5000")
                 .withName("Copy Course")
                 .withTimezone(ZoneId.of("Asia/Singapore"))
+                .withInstitute("TEAMMATES Test Institute 1")
                 .build();
 
         copySession = FeedbackSessionAttributes

@@ -7,7 +7,6 @@ import teammates.common.datatransfer.attributes.InstructorAttributes;
 import teammates.common.datatransfer.attributes.StudentAttributes;
 import teammates.common.util.Const;
 import teammates.test.FileHelper;
-import teammates.ui.output.MessageOutput;
 
 /**
  * SUT: {@link GetStudentProfilePictureAction}.
@@ -40,7 +39,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         GetStudentProfilePictureAction action = getAction();
         ImageResult imageResult = getImageResult(action);
 
-        assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
         assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: student passes in incomplete params but still gets his own image");
@@ -52,8 +50,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         action = getAction(submissionParams);
         imageResult = getImageResult(action);
 
-        assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
-
         submissionParams = new String[] {
                 Const.ParamsNames.STUDENT_EMAIL, student1InCourse1.getEmail(),
         };
@@ -61,7 +57,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         action = getAction(submissionParams);
         imageResult = getImageResult(action);
 
-        assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
         assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: student gets his teammate's image");
@@ -77,7 +72,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         action = getAction(submissionParams);
         imageResult = getImageResult(action);
 
-        assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
         assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Success case: instructor with privilege views image of his student");
@@ -93,7 +87,6 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
         action = getAction(submissionParams);
         imageResult = getImageResult(action);
 
-        assertEquals(HttpStatus.SC_OK, imageResult.getStatusCode());
         assertArrayEquals(student1PicBytes, imageResult.getBytes());
 
         ______TS("Failure case: requesting image of an unregistered student");
@@ -131,12 +124,8 @@ public class GetStudentProfilePictureActionTest extends BaseActionTest<GetStuden
                 Const.ParamsNames.STUDENT_EMAIL, "non-existent@student.com",
         };
 
-        action = getAction(submissionParams);
-        JsonResult jsonResult = getJsonResult(action);
-        MessageOutput message = (MessageOutput) jsonResult.getOutput();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, jsonResult.getStatusCode());
-        assertEquals("No student found", message.getMessage());
+        EntityNotFoundException enfe = verifyEntityNotFound(submissionParams);
+        assertEquals("No student found", enfe.getMessage());
 
         deleteFile(student1InCourse1.getGoogleId());
     }

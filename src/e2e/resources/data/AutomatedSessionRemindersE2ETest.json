@@ -12,6 +12,7 @@
     "course": {
       "id": "tm.e2e.AutSesRem.course",
       "name": "Test Course for Aut Sessions Reminder",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

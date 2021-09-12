@@ -1,9 +1,7 @@
 package teammates.ui.webapi;
 
-import org.apache.http.HttpStatus;
 import org.testng.annotations.Test;
 
-import teammates.common.exception.InvalidOperationException;
 import teammates.common.util.Const;
 import teammates.common.util.EmailType;
 import teammates.common.util.EmailWrapper;
@@ -46,18 +44,14 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        JoinCourseAction a = getAction(params);
-        JsonResult r = getJsonResult(a);
+        verifyEntityNotFound(params);
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
         ______TS("Failure case: student is already registered");
 
         String registeredStudentKey =
-                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt")
-                        .getEncryptedKey();
+                logic.getStudentForEmail("idOfTypicalCourse1", "student1InCourse1@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredStudentKey,
@@ -72,24 +66,21 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Normal case: student is not registered");
 
         String unregisteredStudentKey =
-                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt")
-                        .getEncryptedKey();
+                logic.getStudentForEmail("idOfUnregisteredCourse", "student1InUnregisteredCourse@gmail.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredStudentKey,
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.STUDENT,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        JoinCourseAction a = getAction(params);
+        getJsonResult(a);
 
         verifyNumberOfEmailsSent(1);
         EmailWrapper email = mockEmailSender.getEmailsSent().get(0);
         assertEquals(
                 String.format(EmailType.USER_COURSE_REGISTER.getSubject(), "Unregistered Course", "idOfUnregisteredCourse"),
                 email.getSubject());
-
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
 
         loginAsUnregistered("unreg.user0");
 
@@ -100,17 +91,14 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, Const.EntityType.INSTRUCTOR,
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
+        verifyEntityNotFound(params);
 
         verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_NOT_FOUND, r.getStatusCode());
 
         ______TS("Failure case: instructor is already registered");
 
         String registeredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructor1@course1.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, registeredInstructorKey,
@@ -125,8 +113,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         ______TS("Normal case: instructor is not registered");
 
         String unregisteredInstructorKey =
-                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt")
-                        .getEncryptedKey();
+                logic.getInstructorForEmail("idOfTypicalCourse1", "instructorNotYetJoinedCourse1@email.tmt").getKey();
 
         params = new String[] {
                 Const.ParamsNames.REGKEY, unregisteredInstructorKey,
@@ -134,7 +121,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
         };
 
         a = getAction(params);
-        r = getJsonResult(a);
+        getJsonResult(a);
 
         verifyNumberOfEmailsSent(1);
         email = mockEmailSender.getEmailsSent().get(0);
@@ -143,8 +130,6 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                         "Typical Course 1 with 2 Evals", "idOfTypicalCourse1"),
                 email.getSubject());
 
-        assertEquals(HttpStatus.SC_OK, r.getStatusCode());
-
         ______TS("Failure case: invalid entity type");
 
         params = new String[] {
@@ -152,12 +137,7 @@ public class JoinCourseActionTest extends BaseActionTest<JoinCourseAction> {
                 Const.ParamsNames.ENTITY_TYPE, "unknown",
         };
 
-        a = getAction(params);
-        r = getJsonResult(a);
-
-        verifyNoEmailsSent();
-
-        assertEquals(HttpStatus.SC_BAD_REQUEST, r.getStatusCode());
+        verifyHttpParameterFailure(params);
 
     }
 

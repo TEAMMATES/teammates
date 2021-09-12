@@ -33,11 +33,13 @@
     "tm.e2e.IFRes.CS2104": {
       "id": "tm.e2e.IFRes.CS2104",
       "name": "Programming Language Concepts",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "tm.e2e.IFRes.CS2103": {
       "id": "tm.e2e.IFRes.CS2103",
       "name": "Software Engineering",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },

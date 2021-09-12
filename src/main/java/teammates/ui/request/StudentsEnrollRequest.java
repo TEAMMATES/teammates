@@ -29,7 +29,7 @@ public class StudentsEnrollRequest extends BasicRequest {
     }
 
     @Override
-    public void validate() {
+    public void validate() throws InvalidHttpRequestBodyException {
         assertTrue(!studentEnrollRequests.isEmpty(), ERROR_MESSAGE_EMPTY_ENROLLMENT);
         for (StudentEnrollRequest request : studentEnrollRequests) {
             request.validate();
@@ -63,7 +63,7 @@ public class StudentsEnrollRequest extends BasicRequest {
         }
 
         @Override
-        public void validate() {
+        public void validate() throws InvalidHttpRequestBodyException {
             assertTrue(name != null && !name.isEmpty(), "Student name cannot be empty");
             assertTrue(email != null && !email.isEmpty(), "Student email cannot be empty");
             assertTrue(team != null && !team.isEmpty(), "Team cannot be empty");
