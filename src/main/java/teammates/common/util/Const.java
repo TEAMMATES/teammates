@@ -108,7 +108,6 @@ public final class Const {
         public static final String INSTRUCTOR_ID = "instructorid";
         public static final String INSTRUCTOR_EMAIL = "instructoremail";
         public static final String INSTRUCTOR_INSTITUTION = "instructorinstitution";
-        public static final String INSTITUTION_MAC = "mac";
         public static final String IS_CREATING_ACCOUNT = "iscreatingaccount";
 
         public static final String INSTRUCTOR_ROLE_NAME = "instructorrole";

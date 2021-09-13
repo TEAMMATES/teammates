@@ -65,7 +65,7 @@ class CreateAccountAction extends Action {
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
 
         try {
-            logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id, instructorInstitution);
+            logic.joinCourseForInstructor(instructorList.get(0).getKey(), userInfo.id);
         } catch (EntityDoesNotExistException ednee) {
             throw new EntityNotFoundException(ednee);
         } catch (EntityAlreadyExistsException eaee) {

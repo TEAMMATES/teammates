@@ -92,7 +92,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, unregStudent.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, unregStudent.getKey(),
         };
 
         GetStudentAction action = getAction(submissionParams);
@@ -262,7 +262,7 @@ public class GetStudentActionTest extends BaseActionTest<GetStudentAction> {
 
         submissionParams = new String[] {
                 Const.ParamsNames.COURSE_ID, unregStudent.getCourse(),
-                Const.ParamsNames.REGKEY, unregStudent.getEncryptedKey(),
+                Const.ParamsNames.REGKEY, unregStudent.getKey(),
         };
 
         verifyAccessibleForUnregisteredUsers(submissionParams);

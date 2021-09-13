@@ -86,7 +86,6 @@ public class AdminSearchPageE2ETest extends BaseE2ETestCase {
         ______TS("Typical case: Reset instructor google id");
         searchPage.resetInstructorGoogleId(instructor);
         instructor.setGoogleId(null);
-        instructorAccount.setInstitute(null);
         instructorManageAccountLink = getExpectedInstructorManageAccountLink(instructor);
         instructorHomePageLink = getExpectedInstructorHomePageLink(instructor);
         searchPage.verifyInstructorRowContent(instructor, instructorAccount, instructorManageAccountLink,

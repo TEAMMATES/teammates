@@ -126,6 +126,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date1.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseCS3281: Course = {
@@ -134,6 +135,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date3.getTime(),
     deletionTimestamp: date4.getTime(),
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseCS3282: Course = {
@@ -142,6 +144,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date5.getTime(),
     deletionTimestamp: date6.getTime(),
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseST4234: Course = {
@@ -150,6 +153,7 @@ describe('InstructorCoursesPageComponent', () => {
     creationTimestamp: date2.getTime(),
     deletionTimestamp: 0,
     timeZone: 'UTC',
+    institute: 'Test Institute',
   };
 
   const courseModelCS1231: any = {

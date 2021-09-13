@@ -40,11 +40,13 @@
     "typicalCourse1": {
       "id": "tm.e2e.ISearch.course1",
       "name": "Typical Course 1 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     },
     "typicalCourse2": {
       "id": "tm.e2e.ISearch.course2",
       "name": "Typical Course 2 with 2 Evals",
+      "institute": "TEAMMATES Test Institute 1",
       "timeZone": "UTC"
     }
   },
