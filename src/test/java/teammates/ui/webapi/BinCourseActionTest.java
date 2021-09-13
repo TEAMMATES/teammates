@@ -48,7 +48,9 @@ public class BinCourseActionTest extends BaseActionTest<BinCourseAction> {
         logic.createCourseAndInstructor(instructorId,
                 CourseAttributes.builder("icdct.tpa.id1")
                         .withName("New course")
-                        .withTimezone(ZoneId.of("UTC")).build());
+                        .withTimezone(ZoneId.of("UTC"))
+                        .withInstitute("Test institute")
+                        .build());
 
         BinCourseAction binCourseAction = getAction(submissionParams);
         JsonResult result = getJsonResult(binCourseAction);

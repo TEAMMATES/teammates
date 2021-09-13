@@ -449,9 +449,10 @@ public class StudentAttributesTest extends BaseTestCase {
                 .withTeamName("team 1")
                 .build();
 
-        sd.setKey("testkey");
+        String key = StringHelper.encrypt("testkey");
+        sd.setKey(key);
         String regUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(StringHelper.encrypt("testkey"))
+                .withRegistrationKey(key)
                 .withStudentEmail("email@email.com")
                 .withCourseId("course1")
                 .withEntityType(Const.EntityType.STUDENT)
