@@ -203,6 +203,10 @@ export class SessionResultPageComponent implements OnInit {
       })
           .pipe(finalize(() => this.isFeedbackSessionResultsLoading = false))
           .subscribe((sessionResults: SessionResults) => {
+            if (sessionResults.questions.length === 0) {
+              this.statusMessageService.showWarningToast(
+                  'There are currently no responses to show as no responses have been submitted yet.');
+            }
             this.questions = sessionResults.questions.sort(
                 (a: QuestionOutput, b: QuestionOutput) =>
                     a.feedbackQuestion.questionNumber - b.feedbackQuestion.questionNumber);
