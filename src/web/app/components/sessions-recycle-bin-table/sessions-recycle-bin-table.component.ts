@@ -26,7 +26,7 @@ export class SessionsRecycleBinTableComponent implements OnInit {
   SortOrder: typeof SortOrder = SortOrder;
 
   // variable
-  rowClicked: Number = -1;
+  rowClicked: number = -1;
 
   @Input()
   isRecycleBinExpanded: boolean = false;
