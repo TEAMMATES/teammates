@@ -1,10 +1,9 @@
 import * as core from '@actions/core'
 import * as github from '@actions/github';
-import { postComment, validateChecksOnPrHead, dropOngoingLabel, addAppropriateReviewLabel, reviewKeywords } from "../common"
+import { postComment, validateChecksOnPrHead, dropOngoingLabel, addAppropriateReviewLabel, reviewKeywords, getCurrentIssue } from "../common"
 
 // params to set for api requests
-// check https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts to figure out what's being responded
-const issue_number = github.context.issue.number;
+// references: https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts 
 
 /**
  * This is the main function of this file
@@ -42,7 +41,9 @@ function filterCommentBody() : boolean {
  * @returns boolean of whether all validation checks 
  */
 async function validate() : Promise<boolean> {
-    if (!validatePRStatus()) return;
+    if (!isValidPRStatus()) return;
+
+    if (!await isValidAuthor()) return;
 
     const { didChecksRunSuccessfully, errMessage } = await validateChecksOnPrHead();
 
@@ -55,10 +56,21 @@ async function validate() : Promise<boolean> {
 }
 
 
-function validatePRStatus() {
+function isValidPRStatus() {
     // nothing stops this workflow from running on PRs of specific labels
     core.warning("No pr validation has been set");
     return true;
+}
+
+async function isValidAuthor() {
+    const commentAuthor : string = github.context.payload.comment.user.login; // https://docs.github.com/en/developers/webhooks-and-events/webhooks/webhook-events-and-payloads#issue_comment
+    const prAuthor : string = await getCurrentIssue().then(res => res.data.user.login);
+
+    core.info(`Author of comment that triggered this workflow: ${commentAuthor}.\n` +
+        `Author of pr that this comment was added to: ${prAuthor}.\n`+
+        `Is it a match? ${prAuthor === commentAuthor}`)
+
+    return prAuthor === commentAuthor;
 }
 
 run();

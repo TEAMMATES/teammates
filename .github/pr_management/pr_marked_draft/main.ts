@@ -6,7 +6,7 @@ const token = core.getInput("repo-token");
 const octokit = github.getOctokit(token);
 
 // params to set for api requests
-// check https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts
+// references: https://github.com/actions/toolkit/blob/main/packages/github/src/context.ts
 const owner = github.context.repo.owner; 
 const repo = github.context.repo.repo;
 const issue_number = github.context.issue.number;

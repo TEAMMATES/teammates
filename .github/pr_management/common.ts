@@ -248,11 +248,19 @@ export async function addAppropriateReviewLabel() {
 
         if (e.label?.name == toReviewLabel) {
             await addLabel(toReviewLabel);
-            core.info(`${finalReviewLabel} was the last found review label on this PR, so adding it back.`);
+            core.info(`${toReviewLabel} was the last found review label on this PR, so adding it back.`);
             return;
         }   
     };
 
     // if no previous review label was found, add toReviewLabel
     await addLabel(toReviewLabel);
+}
+
+export async function getCurrentIssue() {
+    return octokit.rest.issues.get({
+        owner, 
+        repo,
+        issue_number,
+    }).catch(err => {throw err});
 }
