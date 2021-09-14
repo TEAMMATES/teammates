@@ -156,18 +156,7 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading if user is not logged in', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(
-      of({
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: true,
-          isMaintainer: false,
-        },
-        masquerade: false,
-      })
-    );
+    spyOn(authService, 'getAuthUser').and.returnValue(of(validAuthResponse));
 
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
