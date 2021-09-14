@@ -108,15 +108,12 @@ describe('UserJoinPageComponent', () => {
     component.mac = params[3];
     component.validUrl = true;
 
-    const courseSpy: Spy = spyOn(courseService, 'joinCourse').and.returnValue(
-      of({})
-    );
+    const courseSpy: Spy = spyOn(courseService, 'joinCourse').and.returnValue(of({}));
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
 
     fixture.detectChanges();
 
-    const btn: any =
-      fixture.debugElement.nativeElement.querySelector('#btn-confirm');
+    const btn: any = fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
     expect(courseSpy.calls.count()).toEqual(1);
@@ -156,7 +153,18 @@ describe('UserJoinPageComponent', () => {
   });
 
   it('should stop loading if user is not logged in', () => {
-    spyOn(authService, 'getAuthUser').and.returnValue(of(validAuthResponse));
+    spyOn(authService, 'getAuthUser').and.returnValue(
+      of({
+        user: {
+          id: 'user',
+          isAdmin: false,
+          isInstructor: false,
+          isStudent: true,
+          isMaintainer: false,
+        },
+        masquerade: false,
+      })
+    );
 
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
