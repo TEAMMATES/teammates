@@ -133,14 +133,14 @@ describe('UserJoinPageComponent', () => {
           isMaintainer: false,
         },
         masquerade: false,
-      })
+      }),
     );
 
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
         hasJoined: true,
         userId: 'user',
-      })
+      }),
     );
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
 
@@ -163,14 +163,14 @@ describe('UserJoinPageComponent', () => {
           isMaintainer: false,
         },
         masquerade: false,
-      })
+      }),
     );
 
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
         hasJoined: true,
         userId: '',
-      })
+      }),
     );
 
     component.ngOnInit();

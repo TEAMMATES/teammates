@@ -51,29 +51,29 @@ export class UserJoinPageComponent implements OnInit {
 
       const nextUrl: string = `${window.location.pathname}${window.location.search.replace(/&/g, '%26')}`;
       this.authService.getAuthUser(undefined, nextUrl).subscribe((auth: AuthInfo) => {
-          if (!auth.user) {
-            this.isLoading = false;
-            window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
-          } else {
-            this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
+        if (!auth.user) {
+          this.isLoading = false;
+          window.location.href = `${this.backendUrl}${auth.studentLoginUrl}`;
+        } else {
+          this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
             this.hasJoined = resp.hasJoined;
             this.userId = resp.userId || '';
 
             if (this.hasJoined && this.userId) {
-              // The regkey has been used and there is a logged in user.
-              // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
-              this.navigationService.navigateByURL(this.router,`/web/${this.entityType}/home`);
+            // The regkey has been used and there is a logged in user.
+            // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
+              this.navigationService.navigateByURL(this.router, `/web/${this.entityType}/home`);
             } else {
               this.isLoading = false;
             }
-            });
-          }
-        },
+          });
+        }
+      },
         (resp: ErrorMessageOutput) => {
           const modalRef: any = this.ngbModal.open(ErrorReportComponent);
           modalRef.componentInstance.requestId = resp.error.requestId;
           modalRef.componentInstance.errorMessage = resp.error.message;
-        }
+        },
       );
     });
   }
