@@ -58,6 +58,7 @@ export class UserJoinPageComponent implements OnInit {
             this.courseService.getJoinCourseStatus(this.key, this.entityType).subscribe((resp: JoinStatus) => {
             this.hasJoined = resp.hasJoined;
             this.userId = resp.userId || '';
+
             if (this.hasJoined && this.userId) {
               // The regkey has been used and there is a logged in user.
               // Simply redirect the user to their home page, regardless of whether the regkey matches or not.
@@ -82,11 +83,11 @@ export class UserJoinPageComponent implements OnInit {
    */
   joinCourse(): void {
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
-          this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
-        }, (resp: ErrorMessageOutput) => {
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        });
+        this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+      }, (resp: ErrorMessageOutput) => {
+        const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+        modalRef.componentInstance.requestId = resp.error.requestId;
+        modalRef.componentInstance.errorMessage = resp.error.message;
+      });
   }
 }
