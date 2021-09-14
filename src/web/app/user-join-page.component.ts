@@ -66,14 +66,13 @@ export class UserJoinPageComponent implements OnInit {
             } else {
               this.isLoading = false;
             }
+          }, (resp: ErrorMessageOutput) => {
+            const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+            modalRef.componentInstance.requestId = resp.error.requestId;
+            modalRef.componentInstance.errorMessage = resp.error.message;
           });
         }
       },
-        (resp: ErrorMessageOutput) => {
-          const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-          modalRef.componentInstance.requestId = resp.error.requestId;
-          modalRef.componentInstance.errorMessage = resp.error.message;
-        },
       );
     });
   }
