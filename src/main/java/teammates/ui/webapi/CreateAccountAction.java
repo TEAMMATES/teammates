@@ -45,9 +45,7 @@ class CreateAccountAction extends AdminOnlyAction {
         }
         List<InstructorAttributes> instructorList = logic.getInstructorsForCourse(courseId);
         String joinLink = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
-                .withRegistrationKey(instructorList.get(0).getEncryptedKey())
-                .withInstructorInstitution(instructorInstitution)
-                .withInstitutionMac(StringHelper.generateSignature(instructorInstitution))
+                .withRegistrationKey(instructorList.get(0).getKey())
                 .withEntityType(Const.EntityType.INSTRUCTOR)
                 .toAbsoluteString();
         EmailWrapper email = emailGenerator.generateNewInstructorAccountJoinEmail(

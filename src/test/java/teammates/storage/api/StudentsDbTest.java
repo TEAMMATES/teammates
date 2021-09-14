@@ -119,7 +119,7 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
         ______TS("typical success case for getStudentForRegistrationKey: existing student");
         StudentAttributes retrieved = studentsDb.getStudentForEmail(s.getCourse(), s.getEmail());
         assertNotNull(retrieved);
-        assertNotNull(studentsDb.getStudentForRegistrationKey(retrieved.getEncryptedKey()));
+        assertNotNull(studentsDb.getStudentForRegistrationKey(retrieved.getKey()));
 
         assertNull(studentsDb.getStudentForRegistrationKey(StringHelper.encrypt("notExistingKey")));
 

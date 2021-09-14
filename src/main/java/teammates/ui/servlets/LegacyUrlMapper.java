@@ -8,11 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.http.HttpStatus;
 
-import teammates.common.util.AppUrl;
 import teammates.common.util.Config;
 import teammates.common.util.Const;
 import teammates.common.util.Logger;
-import teammates.common.util.StringHelper;
 
 /**
  * Maps some selected legacy URLs to new one. This is primarily for URLs send via email.
@@ -40,16 +38,10 @@ public class LegacyUrlMapper extends HttpServlet {
         case Const.LegacyURIs.INSTRUCTOR_COURSE_JOIN:
             baseRedirectUrl = Const.WebPageURIs.JOIN_PAGE;
             key = req.getParameter(Const.ParamsNames.REGKEY);
-            String institute = req.getParameter(Const.ParamsNames.INSTRUCTOR_INSTITUTION);
-            AppUrl newUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
+            redirectUrl = Config.getFrontEndAppUrl(Const.WebPageURIs.JOIN_PAGE)
                     .withRegistrationKey(key)
-                    .withEntityType(Const.EntityType.INSTRUCTOR);
-            if (institute != null) {
-                newUrl = newUrl
-                        .withInstructorInstitution(institute)
-                        .withInstitutionMac(StringHelper.generateSignature(institute));
-            }
-            redirectUrl = newUrl.toString();
+                    .withEntityType(Const.EntityType.INSTRUCTOR)
+                    .toString();
             break;
         case Const.LegacyURIs.STUDENT_COURSE_JOIN:
         case Const.LegacyURIs.STUDENT_COURSE_JOIN_NEW:
