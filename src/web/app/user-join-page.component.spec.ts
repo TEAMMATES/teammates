@@ -1,15 +1,15 @@
-import { HttpClientTestingModule } from "@angular/common/http/testing";
-import { async, ComponentFixture, TestBed } from "@angular/core/testing";
-import { ActivatedRoute } from "@angular/router";
-import { RouterTestingModule } from "@angular/router/testing";
-import { of } from "rxjs";
-import { AuthService } from "../services/auth.service";
-import { CourseService } from "../services/course.service";
-import { NavigationService } from "../services/navigation.service";
-import { UserJoinPageComponent } from "./user-join-page.component";
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { AuthService } from '../services/auth.service';
+import { CourseService } from '../services/course.service';
+import { NavigationService } from '../services/navigation.service';
+import { UserJoinPageComponent } from './user-join-page.component';
 import Spy = jasmine.Spy;
 
-describe("UserJoinPageComponent", () => {
+describe('UserJoinPageComponent', () => {
   let component: UserJoinPageComponent;
   let fixture: ComponentFixture<UserJoinPageComponent>;
   let navService: NavigationService;
@@ -28,10 +28,10 @@ describe("UserJoinPageComponent", () => {
           provide: ActivatedRoute,
           useValue: {
             queryParams: of({
-              entitytype: "student",
-              key: "key",
-              instructorinstitution: "nus",
-              mac: "mac",
+              entitytype: 'student',
+              key: 'key',
+              instructorinstitution: 'nus',
+              mac: 'mac',
             }),
           },
         },
@@ -48,17 +48,17 @@ describe("UserJoinPageComponent", () => {
     fixture.detectChanges();
   });
 
-  it("should create", () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it("should snap with default fields", () => {
+  it('should snap with default fields', () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it("should snap if user is not logged in and has a valid url", () => {
+  it('should snap if user is not logged in and has a valid url', () => {
     component.hasJoined = false;
-    component.userId = "";
+    component.userId = '';
     component.validUrl = true;
     component.isLoading = false;
 
@@ -67,7 +67,7 @@ describe("UserJoinPageComponent", () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it("should snap with invalid course join link", () => {
+  it('should snap with invalid course join link', () => {
     component.validUrl = false;
     component.isLoading = false;
 
@@ -76,7 +76,7 @@ describe("UserJoinPageComponent", () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it("should snap with valid course join link that has been used", () => {
+  it('should snap with valid course join link that has been used', () => {
     component.validUrl = true;
     component.hasJoined = true;
     component.isLoading = false;
@@ -86,9 +86,9 @@ describe("UserJoinPageComponent", () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it("should snap with valid course join link that has not been used", () => {
+  it('should snap with valid course join link that has not been used', () => {
     component.validUrl = true;
-    component.userId = "user";
+    component.userId = 'user';
     component.hasJoined = false;
     component.isLoading = false;
 
@@ -97,26 +97,26 @@ describe("UserJoinPageComponent", () => {
     expect(fixture).toMatchSnapshot();
   });
 
-  it("should join course when join course button is clicked on", () => {
-    const params: string[] = ["key", "student", "NUS", "mac"];
+  it('should join course when join course button is clicked on', () => {
+    const params: string[] = ['key', 'student', 'NUS', 'mac'];
     component.isLoading = false;
     component.hasJoined = false;
-    component.userId = "user";
+    component.userId = 'user';
     component.key = params[0];
     component.entityType = params[1];
     component.institute = params[2];
     component.mac = params[3];
     component.validUrl = true;
 
-    const courseSpy: Spy = spyOn(courseService, "joinCourse").and.returnValue(
+    const courseSpy: Spy = spyOn(courseService, 'joinCourse').and.returnValue(
       of({})
     );
-    const navSpy: Spy = spyOn(navService, "navigateByURL");
+    const navSpy: Spy = spyOn(navService, 'navigateByURL');
 
     fixture.detectChanges();
 
     const btn: any =
-      fixture.debugElement.nativeElement.querySelector("#btn-confirm");
+      fixture.debugElement.nativeElement.querySelector('#btn-confirm');
     btn.click();
 
     expect(courseSpy.calls.count()).toEqual(1);
@@ -125,11 +125,11 @@ describe("UserJoinPageComponent", () => {
     expect(navSpy.calls.mostRecent().args[1]).toEqual(`/web/${params[1]}`);
   });
 
-  it("should redirect user to home page if user is logged in", () => {
-    spyOn(authService, "getAuthUser").and.returnValue(
+  it('should redirect user to home page if user is logged in', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(
       of({
         user: {
-          id: "user",
+          id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: true,
@@ -139,27 +139,27 @@ describe("UserJoinPageComponent", () => {
       })
     );
 
-    spyOn(courseService, "getJoinCourseStatus").and.returnValue(
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
         hasJoined: true,
-        userId: "user",
+        userId: 'user',
       })
     );
-    const navSpy: Spy = spyOn(navService, "navigateByURL");
+    const navSpy: Spy = spyOn(navService, 'navigateByURL');
 
     component.ngOnInit();
 
     expect(component.hasJoined).toBeTruthy();
-    expect(component.userId).toEqual("user");
+    expect(component.userId).toEqual('user');
     expect(navSpy.calls.count()).toEqual(1);
-    expect(navSpy.calls.mostRecent().args[1]).toEqual("/web/student/home");
+    expect(navSpy.calls.mostRecent().args[1]).toEqual('/web/student/home');
   });
 
-  it("should stop loading if user is not logged in", () => {
-    spyOn(authService, "getAuthUser").and.returnValue(
+  it('should stop loading if user is not logged in', () => {
+    spyOn(authService, 'getAuthUser').and.returnValue(
       of({
         user: {
-          id: "user",
+          id: 'user',
           isAdmin: false,
           isInstructor: false,
           isStudent: true,
@@ -169,10 +169,10 @@ describe("UserJoinPageComponent", () => {
       })
     );
 
-    spyOn(courseService, "getJoinCourseStatus").and.returnValue(
+    spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
         hasJoined: true,
-        userId: "",
+        userId: '',
       })
     );
 
