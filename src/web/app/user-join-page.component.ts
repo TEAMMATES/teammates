@@ -83,11 +83,11 @@ export class UserJoinPageComponent implements OnInit {
    */
   joinCourse(): void {
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
-        this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
-      }, (resp: ErrorMessageOutput) => {
-        const modalRef: any = this.ngbModal.open(ErrorReportComponent);
-        modalRef.componentInstance.requestId = resp.error.requestId;
-        modalRef.componentInstance.errorMessage = resp.error.message;
-      });
+      this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
+    }, (resp: ErrorMessageOutput) => {
+      const modalRef: any = this.ngbModal.open(ErrorReportComponent);
+      modalRef.componentInstance.requestId = resp.error.requestId;
+      modalRef.componentInstance.errorMessage = resp.error.message;
+    });
   }
 }
