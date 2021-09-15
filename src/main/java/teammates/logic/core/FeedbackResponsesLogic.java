@@ -841,7 +841,7 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
-     * Deletes responses using {@link List<FeedbackResponseAttributes>}.
+     * Deletes responses using a list of {@link FeedbackResponseAttributes}.
      */
     public void deleteFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponseAttributes) {
         frDb.deleteFeedbackResponses(feedbackResponseAttributes);

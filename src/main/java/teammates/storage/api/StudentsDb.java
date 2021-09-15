@@ -297,7 +297,7 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
     }
 
     /**
-     * Deletes students using {@link List<StudentAttributes>}.
+     * Deletes students using a list of {@link StudentAttributes}.
      */
     public void deleteStudents(List<StudentAttributes> studentAttributes) {
         deleteEntity(studentAttributes.stream()

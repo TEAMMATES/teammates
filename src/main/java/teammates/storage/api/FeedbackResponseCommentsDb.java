@@ -271,7 +271,7 @@ public final class FeedbackResponseCommentsDb
     }
 
     /**
-     * Deletes comments using {@link List<FeedbackResponseCommentAttributes>}.
+     * Deletes comments using a list of {@link FeedbackResponseCommentAttributes}.
      */
     public void deleteFeedbackResponseComments(List<FeedbackResponseCommentAttributes> feedbackResponseCommentAttributes) {
         deleteEntity(

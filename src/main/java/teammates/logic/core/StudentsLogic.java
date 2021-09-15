@@ -421,7 +421,7 @@ public final class StudentsLogic {
     }
 
     /**
-     * Deletes students using {@link List<StudentAttributes>}.
+     * Deletes students using a list of {@link StudentAttributes}.
      */
     public void deleteStudents(List<StudentAttributes> studentAttributes) {
         studentsDb.deleteStudents(studentAttributes);

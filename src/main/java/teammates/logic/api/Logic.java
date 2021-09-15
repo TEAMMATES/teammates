@@ -781,7 +781,6 @@ public class Logic {
                                 })
                         );
 
-
         // Get all feedback responses to student ids
         Stream<List<FeedbackResponseAttributes>> responsesToStudentStream =
                 studentsInCourse
@@ -790,11 +789,13 @@ public class Logic {
                                     @Override
                                     public List<FeedbackResponseAttributes> run() {
                                         return feedbackResponsesLogic
-                                                .getFeedbackResponsesForReceiverForCourse(courseId, studentAttributes.getEmail());
+                                                .getFeedbackResponsesForReceiverForCourse(
+                                                        courseId,
+                                                        studentAttributes.getEmail()
+                                                );
                                     }
                                 })
                         );
-
 
         List<FeedbackResponseAttributes> responsesInCourse =
                 Stream.concat(responsesFromStudentStream, responsesToStudentStream)
@@ -815,7 +816,6 @@ public class Logic {
                         )
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList());
-
 
         // Delete all response comments
         feedbackResponseCommentsLogic.deleteFeedbackResponseComments(responseComments);
