@@ -71,7 +71,7 @@ export class UserJoinPageComponent implements OnInit {
           modalRef.componentInstance.requestId = resp.error.requestId;
           modalRef.componentInstance.errorMessage = resp.error.message;
         });
-        });
+      });
     });
   }
 
