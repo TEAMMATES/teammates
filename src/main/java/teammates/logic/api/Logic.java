@@ -80,7 +80,7 @@ public class Logic {
     }
 
     public String getCourseInstitute(String courseId) {
-        return accountsLogic.getCourseInstitute(courseId);
+        return coursesLogic.getCourseInstitute(courseId);
     }
 
     /**
@@ -298,13 +298,13 @@ public class Logic {
      * Preconditions: <br>
      * * Parameters regkey and googleId are non-null.
      */
-    public InstructorAttributes joinCourseForInstructor(String regkey, String googleId, String institute)
+    public InstructorAttributes joinCourseForInstructor(String regkey, String googleId)
             throws InvalidParametersException, EntityDoesNotExistException, EntityAlreadyExistsException {
 
         assert googleId != null;
         assert regkey != null;
 
-        return accountsLogic.joinCourseForInstructor(regkey, googleId, institute);
+        return accountsLogic.joinCourseForInstructor(regkey, googleId);
     }
 
     /**

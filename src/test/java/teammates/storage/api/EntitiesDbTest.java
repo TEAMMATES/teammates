@@ -34,6 +34,7 @@ public class EntitiesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("Computing101-fresh")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         coursesDb.deleteCourse(c.getId());
         verifyAbsentInDatabase(c);
@@ -52,6 +53,7 @@ public class EntitiesDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                 .builder("invalid id spaces")
                 .withName("Basic Computing")
                 .withTimezone(ZoneId.of("UTC"))
+                .withInstitute("Test institute")
                 .build();
         InvalidParametersException ipe = assertThrows(InvalidParametersException.class,
                 () -> coursesDb.createEntity(invalidCourse));

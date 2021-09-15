@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 import teammates.common.datatransfer.InstructorPrivileges;
-import teammates.common.exception.InvalidParametersException;
 import teammates.common.util.Const;
 import teammates.common.util.FieldValidator;
 import teammates.common.util.JsonUtils;
 import teammates.common.util.SanitizationHelper;
-import teammates.common.util.StringHelper;
 import teammates.storage.entity.Instructor;
 
 /**
@@ -119,22 +117,6 @@ public class InstructorAttributes extends EntityAttributes<Instructor> {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    /**
-     * Returns the encrypted version of the key. If the key stored in the DB is not already encrypted,
-     * it will be encrypted before returned.
-     */
-    // TODO remove after data migration
-    @Deprecated
-    public String getEncryptedKey() {
-        try {
-            StringHelper.decrypt(key);
-            // If key can be decrypted, it means it is already encrypted and can be returned immediately
-            return key;
-        } catch (InvalidParametersException e) {
-            return StringHelper.encrypt(key);
-        }
     }
 
     public String getKey() {

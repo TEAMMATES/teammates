@@ -49,7 +49,7 @@ class CreateInstructorAction extends Action {
         try {
             InstructorAttributes createdInstructor = logic.createInstructor(instructorToAdd);
             taskQueuer.scheduleCourseRegistrationInviteToInstructor(
-                    userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), null, false);
+                    userInfo.id, instructorToAdd.getEmail(), instructorToAdd.getCourseId(), false);
             taskQueuer.scheduleInstructorForSearchIndexing(createdInstructor.getCourseId(), createdInstructor.getEmail());
 
             return new JsonResult(new InstructorData(createdInstructor));
