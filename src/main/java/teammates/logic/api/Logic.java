@@ -10,6 +10,9 @@ import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
+import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Work;
+
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
 import teammates.common.datatransfer.attributes.AccountAttributes;
@@ -767,8 +770,15 @@ public class Logic {
         Stream<List<FeedbackResponseAttributes>> responsesFromStudentStream =
                 studentsInCourse
                         .parallelStream()
-                        .map(studentAttributes -> feedbackResponsesLogic
-                                .getFeedbackResponsesFromGiverForCourse(courseId, studentAttributes.getEmail())
+                        .map(studentAttributes ->
+                                ObjectifyService.run(new Work<List<FeedbackResponseAttributes>>() {
+                                    @Override
+                                    public List<FeedbackResponseAttributes> run() {
+                                        return feedbackResponsesLogic
+                                                .getFeedbackResponsesFromGiverForCourse(courseId,
+                                                        studentAttributes.getEmail());
+                                    }
+                                })
                         );
 
 
@@ -776,8 +786,13 @@ public class Logic {
         Stream<List<FeedbackResponseAttributes>> responsesToStudentStream =
                 studentsInCourse
                         .parallelStream()
-                        .map(studentAttributes -> feedbackResponsesLogic
-                                .getFeedbackResponsesForReceiverForCourse(courseId, studentAttributes.getEmail())
+                        .map(studentAttributes -> ObjectifyService.run(new Work<List<FeedbackResponseAttributes>>() {
+                                    @Override
+                                    public List<FeedbackResponseAttributes> run() {
+                                        return feedbackResponsesLogic
+                                                .getFeedbackResponsesForReceiverForCourse(courseId, studentAttributes.getEmail());
+                                    }
+                                })
                         );
 
 
@@ -789,8 +804,14 @@ public class Logic {
         // Get all feedback response comments from response
         List<FeedbackResponseCommentAttributes> responseComments =
                 responsesInCourse.parallelStream()
-                        .map(feedbackResponseAttributes -> feedbackResponseCommentsLogic
-                                .getFeedbackResponseCommentForResponse(feedbackResponseAttributes.getId())
+                        .map(feedbackResponseAttributes -> ObjectifyService
+                                .run(new Work<List<FeedbackResponseCommentAttributes>>() {
+                                    @Override
+                                    public List<FeedbackResponseCommentAttributes> run() {
+                                        return feedbackResponseCommentsLogic
+                                                .getFeedbackResponseCommentForResponse(feedbackResponseAttributes.getId());
+                                    }
+                                })
                         )
                         .flatMap(Collection::stream)
                         .collect(Collectors.toList());
