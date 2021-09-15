@@ -302,6 +302,22 @@ public class FeedbackResponseCommentsLogicTest extends BaseLogicTest {
     }
 
     @Test
+    public void testDeleteFeedbackResponseComments_deleteByFeedbackResponseCommentAttributes() {
+
+        ______TS("typical case");
+        String courseId = "idOfTypicalCourse1";
+
+        List<FeedbackResponseCommentAttributes> frcList =
+                frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session", null);
+        assertFalse(frcList.isEmpty());
+
+        frcLogic.deleteFeedbackResponseComments(frcList);
+
+        frcList = frcLogic.getFeedbackResponseCommentForSessionInSection(courseId, "First feedback session", null);
+        assertEquals(0, frcList.size());
+    }
+
+    @Test
     public void testGetFeedbackResponseCommentForSessionInSection_noSectionName_shouldReturnCommentsInSession() {
         List<FeedbackResponseCommentAttributes> comments =
                 frcLogic.getFeedbackResponseCommentForSessionInSection(

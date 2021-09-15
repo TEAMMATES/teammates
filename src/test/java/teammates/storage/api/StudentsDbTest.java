@@ -3,6 +3,9 @@ package teammates.storage.api;
 import static teammates.common.util.FieldValidator.COURSE_ID_ERROR_MESSAGE;
 import static teammates.common.util.FieldValidator.REASON_INCORRECT_FORMAT;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.testng.annotations.Test;
 
 import teammates.common.datatransfer.AttributesDeletionQuery;
@@ -380,6 +383,22 @@ public class StudentsDbTest extends BaseTestCaseWithLocalDatabaseAccess {
                         .build());
 
         assertEquals(0, studentsDb.getStudentsForCourse(s.getCourse()).size());
+        // other course should remain
+        assertEquals(1, studentsDb.getStudentsForCourse(anotherStudent.getCourse()).size());
+
+        // delete all students given a list of students
+        StudentAttributes student1 = createNewStudent("student1@email.com");
+        StudentAttributes student2 = createNewStudent("student2@email.com");
+
+        List<StudentAttributes> studentAttributes = new ArrayList<>();
+        studentAttributes.add(student1);
+        studentAttributes.add(student2);
+
+        studentsDb.deleteStudents(studentAttributes);
+
+        assertNull(studentsDb.getStudentForEmail(student1.getCourse(), student1.getEmail()));
+        assertNull(studentsDb.getStudentForEmail(student2.getCourse(), student2.getEmail()));
+
         // other course should remain
         assertEquals(1, studentsDb.getStudentsForCourse(anotherStudent.getCourse()).size());
 

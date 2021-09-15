@@ -1,5 +1,6 @@
 package teammates.storage.api;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -278,6 +279,45 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
     }
 
     @Test
+    public void testDeleteFeedbackResponses_byFeedbackResponseAttributes() {
+        ______TS("standard success case");
+
+        FeedbackResponseAttributes fra1 = fras.get("response1ForQ1S1C1");
+        fra1 = frDb.getFeedbackResponse(fra1.getFeedbackQuestionId(), fra1.getGiver(), fra1.getRecipient());
+        assertNotNull(fra1);
+        FeedbackResponseAttributes fra2 = fras.get("response1ForQ1S1C2");
+        fra2 = frDb.getFeedbackResponse(fra2.getFeedbackQuestionId(), fra2.getGiver(), fra2.getRecipient());
+        assertNotNull(fra2);
+
+        FeedbackResponseAttributes fraUndeleted = fras.get("response1ForQ2S1C1");
+        fraUndeleted = frDb.getFeedbackResponse(fraUndeleted.getFeedbackQuestionId(), fraUndeleted.getGiver(),
+                fraUndeleted.getRecipient());
+        assertNotNull(fraUndeleted);
+
+        List<FeedbackResponseAttributes> feedbackResponseAttributes = new ArrayList<>();
+        feedbackResponseAttributes.add(fra1);
+        feedbackResponseAttributes.add(fra2);
+
+        frDb.deleteFeedbackResponses(feedbackResponseAttributes);
+
+        // all response of courses are deleted
+        assertNull(frDb.getFeedbackResponse(fra1.getId()));
+        assertNull(frDb.getFeedbackResponse(fra2.getId()));
+
+        // responses of other course remain
+        assertNotNull(frDb.getFeedbackResponse(fraUndeleted.getId()));
+
+        ______TS("empty feedback response attributes");
+
+        // should pass silently
+        List<FeedbackResponseAttributes> emptyFeedbackResponseAttributes = new ArrayList<>();
+        frDb.deleteFeedbackResponses(emptyFeedbackResponseAttributes);
+
+        // responses are not deleted accidentally
+        assertNotNull(frDb.getFeedbackResponse(fraUndeleted.getId()));
+    }
+
+    @Test
     public void testCreateFeedbackResponse() throws Exception {
 
         ______TS("standard success case");
@@ -335,7 +375,7 @@ public class FeedbackResponsesDbTest extends BaseTestCaseWithLocalDatabaseAccess
         ______TS("non-existent response");
 
         assertNull(frDb.getFeedbackResponse(expected.getFeedbackQuestionId(), "student1InCourse1@gmail.tmt",
-                                            "student3InCourse1@gmail.tmt"));
+                "student3InCourse1@gmail.tmt"));
 
         ______TS("null fqId");
 
