@@ -20,8 +20,8 @@ describe('UserJoinPageComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UserJoinPageComponent],
       imports: [
-        HttpClientTestingModule, 
-        RouterTestingModule
+        HttpClientTestingModule,
+        RouterTestingModule,
       ],
       providers: [
         NavigationService,
