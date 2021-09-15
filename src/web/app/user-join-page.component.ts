@@ -79,7 +79,7 @@ export class UserJoinPageComponent implements OnInit {
    * Joins the course.
    */
   joinCourse(): void {
-    
+
     this.courseService.joinCourse(this.key, this.entityType, this.institute, this.mac).subscribe(() => {
       this.navigationService.navigateByURL(this.router, `/web/${this.entityType}`);
     }, (resp: ErrorMessageOutput) => {
