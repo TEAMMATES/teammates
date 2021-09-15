@@ -1,9 +1,12 @@
 package teammates.logic.api;
 
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
 
@@ -752,6 +755,55 @@ public class Logic {
         assert courseId != null;
 
         studentsLogic.deleteStudentsInCourseCascade(courseId);
+    }
+
+    public void deleteStudentsInCourseParallel(String courseId) {
+        assert courseId != null;
+
+        // Get all students in course
+        List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
+
+        // Get all feedback responses from student ids
+        Stream<List<FeedbackResponseAttributes>> responsesFromStudentStream =
+                studentsInCourse
+                        .parallelStream()
+                        .map(studentAttributes -> feedbackResponsesLogic
+                                .getFeedbackResponsesFromGiverForCourse(courseId, studentAttributes.getEmail())
+                        );
+
+
+        // Get all feedback responses to student ids
+        Stream<List<FeedbackResponseAttributes>> responsesToStudentStream =
+                studentsInCourse
+                        .parallelStream()
+                        .map(studentAttributes -> feedbackResponsesLogic
+                                .getFeedbackResponsesForReceiverForCourse(courseId, studentAttributes.getEmail())
+                        );
+
+
+        List<FeedbackResponseAttributes> responsesInCourse =
+                Stream.concat(responsesFromStudentStream, responsesToStudentStream)
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList());
+
+        // Get all feedback response comments from response
+        List<FeedbackResponseCommentAttributes> responseComments =
+                responsesInCourse.parallelStream()
+                        .map(feedbackResponseAttributes -> feedbackResponseCommentsLogic
+                                .getFeedbackResponseCommentForResponse(feedbackResponseAttributes.getId())
+                        )
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList());
+
+
+        // Delete all response comments
+        feedbackResponseCommentsLogic.deleteFeedbackResponseComments(responseComments);
+
+        // Delete all feedback responses
+        feedbackResponsesLogic.deleteFeedbackResponses(responsesInCourse);
+
+        // Delete all students
+        studentsLogic.deleteStudents(studentsInCourse);
     }
 
     /**

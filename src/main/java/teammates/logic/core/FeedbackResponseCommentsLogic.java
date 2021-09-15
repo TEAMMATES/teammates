@@ -201,6 +201,13 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
+     * Deletes comments using {@link FeedbackResponseCommentAttributes}.
+     */
+    public void deleteFeedbackResponseComments(List<FeedbackResponseCommentAttributes> feedbackResponseCommentAttributes) {
+        frcDb.deleteFeedbackResponseComments(feedbackResponseCommentAttributes);
+    }
+
+    /**
      * Returns true if the comment's giver name is visible to certain user.
      */
     public boolean isNameVisibleToUser(FeedbackResponseCommentAttributes comment, FeedbackResponseAttributes response,

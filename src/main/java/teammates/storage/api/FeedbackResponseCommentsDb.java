@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -267,6 +268,18 @@ public final class FeedbackResponseCommentsDb
         }
 
         deleteEntity(entitiesToDelete.keys().list());
+    }
+
+    /**
+     * Deletes comments using {@link List<FeedbackResponseCommentAttributes>}.
+     */
+    public void deleteFeedbackResponseComments(List<FeedbackResponseCommentAttributes> feedbackResponseCommentAttributes) {
+        deleteEntity(
+                feedbackResponseCommentAttributes
+                        .stream()
+                        .map(frc -> Key.create(FeedbackResponseComment.class, frc.getId()))
+                        .collect(Collectors.toList())
+        );
     }
 
     private FeedbackResponseComment getFeedbackResponseCommentEntity(long feedbackResponseCommentId) {

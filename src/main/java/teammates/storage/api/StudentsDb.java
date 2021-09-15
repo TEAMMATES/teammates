@@ -309,6 +309,15 @@ public final class StudentsDb extends EntitiesDb<CourseStudent, StudentAttribute
         }
     }
 
+    /**
+     * Deletes students using {@link List<StudentAttributes>}.
+     */
+    public void deleteStudents(List<StudentAttributes> studentAttributes) {
+        deleteEntity(studentAttributes.stream()
+                .map(s -> Key.create(CourseStudent.class, s.getId()))
+                .collect(Collectors.toList()));
+    }
+
     private CourseStudent getCourseStudentEntityForEmail(String courseId, String email) {
         return load().id(CourseStudent.generateId(email, courseId)).now();
     }

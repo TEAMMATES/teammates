@@ -583,7 +583,7 @@ public class FeedbackResponseCommentsDbTest extends BaseTestCaseWithLocalDatabas
 
     @Test
     public void testDeleteFeedbackResponseComments_nullInput_shouldThrowException() {
-        assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComments(null));
+        assertThrows(AssertionError.class, () -> frcDb.deleteFeedbackResponseComments((AttributesDeletionQuery) null));
     }
 
     private void verifyListsContainSameResponseCommentAttributes(

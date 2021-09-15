@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -306,6 +307,17 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         }
 
         deleteEntity(entitiesToDelete.keys().list());
+    }
+
+    /**
+     * Deletes responses using {@link List<FeedbackResponseAttributes>}.
+     */
+    public void deleteFeedbackResponses(List<FeedbackResponseAttributes> feedbackResponseAttributes) {
+        deleteEntity(
+                feedbackResponseAttributes
+                        .stream()
+                        .map(fr -> Key.create(FeedbackResponse.class, fr.getId()))
+                        .collect(Collectors.toList()));
     }
 
     /**

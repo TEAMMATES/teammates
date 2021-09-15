@@ -421,6 +421,13 @@ public final class StudentsLogic {
     }
 
     /**
+     * Deletes students using {@link List<StudentAttributes>}.
+     */
+    public void deleteStudents(List<StudentAttributes> studentAttributes) {
+        studentsDb.deleteStudents(studentAttributes);
+    }
+
+    /**
      * Creates or updates search document for the given student.
      *
      * @param student the student to be put into documents
