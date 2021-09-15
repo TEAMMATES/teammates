@@ -19,7 +19,10 @@ describe('UserJoinPageComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [UserJoinPageComponent],
-      imports: [HttpClientTestingModule, RouterTestingModule],
+      imports: [
+        HttpClientTestingModule, 
+        RouterTestingModule
+      ],
       providers: [
         NavigationService,
         CourseService,
@@ -36,7 +39,8 @@ describe('UserJoinPageComponent', () => {
           },
         },
       ],
-    }).compileComponents();
+    })
+        .compileComponents();
   }));
 
   beforeEach(() => {
@@ -139,7 +143,6 @@ describe('UserJoinPageComponent', () => {
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
         hasJoined: true,
-        userId: 'user',
       }),
     );
     const navSpy: Spy = spyOn(navService, 'navigateByURL');
@@ -155,13 +158,6 @@ describe('UserJoinPageComponent', () => {
   it('should stop loading if user is not logged in', () => {
     spyOn(authService, 'getAuthUser').and.returnValue(
       of({
-        user: {
-          id: 'user',
-          isAdmin: false,
-          isInstructor: false,
-          isStudent: true,
-          isMaintainer: false,
-        },
         masquerade: false,
       }),
     );
@@ -169,7 +165,6 @@ describe('UserJoinPageComponent', () => {
     spyOn(courseService, 'getJoinCourseStatus').and.returnValue(
       of({
         hasJoined: true,
-        userId: '',
       }),
     );
 
