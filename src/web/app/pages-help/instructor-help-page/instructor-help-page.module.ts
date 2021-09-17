@@ -8,6 +8,8 @@ import { StudentProfileModule } from '../../pages-instructor/student-profile/stu
 
 import { InstructorHelpPageComponent } from './instructor-help-page.component';
 
+
+import { AddingQuestionPanelModule } from '../../components/adding-question-panel/adding-question-panel.module';
 import {
   CommentBoxModule,
 } from '../../components/comment-box/comment-box.module';
@@ -58,6 +60,7 @@ const routes: Routes = [
  */
 @NgModule({
   imports: [
+    AddingQuestionPanelModule,
     CommentBoxModule,
     CommonModule,
     FormsModule,
