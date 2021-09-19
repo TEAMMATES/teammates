@@ -154,20 +154,6 @@
       </li>
     </ol>
     <tm-example-box *ngIf="questionsToCollapsed[SessionsSectionQuestions.SESSION_QUESTIONS]" @collapseAnim>
-      <div class="card">
-        <div class="card-body background-color-light-blue text-center">
-          <div ngbDropdown class="d-inline-block">
-            <button class="btn btn-primary" ngbDropdownToggle>Add New Question</button>
-            <div ngbDropdownMenu>
-              <button class="dropdown-item">Choose from template questions</button>
-            </div>
-          </div>
-          <button type="button" class="btn btn-link"><i class="fas fa-info-circle"></i></button>
-          <button class="btn btn-primary">Copy Question</button>
-        </div>
-      </div>
-    </tm-example-box>
-    <tm-example-box>
       <tm-adding-question-panel></tm-adding-question-panel>
     </tm-example-box>
     <p>

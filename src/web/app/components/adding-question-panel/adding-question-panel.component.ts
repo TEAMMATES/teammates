@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EventEmitter, Component, Input, OnInit, Output } from '@angular/core';
+import { FeedbackQuestionType } from '../../../types/api-output';
 
 /**
  * Panel for adding questions
@@ -10,13 +11,50 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddingQuestionPanelComponent implements OnInit {
 
-  //@Input()
-  //isCopyingQuestion: boolean = false;
+  //enum
+  FeedbackQuestionType: typeof FeedbackQuestionType = FeedbackQuestionType;
 
-  constructor() { }
+  @Input()
+  isCopyingQuestion: boolean = false;
+
+  @Input()
+  FeedbackQuestionTypes: FeedbackQuestionType = FeedbackQuestionType.TEXT;
+
+  @Output()
+  templateQuestionModalEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  @Output()
+  populateAndShowNewQuestionFormEvent: EventEmitter<FeedbackQuestionType> = new EventEmitter<FeedbackQuestionType>();
+
+  @Output()
+  copyQuestionsFromOtherSessionsEvent: EventEmitter<void> = new EventEmitter<void>();
+
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
+
+  /**
+   * TODO: FILL IN
+   */
+  templateQuestionModalHandler(): void {
+    this.templateQuestionModalEvent.emit();
+  }
+
+  /**
+   * TODO: FILL IN
+   */
+  populateAndShowNewQuestionFormHandler(type: FeedbackQuestionType): void {
+    this.populateAndShowNewQuestionFormEvent.emit(type);
+  }
+
+  /**
+   * TODO: FILL IN
+   */
+   copyQuestionsFromOtherSessionsHandler(): void {
+    this.copyQuestionsFromOtherSessionsEvent.emit();
+   }
 
 
 }

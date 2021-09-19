@@ -43,7 +43,10 @@
   </div>
   </div>
   <a>boo</a>
-  <tm-adding-question-panel></tm-adding-question-panel>
+  <tm-adding-question-panel (templateQuestionModalEvent)="templateQuestionModalHandler()"
+                            (populateAndShowNewQuestionFormEvent)="populateAndShowNewQuestionForm($event)"
+                            (copyQuestionsFromOtherSessionsEvent)="copyQuestionsFromOtherSessionsHandler()"
+                            [isCopyingQuestion]="isCopyingQuestion" [FeedbackQuestionTypes]="FeedbackQuestionType"></tm-adding-question-panel>
   <tm-question-edit-form *ngIf="isAddingQuestionPanelExpanded"
                          [formMode]="QuestionEditFormMode.ADD"
                          [numOfQuestions]="questionEditFormModels.length + 1"
