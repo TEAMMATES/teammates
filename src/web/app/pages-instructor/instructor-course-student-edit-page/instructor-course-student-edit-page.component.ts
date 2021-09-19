@@ -56,7 +56,6 @@ export class InstructorCourseStudentEditPageComponent implements OnInit, OnDestr
         email: 'alice@email.com',
         courseId: '',
         name: 'Alice Betsy',
-        lastName: '',
         comments: 'Alice is a transfer student.',
         teamName: 'Team A',
         sectionName: 'Section A',
