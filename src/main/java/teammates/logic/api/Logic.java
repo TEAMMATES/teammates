@@ -1,17 +1,12 @@
 package teammates.logic.api;
 
 import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javax.annotation.Nullable;
-
-import com.googlecode.objectify.ObjectifyService;
-import com.googlecode.objectify.Work;
 
 import teammates.common.datatransfer.DataBundle;
 import teammates.common.datatransfer.SessionResultsBundle;
@@ -766,56 +761,23 @@ public class Logic {
         // Get all students in course
         List<StudentAttributes> studentsInCourse = getStudentsForCourse(courseId);
 
-        // Get all feedback responses from student ids
-        Stream<List<FeedbackResponseAttributes>> responsesFromStudentStream =
-                studentsInCourse
-                        .parallelStream()
-                        .map(studentAttributes ->
-                                ObjectifyService.run(new Work<List<FeedbackResponseAttributes>>() {
-                                    @Override
-                                    public List<FeedbackResponseAttributes> run() {
-                                        return feedbackResponsesLogic
-                                                .getFeedbackResponsesFromGiverForCourse(courseId,
-                                                        studentAttributes.getEmail());
-                                    }
-                                })
-                        );
-
-        // Get all feedback responses to student ids
-        Stream<List<FeedbackResponseAttributes>> responsesToStudentStream =
-                studentsInCourse
-                        .parallelStream()
-                        .map(studentAttributes -> ObjectifyService.run(new Work<List<FeedbackResponseAttributes>>() {
-                                    @Override
-                                    public List<FeedbackResponseAttributes> run() {
-                                        return feedbackResponsesLogic
-                                                .getFeedbackResponsesForReceiverForCourse(
-                                                        courseId,
-                                                        studentAttributes.getEmail()
-                                                );
-                                    }
-                                })
-                        );
-
+        // Get all feedback responses from and to student ids
         List<FeedbackResponseAttributes> responsesInCourse =
-                Stream.concat(responsesFromStudentStream, responsesToStudentStream)
-                        .flatMap(Collection::stream)
-                        .collect(Collectors.toList());
+                feedbackResponsesLogic.getFeedbackResponsesFromAndToUsersInCourse(
+                        courseId,
+                        studentsInCourse
+                                .stream()
+                                .map(StudentAttributes::getEmail)
+                                .collect(Collectors.toList()));
 
         // Get all feedback response comments from response
         List<FeedbackResponseCommentAttributes> responseComments =
-                responsesInCourse.parallelStream()
-                        .map(feedbackResponseAttributes -> ObjectifyService
-                                .run(new Work<List<FeedbackResponseCommentAttributes>>() {
-                                    @Override
-                                    public List<FeedbackResponseCommentAttributes> run() {
-                                        return feedbackResponseCommentsLogic
-                                                .getFeedbackResponseCommentForResponse(feedbackResponseAttributes.getId());
-                                    }
-                                })
-                        )
-                        .flatMap(Collection::stream)
-                        .collect(Collectors.toList());
+                feedbackResponseCommentsLogic.getFeedbackResponseCommentsForResponses(
+                        responsesInCourse
+                                .stream()
+                                .map(FeedbackResponseAttributes::getId)
+                                .collect(Collectors.toList())
+                );
 
         // Delete all response comments
         feedbackResponseCommentsLogic.deleteFeedbackResponseComments(responseComments);

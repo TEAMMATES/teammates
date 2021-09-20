@@ -83,6 +83,20 @@ public final class FeedbackResponseCommentsDb
     }
 
     /**
+     * Gets all response comments for a response.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponses(
+            List<String> feedbackResponseIds) {
+        return feedbackResponseIds
+                .parallelStream()
+                .map(feedbackResponseId -> OfyHelper
+                        .run(() -> getFeedbackResponseCommentsForResponse(feedbackResponseId))
+                )
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+    }
+
+    /**
      * Gets comment associated with the response.
      *
      * <p>The comment is given by a feedback participant to explain the response</p>

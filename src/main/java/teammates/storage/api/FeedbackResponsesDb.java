@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.LoadType;
@@ -209,6 +210,38 @@ public final class FeedbackResponsesDb extends EntitiesDb<FeedbackResponse, Feed
         assert giverEmail != null;
 
         return makeAttributes(getFeedbackResponseEntitiesFromGiverForCourse(courseId, giverEmail));
+    }
+
+    /**
+     * Get all responses given and received by a user in a course.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromAndToUsersInCourse(
+            String courseId,
+            List<String> userEmails) {
+
+        // Get all feedback responses from email
+        Stream<List<FeedbackResponseAttributes>> responsesFrom =
+                userEmails
+                        .parallelStream()
+                        .map(userEmail ->
+                                OfyHelper.run(() ->
+                                        getFeedbackResponsesFromGiverForCourse(courseId, userEmail))
+                        );
+
+        // Get all feedback responses to email
+        Stream<List<FeedbackResponseAttributes>> responsesTo =
+                userEmails
+                        .parallelStream()
+                        .map(userEmail -> OfyHelper.run(() ->
+                                getFeedbackResponsesForReceiverForCourse(
+                                        courseId,
+                                        userEmail
+                                ))
+                        );
+
+        return Stream.concat(responsesFrom, responsesTo)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     /**

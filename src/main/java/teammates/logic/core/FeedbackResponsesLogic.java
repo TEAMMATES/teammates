@@ -189,6 +189,14 @@ public final class FeedbackResponsesLogic {
     }
 
     /**
+     * Gets all responses given by an user for a question.
+     */
+    public List<FeedbackResponseAttributes> getFeedbackResponsesFromAndToUsersInCourse(String courseId,
+                                                                                       List<String> userEmails) {
+        return frDb.getFeedbackResponsesFromAndToUsersInCourse(courseId, userEmails);
+    }
+
+    /**
      * Get existing feedback responses from student or his team for the given
      * question.
      */

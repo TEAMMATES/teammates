@@ -95,6 +95,14 @@ public final class FeedbackResponseCommentsLogic {
     }
 
     /**
+     * Gets all response comments for multiple responses.
+     */
+    public List<FeedbackResponseCommentAttributes> getFeedbackResponseCommentsForResponses(
+            List<String> feedbackResponseIds) {
+        return frcDb.getFeedbackResponseCommentsForResponses(feedbackResponseIds);
+    }
+
+    /**
      * Gets comment associated with the response.
      *
      * <p>The comment is given by a feedback participant to explain the response</p>

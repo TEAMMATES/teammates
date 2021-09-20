@@ -6,6 +6,7 @@ import javax.servlet.ServletContextListener;
 import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyService;
+import com.googlecode.objectify.Work;
 
 import teammates.common.util.Config;
 import teammates.storage.entity.Account;
@@ -30,6 +31,13 @@ public class OfyHelper implements ServletContextListener {
             builder.setHost("http://localhost:" + Config.APP_LOCALDATASTORE_PORT);
         }
         ObjectifyService.init(new ObjectifyFactory(builder.build().getService()));
+    }
+
+    /**
+     * Wrapper function to run a unit of work using the Objectify context.
+     */
+    public static <R> R run(final Work<R> work) {
+        return ObjectifyService.run(work);
     }
 
     /**
